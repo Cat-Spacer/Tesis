@@ -127,7 +127,7 @@ public class CustomMovement : MonoBehaviour
     }
     void JumpUp(bool jumpUp)
     {
-        //if (!jumpUp && ! ) return;
+        if (!jumpUp) return;
         rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         onJumpPressed = false;
         onJump = true;
