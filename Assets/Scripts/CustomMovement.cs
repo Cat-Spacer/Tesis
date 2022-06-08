@@ -97,24 +97,29 @@ public class CustomMovement : MonoBehaviour
             data.onJumpReleased = true;
         }
     }
-    void JumpUp(bool jumpUp)
+    void JumpUp(bool jumpUp) //Saltar
     {
-        if (data.canJump && jumpUp && data.coyoteTimeCounter > 0f && data.jumpBufferCounterTime > 0f)
+        if ((data.canJump || data.canJumpBuffer) && jumpUp && data.coyoteTimeCounter > 0f && data.jumpBufferCounterTime > 0f)
         {
-            Debug.Log("Saltando");
             data.jumpBufferCounterTime = 0f;
             rb.AddForce(Vector2.up * data.jumpForce, ForceMode2D.Impulse);
-            data.onJumpPressed = false;
             data.canJump = false;
+            data.canJumpBuffer = false;
         }
+        else
+        {
+            data.onJumpPressed = false;
+        }   
     }
     void JumpStop(bool jumpStop)
     {
         if (jumpStop && !data.onGround)
         {
+            //rb.velocity = new Vector2(rb.velocity.x, 0);
             rb.AddForce(Vector2.down * data.stopJumpForce, ForceMode2D.Impulse);
-            data.onJumpReleased = false;
         }
+        else if (data.onGround) data.onJumpReleased = false;
+
     }
     void GroundCheckPos()
     {
@@ -123,7 +128,7 @@ public class CustomMovement : MonoBehaviour
         if (data.groundColl == null) //Not on ground
         {
             data.onGround = false;
-            data.coyoteOnGroundLeave = true;
+            data.canJumpBuffer = true;
         }
         else //On ground
         {
@@ -138,7 +143,7 @@ public class CustomMovement : MonoBehaviour
     }
     void TimeCounterJumpbuffer()
     {
-        if (data.onJumpPressed) data.jumpBufferCounterTime = data.jumpBufferTime;
+        if (!data.onJumpPressed && data.onGround) data.jumpBufferCounterTime = data.jumpBufferTime;
         else data.jumpBufferCounterTime -= Time.deltaTime;
     }
     private void OnDrawGizmos()
