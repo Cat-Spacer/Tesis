@@ -21,16 +21,12 @@ public class PlayerDatas : MonoBehaviour
     [SerializeField] public float stopJumpForce;
     [HideInInspector] public bool onJumpPressed;
     [HideInInspector] public bool onJumpReleased;
-    [HideInInspector] public bool canJump;
+    [SerializeField] public bool canJump;
     [Header("PlayerBufferJump")]
+    [SerializeField] public bool canJumpBuffer;
     [SerializeField] public float jumpBufferCounterTime;
     [SerializeField] public float jumpBufferTime;
 
-    [Header("CoyoteJump")]
-    [SerializeField] public float coyoteLeftGroundTime;
-    [SerializeField] public float coyoteTreshhold;
-    [SerializeField] public bool coyoteOnGroundLeave;
-    [SerializeField] public bool canCoyoteJump;
     [Header("PlayerCoyoteTime")]
     [SerializeField] public float coyoteTimeCounter;
     [SerializeField] public float coyoteTime;
