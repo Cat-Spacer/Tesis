@@ -23,7 +23,7 @@ public class PlayerDatas : MonoBehaviour
     [HideInInspector] public bool onJumpReleased;
     [SerializeField] public bool canJump;
     [Header("PlayerBufferJump")]
-    [SerializeField] public bool canJumpBuffer;
+    [SerializeField] public bool doJumpBuffer;
     [SerializeField] public float jumpBufferCounterTime;
     [SerializeField] public float jumpBufferTime;
 
