@@ -1,24 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class CustomMovement : MonoBehaviour
 {
     [SerializeField] PlayerDatas data;
     [SerializeField] SpriteRenderer sr;
     Rigidbody2D rb;
+    private Action TimeCounterAction;
+    
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         data.coyoteTimeCounter = data.coyoteTime;
         data.jumpBufferCounterTime = data.jumpBufferTime;
+        TimeCounterAction += TimeCounterCoyote;
     }
     private void Update()
     {
         data.xMove = Input.GetAxis("Horizontal");
         JumpInput();
-        TimeCounterCoyote();
-        TimeCounterJumpbuffer();
+        TimeCounterAction();
     }
     private void FixedUpdate()
     {
@@ -26,7 +29,7 @@ public class CustomMovement : MonoBehaviour
         Run(data.xMove, 1);
         GroundCheckPos();
         JumpUp(data.onJumpPressed);
-        JumpStop(data.onJumpReleased);
+        //JumpStop(data.onJumpReleased);
     }
     private void Run(float xDir,float lerpAmount)
     {
@@ -86,9 +89,10 @@ public class CustomMovement : MonoBehaviour
         rb.AddForce(movement * Vector2.right);
 
     }
+    #region JUMP
     void JumpInput()
     {
-        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
             data.onJumpPressed = true;
         }
@@ -99,43 +103,34 @@ public class CustomMovement : MonoBehaviour
     }
     void JumpUp(bool jumpUp) //Saltar
     {
-        if ((data.canJump || data.canJumpBuffer) && jumpUp && data.coyoteTimeCounter > 0f && data.jumpBufferCounterTime > 0f)
+        if (jumpUp && data.canJump && (data.coyoteTimeCounter > 0f || data.onGround))
         {
-            data.jumpBufferCounterTime = 0f;
+            //data.jumpBufferCounterTime = 0f;
+            Debug.Log("Jump");
             rb.AddForce(Vector2.up * data.jumpForce, ForceMode2D.Impulse);
             data.canJump = false;
-            data.canJumpBuffer = false;
         }
         else
         {
             data.onJumpPressed = false;
-        }   
+            if (jumpUp && !data.onGround)
+            {
+                Debug.Log("RequestJumpBuffer");
+                data.doJumpBuffer = true;
+                TimeCounterAction += TimeCounterJumpbuffer;
+            }
+        }
     }
     void JumpStop(bool jumpStop)
     {
         if (jumpStop && !data.onGround)
         {
-            //rb.velocity = new Vector2(rb.velocity.x, 0);
             rb.AddForce(Vector2.down * data.stopJumpForce, ForceMode2D.Impulse);
         }
         else if (data.onGround) data.onJumpReleased = false;
 
     }
-    void GroundCheckPos()
-    {
-        data.groundColl = Physics2D.OverlapBox
-            (data.groundCheckPos.transform.position, data.groundCheckSize, 0, data.groundLayer);
-        if (data.groundColl == null) //Not on ground
-        {
-            data.onGround = false;
-            data.canJumpBuffer = true;
-        }
-        else //On ground
-        {
-            data.onGround = true;
-            data.canJump = true;
-        }
-    }
+
     void TimeCounterCoyote()
     {
         if (data.onGround || data.coyoteTime <= 0) data.coyoteTimeCounter = data.coyoteTime;
@@ -143,9 +138,38 @@ public class CustomMovement : MonoBehaviour
     }
     void TimeCounterJumpbuffer()
     {
-        if (!data.onJumpPressed && data.onGround) data.jumpBufferCounterTime = data.jumpBufferTime;
-        else data.jumpBufferCounterTime -= Time.deltaTime;
+        Debug.Log("JumpBuffer");
+        data.jumpBufferCounterTime -= Time.deltaTime;
+        if (data.jumpBufferCounterTime >= 0 && data.onGround && data.doJumpBuffer)
+        {
+            JumpUp(true);
+            data.doJumpBuffer = false;
+            data.jumpBufferCounterTime = data.jumpBufferTime;
+            TimeCounterAction -= TimeCounterJumpbuffer;
+        }
+        else if (data.jumpBufferCounterTime <= 0)
+        {
+            data.doJumpBuffer = false;
+            data.jumpBufferCounterTime = data.jumpBufferTime;
+            TimeCounterAction -= TimeCounterJumpbuffer;
+        }
     }
+    #endregion
+    void GroundCheckPos()
+    {
+        data.groundColl = Physics2D.OverlapBox
+            (data.groundCheckPos.transform.position, data.groundCheckSize, 0, data.groundLayer);
+        if (data.groundColl == null) //Not on ground
+        {
+            data.onGround = false;
+        }
+        else //On ground
+        {
+            data.onGround = true;
+            data.canJump = true;
+        }
+    }
+    
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
