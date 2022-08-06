@@ -9,29 +9,38 @@ public class CustomMovement : MonoBehaviour
     [SerializeField] SpriteRenderer sr;
     Rigidbody2D rb;
     private Action TimeCounterAction;
-    
+    private Action InputsAction;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         data.coyoteTimeCounter = data.coyoteTime;
         data.jumpBufferCounterTime = data.jumpBufferTime;
         TimeCounterAction += TimeCounterCoyote;
+        InputsAction = MovementInput;
+        InputsAction += JumpInput;
+        InputsAction += DashInput;
     }
     private void Update()
     {
-        data.xMove = Input.GetAxis("Horizontal");
-        JumpInput();
+        InputsAction();
         TimeCounterAction();
     }
     private void FixedUpdate()
     {
         rb.AddForce(Vector2.down * data.gravityForce);
-        Run(data.xMove, 1);
+        Movement(data.xMove, 1);
         GroundCheckPos();
         JumpUp(data.onJumpPressed);
+        Dash();
         //JumpStop(data.onJumpReleased);
     }
-    private void Run(float xDir,float lerpAmount)
+    #region Movement
+    private void MovementInput()
+    {
+        data.xMove = Input.GetAxis("Horizontal");
+    }
+    private void Movement(float xDir,float lerpAmount)
     {
         if (xDir > 0.1f)
         {
@@ -89,6 +98,7 @@ public class CustomMovement : MonoBehaviour
         rb.AddForce(movement * Vector2.right);
 
     }
+    #endregion
     #region JUMP
     void JumpInput()
     {
@@ -155,6 +165,36 @@ public class CustomMovement : MonoBehaviour
         }
     }
     #endregion
+    #region Dash
+
+    void DashInput()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            data.doDash = true;
+        }
+    }
+    void Dash()
+    {
+        if (data.doDash)
+        {
+            data.doDash = false;
+            data.dashing = true;
+            data.dashStart = transform.position;
+            rb.AddForce(transform.right * data.dashForce, ForceMode2D.Impulse);
+        }
+        if(data.dashing)
+        {
+            //transform.position = new Vector2(transform.position.x, data.dashStart.y);
+            if (Vector2.Distance(transform.position, data.dashStart) >= data.dashDistance)
+            {
+                data.dashing = false;
+            }
+        }
+    }
+
+
+    #endregion
     void GroundCheckPos()
     {
         data.groundColl = Physics2D.OverlapBox
@@ -169,7 +209,8 @@ public class CustomMovement : MonoBehaviour
             data.canJump = true;
         }
     }
-    
+
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
