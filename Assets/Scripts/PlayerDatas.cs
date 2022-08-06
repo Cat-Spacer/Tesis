@@ -31,12 +31,21 @@ public class PlayerDatas : MonoBehaviour
     [SerializeField] public float coyoteTimeCounter;
     [SerializeField] public float coyoteTime;
 
+    [Header("Dash")]
+    [SerializeField] public float dashDistance;
+    [SerializeField] public float dashForce;
+    [SerializeField] public bool dashing;
+    [SerializeField] public bool doDash;
+    public Vector2 dashStart;
+
     [Header("GroundCheck")]
     [SerializeField] public Transform groundCheckPos;
     [SerializeField] public LayerMask groundLayer;
     [SerializeField] public Vector2 groundCheckSize;
     [HideInInspector] public Collider2D groundColl;
     [HideInInspector] public bool onGround;
+
+
 
     [Header("Gravity")]
     [SerializeField] public float gravityForce;
