@@ -3,74 +3,74 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class CustomMovement : MonoBehaviour
+public class CustomMovement : PlayerDatas 
 {
-    [SerializeField] PlayerDatas data;
-    [SerializeField] SpriteRenderer sr;
-    Rigidbody2D rb;
-    private Action TimeCounterAction;
-    private Action InputsAction;
+    //[SerializeField] PlayerDatas _data;
+    [SerializeField] SpriteRenderer _sr;
+    Rigidbody2D _rb;
+    private Action _TimeCounterAction;
+    private Action _InputsAction;
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        data.coyoteTimeCounter = data.coyoteTime;
-        data.jumpBufferCounterTime = data.jumpBufferTime;
-        TimeCounterAction += TimeCounterCoyote;
-        InputsAction = MovementInput;
-        InputsAction += JumpInput;
-        InputsAction += DashInput;
+        _rb = GetComponent<Rigidbody2D>();
+        coyoteTimeCounter = coyoteTime;
+        jumpBufferCounterTime = jumpBufferTime;
+        _TimeCounterAction += TimeCounterCoyote;
+        _InputsAction = MovementInput;
+        _InputsAction += JumpInput;
+        _InputsAction += DashInput;
     }
     private void Update()
     {
-        InputsAction();
-        TimeCounterAction();
+        _InputsAction();
+        _TimeCounterAction();
     }
     private void FixedUpdate()
     {
-        rb.AddForce(Vector2.down * data.gravityForce);
-        Movement(data.xMove, 1);
+        _rb.AddForce(Vector2.down * gravityForce);
+        Movement(xMove, 1);
         GroundCheckPos();
-        JumpUp(data.onJumpPressed);
+        JumpUp(onJumpPressed);
         Dash();
         //JumpStop(data.onJumpReleased);
     }
     #region Movement
     private void MovementInput()
     {
-        data.xMove = Input.GetAxis("Horizontal");
+        xMove = Input.GetAxis("Horizontal");
     }
     private void Movement(float xDir,float lerpAmount)
     {
         if (xDir > 0.1f)
         {
-            sr.flipX = false;
+            _sr.flipX = false;
         }
         else if (xDir < -0.1f)
         {
-            sr.flipX = true;
+            _sr.flipX = true;
         }
-        float targetSpeed = xDir * data.maxSpeed; 
-        float speedDif = targetSpeed - rb.velocity.x; 
+        float targetSpeed = xDir * maxSpeed; 
+        float speedDif = targetSpeed - _rb.velocity.x; 
 
         #region Acceleration Rate
         float accelRate;
 
         if(Mathf.Abs(targetSpeed) > 0.01f)
         {
-            accelRate = data.runAccel;
+            accelRate = runAccel;
         }
         else
         {
-            accelRate = data.runDeccel;
+            accelRate = runDeccel;
         }
 
-        if (data.onGround) //GroundMovement
-            accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? data.runAccel : data.runDeccel;
+        if (onGround) //GroundMovement
+            accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? runAccel : runDeccel;
         else //AirMovement
-            accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? data.runAccel * data.airRunAccel : data.runDeccel * data.airRunDeccel;
+            accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? runAccel * airRunAccel : runDeccel * airRunDeccel;
 
-        if ((rb.velocity.x > targetSpeed && targetSpeed > 0.01f) || (rb.velocity.x < targetSpeed && targetSpeed < -0.01f))
+        if ((_rb.velocity.x > targetSpeed && targetSpeed > 0.01f) || (_rb.velocity.x < targetSpeed && targetSpeed < -0.01f))
         {
             accelRate = 0;
         }
@@ -80,22 +80,22 @@ public class CustomMovement : MonoBehaviour
         float velPower;
         if (Mathf.Abs(targetSpeed) < 0.01f)
         {
-            velPower = data.stopPower;
+            velPower = stopPower;
         }
-        else if (Mathf.Abs(rb.velocity.x) > 0 && (Mathf.Sign(targetSpeed) != Mathf.Sign(rb.velocity.x)))
+        else if (Mathf.Abs(_rb.velocity.x) > 0 && (Mathf.Sign(targetSpeed) != Mathf.Sign(_rb.velocity.x)))
         {
-            velPower = data.turnPower;
+            velPower = turnPower;
         }
         else
         {
-            velPower = data.accelPower;
+            velPower = accelPower;
         }
         #endregion    
 
         float movement = Mathf.Pow(Mathf.Abs(speedDif) * accelRate, velPower) * Mathf.Sign(speedDif);
-        movement = Mathf.Lerp(rb.velocity.x, movement, lerpAmount); 
+        movement = Mathf.Lerp(_rb.velocity.x, movement, lerpAmount); 
 
-        rb.AddForce(movement * Vector2.right);
+        _rb.AddForce(movement * Vector2.right);
 
     }
     #endregion
@@ -104,64 +104,64 @@ public class CustomMovement : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
-            data.onJumpPressed = true;
+            onJumpPressed = true;
         }
         if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow))
         {
-            data.onJumpReleased = true;
+            onJumpReleased = true;
         }
     }
     void JumpUp(bool jumpUp) //Saltar
     {
-        if (jumpUp && data.canJump && (data.coyoteTimeCounter > 0f || data.onGround))
+        if (jumpUp && canJump && (coyoteTimeCounter > 0f || onGround))
         {
             //data.jumpBufferCounterTime = 0f;
             Debug.Log("Jump");
-            rb.AddForce(Vector2.up * data.jumpForce, ForceMode2D.Impulse);
-            data.canJump = false;
+            _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            canJump = false;
         }
         else
         {
-            data.onJumpPressed = false;
-            if (jumpUp && !data.onGround)
+            onJumpPressed = false;
+            if (jumpUp && !onGround)
             {
                 Debug.Log("RequestJumpBuffer");
-                data.doJumpBuffer = true;
-                TimeCounterAction += TimeCounterJumpbuffer;
+                doJumpBuffer = true;
+                _TimeCounterAction += TimeCounterJumpbuffer;
             }
         }
     }
     void JumpStop(bool jumpStop)
     {
-        if (jumpStop && !data.onGround)
+        if (jumpStop && !onGround)
         {
-            rb.AddForce(Vector2.down * data.stopJumpForce, ForceMode2D.Impulse);
+            _rb.AddForce(Vector2.down * stopJumpForce, ForceMode2D.Impulse);
         }
-        else if (data.onGround) data.onJumpReleased = false;
+        else if (onGround) onJumpReleased = false;
 
     }
 
     void TimeCounterCoyote()
     {
-        if (data.onGround || data.coyoteTime <= 0) data.coyoteTimeCounter = data.coyoteTime;
-        else data.coyoteTimeCounter -= 1*Time.deltaTime;
+        if (onGround || coyoteTime <= 0) coyoteTimeCounter = coyoteTime;
+        else coyoteTimeCounter -= 1*Time.deltaTime;
     }
     void TimeCounterJumpbuffer()
     {
         Debug.Log("JumpBuffer");
-        data.jumpBufferCounterTime -= Time.deltaTime;
-        if (data.jumpBufferCounterTime >= 0 && data.onGround && data.doJumpBuffer)
+        jumpBufferCounterTime -= Time.deltaTime;
+        if (jumpBufferCounterTime >= 0 && onGround && doJumpBuffer)
         {
             JumpUp(true);
-            data.doJumpBuffer = false;
-            data.jumpBufferCounterTime = data.jumpBufferTime;
-            TimeCounterAction -= TimeCounterJumpbuffer;
+            doJumpBuffer = false;
+            jumpBufferCounterTime = jumpBufferTime;
+            _TimeCounterAction -= TimeCounterJumpbuffer;
         }
-        else if (data.jumpBufferCounterTime <= 0)
+        else if (jumpBufferCounterTime <= 0)
         {
-            data.doJumpBuffer = false;
-            data.jumpBufferCounterTime = data.jumpBufferTime;
-            TimeCounterAction -= TimeCounterJumpbuffer;
+            doJumpBuffer = false;
+            jumpBufferCounterTime = jumpBufferTime;
+            _TimeCounterAction -= TimeCounterJumpbuffer;
         }
     }
     #endregion
@@ -171,24 +171,24 @@ public class CustomMovement : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            data.doDash = true;
+            doDash = true;
         }
     }
     void Dash()
     {
-        if (data.doDash)
+        if (doDash)
         {
-            data.doDash = false;
-            data.dashing = true;
-            data.dashStart = transform.position;
-            rb.AddForce(transform.right * data.dashForce, ForceMode2D.Impulse);
+            doDash = false;
+            dashing = true;
+            dashStart = transform.position;
+            _rb.AddForce(transform.right * dashForce, ForceMode2D.Impulse);
         }
-        if(data.dashing)
+        if(dashing)
         {
             //transform.position = new Vector2(transform.position.x, data.dashStart.y);
-            if (Vector2.Distance(transform.position, data.dashStart) >= data.dashDistance)
+            if (Vector2.Distance(transform.position, dashStart) >= dashDistance)
             {
-                data.dashing = false;
+                dashing = false;
             }
         }
     }
@@ -197,16 +197,16 @@ public class CustomMovement : MonoBehaviour
     #endregion
     void GroundCheckPos()
     {
-        data.groundColl = Physics2D.OverlapBox
-            (data.groundCheckPos.transform.position, data.groundCheckSize, 0, data.groundLayer);
-        if (data.groundColl == null) //Not on ground
+        groundColl = Physics2D.OverlapBox
+            (groundCheckPos.transform.position, groundCheckSize, 0, groundLayer);
+        if (groundColl == null) //Not on ground
         {
-            data.onGround = false;
+            onGround = false;
         }
         else //On ground
         {
-            data.onGround = true;
-            data.canJump = true;
+            onGround = true;
+            canJump = true;
         }
     }
 
@@ -214,7 +214,7 @@ public class CustomMovement : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(data.groundCheckPos.transform.position, data.groundCheckSize);
+        Gizmos.DrawWireCube(groundCheckPos.transform.position, groundCheckSize);
     }
 }
 
