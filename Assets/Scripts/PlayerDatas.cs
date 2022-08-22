@@ -5,51 +5,48 @@ using UnityEngine;
 public class PlayerDatas : MonoBehaviour
 {
     [Header("PlayerMovement")]
-    [SerializeField] public float maxSpeed;
-    [SerializeField] public float runAccel;
-    [SerializeField] public float runDeccel;
-    [SerializeField] public float stopPower;
-    [SerializeField] public float turnPower;
-    [SerializeField] public float accelPower;
+    public float maxSpeed;
+    public float runAccel;
+    public float runDeccel;
+    public float stopPower;
+    public float turnPower;
+    public float accelPower;
 
     [Header("PlayerAirMovement")]
-    [SerializeField] public float airRunAccel;
-    [SerializeField] public float airRunDeccel;
+    public float airRunAccel;
+    public float airRunDeccel;
 
     [Header("PlayerJump")]
-    [SerializeField] public float jumpForce;
-    [SerializeField] public float stopJumpForce;
+    public float jumpForce;
+    public float stopJumpForce;
     [HideInInspector] public bool onJumpPressed;
     [HideInInspector] public bool onJumpReleased;
-    [SerializeField] public bool canJump;
+     public bool canJump;
     [Header("PlayerBufferJump")]
-    [SerializeField] public bool doJumpBuffer;
-    [SerializeField] public float jumpBufferCounterTime;
-    [SerializeField] public float jumpBufferTime;
+    public bool doJumpBuffer;
+    public float jumpBufferCounterTime;
+    public float jumpBufferTime;
 
     [Header("PlayerCoyoteTime")]
-    [SerializeField] public float coyoteTimeCounter;
-    [SerializeField] public float coyoteTime;
+    public float coyoteTimeCounter;
+    public float coyoteTime;
 
     [Header("Dash")]
-    [SerializeField] public float dashDistance;
-    [SerializeField] public float dashForce;
-    [SerializeField] public bool dashing;
-    [SerializeField] public bool doDash;
+    public float dashDistance;
+    public float dashForce;
+    public bool dashing;
+    public bool doDash;
     public Vector2 dashStart;
 
     [Header("GroundCheck")]
-    [SerializeField] public Transform groundCheckPos;
-    [SerializeField] public LayerMask groundLayer;
-    [SerializeField] public Vector2 groundCheckSize;
+    public Transform groundCheckPos;
+    public LayerMask groundLayer;
+    public Vector2 groundCheckSize;
     [HideInInspector] public Collider2D groundColl;
     [HideInInspector] public bool onGround;
 
-
-
     [Header("Gravity")]
-    [SerializeField] public float gravityForce;
-
+    public float gravityForce;
 
     [HideInInspector] public float xMove, yMove;
 }
