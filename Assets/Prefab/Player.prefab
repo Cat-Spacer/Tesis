@@ -5216,6 +5216,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2638962870350567016}
   - component: {fileID: 2638962870350567023}
+  - component: {fileID: 8865723527646755905}
   - component: {fileID: 2638962870350567022}
   - component: {fileID: 2638962870350567021}
   m_Layer: 7
@@ -5260,6 +5261,7 @@ MonoBehaviour:
   stopPower: 0.8
   turnPower: 1
   accelPower: 0.8
+  faceDirection: 1
   airRunAccel: 0.8
   airRunDeccel: 0.8
   jumpForce: 20
@@ -5288,6 +5290,19 @@ MonoBehaviour:
   xMove: 0
   yMove: 0
   _sr: {fileID: 2638962871212096808}
+--- !u!114 &8865723527646755905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2638962870350567020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12719b7b4be6af24cb9805275505ae8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _climbSpeed: 5
 --- !u!61 &2638962870350567022
 BoxCollider2D:
   m_ObjectHideFlags: 0
