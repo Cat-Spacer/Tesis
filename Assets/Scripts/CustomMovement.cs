@@ -45,10 +45,12 @@ public class CustomMovement : PlayerDatas
         if (xDir > 0.1f)
         {
             _sr.flipX = false;
+            faceDirection = 1;
         }
         else if (xDir < -0.1f)
         {
             _sr.flipX = true;
+            faceDirection = -1;
         }
         float targetSpeed = xDir * maxSpeed; 
         float speedDif = targetSpeed - _rb.velocity.x; 
@@ -181,10 +183,10 @@ public class CustomMovement : PlayerDatas
             doDash = false;
             dashing = true;
             dashStart = transform.position;
-            _rb.AddForce(transform.right * dashForce, ForceMode2D.Impulse);
         }
         if(dashing)
         {
+            _rb.AddForce(transform.right * dashForce * faceDirection, ForceMode2D.Impulse);
             //transform.position = new Vector2(transform.position.x, data.dashStart.y);
             if (Vector2.Distance(transform.position, dashStart) >= dashDistance)
             {

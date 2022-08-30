@@ -11,6 +11,7 @@ public class PlayerDatas : MonoBehaviour
     public float stopPower;
     public float turnPower;
     public float accelPower;
+    public int faceDirection = 1;
 
     [Header("PlayerAirMovement")]
     public float airRunAccel;
