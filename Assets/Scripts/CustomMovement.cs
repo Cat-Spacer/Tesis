@@ -11,6 +11,12 @@ public class CustomMovement : PlayerDatas
     private Action _TimeCounterAction;
     private Action _InputsAction;
 
+    [Header("Particles")]
+    [SerializeField] ParticleSystem _jumpParticle;
+    [SerializeField] ParticleSystem _fallParticle;
+    [SerializeField] ParticleSystem _dashParticle;
+    [SerializeField] ParticleSystem _attackParticle;
+
     private void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -20,6 +26,7 @@ public class CustomMovement : PlayerDatas
         _InputsAction = MovementInput;
         _InputsAction += JumpInput;
         _InputsAction += DashInput;
+        _InputsAction += Attack;
     }
     private void Update()
     {
@@ -44,13 +51,15 @@ public class CustomMovement : PlayerDatas
     {
         if (xDir > 0.1f)
         {
-            _sr.flipX = false;
-            faceDirection = 1;
+            //_sr.flipX = false;
+            transform.rotation = Quaternion.Euler(transform.rotation.x, 0, transform.rotation.z);
+            //faceDirection = 1;
         }
         else if (xDir < -0.1f)
         {
-            _sr.flipX = true;
-            faceDirection = -1;
+            //_sr.flipX = true;
+            transform.rotation = Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z);
+            //faceDirection = -1;
         }
         float targetSpeed = xDir * maxSpeed; 
         float speedDif = targetSpeed - _rb.velocity.x; 
@@ -117,17 +126,15 @@ public class CustomMovement : PlayerDatas
     {
         if (jumpUp && canJump && (coyoteTimeCounter > 0f || onGround))
         {
-            //data.jumpBufferCounterTime = 0f;
-            Debug.Log("Jump");
             _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             canJump = false;
+            _jumpParticle.Play();
         }
         else
         {
             onJumpPressed = false;
             if (jumpUp && !onGround)
             {
-                Debug.Log("RequestJumpBuffer");
                 doJumpBuffer = true;
                 _TimeCounterAction += TimeCounterJumpbuffer;
             }
@@ -150,7 +157,6 @@ public class CustomMovement : PlayerDatas
     }
     void TimeCounterJumpbuffer()
     {
-        Debug.Log("JumpBuffer");
         jumpBufferCounterTime -= Time.deltaTime;
         if (jumpBufferCounterTime >= 0 && onGround && doJumpBuffer)
         {
@@ -183,6 +189,7 @@ public class CustomMovement : PlayerDatas
             doDash = false;
             dashing = true;
             dashStart = transform.position;
+            _dashParticle.Play();
         }
         if(dashing)
         {
@@ -194,29 +201,51 @@ public class CustomMovement : PlayerDatas
             }
         }
     }
-
+    #region MiauAttack
+    void Attack()
+    {
+        if (Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            var attackParticle = Instantiate(_attackParticle);
+            attackParticle.gameObject.transform.right = attackPoint.right;
+            attackParticle.gameObject.transform.position = attackPoint.position;
+            Destroy(attackParticle.gameObject, 1);
+            Collider2D coll = Physics2D.OverlapBox(attackPoint.position, attackRange, 1, damageable);
+            if (coll == null) return;
+            Destroy(coll.gameObject);
+            Debug.Log("Attack");
+        }
+    }
+    #endregion
 
     #endregion
     void GroundCheckPos()
     {
         groundColl = Physics2D.OverlapBox
             (groundCheckPos.transform.position, groundCheckSize, 0, groundLayer);
-        if (groundColl == null) //Not on ground
-        {
-            onGround = false;
-        }
-        else //On ground
+        if (groundColl != null) //On ground
         {
             onGround = true;
             canJump = true;
         }
+        else //Not on ground
+        {
+            onGround = false;
+        }
     }
-
-
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (onGround == true)
+        {
+            Debug.Log("Onground");
+            _fallParticle.Play();
+        }
+    }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(groundCheckPos.transform.position, groundCheckSize);
+        Gizmos.DrawWireCube(attackPoint.transform.position, attackRange);
     }
 }
 
