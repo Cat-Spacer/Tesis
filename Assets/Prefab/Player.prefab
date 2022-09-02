@@ -5256,9 +5256,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxSpeed: 15
-  runAccel: 30
+  runAccel: 20
   runDeccel: 100
-  stopPower: 0.8
+  stopPower: 0.95
   turnPower: 1
   accelPower: 0.8
   faceDirection: 1
@@ -5283,7 +5283,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  groundCheckSize: {x: 0.9, y: 0.2}
+  groundCheckSize: {x: 0.5, y: 0.2}
   groundColl: {fileID: 0}
   onGround: 0
   gravityForce: 30
@@ -5302,7 +5302,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12719b7b4be6af24cb9805275505ae8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _climbSpeed: 5
+  _climbSpeed: 1
+  _gravityScale: 0
+  _wallLayerNumber: 8
+  _myRB: {fileID: 0}
+  _customMovement: {fileID: 0}
 --- !u!61 &2638962870350567022
 BoxCollider2D:
   m_ObjectHideFlags: 0
