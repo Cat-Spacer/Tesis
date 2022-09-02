@@ -104,11 +104,11 @@ public class CustomMovement : PlayerDatas
     #region JUMP
     void JumpInput()
     {
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.Space) /*|| Input.GetKeyDown(KeyCode.W)*/ || Input.GetKeyDown(KeyCode.UpArrow))
         {
             onJumpPressed = true;
         }
-        if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.UpArrow))
+        if (Input.GetKeyUp(KeyCode.Space) /*|| Input.GetKeyUp(KeyCode.W)*/ || Input.GetKeyUp(KeyCode.UpArrow))
         {
             onJumpReleased = true;
         }
