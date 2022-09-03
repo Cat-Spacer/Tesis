@@ -49,17 +49,18 @@ public class CustomMovement : PlayerDatas
     }
     private void Movement(float xDir,float lerpAmount)
     {
+        if (dashing) return;
         if (xDir > 0.1f)
         {
             //_sr.flipX = false;
             transform.rotation = Quaternion.Euler(transform.rotation.x, 0, transform.rotation.z);
-            //faceDirection = 1;
+            faceDirection = 1;
         }
         else if (xDir < -0.1f)
         {
             //_sr.flipX = true;
             transform.rotation = Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z);
-            //faceDirection = -1;
+            faceDirection = -1;
         }
         float targetSpeed = xDir * maxSpeed; 
         float speedDif = targetSpeed - _rb.velocity.x; 
@@ -184,22 +185,33 @@ public class CustomMovement : PlayerDatas
     }
     void Dash()
     {
-        if (doDash)
+        if (doDash && canDash)
         {
+            canDash = false;
             doDash = false;
             dashing = true;
             dashStart = transform.position;
             _dashParticle.Play();
+            _rb.velocity = Vector2.zero;
         }
         if(dashing)
         {
-            _rb.AddForce(transform.right * dashForce * faceDirection, ForceMode2D.Impulse);
-            //transform.position = new Vector2(transform.position.x, data.dashStart.y);
+            _rb.velocity = Vector2.right * dashForce * faceDirection;
+            _rb.constraints = RigidbodyConstraints2D.FreezePositionY;
             if (Vector2.Distance(transform.position, dashStart) >= dashDistance)
             {
                 dashing = false;
+                _rb.velocity *= 0.5f;
+                ConstrainsReset();
             }
         }
+    }
+    IEnumerator DashStop()
+    {
+        yield return new WaitForSeconds(1);
+        dashing = false;
+        _rb.velocity *= 0.5f;
+        ConstrainsReset();
     }
     #region MiauAttack
     void Attack()
@@ -219,6 +231,11 @@ public class CustomMovement : PlayerDatas
     #endregion
 
     #endregion
+    void ConstrainsReset()
+    {
+        _rb.constraints = RigidbodyConstraints2D.None;
+        _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+    }
     void GroundCheckPos()
     {
         groundColl = Physics2D.OverlapBox
@@ -227,6 +244,7 @@ public class CustomMovement : PlayerDatas
         {
             onGround = true;
             canJump = true;
+            canDash = true;
         }
         else //Not on ground
         {
@@ -239,6 +257,12 @@ public class CustomMovement : PlayerDatas
         {
             Debug.Log("Onground");
             _fallParticle.Play();
+        }
+        if (collision.gameObject.layer == 8 && dashing)
+        {
+            dashing = false;
+            _rb.velocity *= 0.5f;
+            ConstrainsReset();
         }
     }
     private void OnDrawGizmos()

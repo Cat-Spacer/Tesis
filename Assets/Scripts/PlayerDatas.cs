@@ -37,6 +37,7 @@ public class PlayerDatas : MonoBehaviour
     public float dashForce;
     public bool dashing;
     public bool doDash;
+    public bool canDash;
     public Vector2 dashStart;
 
     [Header("GroundCheck")]
