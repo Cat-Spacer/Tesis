@@ -213,6 +213,14 @@ public class CustomMovement : PlayerDatas
         _rb.velocity *= 0.5f;
         ConstrainsReset();
     }
+
+    public void ForceDashEnd()
+    {
+        dashing = false;
+        _rb.velocity *= 0.5f;
+        canDash = true;
+        ConstrainsReset();
+    }
     #region MiauAttack
     void Attack()
     {
@@ -258,7 +266,8 @@ public class CustomMovement : PlayerDatas
             Debug.Log("Onground");
             _fallParticle.Play();
         }
-        if (collision.gameObject.layer == 8 && dashing)
+        //if (collision.gameObject.layer == 8 && dashing)
+        if (dashing)
         {
             dashing = false;
             _rb.velocity *= 0.5f;
