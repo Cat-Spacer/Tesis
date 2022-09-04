@@ -5267,10 +5267,11 @@ MonoBehaviour:
   jumpBufferTime: 0.2
   coyoteTimeCounter: 0
   coyoteTime: 0.07
-  dashDistance: 2
-  dashForce: 10
+  dashDistance: 3
+  dashForce: 30
   dashing: 0
   doDash: 0
+  canDash: 0
   dashStart: {x: 0, y: 0}
   groundCheckPos: {fileID: 2638962870270759085}
   groundLayer:
@@ -5307,7 +5308,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _climbSpeed: 5
   _gravityScale: 0.25
-  _wallTag: WallClimb
+  _wallLayerNumber: 8
   _myRB: {fileID: 0}
   _customMovement: {fileID: 0}
 --- !u!61 &2638962870350567022
