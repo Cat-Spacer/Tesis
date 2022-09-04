@@ -5,7 +5,7 @@ public class WallClimb : MonoBehaviour
     [SerializeField] private float _climbSpeed = 5.0f;
     [SerializeField] private float _gravityScale = 0.25f;
     private float _gravityForce = 0.0f;
-    [SerializeField] private string _wallTag = "WallClimb";
+    [SerializeField] private int _wallLayerNumber = 8;
     private bool _onClimb = false;
     [SerializeField] private Rigidbody2D _myRB;
     [SerializeField] private CustomMovement _customMovement;
@@ -38,7 +38,7 @@ public class WallClimb : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == _wallTag)
+        if (collision.gameObject.layer == _wallLayerNumber)
         {
             _onClimb = true;
             _myRB.gravityScale = _gravityScale;
@@ -48,7 +48,7 @@ public class WallClimb : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "WallClimb")
+        if (collision.gameObject.layer == _wallLayerNumber)
         {
             _onClimb = false;
             _myRB.gravityScale = 1.0f;
