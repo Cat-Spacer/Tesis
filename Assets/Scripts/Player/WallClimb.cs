@@ -24,10 +24,12 @@ public class WallClimb : MonoBehaviour
         if (_onClimb)
         {
             if (Input.GetKey(KeyCode.W))
-                _myRB.AddForce(Vector2.up * _climbSpeed);
+                _myRB.velocity = Vector2.up * _climbSpeed;
+                //_myRB.AddForce(Vector2.up * _climbSpeed);
 
             if (Input.GetKey(KeyCode.S))
-                _myRB.AddForce(Vector2.down * _climbSpeed);
+                _myRB.velocity = Vector2.down * _climbSpeed;
+                //_myRB.AddForce(Vector2.down * _climbSpeed);
 
             if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
                 _customMovement.doDash = true;

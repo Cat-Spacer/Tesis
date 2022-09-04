@@ -37,6 +37,7 @@ public class PlayerDatas : MonoBehaviour
     public float dashForce;
     public bool dashing;
     public bool doDash;
+    public bool canDash;
     public Vector2 dashStart;
 
     [Header("GroundCheck")]
@@ -44,10 +45,14 @@ public class PlayerDatas : MonoBehaviour
     public LayerMask groundLayer;
     public Vector2 groundCheckSize;
     [HideInInspector] public Collider2D groundColl;
-    [HideInInspector] public bool onGround;
+    public bool onGround;
 
     [Header("Gravity")]
     public float gravityForce;
 
+    [Header("Attack")]
+    public Vector2 attackRange;
+    public Transform attackPoint;
+    public LayerMask damageable;
     [HideInInspector] public float xMove, yMove;
 }
