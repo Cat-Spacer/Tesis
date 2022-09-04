@@ -25,8 +25,8 @@ namespace Weapons
             if (GetComponent<AudioSource>() != null)
             {
                 audioSource = GetComponent<AudioSource>();
-                if (FindObjectOfType<SoundManager>() != null)
-                    audioSource.clip = FindObjectOfType<SoundManager>().GetSound(shootSound).clip;
+              //  if (FindObjectOfType<SoundManager>() != null)
+                   // audioSource.clip = FindObjectOfType<SoundManager>().GetSound(shootSound).clip;
             }
             if (_player == null) Debug.LogWarning($"No player setted on {this.name}");
         }
