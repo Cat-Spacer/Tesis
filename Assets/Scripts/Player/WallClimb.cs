@@ -32,7 +32,10 @@ public class WallClimb : MonoBehaviour
                 //_myRB.AddForce(Vector2.down * _climbSpeed);
 
             if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
+            {
                 _customMovement.doDash = true;
+                _customMovement.faceDirection *= -1;
+            }
         }
     }
 
