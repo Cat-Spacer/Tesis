@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class CustomMovement : PlayerDatas 
+public class CustomMovement : PlayerDatas, IDamageable
 {
     //[SerializeField] PlayerDatas _data;
     [SerializeField] SpriteRenderer _sr;
@@ -230,10 +230,11 @@ public class CustomMovement : PlayerDatas
             attackParticle.gameObject.transform.right = attackPoint.right;
             attackParticle.gameObject.transform.position = attackPoint.position;
             Destroy(attackParticle.gameObject, 1);
-            Collider2D coll = Physics2D.OverlapBox(attackPoint.position, attackRange, 1, damageable);
+            var coll = Physics2D.OverlapBox(attackPoint.position, attackRange, 1, damageable);
             if (coll == null) return;
-            Destroy(coll.gameObject);
-            Debug.Log("Attack");
+            var obj = coll.gameObject.GetComponent<IDamageable>();
+            if (obj == null) return;
+            obj.GetDamage(1);
         }
     }
     #endregion
@@ -259,6 +260,7 @@ public class CustomMovement : PlayerDatas
             onGround = false;
         }
     }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (onGround == true)
@@ -267,6 +269,10 @@ public class CustomMovement : PlayerDatas
             _fallParticle.Play();
         }
         //if (collision.gameObject.layer == 8 && dashing)
+
+    }
+    private void OnCollisionStay2D(Collision2D collision)
+    {
         if (dashing)
         {
             dashing = false;
@@ -279,6 +285,10 @@ public class CustomMovement : PlayerDatas
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(groundCheckPos.transform.position, groundCheckSize);
         Gizmos.DrawWireCube(attackPoint.transform.position, attackRange);
+    }
+    public void GetDamage(float dmg)
+    {
+        Debug.Log("Recibi daño");
     }
 }
 

@@ -33,8 +33,8 @@ public class WallClimb : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
             {
-                _customMovement.doDash = true;
-                _customMovement.faceDirection *= -1;
+                //_customMovement.doDash = true;
+                //_customMovement.faceDirection *= -1;
             }
         }
     }
