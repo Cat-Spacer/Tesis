@@ -10,4 +10,9 @@ public class Item : MonoBehaviour
     {
         SceneManager.LoadScene(_sceneToLoad);
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        SceneManager.LoadScene(_sceneToLoad);
+    }
 }
