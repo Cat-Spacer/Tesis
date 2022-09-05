@@ -1014,7 +1014,7 @@ GameObject:
   - component: {fileID: 314612816}
   - component: {fileID: 314612818}
   - component: {fileID: 314612817}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Square (14)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3346,6 +3346,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 2638962870350567023, guid: df9e614bf1be2dc45be69069b02e1dd5,
+        type: 3}
+      propertyPath: anim
+      value: 
+      objectReference: {fileID: 1396522786}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df9e614bf1be2dc45be69069b02e1dd5, type: 3}
 --- !u!1 &977052968
@@ -4284,6 +4289,12 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &1396522786 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 2638962871212096815, guid: df9e614bf1be2dc45be69069b02e1dd5,
+    type: 3}
+  m_PrefabInstance: {fileID: 975406373}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1421590857
 GameObject:
   m_ObjectHideFlags: 0
