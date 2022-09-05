@@ -5,54 +5,65 @@ using UnityEngine;
 public class PlayerDatas : MonoBehaviour
 {
     [Header("PlayerMovement")]
-    public float maxSpeed;
-    public float runAccel;
-    public float runDeccel;
-    public float stopPower;
-    public float turnPower;
-    public float accelPower;
-    public int faceDirection = 1;
+    [SerializeField] protected float maxSpeed;
+    [SerializeField] protected float runAccel;
+    [SerializeField] protected float runDeccel;
+    [SerializeField] protected float stopPower;
+    [SerializeField] protected float turnPower;
+    [SerializeField] protected float accelPower;
+    [SerializeField] protected int faceDirection = 1;
 
     [Header("PlayerAirMovement")]
-    public float airRunAccel;
-    public float airRunDeccel;
+    [SerializeField] protected float airRunAccel;
+    [SerializeField] protected float airRunDeccel;
 
     [Header("PlayerJump")]
-    public float jumpForce;
-    public float stopJumpForce;
-    [HideInInspector] public bool onJumpPressed;
-    [HideInInspector] public bool onJumpReleased;
-     public bool canJump;
+    [SerializeField] protected float jumpForce;
+    [SerializeField] protected float stopJumpForce;
+    [HideInInspector] protected bool onJumpPressed;
+    [HideInInspector] protected bool onJumpReleased;
+    [SerializeField] protected bool canJump;
     [Header("PlayerBufferJump")]
-    public bool doJumpBuffer;
-    public float jumpBufferCounterTime;
-    public float jumpBufferTime;
+    [SerializeField] protected bool doJumpBuffer;
+    [SerializeField] protected float jumpBufferCounterTime;
+    [SerializeField] protected float jumpBufferTime;
 
     [Header("PlayerCoyoteTime")]
-    public float coyoteTimeCounter;
-    public float coyoteTime;
+    [SerializeField] protected float coyoteTimeCounter;
+    [SerializeField] protected float coyoteTime;
 
     [Header("Dash")]
-    public float dashDistance;
-    public float dashForce;
-    public bool dashing;
-    public bool doDash;
-    public bool canDash;
-    public Vector2 dashStart;
+    [SerializeField] protected float dashDistance;
+    [SerializeField] protected float dashForce;
+    [SerializeField] protected bool dashing;
+    [SerializeField] protected bool doDash;
+    [SerializeField] protected bool canDash;
+    [SerializeField] protected Vector2 dashStart;
 
     [Header("GroundCheck")]
-    public Transform groundCheckPos;
-    public LayerMask groundLayer;
-    public Vector2 groundCheckSize;
+    [SerializeField] protected Transform groundCheckPos;
+    [SerializeField] protected LayerMask groundLayer;
+    [SerializeField] protected Vector2 groundCheckSize;
     [HideInInspector] public Collider2D groundColl;
-    public bool onGround;
+    [SerializeField] protected bool onGround;
 
     [Header("Gravity")]
     public float gravityForce;
 
     [Header("Attack")]
-    public Vector2 attackRange;
-    public Transform attackPoint;
-    public LayerMask damageable;
-    [HideInInspector] public float xMove, yMove;
+    [SerializeField] protected Vector2 attackRange;
+    [SerializeField] protected Transform attackPoint;
+    [SerializeField] protected LayerMask damageable;
+    [HideInInspector] protected float xMove, yMove;
+
+    [Header("Animation")]
+    [SerializeField] protected Animator anim;
+    [SerializeField] SpriteRenderer _sr;
+    [SerializeField] protected bool jumping;
+
+    [Header("Particles")]
+    [SerializeField] protected ParticleSystem _jumpParticle;
+    [SerializeField] protected ParticleSystem _fallParticle;
+    [SerializeField] protected ParticleSystem _dashParticle;
+    [SerializeField] protected ParticleSystem _attackParticle;
 }

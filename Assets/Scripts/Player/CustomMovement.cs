@@ -5,17 +5,9 @@ using System;
 
 public class CustomMovement : PlayerDatas, IDamageable
 {
-    //[SerializeField] PlayerDatas _data;
-    [SerializeField] SpriteRenderer _sr;
     Rigidbody2D _rb;
     private Action _TimeCounterAction;
     private Action _InputsAction;
-
-    [Header("Particles")]
-    [SerializeField] ParticleSystem _jumpParticle;
-    [SerializeField] ParticleSystem _fallParticle;
-    [SerializeField] ParticleSystem _dashParticle;
-    [SerializeField] ParticleSystem _attackParticle;
 
     private void Start()
     {
@@ -50,18 +42,20 @@ public class CustomMovement : PlayerDatas, IDamageable
     private void Movement(float xDir,float lerpAmount)
     {
         if (dashing) return;
+        //anim.SetFloat("Move", xDir);
         if (xDir > 0.1f)
         {
-            //_sr.flipX = false;
+            anim.SetBool("Run", true);
             transform.rotation = Quaternion.Euler(transform.rotation.x, 0, transform.rotation.z);
             faceDirection = 1;
         }
         else if (xDir < -0.1f)
         {
-            //_sr.flipX = true;
+            anim.SetBool("Run", true);
             transform.rotation = Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z);
             faceDirection = -1;
         }
+        else anim.SetBool("Run", false);
         float targetSpeed = xDir * maxSpeed; 
         float speedDif = targetSpeed - _rb.velocity.x; 
 
@@ -109,6 +103,7 @@ public class CustomMovement : PlayerDatas, IDamageable
 
         _rb.AddForce(movement * Vector2.right);
 
+        if (_rb.velocity.y < 0) anim.SetTrigger("Fall");
     }
     #endregion
     #region JUMP
@@ -127,6 +122,8 @@ public class CustomMovement : PlayerDatas, IDamageable
     {
         if (jumpUp && canJump && (coyoteTimeCounter > 0f || onGround))
         {
+            jumping = true;
+            anim.SetTrigger("Jump");
             _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             canJump = false;
             _jumpParticle.Play();
@@ -221,11 +218,13 @@ public class CustomMovement : PlayerDatas, IDamageable
         canDash = true;
         ConstrainsReset();
     }
+    #endregion
     #region MiauAttack
     void Attack()
     {
         if (Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.KeypadEnter))
         {
+            anim.SetTrigger("Attack");
             var attackParticle = Instantiate(_attackParticle);
             attackParticle.gameObject.transform.right = attackPoint.right;
             attackParticle.gameObject.transform.position = attackPoint.position;
@@ -237,8 +236,6 @@ public class CustomMovement : PlayerDatas, IDamageable
             obj.GetDamage(1);
         }
     }
-    #endregion
-
     #endregion
     void ConstrainsReset()
     {
@@ -254,10 +251,12 @@ public class CustomMovement : PlayerDatas, IDamageable
             onGround = true;
             canJump = true;
             canDash = true;
+            anim.SetBool("OnGround", true);
         }
         else //Not on ground
         {
             onGround = false;
+            anim.SetBool("OnGround", false);
         }
     }
 
