@@ -24,12 +24,23 @@ public class WallClimb : MonoBehaviour
         if (_onClimb)
         {
             if (Input.GetKey(KeyCode.W))
+            {
+                _customMovement.anim.SetBool("Climbing", true);
                 _myRB.velocity = Vector2.up * _climbSpeed;
                 //_myRB.AddForce(Vector2.up * _climbSpeed);
+            }
+            else
+            {
+                _customMovement.anim.SetBool("Climbing", false);
+            }
 
             if (Input.GetKey(KeyCode.S))
+            {
+                _customMovement.anim.SetBool("Climbing", false);
                 _myRB.velocity = Vector2.down * _climbSpeed;
                 //_myRB.AddForce(Vector2.down * _climbSpeed);
+            }
+
 
             if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
             {
@@ -41,21 +52,32 @@ public class WallClimb : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+       
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
         if (collision.gameObject.layer == _wallLayerNumber)
         {
             _onClimb = true;
             _myRB.gravityScale = _gravityScale;
             _customMovement.gravityForce = 0.0f;
+            _customMovement.anim.SetBool("OnWall", true);
         }
     }
-
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.layer == _wallLayerNumber)
         {
             _onClimb = false;
             _myRB.gravityScale = 1.0f;
             _customMovement.gravityForce = _gravityForce;
+            _customMovement.anim.SetBool("OnWall", false);
+            _customMovement.anim.SetBool("Climbing", false);
         }
     }
 }

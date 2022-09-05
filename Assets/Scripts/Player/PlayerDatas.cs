@@ -57,7 +57,7 @@ public class PlayerDatas : MonoBehaviour
     [HideInInspector] protected float xMove, yMove;
 
     [Header("Animation")]
-    [SerializeField] protected Animator anim;
+    [SerializeField] public Animator anim;
     [SerializeField] SpriteRenderer _sr;
     [SerializeField] protected bool jumping;
 

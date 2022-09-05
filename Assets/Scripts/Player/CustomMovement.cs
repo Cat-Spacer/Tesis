@@ -190,6 +190,7 @@ public class CustomMovement : PlayerDatas, IDamageable
             dashStart = transform.position;
             _dashParticle.Play();
             _rb.velocity = Vector2.zero;
+            anim.SetTrigger("Dash");
         }
         if(dashing)
         {
