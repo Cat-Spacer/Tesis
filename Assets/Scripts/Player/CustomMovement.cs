@@ -226,6 +226,8 @@ public class CustomMovement : PlayerDatas, IDamageable
     {
         if (Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.KeypadEnter))
         {
+      
+
             anim.SetTrigger("Attack");
             var attackParticle = Instantiate(_attackParticle);
             attackParticle.gameObject.transform.right = attackPoint.right;
@@ -235,6 +237,7 @@ public class CustomMovement : PlayerDatas, IDamageable
             if (coll == null) return;
             var obj = coll.gameObject.GetComponent<IDamageable>();
             if (obj == null) return;
+            Debug.Log("attack");
             obj.GetDamage(1);
         }
     }
