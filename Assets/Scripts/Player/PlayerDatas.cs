@@ -11,7 +11,7 @@ public class PlayerDatas : MonoBehaviour
     [SerializeField] protected float stopPower;
     [SerializeField] protected float turnPower;
     [SerializeField] protected float accelPower;
-    [SerializeField] protected int faceDirection = 1;
+    [SerializeField] public int faceDirection = 1;
 
     [Header("PlayerAirMovement")]
     [SerializeField] protected float airRunAccel;
@@ -49,6 +49,7 @@ public class PlayerDatas : MonoBehaviour
 
     [Header("Gravity")]
     public float gravityForce;
+    public float gravityForceDefault;
 
     [Header("Attack")]
     [SerializeField] protected Vector2 attackRange;
@@ -66,4 +67,10 @@ public class PlayerDatas : MonoBehaviour
     [SerializeField] protected ParticleSystem _fallParticle;
     [SerializeField] protected ParticleSystem _dashParticle;
     [SerializeField] protected ParticleSystem _attackParticle;
+
+    [Header("WallClimb")]
+    [SerializeField] protected int _wallLayerNumber;
+    [SerializeField] protected float _gravityScale;
+    [SerializeField] protected bool _onClimb;
+    [SerializeField] protected float _climbSpeed = 5.0f;
 }
