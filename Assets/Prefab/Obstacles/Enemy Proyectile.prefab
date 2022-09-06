@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3297292288583961329}
   - component: {fileID: 8402795138824201045}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68,8 +68,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1510253325
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -2048957193146764462, guid: 7e61345575438ec4d9eb12c79720bc4f,
     type: 3}
@@ -95,7 +95,8 @@ GameObject:
   - component: {fileID: 6528723544339024610}
   - component: {fileID: -556355810594252484}
   - component: {fileID: 1896939116957862013}
-  m_Layer: 0
+  - component: {fileID: 6247515787867719003}
+  m_Layer: 9
   m_Name: Enemy Proyectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -160,3 +161,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _respawnPoint: {fileID: 4591118962251890940, guid: a715c64cfe51fbf44a43cc20e213bec4,
     type: 3}
+--- !u!50 &6247515787867719003
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4646296114372495377}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 2
