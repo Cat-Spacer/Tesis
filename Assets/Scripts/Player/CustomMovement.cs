@@ -8,6 +8,7 @@ public class CustomMovement : PlayerDatas, IDamageable
     Rigidbody2D _rb;
     private Action _TimeCounterAction;
     private Action _InputsAction;
+    [SerializeField] Transform _respawnPoint;
 
     private void Start()
     {
@@ -288,6 +289,7 @@ public class CustomMovement : PlayerDatas, IDamageable
     }
     public void GetDamage(float dmg)
     {
+        transform.position = new Vector3(_respawnPoint.transform.position.x, _respawnPoint.transform.position.y, 0);
         Debug.Log("Recibi daño");
     }
 }
