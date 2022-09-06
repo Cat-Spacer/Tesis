@@ -345,7 +345,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2638962870350567016}
   - component: {fileID: 2638962870350567023}
-  - component: {fileID: 8865723527646755905}
   - component: {fileID: 2638962870350567022}
   - component: {fileID: 2638962870350567021}
   m_Layer: 7
@@ -415,7 +414,8 @@ MonoBehaviour:
   groundCheckSize: {x: 0.3, y: 0.15}
   groundColl: {fileID: 0}
   onGround: 1
-  gravityForce: 30
+  gravityForce: 0
+  gravityForceDefault: 30
   attackRange: {x: 1.5, y: 1.4}
   attackPoint: {fileID: 6258953207786122255}
   damageable:
@@ -429,24 +429,12 @@ MonoBehaviour:
   _dashParticle: {fileID: 5282730136669982345}
   _attackParticle: {fileID: 3994335518852250647, guid: c93de7063f77ccd459ec70f1e9cb0666,
     type: 3}
-  _respawnPoint: {fileID: 0}
---- !u!114 &8865723527646755905
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2638962870350567020}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12719b7b4be6af24cb9805275505ae8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _climbSpeed: 5
-  _gravityScale: 0.25
   _wallLayerNumber: 8
-  _myRB: {fileID: 0}
-  _customMovement: {fileID: 0}
+  _gravityScale: 0.25
+  _onClimb: 0
+  _climbSpeed: 5
+  _rb: {fileID: 0}
+  _respawnPoint: {fileID: 0}
 --- !u!61 &2638962870350567022
 BoxCollider2D:
   m_ObjectHideFlags: 0

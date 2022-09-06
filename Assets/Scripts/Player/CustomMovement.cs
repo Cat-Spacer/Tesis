@@ -5,13 +5,15 @@ using System;
 
 public class CustomMovement : PlayerDatas, IDamageable
 {
-    Rigidbody2D _rb;
+    public Rigidbody2D _rb;
     private Action _TimeCounterAction;
     private Action _InputsAction;
     [SerializeField] Transform _respawnPoint;
 
     private void Start()
     {
+        gravityForce = gravityForceDefault;
+
         _rb = GetComponent<Rigidbody2D>();
         coyoteTimeCounter = coyoteTime;
         jumpBufferCounterTime = jumpBufferTime;
@@ -25,6 +27,7 @@ public class CustomMovement : PlayerDatas, IDamageable
     {
         _InputsAction();
         _TimeCounterAction();
+        Climb();
     }
     private void FixedUpdate()
     {
@@ -33,7 +36,6 @@ public class CustomMovement : PlayerDatas, IDamageable
         GroundCheckPos();
         JumpUp(onJumpPressed);
         Dash();
-        //JumpStop(data.onJumpReleased);
     }
     #region Movement
     private void MovementInput()
@@ -242,6 +244,49 @@ public class CustomMovement : PlayerDatas, IDamageable
         }
     }
     #endregion
+    #region Climb
+    void ClimbInput()
+    {
+
+    }    
+    void Climb()
+    {
+        if (_onClimb)
+        {
+            if (Input.GetKey(KeyCode.W))
+            {
+                anim.SetBool("Climbing", true);
+                _rb.velocity = Vector2.up * _climbSpeed;
+            }
+            else
+            {
+                anim.SetBool("Climbing", false);
+            }
+
+            if (Input.GetKey(KeyCode.S))
+            {
+                anim.SetBool("Climbing", false);
+                _rb.velocity = Vector2.down * _climbSpeed;
+            }
+
+
+            if (Input.GetKey(KeyCode.A))
+            {
+                if (faceDirection == -1)
+                {
+                    _rb.velocity = new Vector2(_rb.velocity.x, 0);
+                }
+            }
+            if (Input.GetKey(KeyCode.D))
+            {
+                if (faceDirection == 1)
+                {
+                    _rb.velocity = new Vector2(_rb.velocity.x, 0);
+                }
+            }
+        }
+    }
+    #endregion
     void ConstrainsReset()
     {
         _rb.constraints = RigidbodyConstraints2D.None;
@@ -272,8 +317,26 @@ public class CustomMovement : PlayerDatas, IDamageable
             Debug.Log("Onground");
             _fallParticle.Play();
         }
-        //if (collision.gameObject.layer == 8 && dashing)
 
+        if (collision.gameObject.layer == _wallLayerNumber)
+        {
+            _rb.velocity = Vector2.zero;
+            _onClimb = true;
+            _rb.gravityScale = _gravityScale;
+            gravityForce = 0.0f;
+            anim.SetBool("OnWall", true);
+        }
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == _wallLayerNumber)
+        {
+            _onClimb = false;
+            _rb.gravityScale = 1.0f;
+            gravityForce = gravityForceDefault;
+            anim.SetBool("OnWall", false);
+            anim.SetBool("Climbing", false);
+        }
     }
     private void OnCollisionStay2D(Collision2D collision)
     {

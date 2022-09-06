@@ -42,10 +42,19 @@ public class WallClimb : MonoBehaviour
             }
 
 
-            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
+            if (Input.GetKey(KeyCode.A))
             {
-                //_customMovement.doDash = true;
-                //_customMovement.faceDirection *= -1;
+                if (_customMovement.faceDirection == -1)
+                {
+                    _customMovement._rb.velocity = new Vector2(_customMovement._rb.velocity.x, 0);
+                }
+            }
+            if (Input.GetKey(KeyCode.D))
+            {
+                if (_customMovement.faceDirection == 1)
+                {
+                    _customMovement._rb.velocity = new Vector2(_customMovement._rb.velocity.x, 0);
+                }
             }
         }
     }
@@ -59,10 +68,12 @@ public class WallClimb : MonoBehaviour
     {
        
     }
+    //Hacer mini salto al dejar la pared
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.layer == _wallLayerNumber)
         {
+            _customMovement._rb.velocity = Vector2.zero;
             _onClimb = true;
             _myRB.gravityScale = _gravityScale;
             _customMovement.gravityForce = 0.0f;
