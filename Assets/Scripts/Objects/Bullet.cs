@@ -15,7 +15,7 @@ public class Bullet : ObjectToSpawn
 
     private void NormalMovement()
     {
-        transform.position += transform.forward * _speed * Time.deltaTime;
+        transform.position += transform.right * _speed * Time.deltaTime;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
