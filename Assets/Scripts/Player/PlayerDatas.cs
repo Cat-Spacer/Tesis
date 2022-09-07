@@ -65,12 +65,16 @@ public class PlayerDatas : MonoBehaviour
     [Header("Particles")]
     [SerializeField] protected ParticleSystem _jumpParticle;
     [SerializeField] protected ParticleSystem _fallParticle;
-    [SerializeField] protected ParticleSystem _dashParticle;
+    [SerializeField] protected ParticleSystem _dashParticleExplotion;
+    [SerializeField] protected ParticleSystem _dashParticleTrail;
     [SerializeField] protected ParticleSystem _attackParticle;
+    [SerializeField] protected ParticleSystem _climbParticle;
 
     [Header("WallClimb")]
     [SerializeField] protected int _wallLayerNumber;
     [SerializeField] protected float _gravityScale;
+    [SerializeField] protected bool _onWall;
     [SerializeField] protected bool _onClimb;
+    [SerializeField] protected bool stopClimbing = false;
     [SerializeField] protected float _climbSpeed = 5.0f;
 }

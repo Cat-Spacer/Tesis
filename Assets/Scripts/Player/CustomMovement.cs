@@ -112,7 +112,7 @@ public class CustomMovement : PlayerDatas, IDamageable
     #region JUMP
     void JumpInput()
     {
-        if (Input.GetKeyDown(KeyCode.Space) /*|| Input.GetKeyDown(KeyCode.W)*/ || Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             onJumpPressed = true;
         }
@@ -125,11 +125,11 @@ public class CustomMovement : PlayerDatas, IDamageable
     {
         if (jumpUp && canJump && (coyoteTimeCounter > 0f || onGround))
         {
+            _jumpParticle.Play();
             jumping = true;
             anim.SetTrigger("Jump");
             _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             canJump = false;
-            _jumpParticle.Play();
         }
         else
         {
@@ -191,7 +191,8 @@ public class CustomMovement : PlayerDatas, IDamageable
             doDash = false;
             dashing = true;
             dashStart = transform.position;
-            _dashParticle.Play();
+            _dashParticleExplotion.Play();
+            _dashParticleTrail.Play();
             _rb.velocity = Vector2.zero;
             anim.SetTrigger("Dash");
         }
@@ -201,6 +202,7 @@ public class CustomMovement : PlayerDatas, IDamageable
             _rb.constraints = RigidbodyConstraints2D.FreezePositionY;
             if (Vector2.Distance(transform.position, dashStart) >= dashDistance)
             {
+                _dashParticleTrail.Stop();
                 dashing = false;
                 _rb.velocity *= 0.5f;
                 ConstrainsReset();
@@ -227,9 +229,7 @@ public class CustomMovement : PlayerDatas, IDamageable
     void Attack()
     {
         if (Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.KeypadEnter))
-        {
-      
-
+        {     
             anim.SetTrigger("Attack");
             var attackParticle = Instantiate(_attackParticle);
             attackParticle.gameObject.transform.right = attackPoint.right;
@@ -245,23 +245,18 @@ public class CustomMovement : PlayerDatas, IDamageable
     }
     #endregion
     #region Climb
-    void ClimbInput()
-    {
-
-    }    
     void Climb()
     {
-        if (_onClimb)
+        if (_onWall)
         {
-            if (Input.GetKey(KeyCode.W))
+            anim.SetBool("OnWall", true);
+            if (Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
             {
+                _climbParticle.Stop();
                 anim.SetBool("Climbing", true);
                 _rb.velocity = Vector2.up * _climbSpeed;
             }
-            else
-            {
-                anim.SetBool("Climbing", false);
-            }
+            else anim.SetBool("Climbing", false);
 
             if (Input.GetKey(KeyCode.S))
             {
@@ -269,11 +264,11 @@ public class CustomMovement : PlayerDatas, IDamageable
                 _rb.velocity = Vector2.down * _climbSpeed;
             }
 
-
             if (Input.GetKey(KeyCode.A))
             {
                 if (faceDirection == -1)
                 {
+                    stopClimbing = true;
                     _rb.velocity = new Vector2(_rb.velocity.x, 0);
                 }
             }
@@ -281,9 +276,11 @@ public class CustomMovement : PlayerDatas, IDamageable
             {
                 if (faceDirection == 1)
                 {
+                    stopClimbing = true;
                     _rb.velocity = new Vector2(_rb.velocity.x, 0);
                 }
             }
+            _climbParticle.Play();
         }
     }
     #endregion
@@ -311,8 +308,8 @@ public class CustomMovement : PlayerDatas, IDamageable
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (onGround == true)
+    {     
+        if (onGround == true && collision.gameObject.layer == 6)
         {
             Debug.Log("Onground");
             _fallParticle.Play();
@@ -321,21 +318,22 @@ public class CustomMovement : PlayerDatas, IDamageable
         if (collision.gameObject.layer == _wallLayerNumber)
         {
             _rb.velocity = Vector2.zero;
-            _onClimb = true;
+            _onWall = true;
             _rb.gravityScale = _gravityScale;
             gravityForce = 0.0f;
-            anim.SetBool("OnWall", true);
         }
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.layer == _wallLayerNumber)
         {
+            _onWall = false;
             _onClimb = false;
             _rb.gravityScale = 1.0f;
             gravityForce = gravityForceDefault;
             anim.SetBool("OnWall", false);
             anim.SetBool("Climbing", false);
+            _climbParticle.Stop();
         }
     }
     private void OnCollisionStay2D(Collision2D collision)
