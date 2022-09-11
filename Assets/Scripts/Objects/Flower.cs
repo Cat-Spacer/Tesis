@@ -6,6 +6,7 @@ public class Flower : MonoBehaviour
 {
     [SerializeField] float _forceUp = 60;
     [SerializeField] float _forceDown = 40;
+    [SerializeField] float _strongerForceUp = 100;
     //  [SerializeField] GameObject ventiObj;
     //private float returnSpeed;
     private float _defaultDrag;
@@ -15,18 +16,12 @@ public class Flower : MonoBehaviour
     [SerializeField] private Transform _flower;
     [SerializeField] private float _maxUp;
     [SerializeField] private float _maxDown;
+    private float _stop = 1.7f;
     bool _goUp;
     bool _goingDown;
 
-
-    private void Update()
-    {
-       // ventiObj.transform.Rotate(new Vector3(0, ventiObj.transform.position.y * rotationSpeed, 0));
-    }
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("hola");
-
         var player = other.gameObject.GetComponent<CustomMovement>();
    
         if (player == null) return;
@@ -43,25 +38,30 @@ public class Flower : MonoBehaviour
        _playerRb.drag = _ventdrag;
 
         _goUp = true;
-        
+
     }
     private void OnTriggerStay2D(Collider2D other)
     {
         if (_player == null) return;
 
-        Debug.Log(_player.transform.position.y - _flower.transform.position.y);
 
-       
+        var playerLocalVelY = transform.InverseTransformDirection(_playerRb.velocity).y;
+
+        if (playerLocalVelY < 0 && _player.transform.position.y - _flower.transform.position.y <= _stop)
+        {
+            Debug.Log("frenar");
+            _playerRb.AddForce(_player.transform.up * _strongerForceUp);
+            
+        }
+
         if (_player.transform.position.y - _flower.transform.position.y >= _maxUp)
         {
             _playerRb.AddForce(_player.transform.up *_forceDown);
-            Debug.Log("down");
             _goingDown = true;
         }    
         else if (_player.transform.position.y - _flower.transform.position.y <= _maxUp && !_goingDown)
         {
             _playerRb.AddForce(_player.transform.up * _forceUp);
-            Debug.Log("up");
         }
 
         if (_player.transform.position.y - _flower.transform.position.y <= _maxDown)
@@ -78,6 +78,14 @@ public class Flower : MonoBehaviour
 
         _player = null;
         _playerRb = null;
+
     }
+
+    /*IEnumerator RestartMove()
+    {
+        yield return new WaitForSeconds(0.07f);
+        _playerRb.constraints = ~RigidbodyConstraints2D.FreezePosition;
+        _firstIn = false;
+    }*/
 
 }
