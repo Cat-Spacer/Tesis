@@ -284,7 +284,7 @@ public class CustomMovement : PlayerDatas, IDamageable
         }
     }
     #endregion
-    void ConstrainsReset()
+    public void ConstrainsReset()
     {
         _rb.constraints = RigidbodyConstraints2D.None;
         _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
@@ -353,8 +353,10 @@ public class CustomMovement : PlayerDatas, IDamageable
     }
     public void GetDamage(float dmg)
     {
-        transform.position = new Vector3(_respawnPoint.transform.position.x, _respawnPoint.transform.position.y, 0);
-        Debug.Log("Recibi daño");
+        //transform.position = new Vector3(_respawnPoint.transform.position.x, _respawnPoint.transform.position.y, 0);
+        //Debug.Log("Recibi daño");
+        _rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        GameManager.Instance.PlayerDeath();
     }
 }
 
