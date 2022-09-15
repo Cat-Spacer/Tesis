@@ -20,6 +20,7 @@ public class PlayerDatas : MonoBehaviour
     [Header("PlayerJump")]
     [SerializeField] protected float jumpForce;
     [SerializeField] protected float stopJumpForce;
+    [SerializeField] protected Vector2 wallJumpDir;
     [HideInInspector] protected bool onJumpPressed;
     [HideInInspector] protected bool onJumpReleased;
     [SerializeField] protected bool canJump;
@@ -77,4 +78,7 @@ public class PlayerDatas : MonoBehaviour
     [SerializeField] protected bool _onClimb;
     [SerializeField] protected bool stopClimbing = false;
     [SerializeField] protected float _climbSpeed = 5.0f;
+
+    [Header("Constrains")]
+    [SerializeField] protected RigidbodyConstraints2D constraints2D;
 }
