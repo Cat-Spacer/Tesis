@@ -130,16 +130,42 @@ public class CustomMovement : PlayerDatas, IDamageable
             anim.SetTrigger("Jump");
             _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             canJump = false;
+            return;
         }
         else
         {
-            onJumpPressed = false;
+
             if (jumpUp && !onGround)
             {
                 doJumpBuffer = true;
                 _TimeCounterAction += TimeCounterJumpbuffer;
             }
         }
+        //Si estoy en la pared
+        if (jumpUp && canJump && _onWall)
+        {
+            //_jumpParticle.Play();
+            jumping = true;
+            anim.SetTrigger("Jump");
+            Debug.Log("Salto");
+            _onWall = false;
+            _onClimb = false;
+            _rb.gravityScale = 1.0f;
+            gravityForce = gravityForceDefault;
+            _rb.velocity = Vector2.zero;
+            if (faceDirection == 1) //Salto a la izq
+            {
+                _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                _rb.AddForce(-Vector2.right * jumpForce * .5f, ForceMode2D.Impulse);
+            }
+            else //Salto a la der
+            {
+                _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                _rb.AddForce(Vector2.right * jumpForce * .5f, ForceMode2D.Impulse);
+            }
+            canJump = false;
+        }
+        onJumpPressed = false;
     }
     void JumpStop(bool jumpStop)
     {
@@ -200,12 +226,13 @@ public class CustomMovement : PlayerDatas, IDamageable
         {
             _rb.velocity = Vector2.right * dashForce * faceDirection;
             _rb.constraints = RigidbodyConstraints2D.FreezePositionY;
+            _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
             if (Vector2.Distance(transform.position, dashStart) >= dashDistance)
             {
+                ConstrainsReset();
                 _dashParticleTrail.Stop();
                 dashing = false;
                 _rb.velocity *= 0.5f;
-                ConstrainsReset();
             }
         }
     }
@@ -286,8 +313,7 @@ public class CustomMovement : PlayerDatas, IDamageable
     #endregion
     public void ConstrainsReset()
     {
-        _rb.constraints = RigidbodyConstraints2D.None;
-        _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        _rb.constraints = constraints2D;
     }
     void GroundCheckPos()
     {
@@ -315,8 +341,10 @@ public class CustomMovement : PlayerDatas, IDamageable
             _fallParticle.Play();
         }
 
-        if (collision.gameObject.layer == _wallLayerNumber)
+        if (collision.gameObject.layer == _wallLayerNumber) //OnWall
         {
+            _climbParticle.Play();
+            canJump = true;
             _rb.velocity = Vector2.zero;
             _onWall = true;
             _rb.gravityScale = _gravityScale;
@@ -338,7 +366,7 @@ public class CustomMovement : PlayerDatas, IDamageable
     }
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (dashing)
+        if (dashing && !onGround)
         {
             dashing = false;
             _rb.velocity *= 0.5f;
@@ -353,8 +381,6 @@ public class CustomMovement : PlayerDatas, IDamageable
     }
     public void GetDamage(float dmg)
     {
-        //transform.position = new Vector3(_respawnPoint.transform.position.x, _respawnPoint.transform.position.y, 0);
-        //Debug.Log("Recibi daño");
         _rb.constraints = RigidbodyConstraints2D.FreezeAll;
         GameManager.Instance.PlayerDeath();
     }
