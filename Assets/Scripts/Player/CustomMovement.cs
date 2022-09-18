@@ -161,7 +161,7 @@ public class CustomMovement : PlayerDatas, IDamageable
             else //Salto a la der
             {
                 rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-                rb.AddForce(Vector2.right * jumpForce * .5f, ForceMode2D.Impulse);
+                rb.AddForce(Vector2.right * jumpForce * .8f, ForceMode2D.Impulse);
             }
             canJump = false;
         }
