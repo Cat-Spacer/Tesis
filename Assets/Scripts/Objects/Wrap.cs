@@ -29,12 +29,17 @@ public class Wrap : MonoBehaviour
         //_time = _timer;
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        _player.ForceDashEnd();
+    }
+
     private void OnTriggerStay2D(Collider2D collision)
     {
         Debug.Log($"Entre y triggerie con {collision.name}");
         if (collision.GetComponent<CustomMovement>() == _player)
         {
-            _player.rb.AddForceAtPosition(_player.faceDirection * Vector2.right * _speedToTramp, Vector2.zero);
+            _player.rb.AddForceAtPosition(Vector2.up * _speedToTramp, Vector2.zero);
             //Animation play catch
 
             if (Vector2.Distance(_player.transform.position, transform.position) <= 1)
