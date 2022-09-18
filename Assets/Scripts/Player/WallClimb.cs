@@ -46,14 +46,14 @@ public class WallClimb : MonoBehaviour
             {
                 if (_customMovement.faceDirection == -1)
                 {
-                    _customMovement._rb.velocity = new Vector2(_customMovement._rb.velocity.x, 0);
+                    _customMovement.rb.velocity = new Vector2(_customMovement.rb.velocity.x, 0);
                 }
             }
             if (Input.GetKey(KeyCode.D))
             {
                 if (_customMovement.faceDirection == 1)
                 {
-                    _customMovement._rb.velocity = new Vector2(_customMovement._rb.velocity.x, 0);
+                    _customMovement.rb.velocity = new Vector2(_customMovement.rb.velocity.x, 0);
                 }
             }
         }
@@ -73,7 +73,7 @@ public class WallClimb : MonoBehaviour
     {
         if (collision.gameObject.layer == _wallLayerNumber)
         {
-            _customMovement._rb.velocity = Vector2.zero;
+            _customMovement.rb.velocity = Vector2.zero;
             _onClimb = true;
             _myRB.gravityScale = _gravityScale;
             _customMovement.gravityForce = 0.0f;

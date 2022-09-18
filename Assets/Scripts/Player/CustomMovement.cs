@@ -5,7 +5,7 @@ using System;
 
 public class CustomMovement : PlayerDatas, IDamageable
 {
-    public Rigidbody2D _rb;
+    public Rigidbody2D rb;
     private Action _TimeCounterAction;
     private Action _InputsAction;
     [SerializeField] Transform _respawnPoint;
@@ -14,7 +14,7 @@ public class CustomMovement : PlayerDatas, IDamageable
     {
         gravityForce = gravityForceDefault;
 
-        _rb = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
         coyoteTimeCounter = coyoteTime;
         jumpBufferCounterTime = jumpBufferTime;
         _TimeCounterAction += TimeCounterCoyote;
@@ -31,7 +31,7 @@ public class CustomMovement : PlayerDatas, IDamageable
     }
     private void FixedUpdate()
     {
-        _rb.AddForce(Vector2.down * gravityForce);
+        rb.AddForce(Vector2.down * gravityForce);
         Movement(xMove, 1);
         GroundCheckPos();
         JumpUp(onJumpPressed);
@@ -60,7 +60,7 @@ public class CustomMovement : PlayerDatas, IDamageable
         }
         else anim.SetBool("Run", false);
         float targetSpeed = xDir * maxSpeed; 
-        float speedDif = targetSpeed - _rb.velocity.x; 
+        float speedDif = targetSpeed - rb.velocity.x; 
 
         #region Acceleration Rate
         float accelRate;
@@ -79,7 +79,7 @@ public class CustomMovement : PlayerDatas, IDamageable
         else //AirMovement
             accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? runAccel * airRunAccel : runDeccel * airRunDeccel;
 
-        if ((_rb.velocity.x > targetSpeed && targetSpeed > 0.01f) || (_rb.velocity.x < targetSpeed && targetSpeed < -0.01f))
+        if ((rb.velocity.x > targetSpeed && targetSpeed > 0.01f) || (rb.velocity.x < targetSpeed && targetSpeed < -0.01f))
         {
             accelRate = 0;
         }
@@ -91,7 +91,7 @@ public class CustomMovement : PlayerDatas, IDamageable
         {
             velPower = stopPower;
         }
-        else if (Mathf.Abs(_rb.velocity.x) > 0 && (Mathf.Sign(targetSpeed) != Mathf.Sign(_rb.velocity.x)))
+        else if (Mathf.Abs(rb.velocity.x) > 0 && (Mathf.Sign(targetSpeed) != Mathf.Sign(rb.velocity.x)))
         {
             velPower = turnPower;
         }
@@ -102,11 +102,11 @@ public class CustomMovement : PlayerDatas, IDamageable
         #endregion    
 
         float movement = Mathf.Pow(Mathf.Abs(speedDif) * accelRate, velPower) * Mathf.Sign(speedDif);
-        movement = Mathf.Lerp(_rb.velocity.x, movement, lerpAmount); 
+        movement = Mathf.Lerp(rb.velocity.x, movement, lerpAmount); 
 
-        _rb.AddForce(movement * Vector2.right);
+        rb.AddForce(movement * Vector2.right);
 
-        if (_rb.velocity.y < 0) anim.SetTrigger("Fall");
+        if (rb.velocity.y < 0) anim.SetTrigger("Fall");
     }
     #endregion
     #region JUMP
@@ -128,7 +128,7 @@ public class CustomMovement : PlayerDatas, IDamageable
             _jumpParticle.Play();
             jumping = true;
             anim.SetTrigger("Jump");
-            _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             canJump = false;
             return;
         }
@@ -150,18 +150,18 @@ public class CustomMovement : PlayerDatas, IDamageable
             Debug.Log("Salto");
             _onWall = false;
             _onClimb = false;
-            _rb.gravityScale = 1.0f;
+            rb.gravityScale = 1.0f;
             gravityForce = gravityForceDefault;
-            _rb.velocity = Vector2.zero;
+            rb.velocity = Vector2.zero;
             if (faceDirection == 1) //Salto a la izq
             {
-                _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-                _rb.AddForce(-Vector2.right * jumpForce * .5f, ForceMode2D.Impulse);
+                rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                rb.AddForce(-Vector2.right * jumpForce * .5f, ForceMode2D.Impulse);
             }
             else //Salto a la der
             {
-                _rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-                _rb.AddForce(Vector2.right * jumpForce * .5f, ForceMode2D.Impulse);
+                rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+                rb.AddForce(Vector2.right * jumpForce * .5f, ForceMode2D.Impulse);
             }
             canJump = false;
         }
@@ -171,7 +171,7 @@ public class CustomMovement : PlayerDatas, IDamageable
     {
         if (jumpStop && !onGround)
         {
-            _rb.AddForce(Vector2.down * stopJumpForce, ForceMode2D.Impulse);
+            rb.AddForce(Vector2.down * stopJumpForce, ForceMode2D.Impulse);
         }
         else if (onGround) onJumpReleased = false;
 
@@ -219,20 +219,20 @@ public class CustomMovement : PlayerDatas, IDamageable
             dashStart = transform.position;
             _dashParticleExplotion.Play();
             _dashParticleTrail.Play();
-            _rb.velocity = Vector2.zero;
+            rb.velocity = Vector2.zero;
             anim.SetTrigger("Dash");
         }
         if(dashing)
         {
-            _rb.velocity = Vector2.right * dashForce * faceDirection;
-            _rb.constraints = RigidbodyConstraints2D.FreezePositionY;
-            _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+            rb.velocity = Vector2.right * dashForce * faceDirection;
+            rb.constraints = RigidbodyConstraints2D.FreezePositionY;
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
             if (Vector2.Distance(transform.position, dashStart) >= dashDistance)
             {
                 ConstrainsReset();
                 _dashParticleTrail.Stop();
                 dashing = false;
-                _rb.velocity *= 0.5f;
+                rb.velocity *= 0.5f;
             }
         }
     }
@@ -240,14 +240,14 @@ public class CustomMovement : PlayerDatas, IDamageable
     {
         yield return new WaitForSeconds(1);
         dashing = false;
-        _rb.velocity *= 0.5f;
+        rb.velocity *= 0.5f;
         ConstrainsReset();
     }
 
     public void ForceDashEnd()
     {
         dashing = false;
-        _rb.velocity *= 0.5f;
+        rb.velocity *= 0.5f;
         canDash = true;
         ConstrainsReset();
     }
@@ -281,14 +281,14 @@ public class CustomMovement : PlayerDatas, IDamageable
             {
                 _climbParticle.Stop();
                 anim.SetBool("Climbing", true);
-                _rb.velocity = Vector2.up * _climbSpeed;
+                rb.velocity = Vector2.up * _climbSpeed;
             }
             else anim.SetBool("Climbing", false);
 
             if (Input.GetKey(KeyCode.S))
             {
                 anim.SetBool("Climbing", false);
-                _rb.velocity = Vector2.down * _climbSpeed;
+                rb.velocity = Vector2.down * _climbSpeed;
             }
 
             if (Input.GetKey(KeyCode.A))
@@ -296,7 +296,7 @@ public class CustomMovement : PlayerDatas, IDamageable
                 if (faceDirection == -1)
                 {
                     stopClimbing = true;
-                    _rb.velocity = new Vector2(_rb.velocity.x, 0);
+                    rb.velocity = new Vector2(rb.velocity.x, 0);
                 }
             }
             if (Input.GetKey(KeyCode.D))
@@ -304,7 +304,7 @@ public class CustomMovement : PlayerDatas, IDamageable
                 if (faceDirection == 1)
                 {
                     stopClimbing = true;
-                    _rb.velocity = new Vector2(_rb.velocity.x, 0);
+                    rb.velocity = new Vector2(rb.velocity.x, 0);
                 }
             }
             _climbParticle.Play();
@@ -313,7 +313,7 @@ public class CustomMovement : PlayerDatas, IDamageable
     #endregion
     public void ConstrainsReset()
     {
-        _rb.constraints = constraints2D;
+        rb.constraints = constraints2D;
     }
     void GroundCheckPos()
     {
@@ -345,9 +345,9 @@ public class CustomMovement : PlayerDatas, IDamageable
         {
             _climbParticle.Play();
             canJump = true;
-            _rb.velocity = Vector2.zero;
+            rb.velocity = Vector2.zero;
             _onWall = true;
-            _rb.gravityScale = _gravityScale;
+            rb.gravityScale = _gravityScale;
             gravityForce = 0.0f;
         }
     }
@@ -357,7 +357,7 @@ public class CustomMovement : PlayerDatas, IDamageable
         {
             _onWall = false;
             _onClimb = false;
-            _rb.gravityScale = 1.0f;
+            rb.gravityScale = 1.0f;
             gravityForce = gravityForceDefault;
             anim.SetBool("OnWall", false);
             anim.SetBool("Climbing", false);
@@ -369,7 +369,7 @@ public class CustomMovement : PlayerDatas, IDamageable
         if (dashing && !onGround)
         {
             dashing = false;
-            _rb.velocity *= 0.5f;
+            rb.velocity *= 0.5f;
             ConstrainsReset();
         }
     }
@@ -381,7 +381,7 @@ public class CustomMovement : PlayerDatas, IDamageable
     }
     public void GetDamage(float dmg)
     {
-        _rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        rb.constraints = RigidbodyConstraints2D.FreezeAll;
         GameManager.Instance.PlayerDeath();
     }
 }

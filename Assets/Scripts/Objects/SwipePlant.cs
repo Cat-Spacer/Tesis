@@ -10,7 +10,7 @@ public class SwipePlant : Obstacle
     {
         if (_swipeAnimator == null)
             _swipeAnimator = GetComponent<Animator>();
-        else
+        if (_swipeAnimator == null)
             Debug.LogWarning($"No animator added to {name}.");
     }
 
