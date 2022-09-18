@@ -251,6 +251,8 @@ public class CustomMovement : PlayerDatas, IDamageable
         canDash = true;
         ConstrainsReset();
     }
+
+
     #endregion
     #region MiauAttack
     void Attack()
