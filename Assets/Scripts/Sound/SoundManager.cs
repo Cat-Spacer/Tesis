@@ -7,6 +7,7 @@ public class SoundManager : MonoBehaviour
 {
     public Sound[] sounds;
     public static SoundManager instance;
+    float _baseVolume;
     void Awake()
     {
         if (instance == null)
@@ -29,7 +30,7 @@ public class SoundManager : MonoBehaviour
     }
     private void Start()
     {
-        //instance.Play(Types.MainSong);
+        Play(SoundManager.Types.MusicForest);
     }
     public void Play(Types name)
     {
@@ -50,9 +51,41 @@ public class SoundManager : MonoBehaviour
             return;
         }
         s.source.Pause();
+        // StartCoroutine(FadeOut(s.source, 0.05f));
+
+
+        //s.source.Pause();
     }
+
+    public IEnumerator FadeOut(AudioSource audioSource, float FadeTime)
+    {
+        float startVolume = audioSource.volume;
+
+        while (audioSource.volume > 0)
+        {
+                audioSource.volume -= startVolume * Time.deltaTime / FadeTime;
+            Debug.Log("A");
+                yield return null;
+        }
+
+        audioSource.Pause();
+        audioSource.volume = startVolume;
+    }
+
+    
     public enum Types
     {
+        WindForest,
+        Steps,
+        ForestAmbience,
+        MusicForest,
+        CatDamash,
+        CatAttack,
+        CatDash,
+        Dash,
+        Item,
+        Climb
+
     }
     public void OnClickSound()
     {

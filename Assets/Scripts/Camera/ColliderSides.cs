@@ -9,6 +9,8 @@ public class ColliderSides : MonoBehaviour
     [SerializeField]bool isInY;
     [SerializeField] float _moveInX = 16.5f;
     [SerializeField] float _moveInY = 10.5f;
+    [SerializeField] int indexB;
+    [SerializeField] int indexA;
     private void Start()
     {
         _cam = Camera.main.GetComponent<Transform>();
@@ -33,18 +35,22 @@ public class ColliderSides : MonoBehaviour
         if (_player.position.x - gameObject.transform.position.x > 0 && !isInY)
         {
             _cam.position = new Vector3(gameObject.transform.position.x + _moveInX, _cam.position.y, _cam.position.z);
+            GameManager.Instance.SetRespawnPoint(indexB);
         }
         else if (_player.position.x - gameObject.transform.position.x < 0 && !isInY)
         {
             _cam.position = new Vector3(gameObject.transform.position.x - _moveInX, _cam.position.y, _cam.position.z);
+            GameManager.Instance.SetRespawnPoint(indexA);
         }
         else if (_player.position.y - gameObject.transform.position.y > 0 && isInY)
         {
             _cam.position = new Vector3(_cam.position.x, gameObject.transform.position.y + _moveInY, _cam.position.z);
+            GameManager.Instance.SetRespawnPoint(indexB);
         }
         else if (_player.position.y - gameObject.transform.position.y < 0 && isInY)
         {
             _cam.position = new Vector3(_cam.position.x, gameObject.transform.position.y - _moveInY, _cam.position.z);
+            GameManager.Instance.SetRespawnPoint(indexA);
         }
     }
 }
