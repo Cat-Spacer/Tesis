@@ -6,7 +6,7 @@ using System;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    [SerializeField] Transform _respawnPoint;
+    [SerializeField] Transform[] _respawnPoint;
 
     CustomMovement _player;
 
@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] Animator _deathScreen;
     [SerializeField] float _resetPlayerTime;
     [SerializeField] float _deathScreenTime;
+    int _respawnIndex = 0;
 
     private void Awake()
     {
@@ -33,18 +34,24 @@ public class GameManager : MonoBehaviour
     public void PlayerDeath ()
     {
         _deathScreen.gameObject.SetActive(true);
-        StartCoroutine(PlayerResetPositionCounter());
+        StartCoroutine(PlayerResetPositionCounter(_respawnIndex));
         StartCoroutine(DeathScreenCounter());
     }
-    IEnumerator PlayerResetPositionCounter()
+    IEnumerator PlayerResetPositionCounter(int index_arg)
     {
         yield return new WaitForSeconds(_resetPlayerTime);
-        _player.transform.position = new Vector3(_respawnPoint.transform.position.x, _respawnPoint.transform.position.y, 0);
+        _player.transform.position = new Vector3(_respawnPoint[index_arg].transform.position.x, _respawnPoint[index_arg].transform.position.y, 0);
     }    
     IEnumerator DeathScreenCounter()
     {
         yield return new WaitForSeconds(_deathScreenTime);
         _deathScreen.gameObject.SetActive(false);
         _player.ConstrainsReset();
+    }
+
+    public void SetRespawnPoint(int index_arg)
+    {
+        Debug.Log("--" + index_arg + "--");
+        _respawnIndex = index_arg;
     }
 }

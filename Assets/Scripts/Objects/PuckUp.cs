@@ -9,7 +9,7 @@ public class PuckUp : MonoBehaviour
         CustomMovement player = trig.GetComponent<CustomMovement>();
 
         if (player == null) return;
-
+        SoundManager.instance.Play(SoundManager.Types.Item);
         gameObject.SetActive(false);
     }
 }

@@ -9,7 +9,7 @@ public class Flower : MonoBehaviour
     [SerializeField] float _strongerForceUp = 100;
     //  [SerializeField] GameObject ventiObj;
     //private float returnSpeed;
-    private float _defaultDrag;
+    [SerializeField] private float _defaultDrag;
     [SerializeField] private float _ventdrag = 0.3f;  //aumentar para lentitud de movimiento
     CustomMovement _player;
     Rigidbody2D _playerRb;
@@ -17,7 +17,7 @@ public class Flower : MonoBehaviour
     [SerializeField] private float _maxUp;
     [SerializeField] private float _maxDown;
     private float _stop = 1.7f;
-    bool _goUp;
+   // bool _goUp;
     bool _goingDown;
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -26,6 +26,7 @@ public class Flower : MonoBehaviour
    
         if (player == null) return;
 
+
         _player = player;
 
         _playerRb = _player.GetComponent<Rigidbody2D>();
@@ -33,11 +34,14 @@ public class Flower : MonoBehaviour
         if (_playerRb == null)
             Debug.LogError("Player Rigidbody2D not found");
 
+        SoundManager.instance.Play(SoundManager.Types.WindForest);
+
        _player.ForceDashEnd();
        _defaultDrag = _playerRb.drag;
+        Debug.Log("drag" + _defaultDrag);
        _playerRb.drag = _ventdrag;
 
-        _goUp = true;
+     //   _goUp = true;
 
     }
     private void OnTriggerStay2D(Collider2D other)
@@ -72,12 +76,15 @@ public class Flower : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D other)
     {
-        _goUp = false;
+        //  _goUp = false;
+        Debug.Log("drag" + _defaultDrag);
+        if (_playerRb == null) return;
         _playerRb.drag = _defaultDrag;
-        _playerRb = null;
 
-        _player = null;
         _playerRb = null;
+        _player = null;
+
+        SoundManager.instance.Pause(SoundManager.Types.WindForest);
 
     }
 

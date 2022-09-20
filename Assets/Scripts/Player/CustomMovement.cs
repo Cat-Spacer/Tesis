@@ -9,6 +9,7 @@ public class CustomMovement : PlayerDatas, IDamageable
     private Action _TimeCounterAction;
     private Action _InputsAction;
     [SerializeField] Transform _respawnPoint;
+    [SerializeField] TrailRenderer _dashTrail;
 
     private void Start()
     {
@@ -42,23 +43,45 @@ public class CustomMovement : PlayerDatas, IDamageable
     {
         xMove = Input.GetAxis("Horizontal");
     }
+
+    bool hasPlayedMovement = false;
     private void Movement(float xDir,float lerpAmount)
     {
         if (dashing) return;
+
+
         //anim.SetFloat("Move", xDir);
         if (xDir > 0.1f)
         {
             anim.SetBool("Run", true);
             transform.rotation = Quaternion.Euler(transform.rotation.x, 0, transform.rotation.z);
             faceDirection = 1;
+            if (!hasPlayedMovement)
+            {
+                SoundManager.instance.Play(SoundManager.Types.Steps);
+                hasPlayedMovement = true;
+            }
         }
         else if (xDir < -0.1f)
         {
             anim.SetBool("Run", true);
             transform.rotation = Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z);
             faceDirection = -1;
+            if (!hasPlayedMovement)
+            {
+                SoundManager.instance.Play(SoundManager.Types.Steps);
+                hasPlayedMovement = true;
+            }
         }
-        else anim.SetBool("Run", false);
+        else
+        {
+            anim.SetBool("Run", false);
+            if (hasPlayedMovement)
+            {
+                SoundManager.instance.Pause(SoundManager.Types.Steps);
+                hasPlayedMovement = false;
+            }
+        }
         float targetSpeed = xDir * maxSpeed; 
         float speedDif = targetSpeed - rb.velocity.x; 
 
@@ -106,7 +129,15 @@ public class CustomMovement : PlayerDatas, IDamageable
 
         rb.AddForce(movement * Vector2.right);
 
-        if (rb.velocity.y < 0) anim.SetTrigger("Fall");
+        if (rb.velocity.y < 0)
+        {
+            if (hasPlayedMovement)
+            {
+                SoundManager.instance.Pause(SoundManager.Types.Steps);
+                hasPlayedMovement = false;
+            }
+            anim.SetTrigger("Fall");
+        }
     }
     #endregion
     #region JUMP
@@ -221,6 +252,8 @@ public class CustomMovement : PlayerDatas, IDamageable
             _dashParticleTrail.Play();
             rb.velocity = Vector2.zero;
             anim.SetTrigger("Dash");
+            SoundManager.instance.Play(SoundManager.Types.CatDash);
+            _dashTrail.gameObject.SetActive(true);
         }
         if(dashing)
         {
@@ -233,6 +266,11 @@ public class CustomMovement : PlayerDatas, IDamageable
                 _dashParticleTrail.Stop();
                 dashing = false;
                 rb.velocity *= 0.5f;
+                StartCoroutine(ExampleCoroutine());
+            }
+            if (rb.velocity == Vector2.zero)
+            {
+                ForceDashEnd();
             }
         }
     }
@@ -242,14 +280,24 @@ public class CustomMovement : PlayerDatas, IDamageable
         dashing = false;
         rb.velocity *= 0.5f;
         ConstrainsReset();
+        StartCoroutine(ExampleCoroutine());
     }
 
     public void ForceDashEnd()
     {
         dashing = false;
-        rb.velocity *= 0.5f;
+        //rb.velocity *= 0.5f;
+        rb.velocity = Vector2.zero;
         canDash = true;
+        _dashParticleTrail.Stop();
         ConstrainsReset();
+        StartCoroutine(ExampleCoroutine());
+    }
+
+    IEnumerator ExampleCoroutine()
+    {
+        yield return new WaitForSeconds(0.1f);
+        _dashTrail.gameObject.SetActive(false);
     }
 
 
@@ -260,6 +308,7 @@ public class CustomMovement : PlayerDatas, IDamageable
         if (Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.KeypadEnter))
         {     
             anim.SetTrigger("Attack");
+            SoundManager.instance.Play(SoundManager.Types.CatAttack);
             var attackParticle = Instantiate(_attackParticle);
             attackParticle.gameObject.transform.right = attackPoint.right;
             attackParticle.gameObject.transform.position = attackPoint.position;
@@ -274,10 +323,14 @@ public class CustomMovement : PlayerDatas, IDamageable
     }
     #endregion
     #region Climb
+
+    bool hasPlayedClimb = false;
     void Climb()
     {
         if (_onWall)
         {
+            
+
             if (Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
             {
                 anim.SetBool("OnWall", true);
@@ -292,7 +345,6 @@ public class CustomMovement : PlayerDatas, IDamageable
             if (Input.GetKey(KeyCode.S))
             {
                 anim.SetBool("OnWall", true);
-
                 anim.SetBool("Climbing", false);
                 rb.velocity = Vector2.down * _climbSpeed * 0.5f;
                 ConstrainsReset();
@@ -301,7 +353,6 @@ public class CustomMovement : PlayerDatas, IDamageable
             if (Input.GetKey(KeyCode.A))
             {
                 anim.SetBool("OnWall", true);
-
                 if (faceDirection == -1)
                 {
                     stopClimbing = true;
@@ -337,9 +388,30 @@ public class CustomMovement : PlayerDatas, IDamageable
             if (rb.velocity.y < -0.1)
             {
                 anim.SetBool("OnWall", true);
+                if (!hasPlayedClimb)
+                {
+                    SoundManager.instance.Play(SoundManager.Types.Climb);
+                    hasPlayedClimb = true;
+                }
+                    
+            }
+            if (rb.velocity.y > 0.1)
+            {
+                if (!hasPlayedClimb)
+                {
+                    SoundManager.instance.Play(SoundManager.Types.Climb);
+                    hasPlayedClimb = true;
+                }
+            }
+            if (rb.velocity.y == 0)
+            {
+                hasPlayedClimb = false;
+                SoundManager.instance.Pause(SoundManager.Types.Climb);
             }
         }
     }
+
+    
     #endregion
     public void ConstrainsReset()
     {
@@ -373,18 +445,21 @@ public class CustomMovement : PlayerDatas, IDamageable
 
         if (collision.gameObject.layer == _wallLayerNumber) //OnWall
         {
+            hasPlayedClimb = false;
             _climbParticle.Play();
             canJump = true;
             rb.velocity = Vector2.zero;
             _onWall = true;
             rb.gravityScale = _gravityScale;
             gravityForce = 0.0f;
+            ForceDashEnd();
         }
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.layer == _wallLayerNumber)
         {
+            hasPlayedClimb = false;
             ConstrainsReset();
             _onWall = false;
             _onClimb = false;
@@ -393,15 +468,17 @@ public class CustomMovement : PlayerDatas, IDamageable
             anim.SetBool("OnWall", false);
             anim.SetBool("Climbing", false);
             _climbParticle.Stop();
+            SoundManager.instance.Pause(SoundManager.Types.Climb);
         }
     }
     private void OnCollisionStay2D(Collision2D collision)
     {
         if (dashing && !onGround)
         {
-            dashing = false;
+            ForceDashEnd();
+            /*dashing = false;
             rb.velocity *= 0.5f;
-            ConstrainsReset();
+            ConstrainsReset();*/
         }
 
     }
@@ -415,6 +492,7 @@ public class CustomMovement : PlayerDatas, IDamageable
     {
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
         GameManager.Instance.PlayerDeath();
+        SoundManager.instance.Play(SoundManager.Types.CatDamash);
     }
 }
 

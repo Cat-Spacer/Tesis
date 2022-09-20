@@ -21,13 +21,13 @@ namespace Weapons
         public float distance = 150f;
 
         private void Awake()
-        {
+        {/*
             if (GetComponent<AudioSource>() != null)
             {
                 audioSource = GetComponent<AudioSource>();
                 //  if (FindObjectOfType<SoundManager>() != null)
                 // audioSource.clip = FindObjectOfType<SoundManager>().GetSound(shootSound).clip;
-            }
+            }*/
             if (_player == null)
                 _player = FindObjectOfType<PlayerDatas>().gameObject;
             else
@@ -44,19 +44,26 @@ namespace Weapons
 
         public void FireCooldown()
         {
+           /* if (Time.time >= fireRate)
+           {
+               FireBullet();
+                fireRate = Time.time + 1.0f / fireRate;
+           }*/
+
             if (Time.time >= fireTimer)
             {
-                fireTimer = Time.time + 1.0f / fireRate;
                 FireBullet();
+                fireTimer = Time.time + 1.0f / fireRate;
             }
         }
         public virtual void FireBullet()
         {
             ObjectToSpawn bullet = ObjectFactory.Instance.pool.GetObject();
-            if (audioSource != null)
+            //SoundManager.instance.Play();
+           /* if (audioSource != null)
                 audioSource.Play();
             if (muzzleFlash != null)
-                muzzleFlash.Play();
+                muzzleFlash.Play();*/
             Shoot.Fire(bullet.gameObject, firePoint);
         }
     }
