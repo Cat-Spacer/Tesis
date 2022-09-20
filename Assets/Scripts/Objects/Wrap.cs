@@ -5,12 +5,16 @@ using System;
 
 public class Wrap : MonoBehaviour
 {
-    //[SerializeField] private float _time = 3.0f;
-    //[SerializeField] private float _timer = 3.0f;
-    [SerializeField] private float _speedToTramp = 10.0f;
+    // the mouth is the center
+    [SerializeField] private float _time = 3.0f, _timer = 3.0f, _speedToTramp = 10.0f, _withSize = 1.0f, _heithSize = 4.0f;
+    [SerializeField] private bool _up = true;
+    [SerializeField] private GameObject _mouth, _wraps;
     [SerializeField] private Animator _myAnimator;
     [SerializeField] private CustomMovement _player;
-
+    [SerializeField] private BoxCollider2D _myboxCollider;
+    [SerializeField] private Transform _finalPos;
+    private float _wrpHeight = 0.0f;
+    private Vector2 _wrpIntPos;
 
     Action<float> _onCatch = delegate { };
 
@@ -21,12 +25,46 @@ public class Wrap : MonoBehaviour
         if (_myAnimator == null)
             Debug.LogWarning($"No animator added to {name}.");
 
+        if (_myboxCollider == null)
+            _myboxCollider = GetComponent<BoxCollider2D>();
+        if (_myboxCollider == null)
+            Debug.LogWarning($"No box collider added to {name}.");
+
         if (_player == null)
             _player = FindObjectOfType<CustomMovement>();
         if (_player == null)
             Debug.LogWarning($"No player on scene.");
 
-        //_time = _timer;
+        _time = _wrpHeight = _timer = _heithSize;
+        _myboxCollider.size = new Vector2(_withSize, _heithSize);
+        _wrpIntPos = _wraps.transform.position;
+    }
+
+    private void Update()
+    {
+        // open / close trap
+        _myboxCollider.size = new Vector2(_withSize, _timer);
+        if (_timer > 1.0f && _up)
+        {
+            _wrpHeight += Time.deltaTime;
+            _timer -= Time.deltaTime;
+        }
+        else if (_timer <= _time)
+        {
+            _up = false;
+            _wrpHeight -= Time.deltaTime;
+            _timer += Time.deltaTime;
+        }
+        else
+        {
+            _timer = _time;
+            _up = true;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        _wraps.transform.position = new Vector2(_wrpIntPos.x, _wrpHeight + (_wrpIntPos.y - _time));
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -39,8 +77,8 @@ public class Wrap : MonoBehaviour
         Debug.Log($"Entre y triggerie con {collision.name}");
         if (collision.GetComponent<CustomMovement>() == _player)
         {
-            _player.rb.AddForceAtPosition(Vector2.up * _speedToTramp, Vector2.zero);
-            //Animation play catch
+            _player.rb.AddForceAtPosition(Vector2.up * _speedToTramp, _mouth.transform.position);// player being dragged to tramp
+            //Animation play catching
 
             if (Vector2.Distance(_player.transform.position, transform.position) <= 1)
             {
