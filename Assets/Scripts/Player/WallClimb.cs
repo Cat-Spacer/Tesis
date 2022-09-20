@@ -33,7 +33,7 @@ public class WallClimb : MonoBehaviour
             {
                 _customMovement.anim.SetBool("Climbing", false);
             }
-
+           
             if (Input.GetKey(KeyCode.S))
             {
                 _customMovement.anim.SetBool("Climbing", false);
@@ -59,9 +59,9 @@ public class WallClimb : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        
+       
     }
 
     private void OnTriggerExit2D(Collider2D collision)
