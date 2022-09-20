@@ -36,14 +36,14 @@ public class Wrap : MonoBehaviour
             Debug.LogWarning($"No player on scene.");
 
         _time = _wrpHeight = _timer = _heithSize;
-        _myboxCollider.size = new Vector2(_withSize, _heithSize);
+        _myboxCollider.offset = new Vector2(0, -_heithSize / 2.0f);
         _wrpIntPos = _wraps.transform.position;
     }
 
     private void Update()
     {
         // open / close trap
-        _myboxCollider.size = new Vector2(_withSize, _timer);
+        _myboxCollider.offset = new Vector2(0, _wrpHeight - (_heithSize / 2.0f + _time));
         if (_timer > 1.0f && _up)
         {
             _wrpHeight += Time.deltaTime;
