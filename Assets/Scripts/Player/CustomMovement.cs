@@ -278,38 +278,66 @@ public class CustomMovement : PlayerDatas, IDamageable
     {
         if (_onWall)
         {
-            anim.SetBool("OnWall", true);
             if (Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
             {
+                anim.SetBool("OnWall", true);
+
                 _climbParticle.Stop();
                 anim.SetBool("Climbing", true);
                 rb.velocity = Vector2.up * _climbSpeed;
+                ConstrainsReset();
             }
             else anim.SetBool("Climbing", false);
 
             if (Input.GetKey(KeyCode.S))
             {
+                anim.SetBool("OnWall", true);
+
                 anim.SetBool("Climbing", false);
-                rb.velocity = Vector2.down * _climbSpeed;
+                rb.velocity = Vector2.down * _climbSpeed * 0.5f;
+                ConstrainsReset();
             }
 
             if (Input.GetKey(KeyCode.A))
             {
+                anim.SetBool("OnWall", true);
+
                 if (faceDirection == -1)
                 {
                     stopClimbing = true;
                     rb.velocity = new Vector2(rb.velocity.x, 0);
+                    rb.velocity = new Vector2(rb.velocity.y, 0);
+                    rb.angularVelocity = 0;
+                    rb.constraints = RigidbodyConstraints2D.FreezePositionY;
+                }
+                else
+                {
+                    ConstrainsReset();
                 }
             }
             if (Input.GetKey(KeyCode.D))
             {
+                anim.SetBool("OnWall", true);
+
                 if (faceDirection == 1)
                 {
                     stopClimbing = true;
                     rb.velocity = new Vector2(rb.velocity.x, 0);
+                    rb.velocity = new Vector2(rb.velocity.y, 0);
+                    rb.angularVelocity = 0;
+                    rb.constraints = RigidbodyConstraints2D.FreezePositionY;
+                }
+                else
+                {
+                    ConstrainsReset();
                 }
             }
             _climbParticle.Play();
+
+            if (rb.velocity.y < -0.1)
+            {
+                anim.SetBool("OnWall", true);
+            }
         }
     }
     #endregion
@@ -357,6 +385,7 @@ public class CustomMovement : PlayerDatas, IDamageable
     {
         if (collision.gameObject.layer == _wallLayerNumber)
         {
+            ConstrainsReset();
             _onWall = false;
             _onClimb = false;
             rb.gravityScale = 1.0f;
@@ -374,6 +403,7 @@ public class CustomMovement : PlayerDatas, IDamageable
             rb.velocity *= 0.5f;
             ConstrainsReset();
         }
+
     }
     private void OnDrawGizmos()
     {
