@@ -8,6 +8,7 @@ public class CustomMovement : PlayerDatas, IDamageable
     public Rigidbody2D rb;
     private Action _TimeCounterAction;
     private Action _InputsAction;
+    private Action _ClimbAction;
     [SerializeField] Transform _respawnPoint;
     [SerializeField] TrailRenderer _dashTrail;
 
@@ -18,17 +19,24 @@ public class CustomMovement : PlayerDatas, IDamageable
         rb = GetComponent<Rigidbody2D>();
         coyoteTimeCounter = coyoteTime;
         jumpBufferCounterTime = jumpBufferTime;
+
         _TimeCounterAction += TimeCounterCoyote;
+
         _InputsAction = MovementInput;
         _InputsAction += JumpInput;
         _InputsAction += DashInput;
         _InputsAction += Attack;
+        _InputsAction += ClimbInput;
+
+        _ClimbAction = ClimbUp;
+        _ClimbAction += ClimbDown;
+        _ClimbAction += ClimbStaticRight;
+        _ClimbAction += ClimbStaticLeft;
     }
     private void Update()
     {
         _InputsAction();
         _TimeCounterAction();
-        Climb();
     }
     private void FixedUpdate()
     {
@@ -37,6 +45,7 @@ public class CustomMovement : PlayerDatas, IDamageable
         GroundCheckPos();
         JumpUp(onJumpPressed);
         Dash();
+        _ClimbAction();
     }
     #region Movement
     private void MovementInput()
@@ -302,6 +311,133 @@ public class CustomMovement : PlayerDatas, IDamageable
 
 
     #endregion
+    #region Climb
+
+    bool hasPlayedClimb = false;
+    void ClimbInput()
+    {
+        if (_onWall && (Input.GetKey(KeyCode.W) || onGround == false))
+        {
+            _canClimb = true;
+        }
+        if (!_canClimb) return;
+        if (Input.GetKeyDown(KeyCode.W) && !Input.GetKeyDown(KeyCode.A) && !Input.GetKeyDown(KeyCode.D))
+        {
+            _doClimbStaticLeft = false;
+            _doClimbStaticRight = false;
+            _doClimbDown = false;
+            _doClimbUp = true;
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            _doClimbStaticLeft = false;
+            _doClimbStaticRight = false;
+            _doClimbUp = false;
+            _doClimbDown = true;
+        }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            _doClimbUp = false;
+            _doClimbDown = false;
+            _doClimbStaticRight = false;
+            _doClimbStaticLeft = true;
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            _doClimbUp = false;
+            _doClimbDown = false;
+            _doClimbStaticLeft = false;
+            _doClimbStaticRight = true;
+        }
+        _climbParticle.Play();
+
+        if (rb.velocity.y < -0.1)
+        {
+            anim.SetBool("OnWall", true);
+            if (!hasPlayedClimb)
+            {
+                SoundManager.instance.Play(SoundManager.Types.Climb);
+                hasPlayedClimb = true;
+            }
+
+        }
+        if (rb.velocity.y > 0.1)
+        {
+            if (!hasPlayedClimb)
+            {
+                SoundManager.instance.Play(SoundManager.Types.Climb);
+                hasPlayedClimb = true;
+            }
+        }
+        if (rb.velocity.y == 0)
+        {
+            hasPlayedClimb = false;
+            SoundManager.instance.Pause(SoundManager.Types.Climb);
+        }
+    }
+    void ClimbUp()
+    {
+        if (_doClimbUp)
+        {
+            anim.SetBool("OnWall", true);
+
+            _climbParticle.Stop();
+            anim.SetBool("Climbing", true);
+            rb.velocity = Vector2.up * _climbSpeed;
+            ConstrainsReset();
+        }
+        else anim.SetBool("Climbing", false);
+    }
+    void ClimbDown()
+    {
+        if (_doClimbDown)
+        {
+            anim.SetBool("OnWall", true);
+            anim.SetBool("Climbing", false);
+            rb.velocity = Vector2.down * _climbSpeed * 0.8f;
+            ConstrainsReset();
+        }
+    }
+    void ClimbStaticLeft()
+    {
+        if (_doClimbStaticLeft)
+        {
+            anim.SetBool("OnWall", true);
+            if (faceDirection == -1)
+            {
+                stopClimbing = true;
+                rb.velocity = new Vector2(rb.velocity.x, 0);
+                rb.velocity = new Vector2(rb.velocity.y, 0);
+                rb.angularVelocity = 0;
+                rb.constraints = RigidbodyConstraints2D.FreezePositionY;
+            }
+            else
+            {
+                ConstrainsReset();
+            }
+        }       
+    }
+    void ClimbStaticRight()
+    {
+        if (_doClimbStaticRight) 
+        {
+            anim.SetBool("OnWall", true);
+
+            if (faceDirection == 1)
+            {
+                stopClimbing = true;
+                rb.velocity = new Vector2(rb.velocity.x, 0);
+                rb.velocity = new Vector2(rb.velocity.y, 0);
+                rb.angularVelocity = 0;
+                rb.constraints = RigidbodyConstraints2D.FreezePositionY;
+            }
+            else
+            {
+                ConstrainsReset();
+            }
+        }
+    } 
+    #endregion
     #region MiauAttack
     void Attack()
     {
@@ -321,97 +457,6 @@ public class CustomMovement : PlayerDatas, IDamageable
             obj.GetDamage(1);
         }
     }
-    #endregion
-    #region Climb
-
-    bool hasPlayedClimb = false;
-    void Climb()
-    {
-        if (_onWall)
-        {
-            
-
-            if (Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
-            {
-                anim.SetBool("OnWall", true);
-
-                _climbParticle.Stop();
-                anim.SetBool("Climbing", true);
-                rb.velocity = Vector2.up * _climbSpeed;
-                ConstrainsReset();
-            }
-            else anim.SetBool("Climbing", false);
-
-            if (Input.GetKey(KeyCode.S))
-            {
-                anim.SetBool("OnWall", true);
-                anim.SetBool("Climbing", false);
-                rb.velocity = Vector2.down * _climbSpeed * 0.5f;
-                ConstrainsReset();
-            }
-
-            if (Input.GetKey(KeyCode.A))
-            {
-                anim.SetBool("OnWall", true);
-                if (faceDirection == -1)
-                {
-                    stopClimbing = true;
-                    rb.velocity = new Vector2(rb.velocity.x, 0);
-                    rb.velocity = new Vector2(rb.velocity.y, 0);
-                    rb.angularVelocity = 0;
-                    rb.constraints = RigidbodyConstraints2D.FreezePositionY;
-                }
-                else
-                {
-                    ConstrainsReset();
-                }
-            }
-            if (Input.GetKey(KeyCode.D))
-            {
-                anim.SetBool("OnWall", true);
-
-                if (faceDirection == 1)
-                {
-                    stopClimbing = true;
-                    rb.velocity = new Vector2(rb.velocity.x, 0);
-                    rb.velocity = new Vector2(rb.velocity.y, 0);
-                    rb.angularVelocity = 0;
-                    rb.constraints = RigidbodyConstraints2D.FreezePositionY;
-                }
-                else
-                {
-                    ConstrainsReset();
-                }
-            }
-            _climbParticle.Play();
-
-            if (rb.velocity.y < -0.1)
-            {
-                anim.SetBool("OnWall", true);
-                if (!hasPlayedClimb)
-                {
-                    SoundManager.instance.Play(SoundManager.Types.Climb);
-                    hasPlayedClimb = true;
-                }
-                    
-            }
-            if (rb.velocity.y > 0.1)
-            {
-                if (!hasPlayedClimb)
-                {
-                    SoundManager.instance.Play(SoundManager.Types.Climb);
-                    hasPlayedClimb = true;
-                }
-            }
-            if (rb.velocity.y == 0)
-            {
-                hasPlayedClimb = false;
-                SoundManager.instance.Pause(SoundManager.Types.Climb);
-            }
-        }
-    }
-
-    
     #endregion
     public void ConstrainsReset()
     {
@@ -439,7 +484,6 @@ public class CustomMovement : PlayerDatas, IDamageable
     {     
         if (onGround == true && collision.gameObject.layer == 6)
         {
-            Debug.Log("Onground");
             _fallParticle.Play();
         }
 
@@ -461,8 +505,15 @@ public class CustomMovement : PlayerDatas, IDamageable
         {
             hasPlayedClimb = false;
             ConstrainsReset();
+
             _onWall = false;
             _onClimb = false;
+            _canClimb = false;
+            _doClimbUp = false;
+            _doClimbDown = false;
+            _doClimbStaticLeft = false;
+            _doClimbStaticRight = false;
+
             rb.gravityScale = 1.0f;
             gravityForce = gravityForceDefault;
             anim.SetBool("OnWall", false);

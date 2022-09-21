@@ -76,6 +76,11 @@ public class PlayerDatas : MonoBehaviour
     [SerializeField] protected float _gravityScale;
     [SerializeField] protected bool _onWall;
     [SerializeField] protected bool _onClimb;
+    [SerializeField] protected bool _canClimb;
+    [HideInInspector] protected bool _doClimbUp;
+    [HideInInspector] protected bool _doClimbDown;
+    [HideInInspector] protected bool _doClimbStaticLeft;
+    [HideInInspector] protected bool _doClimbStaticRight;
     [SerializeField] protected bool stopClimbing = false;
     [SerializeField] protected float _climbSpeed = 5.0f;
 
