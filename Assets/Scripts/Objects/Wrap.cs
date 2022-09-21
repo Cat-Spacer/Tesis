@@ -8,11 +8,12 @@ public class Wrap : MonoBehaviour
     // the mouth is the center
     [SerializeField] private float _time = 3.0f, _timer = 3.0f, _speedToTramp = 10.0f, _withSize = 1.0f, _heithSize = 4.0f;
     [SerializeField] private bool _up = true;
+    [SerializeField] private int _relaseCuant = 20;
     [SerializeField] private GameObject _mouth, _wraps;
     [SerializeField] private Animator _myAnimator;
     [SerializeField] private CustomMovement _player;
     [SerializeField] private BoxCollider2D _myboxCollider;
-    [SerializeField] private Transform _finalPos;
+    [SerializeField] private Transform _liberatedPos;
     private float _wrpHeight = 0.0f;
     private Vector2 _wrpIntPos;
 
@@ -86,7 +87,13 @@ public class Wrap : MonoBehaviour
                 var playerDamage = collision.gameObject.GetComponent<IDamageable>();
                 playerDamage.GetDamage(1);//Animation play kill
             }
-
+            else if (_relaseCuant < 0)
+                _player.transform.position = _liberatedPos.position;
         }
+    }
+
+    public void PlayerLiberate()
+    {
+        _relaseCuant--;
     }
 }

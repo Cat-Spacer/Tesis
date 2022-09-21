@@ -1106,7 +1106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23f83c549c622dc4ca73775547bc6d47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _respawnPoint: {fileID: 256110141}
+  _respawnPoint: []
   _deathScreen: {fileID: 1573560753}
   _resetPlayerTime: 0
   _deathScreenTime: 0
@@ -13419,12 +13419,13 @@ MonoBehaviour:
   _withSize: 1
   _heithSize: 3
   _up: 1
+  _relaseCuant: 20
   _mouth: {fileID: 1952904465}
   _wraps: {fileID: 100303037}
   _myAnimator: {fileID: 0}
   _player: {fileID: 0}
   _myboxCollider: {fileID: 0}
-  _finalPos: {fileID: 1424797552}
+  _liberatedPos: {fileID: 1424797552}
 --- !u!61 &497510613
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -39513,7 +39514,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1424797552}
   m_Layer: 7
-  m_Name: Position
+  m_Name: Liberated Position
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39527,7 +39528,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1424797551}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalPosition: {x: -1, y: -3.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1089074989}
