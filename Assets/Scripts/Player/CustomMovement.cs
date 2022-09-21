@@ -5,61 +5,70 @@ using System;
 
 public class CustomMovement : PlayerDatas, IDamageable
 {
+    private PlayerInput playerInput;
     public Rigidbody2D rb;
     private Action _TimeCounterAction;
-    private Action _InputsAction;
     private Action _ClimbAction;
     [SerializeField] Transform _respawnPoint;
     [SerializeField] TrailRenderer _dashTrail;
 
+    private void Awake()
+    {
+        playerInput = GetComponent<PlayerInput>();
+    }
     private void Start()
     {
         gravityForce = gravityForceDefault;
-
+        defaultMaxSpeed = maxSpeed;
         rb = GetComponent<Rigidbody2D>();
         coyoteTimeCounter = coyoteTime;
         jumpBufferCounterTime = jumpBufferTime;
-
+        canAttack = true;
         _TimeCounterAction += TimeCounterCoyote;
 
-        _InputsAction = MovementInput;
-        _InputsAction += JumpInput;
-        _InputsAction += DashInput;
-        _InputsAction += Attack;
-        _InputsAction += ClimbInput;
-
-        _ClimbAction = ClimbUp;
+        _ClimbAction = ClimbInput;
+        _ClimbAction += ClimbUp;
         _ClimbAction += ClimbDown;
         _ClimbAction += ClimbStaticRight;
         _ClimbAction += ClimbStaticLeft;
     }
     private void Update()
     {
-        _InputsAction();
+        Imputs();
+        Attack();
         _TimeCounterAction();
+        _ClimbAction();
     }
     private void FixedUpdate()
     {
         rb.AddForce(Vector2.down * gravityForce);
         Movement(xMove, 1);
         GroundCheckPos();
-        JumpUp(onJumpPressed);
+        JumpUp(onJumpInput);
         Dash();
-        _ClimbAction();
+
+    }
+    private void Imputs()
+    {
+        xMove = playerInput.xAxis;
+        if (playerInput.jumpImput) onJumpInput = true;
+        if (playerInput.dashImput) onDashInput = true;
+        if (playerInput.w_Imput) w_Imput = true;
+        else w_Imput = false;
+        if (playerInput.a_Imput) a_Imput = true;
+        else a_Imput = false;
+        if (playerInput.s_Imput) s_Imput = true;
+        else s_Imput = false;
+        if (playerInput.d_Imput) d_Imput = true;
+        else d_Imput = false;
+        if (playerInput.attackImput) attackImput = true;
+        else attackImput = false;
     }
     #region Movement
-    private void MovementInput()
-    {
-        xMove = Input.GetAxis("Horizontal");
-    }
-
     bool hasPlayedMovement = false;
     private void Movement(float xDir,float lerpAmount)
     {
         if (dashing) return;
-
-
-        //anim.SetFloat("Move", xDir);
         if (xDir > 0.1f)
         {
             anim.SetBool("Run", true);
@@ -152,14 +161,14 @@ public class CustomMovement : PlayerDatas, IDamageable
     #region JUMP
     void JumpInput()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            onJumpPressed = true;
-        }
-        if (Input.GetKeyUp(KeyCode.Space) /*|| Input.GetKeyUp(KeyCode.W)*/ || Input.GetKeyUp(KeyCode.UpArrow))
-        {
-            onJumpReleased = true;
-        }
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    onJumpInput = true;
+        //}
+        //if (Input.GetKeyUp(KeyCode.Space) /*|| Input.GetKeyUp(KeyCode.W)*/ || Input.GetKeyUp(KeyCode.UpArrow))
+        //{
+        //    onJumpInputReleased = true;
+        //}
     }
     void JumpUp(bool jumpUp) //Saltar
     {
@@ -174,7 +183,6 @@ public class CustomMovement : PlayerDatas, IDamageable
         }
         else
         {
-
             if (jumpUp && !onGround)
             {
                 doJumpBuffer = true;
@@ -184,28 +192,42 @@ public class CustomMovement : PlayerDatas, IDamageable
         //Si estoy en la pared
         if (jumpUp && canJump && _onWall)
         {
-            //_jumpParticle.Play();
             jumping = true;
             anim.SetTrigger("Jump");
-            Debug.Log("Salto");
+            Debug.Log("SaltoEnPared");
             _onWall = false;
             _onClimb = false;
             rb.gravityScale = 1.0f;
             gravityForce = gravityForceDefault;
             rb.velocity = Vector2.zero;
+            ConstrainsReset();
+            _onWall = false;
+            _onClimb = false;
+            _canClimb = false;
+            _doClimbUp = false;
+            _doClimbDown = false;
+            _doClimbStaticLeft = false;
+            _doClimbStaticRight = false;
+
             if (faceDirection == 1) //Salto a la izq
             {
-                rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
                 rb.AddForce(-Vector2.right * jumpForce * .5f, ForceMode2D.Impulse);
+                rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             }
             else //Salto a la der
             {
-                rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-                rb.AddForce(Vector2.right * jumpForce * .8f, ForceMode2D.Impulse);
+                rb.AddForce(Vector2.right * _wallJumpForceX, ForceMode2D.Impulse);
+                rb.AddForce(Vector2.up * _wallJumpForceY, ForceMode2D.Impulse);
+                //rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             }
             canJump = false;
         }
-        onJumpPressed = false;
+        onJumpInput = false;
+    }
+    IEnumerator JumpReturnControll()
+    {
+        yield return new WaitForSeconds(.5f);
+
     }
     void JumpStop(bool jumpStop)
     {
@@ -213,7 +235,7 @@ public class CustomMovement : PlayerDatas, IDamageable
         {
             rb.AddForce(Vector2.down * stopJumpForce, ForceMode2D.Impulse);
         }
-        else if (onGround) onJumpReleased = false;
+        else if (onGround) onJumpInputReleased = false;
 
     }
 
@@ -244,17 +266,17 @@ public class CustomMovement : PlayerDatas, IDamageable
 
     void DashInput()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            doDash = true;
-        }
+        //if (Input.GetKeyDown(KeyCode.LeftShift))
+        //{
+        //    doDashInput = true;
+        //}
     }
     void Dash()
     {
-        if (doDash && canDash)
+        if (onDashInput && canDash)
         {
             canDash = false;
-            doDash = false;
+            onDashInput = false;
             dashing = true;
             dashStart = transform.position;
             _dashParticleExplotion.Play();
@@ -263,6 +285,7 @@ public class CustomMovement : PlayerDatas, IDamageable
             anim.SetTrigger("Dash");
             SoundManager.instance.Play(SoundManager.Types.CatDash);
             _dashTrail.gameObject.SetActive(true);
+            StartCoroutine(DashStop());
         }
         if(dashing)
         {
@@ -285,17 +308,13 @@ public class CustomMovement : PlayerDatas, IDamageable
     }
     IEnumerator DashStop()
     {
-        yield return new WaitForSeconds(1);
-        dashing = false;
-        rb.velocity *= 0.5f;
-        ConstrainsReset();
-        StartCoroutine(ExampleCoroutine());
+        yield return new WaitForSeconds(1.5f);
+        ForceDashEnd();
     }
 
     public void ForceDashEnd()
     {
         dashing = false;
-        //rb.velocity *= 0.5f;
         rb.velocity = Vector2.zero;
         canDash = true;
         _dashParticleTrail.Stop();
@@ -316,34 +335,38 @@ public class CustomMovement : PlayerDatas, IDamageable
     bool hasPlayedClimb = false;
     void ClimbInput()
     {
-        if (_onWall && (Input.GetKey(KeyCode.W) || onGround == false))
+        if (_onWall && (w_Imput || onGround == false))
         {
             _canClimb = true;
         }
         if (!_canClimb) return;
-        if (Input.GetKeyDown(KeyCode.W) && !Input.GetKeyDown(KeyCode.A) && !Input.GetKeyDown(KeyCode.D))
+        if (w_Imput && !a_Imput && !d_Imput)
         {
+            Debug.Log("Up");
             _doClimbStaticLeft = false;
             _doClimbStaticRight = false;
             _doClimbDown = false;
             _doClimbUp = true;
         }
-        if (Input.GetKeyDown(KeyCode.S))
+        if (s_Imput)
         {
+            Debug.Log("Down");
             _doClimbStaticLeft = false;
             _doClimbStaticRight = false;
             _doClimbUp = false;
             _doClimbDown = true;
         }
-        if (Input.GetKeyDown(KeyCode.A))
+        if (a_Imput)
         {
+            Debug.Log("Left");
             _doClimbUp = false;
             _doClimbDown = false;
             _doClimbStaticRight = false;
             _doClimbStaticLeft = true;
         }
-        if (Input.GetKeyDown(KeyCode.D))
+        if (d_Imput)
         {
+            Debug.Log("Right");
             _doClimbUp = false;
             _doClimbDown = false;
             _doClimbStaticLeft = false;
@@ -441,7 +464,7 @@ public class CustomMovement : PlayerDatas, IDamageable
     #region MiauAttack
     void Attack()
     {
-        if (Input.GetKeyDown(KeyCode.J) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        if (attackImput && canAttack)
         {     
             anim.SetTrigger("Attack");
             SoundManager.instance.Play(SoundManager.Types.CatAttack);
@@ -449,6 +472,14 @@ public class CustomMovement : PlayerDatas, IDamageable
             attackParticle.gameObject.transform.right = attackPoint.right;
             attackParticle.gameObject.transform.position = attackPoint.position;
             Destroy(attackParticle.gameObject, 1);
+
+            canAttack = false;
+            if (onGround)
+            {
+                maxSpeed *= 0.05f;
+            }
+            StartCoroutine(AttackCd());
+
             var coll = Physics2D.OverlapBox(attackPoint.position, attackRange, 1, damageable);
             if (coll == null) return;
             var obj = coll.gameObject.GetComponent<IDamageable>();
@@ -456,6 +487,12 @@ public class CustomMovement : PlayerDatas, IDamageable
             Debug.Log("attack");
             obj.GetDamage(1);
         }
+    }
+    IEnumerator AttackCd()
+    {
+        yield return new WaitForSeconds(attackCd);
+        maxSpeed = defaultMaxSpeed;
+        canAttack = true;
     }
     #endregion
     public void ConstrainsReset()

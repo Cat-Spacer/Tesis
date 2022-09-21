@@ -6,6 +6,7 @@ public class PlayerDatas : MonoBehaviour
 {
     [Header("PlayerMovement")]
     [SerializeField] protected float maxSpeed;
+    [HideInInspector] protected float defaultMaxSpeed;
     [SerializeField] protected float runAccel;
     [SerializeField] protected float runDeccel;
     [SerializeField] protected float stopPower;
@@ -21,8 +22,6 @@ public class PlayerDatas : MonoBehaviour
     [SerializeField] protected float jumpForce;
     [SerializeField] protected float stopJumpForce;
     [SerializeField] protected Vector2 wallJumpDir;
-    [HideInInspector] protected bool onJumpPressed;
-    [HideInInspector] protected bool onJumpReleased;
     [SerializeField] protected bool canJump;
     [Header("PlayerBufferJump")]
     [SerializeField] protected bool doJumpBuffer;
@@ -37,7 +36,6 @@ public class PlayerDatas : MonoBehaviour
     [SerializeField] protected float dashDistance;
     [SerializeField] protected float dashForce;
     [SerializeField] protected bool dashing;
-    [SerializeField] protected bool doDash;
     [SerializeField] protected bool canDash;
     [SerializeField] protected Vector2 dashStart;
 
@@ -53,10 +51,11 @@ public class PlayerDatas : MonoBehaviour
     public float gravityForceDefault;
 
     [Header("Attack")]
+    [SerializeField]protected float attackCd = 0;
+    [SerializeField]protected bool canAttack = true;
     [SerializeField] protected Vector2 attackRange;
     [SerializeField] protected Transform attackPoint;
     [SerializeField] protected LayerMask damageable;
-    [HideInInspector] protected float xMove, yMove;
 
     [Header("Animation")]
     [SerializeField] public Animator anim;
@@ -83,6 +82,19 @@ public class PlayerDatas : MonoBehaviour
     [HideInInspector] protected bool _doClimbStaticRight;
     [SerializeField] protected bool stopClimbing = false;
     [SerializeField] protected float _climbSpeed = 5.0f;
+    [SerializeField] protected float _wallJumpForceX = 5.0f;
+    [SerializeField] protected float _wallJumpForceY = 5.0f;
+
+    [Header("Inputs")]
+    [HideInInspector] protected float xMove, yMove;
+    [HideInInspector] protected bool onJumpInput;
+    [HideInInspector] protected bool onJumpInputReleased;
+    [HideInInspector] protected bool onDashInput;
+    [HideInInspector] protected bool w_Imput;
+    [HideInInspector] protected bool a_Imput;
+    [HideInInspector] protected bool s_Imput;
+    [HideInInspector] protected bool d_Imput;
+    [HideInInspector] protected bool attackImput;
 
     [Header("Constrains")]
     [SerializeField] protected RigidbodyConstraints2D constraints2D;

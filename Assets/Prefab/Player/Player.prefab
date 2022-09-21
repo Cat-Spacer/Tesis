@@ -363,6 +363,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2638962870350567016}
   - component: {fileID: 2638962870350567023}
+  - component: {fileID: 4558909576762252526}
   - component: {fileID: 2638962870350567022}
   - component: {fileID: 2638962870350567021}
   m_Layer: 7
@@ -423,14 +424,13 @@ MonoBehaviour:
   dashDistance: 3
   dashForce: 30
   dashing: 0
-  doDash: 0
   canDash: 1
   dashStart: {x: 0, y: 0}
   groundCheckPos: {fileID: 2638962870270759085}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  groundCheckSize: {x: 0.3, y: 0.15}
+  groundCheckSize: {x: 0.45, y: 0.15}
   groundColl: {fileID: 0}
   onGround: 1
   gravityForce: 0
@@ -454,11 +454,27 @@ MonoBehaviour:
   _gravityScale: 0.25
   _onWall: 0
   _onClimb: 0
+  _canClimb: 0
   stopClimbing: 0
   _climbSpeed: 5
+  _wallJumpForceX: 5
+  _wallJumpForceY: 5
   constraints2D: 0
-  _rb: {fileID: 0}
+  rb: {fileID: 0}
   _respawnPoint: {fileID: 0}
+  _dashTrail: {fileID: 0}
+--- !u!114 &4558909576762252526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2638962870350567020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81d864b1ccc6df14da72d4c89bd0be13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!61 &2638962870350567022
 BoxCollider2D:
   m_ObjectHideFlags: 0
