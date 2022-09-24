@@ -70,20 +70,28 @@ public class PlayerDatas : MonoBehaviour
     [SerializeField] protected ParticleSystem _attackParticle;
     [SerializeField] protected ParticleSystem _climbParticle;
 
-    [Header("WallClimb")]
-    [SerializeField] protected int _wallLayerNumber;
-    [SerializeField] protected float _gravityScale;
-    [SerializeField] protected bool _onWall;
-    [SerializeField] protected bool _onClimb;
-    [SerializeField] protected bool _canClimb;
-    [HideInInspector] protected bool _doClimbUp;
-    [HideInInspector] protected bool _doClimbDown;
-    [HideInInspector] protected bool _doClimbStaticLeft;
-    [HideInInspector] protected bool _doClimbStaticRight;
-    [SerializeField] protected bool stopClimbing = false;
-    [SerializeField] protected float _climbSpeed = 5.0f;
-    [SerializeField] protected float _wallJumpForceX = 5.0f;
-    [SerializeField] protected float _wallJumpForceY = 5.0f;
+    [Header("Attributes Wall Climb")]
+    [SerializeField] protected float _upSpeed = 5;
+    [SerializeField] protected float _downSpeed = 5 * 0.8f;
+    [SerializeField] protected float _distanceToRope = 0.4f;
+    [SerializeField] protected LayerMask _layerMask;
+    [SerializeField] protected float _impulseDirectionExitForce = 6;
+    [SerializeField] protected float _impulseExitRopeForce = 20;
+
+    /* [Header("WallClimb")]
+     [SerializeField] protected int _wallLayerNumber;
+     [SerializeField] protected float _gravityScale;
+     [SerializeField] protected bool _onWall;
+     [SerializeField] protected bool _onClimb;
+     [SerializeField] protected bool _canClimb;
+     [HideInInspector] protected bool _doClimbUp;
+     [HideInInspector] protected bool _doClimbDown;
+     [HideInInspector] protected bool _doClimbStaticLeft;
+     [HideInInspector] protected bool _doClimbStaticRight;
+     [SerializeField] protected bool stopClimbing = false;
+     [SerializeField] protected float _climbSpeed = 5.0f;
+     [SerializeField] protected float _wallJumpForceX = 5.0f;
+     [SerializeField] protected float _wallJumpForceY = 5.0f;*/
 
     [Header("Inputs")]
     [HideInInspector] protected float xMove, yMove;

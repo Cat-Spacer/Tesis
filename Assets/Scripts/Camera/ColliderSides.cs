@@ -7,8 +7,8 @@ public class ColliderSides : MonoBehaviour
     Transform _cam;
     Transform _player;
     [SerializeField]bool isInY;
-    [SerializeField] float _moveInX = 16.5f;
-    [SerializeField] float _moveInY = 10.5f;
+    [SerializeField] float _moveInX = 16;
+    [SerializeField] float _moveInY = 9;
     [SerializeField] int indexB;
     [SerializeField] int indexA;
     private void Start()
