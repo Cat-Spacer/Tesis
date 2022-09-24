@@ -188,14 +188,22 @@ public class Climb
         EndFreeze();
         EndClimbingState();
 
-        if (!playerInput.dashImput)
-        {
-            _rb.velocity = new Vector2(0, 0);
-            //_rb.velocity = new Vector2(_rb.velocity.y, 0);
-            _rb.angularVelocity = 0;
-            _rb.AddForce(_transform.right * _impulseForce, ForceMode2D.Impulse);
-        }
+        _rb.velocity = new Vector2(0, 0);
+        //_rb.velocity = new Vector2(_rb.velocity.y, 0);
+        _rb.angularVelocity = 0;
+        _rb.AddForce(_transform.right * _impulseForce, ForceMode2D.Impulse);
+        
      
+        _alreadyStarted = false;
+        //_rb.gravityScale = _worldDefaultGravity;
+        _ClimbState = delegate { };
+    }
+
+    void EndClimbAfterDash()
+    {
+        EndFreeze();
+        EndClimbingState();
+        Debug.Log("dash");
         _alreadyStarted = false;
         //_rb.gravityScale = _worldDefaultGravity;
         _ClimbState = delegate { };
@@ -247,7 +255,7 @@ public class Climb
 
         if (playerInput.dashImput)
         {
-            _ClimbState = EndClimb;
+            _ClimbState = EndClimbAfterDash;
         }
         
 
