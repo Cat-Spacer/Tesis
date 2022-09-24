@@ -435,6 +435,8 @@ MonoBehaviour:
   onGround: 1
   gravityForce: 0
   gravityForceDefault: 30
+  attackCd: 0
+  canAttack: 1
   attackRange: {x: 1.5, y: 1.4}
   attackPoint: {fileID: 6258953207786122255}
   damageable:
@@ -450,15 +452,14 @@ MonoBehaviour:
   _attackParticle: {fileID: 3994335518852250647, guid: c93de7063f77ccd459ec70f1e9cb0666,
     type: 3}
   _climbParticle: {fileID: 2690062669096964185}
-  _wallLayerNumber: 8
-  _gravityScale: 0.25
-  _onWall: 0
-  _onClimb: 0
-  _canClimb: 0
-  stopClimbing: 0
-  _climbSpeed: 5
-  _wallJumpForceX: 5
-  _wallJumpForceY: 5
+  _upSpeed: 5
+  _downSpeed: 4
+  _distanceToRope: 0.4
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 3831
+  _impulseDirectionExitForce: 6
+  _impulseExitRopeForce: 20
   constraints2D: 0
   rb: {fileID: 0}
   _respawnPoint: {fileID: 0}
