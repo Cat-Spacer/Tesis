@@ -285,6 +285,10 @@ public class CustomMovement : PlayerDatas, IDamageable
     {
         if (onDashInput && canDash)
         {
+            rb.isKinematic = false;
+            rb.constraints = ~RigidbodyConstraints2D.FreezeAll;
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+
             canDash = false;
             onDashInput = false;
             dashing = true;
