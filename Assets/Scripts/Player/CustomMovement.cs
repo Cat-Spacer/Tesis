@@ -169,17 +169,6 @@ public class CustomMovement : PlayerDatas, IDamageable
     }
     #endregion
     #region JUMP
-    void JumpInput()
-    {
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    onJumpInput = true;
-        //}
-        //if (Input.GetKeyUp(KeyCode.Space) /*|| Input.GetKeyUp(KeyCode.W)*/ || Input.GetKeyUp(KeyCode.UpArrow))
-        //{
-        //    onJumpInputReleased = true;
-        //}
-    }
     void JumpUp(bool jumpUp) //Saltar
     {
         if (jumpUp && canJump && (coyoteTimeCounter > 0f || onGround))
@@ -273,14 +262,6 @@ public class CustomMovement : PlayerDatas, IDamageable
     }
     #endregion
     #region Dash
-
-    void DashInput()
-    {
-        //if (Input.GetKeyDown(KeyCode.LeftShift))
-        //{
-        //    doDashInput = true;
-        //}
-    }
     void Dash()
     {
         if (onDashInput && canDash)
@@ -303,17 +284,18 @@ public class CustomMovement : PlayerDatas, IDamageable
 
             if (_climbScript.InSight())
             {
-                
-                if (faceDirection == 1) 
+
+                if (faceDirection == 1)
                     transform.rotation = Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z);
-                else if(faceDirection == -1)
-                    transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.z*-1, transform.rotation.z);
+                else if (faceDirection == -1)
+                    transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.z * -1, transform.rotation.z);
 
                 faceDirection = -faceDirection;
             }
-            
+
         }
-        if(dashing)
+        else onDashInput = false;
+        if (dashing)
         {
            
             rb.velocity = Vector2.right * dashForce * faceDirection;
@@ -336,14 +318,16 @@ public class CustomMovement : PlayerDatas, IDamageable
     IEnumerator DashStop()
     {
         yield return new WaitForSeconds(1.5f);
-        ForceDashEnd();
+        if (dashing)
+        {
+            ForceDashEnd();
+        }
     }
 
     public void ForceDashEnd()
     {
         dashing = false;
         rb.velocity = Vector2.zero;
-        canDash = true;
         _dashParticleTrail.Stop();
         ConstrainsReset();
         StartCoroutine(ExampleCoroutine());
