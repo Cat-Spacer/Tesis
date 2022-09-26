@@ -97,7 +97,7 @@ public class PlayerDatas : MonoBehaviour
     [HideInInspector] protected float xMove, yMove;
     [HideInInspector] protected bool onJumpInput;
     [HideInInspector] protected bool onJumpInputReleased;
-    [HideInInspector] protected bool onDashInput;
+    [SerializeField] protected bool onDashInput;
     [HideInInspector] protected bool w_Imput;
     [HideInInspector] protected bool a_Imput;
     [HideInInspector] protected bool s_Imput;
