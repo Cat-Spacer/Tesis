@@ -13,6 +13,10 @@ public class PlayerInput : MonoBehaviour
     public bool  d_Imput { get; private set; }
     public bool attackImput { get; private set; }
 
+    public bool climbInput { get; private set; }
+
+    public KeyCode climbKey = KeyCode.C;
+
     private void Awake()
     {
         Inputs = this;
@@ -28,5 +32,6 @@ public class PlayerInput : MonoBehaviour
         s_Imput = Input.GetKey(KeyCode.S);
         d_Imput = Input.GetKey(KeyCode.D);
         attackImput = Input.GetKeyDown(KeyCode.J);
+        climbInput = Input.GetKey(climbKey);
     }
 }

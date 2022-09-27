@@ -24,6 +24,8 @@ public class Climb
     CustomMovement _customMovement;
     float _worldDefaultGravity;
 
+    public static bool isClimbing = false;
+
     #endregion
 
     // _climbParticle.Play();
@@ -54,10 +56,19 @@ public class Climb
     }
     public void UpdateClimb()
     {
-        if (playerInput.s_Imput)
-            ClimbState(KeyCode.S, playerInput.s_Imput);
-        if (playerInput.w_Imput)
-            ClimbState(KeyCode.W, playerInput.w_Imput);
+        if (playerInput.climbInput)
+        {
+            if (playerInput.s_Imput)
+                ClimbState(KeyCode.S, playerInput.s_Imput);
+            if (playerInput.w_Imput)
+                ClimbState(KeyCode.W, playerInput.w_Imput);
+            if (playerInput.a_Imput)
+                ClimbState(KeyCode.A, playerInput.a_Imput);
+            if (playerInput.d_Imput)
+                ClimbState(KeyCode.D, playerInput.d_Imput);
+        }
+      
+
     }
 
     /// <summary>
@@ -67,6 +78,8 @@ public class Climb
     {
         if (InSight())
         {
+
+           
 
             if (keyPressed_arg == KeyCode.W)
             {
@@ -82,9 +95,23 @@ public class Climb
             if ( !_alreadyStarted)
             {
                 StartClimbingState();
-                _ClimbState = ClimbActionUp;
+                isClimbing = true;
+
+                Debug.Log("isClimbing" + isClimbing);
+                if (keyPressed_arg == KeyCode.A || keyPressed_arg == KeyCode.D)
+                {
+                    Debug.Log("as");
+                    _ClimbState = Freeze;
+                }
+                else
+                {
+                    _ClimbState = ClimbActionUp;
+                }
+                
                 _alreadyStarted = true;
             }
+
+           
 
             if (!state)
             {
@@ -148,6 +175,13 @@ public class Climb
     }
     void ClimbActionUp()
     {
+
+        if (!playerInput.climbInput)
+        {
+            _impulseForce = _impulseDirectionExitForce;
+            _ClimbState = EndClimb;
+        }
+
         if (!InSight() && !FootInSight())
         {
             _impulseForce = _impulseDirectionExitForce;
@@ -196,6 +230,8 @@ public class Climb
      
         _alreadyStarted = false;
         //_rb.gravityScale = _worldDefaultGravity;
+        GameManager.Instance.WaitForEndClimb(0.3f);
+        //isClimbing = false;
         _ClimbState = delegate { };
     }
 
@@ -257,7 +293,6 @@ public class Climb
         {
             _ClimbState = EndClimbAfterDash;
         }
-        
 
         if (playerInput.w_Imput && !playerInput.a_Imput && !playerInput.d_Imput)
         {
@@ -270,6 +305,11 @@ public class Climb
             Debug.Log("end freeze");
             _ClimbState = EndFreeze;
 
+        }
+        if (!playerInput.climbInput)
+        {
+            _impulseForce = _impulseDirectionExitForce;
+            _ClimbState = EndClimb;
         }
         if (!InSight() && !FootInSight())
         {
