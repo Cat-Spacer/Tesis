@@ -54,4 +54,16 @@ public class GameManager : MonoBehaviour
         Debug.Log("--" + index_arg + "--");
         _respawnIndex = index_arg;
     }
+
+    public void WaitForEndClimb(float waitTime)
+    {
+        StartCoroutine(CoroutineWaitForEndClimb(waitTime));
+    }
+
+    public IEnumerator CoroutineWaitForEndClimb(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+       Climb.isClimbing = false;
+        
+    }
 }

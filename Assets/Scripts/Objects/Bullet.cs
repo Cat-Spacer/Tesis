@@ -26,8 +26,9 @@ public class Bullet : ObjectToSpawn
         if (obj != null)
             obj.GetDamage(10);
 
-        ObjectFactory objectFactory = FindObjectOfType<ObjectFactory>();
-        objectFactory.ReturnObject(this);
+        gameObject.SetActive(false);
+        /*ObjectFactory objectFactory = FindObjectOfType<ObjectFactory>();
+        objectFactory.ReturnObject(this);*/
     }
 
 }

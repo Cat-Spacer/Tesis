@@ -13,6 +13,11 @@ public class CustomMovement : PlayerDatas, IDamageable
     [SerializeField] TrailRenderer _dashTrail;
     Climb _climbScript;
     BoxCollider2D _collider;
+    public static bool isJumping = false;
+
+    public float jumpForceClimbHeight = 13;
+    public float jumpForceClimbLatitud = 13;
+
 
     private void Awake()
     {
@@ -171,10 +176,18 @@ public class CustomMovement : PlayerDatas, IDamageable
     #region JUMP
     void JumpUp(bool jumpUp) //Saltar
     {
+       /* if (Climb.isClimbing)
+        {
+            canJump = true;
+            onGround = true;
+        }*/
+
         if (jumpUp && canJump && (coyoteTimeCounter > 0f || onGround))
         {
             _jumpParticle.Play();
             jumping = true;
+            isJumping = true;
+            Debug.Log("isJumping");
             anim.SetTrigger("Jump");
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             canJump = false;
@@ -188,18 +201,51 @@ public class CustomMovement : PlayerDatas, IDamageable
                 _TimeCounterAction += TimeCounterJumpbuffer;
             }
         }
-        //Si estoy en la pared
-        if (jumpUp && canJump /*&& _onWall*/)
+
+        Debug.Log("JUMP -- isClimbing" + Climb.isClimbing);
+
+        if (jumpUp && Climb.isClimbing)
         {
             jumping = true;
             anim.SetTrigger("Jump");
             Debug.Log("SaltoEnPared");
-          /*  _onWall = false;
-            _onClimb = false;*/
             rb.gravityScale = 1.0f;
             gravityForce = gravityForceDefault;
             rb.velocity = Vector2.zero;
+            canJump = false;
             ConstrainsReset();
+            if (_climbScript.InSight())
+            {
+
+                if (faceDirection == 1)
+                    transform.rotation = Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z);
+                else if (faceDirection == -1)
+                    transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.z * -1, transform.rotation.z);
+
+                faceDirection = -faceDirection;
+            }
+
+            if (faceDirection == 1) //Salto a la izq
+            {
+               
+                rb.AddForce(-Vector2.right * jumpForceClimbLatitud, ForceMode2D.Impulse);
+                rb.AddForce(Vector2.up * jumpForceClimbHeight, ForceMode2D.Impulse);
+            }
+            else //Salto a la der
+            {
+                rb.AddForce(Vector2.right * jumpForceClimbLatitud, ForceMode2D.Impulse);
+                rb.AddForce(Vector2.up * jumpForceClimbHeight, ForceMode2D.Impulse);
+                //rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            }
+
+        }
+        //Si estoy en la pared
+        if (jumpUp && canJump /*&& _onWall*/)
+        {
+            
+          /*  _onWall = false;
+            _onClimb = false;*/
+           
           /*  _onWall = false;
             _onClimb = false;
             _canClimb = false;
@@ -219,7 +265,7 @@ public class CustomMovement : PlayerDatas, IDamageable
                 rb.AddForce(Vector2.up * _wallJumpForceY, ForceMode2D.Impulse);
                 //rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             }*/
-            canJump = false;
+            
         }
         onJumpInput = false;
     }
@@ -516,6 +562,7 @@ public class CustomMovement : PlayerDatas, IDamageable
             (groundCheckPos.transform.position, groundCheckSize, 0, groundLayer);
         if (groundColl != null) //On ground
         {
+            isJumping = false;
             onGround = true;
             canJump = true;
             canDash = true;
@@ -533,6 +580,8 @@ public class CustomMovement : PlayerDatas, IDamageable
         if (onGround == true && collision.gameObject.layer == 6)
         {
             _fallParticle.Play();
+           // isJumping = false;
+            Debug.Log("notjumping");
         }
 
       /*  if (collision.gameObject.layer == _wallLayerNumber) //OnWall
