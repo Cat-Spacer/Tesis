@@ -204,7 +204,7 @@ public class CustomMovement : PlayerDatas, IDamageable
 
         Debug.Log("JUMP -- isClimbing" + Climb.isClimbing);
 
-        if (jumpUp && Climb.isClimbing)
+       /* if (jumpUp && Climb.isClimbing && (!_climbScript.InSight()|| _climbScript.InSight()))
         {
             jumping = true;
             anim.SetTrigger("Jump");
@@ -236,9 +236,9 @@ public class CustomMovement : PlayerDatas, IDamageable
                 rb.AddForce(Vector2.right * jumpForceClimbLatitud, ForceMode2D.Impulse);
                 rb.AddForce(Vector2.up * jumpForceClimbHeight, ForceMode2D.Impulse);
                 //rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            }
+            
 
-        }
+        }*/
         //Si estoy en la pared
         if (jumpUp && canJump /*&& _onWall*/)
         {
@@ -268,6 +268,75 @@ public class CustomMovement : PlayerDatas, IDamageable
             
         }
         onJumpInput = false;
+    }
+
+    public void JumpClimb()
+    {
+        //jumping = true;
+        anim.SetTrigger("Jump");
+        Debug.Log("SaltoEnPared");
+        rb.gravityScale = 1.0f;
+        gravityForce = gravityForceDefault;
+        rb.velocity = Vector2.zero;
+        //canJump = false;
+        ConstrainsReset();
+        if (_climbScript.InSight())
+        {
+            if (faceDirection == 1)
+            {
+                transform.rotation = Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z);
+                Debug.Log("faceDirection = 1");
+               
+            }
+            else if (faceDirection == -1)
+            {
+                transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.z * -1, transform.rotation.z);
+                Debug.Log("faceDirection = -1");
+               
+            }
+           
+            faceDirection = -faceDirection;
+
+            rb.AddForce(Vector2.up * jumpForceClimbHeight, ForceMode2D.Impulse);
+            rb.AddForce(Vector2.right * jumpForceClimbLatitud, ForceMode2D.Impulse);
+            
+        }
+
+    }
+    public void DashClimb()
+    {
+        //jumping = true;
+        anim.SetTrigger("Jump");
+        Debug.Log("SaltoEnPared");
+        rb.gravityScale = 1.0f;
+        gravityForce = gravityForceDefault;
+        rb.velocity = Vector2.zero;
+        //canJump = false;
+        ConstrainsReset();
+        if (_climbScript.InSight())
+        {
+            if (faceDirection == 1)
+            {
+                transform.rotation = Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z);
+                Debug.Log("faceDirection = 1");
+
+            }
+            else if (faceDirection == -1)
+            {
+                transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.z * -1, transform.rotation.z);
+                Debug.Log("faceDirection = -1");
+
+            }
+
+            faceDirection = -faceDirection;
+
+            //rb.AddForce(Vector2.right * dashForce, ForceMode2D.Impulse);
+
+            Climb.isClimbing = false;
+            Dash();
+
+        }
+
     }
     IEnumerator JumpReturnControll()
     {
@@ -310,6 +379,9 @@ public class CustomMovement : PlayerDatas, IDamageable
     #region Dash
     void Dash()
     {
+        if (Climb.isClimbing)
+            return;
+
         if (onDashInput && canDash)
         {
             rb.isKinematic = false;
