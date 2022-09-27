@@ -223,6 +223,11 @@ public class Climb
             _ClimbState = Freeze;
         }
 
+        if (!playerInput.a_Imput && !playerInput.d_Imput && !playerInput.w_Imput && !playerInput.s_Imput)
+        {
+            _ClimbState = Freeze;
+        }
+
         if (_rb.velocity == Vector2.zero)
         {
             _ClimbState = Freeze;
