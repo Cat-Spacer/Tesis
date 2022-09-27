@@ -244,7 +244,7 @@ public class Climb
         }
 
     }
-    void EndClimb()
+    public void EndClimb()
     {
         if (playerInput.jumpInputStay)
         {

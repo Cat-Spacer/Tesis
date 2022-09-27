@@ -839,8 +839,8 @@ public class CustomMovement : PlayerDatas, IDamageable
         onGround = true;
         canJump = true;
         canDash = true;
-        _climbScript._ClimbState = _climbScript.SutilEnd;
-        
+        _climbScript._ClimbState = _climbScript.EndClimb;
+
     }
     public IEnumerator CoroutineWaitForRestartDistance(Vector2 last)
     {

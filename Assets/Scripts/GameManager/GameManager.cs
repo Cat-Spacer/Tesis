@@ -40,6 +40,12 @@ public class GameManager : MonoBehaviour
     {
         return saveDistance;
     }    
+
+    public void ButtonDie()
+    {
+        _player.GetDamage(1);
+    }
+
     public void PlayerDeath ()
     {
         _deathScreen.gameObject.SetActive(true);
