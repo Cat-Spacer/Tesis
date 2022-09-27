@@ -834,12 +834,13 @@ public class CustomMovement : PlayerDatas, IDamageable
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
         GameManager.Instance.PlayerDeath();
         SoundManager.instance.Play(SoundManager.Types.CatDamash);
+        ForceDashEnd();
         isJumping = false;
         onGround = true;
         canJump = true;
         canDash = true;
         _climbScript._ClimbState = _climbScript.SutilEnd;
-        ForceDashEnd();
+        
     }
     public IEnumerator CoroutineWaitForRestartDistance(Vector2 last)
     {
