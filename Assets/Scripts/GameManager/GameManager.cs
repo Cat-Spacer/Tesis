@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] float _resetPlayerTime;
     [SerializeField] float _deathScreenTime;
     int _respawnIndex = 0;
+    float saveDistance;
 
     private void Awake()
     {
@@ -30,7 +31,15 @@ public class GameManager : MonoBehaviour
     {
         //_CounterAction();
     }
+    public void SaveDistance(float distance)
+    {
+        saveDistance = distance;
+    }
 
+    public float ReturnBaseDistanceClimb()
+    {
+        return saveDistance;
+    }    
     public void PlayerDeath ()
     {
         _deathScreen.gameObject.SetActive(true);
@@ -51,7 +60,6 @@ public class GameManager : MonoBehaviour
 
     public void SetRespawnPoint(int index_arg)
     {
-        Debug.Log("--" + index_arg + "--");
         _respawnIndex = index_arg;
     }
 
@@ -63,7 +71,7 @@ public class GameManager : MonoBehaviour
     public IEnumerator CoroutineWaitForEndClimb(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
-       Climb.isClimbing = false;
+      // Climb.isClimbing = false;
         
     }
 }

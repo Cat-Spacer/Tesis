@@ -17,6 +17,7 @@ public class Flower : MonoBehaviour
     [SerializeField] private float _maxUp;
     [SerializeField] private float _maxDown;
     private float _stop = 1.7f;
+    public static bool onFlower = false;
    // bool _goUp;
     bool _goingDown;
 
@@ -41,7 +42,9 @@ public class Flower : MonoBehaviour
         Debug.Log("drag" + _defaultDrag);
        _playerRb.drag = _ventdrag;
 
-     //   _goUp = true;
+        onFlower = true;
+
+        //   _goUp = true;
 
     }
     private void OnTriggerStay2D(Collider2D other)
@@ -86,6 +89,7 @@ public class Flower : MonoBehaviour
 
         SoundManager.instance.Pause(SoundManager.Types.WindForest);
 
+        onFlower = false;
     }
 
     /*IEnumerator RestartMove()
