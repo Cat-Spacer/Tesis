@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,6 +18,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] float _deathScreenTime;
     int _respawnIndex = 0;
     float saveDistance;
+    [Header("PickUps")]
+    [SerializeField] Text _pointsText;
+    [SerializeField] float _points = 0;
+
+    [Header("PickUps")]
+    [SerializeField] float _pointsPerLevel = 0;
+    [SerializeField] GameObject winScreen;
 
     private void Awake()
     {
@@ -24,6 +32,7 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
+        GetItem();
         _player = FindObjectOfType<CustomMovement>();
         //_CounterAction = delegate { };
     }
@@ -67,6 +76,20 @@ public class GameManager : MonoBehaviour
     public void SetRespawnPoint(int index_arg)
     {
         _respawnIndex = index_arg;
+    }
+
+    public void GetItem()
+    {
+        _points++;
+        if (_points != _pointsPerLevel)
+        {
+            _pointsText.text = _points.ToString();
+        }
+        else //Ganaste
+        {
+            Time.timeScale = 0;
+            winScreen.SetActive(true);
+        }
     }
 
     public void WaitForEndClimb(float waitTime)
