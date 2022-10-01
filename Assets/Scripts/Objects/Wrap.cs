@@ -6,7 +6,7 @@ using System;
 public class Wrap : MonoBehaviour
 {
     // the mouth is the center
-    [SerializeField] private float _time = 3.0f, _timer = 3.0f, _speedToTramp = 10.0f, _withSize = 1.0f, _heithSize = 4.0f;
+    [SerializeField] private float _time = 3.0f, _timer = 3.0f, _speedToTramp = 10.0f, _heithSize = 4.0f;
     [SerializeField] private bool _up = true;
     [SerializeField] private int _relaseCuant = 20;
     [SerializeField] private GameObject _mouth, _wraps;
