@@ -6,12 +6,13 @@ using UnityEngine.UI;
 public class EnergyPower : MonoBehaviour
 {
     [SerializeField] private Slider _energyBar;
-    [SerializeField] private float _maxEnergy = 100f, _energyReg = 1f, _energyRegLimit = 5f, _currentEnergy = 0f, _time = 0f,_timer = 2.5f;
+    [SerializeField] private float _maxEnergy = 100f, _energyReg = 1f/*, _energyRegLimit = 5f*/
+                                    , _currentEnergy = 0f, _time = 0f,_timer = 2.5f;
     private bool _canReg = true;
 
     private void Start()
     {
-        _currentEnergy = _maxEnergy;
+        SetStats();
     }
 
     private void Update()
@@ -49,6 +50,13 @@ public class EnergyPower : MonoBehaviour
     private void UpdateEnergyBar()
     {
         _energyBar.value = _currentEnergy;
+    }
+
+    private void SetStats()
+    {
+        _currentEnergy = _maxEnergy;
+        _energyBar.maxValue = _maxEnergy;
+        _energyBar.value = _energyBar.maxValue;
     }
     /*
     public void UpdateStats(enum type, float newValue)
