@@ -12,7 +12,7 @@ public class PlayerDatas : MonoBehaviour
     [SerializeField] protected float stopPower;
     [SerializeField] protected float turnPower;
     [SerializeField] protected float accelPower;
-    [SerializeField] public int faceDirection = 1;
+    [SerializeField] public static int faceDirection = 1;
 
     [Header("PlayerAirMovement")]
     [SerializeField] protected float airRunAccel;
@@ -77,7 +77,7 @@ public class PlayerDatas : MonoBehaviour
     [SerializeField] protected LayerMask _layerMask;
     [SerializeField] protected float _impulseDirectionExitForce = 6;
     [SerializeField] protected float _impulseExitRopeForce = 20;
-
+    [SerializeField] protected float dashForceClimb;
     /* [Header("WallClimb")]
      [SerializeField] protected int _wallLayerNumber;
      [SerializeField] protected float _gravityScale;

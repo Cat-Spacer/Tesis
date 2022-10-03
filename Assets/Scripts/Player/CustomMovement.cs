@@ -15,8 +15,8 @@ public class CustomMovement : PlayerDatas, IDamageable
     BoxCollider2D _collider;
     public static bool isJumping = false;
 
-    public float jumpForceClimbHeight = 13;
-    public float jumpForceClimbLatitud = 13;
+    public float jumpForceClimbHeight = 400;
+    public float jumpForceClimbLatitud = 150;
 
 
     private void Awake()
@@ -52,29 +52,38 @@ public class CustomMovement : PlayerDatas, IDamageable
         _TimeCounterAction();
         // _ClimbAction();
         _climbScript.UpdateClimb();
+
+        Debug.DrawRay(transform.position, transform.right * _distanceToRope, Color.red);
+
+
+        //Debug.Log(PlayerInput.dashImput);
     }
     private void FixedUpdate()
     {
+        _climbScript.FixedUpdateClimb();
         rb.AddForce(Vector2.down * gravityForce);
         Movement(xMove, 1);
         GroundCheckPos();
         JumpUp(onJumpInput);
         Dash();
-        _climbScript.FixedUpdateClimb();
+
+        if (jumpClimb && !PlayerInput.a_Imput && !PlayerInput.d_Imput)
+            Movement(1 * faceDirection, 1);
 
     }
     private void Imputs()
     {
+      
         xMove = playerInput.xAxis;
         if (playerInput.jumpImput) onJumpInput = true;
-        if (playerInput.dashImput) onDashInput = true;
+       if (PlayerInput.dashImput) onDashInput = true;
         if (playerInput.w_Imput) w_Imput = true;
         else w_Imput = false;
-        if (playerInput.a_Imput) a_Imput = true;
+        if (PlayerInput.a_Imput) a_Imput = true;
         else a_Imput = false;
         if (playerInput.s_Imput) s_Imput = true;
         else s_Imput = false;
-        if (playerInput.d_Imput) d_Imput = true;
+        if (PlayerInput.d_Imput) d_Imput = true;
         else d_Imput = false;
         if (playerInput.attackImput) attackImput = true;
         else attackImput = false;
@@ -83,7 +92,7 @@ public class CustomMovement : PlayerDatas, IDamageable
     bool hasPlayedMovement = false;
     private void Movement(float xDir,float lerpAmount)
     {
-        if (dashing) return;
+        if (dashing && Climb.MoveTowardsBool) return;
         if (xDir > 0.1f)
         {
             anim.SetBool("Run", true);
@@ -158,11 +167,12 @@ public class CustomMovement : PlayerDatas, IDamageable
         #endregion    
 
         float movement = Mathf.Pow(Mathf.Abs(speedDif) * accelRate, velPower) * Mathf.Sign(speedDif);
-        movement = Mathf.Lerp(rb.velocity.x, movement, lerpAmount); 
-
+        movement = Mathf.Lerp(rb.velocity.x, movement, lerpAmount);
+       
         rb.AddForce(movement * Vector2.right);
+        //Debug.Log(rb.);
 
-        if (rb.velocity.y < 0)
+        if (rb.velocity.y < 0 && !Climb.isClimbing)
         {
             if (hasPlayedMovement)
             {
@@ -177,7 +187,11 @@ public class CustomMovement : PlayerDatas, IDamageable
     void JumpUp(bool jumpUp) //Saltar
     {
         if (Climb.isClimbing)
+        {
+            onJumpInput = false;
             return;
+        }
+           
         /* if (Climb.isClimbing)
          {
              canJump = true;
@@ -270,14 +284,15 @@ public class CustomMovement : PlayerDatas, IDamageable
         onJumpInput = false;
     }
 
+    bool jumpClimb = false;
     public void JumpClimb2()
     {
         rb.gravityScale = 1.0f;
         gravityForce = gravityForceDefault;
         rb.velocity = Vector2.zero;
-        _jumpParticle.Play();
-        jumping = true;
-        isJumping = true;
+        //_jumpParticle.Play();
+    //    jumping = true;
+       // isJumping = true;
         Debug.Log("isJumping");
         anim.SetTrigger("Jump");
 
@@ -285,123 +300,94 @@ public class CustomMovement : PlayerDatas, IDamageable
         ConstrainsReset();
         if (_climbScript.InSight())
         {
+            if (faceDirection == -1)
+            {
+                transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.z * -1, transform.rotation.z);
+            }
             if (faceDirection == 1)
             {
                 transform.rotation = Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z);
-                Debug.Log("faceDirection = 1");
-
             }
-            else if (faceDirection == -1)
-            {
-                transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.z * -1, transform.rotation.z);
-                Debug.Log("faceDirection = -1");
-
-            }
-
             faceDirection = -faceDirection;
         }
 
-        float angle =45; 
+        float angle = 45;
         angle *= Mathf.Deg2Rad;
-        float xComponent = Mathf.Cos(angle)  * jumpForceClimbLatitud;
-        float yComponent = Mathf.Sin(angle) * jumpForceClimbHeight;
-        Vector2 forceApplied = new Vector2(xComponent, yComponent);
+        float xComponent = Mathf.Cos(angle) * jumpForceClimbLatitud;
+        float zComponent = Mathf.Sin(angle) * jumpForceClimbHeight;
+        Vector3 forceApplied = new Vector3(xComponent * faceDirection, zComponent, 0);
+        
+        jumpClimb = true;
+        rb.AddForce(forceApplied);
 
-        rb.AddForce(forceApplied * faceDirection, ForceMode2D.Impulse);
-        /* rb.AddForce(Vector2.up * jumpForceClimbHeight, ForceMode2D.Impulse);
-         rb.AddForce(Vector2.right * faceDirection * jumpForceClimbLatitud, ForceMode2D.Impulse);
-
-         Debug.Log(Vector2.right * faceDirection * jumpForceClimbLatitud);*/
-        canJump = false;
-
+        //  canJump = false;
+        //_climbScript._ClimbState = _climbScript.EndClimbJump;
         //Climb.isClimbing = false;
+        StartCoroutine(CoroutineWaitForEndJump(0.1f));
     }
-
-
-    public void JumpClimb()
+    public IEnumerator CoroutineWaitForEndJump(float waitTime)
     {
-        //jumping = true;
-        anim.SetTrigger("Jump");
-        Debug.Log("SaltoEnPared");
-        rb.gravityScale = 1.0f;
-        gravityForce = gravityForceDefault;
-        rb.velocity = Vector2.zero;
-        //canJump = false;
-        ConstrainsReset();
-        if (_climbScript.InSight())
-        {
-            if (faceDirection == 1)
-            {
-                transform.rotation = Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z);
-                Debug.Log("faceDirection = 1");
-               
-            }
-            else if (faceDirection == -1)
-            {
-                transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.z * -1, transform.rotation.z);
-                Debug.Log("faceDirection = -1");
-               
-            }
-           
-            faceDirection = -faceDirection;
-
-            rb.AddForce(Vector2.up * jumpForceClimbHeight, ForceMode2D.Impulse);
-            rb.AddForce(Vector2.right * jumpForceClimbLatitud, ForceMode2D.Impulse);
-            
-        }
+        yield return new WaitForSeconds(waitTime);
+        _climbScript._ClimbState = _climbScript.EndClimbJump;
 
     }
 
 
-    bool dashClimb = false;
+
+    public bool dashClimb = false;
     public void DashClimb()
    {
+       
         dashClimb = true;
         Vector2 last = transform.position;
         onDashInput = false;
-
-        anim.SetTrigger("Jump");
+        rb.velocity = Vector2.zero;
+        rb.angularVelocity = 0;
         rb.gravityScale = 1.0f;
         gravityForce = gravityForceDefault;
-        rb.velocity = Vector2.zero;
-        ConstrainsReset();
+
+        _dashParticleExplotion.Play();
+        _dashParticleTrail.Play();
+        _dashTrail.gameObject.SetActive(true);
+
 
         if (_climbScript.InSight())
         {
+            if (faceDirection == -1)
+            {
+                transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.z * -1, transform.rotation.z);
+            }
             if (faceDirection == 1)
             {
                 transform.rotation = Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z);
-                Debug.Log("faceDirection = 1");
-
-            }
-            else if (faceDirection == -1)
-            {
-                transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.z * -1, transform.rotation.z);
-                Debug.Log("faceDirection = -1");
-
             }
             faceDirection = -faceDirection;
         }
+        else
+        {
+            Debug.Log("---NOT FACING WALL---");
+        }
 
-        StartCoroutine(CoroutineWaitForRestartDistance(last));
+        
 
-                 dashStart = transform.position;
-                _dashParticleExplotion.Play();
-                _dashParticleTrail.Play();
-                rb.velocity = Vector2.zero;
-                anim.SetTrigger("Dash");
-                SoundManager.instance.Play(SoundManager.Types.CatDash);
-                _dashTrail.gameObject.SetActive(true);
-        //  StartCoroutine(DashStop());
-        //dashing = false;
-        rb.velocity = Vector2.right * dashForce*3 * faceDirection;
-                rb.constraints = RigidbodyConstraints2D.FreezePositionY;
-                rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        Debug.Log("---DASH---");
+     
+        dashStart = transform.position;
+   
+        anim.SetTrigger("Dash");
+       SoundManager.instance.Play(SoundManager.Types.CatDash);
 
-      
+        
 
+        rb.velocity = Vector2.right * dashForceClimb * faceDirection;
 
-        Debug.Log("IS DASHING CLIMB");
+       
+
+        rb.constraints = RigidbodyConstraints2D.FreezePositionY;
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+
+       // rb.isKinematic = true;
+       
 
         _climbScript._ClimbState = EndDashClimb;
     }
@@ -410,42 +396,22 @@ public class CustomMovement : PlayerDatas, IDamageable
     {
         if (_climbScript.InSight())
         {
-            Debug.Log("force dash insight");
-
-            ConstrainsReset();
-            _dashParticleTrail.Stop();
             rb.velocity *= 0;
-            StartCoroutine(ExampleCoroutine());
-            Climb.isClimbing = false;
-            dashClimb = false;
-            _climbScript._ClimbState = _climbScript.SutilEnd;
-        }
-
-        if (rb.velocity == Vector2.zero)
-        {
-            Debug.Log("force dash velocity");
-
-            ConstrainsReset();
+            rb.constraints = RigidbodyConstraints2D.FreezePosition;
             _dashParticleTrail.Stop();
-            rb.velocity *= 0;
             StartCoroutine(ExampleCoroutine());
-            Climb.isClimbing = false;
-            dashClimb = false;
-            _climbScript._ClimbState = _climbScript.SutilEnd;
+            _climbScript._ClimbState = _climbScript.Freeze;
+            Debug.Log("freeze dash");
         }
-
         if (Vector2.Distance(transform.position, dashStart) >= dashDistance)
         {
-            Debug.Log("force dash distance");
-
-            ConstrainsReset();
+            rb.constraints = RigidbodyConstraints2D.FreezePosition;
+            //ConstrainsReset();
             _dashParticleTrail.Stop();
             rb.velocity *= 0;
             StartCoroutine(ExampleCoroutine());
-            Climb.isClimbing = false;
-            dashClimb = false;
+            Debug.Log("SUTIL END");
             _climbScript._ClimbState = _climbScript.SutilEnd;
-            
         }
     }
     IEnumerator JumpReturnControll()
@@ -556,7 +522,6 @@ public class CustomMovement : PlayerDatas, IDamageable
 
     public void ForceDashEnd()
     {
-        Debug.Log("force dash end");
         dashing = false;
         rb.velocity = Vector2.zero;
         _dashParticleTrail.Stop();
@@ -750,6 +715,7 @@ public class CustomMovement : PlayerDatas, IDamageable
         {
             isJumping = false;
             onGround = true;
+            jumpClimb = false;
             canJump = true;
             canDash = true;
         }
@@ -758,6 +724,7 @@ public class CustomMovement : PlayerDatas, IDamageable
         {
             isJumping = false;
             onGround = true;
+            jumpClimb = false;
             canJump = true;
             canDash = true;
             anim.SetBool("OnGround", true);
@@ -828,6 +795,7 @@ public class CustomMovement : PlayerDatas, IDamageable
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(groundCheckPos.transform.position, groundCheckSize);
         Gizmos.DrawWireCube(attackPoint.transform.position, attackRange);
+
     }
     public void GetDamage(float dmg)
     {
