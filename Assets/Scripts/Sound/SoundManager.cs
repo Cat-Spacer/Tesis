@@ -84,7 +84,9 @@ public class SoundManager : MonoBehaviour
         CatDash,
         Dash,
         Item,
-        Climb
+        Climb,
+        CaveSpike
+
 
     }
     public void OnClickSound()

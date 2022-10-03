@@ -22,8 +22,8 @@ public class FallingWall : MonoBehaviour
     }    
     private void Deactivate()
     {
-        rb.constraints = RigidbodyConstraints2D.FreezeAll;
-        rb.gravityScale = 0;
+        //rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        //rb.gravityScale = 0;
         player.transform.parent = null;
     }
     private void OnTriggerEnter2D(Collider2D collision)

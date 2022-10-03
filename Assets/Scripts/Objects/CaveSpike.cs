@@ -8,10 +8,12 @@ public class CaveSpike : MonoBehaviour
 
     [SerializeField] float damage;
     [SerializeField] float fallSpeed;
+    [SerializeField] float delay;
     [SerializeField] LayerMask playerLayerMask;
     [SerializeField] LayerMask groundLayerMask;
     [SerializeField] Vector2 activationRange;
     [SerializeField] Transform activationRangeTransform;
+    [SerializeField] Animator anim;
 
     bool activate;
     private void Start()
@@ -22,17 +24,25 @@ public class CaveSpike : MonoBehaviour
     private void Update()
     {
         CheckPlayer();
-        if (activate)
-        {
-            rb.gravityScale = fallSpeed;
-        }
     }
     void CheckPlayer()
     {
         Collider2D coll = Physics2D.OverlapBox(activationRangeTransform.position, activationRange, 0, playerLayerMask);
         if (coll == null) return;
-        activate = true;
-        Debug.Log("entre");
+        StartCoroutine(StartFalling());
+        SoundManager.instance.Play(SoundManager.Types.CaveSpike);
+        anim.SetTrigger("Fall");
+    }
+    void Activate()
+    {
+        anim.SetTrigger("Stop");
+        SoundManager.instance.Pause(SoundManager.Types.CaveSpike);
+        rb.gravityScale = fallSpeed;
+    }
+    IEnumerator StartFalling()
+    {
+        yield return new WaitForSeconds(delay);
+        Activate();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
