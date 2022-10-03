@@ -392,6 +392,8 @@ public class CustomMovement : PlayerDatas, IDamageable
         _climbScript._ClimbState = EndDashClimb;
     }
 
+    
+
     public void EndDashClimb()
     {
         if (_climbScript.InSight())
@@ -403,11 +405,12 @@ public class CustomMovement : PlayerDatas, IDamageable
             _climbScript._ClimbState = _climbScript.Freeze;
             Debug.Log("freeze dash");
         }
-        if (Vector2.Distance(transform.position, dashStart) >= dashDistance)
+        if (Vector2.Distance(transform.position, dashStart) >= (dashDistance))
         {
             rb.constraints = RigidbodyConstraints2D.FreezePosition;
             //ConstrainsReset();
             _dashParticleTrail.Stop();
+            _dashTrail.gameObject.SetActive(false);
             rb.velocity *= 0;
             StartCoroutine(ExampleCoroutine());
             Debug.Log("SUTIL END");
@@ -456,8 +459,18 @@ public class CustomMovement : PlayerDatas, IDamageable
     void Dash()
     {
         if (Climb.isClimbing)
+        {
+            onDashInput = false;
             return;
-        if (dashClimb) return;
+        }
+        
+        if (dashClimb)
+        {
+            onDashInput = false;
+            return;
+        }
+      
+
 
         if (onDashInput && canDash)
         {
