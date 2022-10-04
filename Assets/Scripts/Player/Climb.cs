@@ -28,10 +28,11 @@ public class Climb
     public static bool isClimbing = false;
 
     public Vector2 start;
+    EnergyPower _energyPowerScript;
 
     #endregion
     public void SetClimb(PlayerInput playerInput_arg, BoxCollider2D collider_arg, Rigidbody2D rb_arg, Transform transform_arg, float upSpeed_arg, float downSpeed_arg, float distanceToRope_arg,
-        LayerMask layerMask_arg, float impulseDirectionExitForce_arg, float impulseExitRopeForce_arg, Animator animator_arg, CustomMovement customMovement_arg, float worldDefaultGravity_arg)
+        LayerMask layerMask_arg, float impulseDirectionExitForce_arg, float impulseExitRopeForce_arg, Animator animator_arg, CustomMovement customMovement_arg, float worldDefaultGravity_arg, EnergyPower energy_arg)
     {
         playerInput = playerInput_arg;
         _collider = collider_arg;
@@ -46,6 +47,7 @@ public class Climb
         _animator = animator_arg;
         _customMovement = customMovement_arg;
         _worldDefaultGravity = worldDefaultGravity_arg;
+        _energyPowerScript = energy_arg;
     }
     public void UpdateClimb()
     {
@@ -69,7 +71,7 @@ public class Climb
     /// </summary>
     void ClimbState(KeyCode keyPressed_arg, bool state)
     {
-        if (InSight())
+        if (InSight() && _energyPowerScript.EnergyDrain(0.05f))
         {
             if (keyPressed_arg == KeyCode.W)
             {
@@ -121,6 +123,7 @@ public class Climb
 
     public void StartClimbingState()
     {
+        
        SoundManager.instance.Play(SoundManager.Types.Climb);
         _animator.SetBool("Climbing", true);
         _animator.SetBool("OnWall", false);
@@ -178,6 +181,8 @@ public class Climb
     }
     void ClimbActionUp()
     {
+      
+
         Debug.Log("climb");
         if (playerInput.jumpInputStay)
         {
@@ -432,6 +437,8 @@ public class Climb
 
     void WaitForEndFreeze()
     {
+        _energyPowerScript.EnergyDrain(0.05f);
+
         if (playerInput.jumpInputStay)
         {
             _ClimbState = EndClimbForJump;

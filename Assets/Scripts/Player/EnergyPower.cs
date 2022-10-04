@@ -26,6 +26,9 @@ public class EnergyPower : MonoBehaviour
         {
             _canReg = true;
             _time = 0f;
+            EnergyRegen();
+            if (_currentEnergy > _maxEnergy)
+                _currentEnergy = _maxEnergy;
         }
     }
 
