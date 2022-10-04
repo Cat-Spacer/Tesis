@@ -18,16 +18,19 @@ public class CustomMovement : PlayerDatas, IDamageable
     public float jumpForceClimbHeight = 400;
     public float jumpForceClimbLatitud = 150;
 
+    EnergyPower _energyPowerScript;
+
 
     private void Awake()
     {
         _collider = GetComponent<BoxCollider2D>();
         playerInput = GetComponent<PlayerInput>();
+        _energyPowerScript = GetComponent<EnergyPower>();
         rb = GetComponent<Rigidbody2D>();
 
         _climbScript = new Climb();
         _climbScript.SetClimb(playerInput, _collider, rb, transform, _upSpeed, _downSpeed,
-            _distanceToRope, _layerMask, _impulseDirectionExitForce, _impulseExitRopeForce, anim, this, gravityForceDefault);
+            _distanceToRope, _layerMask, _impulseDirectionExitForce, _impulseExitRopeForce, anim, this, gravityForceDefault, _energyPowerScript);
 
     }
     private void Start()
@@ -472,7 +475,7 @@ public class CustomMovement : PlayerDatas, IDamageable
       
 
 
-        if (onDashInput && canDash)
+        if (onDashInput && canDash &&_energyPowerScript.EnergyDrain(10))
         {
             Debug.Log("Dash Normal");
             rb.isKinematic = false;
@@ -684,7 +687,7 @@ public class CustomMovement : PlayerDatas, IDamageable
     #region MiauAttack
     void Attack()
     {
-        if (attackImput && canAttack)
+        if (attackImput && canAttack && _energyPowerScript.EnergyDrain(10))
         {     
             anim.SetTrigger("Attack");
             SoundManager.instance.Play(SoundManager.Types.CatAttack);

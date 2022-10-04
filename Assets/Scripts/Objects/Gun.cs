@@ -17,7 +17,6 @@ namespace Weapons
         public AudioSource audioSource;
         public ParticleSystem muzzleFlash;
 
-        public GameObject _player;
         public float distance = 150f;
 
         private void Awake()
@@ -28,18 +27,13 @@ namespace Weapons
                 //  if (FindObjectOfType<SoundManager>() != null)
                 // audioSource.clip = FindObjectOfType<SoundManager>().GetSound(shootSound).clip;
             }*/
-            if (_player == null)
-                _player = FindObjectOfType<PlayerDatas>().gameObject;
-            else
-                Debug.LogWarning($"No player setted on {name}");
+
         }
 
         private void Update()
         {
-            if (Vector3.Distance(transform.position, _player.transform.position) < distance)
-            {
                 FireCooldown();
-            }
+            
         }
 
         public void FireCooldown()
