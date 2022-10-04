@@ -87,7 +87,7 @@ public class GameManager : MonoBehaviour
         }
         else //Ganaste
         {
-            Time.timeScale = 0;
+            //Time.timeScale = 0;
             winScreen.SetActive(true);
         }
     }
