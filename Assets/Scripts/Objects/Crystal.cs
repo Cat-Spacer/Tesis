@@ -35,6 +35,7 @@ public class Crystal : MonoBehaviour
    {
         if (_lastCrystal)
         {
+            Debug.Log(gameObject.name + " last");
             _door.SetActive(!_door.activeSelf);
         }
         else
@@ -49,6 +50,7 @@ public class Crystal : MonoBehaviour
     {
         if (called) return;
         Debug.Log("call");
+        if (_nextCrystalIn == null) return;
         _line.SetLight(_nextCrystal.transform.position, crystalNumber, this,  _nextCrystalIn);
         called = true;
     }

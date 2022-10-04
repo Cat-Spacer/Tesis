@@ -55,7 +55,7 @@ public class LineCollision : MonoBehaviour
 
         Debug.Log(count_arg - 1);
 
-        RaycastHit2D hit = Physics2D.Raycast(_lineRenderer.GetPosition(count_arg - 1), direction,  ~_layerMaskObstacles);
+        RaycastHit2D hit = Physics2D.Raycast(_lineRenderer.GetPosition(count_arg - 1), direction,  _layerMaskObstacles);
         Debug.DrawRay(transform.position, direction, Color.green);
 
 
