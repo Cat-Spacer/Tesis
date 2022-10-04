@@ -703,9 +703,11 @@ public class CustomMovement : PlayerDatas, IDamageable
             var coll = Physics2D.OverlapBox(attackPoint.position, attackRange, 1, damageable);
             if (coll == null) return;
             var obj = coll.gameObject.GetComponent<IDamageable>();
+            //var obj2 = coll.gameObject.GetComponent<IDamageable>();
             if (obj == null) return;
-            Debug.Log("attack");
-            obj.GetDamage(1);
+
+                obj.GetDamage(1);
+         //   if (obj2 != null) obj.GetDamage(1);
         }
     }
     IEnumerator AttackCd()
