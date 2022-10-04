@@ -31,7 +31,14 @@ public class FallingFloor : MonoBehaviour
         Activate();
         fallingRocksParticle.Stop();
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
-        Destroy(gameObject, 5);
+        StartCoroutine(End(5));
+    }
+
+    IEnumerator End(float time)
+    {
+        yield return new WaitForSeconds(time);
+        player.transform.parent = null;
+        Destroy(gameObject);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
