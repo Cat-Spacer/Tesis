@@ -71,7 +71,7 @@ public class Climb
     /// </summary>
     void ClimbState(KeyCode keyPressed_arg, bool state)
     {
-        if (InSight() && _energyPowerScript.EnergyDrain(0.05f))
+        if (InSight() && _energyPowerScript.EnergyDrain(0.07f))
         {
             if (keyPressed_arg == KeyCode.W)
             {
@@ -91,7 +91,7 @@ public class Climb
                 isClimbing = true;
 
 
-                _ClimbState = ClimbActionUp;
+                _ClimbState = ClimbActionVertical;
                 _alreadyStarted = true;
             }
             else if (_alreadyStarted)
@@ -179,7 +179,7 @@ public class Climb
         if (Physics2D.Raycast(new Vector2(_transform.position.x, _transform.position.y - point - 0.5f), _transform.right, _distanceToRope, ~_layerMask)) return true;
         else return false;
     }
-    void ClimbActionUp()
+    void ClimbActionVertical()
     {
       
 
@@ -227,7 +227,7 @@ public class Climb
         {
             StartClimbingState();
             MoveTowardsBool = false;
-            _ClimbState = ClimbActionUp;
+            _ClimbState = ClimbActionVertical;
         }
          
             _transform.position = Vector2.MoveTowards(_transform.position, new Vector2(start.x + (0.5f *CustomMovement.faceDirection), _transform.position.y), step);
@@ -284,7 +284,7 @@ public class Climb
             StartClimbingState();
             startdash = false;
             _rb.constraints = ~RigidbodyConstraints2D.FreezePositionY;
-            _ClimbState = ClimbActionUp;
+            _ClimbState = ClimbActionVertical;
         }
     }
     public void EndClimb()
@@ -397,7 +397,7 @@ public class Climb
         if (InSight() && FootInSight())
         {
             StartClimbingState();
-            _ClimbState = ClimbActionUp;
+            _ClimbState = ClimbActionVertical;
         }
         if (playerInput.jumpInputStay)
         {
@@ -423,7 +423,7 @@ public class Climb
         _rb.constraints = ~RigidbodyConstraints2D.FreezeAll;
         _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         StartClimbingState();
-        _ClimbState = ClimbActionUp;
+        _ClimbState = ClimbActionVertical;
 
     }
     public void Freeze()
@@ -437,7 +437,7 @@ public class Climb
 
     void WaitForEndFreeze()
     {
-        _energyPowerScript.EnergyDrain(0.05f);
+        _energyPowerScript.EnergyDrain(0.07f);
 
         if (playerInput.jumpInputStay)
         {

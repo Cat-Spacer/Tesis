@@ -18,9 +18,23 @@ public class Flower : MonoBehaviour
     [SerializeField] private float _maxDown;
     private float _stop = 1.7f;
     public static bool onFlower = false;
-   // bool _goUp;
+  //  [SerializeField] Transform _maxUpObject;
+    //[SerializeField] bool useObjUp = false;
+   // [SerializeField] Transform _maxDownObject;
+    // bool _goUp;
     bool _goingDown;
+    Transform _playerT;
 
+    private void Start()
+    {
+       /* if (useObjUp == true)
+        {
+          //  _maxUp = _maxUpObject.localPosition.y;
+            Debug.Log(_maxUp);
+        }*/
+    }
+
+    Vector2 start;
     private void OnTriggerEnter2D(Collider2D other)
     {
         var player = other.gameObject.GetComponent<CustomMovement>();
@@ -29,8 +43,9 @@ public class Flower : MonoBehaviour
 
 
         _player = player;
-
+        _playerT = player.GetComponent<Transform>();
         _playerRb = _player.GetComponent<Rigidbody2D>();
+        start = player.transform.position;
 
         if (_playerRb == null)
             Debug.LogError("Player Rigidbody2D not found");
@@ -46,7 +61,10 @@ public class Flower : MonoBehaviour
 
         //   _goUp = true;
 
+
     }
+
+   
     private void OnTriggerStay2D(Collider2D other)
     {
         if (_player == null) return;
@@ -63,12 +81,20 @@ public class Flower : MonoBehaviour
 
         if (_player.transform.position.y - _flower.transform.position.y >= _maxUp)
         {
+            Debug.Log("up");
             _playerRb.AddForce(_player.transform.up *_forceDown);
+         //   float step = 6 * Time.deltaTime;
+          //  _playerT.position = Vector2.MoveTowards(new Vector2(_playerT.position.x, start.y), new Vector2(_playerT.position.x, _maxUpObject.position.y), step);
+
             _goingDown = true;
         }    
         else if (_player.transform.position.y - _flower.transform.position.y <= _maxUp && !_goingDown)
         {
-            _playerRb.AddForce(_player.transform.up * _forceUp);
+             _playerRb.AddForce(_player.transform.up * _forceUp);
+
+         //   float step = 6 * Time.deltaTime;
+          //  _playerT.position = Vector2.MoveTowards(new Vector2(_playerT.position.x, _maxUpObject.position.y), new Vector2(_playerT.position.x, _maxDownObject.position.y), step);
+
         }
 
         if (_player.transform.position.y - _flower.transform.position.y <= _maxDown)
