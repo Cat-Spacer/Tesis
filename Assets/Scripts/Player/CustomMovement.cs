@@ -513,6 +513,12 @@ public class CustomMovement : PlayerDatas, IDamageable
             rb.velocity = Vector2.right * dashForce * faceDirection;
             rb.constraints = RigidbodyConstraints2D.FreezePositionY;
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+
+            if (_climbScript.InSight())
+            {
+                _climbScript._ClimbState = _climbScript.Freeze;
+            }
+
             if (Vector2.Distance(transform.position, dashStart) >= dashDistance)
             {
                 ConstrainsReset();

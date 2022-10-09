@@ -22562,6 +22562,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+--- !u!4 &598325605 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1162356801441725581, guid: fa72ae10661be124fab76e9545168902,
+    type: 3}
+  m_PrefabInstance: {fileID: 2056499305}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &600331335
 GameObject:
   m_ObjectHideFlags: 0
@@ -35689,6 +35695,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1580989448}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &983659944 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2175476948247822041, guid: fa72ae10661be124fab76e9545168902,
+    type: 3}
+  m_PrefabInstance: {fileID: 2056499305}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &988296741
 GameObject:
   m_ObjectHideFlags: 0
@@ -38162,7 +38174,7 @@ GameObject:
   - component: {fileID: 1018495576}
   - component: {fileID: 1018495579}
   - component: {fileID: 1018495577}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: JumpPad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40363,8 +40375,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1185544021}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1, y: 0.5, z: 0}
-  m_LocalScale: {x: 0.1, y: 6, z: 1}
+  m_LocalPosition: {x: -1, y: 0.4132, z: 0}
+  m_LocalScale: {x: 0.1, y: 5.8266, z: 1}
   m_Children: []
   m_Father: {fileID: 1216969080}
   m_RootOrder: 5
@@ -45483,7 +45495,7 @@ PrefabInstance:
     - target: {fileID: 2638962870350567023, guid: 6d1221f93a47a6344b0f8cc576150974,
         type: 3}
       propertyPath: jumpForceClimbHeight
-      value: 400
+      value: 800
       objectReference: {fileID: 0}
     - target: {fileID: 2638962870350567023, guid: 6d1221f93a47a6344b0f8cc576150974,
         type: 3}
@@ -81978,10 +81990,40 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1716789722}
     m_Modifications:
+    - target: {fileID: 2175476948247822041, guid: fa72ae10661be124fab76e9545168902,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 22.31
+      objectReference: {fileID: 0}
     - target: {fileID: 6262095503638501956, guid: fa72ae10661be124fab76e9545168902,
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6262095503638501957, guid: fa72ae10661be124fab76e9545168902,
+        type: 3}
+      propertyPath: _maxUp
+      value: 8.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6262095503638501957, guid: fa72ae10661be124fab76e9545168902,
+        type: 3}
+      propertyPath: useObjUp
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6262095503638501957, guid: fa72ae10661be124fab76e9545168902,
+        type: 3}
+      propertyPath: _maxUpObject
+      value: 
+      objectReference: {fileID: 983659944}
+    - target: {fileID: 6262095503638501957, guid: fa72ae10661be124fab76e9545168902,
+        type: 3}
+      propertyPath: _maxDownObject
+      value: 
+      objectReference: {fileID: 598325605}
+    - target: {fileID: 6262095503638501957, guid: fa72ae10661be124fab76e9545168902,
+        type: 3}
+      propertyPath: _strongerForceUp
+      value: 110
       objectReference: {fileID: 0}
     - target: {fileID: 6262095503993196120, guid: fa72ae10661be124fab76e9545168902,
         type: 3}
