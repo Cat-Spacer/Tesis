@@ -1,21 +1,24 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace Weapons
 {
     public class Gun : MonoBehaviour
     {
-
+        Animator anim;
         [Header("Stats")]
         public int damage = 10;
         public float fireRate = 1.0f;
         public float fireTimer = 1.0f;
         public float bulletLifeTime = 1.0f;
+        public float wait = 1.0f;
         public string shootSound = "gun_shoot";
 
         [Header("Objects")]
         public Transform firePoint;
         public AudioSource audioSource;
         public ParticleSystem muzzleFlash;
+
 
         public float distance = 150f;
 
@@ -29,11 +32,13 @@ namespace Weapons
             }*/
 
         }
-
+        private void Start()
+        {
+            anim = GetComponent<Animator>();
+        }
         private void Update()
         {
-                FireCooldown();
-            
+            FireCooldown();
         }
 
         public void FireCooldown()
@@ -46,7 +51,8 @@ namespace Weapons
 
             if (Time.time >= fireTimer)
             {
-                FireBullet();
+                anim.SetTrigger("Attack");
+                StartCoroutine(WaitForAnim());
                 fireTimer = Time.time + 1.0f / fireRate;
             }
         }
@@ -59,6 +65,11 @@ namespace Weapons
             if (muzzleFlash != null)
                 muzzleFlash.Play();*/
             Shoot.Fire(bullet.gameObject, firePoint);
+        }
+        IEnumerator WaitForAnim()
+        {
+            yield return new WaitForSeconds(wait);
+            FireBullet();
         }
     }
 }

@@ -106,4 +106,6 @@ public class PlayerDatas : MonoBehaviour
 
     [Header("Constrains")]
     [SerializeField] protected RigidbodyConstraints2D constraints2D;
+    [Header("Other")]
+    protected bool dead; 
 }
