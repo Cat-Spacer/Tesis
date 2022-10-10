@@ -65,6 +65,7 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(_resetPlayerTime);
         _player.transform.position = new Vector3(_respawnPoint[index_arg].transform.position.x, _respawnPoint[index_arg].transform.position.y, 0);
+        _player.ResetPlayer();
     }    
     IEnumerator DeathScreenCounter()
     {
