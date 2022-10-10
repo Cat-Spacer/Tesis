@@ -9,6 +9,7 @@ public class CustomMovement : PlayerDatas, IDamageable
     public Rigidbody2D rb;
     private Action _TimeCounterAction;
     private Action _ClimbAction;
+    private Action _Inputs;
     [SerializeField] Transform _respawnPoint;
     [SerializeField] TrailRenderer _dashTrail;
     Climb _climbScript;
@@ -41,7 +42,7 @@ public class CustomMovement : PlayerDatas, IDamageable
         jumpBufferCounterTime = jumpBufferTime;
         canAttack = true;
         _TimeCounterAction += TimeCounterCoyote;
-
+        _Inputs = Inputs;
         /*_ClimbAction = ClimbInput;
         _ClimbAction += ClimbUp;
         _ClimbAction += ClimbDown;
@@ -50,7 +51,7 @@ public class CustomMovement : PlayerDatas, IDamageable
     }
     private void Update()
     {
-        Imputs();
+        _Inputs();
         Attack();
         _TimeCounterAction();
         // _ClimbAction();
@@ -74,9 +75,8 @@ public class CustomMovement : PlayerDatas, IDamageable
             Movement(1 * faceDirection, 1);
 
     }
-    private void Imputs()
-    {
-      
+    private void Inputs()
+    {    
         xMove = playerInput.xAxis;
         if (playerInput.jumpImput) onJumpInput = true;
        if (PlayerInput.dashImput) onDashInput = true;
@@ -300,7 +300,7 @@ public class CustomMovement : PlayerDatas, IDamageable
         anim.SetTrigger("Jump");
 
         //canJump = false;
-        ConstrainsReset();
+        if (!dead) ConstrainsReset();
         if (_climbScript.InSight())
         {
             if (faceDirection == -1)
@@ -521,7 +521,7 @@ public class CustomMovement : PlayerDatas, IDamageable
 
             if (Vector2.Distance(transform.position, dashStart) >= dashDistance)
             {
-                ConstrainsReset();
+                if (!dead) ConstrainsReset();
                 _dashParticleTrail.Stop();
                 dashing = false;
                 rb.velocity *= 0.5f;
@@ -547,7 +547,7 @@ public class CustomMovement : PlayerDatas, IDamageable
         dashing = false;
         rb.velocity = Vector2.zero;
         _dashParticleTrail.Stop();
-        ConstrainsReset();
+        if (!dead) ConstrainsReset();
         StartCoroutine(ExampleCoroutine());
     }
 
@@ -726,7 +726,8 @@ public class CustomMovement : PlayerDatas, IDamageable
     #endregion
     public void ConstrainsReset()
     {
-        rb.constraints = constraints2D;
+        if (!dead) rb.constraints = constraints2D;
+        Debug.Log("Aca");
     }
     void GroundCheckPos()
     {
@@ -821,7 +822,10 @@ public class CustomMovement : PlayerDatas, IDamageable
     }
     public void GetDamage(float dmg)
     {
-        rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        rb.simulated = false;
+        dead = true;
+        _Inputs = delegate { };
+        rb.velocity = Vector2.zero;
         GameManager.Instance.PlayerDeath();
         SoundManager.instance.Play(SoundManager.Types.CatDamash);
         ForceDashEnd();
@@ -830,7 +834,15 @@ public class CustomMovement : PlayerDatas, IDamageable
         canJump = true;
         canDash = true;
         _climbScript._ClimbState = _climbScript.EndClimb;
-
+        rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        anim.SetBool("Death1", true);
+    }
+    public void ResetPlayer()
+    {
+        anim.SetBool("Death1", false);
+        _Inputs = Inputs;
+        dead = false;
+        rb.simulated = true;
     }
     public IEnumerator CoroutineWaitForRestartDistance(Vector2 last)
     {
