@@ -296,7 +296,6 @@ public class CustomMovement : PlayerDatas, IDamageable
         //_jumpParticle.Play();
     //    jumping = true;
        // isJumping = true;
-        Debug.Log("isJumping");
         anim.SetTrigger("Jump");
 
         //canJump = false;
@@ -473,12 +472,8 @@ public class CustomMovement : PlayerDatas, IDamageable
             return;
         }
       
-
-
         if (onDashInput && canDash &&_energyPowerScript.EnergyDrain(10))
-        {
-            Debug.Log("Dash Normal");
-            rb.isKinematic = false;
+        {   rb.isKinematic = false;
             rb.constraints = ~RigidbodyConstraints2D.FreezeAll;
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
@@ -509,7 +504,6 @@ public class CustomMovement : PlayerDatas, IDamageable
         else onDashInput = false;
         if (dashing)
         {
-            Debug.Log("Dash Normal");
             rb.velocity = Vector2.right * dashForce * faceDirection;
             rb.constraints = RigidbodyConstraints2D.FreezePositionY;
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
@@ -544,6 +538,7 @@ public class CustomMovement : PlayerDatas, IDamageable
 
     public void ForceDashEnd()
     {
+        Debug.Log("force dash end");
         dashing = false;
         rb.velocity = Vector2.zero;
         _dashParticleTrail.Stop();
@@ -733,7 +728,7 @@ public class CustomMovement : PlayerDatas, IDamageable
         groundColl = Physics2D.OverlapBox
             (groundCheckPos.transform.position, groundCheckSize, 0, groundLayer);
 
-        if (Flower.onFlower == true)
+        if (ForestFlower.onFlower == true)
         {
             isJumping = false;
             onGround = true;
