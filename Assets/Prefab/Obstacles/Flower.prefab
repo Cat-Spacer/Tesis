@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1771184748}
   - component: {fileID: 1771184750}
   - component: {fileID: 1771184749}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4899,7 +4899,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2175476948247822041}
   - component: {fileID: 1477842705547457437}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Square (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4983,7 +4983,7 @@ GameObject:
   - component: {fileID: 4083117733102135269}
   - component: {fileID: 701360479831975284}
   - component: {fileID: 1913417777768089199}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Particle System (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9788,7 +9788,7 @@ GameObject:
   - component: {fileID: 2125680008307848546}
   - component: {fileID: 3080516055811337522}
   - component: {fileID: 7921242648192269634}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Particle System (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14591,7 +14591,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1162356801441725581}
   - component: {fileID: 2808735383118135209}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Square (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14708,6 +14708,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3197060eb62ba144a989819abeecb155, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 32768
   _forceUp: 60
   _forceDown: 40
   _strongerForceUp: 100
@@ -14716,9 +14719,6 @@ MonoBehaviour:
   _flower: {fileID: 6262095503993196127}
   _maxUp: 8.2
   _maxDown: 7.8
-  _maxUpObject: {fileID: 0}
-  useObjUp: 0
-  _maxDownObject: {fileID: 0}
 --- !u!61 &6262095503638501946
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -14757,7 +14757,7 @@ GameObject:
   - component: {fileID: 6262095503993196126}
   - component: {fileID: 6262095503993196121}
   - component: {fileID: 7771202980903797799}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Flower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14893,7 +14893,7 @@ GameObject:
   - component: {fileID: 7557795972103801618}
   - component: {fileID: 6362937477702182592}
   - component: {fileID: 833586931293199390}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Particle System (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

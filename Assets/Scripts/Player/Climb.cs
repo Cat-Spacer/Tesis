@@ -182,8 +182,6 @@ public class Climb
     void ClimbActionVertical()
     {
       
-
-        Debug.Log("climb");
         if (playerInput.jumpInputStay)
         {
             _ClimbState = EndClimbForJump;
@@ -302,7 +300,6 @@ public class Climb
         _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
         EndClimbingState();
-        Debug.Log("end");
 
         _rb.velocity = Vector2.zero;
         _rb.angularVelocity = 0;
