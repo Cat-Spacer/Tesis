@@ -9,9 +9,10 @@ public class CustomMovement : PlayerDatas, IDamageable
     public Rigidbody2D rb;
     private Action _TimeCounterAction;
     private Action _ClimbAction;
+    private Action _Inputs;
     [SerializeField] Transform _respawnPoint;
     [SerializeField] TrailRenderer _dashTrail;
-    Climb _climbScript;
+    public Climb _climbScript;
     BoxCollider2D _collider;
     public static bool isJumping = false;
 
@@ -41,7 +42,7 @@ public class CustomMovement : PlayerDatas, IDamageable
         jumpBufferCounterTime = jumpBufferTime;
         canAttack = true;
         _TimeCounterAction += TimeCounterCoyote;
-
+        _Inputs = Inputs;
         /*_ClimbAction = ClimbInput;
         _ClimbAction += ClimbUp;
         _ClimbAction += ClimbDown;
@@ -50,7 +51,7 @@ public class CustomMovement : PlayerDatas, IDamageable
     }
     private void Update()
     {
-        Imputs();
+        _Inputs();
         Attack();
         _TimeCounterAction();
         // _ClimbAction();
@@ -74,17 +75,16 @@ public class CustomMovement : PlayerDatas, IDamageable
             Movement(1 * faceDirection, 1);
 
     }
-    private void Imputs()
-    {
-      
+    private void Inputs()
+    {    
         xMove = playerInput.xAxis;
         if (playerInput.jumpImput) onJumpInput = true;
        if (PlayerInput.dashImput) onDashInput = true;
-        if (playerInput.w_Imput) w_Imput = true;
+        if (PlayerInput.w_Imput) w_Imput = true;
         else w_Imput = false;
         if (PlayerInput.a_Imput) a_Imput = true;
         else a_Imput = false;
-        if (playerInput.s_Imput) s_Imput = true;
+        if (PlayerInput.s_Imput) s_Imput = true;
         else s_Imput = false;
         if (PlayerInput.d_Imput) d_Imput = true;
         else d_Imput = false;
@@ -95,6 +95,7 @@ public class CustomMovement : PlayerDatas, IDamageable
     bool hasPlayedMovement = false;
     private void Movement(float xDir,float lerpAmount)
     {
+        if (Climb.isHorizontal) return;
         if (dashing && Climb.MoveTowardsBool) return;
         if (xDir > 0.1f)
         {
@@ -296,11 +297,10 @@ public class CustomMovement : PlayerDatas, IDamageable
         //_jumpParticle.Play();
     //    jumping = true;
        // isJumping = true;
-        Debug.Log("isJumping");
         anim.SetTrigger("Jump");
 
         //canJump = false;
-        ConstrainsReset();
+        if (!dead) ConstrainsReset();
         if (_climbScript.InSight())
         {
             if (faceDirection == -1)
@@ -473,12 +473,8 @@ public class CustomMovement : PlayerDatas, IDamageable
             return;
         }
       
-
-
         if (onDashInput && canDash &&_energyPowerScript.EnergyDrain(10))
-        {
-            Debug.Log("Dash Normal");
-            rb.isKinematic = false;
+        {   rb.isKinematic = false;
             rb.constraints = ~RigidbodyConstraints2D.FreezeAll;
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
@@ -509,7 +505,6 @@ public class CustomMovement : PlayerDatas, IDamageable
         else onDashInput = false;
         if (dashing)
         {
-            Debug.Log("Dash Normal");
             rb.velocity = Vector2.right * dashForce * faceDirection;
             rb.constraints = RigidbodyConstraints2D.FreezePositionY;
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
@@ -521,7 +516,7 @@ public class CustomMovement : PlayerDatas, IDamageable
 
             if (Vector2.Distance(transform.position, dashStart) >= dashDistance)
             {
-                ConstrainsReset();
+                if (!dead) ConstrainsReset();
                 _dashParticleTrail.Stop();
                 dashing = false;
                 rb.velocity *= 0.5f;
@@ -544,10 +539,11 @@ public class CustomMovement : PlayerDatas, IDamageable
 
     public void ForceDashEnd()
     {
+        Debug.Log("force dash end");
         dashing = false;
         rb.velocity = Vector2.zero;
         _dashParticleTrail.Stop();
-        ConstrainsReset();
+        if (!dead) ConstrainsReset();
         StartCoroutine(ExampleCoroutine());
     }
 
@@ -726,14 +722,15 @@ public class CustomMovement : PlayerDatas, IDamageable
     #endregion
     public void ConstrainsReset()
     {
-        rb.constraints = constraints2D;
+        if (!dead) rb.constraints = constraints2D;
+        Debug.Log("Aca");
     }
     void GroundCheckPos()
     {
         groundColl = Physics2D.OverlapBox
             (groundCheckPos.transform.position, groundCheckSize, 0, groundLayer);
 
-        if (Flower.onFlower == true)
+        if (ForestFlower.onFlower == true)
         {
             isJumping = false;
             onGround = true;
@@ -765,6 +762,14 @@ public class CustomMovement : PlayerDatas, IDamageable
             _fallParticle.Play();
            // isJumping = false;
         }
+
+        if (collision.gameObject.layer == 17)
+        {
+            _climbScript.StartClimbingState();
+             _climbScript._ClimbState = _climbScript.ClimbActionHorizontal;
+            //_climbScript._vector = transform.right;
+        }
+
 
       /*  if (collision.gameObject.layer == _wallLayerNumber) //OnWall
         {
@@ -821,7 +826,10 @@ public class CustomMovement : PlayerDatas, IDamageable
     }
     public void GetDamage(float dmg)
     {
-        rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        rb.simulated = false;
+        dead = true;
+        _Inputs = delegate { };
+        rb.velocity = Vector2.zero;
         GameManager.Instance.PlayerDeath();
         SoundManager.instance.Play(SoundManager.Types.CatDamash);
         ForceDashEnd();
@@ -830,7 +838,15 @@ public class CustomMovement : PlayerDatas, IDamageable
         canJump = true;
         canDash = true;
         _climbScript._ClimbState = _climbScript.EndClimb;
-
+        rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        anim.SetBool("Death1", true);
+    }
+    public void ResetPlayer()
+    {
+        anim.SetBool("Death1", false);
+        _Inputs = Inputs;
+        dead = false;
+        rb.simulated = true;
     }
     public IEnumerator CoroutineWaitForRestartDistance(Vector2 last)
     {
