@@ -4837,6 +4837,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 138605840}
   m_CullTransparentMesh: 1
+--- !u!1 &142866251
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 142866253}
+  - component: {fileID: 142866252}
+  m_Layer: 0
+  m_Name: Proyectile Factory
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &142866252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 142866251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6aaca14e87dff447b7e61741732efd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectPrefab: {fileID: -556355810594252484, guid: e83dcce4dd5d20845a513c53a8b78efd,
+    type: 3}
+  objectStock: 4
+--- !u!4 &142866253
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 142866251}
+  m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
+  m_LocalPosition: {x: 116.6825, y: 6.6499996, z: -8.010366}
+  m_LocalScale: {x: 1.25, y: 1.25, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &143268741
 GameObject:
   m_ObjectHideFlags: 0
@@ -7203,8 +7249,10 @@ MonoBehaviour:
   _nextCrystal: {fileID: 727645296}
   _forceStart: 0
   _line: {fileID: 0}
-  crystalNumber: 5
+  _crystalNumber: 0
+  _cristalsLenght: 0
   _lastCrystal: 0
+  _usedCrystal: 0
   _door: {fileID: 0}
   _nextCrystalIn: {fileID: 727645296}
 --- !u!212 &229991724
@@ -9058,7 +9106,7 @@ Transform:
   - {fileID: 699870312}
   - {fileID: 1127733170}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &293891287
 GameObject:
@@ -12143,8 +12191,10 @@ MonoBehaviour:
   _nextCrystal: {fileID: 1808217756}
   _forceStart: 0
   _line: {fileID: 0}
-  crystalNumber: 2
+  _crystalNumber: 0
+  _cristalsLenght: 0
   _lastCrystal: 0
+  _usedCrystal: 0
   _door: {fileID: 0}
   _nextCrystalIn: {fileID: 1808217756}
 --- !u!61 &439276171
@@ -22034,7 +22084,7 @@ Transform:
   m_LocalScale: {x: 1.6709, y: 1.6709, z: 1.6709}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!4 &598325605 stripped
 Transform:
@@ -28661,8 +28711,10 @@ MonoBehaviour:
   _nextCrystal: {fileID: 2017874795}
   _forceStart: 0
   _line: {fileID: 0}
-  crystalNumber: 6
+  _crystalNumber: 0
+  _cristalsLenght: 0
   _lastCrystal: 1
+  _usedCrystal: 0
   _door: {fileID: 687156385}
   _nextCrystalIn: {fileID: 2017874795}
 --- !u!61 &727645297
@@ -34791,8 +34843,10 @@ MonoBehaviour:
   _nextCrystal: {fileID: 229991723}
   _forceStart: 0
   _line: {fileID: 0}
-  crystalNumber: 4
+  _crystalNumber: 0
+  _cristalsLenght: 0
   _lastCrystal: 0
+  _usedCrystal: 0
   _door: {fileID: 0}
   _nextCrystalIn: {fileID: 229991723}
 --- !u!1 &901398445
@@ -38651,7 +38705,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1055427282
 GameObject:
@@ -44542,7 +44596,7 @@ Transform:
   - {fileID: 1189372773}
   - {fileID: 204081610}
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1412148128
 PrefabInstance:
@@ -44977,7 +45031,7 @@ PrefabInstance:
     - target: {fileID: 2638962870350567016, guid: 6d1221f93a47a6344b0f8cc576150974,
         type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 2638962870350567016, guid: 6d1221f93a47a6344b0f8cc576150974,
         type: 3}
@@ -56668,7 +56722,7 @@ Transform:
   - {fileID: 1603424540}
   - {fileID: 2116125042}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1643027279 stripped
 GameObject:
@@ -70993,8 +71047,10 @@ MonoBehaviour:
   _nextCrystal: {fileID: 898979155}
   _forceStart: 0
   _line: {fileID: 0}
-  crystalNumber: 3
+  _crystalNumber: 0
+  _cristalsLenght: 0
   _lastCrystal: 0
+  _usedCrystal: 0
   _door: {fileID: 0}
   _nextCrystalIn: {fileID: 898979155}
 --- !u!1 &1810419489
@@ -72454,8 +72510,10 @@ MonoBehaviour:
   _nextCrystal: {fileID: 439276170}
   _forceStart: 0
   _line: {fileID: 0}
-  crystalNumber: 1
+  _crystalNumber: 0
+  _cristalsLenght: 0
   _lastCrystal: 0
+  _usedCrystal: 0
   _door: {fileID: 0}
   _nextCrystalIn: {fileID: 439276170}
 --- !u!120 &1845352384
@@ -72569,6 +72627,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lineRenderer: {fileID: 0}
   _count: 0
+  _limitCount: 0
   time: 80
   _layerMaskObstacles:
     serializedVersion: 2
@@ -73948,7 +74007,7 @@ Transform:
   m_LocalScale: {x: 1.8892, y: 1.8892, z: 1.8892}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1947070640
 GameObject:
@@ -80464,8 +80523,10 @@ MonoBehaviour:
   _nextCrystal: {fileID: 0}
   _forceStart: 0
   _line: {fileID: 0}
-  crystalNumber: 6
+  _crystalNumber: 0
+  _cristalsLenght: 0
   _lastCrystal: 1
+  _usedCrystal: 0
   _door: {fileID: 687156385}
   _nextCrystalIn: {fileID: 0}
 --- !u!61 &2017874796
@@ -82592,7 +82653,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1159390722073754571
 MonoBehaviour:

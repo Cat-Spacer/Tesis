@@ -19,15 +19,14 @@ public class Bullet : ObjectToSpawn
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
-    {
-      
+    {      
         var obj = collision.gameObject.GetComponent<IDamageable>();
         if (obj != null)
             obj.GetDamage(10);
 
-        gameObject.SetActive(false);
-        /*ObjectFactory objectFactory = FindObjectOfType<ObjectFactory>();
-        objectFactory.ReturnObject(this);*/
+        TurnOff(this);
+        ObjectFactory objectFactory = FindObjectOfType<ObjectFactory>();
+        objectFactory.ReturnObject(this);
     }
 
 }

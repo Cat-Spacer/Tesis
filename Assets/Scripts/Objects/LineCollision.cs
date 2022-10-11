@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -8,7 +8,7 @@ public class LineCollision : MonoBehaviour
 {
     List<Vector2> _colliderList = new List<Vector2>();
     [SerializeField] LineRenderer _lineRenderer;
-    [SerializeField] int _count = 0;
+    [SerializeField] int _count = 0, _limitCount = 0;
     public Action _GrowState = delegate { };
     [SerializeField] float time;
     [SerializeField] LayerMask _layerMaskObstacles;
@@ -22,8 +22,10 @@ public class LineCollision : MonoBehaviour
     Crystal _lastCrystal;
     void Start()
     {
-        _lineRenderer = gameObject.GetComponent<LineRenderer>();
+        if (!_lineRenderer)
+            _lineRenderer = GetComponent<LineRenderer>();
         _lineRenderer.SetPosition(0, transform.position);
+        Debug.Log($"{gameObject.name} _layerMaskObstacles.value = {_layerMaskObstacles.value} && iniPos = {(Vector2)transform.position}");
         // _colliderList = _lineCollider.GetPoints();
     }
     // Update is called once per frame
@@ -35,60 +37,63 @@ public class LineCollision : MonoBehaviour
     public void AddPoint(int num_arg)
     {
         //_lineRenderer.positionCount = num_arg + 1;
-        _lineRenderer.positionCount = _lineRenderer.positionCount + 1;
+        _lineRenderer.positionCount++;
         //  _lineCollider.points[].a
     }
 
-    bool start = false;
-
-    Vector2 nullObj = new Vector2 (3,3);
-    public void SetLight(Vector2 nextPos_arg, int count_arg, Crystal crystal_arg, Crystal nC_arg)
+    Vector2 nullObj = new Vector2(3, 3);//                 added  ↓  added
+    public void SetLight(Vector2 nextPos_arg, int count_arg, int limit, Crystal crystal_arg, Crystal nC_arg)
     {
-        if (posUpdate == nextPos_arg) return;
-        
+        if (posUpdate == nextPos_arg /*&& _limitCount >= limit*/) return;
+        //_limitCount++;
         _lastCrystal = crystal_arg;
         _count = count_arg;
 
         _lineRenderer.positionCount = count_arg + 1;
+        //_lineRenderer.SetPosition(_count, posUpdate);
+        Debug.Log($"{gameObject.name} count_arg: {count_arg}. nextPos_arg: {nextPos_arg}. _lineRenderer.positionCount: {_lineRenderer.positionCount}.");
+        direction = (nextPos_arg - (Vector2)_lineRenderer.GetPosition(count_arg - 1));
 
-        direction = (Vector2)_lineRenderer.GetPosition(count_arg - 1) - nextPos_arg;
-
-        Debug.Log(count_arg - 1);
-
-        RaycastHit2D hit = Physics2D.Raycast(_lineRenderer.GetPosition(count_arg - 1), direction,  _layerMaskObstacles);
+        RaycastHit2D hit = Physics2D.Raycast(_lineRenderer.GetPosition(count_arg - 1), direction, direction.magnitude, _layerMaskObstacles);
         Debug.DrawRay(transform.position, direction, Color.green);
 
-
-        if (hit.transform.gameObject.layer == _layerMaskObstacles)
+        Debug.Log($"{gameObject.name} direction: {direction}. count_arg - 1 = {count_arg - 1}. hit : {(Vector2)hit.point}. direction.magnitude = {direction.magnitude}");
+        Debug.Log($"{gameObject.name} RaycastHit: {hit.collider}.");
+        //Physics2D.Raycast(_lineRenderer.GetPosition(count_arg - 1), direction, direction.magnitude, _layerMaskObstacles)
+        if (hit.collider) //hit.transform.gameObject.layer == _layerMaskObstacles
         {
-            Debug.Log(hit.point);
-            Debug.Log(hit.transform.gameObject.name);
+            Debug.Log($"{gameObject.name} hit.point = {(Vector2)hit.point}");
+            if (hit.transform)
+                Debug.Log($"hit del {gameObject.name} colisiono con el obstaculo: {hit.transform.gameObject.name}");
             nullObj = hit.point;
             posUpdate = nullObj;
+            _lineRenderer.positionCount--;
         }
         else
         {
-            Debug.Log(hit.transform.gameObject.name);
+            Debug.Log($"{gameObject.name}: No colisione con obstaculos");
             posUpdate = nextPos_arg;
+
+            //_lineRenderer.SetPosition(0, transform.position);
+            if (posUpdate != Vector2.zero)
+                _lineRenderer.SetPosition(_count, posUpdate);
+            else
+                _lineRenderer.positionCount--;
+            _lastCrystal.CheckCrystal();
         }
-         
 
-        Debug.Log("asd" + posUpdate);
-
-        _lineRenderer.SetPosition(0, transform.localPosition);
+        Debug.Log(gameObject.name + " posUpdate " + posUpdate);
+        /*_lineRenderer.SetPosition(0, transform.position);
         _lineRenderer.SetPosition(_count, posUpdate);
-        _lastCrystal.CheckCrystal();
-
-       if (nC_arg != null && posUpdate == nextPos_arg) 
+        _lastCrystal.CheckCrystal();*/
+        if (nC_arg != null && posUpdate == nextPos_arg)
             nC_arg.CallCrystal();
     }
 
-
-
-   // int count;
+    // int count;
     void StartGrow()
     {
-       
+
         _GrowState = WhileGrow;
     }
     void WhileGrow()
@@ -99,7 +104,7 @@ public class LineCollision : MonoBehaviour
         else if (!InSightObstacle())
             posUpdate = nextPos;
 
-        Debug.Log("asd" + posUpdate);
+        Debug.Log("posUpdate (WhileGrow)" + posUpdate);
 
         _lineRenderer.SetPosition(0, transform.localPosition);
         _lineRenderer.SetPosition(_count, posUpdate);
@@ -136,7 +141,4 @@ public class LineCollision : MonoBehaviour
         }
         else return default;
     }
-
-
-
 }
