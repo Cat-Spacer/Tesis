@@ -32,7 +32,7 @@ public class DoorTrigger : Obstacle, IDamageable
     }*/
     public void GetDamage(float dmg)
     {
-        Debug.Log("interactuanmdo");
+        Debug.Log("interactuando");
 
         target.gameObject.SetActive(!target.activeSelf);
         if (targetC != null) 
