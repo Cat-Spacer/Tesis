@@ -12,7 +12,7 @@ public class CustomMovement : PlayerDatas, IDamageable
     private Action _Inputs;
     [SerializeField] Transform _respawnPoint;
     [SerializeField] TrailRenderer _dashTrail;
-    Climb _climbScript;
+    public Climb _climbScript;
     BoxCollider2D _collider;
     public static bool isJumping = false;
 
@@ -80,11 +80,11 @@ public class CustomMovement : PlayerDatas, IDamageable
         xMove = playerInput.xAxis;
         if (playerInput.jumpImput) onJumpInput = true;
        if (PlayerInput.dashImput) onDashInput = true;
-        if (playerInput.w_Imput) w_Imput = true;
+        if (PlayerInput.w_Imput) w_Imput = true;
         else w_Imput = false;
         if (PlayerInput.a_Imput) a_Imput = true;
         else a_Imput = false;
-        if (playerInput.s_Imput) s_Imput = true;
+        if (PlayerInput.s_Imput) s_Imput = true;
         else s_Imput = false;
         if (PlayerInput.d_Imput) d_Imput = true;
         else d_Imput = false;
@@ -95,6 +95,7 @@ public class CustomMovement : PlayerDatas, IDamageable
     bool hasPlayedMovement = false;
     private void Movement(float xDir,float lerpAmount)
     {
+        if (Climb.isHorizontal) return;
         if (dashing && Climb.MoveTowardsBool) return;
         if (xDir > 0.1f)
         {
@@ -761,6 +762,14 @@ public class CustomMovement : PlayerDatas, IDamageable
             _fallParticle.Play();
            // isJumping = false;
         }
+
+        if (collision.gameObject.layer == 17)
+        {
+            _climbScript.StartClimbingState();
+             _climbScript._ClimbState = _climbScript.ClimbActionHorizontal;
+            //_climbScript._vector = transform.right;
+        }
+
 
       /*  if (collision.gameObject.layer == _wallLayerNumber) //OnWall
         {

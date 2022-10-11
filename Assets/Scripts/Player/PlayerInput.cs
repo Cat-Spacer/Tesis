@@ -10,9 +10,9 @@ public class PlayerInput : MonoBehaviour
     public static bool  dashImput { get; private set; }
     public static bool dashInputStay { get; private set; }
     public bool jumpInputStay { get; private set; }
-    public bool  w_Imput { get; private set; }
+    public static bool  w_Imput { get; private set; }
     public static bool  a_Imput { get; private set; }
-    public bool  s_Imput { get; private set; }
+    public static bool  s_Imput { get; private set; }
     public static bool  d_Imput { get; private set; }
     public bool attackImput { get; private set; }
 
