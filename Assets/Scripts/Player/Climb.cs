@@ -233,6 +233,8 @@ public class Climb
         if (PlayerInput.s_Imput)
         {
             _impulseForce = _impulseDirectionExitForce;
+            _transform.rotation = Quaternion.Euler(_transform.rotation.x * CustomMovement.faceDirection, 0, _transform.rotation.z);
+
             _ClimbState = EndClimb;
         }
 
@@ -374,7 +376,7 @@ public class Climb
     }
     public void EndClimb()
     {
-        isHorizontal = false;
+        
 
         if (playerInput.jumpInputStay)
         {
@@ -393,8 +395,9 @@ public class Climb
         _rb.velocity = Vector2.zero;
         _rb.angularVelocity = 0;
         _rb.AddForce(_transform.right * _impulseForce, ForceMode2D.Impulse);
-       
-       // GameManager.Instance.WaitForEndClimb(0.3f);
+
+        // GameManager.Instance.WaitForEndClimb(0.3f);
+        isHorizontal = false;
         Climb.isClimbing = false;
         _customMovement.dashClimb = false;
         MoveTowardsBool = false;
@@ -406,24 +409,26 @@ public class Climb
 
     public void EndClimbJump()
     {
-        isHorizontal = false;
+       
         Climb.isClimbing = false;
         _customMovement.dashClimb = false;
         MoveTowardsBool = false;
         _alreadyStarted = false;
+        isHorizontal = false;
         _ClimbState = delegate { };
 
     }
 
     void EndClimbForJump()
     {
-        isHorizontal = false;
+       
         _rb.velocity = new Vector2(0, 0);
         //_rb.velocity = new Vector2(_rb.velocity.y, 0);
         _rb.angularVelocity = 0;
         _rb.constraints = ~RigidbodyConstraints2D.FreezeAll;
         _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         EndClimbingState();
+        isHorizontal = false;
         _ClimbState = Jump;
     }
 
@@ -438,19 +443,19 @@ public class Climb
 
     public void SutilEnd()
     {
-        isHorizontal = false;
+       
         FreezeClimbingState();
         _alreadyStarted = false;
         Climb.isClimbing = false;
         _customMovement.dashClimb = false;
         //_ClimbState = delegate { };
+        isHorizontal = false;
         _ClimbState = EndClimb;
         Debug.Log("SUTIL END");
     }
 
     void EndClimbForDash()
     {
-        isHorizontal = false;
         FreezeClimbingState();
         _rb.velocity = new Vector2(0, 0);
         _rb.angularVelocity = 0;
@@ -459,7 +464,8 @@ public class Climb
         EndClimbingState();
         // _ClimbState = _customMovement.DashClimb;
         start = _transform.position;
-         _ClimbState = MoveTowardsDash;
+        isHorizontal = false;
+        _ClimbState = MoveTowardsDash;
     }
     public void EndClimbForMirrorDash()
     {
