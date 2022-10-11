@@ -47,14 +47,16 @@ public class ColliderSides : MonoBehaviour
         else if (_player.position.y - gameObject.transform.position.y > 0 && isInY)
         {
             _cam.position = new Vector3(_cam.position.x, gameObject.transform.position.y + _moveInY, _cam.position.z);
-            GameManager.Instance.SetRespawnPoint(indexB);
-            CheatManager.Instance.SetCurrentLevel(indexB);
+            Debug.Log(indexA);
+            GameManager.Instance.SetRespawnPoint(indexA);
+            CheatManager.Instance.SetCurrentLevel(indexA);
         }
         else if (_player.position.y - gameObject.transform.position.y < 0 && isInY)
         {
             _cam.position = new Vector3(_cam.position.x, gameObject.transform.position.y - _moveInY, _cam.position.z);
-            GameManager.Instance.SetRespawnPoint(indexA);
-            CheatManager.Instance.SetCurrentLevel(indexA);
+            Debug.Log(indexB);
+            GameManager.Instance.SetRespawnPoint(indexB);
+            CheatManager.Instance.SetCurrentLevel(indexB);
         }
     }
 }

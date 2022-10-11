@@ -10,7 +10,7 @@ public class Crystal : MonoBehaviour
     [SerializeField] int _crystalNumber, _cristalsLenght = 0;
     [SerializeField] bool _lastCrystal/*, _usedCrystal = false*/;
     [SerializeField] GameObject _door;
-    [SerializeField] Crystal _nextCrystalIn;
+   // [SerializeField] Crystal _nextCrystalIn;
 
     private void Start()
     {
@@ -23,7 +23,7 @@ public class Crystal : MonoBehaviour
     {
         if (_forceStart/* && !_usedCrystal*/)
         {//                                                                  added  ↓  added
-            _line.SetLight(_nextCrystal.transform.position, _crystalNumber, _cristalsLenght, this, _nextCrystalIn);
+            _line.SetLight(_nextCrystal.transform.position, _crystalNumber, _cristalsLenght, this, _nextCrystal);
             _forceStart = false;
             //_usedCrystal = true;
         }
@@ -47,8 +47,8 @@ public class Crystal : MonoBehaviour
     {
         if (called) return;
         Debug.Log("call");
-        if (_nextCrystalIn == null) return;//                           added  ↓  added
-        _line.SetLight(_nextCrystal.transform.position, _crystalNumber, _cristalsLenght, this, _nextCrystalIn);
+        if (_nextCrystal == null) return;//                           added  ↓  added
+        _line.SetLight(_nextCrystal.transform.position, _crystalNumber, _cristalsLenght, this, _nextCrystal);
         called = true;
     }
 }
