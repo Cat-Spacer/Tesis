@@ -71,7 +71,7 @@ public class Climb
     /// </summary>
     void ClimbState(KeyCode keyPressed_arg, bool state)
     {
-        if (InSight() && _energyPowerScript.EnergyDrain(0.07f))
+        if (InSight() && _energyPowerScript.EnergyDrain(0.05f))
         {
             if (keyPressed_arg == KeyCode.W)
             {
@@ -547,7 +547,7 @@ public class Climb
 
     void WaitForEndFreeze()
     {
-        _energyPowerScript.EnergyDrain(0.07f);
+        _energyPowerScript.EnergyDrain(0.05f);
 
         if (playerInput.jumpInputStay)
         {
