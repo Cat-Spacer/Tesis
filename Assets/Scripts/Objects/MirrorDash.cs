@@ -19,7 +19,14 @@ public class MirrorDash : MonoBehaviour
             Climb.startMirrorDash = transform.position;
             _player.ForceDashEnd();
            _player._climbScript._ClimbState = _player._climbScript.EndClimbForMirrorDash;
-            gameObject.SetActive(false);
+           // gameObject.SetActive(false);
         }
     }
+
+    /*public IEnumerator CoroutineWaitForRestart(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        // Climb.isClimbing = false;
+
+    }*/
 }

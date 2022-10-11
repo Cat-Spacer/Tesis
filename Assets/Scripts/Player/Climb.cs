@@ -223,6 +223,8 @@ public class Climb
     {
         isHorizontal = true;
 
+        Debug.Log("climb horizontal");
+
         //Quaternion target = Quaternion.Euler(0, 0,90);
         //_transform.rotation = Quaternion.Slerp(_transform.rotation, target, Time.deltaTime * 5);
 
@@ -231,7 +233,6 @@ public class Climb
         if (PlayerInput.s_Imput)
         {
             _impulseForce = _impulseDirectionExitForce;
-            isHorizontal = false;
             _ClimbState = EndClimb;
         }
 
@@ -373,6 +374,8 @@ public class Climb
     }
     public void EndClimb()
     {
+        isHorizontal = false;
+
         if (playerInput.jumpInputStay)
         {
             _ClimbState = EndClimbForJump;
@@ -403,6 +406,7 @@ public class Climb
 
     public void EndClimbJump()
     {
+        isHorizontal = false;
         Climb.isClimbing = false;
         _customMovement.dashClimb = false;
         MoveTowardsBool = false;
@@ -413,6 +417,7 @@ public class Climb
 
     void EndClimbForJump()
     {
+        isHorizontal = false;
         _rb.velocity = new Vector2(0, 0);
         //_rb.velocity = new Vector2(_rb.velocity.y, 0);
         _rb.angularVelocity = 0;
@@ -424,6 +429,7 @@ public class Climb
 
     void Jump()
     {
+        isHorizontal = false;
         _customMovement.JumpClimb2();
         _alreadyStarted = false;
         //_ClimbState = delegate { };
@@ -432,6 +438,7 @@ public class Climb
 
     public void SutilEnd()
     {
+        isHorizontal = false;
         FreezeClimbingState();
         _alreadyStarted = false;
         Climb.isClimbing = false;
@@ -443,6 +450,7 @@ public class Climb
 
     void EndClimbForDash()
     {
+        isHorizontal = false;
         FreezeClimbingState();
         _rb.velocity = new Vector2(0, 0);
         _rb.angularVelocity = 0;
@@ -455,6 +463,7 @@ public class Climb
     }
     public void EndClimbForMirrorDash()
     {
+        isHorizontal = false;
         FreezeClimbingState();
         _rb.velocity = new Vector2(0, 0);
         _rb.angularVelocity = 0;
@@ -465,7 +474,8 @@ public class Climb
     }
 
     void EndRope()
-    {
+    {  
+        isHorizontal = false;
         _rb.velocity = new Vector2(0, 0);
         _rb.angularVelocity = 0;
         _rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
