@@ -204,6 +204,7 @@ public class CustomMovement : PlayerDatas, IDamageable
 
         if (jumpUp && canJump && (coyoteTimeCounter > 0f || onGround))
         {
+            SoundManager.instance.Play(SoundManager.Types.CatJump);
             _jumpParticle.Play();
             jumping = true;
             isJumping = true;
@@ -831,7 +832,7 @@ public class CustomMovement : PlayerDatas, IDamageable
         _Inputs = delegate { };
         rb.velocity = Vector2.zero;
         GameManager.Instance.PlayerDeath();
-        SoundManager.instance.Play(SoundManager.Types.CatDamash);
+        SoundManager.instance.Play(SoundManager.Types.CatDamage);
         ForceDashEnd();
         isJumping = false;
         onGround = true;
