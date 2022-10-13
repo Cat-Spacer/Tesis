@@ -6,6 +6,7 @@ public class Bullet : ObjectToSpawn
 {
     [Header("Stats")]
     [Header("Has ObjectToSpawn on it")]
+    [SerializeField] LayerMask enemyMask;
     [SerializeField] private float _speed = 1.0f;
 
     void Update()
@@ -22,8 +23,10 @@ public class Bullet : ObjectToSpawn
     {      
         var obj = collision.gameObject.GetComponent<IDamageable>();
         if (obj != null)
-            obj.GetDamage(10);
-
+        {
+            obj.GetDamage(10);            
+        }
+        if ((enemyMask.value & (1 << collision.transform.gameObject.layer)) > 0) return;
         TurnOff(this);
         ObjectFactory objectFactory = FindObjectOfType<ObjectFactory>();
         objectFactory.ReturnObject(this);

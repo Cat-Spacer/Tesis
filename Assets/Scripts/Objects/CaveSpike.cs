@@ -30,13 +30,12 @@ public class CaveSpike : MonoBehaviour
         Collider2D coll = Physics2D.OverlapBox(activationRangeTransform.position, activationRange, 0, playerLayerMask);
         if (coll == null) return;
         StartCoroutine(StartFalling());
-        SoundManager.instance.Play(SoundManager.Types.CaveSpike);
+
         anim.SetTrigger("Fall");
     }
     void Activate()
     {
         anim.SetTrigger("Stop");
-        SoundManager.instance.Pause(SoundManager.Types.CaveSpike);
         rb.gravityScale = fallSpeed;
     }
     IEnumerator StartFalling()
@@ -59,6 +58,7 @@ public class CaveSpike : MonoBehaviour
         }
         if ((groundLayerMask.value & (1 << collision.transform.gameObject.layer)) > 0)
         {
+            SoundManager.instance.Play(SoundManager.Types.FallingDebris);
             Debug.Log("Ground");
             Destroy(gameObject);
         }     

@@ -19,7 +19,7 @@ public class FallingFloor : MonoBehaviour
     }
     private void Activate()
     {
-        SoundManager.instance.Pause(SoundManager.Types.CaveSpike);
+        SoundManager.instance.Pause(SoundManager.Types.FallingDebris);
         gameObject.SetActive(false);
         //rb.constraints = constraints2D;
         //rb.gravityScale = gravityScale;
@@ -47,7 +47,7 @@ public class FallingFloor : MonoBehaviour
             StartCoroutine(StartFalling());
             fallingRocksParticle.Play();
             anim.SetTrigger("Fall");
-            SoundManager.instance.Play(SoundManager.Types.CaveSpike);
+            SoundManager.instance.Play(SoundManager.Types.FallingDebris);
         }
     }
 }

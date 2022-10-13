@@ -31,6 +31,8 @@ public class SoundManager : MonoBehaviour
     private void Start()
     {
         Play(SoundManager.Types.MusicForest);
+        Play(SoundManager.Types.WoodAmbientSound);
+        Play(SoundManager.Types.Rain);
     }
     public void Play(Types name)
     {
@@ -79,15 +81,18 @@ public class SoundManager : MonoBehaviour
         Steps,
         ForestAmbience,
         MusicForest,
-        CatDamash,
+        CatDamage,
         CatAttack,
         CatDash,
+        CatJump,
         Dash,
         Item,
         Climb,
-        CaveSpike
-
-
+        FallingDebris,
+        WoodAmbientSound,
+        FlowerWind,
+        Rain,
+        CarnivorousPlant
     }
     public void OnClickSound()
     {
