@@ -79,7 +79,7 @@ public class ForestFlower : WindObstacles
     {
         base.OnEnterFlower();
 
-        SoundManager.instance.Play(SoundManager.Types.WindForest);
+        SoundManager.instance.Play(SoundManager.Types.FlowerWind);
 
         Debug.Log("on enter");
 
@@ -99,7 +99,7 @@ public class ForestFlower : WindObstacles
         
         _playerRb.drag = _defaultDrag;
 
-        SoundManager.instance.Pause(SoundManager.Types.WindForest);
+        SoundManager.instance.Pause(SoundManager.Types.FlowerWind);
    
     }
 

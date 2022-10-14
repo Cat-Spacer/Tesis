@@ -6,6 +6,7 @@ public class Vine : MonoBehaviour, IDamageable
 {
     [SerializeField] private float _maxLife;
     [SerializeField] private float _currentLife;
+    [SerializeField] ParticleSystem[] particles;  
     public float dmg;
     private void Start()
     {
@@ -23,6 +24,11 @@ public class Vine : MonoBehaviour, IDamageable
         _currentLife -= dmg;
         if (_currentLife <= 0)
         {
+            foreach (var item in particles)
+            {
+                var newParticle = Instantiate(item);
+                newParticle.transform.position = transform.position;
+            }
             Destroy(gameObject);
         }
     }
