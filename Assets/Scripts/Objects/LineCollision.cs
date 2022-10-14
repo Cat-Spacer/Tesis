@@ -52,7 +52,7 @@ public class LineCollision : MonoBehaviour
         _lineRenderer.positionCount = count_arg + 1;
         //_lineRenderer.SetPosition(_count, posUpdate);
         Debug.Log($"{gameObject.name} count_arg: {count_arg}. nextPos_arg: {nextPos_arg}. _lineRenderer.positionCount: {_lineRenderer.positionCount}.");
-        direction = (nextPos_arg - (Vector2)_lineRenderer.GetPosition(count_arg - 1));
+        direction = (nextPos_arg - (Vector2)_lineRenderer.GetPosition(count_arg - 1));// esta verga estaba al revés
 
         RaycastHit2D hit = Physics2D.Raycast(_lineRenderer.GetPosition(count_arg - 1), direction, direction.magnitude, _layerMaskObstacles);
         Debug.DrawRay(transform.position, direction, Color.green);
