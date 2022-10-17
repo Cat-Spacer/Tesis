@@ -434,6 +434,7 @@ public class Climb
 
     void Jump()
     {
+        SoundManager.instance.Play(SoundManager.Types.CatJump);
         isHorizontal = false;
         _customMovement.JumpClimb2();
         _alreadyStarted = false;

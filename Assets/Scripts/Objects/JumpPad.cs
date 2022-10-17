@@ -12,6 +12,7 @@ public class JumpPad : MonoBehaviour
     {
         if ((mask.value & (1 << collision.transform.gameObject.layer)) > 0)
         {
+            SoundManager.instance.Play(SoundManager.Types.Mushroom);
             anim.SetTrigger("Interaction");
             var entityRb = collision.gameObject.GetComponent<Rigidbody2D>();
             entityRb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
