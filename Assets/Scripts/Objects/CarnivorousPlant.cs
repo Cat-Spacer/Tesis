@@ -12,7 +12,7 @@ public class CarnivorousPlant : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.L))
         {
             anim.SetTrigger("Open");
             SoundManager.instance.Play(SoundManager.Types.CarnivorousPlant);

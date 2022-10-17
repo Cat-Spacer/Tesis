@@ -34,6 +34,13 @@ public class SoundManager : MonoBehaviour
         Play(SoundManager.Types.WoodAmbientSound);
         Play(SoundManager.Types.Rain);
     }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P)) //Probar sonido
+        {
+            SoundManager.instance.Play(SoundManager.Types.VineCrunch);
+        }
+    }
     public void Play(Types name)
     {
         Sound s = Array.Find(sounds, sound => sound.nameType == name);
@@ -92,7 +99,10 @@ public class SoundManager : MonoBehaviour
         WoodAmbientSound,
         FlowerWind,
         Rain,
-        CarnivorousPlant
+        CarnivorousPlant,
+        PlayerDeath,
+        Mushroom,
+        VineCrunch
     }
     public void OnClickSound()
     {

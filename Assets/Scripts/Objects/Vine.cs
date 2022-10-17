@@ -29,6 +29,7 @@ public class Vine : MonoBehaviour, IDamageable
                 var newParticle = Instantiate(item);
                 newParticle.transform.position = transform.position;
             }
+            SoundManager.instance.Play(SoundManager.Types.VineCrunch);
             Destroy(gameObject);
         }
     }
