@@ -7188,7 +7188,6 @@ MonoBehaviour:
   _cristalsLenght: 1
   _lastCrystal: 0
   _door: {fileID: 0}
-  _nextCrystalIn: {fileID: 727645296}
 --- !u!212 &229991724
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -10012,6 +10011,11 @@ PrefabInstance:
       propertyPath: distance
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 3473626872824092018, guid: d6a14a44e2697f44e892622cbcb80757,
+        type: 3}
+      propertyPath: fireRate
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3473626872824092019, guid: d6a14a44e2697f44e892622cbcb80757,
         type: 3}
       propertyPath: m_RootOrder
@@ -12496,7 +12500,6 @@ MonoBehaviour:
   _cristalsLenght: 1
   _lastCrystal: 0
   _door: {fileID: 0}
-  _nextCrystalIn: {fileID: 1808217756}
 --- !u!61 &439276171
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -28989,7 +28992,6 @@ MonoBehaviour:
   _cristalsLenght: 1
   _lastCrystal: 1
   _door: {fileID: 687156385}
-  _nextCrystalIn: {fileID: 2017874795}
 --- !u!61 &727645297
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -35093,7 +35095,6 @@ MonoBehaviour:
   _cristalsLenght: 1
   _lastCrystal: 0
   _door: {fileID: 0}
-  _nextCrystalIn: {fileID: 229991723}
 --- !u!61 &898979156
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -38835,6 +38836,7 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 128
+  anim: {fileID: 0}
 --- !u!1 &1025989026
 GameObject:
   m_ObjectHideFlags: 0
@@ -42583,7 +42585,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerDatas: {fileID: 0}
   _active: 1
-  target: {fileID: 194320695}
+  targetA: []
+  targetB: []
   targetC: {fileID: 727645296}
   dmg: 0
 --- !u!68 &1233891809
@@ -44892,7 +44895,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerDatas: {fileID: 0}
   _active: 1
-  target: {fileID: 194320695}
+  targetA: []
+  targetB: []
   targetC: {fileID: 1845352382}
   dmg: 0
 --- !u!1 &1349506380
@@ -59392,13 +59396,8 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3473626872824092018, guid: d6a14a44e2697f44e892622cbcb80757,
         type: 3}
-      propertyPath: distance
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 3473626872824092018, guid: d6a14a44e2697f44e892622cbcb80757,
-        type: 3}
       propertyPath: fireRate
-      value: 0.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3473626872824092019, guid: d6a14a44e2697f44e892622cbcb80757,
         type: 3}
@@ -59459,71 +59458,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Shooter Enemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 3473626872835752313, guid: d6a14a44e2697f44e892622cbcb80757,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3473626872835752313, guid: d6a14a44e2697f44e892622cbcb80757,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3473626873379420981, guid: d6a14a44e2697f44e892622cbcb80757,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.55
-      objectReference: {fileID: 0}
-    - target: {fileID: 3473626873379420981, guid: d6a14a44e2697f44e892622cbcb80757,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3473626873674779066, guid: d6a14a44e2697f44e892622cbcb80757,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.57
-      objectReference: {fileID: 0}
-    - target: {fileID: 3473626873674779066, guid: d6a14a44e2697f44e892622cbcb80757,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.07
-      objectReference: {fileID: 0}
-    - target: {fileID: 3473626873674779066, guid: d6a14a44e2697f44e892622cbcb80757,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3473626873674779066, guid: d6a14a44e2697f44e892622cbcb80757,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3473626873674779066, guid: d6a14a44e2697f44e892622cbcb80757,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3473626873674779066, guid: d6a14a44e2697f44e892622cbcb80757,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3473626873674779066, guid: d6a14a44e2697f44e892622cbcb80757,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3473626873674779066, guid: d6a14a44e2697f44e892622cbcb80757,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3473626873674779066, guid: d6a14a44e2697f44e892622cbcb80757,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6a14a44e2697f44e892622cbcb80757, type: 3}
@@ -72636,7 +72570,6 @@ MonoBehaviour:
   _cristalsLenght: 1
   _lastCrystal: 0
   _door: {fileID: 0}
-  _nextCrystalIn: {fileID: 898979155}
 --- !u!61 &1808217757
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -74243,7 +74176,6 @@ MonoBehaviour:
   _cristalsLenght: 1
   _lastCrystal: 0
   _door: {fileID: 0}
-  _nextCrystalIn: {fileID: 439276170}
 --- !u!120 &1845352384
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -75411,7 +75343,6 @@ MonoBehaviour:
   _cristalsLenght: 1
   _lastCrystal: 1
   _door: {fileID: 0}
-  _nextCrystalIn: {fileID: 0}
 --- !u!120 &1942120369
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -78279,6 +78210,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1667398183}
     m_Modifications:
+    - target: {fileID: 3473626872824092018, guid: d6a14a44e2697f44e892622cbcb80757,
+        type: 3}
+      propertyPath: fireRate
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3473626872824092019, guid: d6a14a44e2697f44e892622cbcb80757,
         type: 3}
       propertyPath: m_RootOrder
@@ -82271,7 +82207,6 @@ MonoBehaviour:
   _cristalsLenght: 1
   _lastCrystal: 0
   _door: {fileID: 687156385}
-  _nextCrystalIn: {fileID: 1942120368}
 --- !u!61 &2017874796
 BoxCollider2D:
   m_ObjectHideFlags: 0
