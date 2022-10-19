@@ -7,6 +7,7 @@ public class Bullet : ObjectToSpawn
     [Header("Stats")]
     [Header("Has ObjectToSpawn on it")]
     [SerializeField] private float _speed = 1.0f;
+    [SerializeField] ParticleSystem explotionParticle;
 
     void Update()
     {
@@ -21,10 +22,9 @@ public class Bullet : ObjectToSpawn
     private void OnTriggerEnter2D(Collider2D collision)
     {
         var obj = collision.gameObject.GetComponent<IDamageable>();
-        if (obj == null) return;
-
-        obj.GetDamage(10);
-
+        if (obj != null) obj.GetDamage(10);
+        var particle = Instantiate(explotionParticle);
+        particle.transform.position = transform.position;
         TurnOff(this);
         ObjectFactory objectFactory = FindObjectOfType<ObjectFactory>();
         objectFactory.ReturnObject(this);

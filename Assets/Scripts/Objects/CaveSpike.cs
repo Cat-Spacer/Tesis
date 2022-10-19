@@ -9,11 +9,14 @@ public class CaveSpike : MonoBehaviour
     [SerializeField] float damage;
     [SerializeField] float fallSpeed;
     [SerializeField] float delay;
+    [SerializeField] bool firstTouch = false;
     [SerializeField] LayerMask playerLayerMask;
     [SerializeField] LayerMask groundLayerMask;
     [SerializeField] Vector2 activationRange;
     [SerializeField] Transform activationRangeTransform;
     [SerializeField] Animator anim;
+
+    [SerializeField] ParticleSystem brokenRockParticle;
 
     bool activate;
     private void Start()
@@ -45,23 +48,29 @@ public class CaveSpike : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if ((playerLayerMask.value & (1 << collision.transform.gameObject.layer)) > 0)
+        
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if ((playerLayerMask.value & (1 << collision.transform.gameObject.layer)) > 0) //Player
         {
-            Debug.Log("Player");
-            var damageable = collision.GetComponent<IDamageable>();
+            var damageable = collision.gameObject.GetComponent<IDamageable>();
             if (damageable != null)
             {
                 damageable.GetDamage(1);
-                Debug.Log("KillPlayer");
+                var particle = Instantiate(brokenRockParticle);
+                particle.transform.position = transform.position;
                 Destroy(gameObject);
             }
         }
-        if ((groundLayerMask.value & (1 << collision.transform.gameObject.layer)) > 0)
+        if ((groundLayerMask.value & (1 << collision.transform.gameObject.layer)) > 0) //Ground
         {
             SoundManager.instance.Play(SoundManager.Types.FallingDebris);
-            Debug.Log("Ground");
+            var particle = Instantiate(brokenRockParticle);
+            particle.transform.position = transform.position;
             Destroy(gameObject);
-        }     
+            Debug.Log("Piso");
+        }
     }
     private void OnDrawGizmosSelected()
     {
