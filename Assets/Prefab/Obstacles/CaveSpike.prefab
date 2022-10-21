@@ -80,6 +80,7 @@ MonoBehaviour:
   damage: 1
   fallSpeed: 2
   delay: 1
+  firstTouch: 0
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 128
@@ -89,6 +90,8 @@ MonoBehaviour:
   activationRange: {x: 1.5, y: 4}
   activationRangeTransform: {fileID: 3639545132146740811}
   anim: {fileID: 7412866747015770766}
+  brokenRockParticle: {fileID: 8424254342029809246, guid: d76148c62db93a148a158246481c3246,
+    type: 3}
 --- !u!61 &3639545132362462643
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -99,7 +102,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

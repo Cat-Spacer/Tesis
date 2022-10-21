@@ -7,11 +7,14 @@ public class JumpPad : MonoBehaviour
     [SerializeField] float jumpForce;
     [SerializeField] LayerMask mask;
     [SerializeField] Animator anim;
+    [SerializeField] ParticleSystem sporesParticle;
     
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if ((mask.value & (1 << collision.transform.gameObject.layer)) > 0)
         {
+            var particle = Instantiate(sporesParticle);
+            particle.transform.position = transform.position;
             SoundManager.instance.Play(SoundManager.Types.Mushroom);
             anim.SetTrigger("Interaction");
             var entityRb = collision.gameObject.GetComponent<Rigidbody2D>();
