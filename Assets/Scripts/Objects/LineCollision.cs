@@ -8,17 +8,13 @@ public class LineCollision : MonoBehaviour
 {
     List<Vector2> _colliderList = new List<Vector2>();
     [SerializeField] LineRenderer _lineRenderer;
-    [SerializeField] int _count = 0, _limitCount = 0;
+    [SerializeField] private Transform[] _sidesOfCrystals;
+    [SerializeField] private int _count = 0, _limitCount = 0;
+    [SerializeField] private float _distance = 100.0f, _time = 0;
     public Action _GrowState = delegate { };
-    [SerializeField] float time;
-    [SerializeField] LayerMask _layerMaskObstacles;
-    [SerializeField] LayerMask _layerMaskCrystal;
-    Vector2 posUpdate;
-    Vector2 posUpdateCollider;
-    Vector2 nextPos;
-    Vector2 direction;
-    Vector2 obstaclePosition;
-    Vector2 lastCompleteDiamondPos;
+    [SerializeField] LayerMask _layerMaskObstacles, _layerMaskCrystal;
+    Vector2 posUpdate, nextPos, obstaclePosition;
+    Vector2[] _directions;
     Crystal _lastCrystal;
     void Start()
     {
@@ -27,6 +23,8 @@ public class LineCollision : MonoBehaviour
         _lineRenderer.SetPosition(0, transform.position);
         Debug.Log($"{gameObject.name} _layerMaskObstacles.value = {_layerMaskObstacles.value} && iniPos = {(Vector2)transform.position}");
         // _colliderList = _lineCollider.GetPoints();
+        if (_sidesOfCrystals != null || _sidesOfCrystals.Length > 0)
+            _directions = new Vector2[_sidesOfCrystals.Length];
     }
     // Update is called once per frame
     void Update()
@@ -44,42 +42,50 @@ public class LineCollision : MonoBehaviour
     Vector2 nullObj = new Vector2(3, 3);//                 added  ↓  added
     public void SetLight(Vector2 nextPos_arg, int count_arg, int limit, Crystal crystal_arg, Crystal nC_arg)
     {
-        if (posUpdate == nextPos_arg /*&& _limitCount >= limit*/) return;
-        //_limitCount++;
+        if (posUpdate == nextPos_arg) return;
         _lastCrystal = crystal_arg;
         _count = count_arg;
 
         _lineRenderer.positionCount = count_arg + 1;
         //_lineRenderer.SetPosition(_count, posUpdate);
         Debug.Log($"{gameObject.name} count_arg: {count_arg}. nextPos_arg: {nextPos_arg}. _lineRenderer.positionCount: {_lineRenderer.positionCount}.");
-        direction = (nextPos_arg - (Vector2)_lineRenderer.GetPosition(count_arg - 1));// esta verga estaba al revés
+        //_directions = (nextPos_arg - (Vector2)_lineRenderer.GetPosition(count_arg - 1));// esta verga estaba al revés
 
-        RaycastHit2D hit = Physics2D.Raycast(_lineRenderer.GetPosition(count_arg - 1), direction, direction.magnitude, _layerMaskObstacles);
-        Debug.DrawRay(transform.position, direction, Color.green);
+        //RaycastHit2D hit = Physics2D.Raycast(_lineRenderer.GetPosition(count_arg - 1), _directions, _directions.magnitude, _layerMaskObstacles);
+        //Debug.DrawRay(transform.position, _directions, Color.green);
 
-        Debug.Log($"{gameObject.name} direction: {direction}. count_arg - 1 = {count_arg - 1}. hit : {(Vector2)hit.point}. direction.magnitude = {direction.magnitude}");
-        Debug.Log($"{gameObject.name} RaycastHit: {hit.collider}.");
-        //Physics2D.Raycast(_lineRenderer.GetPosition(count_arg - 1), direction, direction.magnitude, _layerMaskObstacles)
-        if (hit.collider) //hit.transform.gameObject.layer == _layerMaskObstacles
+        foreach (var side in _sidesOfCrystals)
         {
-            Debug.Log($"{gameObject.name} hit.point = {(Vector2)hit.point}");
-            if (hit.transform)
-                Debug.Log($"hit del {gameObject.name} colisiono con el obstaculo: {hit.transform.gameObject.name}");
-            nullObj = hit.point;
-            posUpdate = nullObj;
-            _lineRenderer.positionCount--;
-        }
-        else
-        {
-            Debug.Log($"{gameObject.name}: No colisione con obstaculos");
-            posUpdate = nextPos_arg;
+            _directions[_sidesOfCrystals.Count()] = (Vector2)(side.position - _lineRenderer.GetPosition(count_arg - 1));// esta verga estaba al revés
 
-            //_lineRenderer.SetPosition(0, transform.position);
-            if (posUpdate != Vector2.zero)
-                _lineRenderer.SetPosition(_count, posUpdate);
-            else
+            RaycastHit2D hit = Physics2D.Raycast(_lineRenderer.GetPosition(count_arg - 1), _directions[_sidesOfCrystals.Count()], _distance, _layerMaskObstacles);
+            Debug.DrawRay(transform.position, _directions[_sidesOfCrystals.Count()], Color.green);
+
+            Debug.Log($"{gameObject.name} direction: {_directions}. count_arg - 1 = {count_arg - 1}. hit : {(Vector2)hit.point}. direction.magnitude = {_directions[_sidesOfCrystals.Count()].magnitude}");
+            Debug.Log($"{gameObject.name} RaycastHit: {hit.collider}.");
+            //Physics2D.Raycast(_lineRenderer.GetPosition(count_arg - 1), direction, direction.magnitude, _layerMaskObstacles)
+            if (hit.collider) //hit.transform.gameObject.layer == _layerMaskObstacles
+            {
+                Debug.Log($"{gameObject.name} hit.point = {(Vector2)hit.point}");
+                if (hit.transform)
+                    Debug.Log($"hit del {gameObject.name} colisiono con el obstaculo: {hit.transform.gameObject.name}");
+                nullObj = hit.point;
+                posUpdate = nullObj;
                 _lineRenderer.positionCount--;
-            _lastCrystal.CheckCrystal();
+            }
+            else
+            {
+                Debug.Log($"{gameObject.name}: No colisione con obstaculos");
+                posUpdate = nextPos_arg;
+
+                //_lineRenderer.SetPosition(0, transform.position);
+                if (posUpdate != Vector2.zero)
+                    _lineRenderer.SetPosition(_count, posUpdate);
+                else
+                    _lineRenderer.positionCount--;
+                _lastCrystal.CheckCrystal();
+                break;
+            }
         }
 
         Debug.Log(gameObject.name + " posUpdate " + posUpdate);
@@ -89,8 +95,8 @@ public class LineCollision : MonoBehaviour
         if (nC_arg != null && posUpdate == nextPos_arg)
             nC_arg.CallCrystal();
     }
-
-    // int count;
+    #region oldMetods
+    /* int count;
     void StartGrow()
     {
 
@@ -119,7 +125,7 @@ public class LineCollision : MonoBehaviour
 
     public bool InSightObstacle()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, nextPos, direction.magnitude, ~_layerMaskObstacles);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, nextPos, _directions[].magnitude, ~_layerMaskObstacles);
 
         if (hit.collider != null)
         {
@@ -127,12 +133,12 @@ public class LineCollision : MonoBehaviour
             obstaclePosition = hit.point;
         }
 
-        if (Physics2D.Raycast(_lineRenderer.GetPosition(_lineRenderer.positionCount - 1), nextPos, direction.magnitude, ~_layerMaskObstacles)) return true;
+        if (Physics2D.Raycast(_lineRenderer.GetPosition(_lineRenderer.positionCount - 1), nextPos, _directions.magnitude, ~_layerMaskObstacles)) return true;
         else return false;
     }
     public Transform InSightCrystal()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, nextPos, direction.magnitude, ~_layerMaskCrystal);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, nextPos, _directions.magnitude, ~_layerMaskCrystal);
 
         if (hit.collider != null)
         {
@@ -140,5 +146,6 @@ public class LineCollision : MonoBehaviour
             return (hit.transform);
         }
         else return default;
-    }
+    }*/
+    #endregion
 }

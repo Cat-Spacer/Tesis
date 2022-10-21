@@ -21,9 +21,9 @@ public class Bullet : ObjectToSpawn
     private void OnTriggerEnter2D(Collider2D collision)
     {
         var obj = collision.gameObject.GetComponent<IDamageable>();
-        if (obj == null) return;
+        if (obj != null) obj.GetDamage(10);
 
-        obj.GetDamage(10);
+        Debug.Log($"{gameObject.name} collided with {collision.gameObject.name}");
 
         TurnOff(this);
         ObjectFactory objectFactory = FindObjectOfType<ObjectFactory>();

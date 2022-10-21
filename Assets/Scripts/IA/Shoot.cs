@@ -6,6 +6,7 @@ public class Shoot : MonoBehaviour
     {
         ///Instantiate(bullet, firePoint.position, firePoint.rotation);
         //bullet.SetActive(true);
+        Debug.Log($"{bullet} has position & direction");
         bullet.transform.position = firePoint.position;
         bullet.transform.rotation = firePoint.rotation;
     }

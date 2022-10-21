@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Crystal : MonoBehaviour
+public class Crystal : MonoBehaviour, IDamageable
 {
-    [SerializeField] Crystal _nextCrystal;
-    [SerializeField] bool _forceStart = false;
-    [SerializeField] LineCollision _line;
-    [SerializeField] int _crystalNumber, _cristalsLenght = 0;
-    [SerializeField] bool _lastCrystal/*, _usedCrystal = false*/;
-    [SerializeField] GameObject _door;
-   // [SerializeField] Crystal _nextCrystalIn;
+    [SerializeField] private Crystal _nextCrystal;
+    [SerializeField] private bool _forceStart = false;
+    [SerializeField] private LineCollision _line;
+    [SerializeField] private int _crystalNumber, _cristalsLenght = 0, _sidesForRotation = 4;
+    [SerializeField] private bool _lastCrystal/*, _usedCrystal = false*/;
+    [SerializeField] private GameObject _door;
+    // [SerializeField] Crystal _nextCrystalIn;
 
     private void Start()
     {
@@ -50,5 +50,16 @@ public class Crystal : MonoBehaviour
         if (_nextCrystal == null) return;//                           added  ↓  added
         _line.SetLight(_nextCrystal.transform.position, _crystalNumber, _cristalsLenght, this, _nextCrystal);
         called = true;
+    }
+
+    public void RotateCrystal()
+    {
+        float rotationZ = transform.rotation.y / _sidesForRotation;
+        transform.Rotate(0, 0, rotationZ);
+    }
+
+    public void GetDamage(float dmg)
+    {
+        RotateCrystal();
     }
 }
