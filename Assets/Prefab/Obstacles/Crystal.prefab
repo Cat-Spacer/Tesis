@@ -258,11 +258,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _nextCrystal: {fileID: 4239641012861757177}
+  _prevCrystal: {fileID: 0}
   _forceStart: 0
   _line: {fileID: 0}
   _crystalNumber: 1
   _cristalsLenght: 1
-  _sidesForRotation: 6
+  _sidesForRotation: 8
   _lastCrystal: 0
   _door: {fileID: 0}
 --- !u!114 &4239641012861757062
@@ -287,6 +288,7 @@ MonoBehaviour:
   _limitCount: 1
   _distance: 20
   _time: 0
+  linkedCrystal: 0
   _layerMaskObstacles:
     serializedVersion: 2
     m_Bits: 832
@@ -294,6 +296,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8192
   _directions: []
+  _myCrystal: {fileID: 0}
 --- !u!1 &4239641013271740919
 GameObject:
   m_ObjectHideFlags: 0

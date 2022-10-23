@@ -5,7 +5,7 @@ using UnityEngine;
 public class Crystal : MonoBehaviour, IDamageable
 {
     [SerializeField] private Crystal _nextCrystal, _prevCrystal;
-    [SerializeField] private bool _forceStart = false;
+    [SerializeField] private bool _forceStart = false, _rotable = true;
     [SerializeField] private LineCollision _line;
     [SerializeField] private int _crystalNumber, _cristalsLenght = 0, _sidesForRotation = 4;
     [SerializeField] private bool _lastCrystal/*, _usedCrystal = false*/;
@@ -69,6 +69,7 @@ public class Crystal : MonoBehaviour, IDamageable
 
     public void GetDamage(float dmg)
     {
-        RotateCrystal();
+        if (_rotable)
+            RotateCrystal();
     }
 }
