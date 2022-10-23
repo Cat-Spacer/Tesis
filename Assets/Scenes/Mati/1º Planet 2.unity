@@ -2320,6 +2320,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757062, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
+      propertyPath: _distance
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757062, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: _countLineRenderer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757062, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
       propertyPath: _sidesOfCrystals.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -2332,11 +2342,16 @@ PrefabInstance:
         type: 3}
       propertyPath: _nextCrystal
       value: 
-      objectReference: {fileID: 439276170}
+      objectReference: {fileID: 408109087}
+    - target: {fileID: 4239641012861757177, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: _prevCrystal
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757177, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: _sidesForRotation
-      value: 3
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
@@ -2893,7 +2908,7 @@ PrefabInstance:
     - target: {fileID: 346502288663443060, guid: a1164f5a552647549b5c8af47e2532cb,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 346502288663443060, guid: a1164f5a552647549b5c8af47e2532cb,
         type: 3}
@@ -7308,6 +7323,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 171818730}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &175174084 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4239641012861757177, guid: f28572979e69fc440ad377a49a21f57c,
+    type: 3}
+  m_PrefabInstance: {fileID: 57162184}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba9992d4e12038d4f997e60f7586f17e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &178090176
 GameObject:
   m_ObjectHideFlags: 0
@@ -8210,7 +8237,7 @@ Transform:
   m_LocalScale: {x: 0.5651083, y: 0.48923677, z: 1}
   m_Children: []
   m_Father: {fileID: 699870312}
-  m_RootOrder: 22
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &194459157
 GameObject:
@@ -10442,6 +10469,18 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &220343202 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4239641012861757177, guid: f28572979e69fc440ad377a49a21f57c,
+    type: 3}
+  m_PrefabInstance: {fileID: 744002789}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba9992d4e12038d4f997e60f7586f17e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &221475919
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10582,6 +10621,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _nextCrystal: {fileID: 727645296}
+  _prevCrystal: {fileID: 0}
   _forceStart: 0
   _line: {fileID: 0}
   _crystalNumber: 1
@@ -10670,16 +10710,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lineRenderer: {fileID: 0}
   _sidesOfCrystals: []
-  _count: 1
+  _countLineRenderer: 0
   _limitCount: 1
   _distance: 0
   _time: 0
+  linkedCrystal: 0
   _layerMaskObstacles:
     serializedVersion: 2
     m_Bits: 832
   _layerMaskCrystal:
     serializedVersion: 2
     m_Bits: 8192
+  _directions: []
+  _myCrystal: {fileID: 0}
 --- !u!120 &229991727
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -12670,7 +12713,7 @@ PrefabInstance:
     - target: {fileID: 3639545132362462645, guid: 8ce91635f14d70841aeb7ebe0a0cc4e3,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3639545132362462645, guid: 8ce91635f14d70841aeb7ebe0a0cc4e3,
         type: 3}
@@ -17341,6 +17384,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 408074565}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &408109087 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4239641012861757177, guid: f28572979e69fc440ad377a49a21f57c,
+    type: 3}
+  m_PrefabInstance: {fileID: 2043045191}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba9992d4e12038d4f997e60f7586f17e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &410916175
 GameObject:
   m_ObjectHideFlags: 0
@@ -18215,6 +18270,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _nextCrystal: {fileID: 1808217756}
+  _prevCrystal: {fileID: 0}
   _forceStart: 0
   _line: {fileID: 0}
   _crystalNumber: 1
@@ -18329,16 +18385,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lineRenderer: {fileID: 0}
   _sidesOfCrystals: []
-  _count: 1
+  _countLineRenderer: 0
   _limitCount: 1
   _distance: 0
   _time: 0
+  linkedCrystal: 0
   _layerMaskObstacles:
     serializedVersion: 2
     m_Bits: 832
   _layerMaskCrystal:
     serializedVersion: 2
     m_Bits: 8192
+  _directions: []
+  _myCrystal: {fileID: 0}
 --- !u!120 &439276175
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -20938,7 +20997,7 @@ Transform:
   - {fileID: 2017096257}
   - {fileID: 143859225}
   m_Father: {fileID: 1127733170}
-  m_RootOrder: 2
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &478602383
 GameObject:
@@ -24395,6 +24454,203 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &525666423 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4239641012861757177, guid: f28572979e69fc440ad377a49a21f57c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1458871799}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba9992d4e12038d4f997e60f7586f17e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1001 &529311513
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1127733170}
+    m_Modifications:
+    - target: {fileID: 2078595717781618395, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2078595717781618395, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757062, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: _distance
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757062, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: _countLineRenderer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757062, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: _sidesOfCrystals.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757062, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: _sidesOfCrystals.Array.data[2]
+      value: 
+      objectReference: {fileID: 745221892}
+    - target: {fileID: 4239641012861757177, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: _lastCrystal
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757177, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: _nextCrystal
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757177, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: _prevCrystal
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757177, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: _sidesForRotation
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 130.71
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -5.54
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757179, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 8387669789750386176, guid: 49e6dd3904496cc44b791e618da8b850,
+        type: 3}
+    - target: {fileID: 4239641012861757180, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: m_Name
+      value: Crystal (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5039069362945266467, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 5039069362945266467, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5272741153101450032, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6658135703671033323, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 0.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 6658135703671033323, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 0.89
+      objectReference: {fileID: 0}
+    - target: {fileID: 7647831723823283172, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7647831723823283172, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 8375722670176850158, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 8375722670176850158, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.15
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f28572979e69fc440ad377a49a21f57c, type: 3}
 --- !u!1001 &534222362
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29327,7 +29583,7 @@ Transform:
   m_LocalScale: {x: 1.6709, y: 1.6709, z: 1.6709}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 25
+  m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!4 &598325605 stripped
 Transform:
@@ -30403,7 +30659,7 @@ PrefabInstance:
     - target: {fileID: 346502288663443060, guid: a1164f5a552647549b5c8af47e2532cb,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 346502288663443060, guid: a1164f5a552647549b5c8af47e2532cb,
         type: 3}
@@ -32226,7 +32482,7 @@ Transform:
   m_LocalScale: {x: 3.0812, y: 0.3128, z: 1}
   m_Children: []
   m_Father: {fileID: 699870312}
-  m_RootOrder: 20
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &687156388
 BoxCollider2D:
@@ -35405,9 +35661,9 @@ Transform:
   - {fileID: 1055427283}
   - {fileID: 1514615882}
   - {fileID: 919721353}
-  - {fileID: 1845352381}
   - {fileID: 1643773932}
   - {fileID: 260274288}
+  - {fileID: 1845352381}
   - {fileID: 845187769}
   - {fileID: 439276173}
   - {fileID: 744002790}
@@ -35418,13 +35674,10 @@ Transform:
   - {fileID: 229991725}
   - {fileID: 1025106638}
   - {fileID: 727645299}
-  - {fileID: 1458871800}
-  - {fileID: 2017874798}
   - {fileID: 687156387}
   - {fileID: 1344366453}
   - {fileID: 194320697}
   - {fileID: 1233891807}
-  - {fileID: 1639183338}
   - {fileID: 1518032118}
   m_Father: {fileID: 290425901}
   m_RootOrder: 4
@@ -36756,6 +37009,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _nextCrystal: {fileID: 2017874795}
+  _prevCrystal: {fileID: 0}
   _forceStart: 0
   _line: {fileID: 0}
   _crystalNumber: 1
@@ -36870,16 +37124,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lineRenderer: {fileID: 0}
   _sidesOfCrystals: []
-  _count: 1
+  _countLineRenderer: 0
   _limitCount: 1
   _distance: 0
   _time: 0
+  linkedCrystal: 0
   _layerMaskObstacles:
     serializedVersion: 2
     m_Bits: 832
   _layerMaskCrystal:
     serializedVersion: 2
     m_Bits: 8192
+  _directions: []
+  _myCrystal: {fileID: 0}
 --- !u!120 &727645301
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -37405,6 +37662,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757062, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
+      propertyPath: _distance
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757062, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: _countLineRenderer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757062, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
       propertyPath: _sidesOfCrystals.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -37417,11 +37684,16 @@ PrefabInstance:
         type: 3}
       propertyPath: _nextCrystal
       value: 
-      objectReference: {fileID: 439276170}
+      objectReference: {fileID: 175174084}
+    - target: {fileID: 4239641012861757177, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: _prevCrystal
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757177, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: _sidesForRotation
-      value: 3
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
@@ -37680,6 +37952,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6262095503993196127, guid: fa72ae10661be124fab76e9545168902,
     type: 3}
   m_PrefabInstance: {fileID: 744724801}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &745221892 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2078595717781618395, guid: f28572979e69fc440ad377a49a21f57c,
+    type: 3}
+  m_PrefabInstance: {fileID: 529311513}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &750524761
 GameObject:
@@ -41443,6 +41721,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 771805672}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &772418235 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4239641012861757177, guid: f28572979e69fc440ad377a49a21f57c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1025106637}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba9992d4e12038d4f997e60f7586f17e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &773509694
 GameObject:
   m_ObjectHideFlags: 0
@@ -43187,11 +43477,31 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -0.75
       objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757062, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: _distance
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757062, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: _countLineRenderer
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757177, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: _nextCrystal
       value: 
-      objectReference: {fileID: 439276170}
+      objectReference: {fileID: 220343202}
+    - target: {fileID: 4239641012861757177, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: _prevCrystal
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757177, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: _sidesForRotation
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: m_RootOrder
@@ -43215,12 +43525,12 @@ PrefabInstance:
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.27
+      value: -0.075
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 9.86
+      value: 9.75
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
@@ -43230,7 +43540,7 @@ PrefabInstance:
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.46174863
+      value: 0.49999994
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
@@ -43245,7 +43555,7 @@ PrefabInstance:
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.8870109
+      value: -0.86602545
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
@@ -43260,7 +43570,7 @@ PrefabInstance:
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -125
+      value: -120
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757179, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
@@ -44207,6 +44517,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _nextCrystal: {fileID: 229991723}
+  _prevCrystal: {fileID: 0}
   _forceStart: 0
   _line: {fileID: 0}
   _crystalNumber: 1
@@ -44228,16 +44539,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lineRenderer: {fileID: 0}
   _sidesOfCrystals: []
-  _count: 1
+  _countLineRenderer: 0
   _limitCount: 1
   _distance: 0
   _time: 0
+  linkedCrystal: 0
   _layerMaskObstacles:
     serializedVersion: 2
     m_Bits: 832
   _layerMaskCrystal:
     serializedVersion: 2
     m_Bits: 8192
+  _directions: []
+  _myCrystal: {fileID: 0}
 --- !u!120 &898979157
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -52376,6 +52690,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1004332098 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4239641012861757177, guid: f28572979e69fc440ad377a49a21f57c,
+    type: 3}
+  m_PrefabInstance: {fileID: 845187768}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba9992d4e12038d4f997e60f7586f17e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1005819657
 GameObject:
   m_ObjectHideFlags: 0
@@ -57364,6 +57690,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757062, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
+      propertyPath: _distance
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757062, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: _countLineRenderer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757062, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: _layerMaskObstacles.m_Bits
+      value: 33600
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757062, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
       propertyPath: _sidesOfCrystals.Array.size
       value: 4
       objectReference: {fileID: 0}
@@ -57381,11 +57722,16 @@ PrefabInstance:
         type: 3}
       propertyPath: _nextCrystal
       value: 
-      objectReference: {fileID: 439276170}
+      objectReference: {fileID: 525666423}
+    - target: {fileID: 4239641012861757177, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: _prevCrystal
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757177, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: _sidesForRotation
-      value: 4
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
@@ -59705,6 +60051,11 @@ Transform:
   m_LocalPosition: {x: -139.76523, y: 0.73715854, z: 5.572249}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1458871800}
+  - {fileID: 2017874798}
+  - {fileID: 1686976251}
+  - {fileID: 1639183338}
+  - {fileID: 1942120366}
   - {fileID: 76220637}
   - {fileID: 615444698}
   - {fileID: 472116351}
@@ -63062,7 +63413,7 @@ Transform:
   m_LocalScale: {x: 0.4305, y: 0.4305, z: 0.4305}
   m_Children: []
   m_Father: {fileID: 699870312}
-  m_RootOrder: 23
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1233891808
 MonoBehaviour:
@@ -64123,7 +64474,7 @@ PrefabInstance:
     - target: {fileID: 2866986871330491981, guid: f88901f27ef145149992336089e3d08c,
         type: 3}
       propertyPath: m_RootOrder
-      value: 25
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 2866986871330491981, guid: f88901f27ef145149992336089e3d08c,
         type: 3}
@@ -66187,7 +66538,7 @@ Transform:
   m_LocalScale: {x: 0.4305, y: 0.4305, z: 0.4305}
   m_Children: []
   m_Father: {fileID: 699870312}
-  m_RootOrder: 21
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1344366454
 MonoBehaviour:
@@ -67836,6 +68187,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2638962870350567023, guid: 6d1221f93a47a6344b0f8cc576150974,
         type: 3}
+      propertyPath: damageable.m_Bits
+      value: 8704
+      objectReference: {fileID: 0}
+    - target: {fileID: 2638962870350567023, guid: 6d1221f93a47a6344b0f8cc576150974,
+        type: 3}
       propertyPath: groundLayer.m_Bits
       value: 33344
       objectReference: {fileID: 0}
@@ -68407,7 +68763,7 @@ Transform:
   - {fileID: 146470318}
   - {fileID: 301253378}
   m_Father: {fileID: 1127733170}
-  m_RootOrder: 3
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1440688445
 GameObject:
@@ -70970,7 +71326,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 699870312}
+    m_TransformParent: {fileID: 1127733170}
     m_Modifications:
     - target: {fileID: 2078595717781618395, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
@@ -70984,6 +71340,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757062, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
+      propertyPath: _distance
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757062, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: _countLineRenderer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757062, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
       propertyPath: _sidesOfCrystals.Array.size
       value: 4
       objectReference: {fileID: 0}
@@ -70994,18 +71360,28 @@ PrefabInstance:
       objectReference: {fileID: 1458871801}
     - target: {fileID: 4239641012861757177, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
+      propertyPath: _lastCrystal
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757177, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
       propertyPath: _nextCrystal
       value: 
-      objectReference: {fileID: 439276170}
+      objectReference: {fileID: 1686976246}
+    - target: {fileID: 4239641012861757177, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: _prevCrystal
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757177, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: _sidesForRotation
-      value: 4
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: m_RootOrder
-      value: 18
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
@@ -71025,7 +71401,7 @@ PrefabInstance:
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10.46
+      value: 150.46
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
@@ -71040,22 +71416,22 @@ PrefabInstance:
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0
+      value: 0.70710677
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 1
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
@@ -71070,7 +71446,7 @@ PrefabInstance:
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 180
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757179, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
@@ -81306,7 +81682,7 @@ GameObject:
   - component: {fileID: 1639183340}
   - component: {fileID: 1639183339}
   m_Layer: 13
-  m_Name: crystal_6 (1)
+  m_Name: crystal_7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -81320,12 +81696,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1639183337}
   m_LocalRotation: {x: -0, y: -0, z: 1, w: 0}
-  m_LocalPosition: {x: -9.13, y: -5.54, z: 0}
+  m_LocalPosition: {x: 130.87, y: -5.54, z: 0}
   m_LocalScale: {x: 1, y: 1.02, z: 1}
   m_Children:
   - {fileID: 418476894}
-  m_Father: {fileID: 699870312}
-  m_RootOrder: 24
+  m_Father: {fileID: 1127733170}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!114 &1639183339
 MonoBehaviour:
@@ -81341,16 +81717,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lineRenderer: {fileID: 0}
   _sidesOfCrystals: []
-  _count: 1
+  _countLineRenderer: 0
   _limitCount: 1
   _distance: 0
   _time: 0
+  linkedCrystal: 0
   _layerMaskObstacles:
     serializedVersion: 2
     m_Bits: 832
   _layerMaskCrystal:
     serializedVersion: 2
     m_Bits: 8192
+  _directions: []
+  _myCrystal: {fileID: 0}
 --- !u!120 &1639183340
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -81461,6 +81840,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _nextCrystal: {fileID: 0}
+  _prevCrystal: {fileID: 0}
   _forceStart: 0
   _line: {fileID: 0}
   _crystalNumber: 1
@@ -81637,7 +82017,7 @@ PrefabInstance:
     - target: {fileID: 3639545132362462645, guid: 8ce91635f14d70841aeb7ebe0a0cc4e3,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3639545132362462645, guid: 8ce91635f14d70841aeb7ebe0a0cc4e3,
         type: 3}
@@ -82957,6 +83337,24 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6167648586741276634, guid: c98c87305d9900e45832655060dac116,
     type: 3}
   m_PrefabInstance: {fileID: 1686867650}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1686976246 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4239641012861757177, guid: f28572979e69fc440ad377a49a21f57c,
+    type: 3}
+  m_PrefabInstance: {fileID: 529311513}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba9992d4e12038d4f997e60f7586f17e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1686976251 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
+    type: 3}
+  m_PrefabInstance: {fileID: 529311513}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1689906824
 GameObject:
@@ -85640,7 +86038,7 @@ PrefabInstance:
     - target: {fileID: 7162455907356675186, guid: f5c93d3f65753dc4ebd75d2718cab151,
         type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 7162455907356675186, guid: f5c93d3f65753dc4ebd75d2718cab151,
         type: 3}
@@ -96292,7 +96690,7 @@ PrefabInstance:
     - target: {fileID: 346502288663443060, guid: a1164f5a552647549b5c8af47e2532cb,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 346502288663443060, guid: a1164f5a552647549b5c8af47e2532cb,
         type: 3}
@@ -96372,7 +96770,7 @@ PrefabInstance:
     - target: {fileID: 346502288663443060, guid: a1164f5a552647549b5c8af47e2532cb,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 346502288663443060, guid: a1164f5a552647549b5c8af47e2532cb,
         type: 3}
@@ -104566,6 +104964,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _nextCrystal: {fileID: 898979155}
+  _prevCrystal: {fileID: 0}
   _forceStart: 0
   _line: {fileID: 0}
   _crystalNumber: 1
@@ -104587,16 +104986,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lineRenderer: {fileID: 0}
   _sidesOfCrystals: []
-  _count: 1
+  _countLineRenderer: 0
   _limitCount: 1
   _distance: 0
   _time: 0
+  linkedCrystal: 0
   _layerMaskObstacles:
     serializedVersion: 2
     m_Bits: 832
   _layerMaskCrystal:
     serializedVersion: 2
     m_Bits: 8192
+  _directions: []
+  _myCrystal: {fileID: 0}
 --- !u!120 &1808217758
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -106872,7 +107274,7 @@ PrefabInstance:
     - target: {fileID: 346502288663443060, guid: a1164f5a552647549b5c8af47e2532cb,
         type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 346502288663443060, guid: a1164f5a552647549b5c8af47e2532cb,
         type: 3}
@@ -107645,7 +108047,7 @@ PrefabInstance:
     - target: {fileID: 346502288663443060, guid: a1164f5a552647549b5c8af47e2532cb,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 346502288663443060, guid: a1164f5a552647549b5c8af47e2532cb,
         type: 3}
@@ -108271,7 +108673,7 @@ GameObject:
   - component: {fileID: 1942120366}
   - component: {fileID: 1942120365}
   m_Layer: 0
-  m_Name: crystal_0
+  m_Name: crystal_8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -108336,12 +108738,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1942120364}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 130.76, y: -10.51, z: 0}
   m_LocalScale: {x: 1.8892, y: 1.8892, z: 1.8892}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 24
+  m_Father: {fileID: 1127733170}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1948671675
 GameObject:
@@ -114852,6 +115254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _nextCrystal: {fileID: 0}
+  _prevCrystal: {fileID: 0}
   _forceStart: 0
   _line: {fileID: 0}
   _crystalNumber: 1
@@ -114945,12 +115348,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2017874794}
   m_LocalRotation: {x: -0, y: -0, z: 1, w: 0}
-  m_LocalPosition: {x: 10.46, y: -5.54, z: 0}
+  m_LocalPosition: {x: 150.46, y: -5.54, z: 0}
   m_LocalScale: {x: 1, y: 1.02, z: 1}
   m_Children:
   - {fileID: 1135666837}
-  m_Father: {fileID: 699870312}
-  m_RootOrder: 19
+  m_Father: {fileID: 1127733170}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!114 &2017874799
 MonoBehaviour:
@@ -114966,16 +115369,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lineRenderer: {fileID: 0}
   _sidesOfCrystals: []
-  _count: 1
+  _countLineRenderer: 0
   _limitCount: 1
   _distance: 0
   _time: 0
+  linkedCrystal: 0
   _layerMaskObstacles:
     serializedVersion: 2
     m_Bits: 832
   _layerMaskCrystal:
     serializedVersion: 2
     m_Bits: 8192
+  _directions: []
+  _myCrystal: {fileID: 0}
 --- !u!120 &2017874800
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -117538,6 +117944,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757062, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
+      propertyPath: _distance
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757062, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: _countLineRenderer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757062, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
       propertyPath: _sidesOfCrystals.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -117550,11 +117966,16 @@ PrefabInstance:
         type: 3}
       propertyPath: _nextCrystal
       value: 
-      objectReference: {fileID: 439276170}
+      objectReference: {fileID: 772418235}
+    - target: {fileID: 4239641012861757177, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: _prevCrystal
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757177, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: _sidesForRotation
-      value: 3
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
@@ -117579,7 +118000,7 @@ PrefabInstance:
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.44
+      value: 0.57
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
@@ -117594,17 +118015,17 @@ PrefabInstance:
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0
+      value: 0.00000086426724
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
@@ -120361,7 +120782,7 @@ PrefabInstance:
     - target: {fileID: 1515499864110979211, guid: 54786ab0c6725694cb282a87e85bb065,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 1515499864110979211, guid: 54786ab0c6725694cb282a87e85bb065,
         type: 3}
@@ -120505,7 +120926,7 @@ PrefabInstance:
     - target: {fileID: 1934866705663391839, guid: 0c72b7410ce8fc64b9ff38c22b58e799,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 1934866705663391839, guid: 0c72b7410ce8fc64b9ff38c22b58e799,
         type: 3}
@@ -120645,21 +121066,26 @@ PrefabInstance:
         type: 3}
       propertyPath: _nextCrystal
       value: 
-      objectReference: {fileID: 439276170}
+      objectReference: {fileID: 1004332098}
+    - target: {fileID: 4239641012861757177, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: _sidesForRotation
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.47
+      value: -7.5
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 10.48
+      value: 10.5
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
@@ -120669,22 +121095,22 @@ PrefabInstance:
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9396927
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0.3420201
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
@@ -120699,12 +121125,17 @@ PrefabInstance:
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757180, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: m_Name
       value: Crystal
+      objectReference: {fileID: 0}
+    - target: {fileID: 6658135703671033323, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f28572979e69fc440ad377a49a21f57c, type: 3}
@@ -120945,7 +121376,7 @@ PrefabInstance:
     - target: {fileID: 7162455907356675186, guid: f5c93d3f65753dc4ebd75d2718cab151,
         type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 7162455907356675186, guid: f5c93d3f65753dc4ebd75d2718cab151,
         type: 3}

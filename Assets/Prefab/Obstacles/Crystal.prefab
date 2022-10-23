@@ -132,7 +132,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -257,12 +257,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba9992d4e12038d4f997e60f7586f17e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _nextCrystal: {fileID: 0}
+  _nextCrystal: {fileID: 4239641012861757177}
   _forceStart: 0
   _line: {fileID: 0}
   _crystalNumber: 1
   _cristalsLenght: 1
-  _sidesForRotation: 4
+  _sidesForRotation: 6
   _lastCrystal: 0
   _door: {fileID: 0}
 --- !u!114 &4239641012861757062
@@ -283,9 +283,9 @@ MonoBehaviour:
   - {fileID: 8375722670176850158}
   - {fileID: 2078595717781618395}
   - {fileID: 5039069362945266467}
-  _count: 1
+  _countLineRenderer: 1
   _limitCount: 1
-  _distance: 0
+  _distance: 20
   _time: 0
   _layerMaskObstacles:
     serializedVersion: 2
@@ -293,6 +293,7 @@ MonoBehaviour:
   _layerMaskCrystal:
     serializedVersion: 2
     m_Bits: 8192
+  _directions: []
 --- !u!1 &4239641013271740919
 GameObject:
   m_ObjectHideFlags: 0
