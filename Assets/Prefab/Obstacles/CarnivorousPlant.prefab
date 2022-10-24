@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5051857900147419798}
+  - component: {fileID: 2922323414852402888}
   - component: {fileID: 1925160099338540441}
   - component: {fileID: 2604219594284615426}
   - component: {fileID: 3290346973609690085}
@@ -33,6 +34,30 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2922323414852402888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6126241186374080482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5133d87d1a99ae46b32c28311ce2709, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _time: 3
+  _timer: 3
+  _speedToTramp: 10
+  _heithSize: 4
+  _up: 1
+  _relaseCuant: 20
+  _mouth: {fileID: 0}
+  _wraps: {fileID: 0}
+  _myAnimator: {fileID: 0}
+  _player: {fileID: 0}
+  _myboxCollider: {fileID: 0}
+  _liberatedPos: {fileID: 0}
 --- !u!114 &1925160099338540441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45,6 +70,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b53bc610063d25f4aa037940d147e719, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  open: 0
 --- !u!212 &2604219594284615426
 SpriteRenderer:
   m_ObjectHideFlags: 0

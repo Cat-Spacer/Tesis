@@ -21,10 +21,9 @@ public class GameManager : MonoBehaviour
     [Header("PickUps")]
     [SerializeField] Text _pointsText;
     [SerializeField] float _points = 0;
-
-    [Header("PickUps")]
     [SerializeField] float _pointsPerLevel = 0;
     [SerializeField] GameObject winScreen;
+    [SerializeField] MiniMenu minuMenu;
 
     private void Awake()
     {
@@ -32,13 +31,12 @@ public class GameManager : MonoBehaviour
     }
     private void Start()
     {
-        GetItem();
+        _pointsText.text = _points.ToString() + "/" + _pointsPerLevel.ToString();
         _player = FindObjectOfType<CustomMovement>();
-        //_CounterAction = delegate { };
     }
     private void Update()
     {
-        //_CounterAction();
+
     }
     public void SaveDistance(float distance)
     {
@@ -85,11 +83,11 @@ public class GameManager : MonoBehaviour
         _points++;
         if (_points != _pointsPerLevel)
         {
-            _pointsText.text = _points.ToString();
+            minuMenu.OpenCall();
+            _pointsText.text = _points.ToString() + "/" + _pointsPerLevel.ToString();
         }
         else //Ganaste
         {
-            //Time.timeScale = 0;
             winScreen.SetActive(true);
         }
     }
