@@ -7,8 +7,10 @@ public class EnergyPower : MonoBehaviour
 {
     [SerializeField] private Slider _energyBar;
     [SerializeField] private float _maxEnergy = 100f, _energyReg = 1f/*, _energyRegLimit = 5f*/
-                                    , _currentEnergy = 0f, _time = 0f,_timer = 2.5f;
+                                    ,_currentEnergy = 0, _time = 0f,_timer = 2.5f;
     private bool _canReg = true;
+
+    public bool hasEnergy = false;
 
     private void Start()
     {
@@ -25,6 +27,7 @@ public class EnergyPower : MonoBehaviour
         else
         {
             _canReg = true;
+            hasEnergy = true;
             _time = 0f;
             EnergyRegen();
             if (_currentEnergy > _maxEnergy)
@@ -40,14 +43,18 @@ public class EnergyPower : MonoBehaviour
 
     public bool EnergyDrain(float cuant = 10.0f) // retorna bool para que saber si puedo hacer esa accion o no (ejecuta en el proceso si es que puede).
     {
-        if (_currentEnergy - cuant >= 0)
+        if (_currentEnergy - cuant > 0)
         {
             _currentEnergy -= cuant;
             _time = 0f;
             _canReg = false;
             return true;
         }else
-            return false;
+        {
+            hasEnergy = false;
+             return false;
+        }
+            
     }
 
     private void UpdateEnergyBar()

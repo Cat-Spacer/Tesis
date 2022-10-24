@@ -31,7 +31,8 @@ public class CustomMovement : PlayerDatas, IDamageable
 
         _climbScript = new Climb();
         _climbScript.SetClimb(playerInput, _collider, rb, transform, _upSpeed, _downSpeed,
-            _distanceToRope, _layerMask, _impulseDirectionExitForce, _impulseExitRopeForce, anim, this, gravityForceDefault, _energyPowerScript);
+            _distanceToRope, _climbLayerMask, _impulseDirectionExitForce, _impulseExitRopeForce, anim, this, gravityForceDefault, _energyPowerScript,
+             groundLayer);
 
     }
     private void Start()
@@ -223,7 +224,7 @@ public class CustomMovement : PlayerDatas, IDamageable
         }
 
 
-        if (jumpUp && Climb.isClimbing && (!_climbScript.InSight()|| _climbScript.InSight()))
+        if (jumpUp && Climb.isClimbing && (!_climbScript.InSight(_climbLayerMask) || _climbScript.InSight(_climbLayerMask)))
         {
            /* jumping = true;
             anim.SetTrigger("Jump");
@@ -302,7 +303,7 @@ public class CustomMovement : PlayerDatas, IDamageable
 
         //canJump = false;
         if (!dead) ConstrainsReset();
-        if (_climbScript.InSight())
+        if (_climbScript.InSight(_climbLayerMask))
         {
             if (faceDirection == -1)
             {
@@ -335,9 +336,7 @@ public class CustomMovement : PlayerDatas, IDamageable
         _climbScript._ClimbState = _climbScript.EndClimbJump;
 
     }
-
-
-
+    #endregion
     public bool dashClimb = false;
     public void DashClimb()
    {
@@ -355,7 +354,7 @@ public class CustomMovement : PlayerDatas, IDamageable
         _dashTrail.gameObject.SetActive(true);
 
 
-        if (_climbScript.InSight())
+        if (_climbScript.InSight(_climbLayerMask))
         {
             if (faceDirection == -1)
             {
@@ -395,12 +394,9 @@ public class CustomMovement : PlayerDatas, IDamageable
 
         _climbScript._ClimbState = EndDashClimb;
     }
-
-    
-
     public void EndDashClimb()
     {
-        if (_climbScript.InSight())
+        if (_climbScript.InSight(_climbLayerMask))
         {
             rb.velocity *= 0;
             rb.constraints = RigidbodyConstraints2D.FreezePosition;
@@ -435,7 +431,6 @@ public class CustomMovement : PlayerDatas, IDamageable
         else if (onGround) onJumpInputReleased = false;
 
     }
-
     void TimeCounterCoyote()
     {
         if (onGround || coyoteTime <= 0) coyoteTimeCounter = coyoteTime;
@@ -458,7 +453,6 @@ public class CustomMovement : PlayerDatas, IDamageable
             _TimeCounterAction -= TimeCounterJumpbuffer;
         }
     }
-    #endregion
     #region Dash
     void Dash()
     {
@@ -491,7 +485,7 @@ public class CustomMovement : PlayerDatas, IDamageable
             _dashTrail.gameObject.SetActive(true);
             StartCoroutine(DashStop());
 
-            if (_climbScript.InSight())
+            if (_climbScript.InSight(_climbLayerMask))
             {
 
                 if (faceDirection == 1)
@@ -510,7 +504,7 @@ public class CustomMovement : PlayerDatas, IDamageable
             rb.constraints = RigidbodyConstraints2D.FreezePositionY;
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
-            if (_climbScript.InSight())
+            if (_climbScript.InSight(_climbLayerMask))
             {
                 _climbScript._ClimbState = _climbScript.Freeze;
             }
@@ -540,7 +534,6 @@ public class CustomMovement : PlayerDatas, IDamageable
 
     public void ForceDashEnd()
     {
-        Debug.Log("force dash end");
         dashing = false;
         rb.velocity = Vector2.zero;
         _dashParticleTrail.Stop();
@@ -548,145 +541,12 @@ public class CustomMovement : PlayerDatas, IDamageable
         StartCoroutine(ExampleCoroutine());
     }
 
+    #endregion
     IEnumerator ExampleCoroutine()
     {
         yield return new WaitForSeconds(0.1f);
         _dashTrail.gameObject.SetActive(false);
     }
-
-
-    #endregion
-    #region Climb
-
-    /*bool hasPlayedClimb = false;
-    void ClimbInput()
-    {
-        if (_onWall && (w_Imput || onGround == false))
-        {
-            _canClimb = true;
-        }
-        if (!_canClimb) return;
-        if (w_Imput && !a_Imput && !d_Imput)
-        {
-            Debug.Log("Up");
-            _doClimbStaticLeft = false;
-            _doClimbStaticRight = false;
-            _doClimbDown = false;
-            _doClimbUp = true;
-        }
-        if (s_Imput)
-        {
-            Debug.Log("Down");
-            _doClimbStaticLeft = false;
-            _doClimbStaticRight = false;
-            _doClimbUp = false;
-            _doClimbDown = true;
-        }
-        if (a_Imput)
-        {
-            Debug.Log("Left");
-            _doClimbUp = false;
-            _doClimbDown = false;
-            _doClimbStaticRight = false;
-            _doClimbStaticLeft = true;
-        }
-        if (d_Imput)
-        {
-            Debug.Log("Right");
-            _doClimbUp = false;
-            _doClimbDown = false;
-            _doClimbStaticLeft = false;
-            _doClimbStaticRight = true;
-        }
-        _climbParticle.Play();
-
-        if (rb.velocity.y < -0.1)
-        {
-            anim.SetBool("OnWall", true);
-            if (!hasPlayedClimb)
-            {
-                SoundManager.instance.Play(SoundManager.Types.Climb);
-                hasPlayedClimb = true;
-            }
-
-        }
-        if (rb.velocity.y > 0.1)
-        {
-            if (!hasPlayedClimb)
-            {
-                SoundManager.instance.Play(SoundManager.Types.Climb);
-                hasPlayedClimb = true;
-            }
-        }
-        if (rb.velocity.y == 0)
-        {
-            hasPlayedClimb = false;
-            SoundManager.instance.Pause(SoundManager.Types.Climb);
-        }
-    }
-    void ClimbUp()
-    {
-        if (_doClimbUp)
-        {
-            anim.SetBool("OnWall", true);
-
-            _climbParticle.Stop();
-            anim.SetBool("Climbing", true);
-            rb.velocity = Vector2.up * _climbSpeed;
-            ConstrainsReset();
-        }
-        else anim.SetBool("Climbing", false);
-    }
-    void ClimbDown()
-    {
-        if (_doClimbDown)
-        {
-            anim.SetBool("OnWall", true);
-            anim.SetBool("Climbing", false);
-            rb.velocity = Vector2.down * _climbSpeed * 0.8f;
-            ConstrainsReset();
-        }
-    }
-    void ClimbStaticLeft()
-    {
-        if (_doClimbStaticLeft)
-        {
-            anim.SetBool("OnWall", true);
-            if (faceDirection == -1)
-            {
-                stopClimbing = true;
-                rb.velocity = new Vector2(rb.velocity.x, 0);
-                rb.velocity = new Vector2(rb.velocity.y, 0);
-                rb.angularVelocity = 0;
-                rb.constraints = RigidbodyConstraints2D.FreezePositionY;
-            }
-            else
-            {
-                ConstrainsReset();
-            }
-        }       
-    }
-    void ClimbStaticRight()
-    {
-        if (_doClimbStaticRight) 
-        {
-            anim.SetBool("OnWall", true);
-
-            if (faceDirection == 1)
-            {
-                stopClimbing = true;
-                rb.velocity = new Vector2(rb.velocity.x, 0);
-                rb.velocity = new Vector2(rb.velocity.y, 0);
-                rb.angularVelocity = 0;
-                rb.constraints = RigidbodyConstraints2D.FreezePositionY;
-            }
-            else
-            {
-                ConstrainsReset();
-            }
-        }
-    } */
-    #endregion
     #region MiauAttack
     void Attack()
     {
@@ -724,7 +584,7 @@ public class CustomMovement : PlayerDatas, IDamageable
     public void ConstrainsReset()
     {
         if (!dead) rb.constraints = constraints2D;
-        Debug.Log("Aca");
+
     }
     void GroundCheckPos()
     {
@@ -742,6 +602,7 @@ public class CustomMovement : PlayerDatas, IDamageable
 
         if (groundColl != null) //On ground
         {
+   
             isJumping = false;
             onGround = true;
             jumpClimb = false;
@@ -754,7 +615,17 @@ public class CustomMovement : PlayerDatas, IDamageable
             onGround = false;
             anim.SetBool("OnGround", false);
         }
+
+        if ((groundColl != null|| ForestFlower.onFlower == true) && transform.rotation.z ==0)
+        {
+            canHorizontalClimb = true;
+        }
     }
+
+    public static bool collisionObstacle = false;
+    [SerializeField] LayerMask _obstacleLayers;
+
+    public static bool canHorizontalClimb;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {     
@@ -764,13 +635,12 @@ public class CustomMovement : PlayerDatas, IDamageable
            // isJumping = false;
         }
 
-        if (collision.gameObject.layer == 17)
-        {
-            _climbScript.StartClimbingState();
-             _climbScript._ClimbState = _climbScript.ClimbActionHorizontal;
-            //_climbScript._vector = transform.right;
-        }
+       
 
+        if ((_obstacleLayers.value & (1 << collision.gameObject.layer)) > 0)
+        { 
+            collisionObstacle = true;
+        }
 
       /*  if (collision.gameObject.layer == _wallLayerNumber) //OnWall
         {
@@ -786,26 +656,33 @@ public class CustomMovement : PlayerDatas, IDamageable
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
-      /*  if (collision.gameObject.layer == _wallLayerNumber)
+
+
+        if ((_obstacleLayers.value & (1 << collision.gameObject.layer)) > 0)
         {
-            hasPlayedClimb = false;
-            ConstrainsReset();
+            collisionObstacle = false;
+            Debug.Log("end collision with obstacle");
+        }
+        /*  if (collision.gameObject.layer == _wallLayerNumber)
+          {
+              hasPlayedClimb = false;
+              ConstrainsReset();
 
-            _onWall = false;
-            _onClimb = false;
-            _canClimb = false;
-            _doClimbUp = false;
-            _doClimbDown = false;
-            _doClimbStaticLeft = false;
-            _doClimbStaticRight = false;
+              _onWall = false;
+              _onClimb = false;
+              _canClimb = false;
+              _doClimbUp = false;
+              _doClimbDown = false;
+              _doClimbStaticLeft = false;
+              _doClimbStaticRight = false;
 
-            rb.gravityScale = 1.0f;
-            gravityForce = gravityForceDefault;
-            anim.SetBool("OnWall", false);
-            anim.SetBool("Climbing", false);
-            _climbParticle.Stop();
-            SoundManager.instance.Pause(SoundManager.Types.Climb);
-        }*/
+              rb.gravityScale = 1.0f;
+              gravityForce = gravityForceDefault;
+              anim.SetBool("OnWall", false);
+              anim.SetBool("Climbing", false);
+              _climbParticle.Stop();
+              SoundManager.instance.Pause(SoundManager.Types.Climb);
+          }*/
     }
     private void OnCollisionStay2D(Collision2D collision)
     {
@@ -817,6 +694,25 @@ public class CustomMovement : PlayerDatas, IDamageable
             ConstrainsReset();*/
         }
 
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer == 17 && canHorizontalClimb)
+        {
+            _climbScript.StartClimbingState();
+            Climb.isClimbing = true;
+            _climbScript._ClimbState = _climbScript.ClimbActionHorizontal;
+            canHorizontalClimb = false;
+            //_climbScript._vector = transform.right;
+        }
+        /*if (collision.gameObject.layer == 9 && !canHorizontalClimb)
+        {
+            _climbScript.StartClimbingState();
+            _climbScript._ClimbState = _climbScript.ClimbActionVertical;
+            canHorizontalClimb = false;
+            //_climbScript._vector = transform.right;
+        }*/
     }
     private void OnDrawGizmos()
     {
@@ -862,5 +758,5 @@ public class CustomMovement : PlayerDatas, IDamageable
         Debug.Log("done");
     }
 
-}
 
+}
