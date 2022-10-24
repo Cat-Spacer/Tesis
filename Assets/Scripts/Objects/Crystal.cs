@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Crystal : MonoBehaviour
+public class Crystal : MonoBehaviour, IDamageable
 {
-    [SerializeField] Crystal _nextCrystal;
-    [SerializeField] bool _forceStart = false;
-    [SerializeField] LineCollision _line;
-    [SerializeField] int _crystalNumber, _cristalsLenght = 0;
-    [SerializeField] bool _lastCrystal/*, _usedCrystal = false*/;
-    [SerializeField] GameObject _door;
-   // [SerializeField] Crystal _nextCrystalIn;
+    [SerializeField] private Crystal _nextCrystal, _prevCrystal;
+    [SerializeField] private bool _forceStart = false, _rotable = true;
+    [SerializeField] private LineCollision _line;
+    [SerializeField] private int _crystalNumber, _cristalsLenght = 0, _sidesForRotation = 4;
+    [SerializeField] private bool _lastCrystal/*, _usedCrystal = false*/;
+    [SerializeField] private GameObject _door;
+    // [SerializeField] Crystal _nextCrystalIn;
 
     private void Start()
     {
@@ -22,33 +22,54 @@ public class Crystal : MonoBehaviour
     private void Update()
     {
         if (_forceStart/* && !_usedCrystal*/)
-        {//                                                                  added  ↓  added
-            _line.SetLight(_nextCrystal.transform.position, _crystalNumber, _cristalsLenght, this, _nextCrystal);
+        {
+            CallCrystal(_prevCrystal);
             _forceStart = false;
             //_usedCrystal = true;
         }
     }
 
-    public void CheckCrystal()
+    public void CheckIfLastCrystal()
     {
-        if (_lastCrystal)
+        if (_lastCrystal && _door != null)
         {
-            Debug.Log(gameObject.name + " last");
+            Debug.Log($"{gameObject.name} last");
             _door.SetActive(!_door.activeSelf);
         }
         else
-        {
-            Debug.Log("not last");
-        }
+            Debug.Log($"{gameObject.name} not last");
     }
 
-    bool called = false;
-    public void CallCrystal()
+    //bool called = false;
+    public void CallCrystal(Crystal prevCrystal)
     {
-        if (called) return;
-        Debug.Log("call");
-        if (_nextCrystal == null) return;//                           added  ↓  added
-        _line.SetLight(_nextCrystal.transform.position, _crystalNumber, _cristalsLenght, this, _nextCrystal);
-        called = true;
+        if (/*called || */_nextCrystal == null || prevCrystal == this) return;
+        Debug.Log($"{gameObject.name} call. _prevCrystal = {prevCrystal}");
+        _prevCrystal = prevCrystal;
+        _line.SetLight(_prevCrystal, this, _nextCrystal);
+        //called = true;
+    }
+
+    public void RotateCrystal()
+    {
+        Debug.Log($"{gameObject.name} rotó {360 / _sidesForRotation} grados");
+        transform.Rotate(0, 0, transform.rotation.y + (360 / _sidesForRotation));
+        //called = false;
+        CallCrystal(_prevCrystal);
+    }
+
+    public Crystal GetPrevCrystal()
+    {
+        return _prevCrystal;
+    }
+    public Crystal GetNextCrystal()
+    {
+        return _nextCrystal;
+    }
+
+    public void GetDamage(float dmg)
+    {
+        if (_rotable)
+            RotateCrystal();
     }
 }
