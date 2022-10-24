@@ -70,6 +70,7 @@ public class Wrap : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log("call ForceDashEnd");
         _player.ForceDashEnd();
     }
 

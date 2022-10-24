@@ -59,7 +59,7 @@ namespace Weapons
         public virtual void FireBullet()
         {
             ObjectToSpawn bullet = ObjectFactory.Instance.pool.GetObject();
-            Debug.Log($"{bullet.name} instantiated from factory");
+            //Debug.Log($"{bullet.name} instantiated from factory");
             //SoundManager.instance.Play();
             /* if (audioSource != null)
                  audioSource.Play();
