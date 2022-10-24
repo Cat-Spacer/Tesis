@@ -23,7 +23,7 @@ public class Bullet : ObjectToSpawn
         var obj = collision.gameObject.GetComponent<IDamageable>();
         if (obj != null) obj.GetDamage(10);
 
-        Debug.Log($"{gameObject.name} collided with {collision.gameObject.name}");
+       // Debug.Log($"{gameObject.name} collided with {collision.gameObject.name}");
 
         TurnOff(this);
         ObjectFactory objectFactory = FindObjectOfType<ObjectFactory>();

@@ -459,11 +459,13 @@ public class CustomMovement : PlayerDatas, IDamageable
         if (Climb.isClimbing)
         {
             onDashInput = false;
+            Debug.Log("CANT DASH CAUSE IS CLIMBING");
             return;
         }
         
         if (dashClimb)
         {
+            Debug.Log("CANT DASH CAUSE CLIMB DASH");
             onDashInput = false;
             return;
         }
@@ -519,6 +521,7 @@ public class CustomMovement : PlayerDatas, IDamageable
             }
             if (rb.velocity == Vector2.zero)
             {
+                Debug.Log("call ForceDashEnd");
                 ForceDashEnd();
             }
         }
@@ -528,13 +531,21 @@ public class CustomMovement : PlayerDatas, IDamageable
         yield return new WaitForSeconds(1.5f);
         if (dashing)
         {
+            Debug.Log("call ForceDashEnd");
             ForceDashEnd();
         }
     }
 
     public void ForceDashEnd()
     {
+        if (_climbScript.InSight(_climbLayerMask) && _energyPowerScript.EnergyDrain(0.05f))
+        {
+            _climbScript.StartClimbWithFreeze();
+        }
+            Debug.Log("ForceDashEnd dash end");
         dashing = false;
+        canDash = true;
+        Climb.isClimbing = false;
         rb.velocity = Vector2.zero;
         _dashParticleTrail.Stop();
         if (!dead) ConstrainsReset();
@@ -635,11 +646,11 @@ public class CustomMovement : PlayerDatas, IDamageable
            // isJumping = false;
         }
 
-       
-
         if ((_obstacleLayers.value & (1 << collision.gameObject.layer)) > 0)
         { 
             collisionObstacle = true;
+            Debug.Log("call ForceDashEnd");
+            ForceDashEnd();
         }
 
       /*  if (collision.gameObject.layer == _wallLayerNumber) //OnWall
@@ -656,43 +667,19 @@ public class CustomMovement : PlayerDatas, IDamageable
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
-
-
         if ((_obstacleLayers.value & (1 << collision.gameObject.layer)) > 0)
         {
             collisionObstacle = false;
             Debug.Log("end collision with obstacle");
         }
-        /*  if (collision.gameObject.layer == _wallLayerNumber)
-          {
-              hasPlayedClimb = false;
-              ConstrainsReset();
-
-              _onWall = false;
-              _onClimb = false;
-              _canClimb = false;
-              _doClimbUp = false;
-              _doClimbDown = false;
-              _doClimbStaticLeft = false;
-              _doClimbStaticRight = false;
-
-              rb.gravityScale = 1.0f;
-              gravityForce = gravityForceDefault;
-              anim.SetBool("OnWall", false);
-              anim.SetBool("Climbing", false);
-              _climbParticle.Stop();
-              SoundManager.instance.Pause(SoundManager.Types.Climb);
-          }*/
     }
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (dashing && !onGround)
+      /*  if (dashing && !onGround)
         {
+            Debug.Log("call ForceDashEnd");
             ForceDashEnd();
-            /*dashing = false;
-            rb.velocity *= 0.5f;
-            ConstrainsReset();*/
-        }
+        }*/
 
     }
 
@@ -729,6 +716,7 @@ public class CustomMovement : PlayerDatas, IDamageable
         rb.velocity = Vector2.zero;
         GameManager.Instance.PlayerDeath();
         SoundManager.instance.Play(SoundManager.Types.CatDamage);
+        Debug.Log("call ForceDashEnd");
         ForceDashEnd();
         isJumping = false;
         onGround = true;

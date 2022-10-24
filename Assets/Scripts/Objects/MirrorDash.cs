@@ -17,6 +17,7 @@ public class MirrorDash : MonoBehaviour
         {
             _player.transform.Rotate(0.0f, 0.0f, 90.0f, Space.Self);
             Climb.startMirrorDash = transform.position;
+            Debug.Log("call ForceDashEnd");
             _player.ForceDashEnd();
            _player._climbScript._ClimbState = _player._climbScript.EndClimbForMirrorDash;
            // gameObject.SetActive(false);
