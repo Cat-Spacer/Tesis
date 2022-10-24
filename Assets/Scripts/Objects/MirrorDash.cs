@@ -10,12 +10,16 @@ public class MirrorDash : MonoBehaviour
     {
         _player = FindObjectOfType<CustomMovement>();
     }
-
+    Vector3 rotationVector;
+ 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.layer == _player.gameObject.layer)
         {
-            _player.transform.Rotate(0.0f, 0.0f, 90.0f, Space.Self);
+            rotationVector = _player.transform.rotation.eulerAngles;
+            rotationVector.z = 90;
+            _player.transform.rotation = Quaternion.Euler(rotationVector);
+            //_player.transform.Rotate(0.0f, 0.0f, -90.0f, Space.Self);
             Climb.startMirrorDash = transform.position;
             Debug.Log("call ForceDashEnd");
             _player.ForceDashEnd();
