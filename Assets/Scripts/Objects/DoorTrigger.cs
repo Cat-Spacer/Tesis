@@ -23,6 +23,6 @@ public class DoorTrigger : Obstacle, IDamageable
             item.gameObject.SetActive(!item.activeSelf);
         }
         if (targetC != null) 
-            targetC.CallCrystal();
+            targetC.CallCrystal(null);
     }
 }

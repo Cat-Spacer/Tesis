@@ -8,10 +8,7 @@ namespace Weapons
         Animator anim;
         [Header("Stats")]
         public int damage = 10;
-        public float fireRate = 1.0f;
-        public float fireTimer = 1.0f;
-        public float bulletLifeTime = 1.0f;
-        public float wait = 1.0f;
+        public float fireRate = 1.0f, fireTimer = 1.0f, bulletLifeTime = 1.0f, wait = 1.0f;
         public string shootSound = "gun_shoot";
 
         [Header("Objects")]
@@ -30,7 +27,7 @@ namespace Weapons
                 //  if (FindObjectOfType<SoundManager>() != null)
                 // audioSource.clip = FindObjectOfType<SoundManager>().GetSound(shootSound).clip;
             }*/
-
+            fireTimer = fireRate;
         }
         private void Start()
         {
@@ -49,22 +46,28 @@ namespace Weapons
                 fireRate = Time.time + 1.0f / fireRate;
            }*/
 
-            if (Time.time >= fireTimer)
+            if (fireTimer > 0)
             {
+                fireTimer -= Time.deltaTime;
+            }else
+            {
+                fireTimer = fireRate;
                 anim.SetTrigger("Attack");
                 StartCoroutine(WaitForAnim());
-                fireTimer = Time.time + 1.0f / fireRate;
             }
         }
         public virtual void FireBullet()
         {
             ObjectToSpawn bullet = ObjectFactory.Instance.pool.GetObject();
+            Debug.Log($"{bullet.name} instantiated from factory");
             //SoundManager.instance.Play();
-           /* if (audioSource != null)
-                audioSource.Play();
-            if (muzzleFlash != null)
-                muzzleFlash.Play();*/
-            Shoot.Fire(bullet.gameObject, firePoint);
+            /* if (audioSource != null)
+                 audioSource.Play();
+             if (muzzleFlash != null)
+                 muzzleFlash.Play();*/
+            //Shoot.Fire(bullet.gameObject, firePoint);//cambiar por metodo
+            bullet.transform.position = firePoint.position;
+            bullet.transform.rotation = firePoint.rotation;
         }
         IEnumerator WaitForAnim()
         {
