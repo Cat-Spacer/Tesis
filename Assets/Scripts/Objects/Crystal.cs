@@ -10,6 +10,7 @@ public class Crystal : MonoBehaviour, IDamageable
     [SerializeField] private int _crystalNumber, _cristalsLenght = 0, _sidesForRotation = 4;
     [SerializeField] private bool _lastCrystal/*, _usedCrystal = false*/;
     [SerializeField] private GameObject _door;
+    public bool _activatedCrystal = false;
     // [SerializeField] Crystal _nextCrystalIn;
 
     private void Start()
@@ -47,6 +48,7 @@ public class Crystal : MonoBehaviour, IDamageable
         Debug.Log($"{gameObject.name} call. _prevCrystal = {prevCrystal}");
         _prevCrystal = prevCrystal;
         _line.SetLight(_prevCrystal, this, _nextCrystal);
+        _activatedCrystal = true;
         //called = true;
     }
 
@@ -55,7 +57,7 @@ public class Crystal : MonoBehaviour, IDamageable
         Debug.Log($"{gameObject.name} rotó {360 / _sidesForRotation} grados");
         transform.Rotate(0, 0, transform.rotation.y + (360 / _sidesForRotation));
         //called = false;
-        CallCrystal(_prevCrystal);
+        if (_activatedCrystal) CallCrystal(_prevCrystal);
     }
 
     public Crystal GetPrevCrystal()
