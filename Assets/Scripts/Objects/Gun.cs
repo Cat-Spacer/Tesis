@@ -15,6 +15,7 @@ namespace Weapons
         public Transform firePoint;
         public AudioSource audioSource;
         public ParticleSystem muzzleFlash;
+        public GameObject bulletPrefab;
 
 
         public float distance = 150f;
@@ -40,16 +41,17 @@ namespace Weapons
 
         public void FireCooldown()
         {
-           /* if (Time.time >= fireRate)
-           {
-               FireBullet();
-                fireRate = Time.time + 1.0f / fireRate;
-           }*/
+            /* if (Time.time >= fireRate)
+            {
+                FireBullet();
+                 fireRate = Time.time + 1.0f / fireRate;
+            }*/
 
             if (fireTimer > 0)
             {
                 fireTimer -= Time.deltaTime;
-            }else
+            }
+            else
             {
                 fireTimer = fireRate;
                 anim.SetTrigger("Attack");
@@ -58,16 +60,20 @@ namespace Weapons
         }
         public virtual void FireBullet()
         {
+            Shoot.Fire(bulletPrefab, firePoint);
+            #region ObjectFactory (bugeado)
+            /*
             ObjectToSpawn bullet = ObjectFactory.Instance.pool.GetObject();
-            Debug.Log($"{bullet.name} instantiated from factory");
+            //Debug.Log($"{bullet.name} instantiated from factory");
             //SoundManager.instance.Play();
-            /* if (audioSource != null)
+            if (audioSource != null)
                  audioSource.Play();
              if (muzzleFlash != null)
-                 muzzleFlash.Play();*/
+                 muzzleFlash.Play();
             //Shoot.Fire(bullet.gameObject, firePoint);//cambiar por metodo
             bullet.transform.position = firePoint.position;
-            bullet.transform.rotation = firePoint.rotation;
+            bullet.transform.rotation = firePoint.rotation;*/
+            #endregion
         }
         IEnumerator WaitForAnim()
         {

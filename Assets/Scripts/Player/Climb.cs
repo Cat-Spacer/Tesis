@@ -94,6 +94,8 @@ public class Climb
 
             if ( !_alreadyStarted)
             {
+                Debug.Log("!_alreadyStarted");
+                _customMovement.ForceDashEnd();  // primero forceo a que frene el dash
                 StartClimbingState();
                 isClimbing = true;
 
@@ -103,31 +105,34 @@ public class Climb
             }
             else if (_alreadyStarted)
             {
+                Debug.Log("_alreadyStarted");
                 if (playerInput.jumpInputStay)
                 {
                     _ClimbState = EndClimbForJump;
                 }
-                if (keyPressed_arg == KeyCode.LeftShift)
+               /* if (keyPressed_arg == KeyCode.LeftShift)
                 {
-                    //_ClimbState = delegate { };
                     _ClimbState = EndClimbForDash;
-                }
+                }*/
 
-              //  Debug.Log("as");
             }
-
-           
-
-           /* if (!state)
+            if (keyPressed_arg == KeyCode.LeftShift)
             {
-                _impulseForce = _impulseDirectionExitForce;
-                _ClimbState = EndClimb;
-                return;
-            }*/
-           
+                _ClimbState = EndClimbForDash;
+            }
+            Debug.Log("insight");
+
+
         }
 
      
+    }
+
+    public void StartClimbWithFreeze()
+    {
+        isClimbing = true;
+        Debug.Log("StartClimbWithFreeze");
+        _ClimbState = Freeze;
     }
 
     public void StartClimbingState()
@@ -137,7 +142,7 @@ public class Climb
        SoundManager.instance.Play(SoundManager.Types.Climb);
         _animator.SetBool("Climbing", true);
         _animator.SetBool("OnWall", false);
-        _customMovement.ForceDashEnd();
+        //_customMovement.ForceDashEnd();
     }
     public void WhileClimbingState()
     {
