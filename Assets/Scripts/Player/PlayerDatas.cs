@@ -74,7 +74,7 @@ public class PlayerDatas : MonoBehaviour
     [SerializeField] protected float _upSpeed = 5;
     [SerializeField] protected float _downSpeed = 5 * 0.8f;
     [SerializeField] protected float _distanceToRope = 0.4f;
-    [SerializeField] protected LayerMask _layerMask;
+    [SerializeField] protected LayerMask _climbLayerMask;
     [SerializeField] protected float _impulseDirectionExitForce = 6;
     [SerializeField] protected float _impulseExitRopeForce = 20;
     [SerializeField] protected float dashForceClimb;
