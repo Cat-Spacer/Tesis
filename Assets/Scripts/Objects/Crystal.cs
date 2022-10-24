@@ -30,12 +30,12 @@ public class Crystal : MonoBehaviour, IDamageable
         }
     }
 
-    public void CheckIfLastCrystal()
+    public void CheckIfLastCrystal(bool linked)
     {
         if (_lastCrystal && _door != null)
         {
             Debug.Log($"{gameObject.name} last");
-            _door.SetActive(!_door.activeSelf);
+            _door.SetActive(!linked);
         }
         else
             Debug.Log($"{gameObject.name} not last");

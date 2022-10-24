@@ -79,7 +79,6 @@ public class LineCollision : MonoBehaviour
 
                     if (posUpdate != (Vector2)transform.position)
                         _lineRenderer.SetPosition(_countLineRenderer, posUpdate);
-                    _myCrystal.CheckIfLastCrystal();
                     // falta chequear que corte cuando deja de castear.
                 }
             }
@@ -94,6 +93,7 @@ public class LineCollision : MonoBehaviour
                 Debug.Log($"{gameObject.name} se apagó");
                 //nC_arg.GetComponent<LineCollision>().linkedCrystal = false;
             }
+            _myCrystal.CheckIfLastCrystal(linkedCrystal);
         }
         // basta para mi basta para todos
         if (nC_arg && nC_arg != _myCrystal)
