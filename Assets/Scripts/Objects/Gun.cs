@@ -66,7 +66,7 @@ namespace Weapons
             ObjectToSpawn bullet = ObjectFactory.Instance.pool.GetObject();
             //Debug.Log($"{bullet.name} instantiated from factory");
             //SoundManager.instance.Play();
-            if (audioSource != null)
+            /*if (audioSource != null)
                  audioSource.Play();
              if (muzzleFlash != null)
                  muzzleFlash.Play();
