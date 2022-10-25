@@ -15,18 +15,27 @@ public class MirrorDash : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log(CustomMovement.isDashing);
+        rotationVector = _player.transform.rotation.eulerAngles;
+        rotationVector.z = 90;
+        _player.transform.rotation = Quaternion.Euler(rotationVector);
+
         if (collision.gameObject.layer == _player.gameObject.layer && CustomMovement.isDashing)
         {
-            Debug.Log("mirror dash");
-            rotationVector = _player.transform.rotation.eulerAngles;
-            rotationVector.z = 90;
-            _player.transform.rotation = Quaternion.Euler(rotationVector);
-            //_player.transform.Rotate(0.0f, 0.0f, -90.0f, Space.Self);
-            Climb.startMirrorDash = transform.position;
-            Debug.Log("call ForceDashEnd");
             _player.ForceDashEnd();
-           _player._climbScript._ClimbState = _player._climbScript.EndClimbForMirrorDash;
-           // gameObject.SetActive(false);
+            Climb.isClimbing = true;
+          /*  if (Climb.isClimbing)
+            {*/
+                Debug.Log("DASH AND CLIMB");
+                Climb.startMirrorDash = transform.position;
+                _player._climbScript._ClimbState = _player._climbScript.EndClimbForMirrorDash;
+            /*}
+            else
+            {
+                _player.GetComponent<Rigidbody2D>().AddForce(Vector2.up * 50);
+            }*/
+           
+          
+       
         }
     }
 

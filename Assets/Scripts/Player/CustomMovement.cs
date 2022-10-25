@@ -633,6 +633,10 @@ public class CustomMovement : PlayerDatas, IDamageable
         {
             canHorizontalClimb = true;
         }
+        else if (transform.rotation.z == 0)
+        {
+            Debug.Log("TRANSFORM IS 0");
+        }
     }
 
     public static bool collisionObstacle = false;
