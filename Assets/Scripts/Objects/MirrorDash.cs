@@ -17,6 +17,7 @@ public class MirrorDash : MonoBehaviour
         Debug.Log(CustomMovement.isDashing);
         if (collision.gameObject.layer == _player.gameObject.layer && CustomMovement.isDashing)
         {
+            Debug.Log("mirror dash");
             rotationVector = _player.transform.rotation.eulerAngles;
             rotationVector.z = 90;
             _player.transform.rotation = Quaternion.Euler(rotationVector);
