@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class CustomMovement : PlayerDatas, IDamageable
+public class CustomMovement : PlayerDatas, IDamageable, ITrap
 {
     private PlayerInput playerInput;
     public Rigidbody2D rb;
@@ -765,5 +765,8 @@ public class CustomMovement : PlayerDatas, IDamageable
         Debug.Log("done");
     }
 
-
+    public void Trap()
+    {
+        
+    }
 }
