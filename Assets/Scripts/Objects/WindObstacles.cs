@@ -33,12 +33,13 @@ public class WindObstacles : MonoBehaviour
 
     protected virtual void BlockWind(Transform blocker_arg)
     {
-       
-        if ((_layerMask & (1 << blocker_arg.gameObject.layer)) > 0)
+
+        // if ((_layerMask & (1 << blocker_arg.gameObject.layer)) > 0)
+        if (blocker_arg.gameObject.layer ==15 )
         {
             Debug.Log("BLOCK WIND");
             //_windCollider.gameObject.SetActive(false);
-            _blockWind = true;
+          //  _blockWind = true;
             OnExitFlower();
         }
         /*if (InSightSides(transform.right))
@@ -60,11 +61,12 @@ public class WindObstacles : MonoBehaviour
 
     protected virtual void UnblockWind(Transform blocker_arg)
     {
-        if ((_layerMask & (1 << blocker_arg.gameObject.layer)) > 0)
+        // if ((_layerMask & (1 << blocker_arg.gameObject.layer)) > 0)
+        if (blocker_arg.gameObject.layer == 15)
         {
             Debug.Log("unblock wind");
             //  _windCollider.gameObject.SetActive(true);
-            _blockWind = false;
+            //_blockWind = false;
             OnEnterFlower(); 
 
         }
@@ -80,6 +82,7 @@ public class WindObstacles : MonoBehaviour
 
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.Log("Block Wind");
         BlockWind(other.transform);
         if (_blockWind) return;
        
