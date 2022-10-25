@@ -14,7 +14,8 @@ public class MirrorDash : MonoBehaviour
  
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == _player.gameObject.layer)
+        Debug.Log(CustomMovement.isDashing);
+        if (collision.gameObject.layer == _player.gameObject.layer && CustomMovement.isDashing)
         {
             rotationVector = _player.transform.rotation.eulerAngles;
             rotationVector.z = 90;

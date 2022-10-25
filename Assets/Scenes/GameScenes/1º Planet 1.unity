@@ -7278,12 +7278,12 @@ PrefabInstance:
     - target: {fileID: 4344834776985247835, guid: 34a26d582799a4f4c83284fab8ed9ce7,
         type: 3}
       propertyPath: indexA
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4344834776985247835, guid: 34a26d582799a4f4c83284fab8ed9ce7,
         type: 3}
       propertyPath: indexB
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4344834776985247835, guid: 34a26d582799a4f4c83284fab8ed9ce7,
         type: 3}
@@ -12837,6 +12837,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 283739621}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &286585666 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4344834776985247835, guid: 34a26d582799a4f4c83284fab8ed9ce7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1674829685}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2de948dc2a40c8f4e8054629dd488477, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &289027234
 GameObject:
   m_ObjectHideFlags: 0
@@ -48297,7 +48309,7 @@ PrefabInstance:
     - target: {fileID: 3473626872824092018, guid: d6a14a44e2697f44e892622cbcb80757,
         type: 3}
       propertyPath: fireRate
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3473626872824092018, guid: d6a14a44e2697f44e892622cbcb80757,
         type: 3}
@@ -56731,7 +56743,7 @@ MonoBehaviour:
   - name: PlayerDeath
     nameType: 16
     clip: {fileID: 8300000, guid: bd1b3b4b3f623cb44890e1e5e436b0f2, type: 3}
-    volume: 1
+    volume: 0.4
     pitch: 1
     loop: 0
     source: {fileID: 0}
@@ -63750,7 +63762,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _nextCrystal
       value: 
-      objectReference: {fileID: 1025106640}
+      objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757177, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: _sidesForRotation
@@ -64427,12 +64439,12 @@ PrefabInstance:
     - target: {fileID: 4344834776985247835, guid: 34a26d582799a4f4c83284fab8ed9ce7,
         type: 3}
       propertyPath: indexA
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4344834776985247835, guid: 34a26d582799a4f4c83284fab8ed9ce7,
         type: 3}
       propertyPath: indexB
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4344834776985247835, guid: 34a26d582799a4f4c83284fab8ed9ce7,
         type: 3}
@@ -66151,6 +66163,11 @@ PrefabInstance:
       propertyPath: groundColl
       value: 
       objectReference: {fileID: 992525957}
+    - target: {fileID: 2638962870350567023, guid: 6d1221f93a47a6344b0f8cc576150974,
+        type: 3}
+      propertyPath: dashDistance
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 2638962870350567023, guid: 6d1221f93a47a6344b0f8cc576150974,
         type: 3}
       propertyPath: _respawnPoint
@@ -85020,6 +85037,16 @@ PrefabInstance:
     - target: {fileID: 4344834776985247835, guid: 34a26d582799a4f4c83284fab8ed9ce7,
         type: 3}
       propertyPath: _moveInY
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4344834776985247835, guid: 34a26d582799a4f4c83284fab8ed9ce7,
+        type: 3}
+      propertyPath: nextFollow
+      value: 
+      objectReference: {fileID: 286585666}
+    - target: {fileID: 4344834776985247835, guid: 34a26d582799a4f4c83284fab8ed9ce7,
+        type: 3}
+      propertyPath: followPlayerInY
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -118599,7 +118626,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2035763141}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.75, y: -6.3471, z: 0}
+  m_LocalPosition: {x: 0.73, y: -6.3471, z: 0}
   m_LocalScale: {x: 0.09344, y: 4.7697835, z: 1}
   m_Children: []
   m_Father: {fileID: 1057479829}
@@ -121429,7 +121456,7 @@ PrefabInstance:
     - target: {fileID: 1515499864110979211, guid: 54786ab0c6725694cb282a87e85bb065,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 144.91
+      value: 144.44
       objectReference: {fileID: 0}
     - target: {fileID: 1515499864110979211, guid: 54786ab0c6725694cb282a87e85bb065,
         type: 3}
