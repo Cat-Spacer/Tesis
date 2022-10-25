@@ -9,7 +9,11 @@ public class PickUp : MonoBehaviour
     {
         CustomMovement player = trig.GetComponent<CustomMovement>();
 
-        if (player == null) return;
+        if (player == null)
+        {
+            Debug.Log("player");
+            return;
+        }
         SoundManager.instance.Play(SoundManager.Types.Item);
         if (_isResource) GameManager.Instance.GetItem();
         transform.parent.gameObject.SetActive(false);
