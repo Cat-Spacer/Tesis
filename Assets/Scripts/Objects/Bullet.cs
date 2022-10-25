@@ -25,9 +25,10 @@ public class Bullet : ObjectToSpawn
 
        // Debug.Log($"{gameObject.name} collided with {collision.gameObject.name}");
 
-        TurnOff(this);
+        Destroy(gameObject);
+        /*TurnOff(this);
         ObjectFactory objectFactory = FindObjectOfType<ObjectFactory>();
-        objectFactory.ReturnObject(this);
+        objectFactory.ReturnObject(this);*/
     }
 
 }
