@@ -43,17 +43,19 @@ public class Wrap : MonoBehaviour
 
     private void Update()
     {
-        // open / close trap
+        //open / close trap
         _myboxCollider.offset = new Vector2(0, _wrpHeight - (_heithSize / 2.0f + _time));
         if (_timer > 1.0f && _up)
         {
-            _wrpHeight += Time.deltaTime;
+            //_wrpHeight += Time.deltaTime;
+            _wraps.transform.localScale = new Vector3(_wraps.transform.localScale.x, _timer, 1);
             _timer -= Time.deltaTime;
         }
         else if (_timer <= _time)
         {
             _up = false;
             _wrpHeight -= Time.deltaTime;
+            _wraps.transform.localScale = new Vector3(_wraps.transform.localScale.x, _timer, 1);
             _timer += Time.deltaTime;
         }
         else
@@ -71,7 +73,11 @@ public class Wrap : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("call ForceDashEnd");
-        _player.ForceDashEnd();
+        if (collision.gameObject.GetComponent<CustomMovement>())
+        {
+            _player.ForceDashEnd();
+            _player.transform.position = new Vector2(transform.position.x, _player.transform.position.y);
+        }
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -79,7 +85,8 @@ public class Wrap : MonoBehaviour
         Debug.Log($"Entre y triggerie con {collision.name}");
         if (collision.GetComponent<CustomMovement>() == _player)
         {
-            _player.rb.AddForceAtPosition(Vector2.up * _speedToTramp, _mouth.transform.position);// player being dragged to tramp
+            //_player.rb.AddForceAtPosition(Vector2.up * _speedToTramp, _mouth.transform.position);// player being dragged to tramp
+            _player.rb.velocity = new Vector2(0, _speedToTramp);
             //Animation play catching
 
             if (Vector2.Distance(_player.transform.position, transform.position) <= 1)
