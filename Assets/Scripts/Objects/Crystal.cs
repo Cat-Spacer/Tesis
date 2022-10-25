@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Crystal : MonoBehaviour, IDamageable
 {
-    [SerializeField] private Crystal _nextCrystal, _prevCrystal;
+    [SerializeField] private Crystal _nextCrystal;
+    public Crystal _prevCrystal;
     [SerializeField] private bool _forceStart = false, _rotable = true;
     [SerializeField] private LineCollision _line;
     [SerializeField] private int _crystalNumber, _cristalsLenght = 0, _sidesForRotation = 4;
@@ -73,5 +74,12 @@ public class Crystal : MonoBehaviour, IDamageable
     {
         if (_rotable)
             RotateCrystal();
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (!_prevCrystal) return; 
+       _prevCrystal.CallCrystal(_prevCrystal._prevCrystal);
+        CallCrystal(_prevCrystal);
     }
 }
