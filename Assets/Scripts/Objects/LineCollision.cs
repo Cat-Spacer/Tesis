@@ -46,6 +46,7 @@ public class LineCollision : MonoBehaviour
         }
         linkedCrystal = false;
         _myCrystal = crystal_arg;
+        _lineRenderer.SetPosition(0, transform.position);
         _lineRenderer.positionCount = _countLineRenderer + 1;
         //Debug.Log($"{gameObject.name} count_arg: {_countLineRenderer}. _lineRenderer.positionCount: {_lineRenderer.positionCount}.");
 
