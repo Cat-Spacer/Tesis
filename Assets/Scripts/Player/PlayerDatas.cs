@@ -33,9 +33,9 @@ public class PlayerDatas : MonoBehaviour
     [SerializeField] protected float coyoteTime;
 
     [Header("Dash")]
-    [SerializeField] protected float dashDistance;
+    [SerializeField] public float dashDistance;
     [SerializeField] protected float dashForce;
-    [SerializeField] protected bool dashing;
+    [SerializeField] public static bool isDashing;
     [SerializeField] protected bool canDash;
     [SerializeField] protected Vector2 dashStart;
 

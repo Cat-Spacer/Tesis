@@ -70,6 +70,7 @@ public class Climb
         {
             _ClimbState = EndClimb;
         }
+        Debug.Log(isClimbing);
 
 
     }
@@ -241,7 +242,6 @@ public class Climb
     public void ClimbActionHorizontal()
     {
         _energyPowerScript.EnergyDrain(0.05f);
-
         rotationVector = _transform.rotation.eulerAngles;
         rotationVector.z = 90;
 
@@ -360,11 +360,13 @@ public class Climb
     bool startdash = false;
 
     int newFace;
+
+    Vector2 dashStart;
     void MoveTowardsDash()
     {
         MoveTowardsBool = true;
 
-
+        dashStart = _transform.position;
         _rb.velocity = new Vector2(0, 0);
         _rb.angularVelocity = 0;
         _rb.constraints = RigidbodyConstraints2D.FreezePositionY;
@@ -374,11 +376,13 @@ public class Climb
         {
             if (CustomMovement.faceDirection == -1)
             {
-                _transform.rotation = Quaternion.Euler(_transform.rotation.x, _transform.rotation.z * -1, _transform.rotation.z);
+                _transform.rotation = Quaternion.Euler(_transform.rotation.x, 0, _transform.rotation.z);
+                rotationVector.y = 0;
             }
             if (CustomMovement.faceDirection == 1)
             {
                 _transform.rotation = Quaternion.Euler(_transform.rotation.x, 180, _transform.rotation.z);
+                rotationVector.y = 180;
             }
             CustomMovement.faceDirection = -CustomMovement.faceDirection;
             newFace = CustomMovement.faceDirection;
@@ -405,10 +409,9 @@ public class Climb
     public void ForceDash()
     {
         Debug.Log("dashing");
-        _rb.velocity = Vector2.right * 200 * CustomMovement.faceDirection;
+        _rb.velocity = Vector2.right * 150 * CustomMovement.faceDirection;
         _rb.constraints = RigidbodyConstraints2D.FreezePositionY;
         _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-
         _ClimbState = EndDash;
        
     }
@@ -421,17 +424,17 @@ public class Climb
             Debug.Log("start climb");
             StartClimbingState();
             _rb.constraints = ~RigidbodyConstraints2D.FreezePositionY;
+            CustomMovement.isDashing = false;
             _ClimbState = ClimbActionVertical;
         }
-        else if (CustomMovement.collisionObstacle)
+        else if (CustomMovement.collisionObstacle || Vector2.Distance(_transform.position, dashStart) >= 2.7f)
         {
             Debug.Log("end climb");
             _rb.velocity = Vector2.zero;
             _rb.angularVelocity = 0;
+            CustomMovement.isDashing = false;
             _ClimbState = EndClimb;
         }
-        /*_transform.position.x >= (start.x + 3) || _transform.position.x <= (start.x - 3) || */
-
 
     }
 
@@ -521,6 +524,7 @@ public class Climb
 
     void EndClimbForDash()
     {
+        CustomMovement.isDashing = true;
         FreezeClimbingState();
         _rb.velocity = new Vector2(0, 0);
         _rb.angularVelocity = 0;

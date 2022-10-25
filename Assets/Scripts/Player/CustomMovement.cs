@@ -97,7 +97,7 @@ public class CustomMovement : PlayerDatas, IDamageable
     private void Movement(float xDir,float lerpAmount)
     {
         if (Climb.isHorizontal) return;
-        if (dashing && Climb.MoveTowardsBool) return;
+        if (isDashing && Climb.MoveTowardsBool) return;
         if (xDir > 0.1f)
         {
             anim.SetBool("Run", true);
@@ -477,7 +477,7 @@ public class CustomMovement : PlayerDatas, IDamageable
 
             canDash = false;
             onDashInput = false;
-            dashing = true;
+            isDashing = true;
             dashStart = transform.position;
             _dashParticleExplotion.Play();
             _dashParticleTrail.Play();
@@ -500,7 +500,7 @@ public class CustomMovement : PlayerDatas, IDamageable
 
         }
         else onDashInput = false;
-        if (dashing)
+        if (isDashing)
         {
             rb.velocity = Vector2.right * dashForce * faceDirection;
             rb.constraints = RigidbodyConstraints2D.FreezePositionY;
@@ -515,7 +515,7 @@ public class CustomMovement : PlayerDatas, IDamageable
             {
                 if (!dead) ConstrainsReset();
                 _dashParticleTrail.Stop();
-                dashing = false;
+                isDashing = false;
                 rb.velocity *= 0.5f;
                 StartCoroutine(ExampleCoroutine());
             }
@@ -529,7 +529,7 @@ public class CustomMovement : PlayerDatas, IDamageable
     IEnumerator DashStop()
     {
         yield return new WaitForSeconds(1.5f);
-        if (dashing)
+        if (isDashing)
         {
             Debug.Log("call ForceDashEnd");
             ForceDashEnd();
@@ -538,14 +538,16 @@ public class CustomMovement : PlayerDatas, IDamageable
 
     public void ForceDashEnd()
     {
+        Climb.isClimbing = false;
+
         if (_climbScript.InSight(_climbLayerMask) && _energyPowerScript.EnergyDrain(0.05f))
         {
             _climbScript.StartClimbWithFreeze();
         }
             Debug.Log("ForceDashEnd dash end");
-        dashing = false;
+        isDashing = false;
         canDash = true;
-        Climb.isClimbing = false;
+      
         rb.velocity = Vector2.zero;
         _dashParticleTrail.Stop();
         if (!dead) ConstrainsReset();
