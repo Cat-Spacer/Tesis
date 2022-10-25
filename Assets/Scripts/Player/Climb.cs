@@ -70,7 +70,6 @@ public class Climb
         {
             _ClimbState = EndClimb;
         }
-        Debug.Log(isClimbing);
 
 
     }
