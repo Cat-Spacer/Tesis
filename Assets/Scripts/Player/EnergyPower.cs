@@ -87,7 +87,6 @@ public class EnergyPower : MonoBehaviour
     }
     public void FadeIn()
     {
-        Debug.Log("FadeIn");
         alpha.a = _alphaValue += _fadeSpeed * Time.deltaTime;
         if (_alphaValue > 1)
         {

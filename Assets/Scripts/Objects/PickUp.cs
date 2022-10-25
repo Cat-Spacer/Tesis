@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PickUp : MonoBehaviour
 {
-
     [SerializeField] bool _isResource;
     private void OnTriggerEnter2D(Collider2D trig)
     {
@@ -13,6 +12,6 @@ public class PickUp : MonoBehaviour
         if (player == null) return;
         SoundManager.instance.Play(SoundManager.Types.Item);
         if (_isResource) GameManager.Instance.GetItem();
-        gameObject.SetActive(false);
+        transform.parent.gameObject.SetActive(false);
     }
 }
