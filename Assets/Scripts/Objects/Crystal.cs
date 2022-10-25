@@ -79,8 +79,8 @@ public class Crystal : MonoBehaviour, IDamageable
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Debug.Log($"{gameObject.name} colisiono con {collision.gameObject.name}");
-        if (!_prevCrystal) return; 
-       _prevCrystal.CallCrystal(_prevCrystal._prevCrystal);
+        if (!_prevCrystal) return;
+        _prevCrystal.CallCrystal(_prevCrystal._prevCrystal);
         CallCrystal(_prevCrystal);
         Debug.Log($"{gameObject.name} entre a los calls");
     }
