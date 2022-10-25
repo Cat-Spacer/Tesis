@@ -9,11 +9,13 @@ public class DoorTrigger : Obstacle, IDamageable
     [SerializeField] private Crystal targetC;
     private float _currentLife;
     public float dmg;
+    [SerializeField] public Animator anim;
 
     public void GetDamage(float dmg)
     {
         Debug.Log("interactuando");
-
+        SoundManager.instance.Play(SoundManager.Types.MagicCat);
+        anim.SetTrigger("appear");
         foreach (var item in targetA)
         {
             item.gameObject.SetActive(!item.activeSelf);
@@ -22,7 +24,9 @@ public class DoorTrigger : Obstacle, IDamageable
         {
             item.gameObject.SetActive(!item.activeSelf);
         }
-        if (targetC != null) 
+        if (targetC != null)
             targetC.CallCrystal(null);
     }
 }
+
+ 
