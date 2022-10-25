@@ -102,7 +102,8 @@ public class SoundManager : MonoBehaviour
         CarnivorousPlant,
         PlayerDeath,
         Mushroom,
-        VineCrunch
+        VineCrunch,
+        MagicCat
     }
     public void OnClickSound()
     {

@@ -36,13 +36,13 @@ public class Climb
         LayerMask layerMask_arg, float impulseDirectionExitForce_arg, float impulseExitRopeForce_arg, Animator animator_arg, CustomMovement customMovement_arg, float worldDefaultGravity_arg, EnergyPower energy_arg,
         LayerMask groundMask_arg)
     {
-           playerInput = playerInput_arg;
+        playerInput = playerInput_arg;
         _collider = collider_arg;
         _rb = rb_arg;
         _transform = transform_arg;
         _upSpeed = upSpeed_arg;
         _downSpeed = downSpeed_arg;
-        _distanceToRope =distanceToRope_arg;
+        _distanceToRope = distanceToRope_arg;
         _climbLayerMask = layerMask_arg;
         _impulseDirectionExitForce = impulseDirectionExitForce_arg;
         _impulseExitRopeForce = impulseExitRopeForce_arg;
@@ -54,17 +54,17 @@ public class Climb
     }
     public void UpdateClimb()
     {
-       
-            if (PlayerInput.s_Imput)
-                ClimbState(KeyCode.S, PlayerInput.s_Imput);
-            if (PlayerInput.w_Imput)
-                ClimbState(KeyCode.W, PlayerInput.w_Imput);
-            if (PlayerInput.a_Imput)
-                ClimbState(KeyCode.A, PlayerInput.a_Imput);
-            if (PlayerInput.d_Imput)
-                ClimbState(KeyCode.D, PlayerInput.d_Imput);
-            if (PlayerInput.dashImput)
-                ClimbState(KeyCode.LeftShift, PlayerInput.d_Imput);
+
+        if (PlayerInput.s_Imput)
+            ClimbState(KeyCode.S, PlayerInput.s_Imput);
+        if (PlayerInput.w_Imput)
+            ClimbState(KeyCode.W, PlayerInput.w_Imput);
+        if (PlayerInput.a_Imput)
+            ClimbState(KeyCode.A, PlayerInput.a_Imput);
+        if (PlayerInput.d_Imput)
+            ClimbState(KeyCode.D, PlayerInput.d_Imput);
+        if (PlayerInput.dashImput)
+            ClimbState(KeyCode.LeftShift, PlayerInput.d_Imput);
 
         if (!_energyPowerScript.hasEnergy && isClimbing)
         {
@@ -92,7 +92,7 @@ public class Climb
                 _speed = _downSpeed;
             }
 
-            if ( !_alreadyStarted)
+            if (!_alreadyStarted)
             {
                 Debug.Log("!_alreadyStarted");
                 _customMovement.ForceDashEnd();  // primero forceo a que frene el dash
@@ -110,10 +110,10 @@ public class Climb
                 {
                     _ClimbState = EndClimbForJump;
                 }
-               /* if (keyPressed_arg == KeyCode.LeftShift)
-                {
-                    _ClimbState = EndClimbForDash;
-                }*/
+                /* if (keyPressed_arg == KeyCode.LeftShift)
+                 {
+                     _ClimbState = EndClimbForDash;
+                 }*/
 
             }
             if (keyPressed_arg == KeyCode.LeftShift)
@@ -125,7 +125,7 @@ public class Climb
 
         }
 
-     
+
     }
 
     public void StartClimbWithFreeze()
@@ -138,8 +138,8 @@ public class Climb
     public void StartClimbingState()
     {
         Debug.Log("StartClimbingState");
-        
-       SoundManager.instance.Play(SoundManager.Types.Climb);
+
+        SoundManager.instance.Play(SoundManager.Types.Climb);
         _animator.SetBool("Climbing", true);
         _animator.SetBool("OnWall", false);
         //_customMovement.ForceDashEnd();
@@ -157,13 +157,13 @@ public class Climb
     {
         _animator.SetBool("OnWall", true);
         _animator.SetBool("Climbing", false);
-       SoundManager.instance.Pause(SoundManager.Types.Climb);
+        SoundManager.instance.Pause(SoundManager.Types.Climb);
     }
     public void FreezeClimbingState()
     {
         _animator.SetBool("Climbing", false);
         _animator.SetBool("OnWall", true);
-        
+
         SoundManager.instance.Pause(SoundManager.Types.Climb);
     }
 
@@ -174,9 +174,9 @@ public class Climb
     public bool InSight(LayerMask layerMask_arg)
     {
         if (Physics2D.Raycast(_transform.position, _transform.right, _distanceToRope, layerMask_arg)) return true;
-        else return false; 
+        else return false;
     }
-  
+
     public bool InSightLast(Vector2 last, float distance)
     {
         if (Physics2D.Raycast(_transform.position, last, distance, _climbLayerMask)) return true;
@@ -205,10 +205,10 @@ public class Climb
         {
             _ClimbState = EndClimbForJump;
         }
-       /* else if (_dashInput)
-        {
-            _ClimbState = EndClimbForDash;
-        }*/
+        /* else if (_dashInput)
+         {
+             _ClimbState = EndClimbForDash;
+         }*/
         else if (!InSight(_climbLayerMask) && !FootInSight())
         {
             _impulseForce = _impulseDirectionExitForce;
@@ -220,12 +220,12 @@ public class Climb
         }
         WhileClimbingState();
 
-        if ((PlayerInput.d_Imput && !PlayerInput.a_Imput  && !PlayerInput.w_Imput && !PlayerInput.s_Imput)||
-            (PlayerInput.a_Imput && !PlayerInput.d_Imput && !PlayerInput.w_Imput && !PlayerInput.s_Imput)||
+        if ((PlayerInput.d_Imput && !PlayerInput.a_Imput && !PlayerInput.w_Imput && !PlayerInput.s_Imput) ||
+            (PlayerInput.a_Imput && !PlayerInput.d_Imput && !PlayerInput.w_Imput && !PlayerInput.s_Imput) ||
             (!PlayerInput.a_Imput && !PlayerInput.d_Imput && !PlayerInput.w_Imput && !PlayerInput.s_Imput))
         {
             _ClimbState = Freeze;
-            
+
         }
         else if (PlayerInput.w_Imput || PlayerInput.s_Imput)
         {
@@ -263,14 +263,14 @@ public class Climb
 
         if (!PlayerInput.a_Imput && !PlayerInput.d_Imput)
         {
-            _rb.constraints = RigidbodyConstraints2D.FreezeAll;
+            _ClimbState = FreezeHorizontal;
         }
 
-       if (PlayerInput.a_Imput && !PlayerInput.s_Imput)
-       {
+        if (PlayerInput.a_Imput && !PlayerInput.s_Imput)
+        {
             rotationVector.y = 180;
             _rb.velocity = -Vector2.right * 3f;
-       }
+        }
 
         if (PlayerInput.d_Imput && !PlayerInput.s_Imput)
         {
@@ -280,6 +280,45 @@ public class Climb
 
 
         _transform.rotation = Quaternion.Euler(rotationVector);
+    }
+
+    public void FreezeHorizontal()
+    {
+        PauseClimbingState();
+        _rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        if (PlayerInput.s_Imput)
+        {
+            _impulseForce = _impulseDirectionExitForce;
+            _ClimbState = EndClimb;
+        }
+        _ClimbState = WaitHorizontal;
+    }
+
+    public void WaitHorizontal()
+    {
+        _energyPowerScript.EnergyDrain(0.05f);
+
+        if (PlayerInput.s_Imput)
+        {
+            _impulseForce = _impulseDirectionExitForce;
+            _ClimbState = EndClimb;
+        }
+
+        if (PlayerInput.a_Imput && !PlayerInput.s_Imput)
+        {
+            rotationVector.y = 180;
+            _rb.velocity = -Vector2.right * 3f;
+            StartClimbingState();
+            _ClimbState = ClimbActionHorizontal;
+        }
+
+        if (PlayerInput.d_Imput && !PlayerInput.s_Imput)
+        {
+            rotationVector.y = 0;
+            _rb.velocity = Vector2.right * 3f;
+            StartClimbingState();
+            _ClimbState = ClimbActionHorizontal;
+        }
     }
 
 
