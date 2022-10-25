@@ -454,6 +454,19 @@ public class CustomMovement : PlayerDatas, IDamageable
         }
     }
     #region Dash
+
+    public void StartDashFeedBack()
+    {
+        SoundManager.instance.Play(SoundManager.Types.CatDash);
+        _dashParticleExplotion.Play();
+        _dashParticleTrail.Play();
+        anim.SetTrigger("Dash");
+        _dashTrail.gameObject.SetActive(true);
+    }
+    public void EndDashFeedBack()
+    {
+        _dashParticleTrail.Stop();
+    }
     void Dash()
     {
         if (Climb.isClimbing)

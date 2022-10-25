@@ -428,26 +428,27 @@ public class Climb
         }
 
         _ClimbState = ForceDash;
+        _customMovement.StartDashFeedBack();
 
        // _transform.position = Vector2.MoveTowards(_transform.position, new Vector2(start.x + (3 * newFace), _transform.position.y), step);
-        //_rb.MovePosition(_transform.position + _transform.forward * step);
-        //_rb.AddForce(_transform.forward * 200);
-        
+       //_rb.MovePosition(_transform.position + _transform.forward * step);
+       //_rb.AddForce(_transform.forward * 200);
 
-       /* if (CustomMovement.collisionObstacle)
-        {
-            _rb.velocity = Vector2.zero;
-            _rb.angularVelocity = 0;
-            startdash = false;
-            _ClimbState = EndClimb;
-        }*/
+
+        /* if (CustomMovement.collisionObstacle)
+         {
+             _rb.velocity = Vector2.zero;
+             _rb.angularVelocity = 0;
+             startdash = false;
+             _ClimbState = EndClimb;
+         }*/
 
     }
 
     public void ForceDash()
     {
         Debug.Log("dashing");
-        _rb.velocity = Vector2.right * 150 * CustomMovement.faceDirection;
+        _rb.velocity = Vector2.right * 45 * CustomMovement.faceDirection;
         _rb.constraints = RigidbodyConstraints2D.FreezePositionY;
         _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         _ClimbState = EndDash;
@@ -459,19 +460,23 @@ public class Climb
 
         if (InSight(_climbLayerMask))
         {
+            _customMovement.EndDashFeedBack();
             Debug.Log("start climb");
             StartClimbingState();
             _rb.constraints = ~RigidbodyConstraints2D.FreezePositionY;
             CustomMovement.isDashing = false;
             _ClimbState = ClimbActionVertical;
+           
         }
-        else if (CustomMovement.collisionObstacle || Vector2.Distance(_transform.position, dashStart) >= 2.7f)
+        else if (CustomMovement.collisionObstacle || Vector2.Distance(_transform.position, dashStart) >= 3)
         {
+            _customMovement.EndDashFeedBack();
             Debug.Log("end climb");
             _rb.velocity = Vector2.zero;
             _rb.angularVelocity = 0;
             CustomMovement.isDashing = false;
             _ClimbState = EndClimb;
+          
         }
 
     }
