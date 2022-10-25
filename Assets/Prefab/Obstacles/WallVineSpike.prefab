@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4482375608523561031}
   - component: {fileID: 8539010469347031811}
   - component: {fileID: 1277525551722028574}
+  - component: {fileID: 6858248241322585976}
   m_Layer: 9
   m_Name: WallVineSpike
   m_TagString: Untagged
@@ -48,6 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxLife: 1
   _currentLife: 0
+  particles: []
   dmg: 1
 --- !u!212 &4482375608523561031
 SpriteRenderer:
@@ -89,7 +91,7 @@ SpriteRenderer:
   m_SortingLayerID: -1510253325
   m_SortingLayer: 5
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 9afa7f56ce95e45479c9eb1ff92d6449, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5f66c21d53f18364992ef118a10ffb9f, type: 3}
   m_Color: {r: 0.8584906, g: 0.8584906, b: 0.8584906, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -113,18 +115,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.75}
+  m_Offset: {x: -0.34292412, y: -0.26831484}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 3.25, y: 4.9375}
+    oldSize: {x: 2.9375, y: 7.0625}
     newSize: {x: 10, y: 6}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3, y: 3.25}
+  m_Size: {x: 2.0659046, y: 3.7667456}
   m_EdgeRadius: 0
 --- !u!61 &1277525551722028574
 BoxCollider2D:
@@ -139,16 +141,42 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.25, y: 1.7}
+  m_Offset: {x: 0.123744965, y: 2.196498}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 3.25, y: 4.9375}
+    oldSize: {x: 2.9375, y: 7.0625}
     newSize: {x: 10, y: 6}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 1.65}
+  m_Size: {x: 1.2120533, y: 2.6429958}
+  m_EdgeRadius: 0
+--- !u!61 &6858248241322585976
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8539010469347031813}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 1.0329337, y: 0.088290215}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2.9375, y: 7.0625}
+    newSize: {x: 10, y: 6}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.8716326, y: 1.6720934}
   m_EdgeRadius: 0
