@@ -66,6 +66,7 @@ public class EnergyPower : MonoBehaviour
             return true;
         }else
         {
+            Debug.Log("no energy");
             hasEnergy = false;
              return false;
         }
