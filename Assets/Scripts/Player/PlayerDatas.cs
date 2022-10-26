@@ -98,14 +98,20 @@ public class PlayerDatas : MonoBehaviour
     [HideInInspector] protected bool onJumpInput;
     [HideInInspector] protected bool onJumpInputReleased;
     [SerializeField] protected bool onDashInput;
-    [HideInInspector] protected bool w_Imput;
-    [HideInInspector] protected bool a_Imput;
+    [HideInInspector] protected bool w_Input;
+    [HideInInspector] protected bool a_Input;
     [HideInInspector] protected bool s_Imput;
-    [HideInInspector] protected bool d_Imput;
-    [HideInInspector] protected bool attackImput;
+    [HideInInspector] protected bool d_Input;
+    [HideInInspector] protected bool attackInput;
+    [HideInInspector] protected bool leftLiberateInput;
+    [HideInInspector] protected bool rightLiberateInput;
 
     [Header("Constrains")]
     [SerializeField] protected RigidbodyConstraints2D constraints2D;
+
+    [Header("Canvas")]
+    [SerializeField] protected PlayerCanvas _playerCanvas;
+
     [Header("Other")]
     protected bool dead; 
 }

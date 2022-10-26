@@ -15,7 +15,7 @@ public class CarnivorousPlant : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.L))
         {
             anim.SetTrigger("Open");
-            SoundManager.instance.Play(SoundManager.Types.CarnivorousPlant);
+   
         }       
     }
 }
