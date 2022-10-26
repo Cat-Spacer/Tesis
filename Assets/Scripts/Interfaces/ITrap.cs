@@ -4,5 +4,6 @@ using UnityEngine;
 
 public interface ITrap
 {
-    void Trap();
+    void Trap(bool trapState, GameObject enemy);
+    void Liberate();
 }

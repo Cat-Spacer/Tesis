@@ -8,14 +8,14 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     private PlayerInput playerInput;
     public Rigidbody2D rb;
     private Action _TimeCounterAction;
-    private Action _ClimbAction;
+    private Action _PlayerActions;
     private Action _Inputs;
     [SerializeField] Transform _respawnPoint;
     [SerializeField] TrailRenderer _dashTrail;
     public Climb _climbScript;
     BoxCollider2D _collider;
     public static bool isJumping = false;
-
+    private GameObject currentTrap;
     public float jumpForceClimbHeight = 400;
     public float jumpForceClimbLatitud = 150;
 
@@ -44,6 +44,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         canAttack = true;
         _TimeCounterAction += TimeCounterCoyote;
         _Inputs = Inputs;
+        _PlayerActions = delegate { };
         /*_ClimbAction = ClimbInput;
         _ClimbAction += ClimbUp;
         _ClimbAction += ClimbDown;
@@ -57,7 +58,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         _TimeCounterAction();
         // _ClimbAction();
         _climbScript.UpdateClimb();
-
+        _PlayerActions = delegate { };
         Debug.DrawRay(transform.position, transform.right * _distanceToRope, Color.red);
 
 
@@ -80,17 +81,26 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     {    
         xMove = playerInput.xAxis;
         if (playerInput.jumpImput) onJumpInput = true;
-       if (PlayerInput.dashImput) onDashInput = true;
-        if (PlayerInput.w_Imput) w_Imput = true;
-        else w_Imput = false;
-        if (PlayerInput.a_Imput) a_Imput = true;
-        else a_Imput = false;
+        if (PlayerInput.dashImput) onDashInput = true;
+        if (PlayerInput.w_Imput) w_Input = true;
+        else w_Input = false;
+        if (PlayerInput.a_Imput) a_Input = true;
+        else a_Input = false;
         if (PlayerInput.s_Imput) s_Imput = true;
         else s_Imput = false;
-        if (PlayerInput.d_Imput) d_Imput = true;
-        else d_Imput = false;
-        if (playerInput.attackImput) attackImput = true;
-        else attackImput = false;
+        if (PlayerInput.d_Imput) d_Input = true;
+        else d_Input = false;
+        if (playerInput.attackImput) attackInput = true;
+        else attackInput = false;
+    }
+    private void TrapInputs()
+    {
+        if (PlayerInput.trapInput)
+        {
+            var trap = currentTrap.GetComponent<ILiberate>();
+            if (trap == null) return;
+            trap.TryLiberate();
+        }
     }
     #region Movement
     bool hasPlayedMovement = false;
@@ -576,7 +586,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     #region MiauAttack
     void Attack()
     {
-        if (attackImput && canAttack && _energyPowerScript.EnergyDrain(10))
+        if (attackInput && canAttack && _energyPowerScript.EnergyDrain(10))
         {     
             anim.SetTrigger("Attack");
             SoundManager.instance.Play(SoundManager.Types.CatAttack);
@@ -765,8 +775,25 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         Debug.Log("done");
     }
 
-    public void Trap()
+    public void Trap(bool trapState, GameObject enemy)
     {
-        
+        if (trapState)
+        {
+            _PlayerActions = Liberate;
+            _Inputs = TrapInputs;
+            currentTrap = enemy;
+            _playerCanvas.TrapEvent(trapState);
+        }
+        else
+        {
+            _PlayerActions = delegate { };
+            _Inputs = Inputs;
+            _playerCanvas.TrapEvent(trapState);
+        }
+    }
+
+    public void Liberate()
+    {
+
     }
 }
