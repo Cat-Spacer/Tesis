@@ -18,9 +18,8 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     private GameObject currentTrap;
     public float jumpForceClimbHeight = 400;
     public float jumpForceClimbLatitud = 150;
-
     EnergyPower _energyPowerScript;
-
+    private IInteract interactObj;
 
     private void Awake()
     {
@@ -54,14 +53,13 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     private void Update()
     {
         _Inputs();
-        Attack();
         _TimeCounterAction();
+        Attack();
+        Interact();
+        _PlayerActions = delegate { };
         // _ClimbAction();
         _climbScript.UpdateClimb();
-        _PlayerActions = delegate { };
         Debug.DrawRay(transform.position, transform.right * _distanceToRope, Color.red);
-
-
         //Debug.Log(PlayerInput.dashImput);
     }
     private void FixedUpdate()
@@ -71,8 +69,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         Movement(xMove, 1);
         GroundCheckPos();
         JumpUp(onJumpInput);
-        Dash();
-
+        Dash();        
         if (jumpClimb && !PlayerInput.a_Imput && !PlayerInput.d_Imput)
             Movement(1 * faceDirection, 1);
 
@@ -92,16 +89,46 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         else d_Input = false;
         if (playerInput.attackImput) attackInput = true;
         else attackInput = false;
+        if (PlayerInput.trapInput) interactionInput = true;
+        else interactionInput = false;
     }
     private void TrapInputs()
     {
-        if (PlayerInput.trapInput)
+        if (interactionInput)
         {
             var trap = currentTrap.GetComponent<ILiberate>();
             if (trap == null) return;
             trap.TryLiberate();
         }
     }
+    #region Interact
+    void Interact()
+    {
+        var interact = Physics2D.OverlapBox(transform.position, _interactSize, 0, _interactMask);
+        if (interact == null)
+        {
+            _playerCanvas.InteractEvent(false);
+            if (interactObj != null)
+            {
+                interactObj.ShowInteract(false);
+                interactObj = null;
+            }           
+            return;
+        }
+        interactObj = interact.GetComponent<IInteract>();
+        if (interactObj == null) return;
+        else
+        {
+
+            _playerCanvas.InteractEvent(true);
+            interactObj.ShowInteract(true);
+        }        
+        if (PlayerInput.interactionInput)
+        {
+            interactObj.Interact();
+        }
+    }
+    #endregion
     #region Movement
     bool hasPlayedMovement = false;
     private void Movement(float xDir,float lerpAmount)
@@ -732,10 +759,13 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     }
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(groundCheckPos.transform.position, groundCheckSize);
-        Gizmos.DrawWireCube(attackPoint.transform.position, attackRange);
-
+        if (showGizmos)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireCube(groundCheckPos.transform.position, groundCheckSize);
+            Gizmos.DrawWireCube(attackPoint.transform.position, attackRange);
+            Gizmos.DrawWireCube(transform.position, _interactSize);
+        }
     }
     public void GetDamage(float dmg)
     {

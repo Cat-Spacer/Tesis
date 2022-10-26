@@ -1,5 +1,78 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &842515607
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 842515608}
+  - component: {fileID: 842515609}
+  m_Layer: 19
+  m_Name: Freeform Light 2D
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &842515608
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 842515607}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2722528570269279701}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &842515609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 842515607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_LightType: 2
+  m_BlendStyleIndex: 0
+  m_FalloffIntensity: 0.5
+  m_Color: {r: 0.80563927, g: 0, b: 1, a: 1}
+  m_Intensity: 3
+  m_LightVolumeOpacity: 0.2
+  m_ApplyToSortingLayers: 00000000f35cfba5
+  m_LightCookieSprite: {fileID: 21300000, guid: 64992603ef96b784881087834ee38355,
+    type: 3}
+  m_UseNormalMap: 0
+  m_LightOrder: 0
+  m_AlphaBlendOnOverlap: 0
+  m_ShadowIntensity: 0
+  m_ShadowVolumeIntensity: 0
+  m_PointLightInnerAngle: 360
+  m_PointLightOuterAngle: 360
+  m_PointLightInnerRadius: 0
+  m_PointLightOuterRadius: 1
+  m_PointLightDistance: 3
+  m_PointLightQuality: 1
+  m_ShapeLightParametricSides: 5
+  m_ShapeLightParametricAngleOffset: 0
+  m_ShapeLightParametricRadius: 1
+  m_ShapeLightFalloffSize: 0.5
+  m_ShapeLightFalloffOffset: {x: 0, y: 0}
+  m_ShapePath:
+  - {x: -1.282165, y: -0.91538715, z: 0}
+  - {x: 1.0700524, y: -0.94632053, z: 0}
+  - {x: 0.9639962, y: 1.8787316, z: 0}
+  - {x: -1.1230805, y: 1.9450167, z: 0}
 --- !u!1 &2722528568677382945
 GameObject:
   m_ObjectHideFlags: 0
@@ -10,7 +83,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2722528568677382950}
   - component: {fileID: 2722528568677382951}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: comic6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +166,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2722528568744099940}
   - component: {fileID: 2722528568744099941}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: comic6 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -176,13 +249,13 @@ GameObject:
   m_Component:
   - component: {fileID: 2722528568833559864}
   - component: {fileID: 2722528568833559865}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: comic6 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2722528568833559864
 Transform:
   m_ObjectHideFlags: 0
@@ -258,7 +331,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2722528569030354457}
   - component: {fileID: 2722528569030354456}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: CatStatueComic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -313,7 +386,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2722528569332178091}
   - component: {fileID: 2722528569332178088}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: comic6 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -395,7 +468,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2722528570007744090}
   - component: {fileID: 2722528570007744091}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: comic6 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -480,7 +553,7 @@ GameObject:
   - component: {fileID: 2722528570269279720}
   - component: {fileID: 2722528570269279722}
   - component: {fileID: 2722528570269279723}
-  m_Layer: 9
+  m_Layer: 19
   m_Name: StatueCat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -499,6 +572,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2722528569030354457}
+  - {fileID: 842515608}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -569,8 +643,10 @@ MonoBehaviour:
   _active: 1
   targetA:
   - {fileID: 0}
+  - {fileID: 0}
   targetB: []
   targetC: {fileID: 0}
+  interactLight: {fileID: 842515607}
   dmg: 0
   anim: {fileID: 2722528569030354456}
 --- !u!61 &2722528570269279723
