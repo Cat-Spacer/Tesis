@@ -78,6 +78,10 @@ public class PlayerDatas : MonoBehaviour
     [SerializeField] protected float _impulseDirectionExitForce = 6;
     [SerializeField] protected float _impulseExitRopeForce = 20;
     [SerializeField] protected float dashForceClimb;
+
+    [Header("Interact")]
+    [SerializeField] protected Vector2 _interactSize; 
+    [SerializeField] protected LayerMask _interactMask; 
     /* [Header("WallClimb")]
      [SerializeField] protected int _wallLayerNumber;
      [SerializeField] protected float _gravityScale;
@@ -103,8 +107,8 @@ public class PlayerDatas : MonoBehaviour
     [HideInInspector] protected bool s_Imput;
     [HideInInspector] protected bool d_Input;
     [HideInInspector] protected bool attackInput;
-    [HideInInspector] protected bool leftLiberateInput;
-    [HideInInspector] protected bool rightLiberateInput;
+    [HideInInspector] protected bool interactionInput;
+
 
     [Header("Constrains")]
     [SerializeField] protected RigidbodyConstraints2D constraints2D;
@@ -114,4 +118,5 @@ public class PlayerDatas : MonoBehaviour
 
     [Header("Other")]
     protected bool dead; 
+    [SerializeField] protected bool showGizmos;
 }

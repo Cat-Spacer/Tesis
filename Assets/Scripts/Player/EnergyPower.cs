@@ -66,7 +66,6 @@ public class EnergyPower : MonoBehaviour
             return true;
         }else
         {
-            Debug.Log("no energy");
             hasEnergy = false;
              return false;
         }
@@ -101,7 +100,6 @@ public class EnergyPower : MonoBehaviour
     }
     public void FadeOut()
     {
-        Debug.Log("FadeOut");
         alpha.a = _alphaValue -= _fadeSpeed * Time.deltaTime;
         if (_alphaValue < 0)
         {
