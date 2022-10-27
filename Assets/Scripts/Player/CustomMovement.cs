@@ -89,18 +89,10 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         else d_Input = false;
         if (playerInput.attackImput) attackInput = true;
         else attackInput = false;
-        if (PlayerInput.trapInput) interactionInput = true;
+        if (PlayerInput.interactionInput) interactionInput = true;
         else interactionInput = false;
     }
-    private void TrapInputs()
-    {
-        if (interactionInput)
-        {
-            var trap = currentTrap.GetComponent<ILiberate>();
-            if (trap == null) return;
-            trap.TryLiberate();
-        }
-    }
+
     #region Interact
     void Interact()
     {
@@ -775,6 +767,8 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         rb.velocity = Vector2.zero;
         GameManager.Instance.PlayerDeath();
         SoundManager.instance.Play(SoundManager.Types.CatDamage);
+        _playerCanvas.TrapEvent(false);
+        _playerCanvas.InteractEvent(false);
         Debug.Log("call ForceDashEnd");
         ForceDashEnd();
         isJumping = false;
@@ -788,6 +782,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     public void ResetPlayer()
     {
         anim.SetBool("Death1", false);
+        anim.SetBool("TrapByPlant", false);
         _Inputs = Inputs;
         dead = false;
         rb.simulated = true;
@@ -805,10 +800,21 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         Debug.Log("done");
     }
 
+    private void TrapInputs()
+    {
+        if (PlayerInput.trapInput)
+        {
+            var trap = currentTrap.GetComponent<ILiberate>();
+            if (trap == null) return;
+            Debug.Log("Liberar");
+            trap.TryLiberate();
+        }
+    }
     public void Trap(bool trapState, GameObject enemy)
     {
         if (trapState)
         {
+            anim.SetBool("TrapByPlant", true);
             _PlayerActions = Liberate;
             _Inputs = TrapInputs;
             currentTrap = enemy;
@@ -816,6 +822,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         }
         else
         {
+            anim.SetBool("TrapByPlant", false);
             _PlayerActions = delegate { };
             _Inputs = Inputs;
             _playerCanvas.TrapEvent(trapState);
