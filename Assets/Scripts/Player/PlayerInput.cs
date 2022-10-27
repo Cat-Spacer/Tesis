@@ -16,7 +16,6 @@ public class PlayerInput : MonoBehaviour
     public static bool  d_Imput { get; private set; }
     public static bool  interactionInput { get; private set; }
     public static bool  trapInput  { get; private set; }
-    public static bool  rightTrapInput { get; private set; }
     public bool attackImput { get; private set; }
 
     //public bool climbInput { get; private set; }

@@ -25,6 +25,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject winScreen;
     [SerializeField] MiniMenu minuMenu;
 
+    [Header("CurrentLevel")]
+    [SerializeField] private int _currentLevel = 0;
+    [SerializeField] MiniMap miniMap;
+
     private void Awake()
     {
         Instance = this;
@@ -37,6 +41,11 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
 
+    }
+    public void GetCurrentLevel(int lvl)
+    {
+        _currentLevel = lvl;
+        miniMap.SetPlayerInLevel(lvl);
     }
     public void SaveDistance(float distance)
     {
@@ -85,6 +94,7 @@ public class GameManager : MonoBehaviour
         {
             minuMenu.OpenCall();
             _pointsText.text = _points.ToString() + "/" + _pointsPerLevel.ToString();
+            miniMap.GotItem();
         }
         else //Ganaste
         {

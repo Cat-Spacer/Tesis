@@ -16,11 +16,12 @@ public class Wrap : MonoBehaviour, ILiberate
     [SerializeField] private bool _up = true, _onTrap = false;
     [SerializeField] private int _relaseCuant = 20;
     [SerializeField] private Transform _playerTrapPoint;
-    [SerializeField] private GameObject _mouth, _wraps;
+    [SerializeField] private GameObject _mouth, _wraps, _toung;
     [SerializeField] private Animator _myAnimator;
     [SerializeField] private CustomMovement _player;
     [SerializeField] private BoxCollider2D _myboxCollider;
     [SerializeField] private Transform _liberatedPos;
+    [SerializeField] private SpriteRenderer sp;
     private ITrap playerITrap;
     private float _wrpHeight = 0.0f;
     private Vector2 _wrpIntPos;
@@ -52,18 +53,24 @@ public class Wrap : MonoBehaviour, ILiberate
         if (_timer > 1.0f && _up)
         {
             _wrpHeight += Time.deltaTime;
-            //var sp = _wraps.GetComponent<SpriteRenderer>();
-            //sp.size = new Vector2(.5f, _timer);
-            _wraps.transform.localScale = new Vector2(.5f, _timer);
+            var sp = _wraps.GetComponent<SpriteRenderer>();
+            sp.size = new Vector2(2.06f, _timer);
+            _myboxCollider.size = new Vector2(2.06f, _timer);
+            _myboxCollider.offset = new Vector2(_myboxCollider.offset.x, -_timer * 0.5f);
+            _toung.transform.position = new Vector2(_toung.transform.position.x, sp.bounds.min.y);
+            _playerTrapPoint.position = new Vector2(_toung.transform.position.x, sp.bounds.min.y);
             _timer -= Time.deltaTime * _wrapSpeed;
         }
         else if (_timer <= _time)
         {
             _up = false;
             _wrpHeight -= Time.deltaTime;
-            //var sp = _wraps.GetComponent<SpriteRenderer>();
-            //sp.size = new Vector2(.5f, _timer);
-            _wraps.transform.localScale = new Vector2(.5f, _timer);
+            var sp = _wraps.GetComponent<SpriteRenderer>();
+            sp.size = new Vector2(2.06f, _timer);
+            _myboxCollider.size = new Vector2(2.06f, _timer);
+            _myboxCollider.offset = new Vector2(_myboxCollider.offset.x, -_timer * 0.5f);
+            _toung.transform.position = new Vector2(_toung.transform.position.x, sp.bounds.min.y);
+            _playerTrapPoint.position = new Vector2(_toung.transform.position.x, sp.bounds.min.y);
             _timer += Time.deltaTime * _wrapSpeed;
         }
         else
@@ -100,10 +107,9 @@ public class Wrap : MonoBehaviour, ILiberate
     private void OnTriggerStay2D(Collider2D collision)
     {
         Debug.Log($"Entre y triggerie con {collision.name}");
-        if (collision.GetComponent<CustomMovement>() == _player && _onTrap)
+        var player = collision.GetComponent<CustomMovement>();
+        if (player == _player && _onTrap)
         {
-            //_player.rb.velocity = new Vector2(0, _speedToTramp);
-            //Animation play catching
             _player.transform.position = _playerTrapPoint.position;
             if (Vector2.Distance(_player.transform.position, transform.position) <= 1)
             {
