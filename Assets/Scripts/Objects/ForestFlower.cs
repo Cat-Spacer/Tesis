@@ -81,7 +81,7 @@ public class ForestFlower : WindObstacles
 
         SoundManager.instance.Play(SoundManager.Types.FlowerWind);
 
-        Debug.Log("on enter");
+     //   Debug.Log("on enter");
 
            
         _playerRb.drag = _ventdrag;

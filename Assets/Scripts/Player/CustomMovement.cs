@@ -322,6 +322,8 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     bool jumpClimb = false;
     public void JumpClimb2()
     {
+        Debug.Log("jumping");
+
         rb.gravityScale = 1.0f;
         gravityForce = gravityForceDefault;
         rb.velocity = Vector2.zero;
@@ -332,18 +334,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
 
         //canJump = false;
         if (!dead) ConstrainsReset();
-        if (_climbScript.InSight(_climbLayerMask))
-        {
-            if (faceDirection == -1)
-            {
-                transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.z * -1, transform.rotation.z);
-            }
-            if (faceDirection == 1)
-            {
-                transform.rotation = Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z);
-            }
-            faceDirection = -faceDirection;
-        }
+        
 
         float angle = 45;
         angle *= Mathf.Deg2Rad;
@@ -353,11 +344,11 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         
         jumpClimb = true;
         rb.AddForce(forceApplied);
-
+        _climbScript._ClimbState = _climbScript.EndClimbJump;
         //  canJump = false;
         //_climbScript._ClimbState = _climbScript.EndClimbJump;
         //Climb.isClimbing = false;
-        StartCoroutine(CoroutineWaitForEndJump(0.1f));
+        //  StartCoroutine(CoroutineWaitForEndJump(0.1f));
     }
     public IEnumerator CoroutineWaitForEndJump(float waitTime)
     {
@@ -501,13 +492,13 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         if (Climb.isClimbing)
         {
             onDashInput = false;
-            Debug.Log("CANT DASH CAUSE IS CLIMBING");
+            //Debug.Log("CANT DASH CAUSE IS CLIMBING");
             return;
         }
         
         if (dashClimb)
         {
-            Debug.Log("CANT DASH CAUSE CLIMB DASH");
+          //  Debug.Log("CANT DASH CAUSE CLIMB DASH");
             onDashInput = false;
             return;
         }
@@ -586,7 +577,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         {
             _climbScript.StartClimbWithFreeze();
         }
-            Debug.Log("ForceDashEnd dash end");
+           // Debug.Log("ForceDashEnd dash end");
         isDashing = false;
         canDash = true;
       
@@ -648,6 +639,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
 
         if (ForestFlower.onFlower == true)
         {
+            canHorizontalClimb = true;
             isJumping = false;
             onGround = true;
             jumpClimb = false;
@@ -657,7 +649,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
 
         if (groundColl != null) //On ground
         {
-   
+            canHorizontalClimb = true;
             isJumping = false;
             onGround = true;
             jumpClimb = false;
@@ -671,14 +663,10 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             anim.SetBool("OnGround", false);
         }
 
-        if ((groundColl != null|| ForestFlower.onFlower == true) && transform.rotation.z ==0)
-        {
-            canHorizontalClimb = true;
-        }
-        else if (transform.rotation.z == 0)
+     /*   else if (transform.rotation.z == 0)
         {
             Debug.Log("TRANSFORM IS 0");
-        }
+        }*/
     }
 
     public static bool collisionObstacle = false;
@@ -697,7 +685,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         if ((_obstacleLayers.value & (1 << collision.gameObject.layer)) > 0)
         { 
             collisionObstacle = true;
-            Debug.Log("call ForceDashEnd");
+           // Debug.Log("call ForceDashEnd");
             ForceDashEnd();
         }
 
@@ -718,7 +706,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         if ((_obstacleLayers.value & (1 << collision.gameObject.layer)) > 0)
         {
             collisionObstacle = false;
-            Debug.Log("end collision with obstacle");
+            //Debug.Log("end collision with obstacle");
         }
     }
     private void OnCollisionStay2D(Collision2D collision)
@@ -735,18 +723,18 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     {
         if (collision.gameObject.layer == 17 && canHorizontalClimb)
         {
+            Debug.Log("SOGA");
             _climbScript.StartClimbingState();
             Climb.isClimbing = true;
             _climbScript._ClimbState = _climbScript.ClimbActionHorizontal;
             canHorizontalClimb = false;
-            //_climbScript._vector = transform.right;
         }
-        /*if (collision.gameObject.layer == 9 && !canHorizontalClimb)
+    }
+    void OnTriggerExit2D(Collider2D collision)
+    {
+       /* if (collision.gameObject.layer == 17 && Climb.isHorizontal)
         {
-            _climbScript.StartClimbingState();
-            _climbScript._ClimbState = _climbScript.ClimbActionVertical;
-            canHorizontalClimb = false;
-            //_climbScript._vector = transform.right;
+            _climbScript._ClimbState = _climbScript.EndClimb;
         }*/
     }
     private void OnDrawGizmos()

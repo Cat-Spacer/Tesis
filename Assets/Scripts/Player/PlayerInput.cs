@@ -10,6 +10,7 @@ public class PlayerInput : MonoBehaviour
     public static bool  dashImput { get; private set; }
     public static bool dashInputStay { get; private set; }
     public bool jumpInputStay { get; private set; }
+    public static bool jumpInputDown { get; private set; }
     public static bool  w_Imput { get; private set; }
     public static bool  a_Imput { get; private set; }
     public static bool  s_Imput { get; private set; }
@@ -30,6 +31,11 @@ public class PlayerInput : MonoBehaviour
     private void Update()
     {
         //Normal Inputs
+
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            Climb.canClimbJump = true;
+        }
         xAxis = Input.GetAxis("Horizontal");
         jumpImput = Input.GetKeyDown(KeyCode.Space);
         dashImput = Input.GetKeyDown(KeyCode.LeftShift);
@@ -41,6 +47,7 @@ public class PlayerInput : MonoBehaviour
         dashInputStay = Input.GetKey(KeyCode.LeftShift);
         jumpInputStay = Input.GetKey(KeyCode.Space);
         interactionInput = Input.GetKeyDown(KeyCode.E);
+        jumpInputDown = Input.GetKeyDown(KeyCode.Space);
         //TrapInputs
         trapInput = Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.A);
         //rightTrapInput = Input.GetKey(KeyCode.A);
