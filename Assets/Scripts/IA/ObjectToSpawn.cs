@@ -2,12 +2,6 @@ using UnityEngine;
 
 public class ObjectToSpawn : MonoBehaviour
 {
-    private void Awake()
-    {
-        if (ObjectFactory.Instance != null)
-            ObjectFactory.Instance.ReturnObject(this);
-    }
-
     private void Reset()
     {
 

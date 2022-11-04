@@ -821,4 +821,14 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     {
 
     }
+
+    private void OnDisable()
+    {
+        rb.constraints = RigidbodyConstraints2D.FreezeAll;
+    }
+
+    private void OnEnable()
+    {
+        ConstrainsReset();
+    }
 }
