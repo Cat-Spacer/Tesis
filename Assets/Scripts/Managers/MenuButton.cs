@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class MenuButton : MonoBehaviour
 {
-    [SerializeField] private int loadingScreenIndex = 3;
+    [SerializeField] private int loadingScreenIndex = 0;
 
     public void SceneToLoad(int scene)
     {
