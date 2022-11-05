@@ -188,8 +188,7 @@ LineRenderer:
   m_SortingLayerID: -1510253325
   m_SortingLayer: 5
   m_SortingOrder: 1
-  m_Positions:
-  - {x: 0, y: 0, z: 0}
+  m_Positions: []
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -260,12 +259,13 @@ MonoBehaviour:
   _nextCrystal: {fileID: 4239641012861757177}
   _prevCrystal: {fileID: 0}
   _forceStart: 0
-  _line: {fileID: 0}
+  _rotable: 1
   _crystalNumber: 1
   _cristalsLenght: 1
   _sidesForRotation: 8
   _lastCrystal: 0
   _door: {fileID: 0}
+  _activatedCrystal: 0
 --- !u!114 &4239641012861757062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,7 +291,7 @@ MonoBehaviour:
   linkedCrystal: 0
   _layerMaskObstacles:
     serializedVersion: 2
-    m_Bits: 832
+    m_Bits: 33600
   _layerMaskCrystal:
     serializedVersion: 2
     m_Bits: 8192

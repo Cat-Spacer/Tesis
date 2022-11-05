@@ -16,12 +16,12 @@ public class LineCollision : MonoBehaviour
     [SerializeField] LayerMask _layerMaskObstacles, _layerMaskCrystal;
     Vector2 posUpdate, nextPos, obstaclePosition/*, nullObj = new Vector2()*/;
     [SerializeField] private Vector2[] _directions;
-    [SerializeField] Crystal _myCrystal;
+    private Crystal _myCrystal;
     void Start()
     {
         if (!_lineRenderer)
             _lineRenderer = GetComponent<LineRenderer>();
-        _lineRenderer.SetPosition(0, transform.position);
+        //_lineRenderer.SetPosition(0, transform.position);
 
         if (_sidesOfCrystals != null || _sidesOfCrystals.Length > 0)
             _directions = new Vector2[_sidesOfCrystals.Length];
@@ -29,7 +29,7 @@ public class LineCollision : MonoBehaviour
         linkedCrystal = false;
         //Debug.Log($"{gameObject.name} _layerMaskCrystal = {_layerMaskCrystal.value}. iniPos = {(Vector2)transform.position}. prevCrystal = {_myCrystal.GetPrevCrystal()}");
     }
-    // Update is called once per frame
+
     void Update()
     {
         //_GrowState();
@@ -42,29 +42,66 @@ public class LineCollision : MonoBehaviour
         if (prevCrystal && !nC_arg)
         {
             _lineRenderer.positionCount = 1;
+            _lineRenderer.SetPosition(0, transform.position);
             return;
         }
-        linkedCrystal = false;
+        else
+            _lineRenderer.positionCount = 0;
+        //linkedCrystal = false;
         _myCrystal = crystal_arg;
-        _lineRenderer.SetPosition(0, transform.position);
-        _lineRenderer.positionCount = _countLineRenderer + 1;
+
+        SetLines(prevCrystal, nC_arg);
         //Debug.Log($"{gameObject.name} count_arg: {_countLineRenderer}. _lineRenderer.positionCount: {_lineRenderer.positionCount}.");
 
+        if (prevCrystal)
+        {
+            //Debug.Log($"{gameObject.name} prev is linked = {prevCrystal.GetComponent<LineCollision>().linkedCrystal}");
+            if (!linkedCrystal || prevCrystal.line.linkedCrystal == false)
+            {
+                _lineRenderer.positionCount = 1;
+                linkedCrystal = false;
+                //Debug.Log($"{gameObject.name} se apagó");
+            }
+            _myCrystal.CheckIfLastCrystal(linkedCrystal);
+        }
+        if (nC_arg && nC_arg != _myCrystal && nC_arg.line.linkedCrystal)
+            nC_arg.CallCrystal(_myCrystal);
+    }
+
+    private void SetLines(Crystal prevCrystal, Crystal nC_arg)
+    {
+        //_countLineRenderer = _lineRenderer.positionCount ++;
         for (int i = 0; i < _sidesOfCrystals.Length; i++)
         {
+            _countLineRenderer = _lineRenderer.positionCount++;
+            _lineRenderer.SetPosition(_countLineRenderer, transform.position);
 
-            _directions[i] = (Vector2)(_sidesOfCrystals[i].position - _lineRenderer.GetPosition(_countLineRenderer - 1));
+            _directions[i] = (Vector2)(_sidesOfCrystals[i].position - _lineRenderer.GetPosition(_countLineRenderer));
 
-            RaycastHit2D hit = Physics2D.Raycast(_lineRenderer.GetPosition(_countLineRenderer - 1), _directions[i]
+            RaycastHit2D hit = Physics2D.Raycast(_lineRenderer.GetPosition(_countLineRenderer), _directions[i]
                 , _distance, _layerMaskCrystal + _layerMaskObstacles);
 
-            //Debug.Log($"{gameObject.name} for of index = {i}.");
-            if (hit.collider != null && hit.collider.GetComponent<Crystal>() != prevCrystal)
+            Debug.Log($"{gameObject.name} for of index = {i}.");
+            if (hit.collider != null && hit.collider.gameObject != gameObject)
             {
+                _countLineRenderer = _lineRenderer.positionCount++;
+
+                if (((1 << hit.collider.gameObject.layer) & _layerMaskCrystal.value) != 0 && hit.collider.GetComponent<Crystal>() != prevCrystal)
+                {
+                    Debug.Log($"{gameObject.name}: No colisione con obstaculos pero si con el Crystal: {hit.collider.gameObject.name}");
+                    posUpdate = (Vector2)hit.transform.position;
+                    linkedCrystal = true;
+                    nC_arg.line.linkedCrystal = true;
+                }
+                else
+                    posUpdate = (Vector2)hit.point;
+
+                _lineRenderer.SetPosition(_countLineRenderer, posUpdate);
+
                 #region Test
-                /*Debug.Log($"{gameObject.name} direction: {_directions[i]}. _lineRenderer pos = {_lineRenderer.GetPosition(_countLineRenderer - 1)}. hit : {(Vector2)hit.point}. _sidesOfCrystals pos = {_sidesOfCrystals[i].position}");
-                Debug.Log($"{gameObject.name} HittedCrystal = {hit.collider.GetComponent<Crystal>()} compared to prevCrystal = {prevCrystal}");
-                Debug.Log($"{gameObject.name} RaycastHit: {hit.collider}. RaycastHit layer: {hit.collider.gameObject.layer}.");*/
+                //Debug.Log($"{gameObject.name} direction: {_directions[i]}. _lineRenderer pos = {_lineRenderer.GetPosition(_countLineRenderer - 1)}. hit : {(Vector2)hit.point}. _sidesOfCrystals pos = {_sidesOfCrystals[i].position}");
+                //Debug.Log($"{gameObject.name} posUpdate = {posUpdate}. HittedCrystal = {hit.collider.GetComponent<Crystal>()} compared to prevCrystal = {prevCrystal}");
+                //Debug.Log($"{gameObject.name} RaycastHit: {hit.collider}. RaycastHit layer: {hit.collider.gameObject.layer}.");
 
                 /*if (((1 << hit.collider.gameObject.layer) & _layerMaskObstacles.value) != 0)
                 {
@@ -74,33 +111,10 @@ public class LineCollision : MonoBehaviour
                 }
                 else */
                 #endregion
-                if (((1 << hit.collider.gameObject.layer) & _layerMaskCrystal.value) != 0 && hit.collider.gameObject != gameObject)
-                {
-                    //Debug.Log($"{gameObject.name}: No colisione con obstaculos");
-                    posUpdate = hit.transform.position;
-                    linkedCrystal = true;
-                    //nC_arg.GetComponent<LineCollision>().linkedCrystal = true;
-
-                    if (posUpdate != (Vector2)transform.position)
-                        _lineRenderer.SetPosition(_countLineRenderer, posUpdate);
-                    // falta chequear que corte cuando deja de castear.
-                }
             }
+            else
+                _countLineRenderer = _lineRenderer.positionCount--;
         }
-        if (prevCrystal)
-        {
-            //Debug.Log($"{gameObject.name} prev is linked = {prevCrystal.GetComponent<LineCollision>().linkedCrystal}");
-            if (!linkedCrystal || prevCrystal.GetComponent<LineCollision>().linkedCrystal == false)
-            {
-                _lineRenderer.positionCount = 1;
-                linkedCrystal = false;
-                //Debug.Log($"{gameObject.name} se apagó");
-            }
-            _myCrystal.CheckIfLastCrystal(linkedCrystal);
-        }
-        // basta para mi basta para todos
-        if (nC_arg && nC_arg != _myCrystal)
-            nC_arg.CallCrystal(_myCrystal);
     }
 
     private void OnDrawGizmos()

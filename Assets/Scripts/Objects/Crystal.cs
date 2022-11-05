@@ -6,8 +6,8 @@ public class Crystal : MonoBehaviour, IDamageable
 {
     [SerializeField] private Crystal _nextCrystal;
     public Crystal _prevCrystal;
+    public LineCollision line { get; set; }
     [SerializeField] private bool _forceStart = false, _rotable = true;
-    [SerializeField] private LineCollision _line;
     [SerializeField] private int _crystalNumber, _cristalsLenght = 0, _sidesForRotation = 4;
     [SerializeField] private bool _lastCrystal/*, _usedCrystal = false*/;
     [SerializeField] private GameObject _door;
@@ -16,8 +16,8 @@ public class Crystal : MonoBehaviour, IDamageable
 
     private void Start()
     {
-        if (!_line)
-            _line = GetComponent<LineCollision>();
+        if (!line)
+            line = GetComponent<LineCollision>();
 
         //_line = FindObjectOfType<LineCollision>();
     }
@@ -31,6 +31,10 @@ public class Crystal : MonoBehaviour, IDamageable
         }
     }
 
+    /// <summary>
+    /// Desactivates a GameObject if it's the last crystal
+    /// </summary>
+    /// <param name="linked"></param>
     public void CheckIfLastCrystal(bool linked)
     {
         if (_lastCrystal && _door != null)
@@ -48,7 +52,7 @@ public class Crystal : MonoBehaviour, IDamageable
         if (/*called || */prevCrystal == this) return;
         Debug.Log($"{gameObject.name} call. _prevCrystal = {prevCrystal}");
         _prevCrystal = prevCrystal;
-        _line.SetLight(_prevCrystal, this, _nextCrystal);
+        line.SetLight(_prevCrystal, this, _nextCrystal);
         _activatedCrystal = true;
         //called = true;
     }
