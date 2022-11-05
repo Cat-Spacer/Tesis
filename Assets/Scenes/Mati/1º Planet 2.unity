@@ -2165,7 +2165,7 @@ PrefabInstance:
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.57
+      value: 0.55
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
@@ -44509,6 +44509,16 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -0.75
       objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757063, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].time
+      value: 0.183712
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757063, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
+      value: 0.09815216
+      objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757177, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: _rotable
@@ -60712,6 +60722,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757062, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
+      propertyPath: _layerMaskObstacles.m_Bits
+      value: 832
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757062, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
       propertyPath: _sidesOfCrystals.Array.size
       value: 4
       objectReference: {fileID: 0}
@@ -61499,6 +61514,12 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!4 &1062283822 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8375722670176850158, guid: f28572979e69fc440ad377a49a21f57c,
+    type: 3}
+  m_PrefabInstance: {fileID: 4239641011458978119}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1067060183
 GameObject:
   m_ObjectHideFlags: 0
@@ -70942,6 +70963,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8585204233447248083, guid: 05ab1e4e645bfb141b7e6f372784a4a5,
     type: 3}
   m_PrefabInstance: {fileID: 1412148128}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1412515615 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5039069362945266467, guid: f28572979e69fc440ad377a49a21f57c,
+    type: 3}
+  m_PrefabInstance: {fileID: 4239641011458978119}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1413443857
 PrefabInstance:
@@ -125475,7 +125502,7 @@ PrefabInstance:
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.44
+      value: 0.55
       objectReference: {fileID: 0}
     - target: {fileID: 4239641012861757178, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
@@ -129195,6 +129222,31 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 699870312}
     m_Modifications:
+    - target: {fileID: 912653087270775032, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757062, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: _sidesOfCrystals.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4239641012861757062, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: _sidesOfCrystals.Array.data[0]
+      value: 
+      objectReference: {fileID: 1062283822}
+    - target: {fileID: 4239641012861757062, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: _sidesOfCrystals.Array.data[1]
+      value: 
+      objectReference: {fileID: 1412515615}
+    - target: {fileID: 4239641012861757062, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: _sidesOfCrystals.Array.data[2]
+      value: 
+      objectReference: {fileID: 1412515615}
     - target: {fileID: 4239641012861757177, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: _rotable
@@ -129265,10 +129317,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: Crystal
       objectReference: {fileID: 0}
+    - target: {fileID: 5272741153101450032, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6658135703671033323, guid: f28572979e69fc440ad377a49a21f57c,
         type: 3}
       propertyPath: m_IsTrigger
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8310745040885468228, guid: f28572979e69fc440ad377a49a21f57c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f28572979e69fc440ad377a49a21f57c, type: 3}
