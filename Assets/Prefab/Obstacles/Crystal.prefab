@@ -58,7 +58,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4239641012861757180}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -7.470001, y: 10.48, z: 0}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children:
@@ -110,7 +110,7 @@ SpriteRenderer:
   m_SortingLayerID: -1510253325
   m_SortingLayer: 5
   m_SortingOrder: 1
-  m_Sprite: {fileID: -9126970591549369270, guid: 49e6dd3904496cc44b791e618da8b850,
+  m_Sprite: {fileID: -2589113211928336411, guid: 47febbd0d9874fd458453278ff743552,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -132,14 +132,14 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.81, y: 0.79999995}
+    oldSize: {x: 1.083401, y: 1.2133332}
     newSize: {x: 0.81, y: 0.79999995}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -256,10 +256,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba9992d4e12038d4f997e60f7586f17e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _nextCrystal: {fileID: 4239641012861757177}
+  _nextCrystal: {fileID: 0}
   _prevCrystal: {fileID: 0}
   _forceStart: 0
-  _rotable: 1
+  _rotable: 0
   _crystalNumber: 1
   _cristalsLenght: 1
   _sidesForRotation: 8
@@ -296,7 +296,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8192
   _directions: []
-  _myCrystal: {fileID: 0}
 --- !u!1 &4239641013271740919
 GameObject:
   m_ObjectHideFlags: 0
@@ -341,12 +340,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_LightType: 3
-  m_BlendStyleIndex: 0
+  m_BlendStyleIndex: 3
   m_FalloffIntensity: 0.5
   m_Color: {r: 0.69411767, g: 0.96470594, b: 0.9960785, a: 1}
-  m_Intensity: 2.75
+  m_Intensity: 1
   m_LightVolumeOpacity: 0
-  m_ApplyToSortingLayers: 976917de
+  m_ApplyToSortingLayers: f35cfba583c7fc60
   m_LightCookieSprite: {fileID: 0}
   m_UseNormalMap: 0
   m_LightOrder: 0
@@ -355,8 +354,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensity: 0
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
-  m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 1
+  m_PointLightInnerRadius: 0.5
+  m_PointLightOuterRadius: 1.5
   m_PointLightDistance: 3
   m_PointLightQuality: 1
   m_ShapeLightParametricSides: 5
