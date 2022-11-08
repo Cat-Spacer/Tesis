@@ -60,9 +60,9 @@ namespace Weapons
         }
         public virtual void FireBullet()
         {
-            //Shoot.Fire(bulletPrefab, firePoint);
+            Shoot.Fire(bulletPrefab, firePoint);
             #region ObjectFactory (bugeado)
-            
+            /*
             ObjectToSpawn bullet = ObjectFactory.Instance.pool.GetObject();
             //Debug.Log($"{bullet.name} instantiated from factory");
             //SoundManager.instance.Play();
@@ -72,7 +72,7 @@ namespace Weapons
                  muzzleFlash.Play();
             //Shoot.Fire(bullet.gameObject, firePoint);//cambiar por metodo
             bullet.transform.position = firePoint.position;
-            bullet.transform.rotation = firePoint.rotation;
+            bullet.transform.rotation = firePoint.rotation;*/
             #endregion
         }
         IEnumerator WaitForAnim()

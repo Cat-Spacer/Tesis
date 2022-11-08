@@ -14,13 +14,14 @@ public class ObjectFactory : MonoBehaviour
 
     public ObjectToSpawn objectPrefab;
     public int objectStock = 10;
+    public bool isDynamic = true;
 
     public ObjectPool<ObjectToSpawn> pool;
 
     void Start()
     {
         _instance = this;
-        pool = new ObjectPool<ObjectToSpawn>(ObjectCreator, ObjectToSpawn.TurnOn, ObjectToSpawn.TurnOff, objectStock);
+        pool = new ObjectPool<ObjectToSpawn>(ObjectCreator, ObjectToSpawn.TurnOn, ObjectToSpawn.TurnOff, objectStock, isDynamic);
     }
 
     public ObjectToSpawn ObjectCreator()
