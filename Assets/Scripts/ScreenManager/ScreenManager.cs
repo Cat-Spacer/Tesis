@@ -17,9 +17,9 @@ public class ScreenManager : MonoBehaviour
         _stack = new Stack<IScreen>();
     }
 
-    public void Pop()
+    public void Pop(bool pause = true)
     {
-        if (_stack.Count <= 1) return;
+        if (_stack.Count <= 1 && pause) return;
 
         lastResult =_stack.Pop().Free();
 

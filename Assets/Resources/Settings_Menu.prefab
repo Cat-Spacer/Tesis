@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9142594217991718253}
   - component: {fileID: 4285711224392992164}
   - component: {fileID: 5522459005382761169}
-  - component: {fileID: 4510481081012154649}
+  - component: {fileID: 8972593352433052656}
   m_Layer: 5
   m_Name: Settings_Menu
   m_TagString: Untagged
@@ -104,7 +104,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &4510481081012154649
+--- !u!114 &8972593352433052656
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -113,11 +113,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1122216874576580752}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a0db885485ec9e4aa991a462913ab27, type: 3}
+  m_Script: {fileID: 11500000, guid: 3957334a08f599d4b93f9c30cccec069, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _buttons: []
-  _settingsScreenName: Settings_Menu
   _sortingLayer: Canvas
 --- !u!1 &1277319640528834765
 GameObject:
@@ -240,8 +238,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4510481081012154649}
-        m_TargetAssemblyTypeName: ScreenPause, Assembly-CSharp
+      - m_Target: {fileID: 8972593352433052656}
+        m_TargetAssemblyTypeName: ScreenSettings, Assembly-CSharp
         m_MethodName: BTN_Back
         m_Mode: 1
         m_Arguments:
