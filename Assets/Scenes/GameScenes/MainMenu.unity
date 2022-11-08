@@ -1242,7 +1242,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Change Controlls
+  m_text: Settings
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
   m_sharedMaterial: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
@@ -1783,6 +1783,213 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1027865135}
   m_CullTransparentMesh: 1
+--- !u!1 &1194158413
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1194158415}
+  - component: {fileID: 1194158414}
+  m_Layer: 0
+  m_Name: Sound Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1194158414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1194158413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: feb685546d18aed4e822d5210847f3d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: WindForest
+    nameType: 0
+    clip: {fileID: 8300000, guid: 9bd1fb477f6c526409400dfdd0bd3cdb, type: 3}
+    audioMixerGroup: {fileID: 4101229154234308651, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.3
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: Steps
+    nameType: 1
+    clip: {fileID: 8300000, guid: 49228b8c922765240bb3d2d35a0a3a55, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 1
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: MusicForest
+    nameType: 3
+    clip: {fileID: 8300000, guid: ff11042a7f1fd264192e117fa010bcc2, type: 3}
+    audioMixerGroup: {fileID: 4101229154234308651, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: Climb
+    nameType: 10
+    clip: {fileID: 8300000, guid: 7fb7da106000d304abcb18af367d2128, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.2
+    pitch: 1.48
+    loop: 1
+    source: {fileID: 0}
+  - name: Item
+    nameType: 9
+    clip: {fileID: 8300000, guid: 1e02b8e7557530847aa2d21e58d89a36, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Cat Attack
+    nameType: 5
+    clip: {fileID: 8300000, guid: 39af15a08ade5f444bcafb9709e72809, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Cat Damage
+    nameType: 4
+    clip: {fileID: 8300000, guid: 2b9aa5908777eb845b0f6a139ff4cd76, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: CatJump
+    nameType: 7
+    clip: {fileID: 8300000, guid: 9433866ca24eb714e8c2964bdb6e88d7, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.12
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Cat Dash
+    nameType: 6
+    clip: {fileID: 8300000, guid: fd4c805c72bd8e447a711051f1f1d2ac, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 1
+    pitch: 1.2
+    loop: 0
+    source: {fileID: 0}
+  - name: FallingDebris
+    nameType: 11
+    clip: {fileID: 8300000, guid: b461e8b9af96d904ca24bc98f7479374, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: WoodAmbientSound
+    nameType: 12
+    clip: {fileID: 8300000, guid: 9c998cc478326d840a4760b09d34890d, type: 3}
+    audioMixerGroup: {fileID: 4101229154234308651, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.08
+    pitch: 1.81
+    loop: 1
+    source: {fileID: 0}
+  - name: FlowerWind
+    nameType: 13
+    clip: {fileID: 8300000, guid: a5365076fb3dd5c48bb46e5582b1ac4d, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.05
+    pitch: 2.33
+    loop: 1
+    source: {fileID: 0}
+  - name: Rain
+    nameType: 14
+    clip: {fileID: 8300000, guid: db0f075e49b62bb49b3f4dbfc8211313, type: 3}
+    audioMixerGroup: {fileID: 4101229154234308651, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.05
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: CarnivorousPlant
+    nameType: 15
+    clip: {fileID: 8300000, guid: 5f4df11412f067348b3f57f43b29e067, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: PlayerDeath
+    nameType: 16
+    clip: {fileID: 8300000, guid: bd1b3b4b3f623cb44890e1e5e436b0f2, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.4
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Mushroom
+    nameType: 17
+    clip: {fileID: 8300000, guid: 5f2865b96ef93eb4d8539377badf6d5e, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: VineCrunch
+    nameType: 18
+    clip: {fileID: 8300000, guid: adb849bed08e36b41b7d708cfe472a0f, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: mAGIC cAT
+    nameType: 19
+    clip: {fileID: 8300000, guid: d9e044f50d08be747bc98ba3403ed455, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  mixerValue: []
+--- !u!4 &1194158415
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1194158413}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1211164779
 GameObject:
   m_ObjectHideFlags: 0
@@ -3518,6 +3725,7 @@ GameObject:
   - component: {fileID: 1841961169}
   - component: {fileID: 1841961168}
   - component: {fileID: 1841961170}
+  - component: {fileID: 1841961171}
   m_Layer: 0
   m_Name: Menu Manager
   m_TagString: Untagged
@@ -3600,6 +3808,21 @@ MonoBehaviour:
   mainFirstBTN: {fileID: 2027396824}
   controlsFirstBTN: {fileID: 1743138272}
   optionsFirstBTN: {fileID: 0}
+--- !u!114 &1841961171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1841961165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0b27e7f6ecfe7b4cb7b32906d24060f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _soundPlayName: 03000000
+  _loop: 1
+  _pauseAll: 0
 --- !u!1 &1877592204
 GameObject:
   m_ObjectHideFlags: 0
@@ -3747,7 +3970,7 @@ GameObject:
   - component: {fileID: 1942958882}
   - component: {fileID: 1942958881}
   m_Layer: 5
-  m_Name: Change Controlls_BTN (1)
+  m_Name: Settings_BTN (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
