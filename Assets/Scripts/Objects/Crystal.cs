@@ -41,6 +41,7 @@ public class Crystal : MonoBehaviour, IDamageable
         {
             Debug.Log($"{gameObject.name} last");
             _door.SetActive(!linked);
+            //CallCrystal(_prevCrystal);
         }
         else
             Debug.Log($"{gameObject.name} not last");

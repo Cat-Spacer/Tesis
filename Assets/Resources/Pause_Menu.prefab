@@ -325,7 +325,7 @@ Canvas:
   m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 1
-  m_PixelPerfect: 0
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
@@ -388,6 +388,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _buttons: []
   _settingsScreenName: Settings_Menu
+  _sortingLayer: Canvas
 --- !u!1 &5079081767482475491
 GameObject:
   m_ObjectHideFlags: 0
@@ -938,6 +939,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loadingScreenIndex: 1
+  _settingsScreenName: Settings_Menu
 --- !u!1 &8989308819736399610
 GameObject:
   m_ObjectHideFlags: 0

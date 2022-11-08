@@ -49,6 +49,7 @@ public class LineCollision : MonoBehaviour
             _lineRenderer.positionCount = 0;
         //linkedCrystal = false;
         _myCrystal = crystal_arg;
+        _myCrystal.CheckIfLastCrystal(linkedCrystal);
 
         SetLines(prevCrystal, nC_arg);
         //Debug.Log($"{gameObject.name} count_arg: {_countLineRenderer}. _lineRenderer.positionCount: {_lineRenderer.positionCount}.");
@@ -62,7 +63,6 @@ public class LineCollision : MonoBehaviour
                 linkedCrystal = false;
                 //Debug.Log($"{gameObject.name} se apagó");
             }
-            _myCrystal.CheckIfLastCrystal(linkedCrystal);
         }
         if (nC_arg && nC_arg != _myCrystal && nC_arg.line.linkedCrystal)
             nC_arg.CallCrystal(_myCrystal);
@@ -81,14 +81,14 @@ public class LineCollision : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(_lineRenderer.GetPosition(_countLineRenderer), _directions[i]
                 , _distance, _layerMaskCrystal + _layerMaskObstacles);
 
-            Debug.Log($"{gameObject.name} for of index = {i}.");
+            //Debug.Log($"{gameObject.name} for of index = {i}.");
             if (hit.collider != null && hit.collider.gameObject != gameObject)
             {
                 _countLineRenderer = _lineRenderer.positionCount++;
 
                 if (((1 << hit.collider.gameObject.layer) & _layerMaskCrystal.value) != 0 && hit.collider.GetComponent<Crystal>() != prevCrystal)
                 {
-                    Debug.Log($"{gameObject.name}: No colisione con obstaculos pero si con el Crystal: {hit.collider.gameObject.name}");
+                    //Debug.Log($"{gameObject.name}: No colisione con obstaculos pero si con el Crystal: {hit.collider.gameObject.name}");
                     posUpdate = (Vector2)hit.transform.position;
                     linkedCrystal = true;
                     nC_arg.line.linkedCrystal = true;
@@ -98,7 +98,7 @@ public class LineCollision : MonoBehaviour
 
                 _lineRenderer.SetPosition(_countLineRenderer, posUpdate);
 
-                #region Test
+                #region     Test
                 //Debug.Log($"{gameObject.name} direction: {_directions[i]}. _lineRenderer pos = {_lineRenderer.GetPosition(_countLineRenderer - 1)}. hit : {(Vector2)hit.point}. _sidesOfCrystals pos = {_sidesOfCrystals[i].position}");
                 //Debug.Log($"{gameObject.name} posUpdate = {posUpdate}. HittedCrystal = {hit.collider.GetComponent<Crystal>()} compared to prevCrystal = {prevCrystal}");
                 //Debug.Log($"{gameObject.name} RaycastHit: {hit.collider}. RaycastHit layer: {hit.collider.gameObject.layer}.");

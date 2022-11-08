@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 public class SoundManager : MonoBehaviour
 {
     public Sound[] sounds;
     public static SoundManager instance;
     float _baseVolume;
+
+    public Dictionary<string,float> mixerValue = new Dictionary<string, float>();
     void Awake()
     {
         if (instance == null)
@@ -23,6 +27,7 @@ public class SoundManager : MonoBehaviour
         {
             s.source = gameObject.AddComponent<AudioSource>();
             s.source.clip = s.clip;
+            s.source.outputAudioMixerGroup = s.audioMixerGroup;
             s.source.volume = s.volume;
             s.source.pitch = s.pitch;
             s.source.loop = s.loop;
@@ -30,18 +35,19 @@ public class SoundManager : MonoBehaviour
     }
     private void Start()
     {
-        Play(SoundManager.Types.MusicForest);
-        Play(SoundManager.Types.WoodAmbientSound);
-        Play(SoundManager.Types.Rain);
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P)) //Probar sonido
+        /*if (FindObjectOfType<GameManager>())
         {
-            SoundManager.instance.Play(SoundManager.Types.VineCrunch);
-        }
+            Play(Types.MusicForest);
+            Play(Types.WoodAmbientSound);
+            Play(Types.Rain);
+        }*/
+        //if (Input.GetKeyDown(KeyCode.P)) //Probar sonido
+        //    SoundManager.instance.Play(SoundManager.Types.VineCrunch);
     }
-    public void Play(Types name)
+    public void Play(Types name,bool loop = true)
     {
         Sound s = Array.Find(sounds, sound => sound.nameType == name);
         if (s == null)
@@ -49,6 +55,7 @@ public class SoundManager : MonoBehaviour
             Debug.LogWarning("Sound: " + name + " not found!");
             return;
         }
+        s.loop = loop;
         s.source.Play();
     }
     public void Pause(Types name)
@@ -65,7 +72,11 @@ public class SoundManager : MonoBehaviour
 
         //s.source.Pause();
     }
-
+    public void PauseAll()
+    {
+        foreach (var s in sounds)
+            s.source.Pause();
+    }
     public IEnumerator FadeOut(AudioSource audioSource, float FadeTime)
     {
         float startVolume = audioSource.volume;

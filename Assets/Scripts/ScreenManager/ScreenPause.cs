@@ -7,13 +7,14 @@ public class ScreenPause : MonoBehaviour, IScreen
 {
     [SerializeField] private Button[] _buttons;
     [SerializeField] private string _settingsScreenName = "Settings_Menu";
+    [SerializeField] private string _sortingLayer = "Canvas";
+    Canvas _screenCanvas;
 
     private string _result;
 
     private void Awake()
     {
-        _buttons = GetComponentsInChildren<Button>();
-
+        SetCamera();
         foreach (var button in _buttons)
         {
             button.interactable = false;
@@ -55,5 +56,13 @@ public class ScreenPause : MonoBehaviour, IScreen
         Destroy(gameObject);
 
         return _result;
+    }
+
+    private void SetCamera()
+    {
+        _screenCanvas = GetComponent<Canvas>();
+        _screenCanvas.worldCamera = FindObjectOfType<Camera>();
+        _screenCanvas.sortingLayerName = _sortingLayer;
+        _buttons = GetComponentsInChildren<Button>();
     }
 }
