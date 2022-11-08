@@ -6,8 +6,17 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    [Serializable]
+    public struct AreaPoint
+    {
+        public Transform respawnPoint;
+        public GameObject[] resetObjects;
+    }
+
+
     public static GameManager Instance;
     [SerializeField] Transform[] _respawnPoint;
+    [SerializeField] AreaPoint[] _respawnArea;
 
     CustomMovement _player;
 
@@ -28,6 +37,7 @@ public class GameManager : MonoBehaviour
     [Header("CurrentLevel")]
     [SerializeField] private int _currentLevel = 0;
     [SerializeField] MiniMap miniMap;
+
 
     private void Awake()
     {
@@ -72,8 +82,20 @@ public class GameManager : MonoBehaviour
     IEnumerator PlayerResetPositionCounter(int index_arg)
     {
         yield return new WaitForSeconds(_resetPlayerTime);
-        _player.transform.position = new Vector3(_respawnPoint[index_arg].transform.position.x, _respawnPoint[index_arg].transform.position.y, 0);
+        _player.transform.position = new Vector3(_respawnArea[index_arg].respawnPoint.transform.position.x, _respawnArea[index_arg].respawnPoint.transform.position.y, 0);
         _player.ResetPlayer();
+
+        foreach (var item in _respawnArea[index_arg].resetObjects)
+        {
+            item.SetActive(true);
+
+            IRespawn obj = item.GetComponent<IRespawn>();
+            if (obj != null)
+            {
+                obj.Respawn();
+            }
+        }
+    
     }    
     IEnumerator DeathScreenCounter()
     {
