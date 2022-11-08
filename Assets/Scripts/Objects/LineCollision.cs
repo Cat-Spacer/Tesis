@@ -12,6 +12,7 @@ public class LineCollision : MonoBehaviour
     [SerializeField] private int _countLineRenderer = 1, _limitCount = 0;
     [SerializeField] private float _distance = 100.0f, _time = 0;
     public bool linkedCrystal = false;
+    private bool _hittedCrystal = false;
     public Action _GrowState = delegate { };
     [SerializeField] LayerMask _layerMaskObstacles, _layerMaskCrystal;
     Vector2 posUpdate, nextPos, obstaclePosition/*, nullObj = new Vector2()*/;
@@ -27,6 +28,7 @@ public class LineCollision : MonoBehaviour
             _directions = new Vector2[_sidesOfCrystals.Length];
         _myCrystal = GetComponent<Crystal>();
         linkedCrystal = false;
+        _hittedCrystal = false;
         //Debug.Log($"{gameObject.name} _layerMaskCrystal = {_layerMaskCrystal.value}. iniPos = {(Vector2)transform.position}. prevCrystal = {_myCrystal.GetPrevCrystal()}");
     }
 
@@ -47,9 +49,8 @@ public class LineCollision : MonoBehaviour
         }
         else
             _lineRenderer.positionCount = 0;
-        //linkedCrystal = false;
+        _hittedCrystal = false;
         _myCrystal = crystal_arg;
-        _myCrystal.CheckIfLastCrystal(linkedCrystal);
 
         SetLines(prevCrystal, nC_arg);
         //Debug.Log($"{gameObject.name} count_arg: {_countLineRenderer}. _lineRenderer.positionCount: {_lineRenderer.positionCount}.");
@@ -57,6 +58,7 @@ public class LineCollision : MonoBehaviour
         if (prevCrystal)
         {
             //Debug.Log($"{gameObject.name} prev is linked = {prevCrystal.GetComponent<LineCollision>().linkedCrystal}");
+            _myCrystal.CheckIfLastCrystal(linkedCrystal);
             if (!linkedCrystal || prevCrystal.line.linkedCrystal == false)
             {
                 _lineRenderer.positionCount = 1;
@@ -64,13 +66,26 @@ public class LineCollision : MonoBehaviour
                 //Debug.Log($"{gameObject.name} se apagó");
             }
         }
-        if (nC_arg && nC_arg != _myCrystal && nC_arg.line.linkedCrystal)
+        if (!_hittedCrystal)
+        {
+            nC_arg.line.linkedCrystal = false;
+            _myCrystal.CheckIfLastCrystal(linkedCrystal);
+        }
+        if (nC_arg && nC_arg != _myCrystal /*&& nC_arg.line.linkedCrystal*/)
             nC_arg.CallCrystal(_myCrystal);
     }
 
-    private void SetLines(Crystal prevCrystal, Crystal nC_arg)
+    public void SetLines(Crystal prevCrystal, Crystal nC_arg)
     {
-        //_countLineRenderer = _lineRenderer.positionCount ++;
+        if (prevCrystal)
+            if (!linkedCrystal || prevCrystal.line.linkedCrystal == false)
+            {
+                _lineRenderer.positionCount = 1;
+                linkedCrystal = false;
+                //Debug.Log($"{gameObject.name} se apagó");
+                return;
+            }
+
         for (int i = 0; i < _sidesOfCrystals.Length; i++)
         {
             _countLineRenderer = _lineRenderer.positionCount++;
@@ -91,6 +106,7 @@ public class LineCollision : MonoBehaviour
                     //Debug.Log($"{gameObject.name}: No colisione con obstaculos pero si con el Crystal: {hit.collider.gameObject.name}");
                     posUpdate = (Vector2)hit.transform.position;
                     linkedCrystal = true;
+                    _hittedCrystal = true;
                     nC_arg.line.linkedCrystal = true;
                 }
                 else
@@ -98,7 +114,7 @@ public class LineCollision : MonoBehaviour
 
                 _lineRenderer.SetPosition(_countLineRenderer, posUpdate);
 
-                #region     Test
+                #region Test
                 //Debug.Log($"{gameObject.name} direction: {_directions[i]}. _lineRenderer pos = {_lineRenderer.GetPosition(_countLineRenderer - 1)}. hit : {(Vector2)hit.point}. _sidesOfCrystals pos = {_sidesOfCrystals[i].position}");
                 //Debug.Log($"{gameObject.name} posUpdate = {posUpdate}. HittedCrystal = {hit.collider.GetComponent<Crystal>()} compared to prevCrystal = {prevCrystal}");
                 //Debug.Log($"{gameObject.name} RaycastHit: {hit.collider}. RaycastHit layer: {hit.collider.gameObject.layer}.");
