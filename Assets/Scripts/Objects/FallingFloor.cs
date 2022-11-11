@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FallingFloor : MonoBehaviour
+public class FallingFloor : MonoBehaviour, IRespawn
 {
     Rigidbody2D rb;
     [SerializeField] LayerMask mask;
@@ -13,9 +13,11 @@ public class FallingFloor : MonoBehaviour
     [SerializeField] bool activated = false;
     [SerializeField] Animator anim;
     [SerializeField] ParticleSystem fallingRocksParticle;
+    Vector2 _startingPos;
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        _startingPos = transform.position;
     }
     private void Activate()
     {
@@ -49,5 +51,10 @@ public class FallingFloor : MonoBehaviour
             anim.SetTrigger("Fall");
             SoundManager.instance.Play(SoundManager.Types.FallingDebris);
         }
+    }
+
+    public void Respawn()
+    {
+        transform.position = _startingPos;
     }
 }
