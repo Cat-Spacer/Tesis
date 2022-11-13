@@ -5,23 +5,39 @@ using System.Linq;
 
 namespace InputKey
 {
-    public class InputManager
+    public class InputDictionary
     {/// <summary>
      /// Setea las teclas para cada accion
      /// </summary>
         //Hacer que dependiendo del voton depende de si es ppal o alternativo
-        private static Dictionary<string, KeyCode> _buttonKeys;
-        public void OnEnable()
+        private static Dictionary<TypeOfKeys, KeyCode> _buttonKeys;
+
+        public enum TypeOfKeys
         {
-            _buttonKeys = new Dictionary<string, KeyCode>();
+            None,
+            Jump,
+            ClimbUp,
+            ClimbDown,
+            Left,
+            Right,
+            Attack,
+            Interact
+        }
+        public void OnStartIfNotSave()
+        {
+            _buttonKeys = new Dictionary<TypeOfKeys, KeyCode>();
             // Agarrar del PlayerImputs y cargar las teclas / reemplazarlas (si hubo cambios).
-            _buttonKeys["Jump"] = KeyCode.Space;
-            _buttonKeys["Left"] = KeyCode.A;
-            _buttonKeys["Right"] = KeyCode.D;
+            _buttonKeys[TypeOfKeys.Jump] = KeyCode.Space;
+            _buttonKeys[TypeOfKeys.Left] = KeyCode.A;
+            _buttonKeys[TypeOfKeys.Right] = KeyCode.D;
+            _buttonKeys[TypeOfKeys.ClimbUp] = KeyCode.W;
+            _buttonKeys[TypeOfKeys.ClimbDown] = KeyCode.S;
+            _buttonKeys[TypeOfKeys.Attack] = KeyCode.J;
+            _buttonKeys[TypeOfKeys.Interact] = KeyCode.E;
 
         }
 
-        public bool GetButtonDown(string buttonName)
+        public bool GetButtonDown(TypeOfKeys buttonName)
         {
             if (!_buttonKeys.ContainsKey(buttonName))
             {
@@ -31,17 +47,17 @@ namespace InputKey
             return Input.GetKeyDown(_buttonKeys[buttonName]);
         }
 
-        public string[] GetButtonNames()
+        public TypeOfKeys[] GetButtonNames()
         {
             return _buttonKeys.Keys.ToArray();
         }
 
-        public Dictionary<string, KeyCode> GetButtonKeys()
+        public Dictionary<TypeOfKeys, KeyCode> GetButtonKeys()
         {
             return _buttonKeys;
         }
 
-        public string GetKeyNamesForButton(string buttonName, int index = 0)
+        public string GetKeyNamesForButton(TypeOfKeys buttonName)
         {
 
             if (!_buttonKeys.ContainsKey(buttonName))
@@ -53,7 +69,7 @@ namespace InputKey
             return _buttonKeys[buttonName].ToString();
         }
 
-        public bool SetButtonForKey(string buttonName, KeyCode keyCode, int alt = 0)
+        public bool SetButtonForKey(TypeOfKeys buttonName, KeyCode keyCode, int alt = 0)
         {
             if (alt > _buttonKeys.Values.Count())
                 return false;
