@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using InputKey;
 
-public class KeybindDialogBox : MonoBehaviour
-{
-    private InputManager inputManager;
+    public class KeybindDialogBox : MonoBehaviour
+    {
     public GameObject keyItemPrefab;
     public GameObject keyList;
-
     private string buttonToRebind = null;
-
+    InputManager inputManager;
     void Start()
     {
-        inputManager = FindObjectOfType<InputManager>();
+        inputManager = new InputManager();
 
         string[] buttonNames = inputManager.GetButtonNames();
 
@@ -61,3 +60,5 @@ public class KeybindDialogBox : MonoBehaviour
         buttonToRebind = buttonName;
     }
 }
+
+   
