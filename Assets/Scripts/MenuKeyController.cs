@@ -6,7 +6,7 @@ using TMPro;
 
 public class MenuKeyController : MonoBehaviour
 {
-    [SerializeField]TMP_InputField _field;
+    [SerializeField] TMP_InputField _field;
     [SerializeField] TMP_Text _keyTypeText;
     [SerializeField] TypeOfKeys _keyType;
     public enum TypeOfKeys
@@ -86,6 +86,4 @@ public class MenuKeyController : MonoBehaviour
     public void AssignKey()
     {
     }
-    
-
 }
