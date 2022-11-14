@@ -2,39 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using InputKey;
 
 
 public class MenuKeyController : MonoBehaviour
 {
     [SerializeField] TMP_InputField _field;
     [SerializeField] TMP_Text _keyTypeText;
-    [SerializeField] TypeOfKeys _keyType;
-    public enum TypeOfKeys
-    {
-        Jump,
-        ClimbUp,
-        ClimbDown,
-        Left,
-        Right,
-        Attack,
-        Interact
-    }
+    [SerializeField] InputDictionary.TypeOfKeys _keyType;
+    InputDictionary inputDictionary;
 
     private void Start()
     {
+        inputDictionary = new InputDictionary();
+
+        inputDictionary.OnStartIfNotSave();
+
         if (_keyType != null)
             _keyTypeText.text = _keyType.ToString();
         else
             Debug.LogWarning("key not assigned");
-    }
 
-    public void GetKey(TypeOfKeys key)
-    {
-        Event e = Event.current;
-        if (e.isKey)
-        {
-            Debug.Log("Detected key code: " + e.keyCode);
-        }
+        _field.text = inputDictionary.GetKeyNamesForButton(_keyType);
     }
 
     public void DebugKey(TMP_Text text)
@@ -72,14 +61,17 @@ public class MenuKeyController : MonoBehaviour
     {
         if (!detect) return;
 
+
         foreach (KeyCode vKey in System.Enum.GetValues(typeof(KeyCode)))
         {
             if (Input.GetKeyDown(vKey))
             {
                 _field.text = vKey.ToString();
+                inputDictionary.SetButtonForKey(_keyType, vKey);
                 Debug.Log(vKey.ToString());
             }
         }
+
 
     }
 
