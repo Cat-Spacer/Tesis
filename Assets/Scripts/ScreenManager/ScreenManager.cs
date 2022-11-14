@@ -41,10 +41,9 @@ public class ScreenManager : MonoBehaviour
         screen.Activate();
     }
 
-    public void Push(string resource)
+    public void PushInstance(string resource)
     {
         var go = Instantiate(Resources.Load<GameObject>(resource));
-
         Push(go.GetComponent<IScreen>());
     }  
 }
