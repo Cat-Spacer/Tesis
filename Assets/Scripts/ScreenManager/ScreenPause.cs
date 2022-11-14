@@ -25,7 +25,7 @@ public class ScreenPause : MonoBehaviour, IScreen
     {
         _result = "Settings";
 
-        ScreenManager.Instance.Push(_settingsScreenName);
+        ScreenManager.Instance.PushInstance(_settingsScreenName);
     }
 
     public void BTN_Back()
