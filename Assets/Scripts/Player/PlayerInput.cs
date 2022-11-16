@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using InputKey;
 
 public class PlayerInput : MonoBehaviour
 {
@@ -37,19 +38,20 @@ public class PlayerInput : MonoBehaviour
             Climb.canClimbJump = true;
         }
         xAxis = Input.GetAxis("Horizontal");
-        jumpImput = Input.GetKeyDown(KeyCode.Space);
+        jumpImput = Input.GetKeyDown(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Jump]);
         dashImput = Input.GetKeyDown(KeyCode.LeftShift);
-        w_Imput = Input.GetKey(KeyCode.W);
-        a_Imput = Input.GetKey(KeyCode.A);
-        s_Imput = Input.GetKey(KeyCode.S);
-        d_Imput = Input.GetKey(KeyCode.D);
-        attackImput = Input.GetKeyDown(KeyCode.J);
+        w_Imput = Input.GetKey(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.ClimbUp]);
+        a_Imput = Input.GetKey(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Left]);
+        s_Imput = Input.GetKey(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.ClimbDown]);
+        d_Imput = Input.GetKey(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Right]);
+        attackImput = Input.GetKeyDown(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Attack]);
         dashInputStay = Input.GetKey(KeyCode.LeftShift);
-        jumpInputStay = Input.GetKey(KeyCode.Space);
-        interactionInput = Input.GetKeyDown(KeyCode.E);
-        jumpInputDown = Input.GetKeyDown(KeyCode.Space);
+        jumpInputStay = Input.GetKey(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Jump]);
+        interactionInput = Input.GetKeyDown(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Interact]);
+        jumpInputDown = Input.GetKeyDown(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Jump]);
         //TrapInputs
-        trapInput = Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.A);
+        trapInput = Input.GetKeyDown(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Left]) 
+            || Input.GetKeyDown(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Right]);
         //rightTrapInput = Input.GetKey(KeyCode.A);
     }
 
