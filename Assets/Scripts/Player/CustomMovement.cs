@@ -20,6 +20,8 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     public float jumpForceClimbLatitud = 150;
     EnergyPower _energyPowerScript;
     private IInteract interactObj;
+    private Action _MovementState;
+    private Action _DashState;
 
     private void Awake()
     {
@@ -44,53 +46,65 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         _TimeCounterAction += TimeCounterCoyote;
         _Inputs = Inputs;
         _PlayerActions = delegate { };
-        /*_ClimbAction = ClimbInput;
-        _ClimbAction += ClimbUp;
-        _ClimbAction += ClimbDown;
-        _ClimbAction += ClimbStaticRight;
-        _ClimbAction += ClimbStaticLeft;*/
+        _MovementState = delegate { };
+        //_DashState = delegate { };
     }
     private void Update()
     {
+       // Movement(1);
         _Inputs();
         _TimeCounterAction();
         Attack();
         Interact();
         _PlayerActions = delegate { };
-        // _ClimbAction();
         _climbScript.UpdateClimb();
         Debug.DrawRay(transform.position, transform.right * _distanceToRope, Color.red);
-        //Debug.Log(PlayerInput.dashImput);
+
+
+        //if (PlayerInput.dashInput)
+          //  _DashState = StartDash;
+
     }
     private void FixedUpdate()
     {
+        //_DashState();
         _climbScript.FixedUpdateClimb();
         rb.AddForce(Vector2.down * gravityForce);
-        Movement(xMove, 1);
+        _MovementState();
         GroundCheckPos();
         JumpUp(onJumpInput);
         Dash();        
-        if (jumpClimb && !PlayerInput.a_Imput && !PlayerInput.d_Imput)
-            Movement(1 * faceDirection, 1);
+        if (jumpClimb && !PlayerInput.left_Input && !PlayerInput.right_Input)
+            Movement( 1);
 
     }
     private void Inputs()
     {    
-        xMove = playerInput.xAxis;
-        if (playerInput.jumpImput) onJumpInput = true;
-        if (PlayerInput.dashImput) onDashInput = true;
-        if (PlayerInput.w_Imput) w_Input = true;
+        //xMove = playerInput.xAxis;
+        if (playerInput.jumpInput) onJumpInput = true;
+        if (PlayerInput.dashInput) onDashInput = true;
+        if (PlayerInput.up_Input) w_Input = true;
         else w_Input = false;
-        if (PlayerInput.a_Imput) a_Input = true;
+        if (PlayerInput.left_Input) a_Input = true;
         else a_Input = false;
-        if (PlayerInput.s_Imput) s_Imput = true;
+        if (PlayerInput.down_Input) s_Imput = true;
         else s_Imput = false;
-        if (PlayerInput.d_Imput) d_Input = true;
+        if (PlayerInput.right_Input) d_Input = true;
         else d_Input = false;
         if (playerInput.attackImput) attackInput = true;
         else attackInput = false;
         if (PlayerInput.interactionInput) interactionInput = true;
         else interactionInput = false;
+
+
+        if (PlayerInput.right_Input && !Climb.isHorizontal && !isDashing && !Climb.MoveTowardsBool)
+            _MovementState = RightMovement;
+
+        if (PlayerInput.left_Input && !Climb.isHorizontal && !isDashing && !Climb.MoveTowardsBool)
+            _MovementState = LeftMovement;
+
+        if (PlayerInput.right_Input_UpKey || PlayerInput.left_Input_UpKey && !Climb.isHorizontal && !isDashing && !Climb.MoveTowardsBool)
+            _MovementState = StopMovement;
     }
 
     #region Interact
@@ -123,90 +137,61 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     #endregion
     #region Movement
     bool hasPlayedMovement = false;
-    private void Movement(float xDir,float lerpAmount)
+
+    void RightMovement()
     {
-        if (Climb.isHorizontal) return;
-        if (isDashing && Climb.MoveTowardsBool) return;
-        if (xDir > 0.1f)
-        {
-            anim.SetBool("Run", true);
-            transform.rotation = Quaternion.Euler(transform.rotation.x, 0, transform.rotation.z);
-            faceDirection = 1;
-            if (!hasPlayedMovement)
-            {
-                SoundManager.instance.Play(SoundManager.Types.Steps);
-                hasPlayedMovement = true;
-            }
-        }
-        else if (xDir < -0.1f)
-        {
-            anim.SetBool("Run", true);
-            transform.rotation = Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z);
-            faceDirection = -1;
-            if (!hasPlayedMovement)
-            {
-                SoundManager.instance.Play(SoundManager.Types.Steps);
-                hasPlayedMovement = true;
-            }
-        }
-        else
-        {
-            anim.SetBool("Run", false);
-            if (hasPlayedMovement)
-            {
-                SoundManager.instance.Pause(SoundManager.Types.Steps);
-                hasPlayedMovement = false;
-            }
-        }
-        float targetSpeed = xDir * maxSpeed; 
-        float speedDif = targetSpeed - rb.velocity.x; 
 
-        #region Acceleration Rate
-        float accelRate;
-
-        if(Mathf.Abs(targetSpeed) > 0.01f)
-        {
-            accelRate = runAccel;
-        }
-        else
-        {
-            accelRate = runDeccel;
-        }
-
-        if (onGround) //GroundMovement
-            accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? runAccel : runDeccel;
-        else //AirMovement
-            accelRate = (Mathf.Abs(targetSpeed) > 0.01f) ? runAccel * airRunAccel : runDeccel * airRunDeccel;
-
-        if ((rb.velocity.x > targetSpeed && targetSpeed > 0.01f) || (rb.velocity.x < targetSpeed && targetSpeed < -0.01f))
-        {
-            accelRate = 0;
-        }
-        #endregion
-
-        #region Velocity Power
+        float targetSpeed;
         float velPower;
-        if (Mathf.Abs(targetSpeed) < 0.01f)
-        {
-            velPower = stopPower;
-        }
-        else if (Mathf.Abs(rb.velocity.x) > 0 && (Mathf.Sign(targetSpeed) != Mathf.Sign(rb.velocity.x)))
-        {
-            velPower = turnPower;
-        }
-        else
-        {
-            velPower = accelPower;
-        }
-        #endregion    
 
-        float movement = Mathf.Pow(Mathf.Abs(speedDif) * accelRate, velPower) * Mathf.Sign(speedDif);
-        movement = Mathf.Lerp(rb.velocity.x, movement, lerpAmount);
-       
-        rb.AddForce(movement * Vector2.right);
-        //Debug.Log(rb.);
+        anim.SetBool("Run", true);
+        transform.rotation = Quaternion.Euler(transform.rotation.x, 0, transform.rotation.z);
+        faceDirection = 1;
+        velPower = accelPower;
+        if (!hasPlayedMovement)
+        {
+            SoundManager.instance.Play(SoundManager.Types.Steps);
+            hasPlayedMovement = true;
+        }
+        targetSpeed = faceDirection * maxSpeed;
+        rb.velocity = new Vector2(targetSpeed, rb.velocity.y);
+    }
 
-        if (rb.velocity.y < 0 && !Climb.isClimbing)
+    void LeftMovement()
+    {
+
+        float targetSpeed;
+        float velPower;
+
+        anim.SetBool("Run", true);
+        transform.rotation = Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z);
+        faceDirection = -1;
+        velPower = accelPower;
+        if (!hasPlayedMovement)
+        {
+            SoundManager.instance.Play(SoundManager.Types.Steps);
+            hasPlayedMovement = true;
+        }
+        targetSpeed = faceDirection * maxSpeed;
+        rb.velocity = new Vector2(targetSpeed, rb.velocity.y);
+    }
+
+    void StopMovement()
+    {
+        anim.SetBool("Run", false);
+        if (hasPlayedMovement)
+        {
+            SoundManager.instance.Pause(SoundManager.Types.Steps);
+            hasPlayedMovement = false;
+        }
+        rb.velocity = new Vector2(0, rb.velocity.y);
+        _MovementState = delegate { };
+    }
+
+    private void Movement(float lerpAmount)
+    {
+  
+        /*if (rb.velocity.y < 0 && !Climb.isClimbing)
         {
             if (hasPlayedMovement)
             {
@@ -214,7 +199,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
                 hasPlayedMovement = false;
             }
             anim.SetTrigger("Fall");
-        }
+        }*/
     }
     #endregion
     #region JUMP
@@ -502,6 +487,8 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             onDashInput = false;
             return;
         }
+
+    
       
         if (onDashInput && canDash &&_energyPowerScript.EnergyDrain(10))
         {   rb.isKinematic = false;
@@ -549,7 +536,10 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
                 if (!dead) ConstrainsReset();
                 _dashParticleTrail.Stop();
                 isDashing = false;
-                rb.velocity *= 0.5f;
+                rb.velocity = Vector2.zero;
+                rb.angularVelocity = 0;
+                // rb.velocity *= 0.5f;
+                Debug.Log("end dash");
                 StartCoroutine(ExampleCoroutine());
             }
             if (rb.velocity == Vector2.zero)
@@ -586,7 +576,87 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         if (!dead) ConstrainsReset();
         StartCoroutine(ExampleCoroutine());
     }
+    void StartDash()
+    {
+        CustomMovement.isDashing = true;
+        rb.velocity = new Vector2(0, 0);
+        rb.angularVelocity = 0;
+        rb.constraints = ~RigidbodyConstraints2D.FreezeAll;
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        // _ClimbState = _customMovement.DashClimb;
+        dashStart = transform.position;
+        //isHorizontal = false;
+        _DashState = MoveTowardsDash;
+    }
+    Vector3 rotationVector;
+    void MoveTowardsDash()
+    {
+        Climb.MoveTowardsBool = true;
 
+        rb.velocity = new Vector2(0, 0);
+        rb.angularVelocity = 0;
+        rb.constraints = RigidbodyConstraints2D.FreezePositionY;
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+
+        if (_climbScript.InSight(_climbLayerMask))
+        {
+            if (CustomMovement.faceDirection == -1)
+            {
+                transform.rotation = Quaternion.Euler(transform.rotation.x, 0, transform.rotation.z);
+                rotationVector.y = 0;
+            }
+            if (CustomMovement.faceDirection == 1)
+            {
+                transform.rotation = Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z);
+                rotationVector.y = 180;
+            }
+            CustomMovement.faceDirection = -CustomMovement.faceDirection;
+
+        }
+
+        _DashState = ForceDash;
+        StartDashFeedBack();
+
+
+    }
+
+    public void ForceDash()
+    {
+        Debug.Log("dashing");
+        rb.velocity = Vector2.right * 45 * CustomMovement.faceDirection;
+        rb.constraints = RigidbodyConstraints2D.FreezePositionY;
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        Climb.MoveTowardsBool = false;
+        _DashState = EndDash;
+
+    }
+    public void EndDash()
+    {
+        Debug.Log("END DASH");
+
+      /*  if (InSight(_climbLayerMask))
+        {
+            _customMovement.EndDashFeedBack();
+            Debug.Log("start climb");
+            StartClimbingState();
+            rb.constraints = ~RigidbodyConstraints2D.FreezePositionY;
+            CustomMovement.isDashing = false;
+            _ClimbState = ClimbActionVertical;
+
+        }
+        else*/ if (CustomMovement.collisionObstacle || Vector2.Distance(transform.position, dashStart) >= 3)
+        {
+            EndDashFeedBack();
+            Debug.Log("end climb");
+            rb.velocity = Vector2.zero;
+            rb.angularVelocity = 0;
+            CustomMovement.isDashing = false;
+            _DashState = delegate { };
+            //_ClimbState = EndClimb;
+
+        }
+
+    }
     #endregion
     IEnumerator ExampleCoroutine()
     {
@@ -679,27 +749,15 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         if (onGround == true && collision.gameObject.layer == 6)
         {
             _fallParticle.Play();
-           // isJumping = false;
         }
 
         if ((_obstacleLayers.value & (1 << collision.gameObject.layer)) > 0)
         { 
             collisionObstacle = true;
-           // Debug.Log("call ForceDashEnd");
             ForceDashEnd();
         }
 
-      /*  if (collision.gameObject.layer == _wallLayerNumber) //OnWall
-        {
-            hasPlayedClimb = false;
-            _climbParticle.Play();
-            canJump = true;
-            rb.velocity = Vector2.zero;
-            _onWall = true;
-            rb.gravityScale = _gravityScale;
-            gravityForce = 0.0f;
-            ForceDashEnd();
-        }*/
+
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
@@ -709,15 +767,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             //Debug.Log("end collision with obstacle");
         }
     }
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-      /*  if (dashing && !onGround)
-        {
-            Debug.Log("call ForceDashEnd");
-            ForceDashEnd();
-        }*/
 
-    }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
@@ -730,13 +780,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             canHorizontalClimb = false;
         }
     }
-    void OnTriggerExit2D(Collider2D collision)
-    {
-       /* if (collision.gameObject.layer == 17 && Climb.isHorizontal)
-        {
-            _climbScript._ClimbState = _climbScript.EndClimb;
-        }*/
-    }
+
     private void OnDrawGizmos()
     {
         if (showGizmos)

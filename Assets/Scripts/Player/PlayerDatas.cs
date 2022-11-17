@@ -98,7 +98,7 @@ public class PlayerDatas : MonoBehaviour
      [SerializeField] protected float _wallJumpForceY = 5.0f;*/
 
     [Header("Inputs")]
-    [HideInInspector] protected float xMove, yMove;
+   // [HideInInspector] protected float xMove, yMove;
     [HideInInspector] protected bool onJumpInput;
     [HideInInspector] protected bool onJumpInputReleased;
     [SerializeField] protected bool onDashInput;
