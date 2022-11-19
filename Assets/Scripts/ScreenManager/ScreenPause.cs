@@ -25,6 +25,7 @@ public class ScreenPause : MonoBehaviour, IScreen
     {
         _result = "Settings";
 
+        ScreenManager.Instance.Pop();
         ScreenManager.Instance.PushInstance(_settingsScreenName);
     }
 

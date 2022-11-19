@@ -6,7 +6,7 @@ public class Config : MonoBehaviour
 {
     public Transform mainGame;
     [SerializeField] private string _pauseScreenName = "Pause_Menu";
-    private bool _isPaused = false;
+    //private bool _isPaused = false;
 
     private void Start()
     {
@@ -16,14 +16,17 @@ public class Config : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
         {
-            if (_isPaused)
+            if (/*_isPaused || */FindObjectOfType<ScreenPause>())
             {
                 ScreenManager.Instance.Pop();
-                _isPaused = false;
+                //_isPaused = false;
             }
             else
             {
-                _isPaused = true;
+                //_isPaused = true;
+                if (FindObjectOfType<ScreenSettings>())
+                    ScreenManager.Instance.Pop();
+
                 var screenPause = Instantiate(Resources.Load<ScreenPause>(_pauseScreenName));
                 ScreenManager.Instance.Push(screenPause);
             }
