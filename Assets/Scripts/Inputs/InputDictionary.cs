@@ -12,7 +12,7 @@ namespace InputKey
         //Hacer que dependiendo del voton depende de si es ppal o alternativo
         public static Dictionary<TypeOfKeys, KeyCode> buttonKeys;
 
-        public enum TypeOfKeys // agregar Dash
+        public enum TypeOfKeys
         {
             None,
             Jump,
@@ -21,7 +21,8 @@ namespace InputKey
             Left,
             Right,
             Attack,
-            Interact
+            Interact,
+            Dash
         }
         public void OnStartIfNotSave()
         {
@@ -34,6 +35,7 @@ namespace InputKey
             buttonKeys[TypeOfKeys.ClimbDown] = KeyCode.S;
             buttonKeys[TypeOfKeys.Attack] = KeyCode.J;
             buttonKeys[TypeOfKeys.Interact] = KeyCode.E;
+            buttonKeys[TypeOfKeys.Dash] = KeyCode.LeftShift;
 
         }
 

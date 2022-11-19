@@ -173,8 +173,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1934866705663391839}
-  - component: {fileID: 1934866705663391836}
   - component: {fileID: 1934866705663391837}
+  - component: {fileID: 5505317254676170741}
   m_Layer: 0
   m_Name: Knifex2
   m_TagString: Untagged
@@ -199,32 +199,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
---- !u!61 &1934866705663391836
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1934866705663391838}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.022590637, y: 1.1933117}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.91319275, y: 0.26477432}
-  m_EdgeRadius: 0
 --- !u!114 &1934866705663391837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,6 +212,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 1
+--- !u!68 &5505317254676170741
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1934866705663391838}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -0.35420227, y: 0.46806908}
+  - {x: -0.5026398, y: 0.64574623}
+  - {x: -0.3882599, y: 0.7526989}
+  - {x: -0.43730164, y: 0.8180628}
+  - {x: -0.22990417, y: 1.3346252}
+  - {x: 0.057754517, y: 0.8594065}
+  - {x: 0.28007507, y: 1.3356972}
+  - {x: 0.53819275, y: 0.7900572}
+  - {x: 0.3695526, y: 0.45272255}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
 --- !u!1 &6629118891100598498
 GameObject:
   m_ObjectHideFlags: 0
@@ -254,7 +257,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1476800147643217341
 Transform:
   m_ObjectHideFlags: 0
