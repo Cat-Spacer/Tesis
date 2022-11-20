@@ -6,5 +6,6 @@ public enum EnumLevelState
 {
     Undiscoverd,
     Discoverd,
-    ObjFound
+    ObjDiscoverd,
+    ObjCollected
 }

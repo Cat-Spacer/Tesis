@@ -5,6 +5,15 @@ using UnityEngine;
 public class PickUp : MonoBehaviour
 {
     [SerializeField] bool _isResource;
+    public int _currentLvl;
+    private void Start()
+    {
+        if (_isResource)
+        {
+            Debug.Log("Mande al manager");
+            GameManager.Instance.GetAllObjectivesInLevel(this);
+        }
+    }
     private void OnTriggerEnter2D(Collider2D trig)
     {
         CustomMovement player = trig.GetComponent<CustomMovement>();
@@ -14,4 +23,5 @@ public class PickUp : MonoBehaviour
         if (_isResource) GameManager.Instance.GetItem();
         transform.parent.gameObject.SetActive(false);
     }
+    
 }

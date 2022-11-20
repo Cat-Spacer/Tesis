@@ -4,24 +4,28 @@ using UnityEngine;
 using System;
 
 public class Wrap : MonoBehaviour, ILiberate
-{ 
+{
     // the mouth is the center
+    Action _TrapLifeAction = delegate { };
     private float _time = 0;
-    [SerializeField] private float _timer = 0;
-    [SerializeField] private float _speedToTramp = 0;
-    [SerializeField] private float _heithSize = 0;
-    [SerializeField] private float _wrapSpeed = 0;
-    [SerializeField] private float _trapLife = 0;
+    [SerializeField] float _timer = 0;
+    [SerializeField] float _speedToTramp = 0;
+    [SerializeField] float _heithSize = 0;
+    [SerializeField] float _wrapSpeed = 0;
+    [SerializeField] float _trapLife = 0;
+    [SerializeField] float _trapLifeRecover = 0;
     private float _maxTrapLife = 0;
-    [SerializeField] private bool _up = true, _onTrap = false;
-    [SerializeField] private int _relaseCuant = 20;
-    [SerializeField] private Transform _playerTrapPoint;
-    [SerializeField] private GameObject _mouth, _wraps, _toung;
-    [SerializeField] private Animator _myAnimator;
-    [SerializeField] private CustomMovement _player;
-    [SerializeField] private BoxCollider2D _myboxCollider;
-    [SerializeField] private Transform _liberatedPos;
-    [SerializeField] private SpriteRenderer sp;
+    [SerializeField] bool _up = true, _onTrap = false;
+    [SerializeField] int _relaseCuant = 20;
+    [SerializeField] Transform _playerTrapPoint;
+    [SerializeField] GameObject _mouth, _wraps, _toung;
+    [SerializeField] Animator _myAnimator;
+    [SerializeField] CustomMovement _player;
+    [SerializeField] BoxCollider2D _myboxCollider;
+    [SerializeField] Transform _liberatedPos;
+    [SerializeField] SpriteRenderer sp;
+    [SerializeField] PlayerCanvas _playerCanvas;
+    [SerializeField] ParticleSystem spitleParticle;
     private ITrap playerITrap;
     private float _wrpHeight = 0.0f;
     private Vector2 _wrpIntPos;
@@ -78,6 +82,7 @@ public class Wrap : MonoBehaviour, ILiberate
             _timer = _time;
             _up = true;
         }
+        _TrapLifeAction();
     }
 
     private void FixedUpdate()
@@ -87,12 +92,11 @@ public class Wrap : MonoBehaviour, ILiberate
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("call ForceDashEnd");
         if (collision.gameObject.GetComponent<CustomMovement>())
         {
             _up = true;
             _onTrap = true; 
-            _myAnimator.SetBool("Open", true);
+            _myAnimator.SetTrigger("Open");
             SoundManager.instance.Play(SoundManager.Types.CarnivorousPlant);
             _player.ForceDashEnd();
             _player.transform.position = _playerTrapPoint.position;
@@ -100,26 +104,34 @@ public class Wrap : MonoBehaviour, ILiberate
             {
                 playerITrap = _player.GetComponent<ITrap>();
             }           
-            playerITrap.Trap(true, gameObject);
+            playerITrap.Trap(true, _trapLife, gameObject);
+            _playerCanvas = collision.gameObject.GetComponentInChildren<PlayerCanvas>();      
+            _TrapLifeAction = TrapLifeRecover;
+            spitleParticle.gameObject.SetActive(true);
         }
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        Debug.Log($"Entre y triggerie con {collision.name}");
         var player = collision.GetComponent<CustomMovement>();
         if (player == _player && _onTrap)
         {
             _player.transform.position = _playerTrapPoint.position;
+            _playerCanvas.TrapLifeUpdate(_trapLife);
             if (Vector2.Distance(_player.transform.position, transform.position) <= 1)
             {
-                Debug.Log($"{collision.name} murio");
                 var playerDamage = collision.gameObject.GetComponent<IDamageable>();
                 playerDamage.GetDamage(1);//Animation play kill
+                _TrapLifeAction = delegate { };
+                spitleParticle.gameObject.SetActive(false);
+                _myAnimator.SetTrigger("Eat");
             }           
         }
     }
-
+    private void TrapLifeRecover()
+    {
+        _trapLife += _trapLifeRecover * Time.deltaTime;
+    }
     public void TryLiberate()
     {
         _trapLife -= 1;
@@ -127,9 +139,12 @@ public class Wrap : MonoBehaviour, ILiberate
         {
             var trap = _player.GetComponent<ITrap>();
             if (trap == null) return;
-            trap.Trap(false, gameObject);
+            trap.Trap(false, _trapLife,gameObject);
             _trapLife = _maxTrapLife;
             _onTrap = false;
+            _TrapLifeAction = delegate { };
+            _myAnimator.SetTrigger("Close");
+            spitleParticle.gameObject.SetActive(false);
         }
     }
 }

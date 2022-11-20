@@ -16,13 +16,19 @@ public class CaveSpike : MonoBehaviour
     [SerializeField] ParticleSystem brokenRockParticle;
     private void Start()
     {
+        anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 0;
     }
     public void Activate()
     {
-        Debug.Log("Me caigo");
+        anim.enabled = false;
+        //anim.SetTrigger("Stop");
         rb.gravityScale = fallSpeed;
+    }
+    public void StartAnimation()
+    {
+        anim.SetTrigger("Fall");
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -34,6 +40,7 @@ public class CaveSpike : MonoBehaviour
                 damageable.GetDamage(1);
                 var particle = Instantiate(brokenRockParticle);
                 particle.transform.position = transform.position;
+                anim.SetTrigger("Stop");
                 gameObject.SetActive(false);
             }
         }
@@ -42,6 +49,7 @@ public class CaveSpike : MonoBehaviour
             SoundManager.instance.Play(SoundManager.Types.FallingDebris);
             var particle = Instantiate(brokenRockParticle);
             particle.transform.position = transform.position;
+            anim.SetTrigger("Stop");
             gameObject.SetActive(false);
         }
     }
