@@ -9,11 +9,18 @@ public class CustomOccluder : MonoBehaviour
 
     private void Awake()
     {
+        
+    }
+    private void Start()
+    {
+        Invoke("ArtificialStart", 2);
+    }
+    private void ArtificialStart()
+    {
         if (_firstLevel)
             for (int i = 0; i < _restOfLvls.Length; i++)
                 _restOfLvls[i].SetActive(false);
     }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.GetComponent<CustomMovement>())// is player collision

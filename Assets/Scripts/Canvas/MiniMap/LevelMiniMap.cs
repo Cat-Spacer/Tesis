@@ -36,7 +36,10 @@ public class LevelMiniMap : MonoBehaviour
             case EnumLevelState.Discoverd:
                 myColor.color = discoverdLevel;
                 break;
-            case EnumLevelState.ObjFound:
+            case EnumLevelState.ObjDiscoverd:
+                myColor.color = discoverdLevel;
+                break;
+            case EnumLevelState.ObjCollected:
                 myColor.color = objFoundLevel;
                 break;
             default:

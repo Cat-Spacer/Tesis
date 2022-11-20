@@ -29,8 +29,9 @@ public class GameManager : MonoBehaviour
     float saveDistance;
     [Header("PickUps")]
     [SerializeField] Text _pointsText;
-    [SerializeField] float _points = 0;
-    [SerializeField] float _pointsPerLevel = 0;
+    [SerializeField] int _points = 0;
+    [SerializeField] int _pointsPerLevel = 0;
+    [SerializeField] List<PickUp> _objectivesInLvl;
     [SerializeField] GameObject winScreen;
     [SerializeField] MiniMenu minuMenu;
 
@@ -47,6 +48,7 @@ public class GameManager : MonoBehaviour
     {
         _pointsText.text = _points.ToString() + "/" + _pointsPerLevel.ToString();
         _player = FindObjectOfType<CustomMovement>();
+        GetCurrentLevel(0);
     }
     private void Update()
     {
@@ -56,6 +58,7 @@ public class GameManager : MonoBehaviour
     {
         _currentLevel = lvl;
         miniMap.SetPlayerInLevel(lvl);
+        SetObjectiveInMiniMap(lvl);
     }
     public void SaveDistance(float distance)
     {
@@ -94,8 +97,7 @@ public class GameManager : MonoBehaviour
             {
                 obj.Respawn();
             }
-        }
-    
+        }   
     }    
     IEnumerator DeathScreenCounter()
     {
@@ -103,12 +105,26 @@ public class GameManager : MonoBehaviour
         _deathScreen.gameObject.SetActive(false);
         _player.ConstrainsReset();
     }
-
+    public void GetAllObjectivesInLevel(PickUp objective)
+    {
+        _objectivesInLvl.Add(objective);
+        if (_objectivesInLvl.Count == _pointsPerLevel)
+        {
+            miniMap.CreateObjectiveInMap(_objectivesInLvl);
+        }
+    }
+    public int ObjectivesToCollect()
+    {
+        return _pointsPerLevel;
+    }
     public void SetRespawnPoint(int index_arg)
     {
         _respawnIndex = index_arg;
     }
-
+    public void SetObjectiveInMiniMap(int index_arg)
+    {
+        miniMap.SetObjectiveInMap(index_arg);
+    }
     public void GetItem()
     {
         _points++;

@@ -22,6 +22,7 @@ public class CaveSpikeBase : MonoBehaviour
         if (!alreadyFalling)
         {
             StartCoroutine(StartFalling());
+            spike.StartAnimation();
             alreadyFalling = true;
         }
     }
