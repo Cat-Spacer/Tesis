@@ -107,6 +107,7 @@ public class Climb
             if (!_alreadyStarted)
             {
                 Debug.Log("!_alreadyStarted");
+                _customMovement.ForceStopMovement();
                 _customMovement.ForceDashEnd();  // primero forceo a que frene el dash
                 StartClimbingState();
                 isClimbing = true;
@@ -150,11 +151,10 @@ public class Climb
     public void StartClimbingState()
     {
         Debug.Log("StartClimbingState");
-
         SoundManager.instance.Play(SoundManager.Types.Climb);
         _animator.SetBool("Climbing", true);
         _animator.SetBool("OnWall", false);
-        //_customMovement.ForceDashEnd();
+      
     }
     public void WhileClimbingState()
     {
@@ -213,6 +213,8 @@ public class Climb
     }
     public void ClimbActionVertical()
     {
+        Debug.Log("climb vertical");
+
         rotationVector = _transform.rotation.eulerAngles;
         rotationVector.z = 0;
 
@@ -249,24 +251,14 @@ public class Climb
     Vector3 rotationVector;
     public void ClimbActionHorizontal()
     {
+
         _energyPowerScript.EnergyDrain(0.05f);
         rotationVector = _transform.rotation.eulerAngles;
         rotationVector.z = 90;
 
         isHorizontal = true;
-
-        Debug.Log("climb horizontal");
-
-        //Quaternion target = Quaternion.Euler(0, 0,90);
-        //_transform.rotation = Quaternion.Slerp(_transform.rotation, target, Time.deltaTime * 5);
-
         _rb.constraints = RigidbodyConstraints2D.FreezePositionY;
 
-       /* if (PlayerInput.s_Imput)
-        {
-            _impulseForce = _impulseDirectionExitForce;
-            _ClimbState = EndClimb;
-        }*/
 
         if (!InSightUp(_climbLayerMask))
         {
@@ -300,6 +292,7 @@ public class Climb
     public void FreezeHorizontal()
     {
         PauseClimbingState();
+        isHorizontal = true;
         _rb.constraints = RigidbodyConstraints2D.FreezeAll;
         if (PlayerInput.down_Input)
         {
@@ -313,11 +306,6 @@ public class Climb
     {
         _energyPowerScript.EnergyDrain(0.05f);
 
-       /* if (PlayerInput.s_Imput)
-        {
-            _impulseForce = _impulseDirectionExitForce;
-            _ClimbState = EndClimb;
-        }*/
 
         if (PlayerInput.left_Input && !PlayerInput.down_Input)
         {
@@ -376,7 +364,7 @@ public class Climb
         _rb.constraints = RigidbodyConstraints2D.FreezePositionY;
         _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
-        if (InSight(_climbLayerMask) && !startdash)
+      /*  if (InSight(_climbLayerMask) && !startdash)
         {
             if (CustomMovement.faceDirection == -1)
             {
@@ -389,28 +377,28 @@ public class Climb
             CustomMovement.faceDirection = -CustomMovement.faceDirection;
             newFace = CustomMovement.faceDirection;
             startdash = true;
-        }
+        }*/
         _transform.position = Vector2.MoveTowards(_transform.position, new Vector2( _transform.position.x,startMirrorDash.y + (3 * newFace)), step);
-
 
         if (_transform.position.y >= (startMirrorDash.y + 3) || _transform.position.y <= (startMirrorDash.y - 3))
         {
             _rb.velocity = Vector2.zero;
             _rb.angularVelocity = 0;
-            startdash = false;
+            //startdash = false;
             _ClimbState = EndClimb;
         }
-        if (InSight(_climbLayerMask) && startdash)
+       // if (InSight(_climbLayerMask) && startdash)
+        if (InSight(_climbLayerMask) )
         {
             StartClimbingState();
-            startdash = false;
+          //  startdash = false;
             _rb.constraints = ~RigidbodyConstraints2D.FreezePositionY;
             _ClimbState = ClimbActionVertical;
         }
 
     }
 
-    bool startdash = false;
+ //   bool startdash = false;
 
     int newFace;
 
@@ -497,32 +485,16 @@ public class Climb
     }
 
     public void EndClimb()
-    {   
+    {
         rotationVector.x = _transform.rotation.x * CustomMovement.faceDirection;
         rotationVector.z = 0;
         _transform.rotation = Quaternion.Euler(rotationVector);
-
-        /*if (playerInput.jumpInputStay)
-        {
-            _ClimbState = EndClimbForJump;
-        }*/
-        /*else if (_dashInput)
-        {
-            _ClimbState = EndClimbForDash;
-        }*/
 
         _rb.constraints = ~RigidbodyConstraints2D.FreezeAll;
         _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
         EndClimbingState();
 
-       // _rb.velocity = Vector2.zero;
-       // _rb.angularVelocity = 0;
-    //   if (!isHorizontal) 
-         //   _rb.AddForce(_transform.right * _impulseForce, ForceMode2D.Impulse);
-
-
-        // GameManager.Instance.WaitForEndClimb(0.3f);
         isHorizontal = false;
         isClimbing = false;
         _customMovement.dashClimb = false;
@@ -530,7 +502,6 @@ public class Climb
         _alreadyStarted = false;
         _ClimbState = delegate { };
        
-
     }
 
     public void EndClimbJump()

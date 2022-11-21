@@ -16,11 +16,13 @@ public class MirrorDash : MonoBehaviour
     {
         Debug.Log(CustomMovement.isDashing);
         rotationVector = _player.transform.rotation.eulerAngles;
-        rotationVector.z = 90;
-        _player.transform.rotation = Quaternion.Euler(rotationVector);
+     
 
         if (collision.gameObject.layer == _player.gameObject.layer && CustomMovement.isDashing)
         {
+            rotationVector.z = 90;
+            _player.transform.rotation = Quaternion.Euler(rotationVector);
+
             _player.ForceDashEnd();
             Climb.isClimbing = true;
           /*  if (Climb.isClimbing)

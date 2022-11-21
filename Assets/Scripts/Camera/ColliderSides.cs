@@ -12,6 +12,8 @@ public class ColliderSides : MonoBehaviour
     [SerializeField] float _moveInY = 9;
     [SerializeField] int indexB;
     [SerializeField] int indexA;
+    [SerializeField] Transform camPosA;
+    [SerializeField] Transform camPosB;
 
     Vector3 defaultpos;
     public bool followPlayerInY = false;
@@ -49,7 +51,8 @@ public class ColliderSides : MonoBehaviour
         {
             defaultpos = _cam.position;
 
-            _cam.position = new Vector3(gameObject.transform.position.x + _moveInX, _cam.position.y, _cam.position.z);
+            // _cam.position = new Vector3(gameObject.transform.position.x + _moveInX, _cam.position.y, _cam.position.z);
+            _cam.position = camPosB.position;
             GameManager.Instance.SetRespawnPoint(indexB);
             CheatManager.Instance.SetCurrentLevel(indexB);
             GameManager.Instance.GetCurrentLevel(indexB);
@@ -60,9 +63,9 @@ public class ColliderSides : MonoBehaviour
         else if (_player.position.x - gameObject.transform.position.x < 0 && !isInY)
         {
           
-             _cam.position = new Vector3(gameObject.transform.position.x - _moveInX, _cam.position.y, _cam.position.z);
-           
-                
+           //  _cam.position = new Vector3(gameObject.transform.position.x - _moveInX, _cam.position.y, _cam.position.z);
+
+            _cam.position = camPosA.position;
             GameManager.Instance.SetRespawnPoint(indexA);
             CheatManager.Instance.SetCurrentLevel(indexA);
             GameManager.Instance.GetCurrentLevel(indexA);
@@ -72,7 +75,8 @@ public class ColliderSides : MonoBehaviour
         }
         else if (_player.position.y - gameObject.transform.position.y > 0 && isInY)
         {
-            _cam.position = new Vector3(_cam.position.x, gameObject.transform.position.y + _moveInY, _cam.position.z);
+           // _cam.position = new Vector3(_cam.position.x, gameObject.transform.position.y + _moveInY, _cam.position.z);
+            _cam.position = camPosA.position;
             Debug.Log(indexA);
             GameManager.Instance.SetRespawnPoint(indexA);
             CheatManager.Instance.SetCurrentLevel(indexA);
@@ -80,7 +84,9 @@ public class ColliderSides : MonoBehaviour
         }
         else if (_player.position.y - gameObject.transform.position.y < 0 && isInY)
         {
-            _cam.position = new Vector3(_cam.position.x, gameObject.transform.position.y - _moveInY, _cam.position.z);
+            //_cam.position = new Vector3(_cam.position.x, gameObject.transform.position.y - _moveInY, _cam.position.z);
+           // _cam.position = new Vector3(_cam.position.x, camPosB.position.y - _moveInY, _cam.position.z);
+            _cam.position = camPosB.position;
             Debug.Log(indexB);
             GameManager.Instance.SetRespawnPoint(indexB);
             CheatManager.Instance.SetCurrentLevel(indexB);
