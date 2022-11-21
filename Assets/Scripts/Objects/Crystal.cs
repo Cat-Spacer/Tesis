@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Crystal : MonoBehaviour, IDamageable
 {
-    [SerializeField] private Crystal _nextCrystal;
+    [SerializeField] private Crystal _nextCrystal;//hacerlo un array
     public Crystal _prevCrystal;
     public LineCollision line { get; set; }
     [SerializeField] private bool _forceStart = false, _rotable = true;
@@ -37,10 +37,10 @@ public class Crystal : MonoBehaviour, IDamageable
     /// <param name="linked"></param>
     public void CheckIfLastCrystal(bool linked)
     {
-        if (_lastCrystal && _door != null)
+        if (_lastCrystal && _door != null && _door.GetComponent<Door>())
         {
             //Debug.Log($"{gameObject.name} last");
-            _door.SetActive(!linked);
+            _door.GetComponent<Door>().ActivateDesactivate(!linked);
             line.SetLines(_prevCrystal, _nextCrystal);
             if (!_nextCrystal.line.linkedCrystal)
                 _door.SetActive(true);
