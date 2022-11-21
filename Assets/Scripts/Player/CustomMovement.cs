@@ -799,7 +799,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         rb.velocity = Vector2.zero;
         GameManager.Instance.PlayerDeath();
         SoundManager.instance.Play(SoundManager.Types.CatDamage);
-        _playerCanvas.TrapEvent(false);
+        _playerCanvas.TrapEvent(false, 0);
         _playerCanvas.InteractEvent(false);
         Debug.Log("call ForceDashEnd");
         ForceDashEnd();
@@ -842,7 +842,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             trap.TryLiberate();
         }
     }
-    public void Trap(bool trapState, GameObject enemy)
+    public void Trap(bool trapState, float life, GameObject enemy)
     {
         if (trapState)
         {
@@ -850,14 +850,14 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             _PlayerActions = Liberate;
             _Inputs = TrapInputs;
             currentTrap = enemy;
-            _playerCanvas.TrapEvent(trapState);
+            _playerCanvas.TrapEvent(trapState, life);
         }
         else
         {
             anim.SetBool("TrapByPlant", false);
             _PlayerActions = delegate { };
             _Inputs = Inputs;
-            _playerCanvas.TrapEvent(trapState);
+            _playerCanvas.TrapEvent(trapState, life);
         }
     }
 
