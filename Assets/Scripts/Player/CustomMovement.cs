@@ -49,6 +49,11 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         _MovementState = delegate { };
         //_DashState = delegate { };
     }
+
+    public void ForceStopMovement()
+    {
+        _MovementState = StopMovement;
+    }
     private void Update()
     {
        // Movement(1);
@@ -74,8 +79,8 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         GroundCheckPos();
         JumpUp(onJumpInput);
         Dash();        
-        if (jumpClimb && !PlayerInput.left_Input && !PlayerInput.right_Input)
-            Movement( 1);
+      //  if (jumpClimb && !PlayerInput.left_Input && !PlayerInput.right_Input)
+           // Movement( 1);
 
     }
     private void Inputs()
@@ -103,8 +108,9 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         if (PlayerInput.left_Input && !Climb.isHorizontal && !isDashing && !Climb.MoveTowardsBool)
             _MovementState = LeftMovement;
 
-        if (PlayerInput.right_Input_UpKey || PlayerInput.left_Input_UpKey && !Climb.isHorizontal && !isDashing && !Climb.MoveTowardsBool)
+        if (PlayerInput.right_Input_UpKey || PlayerInput.left_Input_UpKey  && !Climb.isHorizontal && !isDashing && !Climb.MoveTowardsBool)
             _MovementState = StopMovement;
+
     }
 
     #region Interact
@@ -159,7 +165,6 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
 
     void LeftMovement()
     {
-
         float targetSpeed;
         float velPower;
 
@@ -176,7 +181,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         rb.velocity = new Vector2(targetSpeed, rb.velocity.y);
     }
 
-    void StopMovement()
+    public void StopMovement()
     {
         anim.SetBool("Run", false);
         if (hasPlayedMovement)
@@ -188,19 +193,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         _MovementState = delegate { };
     }
 
-    private void Movement(float lerpAmount)
-    {
-  
-        /*if (rb.velocity.y < 0 && !Climb.isClimbing)
-        {
-            if (hasPlayedMovement)
-            {
-                SoundManager.instance.Pause(SoundManager.Types.Steps);
-                hasPlayedMovement = false;
-            }
-            anim.SetTrigger("Fall");
-        }*/
-    }
+
     #endregion
     #region JUMP
     void JumpUp(bool jumpUp) //Saltar
@@ -539,7 +532,6 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
                 rb.velocity = Vector2.zero;
                 rb.angularVelocity = 0;
                 // rb.velocity *= 0.5f;
-                Debug.Log("end dash");
                 StartCoroutine(ExampleCoroutine());
             }
             if (rb.velocity == Vector2.zero)
@@ -774,9 +766,12 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         if (collision.gameObject.layer == 17 && canHorizontalClimb)
         {
             Debug.Log("SOGA");
-            _climbScript.StartClimbingState();
             Climb.isClimbing = true;
+            Climb.isHorizontal = true;
+            ForceStopMovement();
+            _climbScript.StartClimbingState();
             _climbScript._ClimbState = _climbScript.ClimbActionHorizontal;
+            //   _climbScript._ClimbState = _climbScript.FreezeHorizontal;
             canHorizontalClimb = false;
         }
     }
