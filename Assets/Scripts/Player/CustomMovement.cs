@@ -22,10 +22,17 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     private IInteract interactObj;
     private Action _MovementState;
     private Action _DashState;
+    float _baseJump;
+    public GameObject boosterFeedBack;
+    Vector2 startScale;
+    Vector2 smallerScale;
 
     private void Awake()
     {
-        _collider = GetComponent<BoxCollider2D>();
+        startScale = transform.localScale;
+        smallerScale = startScale * 0.7f;
+        boosterFeedBack.gameObject.SetActive(false);
+           _collider = GetComponent<BoxCollider2D>();
         playerInput = GetComponent<PlayerInput>();
         _energyPowerScript = GetComponent<EnergyPower>();
         rb = GetComponent<Rigidbody2D>();
@@ -38,6 +45,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     }
     private void Start()
     {
+        _baseJump = jumpForce;
         gravityForce = gravityForceDefault;
         defaultMaxSpeed = maxSpeed;
         coyoteTimeCounter = coyoteTime;
@@ -196,6 +204,21 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
 
     #endregion
     #region JUMP
+
+    public void BoostJump(float force_arg)
+    {
+        jumpForce = force_arg;
+        boosterFeedBack.gameObject.SetActive(true);
+        transform.localScale = smallerScale;
+    }
+
+    
+    public void RestartJumpValue()
+    {
+        jumpForce = _baseJump;
+        boosterFeedBack.gameObject.SetActive(false);
+        transform.localScale = startScale; 
+    }
     void JumpUp(bool jumpUp) //Saltar
     {
         if (Climb.isClimbing)
