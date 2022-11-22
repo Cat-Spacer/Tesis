@@ -13,8 +13,17 @@ public class DoorTrigger : Obstacle, IInteract
     bool alreadyShowLight;
     [SerializeField] public Animator anim;
 
+    [SerializeField] bool _isFirst = false;
+
     public void Interact()
     {
+
+        if (_isFirst && !GameManager.Instance.celestialDiamond)
+        {
+            return;
+        }
+
+
         Debug.Log("interactuando");
         SoundManager.instance.Play(SoundManager.Types.MagicCat);
         anim.SetTrigger("appear");

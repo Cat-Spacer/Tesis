@@ -114,7 +114,8 @@ public class SoundManager : MonoBehaviour
         PlayerDeath,
         Mushroom,
         VineCrunch,
-        MagicCat
+        MagicCat,
+        ClestialDiamond
     }
     public void OnClickSound()
     {

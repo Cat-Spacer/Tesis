@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int _currentLevel = 0;
     [SerializeField] MiniMap miniMap;
 
+    public bool celestialDiamond = false;
+
 
     private void Awake()
     {
