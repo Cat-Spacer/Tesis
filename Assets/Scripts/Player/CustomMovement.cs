@@ -22,6 +22,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     private IInteract interactObj;
     private Action _MovementState;
     private Action _DashState;
+    float _baseJump;
 
     private void Awake()
     {
@@ -38,6 +39,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     }
     private void Start()
     {
+        _baseJump = jumpForce;
         gravityForce = gravityForceDefault;
         defaultMaxSpeed = maxSpeed;
         coyoteTimeCounter = coyoteTime;
@@ -196,6 +198,17 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
 
     #endregion
     #region JUMP
+
+    public void BoostJump(float force_arg)
+    {
+        jumpForce = force_arg;
+    }
+
+    
+    public void RestartJumpValue()
+    {
+        jumpForce = _baseJump;
+    }
     void JumpUp(bool jumpUp) //Saltar
     {
         if (Climb.isClimbing)
