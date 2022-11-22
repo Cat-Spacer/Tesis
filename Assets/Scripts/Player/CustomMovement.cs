@@ -24,9 +24,13 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     private Action _DashState;
     float _baseJump;
     public GameObject boosterFeedBack;
+    Vector2 startScale;
+    Vector2 smallerScale;
 
     private void Awake()
     {
+        startScale = transform.localScale;
+        smallerScale = startScale * 0.7f;
         boosterFeedBack.gameObject.SetActive(false);
            _collider = GetComponent<BoxCollider2D>();
         playerInput = GetComponent<PlayerInput>();
@@ -205,6 +209,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     {
         jumpForce = force_arg;
         boosterFeedBack.gameObject.SetActive(true);
+        transform.localScale = smallerScale;
     }
 
     
@@ -212,6 +217,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     {
         jumpForce = _baseJump;
         boosterFeedBack.gameObject.SetActive(false);
+        transform.localScale = startScale; 
     }
     void JumpUp(bool jumpUp) //Saltar
     {
