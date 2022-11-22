@@ -112,6 +112,7 @@ public class GameManager : MonoBehaviour
         _objectivesInLvl.Add(objective);
         if (_objectivesInLvl.Count == _pointsPerLevel)
         {
+            Debug.Log("Cree");
             miniMap.CreateObjectiveInMap(_objectivesInLvl);
         }
     }

@@ -13,7 +13,7 @@ public class CustomOccluder : MonoBehaviour
     }
     private void Start()
     {
-        Invoke("ArtificialStart", 1);
+        Invoke("ArtificialStart", 2);
     }
     private void ArtificialStart()
     {

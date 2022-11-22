@@ -10,7 +10,6 @@ public class PickUp : MonoBehaviour
     {
         if (_isResource)
         {
-            Debug.Log("Mande al manager");
             GameManager.Instance.GetAllObjectivesInLevel(this);
         }
     }
