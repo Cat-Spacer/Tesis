@@ -8,8 +8,8 @@ public class ColliderSides : MonoBehaviour
     Transform _cam;
     Transform _player;
     [SerializeField]bool isInY;
-    [SerializeField] float _moveInX = 16;
-    [SerializeField] float _moveInY = 9;
+    // [SerializeField] float _moveInX = 16;
+    [SerializeField] float _addInY = 2;
     [SerializeField] int indexB;
     [SerializeField] int indexA;
     [SerializeField] Transform camPosA;
@@ -98,7 +98,7 @@ public class ColliderSides : MonoBehaviour
 
     public void StartFollowPlayer()
     {
-        Vector3 newYPos = new Vector3(_cam.position.x, _player.position.y + _moveInY, _cam.position.z);
+        Vector3 newYPos = new Vector3(_cam.position.x, _player.position.y + _addInY, _cam.position.z);
 
         var step = 2 * Time.deltaTime; // calculate distance to move
         _cam.position = Vector3.MoveTowards(_cam.position, newYPos, step);
@@ -130,6 +130,6 @@ public class ColliderSides : MonoBehaviour
     public void FollowPlayer()
     {
         Debug.Log("follow player");
-        _cam.position = new Vector3(_cam.position.x, _player.position.y + _moveInY, _cam.position.z);
+        _cam.position = new Vector3(_cam.position.x, _player.position.y + _addInY, _cam.position.z);
     }
 }
