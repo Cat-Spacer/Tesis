@@ -52,7 +52,7 @@ public class LineCollision : MonoBehaviour
         _hittedCrystal = false;
         _myCrystal = crystal_arg;
 
-        SetLines(prevCrystal, nC_arg);
+        nC_arg = SetLines(prevCrystal, nC_arg);
         //Debug.Log($"{gameObject.name} count_arg: {_countLineRenderer}. _lineRenderer.positionCount: {_lineRenderer.positionCount}.");
 
         if (prevCrystal)
@@ -75,7 +75,7 @@ public class LineCollision : MonoBehaviour
             nC_arg.CallCrystal(_myCrystal);
     }
 
-    public void SetLines(Crystal prevCrystal, Crystal nC_arg)
+    public Crystal SetLines(Crystal prevCrystal, Crystal nC_arg)
     {
         if (prevCrystal)
             if (!linkedCrystal || prevCrystal.line.linkedCrystal == false)
@@ -83,7 +83,7 @@ public class LineCollision : MonoBehaviour
                 _lineRenderer.positionCount = 1;
                 linkedCrystal = false;
                 //Debug.Log($"{gameObject.name} se apagó");
-                return;
+                return nC_arg;
             }
 
         for (int i = 0; i < _sidesOfCrystals.Length; i++)
@@ -107,6 +107,8 @@ public class LineCollision : MonoBehaviour
                     posUpdate = (Vector2)hit.transform.position;
                     linkedCrystal = true;
                     _hittedCrystal = true;
+                    if (hit.collider.GetComponent<Crystal>() != nC_arg)
+                        nC_arg = hit.collider.GetComponent<Crystal>();
                     nC_arg.line.linkedCrystal = true;
                 }
                 else
@@ -131,6 +133,7 @@ public class LineCollision : MonoBehaviour
             else
                 _countLineRenderer = _lineRenderer.positionCount--;
         }
+        return nC_arg;
     }
 
     private void OnDrawGizmos()
