@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using System;
+using UnityEngine;
 
 public class ColliderSides : MonoBehaviour
 {
@@ -33,11 +31,14 @@ public class ColliderSides : MonoBehaviour
         {
             return;
         }
-        _FollowPlayer = delegate { };
         _player = player.transform;
         Exit();
+        _FollowPlayer = delegate { };
+        GameManager.Instance.SetRespawnPoint(indexA);
+        CheatManager.Instance.SetCurrentLevel(indexA);
+        GameManager.Instance.GetCurrentLevel(indexA);
+        _cam.position = camPosA.position;
         GameManager.Instance.PlayerDeath();
-        _cam.position = camPosB.position;
     }
     private void Update()
     {
@@ -135,7 +136,8 @@ public class ColliderSides : MonoBehaviour
 
     public void EndFollowPlayer()
     {
-        Vector3 newYPos = defaultpos;
+        //Vector3 newYPos = defaultpos;
+        Vector3 newYPos = camPosA.position;
         var step = 2 * Time.deltaTime; // calculate distance to move
         _cam.position = Vector3.MoveTowards(_cam.position, newYPos, step);
 
