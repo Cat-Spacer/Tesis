@@ -26,6 +26,19 @@ public class ColliderSides : MonoBehaviour
         _cam = Camera.main.GetComponent<Transform>();
     }
 
+    public void ForceMove()
+    {
+        var player = FindObjectOfType<CustomMovement>();
+        if (player == null)
+        {
+            return;
+        }
+        _FollowPlayer = delegate { };
+        _player = player.transform;
+        Exit();
+        GameManager.Instance.PlayerDeath();
+        _cam.position = camPosB.position;
+    }
     private void Update()
     {
         _FollowPlayer();
@@ -47,6 +60,16 @@ public class ColliderSides : MonoBehaviour
 
         if (player == null) return;
 
+        Exit();
+
+
+
+    }
+
+
+    private void Exit()
+    {
+
         if (_player.position.x - gameObject.transform.position.x > 0 && !isInY)
         {
             defaultpos = _cam.position;
@@ -62,8 +85,8 @@ public class ColliderSides : MonoBehaviour
         }
         else if (_player.position.x - gameObject.transform.position.x < 0 && !isInY)
         {
-          
-           //  _cam.position = new Vector3(gameObject.transform.position.x - _moveInX, _cam.position.y, _cam.position.z);
+
+            //  _cam.position = new Vector3(gameObject.transform.position.x - _moveInX, _cam.position.y, _cam.position.z);
 
             _cam.position = camPosA.position;
             GameManager.Instance.SetRespawnPoint(indexA);
@@ -75,7 +98,7 @@ public class ColliderSides : MonoBehaviour
         }
         else if (_player.position.y - gameObject.transform.position.y > 0 && isInY)
         {
-           // _cam.position = new Vector3(_cam.position.x, gameObject.transform.position.y + _moveInY, _cam.position.z);
+            // _cam.position = new Vector3(_cam.position.x, gameObject.transform.position.y + _moveInY, _cam.position.z);
             _cam.position = camPosA.position;
             Debug.Log(indexA);
             GameManager.Instance.SetRespawnPoint(indexA);
@@ -85,15 +108,13 @@ public class ColliderSides : MonoBehaviour
         else if (_player.position.y - gameObject.transform.position.y < 0 && isInY)
         {
             //_cam.position = new Vector3(_cam.position.x, gameObject.transform.position.y - _moveInY, _cam.position.z);
-           // _cam.position = new Vector3(_cam.position.x, camPosB.position.y - _moveInY, _cam.position.z);
+            // _cam.position = new Vector3(_cam.position.x, camPosB.position.y - _moveInY, _cam.position.z);
             _cam.position = camPosB.position;
             Debug.Log(indexB);
             GameManager.Instance.SetRespawnPoint(indexB);
             CheatManager.Instance.SetCurrentLevel(indexB);
             GameManager.Instance.GetCurrentLevel(indexB);
         }
-
-   
     }
 
     public void StartFollowPlayer()
