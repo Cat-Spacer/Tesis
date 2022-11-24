@@ -2,10 +2,10 @@
 
 public class Shoot : MonoBehaviour
 {
-    public static void Fire(GameObject bullet, Transform firePoint)
+    public static void Fire(Bullet bullet, Transform firePoint, GameObject father)
     {
-        Instantiate(bullet, firePoint.position, firePoint.rotation);
-        bullet.SetActive(true);
+        Instantiate(bullet, firePoint.position, firePoint.rotation).SetBullet(father);
+        bullet.gameObject.SetActive(true);
         /*Debug.Log($"{bullet} has position & direction");
         bullet.transform.position = firePoint.position;
         bullet.transform.rotation = firePoint.rotation;*/

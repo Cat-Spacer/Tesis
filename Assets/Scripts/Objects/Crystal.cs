@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Crystal : MonoBehaviour, IDamageable
+public class Crystal : MonoBehaviour, IInteract
 {
     [SerializeField] private Crystal _nextCrystal;
     public Crystal _prevCrystal;
@@ -11,6 +11,10 @@ public class Crystal : MonoBehaviour, IDamageable
     [SerializeField] private int _crystalNumber, _cristalsLenght = 0, _sidesForRotation = 4;
     [SerializeField] private bool _lastCrystal;
     [SerializeField] private GameObject _door;
+
+    bool alreadyShowLight;
+    [SerializeField] GameObject interactLight;
+
     public bool _activatedCrystal = false;
 
     private void Start()
@@ -35,10 +39,10 @@ public class Crystal : MonoBehaviour, IDamageable
     {
         if (_lastCrystal && _door != null && _door.GetComponent<Door>())
         {
-            _door.GetComponent<Door>().ActivateDesactivate(!linked);
+            _door.GetComponent<Door>().ActivateDesactivate(linked);
             line.SetLines(_prevCrystal, _nextCrystal);
-            if (!_nextCrystal.line.linkedCrystal)
-                _door.SetActive(true);
+            //if (!_nextCrystal.line.linkedCrystal)
+                //_door.SetActive(true);
         }
     }
 
@@ -66,17 +70,32 @@ public class Crystal : MonoBehaviour, IDamageable
         return _nextCrystal;
     }
 
-    public void GetDamage(float dmg)
-    {
-        if (_rotable)
-            RotateCrystal();
-    }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (!_prevCrystal) return;
         _prevCrystal.CallCrystal(_prevCrystal._prevCrystal);
         CallCrystal(_prevCrystal);
         if (GetComponent<Rigidbody2D>()) Destroy(GetComponent<Rigidbody2D>());
+    }
+
+    public void Interact()
+    {
+        if (_rotable)
+            RotateCrystal();
+    }
+
+    public void ShowInteract(bool showInteractState)
+    {
+        if (showInteractState && !alreadyShowLight)
+        {
+            //interactLight.SetActive(true);
+            //alreadyShowLight = true;
+        }
+        else if (!showInteractState)
+        {
+            Debug.Log("Desactivado");
+            //interactLight.SetActive(false);
+            //alreadyShowLight = false;
+        }
     }
 }

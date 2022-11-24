@@ -86,9 +86,9 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         _MovementState();
         GroundCheckPos();
         JumpUp(onJumpInput);
-        Dash();        
-      //  if (jumpClimb && !PlayerInput.left_Input && !PlayerInput.right_Input)
-           // Movement( 1);
+        Dash();
+        //  if (jumpClimb && !PlayerInput.left_Input && !PlayerInput.right_Input)
+        // Movement( 1);
 
     }
     private void Inputs()
@@ -159,6 +159,8 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         float velPower;
 
         anim.SetBool("Run", true);
+        if (onGround) _runParticle.Play();
+        else _runParticle.Stop();
         transform.rotation = Quaternion.Euler(transform.rotation.x, 0, transform.rotation.z);
         faceDirection = 1;
         velPower = accelPower;
@@ -175,8 +177,10 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     {
         float targetSpeed;
         float velPower;
-
         anim.SetBool("Run", true);
+        if (onGround) _runParticle.Play();
+        else _runParticle.Stop();
+
         transform.rotation = Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z);
         faceDirection = -1;
         velPower = accelPower;
@@ -192,6 +196,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     public void StopMovement()
     {
         anim.SetBool("Run", false);
+        _runParticle.Stop();
         if (hasPlayedMovement)
         {
             SoundManager.instance.Pause(SoundManager.Types.Steps);
@@ -236,10 +241,11 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         if (jumpUp && canJump && (coyoteTimeCounter > 0f || onGround))
         {
             SoundManager.instance.Play(SoundManager.Types.CatJump);
+            _runParticle.Stop();
             _jumpParticle.Play();
             jumping = true;
             isJumping = true;
-            anim.SetTrigger("Jump");
+            anim.SetBool("Jump", true);
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             canJump = false;
             return;
@@ -741,10 +747,14 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             canJump = true;
             canDash = true;
             anim.SetBool("OnGround", true);
+            anim.SetBool("Jump", false);
+            anim.SetBool("Fall", false);
         }
         else //Not on ground
         {
             onGround = false;
+            if (rb.velocity.y < 0) anim.SetBool("Fall", true);
+            else anim.SetBool("Fall", false);
             anim.SetBool("OnGround", false);
         }
 

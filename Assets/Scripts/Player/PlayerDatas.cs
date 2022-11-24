@@ -69,6 +69,7 @@ public class PlayerDatas : MonoBehaviour
     [SerializeField] protected ParticleSystem _dashParticleTrail;
     [SerializeField] protected ParticleSystem _attackParticle;
     [SerializeField] protected ParticleSystem _climbParticle;
+    [SerializeField] protected ParticleSystem _runParticle;
 
     [Header("Attributes Wall Climb")]
     [SerializeField] protected float _upSpeed = 5;

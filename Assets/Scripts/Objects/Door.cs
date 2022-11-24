@@ -4,12 +4,25 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
-    [SerializeField] private Animation _animator;
+    [SerializeField] private Animator _anim;
     [SerializeField] private SpriteMask _mask;
+    bool currentState;
+    private void Start()
+    {
+        _anim = GetComponent<Animator>();
+    }
     public void ActivateDesactivate(bool active)
     {
-        gameObject.SetActive(active);
-
-
+        if (currentState == active) return;
+        if (active)
+        {
+            _anim.SetTrigger("Open");
+        }
+        else
+        {
+            _anim.SetTrigger("Close");
+        }
+        currentState = active;
+        //gameObject.SetActive(active);
     }
 }
