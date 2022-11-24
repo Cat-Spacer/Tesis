@@ -152,6 +152,7 @@ public class Climb
     {
         Debug.Log("StartClimbingState");
         SoundManager.instance.Play(SoundManager.Types.Climb);
+        Debug.Log("StartClimbing");
         _animator.SetBool("Climbing", true);
         _animator.SetBool("OnWall", false);
       
@@ -161,6 +162,7 @@ public class Climb
     }
     public void EndClimbingState()
     {
+        Debug.Log("EndClimbing");
         _animator.SetBool("OnWall", false);
         _animator.SetBool("Climbing", false);
         SoundManager.instance.Pause(SoundManager.Types.Climb);

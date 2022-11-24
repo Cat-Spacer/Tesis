@@ -15,7 +15,8 @@ namespace Weapons
         public Transform firePoint;
         public AudioSource audioSource;
         public ParticleSystem muzzleFlash;
-        public GameObject bulletPrefab;
+        public Bullet bulletPrefab;
+        [SerializeField] ParticleSystem _spitleParticle;
 
 
         public float distance = 150f;
@@ -34,12 +35,12 @@ namespace Weapons
         {
             anim = GetComponent<Animator>();
         }
-        private void Update()
+        protected virtual void Update()
         {
             FireCooldown();
         }
 
-        public void FireCooldown()
+        public virtual void FireCooldown()
         {
             /* if (Time.time >= fireRate)
             {
@@ -54,13 +55,15 @@ namespace Weapons
             else
             {
                 fireTimer = fireRate;
+                _spitleParticle.Stop();
                 anim.SetTrigger("Attack");
                 StartCoroutine(WaitForAnim());
             }
         }
         public virtual void FireBullet()
         {
-            Shoot.Fire(bulletPrefab, firePoint);
+            _spitleParticle.Stop();
+            Shoot.Fire(bulletPrefab, firePoint, gameObject);
             #region ObjectFactory (bugeado)
             /*
             ObjectToSpawn bullet = ObjectFactory.Instance.pool.GetObject();
@@ -79,6 +82,7 @@ namespace Weapons
         {
             yield return new WaitForSeconds(wait);
             FireBullet();
+            _spitleParticle.Play();
         }
     }
 }
