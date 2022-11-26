@@ -27,6 +27,8 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     Vector2 startScale;
     Vector2 smallerScale;
 
+    public float modiffyJump;
+
     private void Awake()
     {
         startScale = transform.localScale;
@@ -75,7 +77,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
 
 
         //if (PlayerInput.dashInput)
-          //  _DashState = StartDash;
+        //  _DashState = StartDash;
 
     }
     private void FixedUpdate()
@@ -202,9 +204,21 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             SoundManager.instance.Pause(SoundManager.Types.Steps);
             hasPlayedMovement = false;
         }
-        rb.velocity = new Vector2(0, rb.velocity.y);
+        if (!OnIce) rb.velocity = new Vector2(0, rb.velocity.y);
         _MovementState = delegate { };
     }
+    public void StopMovementOnIce()
+    {
+        anim.SetBool("Run", false);
+        _runParticle.Stop();
+        if (hasPlayedMovement)
+        {
+            SoundManager.instance.Pause(SoundManager.Types.Steps);
+            hasPlayedMovement = false;
+        }
+        _MovementState = delegate { };
+    }
+
 
 
     #endregion
@@ -746,6 +760,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             jumpClimb = false;
             canJump = true;
             canDash = true;
+            icyWall = false;
             anim.SetBool("OnGround", true);
             anim.SetBool("Jump", false);
             anim.SetBool("Fall", false);
@@ -769,6 +784,8 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
 
     public static bool canHorizontalClimb;
 
+
+    bool icyWall;
     private void OnCollisionEnter2D(Collision2D collision)
     {     
         if (onGround == true && collision.gameObject.layer == 6)
@@ -781,6 +798,34 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             collisionObstacle = true;
             ForceDashEnd();
         }
+        if (onGround == true && collision.gameObject.layer == 6)
+        {
+            _fallParticle.Play();
+        }
+
+        if (collision.gameObject.layer == 21 && !icyWall)
+        {
+             if (faceDirection == -1)
+             {
+                    transform.rotation = Quaternion.Euler(transform.rotation.x, 0, transform.rotation.z);
+             }
+             if (faceDirection == 1)
+             {
+                    transform.rotation = Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z);
+             }
+            
+               
+
+            float angle = 45;
+            angle *= Mathf.Deg2Rad;
+            float xComponent = Mathf.Cos(angle) * jumpForceClimbLatitud * modiffyJump ;
+            float zComponent = Mathf.Sin(angle) * jumpForceClimbHeight * modiffyJump;
+            Vector3 forceApplied = new Vector3(xComponent * faceDirection, zComponent, 0);
+
+            rb.AddForce(forceApplied);
+            icyWall = true;
+        }
+
 
 
     }
@@ -791,8 +836,11 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             collisionObstacle = false;
             //Debug.Log("end collision with obstacle");
         }
+
+
     }
 
+    bool OnIce = false;
 
     void OnTriggerEnter2D(Collider2D collision)
     {
@@ -807,9 +855,22 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             //   _climbScript._ClimbState = _climbScript.FreezeHorizontal;
             canHorizontalClimb = false;
         }
+        if (collision.gameObject.layer == 20)
+        {
+            OnIce = true;
+        }
+      
+    }
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer == 20)
+        {
+            OnIce = false;
+        }
     }
 
-    private void OnDrawGizmos()
+
+     private void OnDrawGizmos()
     {
         if (showGizmos)
         {
