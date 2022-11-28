@@ -115,7 +115,8 @@ public class SoundManager : MonoBehaviour
         Mushroom,
         VineCrunch,
         MagicCat,
-        ClestialDiamond
+        ClestialDiamond,
+        StalacticBreaking
     }
     public void OnClickSound()
     {

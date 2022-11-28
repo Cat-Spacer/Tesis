@@ -10,6 +10,8 @@ public class CaveSpikeBase : MonoBehaviour
     [SerializeField] LayerMask playerLayerMask;
     [SerializeField] float timeBeforeFalling;
     [SerializeField] bool alreadyFalling;
+    [SerializeField] ParticleSystem fogParticle;
+    [SerializeField] ParticleSystem fallingRockParticle;
     private void Update()
     {
         CheckPlayer();
@@ -22,6 +24,9 @@ public class CaveSpikeBase : MonoBehaviour
         if (!alreadyFalling)
         {
             StartCoroutine(StartFalling());
+            SoundManager.instance.Play(SoundManager.Types.StalacticBreaking);
+            fallingRockParticle.Play();
+            fogParticle.Play();
             spike.StartAnimation();
             alreadyFalling = true;
         }
@@ -29,7 +34,10 @@ public class CaveSpikeBase : MonoBehaviour
     IEnumerator StartFalling()
     {
         yield return new WaitForSeconds(timeBeforeFalling);
+        SoundManager.instance.Pause(SoundManager.Types.StalacticBreaking);
         spike.Activate();
+        fallingRockParticle.Stop();
+        fogParticle.Stop();
     }
     public void ResetSpike()
     {
