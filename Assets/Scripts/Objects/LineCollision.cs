@@ -1,12 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 using System;
 
 public class LineCollision : MonoBehaviour
 {
-    List<Vector2> _colliderList = new List<Vector2>();
     [SerializeField] LineRenderer _lineRenderer;
     [SerializeField] private Transform[] _sidesOfCrystals;
     [SerializeField] private int _countLineRenderer = 1, _limitCount = 0;
@@ -15,14 +13,13 @@ public class LineCollision : MonoBehaviour
     private bool _hittedCrystal = false;
     public Action _GrowState = delegate { };
     [SerializeField] LayerMask _layerMaskObstacles, _layerMaskCrystal;
-    Vector2 posUpdate, nextPos, obstaclePosition/*, nullObj = new Vector2()*/;
+    Vector2 posUpdate;
     [SerializeField] private Vector2[] _directions;
     private Crystal _myCrystal;
     void Start()
     {
         if (!_lineRenderer)
             _lineRenderer = GetComponent<LineRenderer>();
-        //_lineRenderer.SetPosition(0, transform.position);
 
         if (_sidesOfCrystals != null || _sidesOfCrystals.Length > 0)
             _directions = new Vector2[_sidesOfCrystals.Length];
@@ -32,23 +29,19 @@ public class LineCollision : MonoBehaviour
         //Debug.Log($"{gameObject.name} _layerMaskCrystal = {_layerMaskCrystal.value}. iniPos = {(Vector2)transform.position}. prevCrystal = {_myCrystal.GetPrevCrystal()}");
     }
 
-    void Update()
-    {
-        //_GrowState();
-        /*if (linkedCrystal && _myCrystal != null)
-            SetLight(_myCrystal.GetPrevCrystal(), _myCrystal, _myCrystal.GetNextCrystal());*/
-    }
-
     public void SetLight(Crystal prevCrystal, Crystal crystal_arg, Crystal nC_arg)
     {
         if (prevCrystal && !nC_arg)
         {
             _lineRenderer.positionCount = 1;
             _lineRenderer.SetPosition(0, transform.position);
+            if (linkedCrystal)
+                _myCrystal.CheckIfLastCrystal(linkedCrystal);
             return;
         }
         else
             _lineRenderer.positionCount = 0;
+
         _hittedCrystal = false;
         _myCrystal = crystal_arg;
 
@@ -66,11 +59,13 @@ public class LineCollision : MonoBehaviour
                 //Debug.Log($"{gameObject.name} se apagó");
             }
         }
+
         if (!_hittedCrystal)
         {
             nC_arg.line.linkedCrystal = false;
             _myCrystal.CheckIfLastCrystal(linkedCrystal);
         }
+
         if (nC_arg && nC_arg != _myCrystal /*&& nC_arg.line.linkedCrystal*/)
             nC_arg.CallCrystal(_myCrystal);
     }
@@ -142,57 +137,4 @@ public class LineCollision : MonoBehaviour
         foreach (var dir in _directions)
             Gizmos.DrawRay(transform.position, dir * _distance / 1.25f);
     }
-    #region oldMethods
-    /* int count;
-    void StartGrow()
-    {
-
-        _GrowState = WhileGrow;
-    }
-    void WhileGrow()
-    {
-
-        if (InSightObstacle())
-            posUpdate = obstaclePosition;
-        else if (!InSightObstacle())
-            posUpdate = nextPos;
-
-        Debug.Log("posUpdate (WhileGrow)" + posUpdate);
-
-        _lineRenderer.SetPosition(0, transform.localPosition);
-        _lineRenderer.SetPosition(_count, posUpdate);
-        _lastCrystal.CheckCrystal();
-        _lastCrystal.CallCrystal();
-        _GrowState = delegate { };
-        //InSightCrystal().GetComponent<Crystal>().CallCrystal();
-
-        // _GrowState = delegate { };
-
-    }
-
-    public bool InSightObstacle()
-    {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, nextPos, _directions[].magnitude, ~_layerMaskObstacles);
-
-        if (hit.collider != null)
-        {
-            Debug.Log(hit.point);
-            obstaclePosition = hit.point;
-        }
-
-        if (Physics2D.Raycast(_lineRenderer.GetPosition(_lineRenderer.positionCount - 1), nextPos, _directions.magnitude, ~_layerMaskObstacles)) return true;
-        else return false;
-    }
-    public Transform InSightCrystal()
-    {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, nextPos, _directions.magnitude, ~_layerMaskCrystal);
-
-        if (hit.collider != null)
-        {
-            Debug.Log(hit.point);
-            return (hit.transform);
-        }
-        else return default;
-    }*/
-    #endregion
 }

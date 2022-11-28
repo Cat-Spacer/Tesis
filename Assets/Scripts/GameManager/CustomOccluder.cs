@@ -5,21 +5,22 @@ using UnityEngine;
 public class CustomOccluder : MonoBehaviour
 {
     [SerializeField] private bool _firstLevel;
+    [SerializeField] private float _timeToInvoke = 1.0f;
     [SerializeField] private GameObject[] _neightborLvls, _restOfLvls;
 
     private void Awake()
     {
-        
+
     }
     private void Start()
     {
-        Invoke("ArtificialStart", 2);
+        if (_firstLevel)
+            Invoke(nameof(ArtificialStart), _timeToInvoke);
     }
     private void ArtificialStart()
     {
-        if (_firstLevel)
-            for (int i = 0; i < _restOfLvls.Length; i++)
-                _restOfLvls[i].SetActive(false);
+        for (int i = 0; i < _restOfLvls.Length; i++)
+            _restOfLvls[i].SetActive(false);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

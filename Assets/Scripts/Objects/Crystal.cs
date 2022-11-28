@@ -39,10 +39,12 @@ public class Crystal : MonoBehaviour, IInteract
     {
         if (_lastCrystal && _door != null && _door.GetComponent<Door>())
         {
+            Debug.Log($"{gameObject.name} es last y tiene a {_door.gameObject} como puerta");
             _door.GetComponent<Door>().ActivateDesactivate(linked);
-            line.SetLines(_prevCrystal, _nextCrystal);
+            if (_nextCrystal)
+                line.SetLines(_prevCrystal, _nextCrystal);
             //if (!_nextCrystal.line.linkedCrystal)
-                //_door.SetActive(true);
+            //_door.SetActive(true);
         }
     }
 
@@ -76,6 +78,7 @@ public class Crystal : MonoBehaviour, IInteract
         _prevCrystal.CallCrystal(_prevCrystal._prevCrystal);
         CallCrystal(_prevCrystal);
         if (GetComponent<Rigidbody2D>()) Destroy(GetComponent<Rigidbody2D>());
+        if (GetComponent<BoxCollider2D>()) GetComponent<BoxCollider2D>().isTrigger = true;
     }
 
     public void Interact()

@@ -13,7 +13,13 @@ public class Door : MonoBehaviour
     }
     public void ActivateDesactivate(bool active)
     {
+        if (!_anim)
+        {
+            gameObject.SetActive(!active);
+            return;
+        }
         if (currentState == active) return;
+
         if (active)
         {
             _anim.SetTrigger("Open");
@@ -23,6 +29,5 @@ public class Door : MonoBehaviour
             _anim.SetTrigger("Close");
         }
         currentState = active;
-        //gameObject.SetActive(active);
     }
 }
