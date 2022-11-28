@@ -27,7 +27,8 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     Vector2 startScale;
     Vector2 smallerScale;
 
-    public float modiffyJump;
+    public float modiffyIceJumpY = 1;
+    public float modiffyIceJumpX = 1;
 
     private void Awake()
     {
@@ -75,7 +76,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         _climbScript.UpdateClimb();
         Debug.DrawRay(transform.position, transform.right * _distanceToRope, Color.red);
 
-
+            
         //if (PlayerInput.dashInput)
         //  _DashState = StartDash;
 
@@ -254,12 +255,31 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
 
         if (jumpUp && canJump && (coyoteTimeCounter > 0f || onGround))
         {
+            if (OnIce)
+            {
+                Debug.Log("jump velocity " + rb.velocity.x * faceDirection);
+
+                if (rb.velocity.x * faceDirection >= 7)
+                {
+                    modiffyIceJumpY = 3;
+                }
+                else if (rb.velocity.x * faceDirection >= 5 && rb.velocity.x * faceDirection < 6)
+                {
+                    modiffyIceJumpY = 2;
+                }
+                else if (rb.velocity.x * faceDirection < 4)
+                {
+                    modiffyIceJumpY = 0;
+                }
+            }
+
             SoundManager.instance.Play(SoundManager.Types.CatJump);
             _runParticle.Stop();
             _jumpParticle.Play();
             jumping = true;
             isJumping = true;
             anim.SetBool("Jump", true);
+         
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             canJump = false;
             return;
@@ -773,10 +793,18 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             anim.SetBool("OnGround", false);
         }
 
-     /*   else if (transform.rotation.z == 0)
+
+
+        if (OnIce && rb.velocity.y > 0)
         {
-            Debug.Log("TRANSFORM IS 0");
-        }*/
+            Physics2D.IgnoreLayerCollision(6, 7, true);
+        }
+
+
+        if (OnIce && rb.velocity.y <= 0)
+        {
+            Physics2D.IgnoreLayerCollision(6, 7, false);
+        }
     }
 
     public static bool collisionObstacle = false;
@@ -803,26 +831,39 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             _fallParticle.Play();
         }
 
-        if (collision.gameObject.layer == 21 && !icyWall)
+       /* if (collision.gameObject.layer == 6 && OnIce && rb.velocity.y > 0)
         {
-             if (faceDirection == -1)
-             {
-                    transform.rotation = Quaternion.Euler(transform.rotation.x, 0, transform.rotation.z);
-             }
-             if (faceDirection == 1)
-             {
-                    transform.rotation = Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z);
-             }
-            
-               
+            Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+        }*/
+
+        /* if (collision.gameObject.layer == 21)
+         {
+
+
+             //rb.velocity = new Vector2(300 * faceDirection, 0);
+         }*/
+
+        if (collision.gameObject.layer == 21 && !icyWall && isJumping)
+        {
+
+            if (CustomMovement.faceDirection == -1)
+            {
+                transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.z * -1, transform.rotation.z);
+            }
+            if (CustomMovement.faceDirection == 1)
+            {
+                transform.rotation = Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z);
+            }
+            faceDirection = -faceDirection;
+
 
             float angle = 45;
-            angle *= Mathf.Deg2Rad;
-            float xComponent = Mathf.Cos(angle) * jumpForceClimbLatitud * modiffyJump ;
-            float zComponent = Mathf.Sin(angle) * jumpForceClimbHeight * modiffyJump;
-            Vector3 forceApplied = new Vector3(xComponent * faceDirection, zComponent, 0);
+              angle *= Mathf.Deg2Rad;
+              float xComponent = Mathf.Cos(angle) * jumpForceClimbLatitud * modiffyIceJumpX ;
+              float zComponent = Mathf.Sin(angle) * jumpForceClimbHeight * modiffyIceJumpY;
+              Vector2 forceApplied = new Vector2(xComponent * faceDirection, zComponent);
 
-            rb.AddForce(forceApplied);
+              rb.AddForce(forceApplied);
             icyWall = true;
         }
 
@@ -859,7 +900,24 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         {
             OnIce = true;
         }
-      
+
+       /* if (collision.gameObject.layer == 21 && !icyWall && !onGround)
+        {
+            Debug.Log("vel" + rb.velocity);
+            if (rb.velocity.x * faceDirection >= 6)
+            {
+                modiffyIceJumpY = 3;
+            }
+            else if (rb.velocity.x * faceDirection >= 4 && rb.velocity.x * faceDirection < 6)
+            {
+                modiffyIceJumpY = 2;
+            }
+            else if (rb.velocity.x * faceDirection < 4)
+            {
+                modiffyIceJumpY = 0;
+            }
+        }*/
+
     }
     void OnTriggerExit2D(Collider2D collision)
     {
