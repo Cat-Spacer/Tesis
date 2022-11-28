@@ -92,7 +92,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8931305942298471389}
-  - component: {fileID: 8187136209515479478}
+  - component: {fileID: 7615450971228474505}
+  - component: {fileID: 7066810558541302174}
   m_Layer: 6
   m_Name: HojasX3
   m_TagString: Untagged
@@ -117,8 +118,8 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!68 &8187136209515479478
-EdgeCollider2D:
+--- !u!61 &7615450971228474505
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -130,22 +131,45 @@ EdgeCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -1.1637802, y: 0.030626297}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 3.0825653, y: 1.0612526}
   m_EdgeRadius: 0
-  m_Points:
-  - {x: 0.6622467, y: 0.23361206}
-  - {x: 0.67097473, y: -0.4401455}
-  - {x: -2.5917664, y: -0.24960136}
-  - {x: -2.569641, y: 0.46981812}
-  - {x: 0.27401733, y: 0.4709835}
-  - {x: 0.6722717, y: 1.1101818}
-  - {x: 2.3545074, y: 1.1112347}
-  - {x: 2.3524933, y: 0.13245583}
-  - {x: 0.6635437, y: 0.23945427}
-  m_AdjacentStartPoint: {x: 0, y: 0}
-  m_AdjacentEndPoint: {x: 0, y: 0}
-  m_UseAdjacentStartPoint: 0
-  m_UseAdjacentEndPoint: 0
+--- !u!61 &7066810558541302174
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7683164637674188945}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 1.51, y: 0.7}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &8636172394441877801
 GameObject:
   m_ObjectHideFlags: 0
