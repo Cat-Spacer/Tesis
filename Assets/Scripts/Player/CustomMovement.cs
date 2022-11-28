@@ -26,6 +26,8 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     public GameObject boosterFeedBack;
     Vector2 startScale;
     Vector2 smallerScale;
+    Vector2 startGroundCheckSize;
+    Vector2 smallerGroundCheckSize;
 
     public float modiffyIceJumpY = 1;
     public float modiffyIceJumpX = 1;
@@ -34,6 +36,8 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     {
         startScale = transform.localScale;
         smallerScale = startScale * 0.7f;
+        startGroundCheckSize = groundCheckSize;
+        smallerGroundCheckSize = startGroundCheckSize * 0.7f;
         boosterFeedBack.gameObject.SetActive(false);
            _collider = GetComponent<BoxCollider2D>();
         playerInput = GetComponent<PlayerInput>();
@@ -230,6 +234,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         jumpForce = force_arg;
         boosterFeedBack.gameObject.SetActive(true);
         transform.localScale = smallerScale;
+        groundCheckSize = smallerGroundCheckSize;
     }
 
     
@@ -237,7 +242,8 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     {
         jumpForce = _baseJump;
         boosterFeedBack.gameObject.SetActive(false);
-        transform.localScale = startScale; 
+        transform.localScale = startScale;
+        groundCheckSize = startGroundCheckSize;
     }
     void JumpUp(bool jumpUp) //Saltar
     {
