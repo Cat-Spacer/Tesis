@@ -152,7 +152,6 @@ public class ColliderSides : MonoBehaviour
 
     public void FollowPlayer()
     {
-        Debug.Log("follow player");
         _cam.position = new Vector3(_cam.position.x, _player.position.y + _addInY, _cam.position.z);
     }
 }
