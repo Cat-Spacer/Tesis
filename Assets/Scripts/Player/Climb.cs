@@ -3,6 +3,7 @@ using System;
 
 public class Climb
 {
+    public bool onClimb;
     float _upSpeed = 5;
     float _downSpeed = 5 * 0.8f;
     public static float _distanceToRope = 0.4f;
@@ -152,7 +153,7 @@ public class Climb
     {
         Debug.Log("StartClimbingState");
         SoundManager.instance.Play(SoundManager.Types.Climb);
-        Debug.Log("StartClimbing");
+        onClimb = true;
         _animator.SetBool("Climbing", true);
         _animator.SetBool("OnWall", false);
       
@@ -163,6 +164,7 @@ public class Climb
     public void EndClimbingState()
     {
         Debug.Log("EndClimbing");
+        onClimb = false;
         _animator.SetBool("OnWall", false);
         _animator.SetBool("Climbing", false);
         SoundManager.instance.Pause(SoundManager.Types.Climb);

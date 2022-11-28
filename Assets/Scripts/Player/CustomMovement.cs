@@ -794,7 +794,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         else //Not on ground
         {
             onGround = false;
-            if (rb.velocity.y < 0) anim.SetBool("Fall", true);
+            if (!_climbScript.onClimb && rb.velocity.y < 0) anim.SetBool("Fall", true);
             else anim.SetBool("Fall", false);
             anim.SetBool("OnGround", false);
         }
