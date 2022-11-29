@@ -940,6 +940,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         if (collision.gameObject.layer == 20)
         {
             OnIce = false;
+            Physics2D.IgnoreLayerCollision(6, 7, false);
         }
     }
 
