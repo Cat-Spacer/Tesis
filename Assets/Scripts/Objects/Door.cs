@@ -6,6 +6,7 @@ public class Door : MonoBehaviour
 {
     [SerializeField] private Animator _anim;
     [SerializeField] private SpriteMask _mask;
+    [SerializeField] private bool _noAnim = false;
     bool currentState;
     private void Start()
     {
@@ -13,9 +14,9 @@ public class Door : MonoBehaviour
     }
     public void ActivateDesactivate(bool active)
     {
-        if (!_anim)
+        if (_noAnim)
         {
-            gameObject.SetActive(!active);
+            gameObject.SetActive(false);
             return;
         }
         if (currentState == active) return;
