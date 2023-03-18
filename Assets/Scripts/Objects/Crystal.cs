@@ -1,10 +1,10 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Crystal : MonoBehaviour, IInteract
 {
-    [SerializeField] private Crystal _nextCrystal;
+    [SerializeField] private Crystal[] _nextCrystal;
     public Crystal _prevCrystal;
     public LineCollision line { get; set; }
     [SerializeField] private bool _forceStart = false, _rotable = true;
@@ -41,17 +41,22 @@ public class Crystal : MonoBehaviour, IInteract
         {
             Debug.Log($"{gameObject.name} es last y tiene a {_door.gameObject} como puerta");
             _door.GetComponent<Door>().ActivateDesactivate(linked);
+
             if (_nextCrystal)
                 line.SetLines(_prevCrystal, _nextCrystal);
+                
+            /*for (int i = 0; i < _nextCrystal.Length && _nextCrystal[i]; i++)
+                line.SetLines(_prevCrystal, _nextCrystal[i]);*/
         }
     }
 
     public void CallCrystal(Crystal prevCrystal)
     {
         if (prevCrystal == this) return;
-        Debug.Log($"{gameObject.name} call. _prevCrystal = {prevCrystal}");
+        //Debug.Log($"{gameObject.name} call. _prevCrystal = {prevCrystal}");
         _prevCrystal = prevCrystal;
-        line.SetLight(_prevCrystal, this, _nextCrystal);
+        for (int i = 0; i < _nextCrystal.Length && _nextCrystal[i]; i++)
+            line.SetLight(_prevCrystal, this, _nextCrystal[i]);
         _activatedCrystal = true;
     }
 
@@ -65,7 +70,7 @@ public class Crystal : MonoBehaviour, IInteract
     {
         return _prevCrystal;
     }
-    public Crystal GetNextCrystal()
+    public Crystal[] GetNextCrystal()
     {
         return _nextCrystal;
     }

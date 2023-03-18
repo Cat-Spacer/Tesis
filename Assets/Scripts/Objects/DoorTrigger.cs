@@ -13,7 +13,7 @@ public class DoorTrigger : Obstacle, IInteract
     bool alreadyShowLight;
     [SerializeField] public Animator anim;
 
-    [SerializeField] bool _isFirst = false;
+    [SerializeField] bool _isFirst = false, _doOnce = false, canRepeat = false;
 
     public void Interact()
     {
@@ -22,7 +22,8 @@ public class DoorTrigger : Obstacle, IInteract
         {
             return;
         }
-
+        
+        if (_doOnce && canRepeat) return;
 
         Debug.Log("interactuando");
         SoundManager.instance.Play(SoundManager.Types.MagicCat);
@@ -37,6 +38,8 @@ public class DoorTrigger : Obstacle, IInteract
         }
         if (targetC != null)
             targetC.CallCrystal(null);
+
+        _doOnce = true;
     }
 
     public void ShowInteract(bool showInteractState)
