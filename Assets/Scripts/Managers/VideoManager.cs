@@ -10,12 +10,15 @@ public class VideoManager : MonoBehaviour
     {
         get { return GetComponent<VideoPlayer>(); }
     }
+
     public int mainMenuScene = 1;
     public float duration = 5f;
+
     private void Start()
     {
         StartCoroutine(WaitForEndOfVideo());
     }
+
     void Update()
     {
         if (Input.touchCount > 0 || Input.GetKeyDown(KeyCode.Mouse0))

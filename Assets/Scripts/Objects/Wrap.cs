@@ -128,10 +128,12 @@ public class Wrap : MonoBehaviour, ILiberate
             }           
         }
     }
+
     private void TrapLifeRecover()
     {
         _trapLife += _trapLifeRecover * Time.deltaTime;
     }
+
     public void TryLiberate()
     {
         _trapLife -= 1;

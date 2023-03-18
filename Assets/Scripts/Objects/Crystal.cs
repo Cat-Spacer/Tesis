@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -41,8 +41,12 @@ public class Crystal : MonoBehaviour, IInteract
         {
             Debug.Log($"{gameObject.name} es last y tiene a {_door.gameObject} como puerta");
             _door.GetComponent<Door>().ActivateDesactivate(linked);
-            for (int i = 0; i < _nextCrystal.Length && _nextCrystal[i]; i++)
-                line.SetLines(_prevCrystal, _nextCrystal[i]);
+
+            if (_nextCrystal)
+                line.SetLines(_prevCrystal, _nextCrystal);
+                
+            /*for (int i = 0; i < _nextCrystal.Length && _nextCrystal[i]; i++)
+                line.SetLines(_prevCrystal, _nextCrystal[i]);*/
         }
     }
 

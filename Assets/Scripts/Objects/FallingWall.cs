@@ -9,6 +9,7 @@ public class FallingWall : MonoBehaviour
     [SerializeField] GameObject player;
     [SerializeField] float gravityScale;
     [SerializeField] RigidbodyConstraints2D constraints2D;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();

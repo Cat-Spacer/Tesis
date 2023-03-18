@@ -13,7 +13,6 @@ public class GameManager : MonoBehaviour
         public GameObject[] resetObjects;
     }
 
-
     public static GameManager Instance;
     [SerializeField] Transform[] _respawnPoint;
     [SerializeField] AreaPoint[] _respawnArea;
@@ -41,27 +40,25 @@ public class GameManager : MonoBehaviour
 
     public bool celestialDiamond = false;
 
-
     private void Awake()
     {
         Instance = this;
     }
+
     private void Start()
     {
         _pointsText.text = _points.ToString() + "/" + _pointsPerLevel.ToString();
         _player = FindObjectOfType<CustomMovement>();
         GetCurrentLevel(0);
     }
-    private void Update()
-    {
 
-    }
     public void GetCurrentLevel(int lvl)
     {
         _currentLevel = lvl;
         miniMap.SetPlayerInLevel(lvl);
         SetObjectiveInMiniMap(lvl);
     }
+
     public void SaveDistance(float distance)
     {
         saveDistance = distance;
@@ -151,7 +148,6 @@ public class GameManager : MonoBehaviour
     public IEnumerator CoroutineWaitForEndClimb(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
-      // Climb.isClimbing = false;
-        
+        //Climb.isClimbing = false;        
     }
 }

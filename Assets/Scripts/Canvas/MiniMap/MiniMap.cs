@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 public class MiniMap : MonoBehaviour
 {
     [SerializeField] LevelMiniMap[] lvls;
@@ -9,16 +10,19 @@ public class MiniMap : MonoBehaviour
     [SerializeField] Image objectiveImage;
     Dictionary<int, Image> objectivesDic = new Dictionary<int, Image>();
     int currentLevel = 0;
+
     private void Start()
     {
         SetPlayerInLevel(0);
     }
+
     public void SetPlayerInLevel(int lvl)
     {
         currentLevel = lvl;
         playerImage.transform.position = lvls[currentLevel].gameObject.transform.position;
         lvls[currentLevel].SetLevelState(EnumLevelState.Discoverd);
     }
+
     public void GotItem()
     {
         lvls[currentLevel].SetLevelState(EnumLevelState.ObjCollected);
@@ -30,6 +34,7 @@ public class MiniMap : MonoBehaviour
             }
         }
     }
+
     public void SetObjectiveInMap(int index_arg)
     {
         foreach (var item in objectivesDic)
@@ -40,6 +45,7 @@ public class MiniMap : MonoBehaviour
             }
         }
     }
+
     public void CreateObjectiveInMap(List<PickUp> pickUp_arg)
     {
         foreach (var item in pickUp_arg)

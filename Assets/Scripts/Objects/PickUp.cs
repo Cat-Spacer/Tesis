@@ -6,6 +6,7 @@ public class PickUp : MonoBehaviour
 {
     [SerializeField] bool _isResource;
     public int _currentLvl;
+
     private void Start()
     {
         if (_isResource)
@@ -13,6 +14,7 @@ public class PickUp : MonoBehaviour
             GameManager.Instance.GetAllObjectivesInLevel(this);
         }
     }
+
     private void OnTriggerEnter2D(Collider2D trig)
     {
         CustomMovement player = trig.GetComponent<CustomMovement>();
@@ -21,6 +23,5 @@ public class PickUp : MonoBehaviour
         SoundManager.instance.Play(SoundManager.Types.Item);
         if (_isResource) GameManager.Instance.GetItem();
         transform.parent.gameObject.SetActive(false);
-    }
-    
+    }    
 }

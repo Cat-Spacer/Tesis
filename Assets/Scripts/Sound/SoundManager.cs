@@ -33,9 +33,7 @@ public class SoundManager : MonoBehaviour
             s.source.loop = s.loop;
         }
     }
-    private void Start()
-    {
-    }
+
     private void Update()
     {
         /*if (FindObjectOfType<GameManager>())
@@ -47,6 +45,7 @@ public class SoundManager : MonoBehaviour
         //if (Input.GetKeyDown(KeyCode.P)) //Probar sonido
         //    SoundManager.instance.Play(SoundManager.Types.VineCrunch);
     }
+
     public void Play(Types name,bool loop = true)
     {
         Sound s = Array.Find(sounds, sound => sound.nameType == name);
@@ -58,6 +57,7 @@ public class SoundManager : MonoBehaviour
         s.loop = loop;
         s.source.Play();
     }
+
     public void Pause(Types name)
     {
         Sound s = Array.Find(sounds, sound => sound.nameType == name);
@@ -69,14 +69,15 @@ public class SoundManager : MonoBehaviour
         s.source.Pause();
         // StartCoroutine(FadeOut(s.source, 0.05f));
 
-
         //s.source.Pause();
     }
+
     public void PauseAll()
     {
         foreach (var s in sounds)
             s.source.Pause();
     }
+
     public IEnumerator FadeOut(AudioSource audioSource, float FadeTime)
     {
         float startVolume = audioSource.volume;
@@ -91,7 +92,6 @@ public class SoundManager : MonoBehaviour
         audioSource.Pause();
         audioSource.volume = startVolume;
     }
-
     
     public enum Types
     {
@@ -118,6 +118,7 @@ public class SoundManager : MonoBehaviour
         ClestialDiamond,
         StalacticBreaking
     }
+
     public void OnClickSound()
     {
        // instance.Play(Types.Click);

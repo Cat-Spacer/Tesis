@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class ActiveNoActive : MonoBehaviour
 {
-    //public bool activeOnStart = true;
     public GameObject[] activeGameObject;
     public GameObject[] desactiveGameObject;
 

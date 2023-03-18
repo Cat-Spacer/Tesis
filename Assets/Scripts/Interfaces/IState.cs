@@ -8,4 +8,3 @@ public interface IState
     void OnUpdate();
     void OnExit();
 }
-

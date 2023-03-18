@@ -14,11 +14,13 @@ public class FallingFloor : MonoBehaviour, IRespawn
     [SerializeField] Animator anim;
     [SerializeField] ParticleSystem fallingRocksParticle;
     Vector2 _startingPos;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         _startingPos = transform.position;
     }
+
     private void Activate()
     {
         SoundManager.instance.Pause(SoundManager.Types.FallingDebris);
@@ -36,11 +38,12 @@ public class FallingFloor : MonoBehaviour, IRespawn
         //StartCoroutine(End(5));
     }
 
-    //IEnumerator End(float time)
-    //{
-    //    yield return new WaitForSeconds(time);
-    //    Destroy(gameObject);
-    //}
+    /*IEnumerator End(float time)
+    {
+        yield return new WaitForSeconds(time);
+        Destroy(gameObject);
+    }*/
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if ((mask.value & (1 << collision.transform.gameObject.layer)) > 0  && !activated)

@@ -16,6 +16,7 @@ public class LineCollision : MonoBehaviour
     Vector2 posUpdate;
     [SerializeField] private Vector2[] _directions;
     private Crystal _myCrystal;
+
     void Start()
     {
         if (!_lineRenderer)
