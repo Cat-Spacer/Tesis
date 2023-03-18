@@ -110,7 +110,6 @@ public class PlayerDatas : MonoBehaviour
     [HideInInspector] protected bool attackInput;
     [HideInInspector] protected bool interactionInput;
 
-
     [Header("Constrains")]
     [SerializeField] protected RigidbodyConstraints2D constraints2D;
 

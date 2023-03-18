@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class LevelMiniMap : MonoBehaviour
 {
-
     [SerializeField] int lvlIndex;
     [SerializeField] bool rightDoor, leftDoor, topDoor, bottomDoor;
     [SerializeField] GameObject rightDoorObj, leftDoorObj, topDoorObj, bottomDoorObj;
@@ -13,12 +12,14 @@ public class LevelMiniMap : MonoBehaviour
     [SerializeField] Color discoverdLevel;
     [SerializeField] Color objFoundLevel;
     [SerializeField] Image myColor;
+
     private void Awake()
     {
         myColor = GetComponent<Image>();
         if (lvlIndex == 0) myColor.color = discoverdLevel;
         else myColor.color = undiscoverdLevel;
     }
+
     void Start()
     {
         if (rightDoor) rightDoorObj.SetActive(true);

@@ -5,7 +5,7 @@ public class ColliderSides : MonoBehaviour
 {
     Transform _cam;
     Transform _player;
-    [SerializeField]bool isInY;
+    [SerializeField] bool isInY;
     // [SerializeField] float _moveInX = 16;
     [SerializeField] float _addInY = 2;
     [SerializeField] int indexB;
@@ -62,15 +62,10 @@ public class ColliderSides : MonoBehaviour
         if (player == null) return;
 
         Exit();
-
-
-
     }
-
 
     private void Exit()
     {
-
         if (_player.position.x - gameObject.transform.position.x > 0 && !isInY)
         {
             defaultpos = _cam.position;
@@ -86,7 +81,6 @@ public class ColliderSides : MonoBehaviour
         }
         else if (_player.position.x - gameObject.transform.position.x < 0 && !isInY)
         {
-
             //  _cam.position = new Vector3(gameObject.transform.position.x - _moveInX, _cam.position.y, _cam.position.z);
 
             _cam.position = camPosA.position;
@@ -131,7 +125,6 @@ public class ColliderSides : MonoBehaviour
             // Swap the position of the cylinder.
             _FollowPlayer = FollowPlayer;
         }
-     
     }
 
     public void EndFollowPlayer()
@@ -147,7 +140,6 @@ public class ColliderSides : MonoBehaviour
             // Swap the position of the cylinder.
             _FollowPlayer = delegate { };
         }
-
     }
 
     public void FollowPlayer()

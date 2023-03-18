@@ -6,6 +6,7 @@ public class SwipePlant : Obstacle
 {
     public float _attackSpeed = 1.0f;
     [SerializeField] private Animator _swipeAnimator;
+
     void Start()
     {
         if (_swipeAnimator == null)

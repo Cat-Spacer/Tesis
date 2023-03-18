@@ -6,8 +6,10 @@ public class Shoot : MonoBehaviour
     {
         Instantiate(bullet, firePoint.position, firePoint.rotation).SetBullet(father);
         bullet.gameObject.SetActive(true);
+        #region Pool & Factory
         /*Debug.Log($"{bullet} has position & direction");
         bullet.transform.position = firePoint.position;
         bullet.transform.rotation = firePoint.rotation;*/
+        #endregion
     }
 }

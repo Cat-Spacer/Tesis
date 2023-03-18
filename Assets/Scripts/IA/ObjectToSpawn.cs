@@ -2,10 +2,7 @@ using UnityEngine;
 
 public class ObjectToSpawn : MonoBehaviour
 {
-    private void Reset()
-    {
-
-    }
+    private void Reset(){}
 
     public static void TurnOn(ObjectToSpawn b)
     {

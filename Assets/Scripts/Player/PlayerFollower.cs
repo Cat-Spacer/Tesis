@@ -6,6 +6,7 @@ public class PlayerFollower : MonoBehaviour
 {
     [SerializeField] private CustomMovement _customMovement;
     [SerializeField] private Vector3 _offset;
+
     void Start()
     {
         if (!_customMovement)

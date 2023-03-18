@@ -14,5 +14,6 @@ public class CameraFollow : MonoBehaviour
     }
 
 
-    //get player position when colliding and - to collider. collider - player pos. if is positive then move to right. if is negative then move to left.
+    //get player position when colliding and - to collider. collider - player pos.
+    //If is positive then move to right. if is negative then move to left.
 }

@@ -11,10 +11,12 @@ public class MiniMenu : MonoBehaviour
     [SerializeField] float _speed;
     [SerializeField] float _timeUntilClose;
     float _timeUntilCloseDefault;
+
     private void Start()
     {
         _timeUntilCloseDefault = _timeUntilClose;
     }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Tab))

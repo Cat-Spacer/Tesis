@@ -8,10 +8,12 @@ public class Vine : MonoBehaviour, IDamageable
     [SerializeField] private float _currentLife;
     [SerializeField] ParticleSystem[] particles;  
     public float dmg;
+
     private void Start()
     {
         _currentLife = _maxLife;
     }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         var obj = collision.gameObject.GetComponent<IDamageable>();

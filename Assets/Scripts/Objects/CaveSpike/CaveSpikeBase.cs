@@ -12,10 +12,12 @@ public class CaveSpikeBase : MonoBehaviour
     [SerializeField] bool alreadyFalling;
     [SerializeField] ParticleSystem fogParticle;
     [SerializeField] ParticleSystem fallingRockParticle;
+
     private void Update()
     {
         CheckPlayer();
     }
+
     void CheckPlayer()
     {
         Collider2D coll = Physics2D.OverlapBox(activationRangeTransform.position, activationRange, 0, playerLayerMask);
@@ -31,6 +33,7 @@ public class CaveSpikeBase : MonoBehaviour
             alreadyFalling = true;
         }
     }
+
     IEnumerator StartFalling()
     {
         yield return new WaitForSeconds(timeBeforeFalling);
@@ -39,14 +42,14 @@ public class CaveSpikeBase : MonoBehaviour
         fallingRockParticle.Stop();
         fogParticle.Stop();
     }
+
     public void ResetSpike()
     {
         alreadyFalling = false;
     }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        
-    }
+
+    private void OnTriggerEnter2D(Collider2D collision){}
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.DrawWireCube(activationRangeTransform.position, activationRange);

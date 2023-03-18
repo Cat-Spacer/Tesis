@@ -18,23 +18,26 @@ namespace Weapons
         public Bullet bulletPrefab;
         [SerializeField] ParticleSystem _spitleParticle;
 
-
         public float distance = 150f;
 
         private void Awake()
-        {/*
-            if (GetComponent<AudioSource>() != null)
+        {
+            #region Sound Setting
+            /*if (GetComponent<AudioSource>() != null)
             {
                 audioSource = GetComponent<AudioSource>();
                 //  if (FindObjectOfType<SoundManager>() != null)
                 // audioSource.clip = FindObjectOfType<SoundManager>().GetSound(shootSound).clip;
             }*/
+            #endregion
             fireTimer = fireRate;
         }
+
         private void Start()
         {
             anim = GetComponent<Animator>();
         }
+
         protected virtual void Update()
         {
             FireCooldown();
@@ -60,6 +63,7 @@ namespace Weapons
                 StartCoroutine(WaitForAnim());
             }
         }
+
         public virtual void FireBullet()
         {
             _spitleParticle.Stop();
@@ -78,6 +82,7 @@ namespace Weapons
             bullet.transform.rotation = firePoint.rotation;*/
             #endregion
         }
+
         IEnumerator WaitForAnim()
         {
             yield return new WaitForSeconds(wait);

@@ -9,11 +9,13 @@ namespace Weapons
         Action _StunAction = delegate { };
         float currentStunTime;
         bool stun = false;
+
         protected override void Update()
         {
             base.Update();
             _StunAction();
         }
+
         public void Stun()
         {
             currentStunTime -= Time.deltaTime;
@@ -23,6 +25,7 @@ namespace Weapons
                 _StunAction = delegate { };
             }
         }
+
         public override void FireCooldown()
         {
             if (stun)
@@ -32,6 +35,7 @@ namespace Weapons
             }
             base.FireCooldown();
         }
+
         public void GetDamage(float dmg)
         {
             stun = true;

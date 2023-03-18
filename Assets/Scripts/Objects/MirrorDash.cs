@@ -15,8 +15,7 @@ public class MirrorDash : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log(CustomMovement.isDashing);
-        rotationVector = _player.transform.rotation.eulerAngles;
-     
+        rotationVector = _player.transform.rotation.eulerAngles;     
 
         if (collision.gameObject.layer == _player.gameObject.layer && CustomMovement.isDashing)
         {
@@ -34,10 +33,7 @@ public class MirrorDash : MonoBehaviour
             else
             {
                 _player.GetComponent<Rigidbody2D>().AddForce(Vector2.up * 50);
-            }*/
-           
-          
-       
+            }*/   
         }
     }
 

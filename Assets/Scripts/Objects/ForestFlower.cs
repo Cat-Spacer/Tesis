@@ -7,8 +7,7 @@ public class ForestFlower : WindObstacles
     [SerializeField] float _forceUp = 60;
     [SerializeField] float _forceDown = 40;
     [SerializeField] float _strongerForceUp = 100;
-    [SerializeField] private float _ventdrag = 0.3f;  //aumentar para lentitud de movimiento
- 
+    [SerializeField] private float _ventdrag = 0.3f;  //aumentar para lentitud de movimiento 
     
     [SerializeField] private Transform _flower;
     [SerializeField] private float _maxUp;
@@ -16,7 +15,6 @@ public class ForestFlower : WindObstacles
     private float _stop = 1.7f;
     public static bool onFlower = false;
     bool _goingDown;
-
 
      protected override void OnTriggerEnter2D(Collider2D other)
      {
@@ -26,10 +24,8 @@ public class ForestFlower : WindObstacles
         onFlower = true;
         if (_blockWind) return;
 
-        OnEnterFlower();
-    
+        OnEnterFlower();    
      }
-
 
     protected override void OnTriggerStay2D(Collider2D other)
     {
@@ -67,7 +63,6 @@ public class ForestFlower : WindObstacles
     protected override void OnTriggerExit2D(Collider2D other)
     {
         base.OnTriggerExit2D(other);
-
         
         if (other != _playerCollider) return;
 
@@ -82,27 +77,17 @@ public class ForestFlower : WindObstacles
         SoundManager.instance.Play(SoundManager.Types.FlowerWind);
 
      //   Debug.Log("on enter");
-
            
         _playerRb.drag = _ventdrag;
          _player.ForceDashEnd();
-        
-       
-
-      
     }
 
     protected override void OnExitFlower()
     {
         base.OnExitFlower();
-
         
         _playerRb.drag = _defaultDrag;
 
-        SoundManager.instance.Pause(SoundManager.Types.FlowerWind);
-   
+        SoundManager.instance.Pause(SoundManager.Types.FlowerWind);   
     }
-
-
-
 }

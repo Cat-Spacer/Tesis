@@ -6,24 +6,20 @@ public class Config : MonoBehaviour
 {
     public Transform mainGame;
     [SerializeField] private string _pauseScreenName = "Pause_Menu";
-    //private bool _isPaused = false;
 
     private void Start()
     {
         ScreenManager.Instance.Push(new ScreenGO(mainGame));
     }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
         {
-            if (/*_isPaused || */FindObjectOfType<ScreenPause>())
-            {
+            if (FindObjectOfType<ScreenPause>())
                 ScreenManager.Instance.Pop();
-                //_isPaused = false;
-            }
             else
             {
-                //_isPaused = true;
                 if (FindObjectOfType<ScreenSettings>())
                     ScreenManager.Instance.Pop();
 

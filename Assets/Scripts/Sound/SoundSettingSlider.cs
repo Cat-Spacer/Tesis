@@ -9,6 +9,7 @@ public class SoundSettingSlider : MonoBehaviour
     {
         get { return GetComponent<Slider>(); }
     }
+
     public string mixerName;
     [SerializeField] private AudioMixerGroup _audioMixerGroup;
     private SoundManager _soundManager;
@@ -36,13 +37,11 @@ public class SoundSettingSlider : MonoBehaviour
 
     public void SaveVolumeValues()
     {
-        //PlayerPrefs.SetFloat(mixerName, slider.value);
         _soundManager.mixerValue[mixerName] = slider.value;
     }
 
     public void LoadVolumeValues()
     {
-        //slider.value = PlayerPrefs.GetFloat(mixerName);
         slider.value = _soundManager.mixerValue[mixerName];
         _audioMixerGroup.audioMixer.SetFloat(mixerName, Mathf.Log10(slider.value) * 20.0f);
     }

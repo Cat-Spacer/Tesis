@@ -9,10 +9,12 @@ public class CheatManager : MonoBehaviour
     public Transform[] startCheatPosition;
     public Transform[] finishCheatPosition;
     public int currentLvl = 0;
+
     private void Awake()
     {
         Instance = this;
     }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.F1))
@@ -24,14 +26,17 @@ public class CheatManager : MonoBehaviour
             FinishCheatLevel(currentLvl);
         }
     }
+
     public void SetCurrentLevel(int lvlIndex)
     {
         currentLvl = lvlIndex;
     }
+
     public void StartCheatLevel(int lvl)
     {
         player.transform.position = startCheatPosition[lvl].position;
     }
+
     public void FinishCheatLevel(int lvl)
     {
         player.transform.position = finishCheatPosition[lvl].position;

@@ -14,22 +14,26 @@ public class CaveSpike : MonoBehaviour
     [SerializeField] Animator anim;
 
     [SerializeField] ParticleSystem brokenRockParticle;
+
     private void Start()
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         rb.gravityScale = 0;
     }
+
     public void Activate()
     {
         anim.enabled = false;
         //anim.SetTrigger("Stop");
         rb.gravityScale = fallSpeed;
     }
+
     public void StartAnimation()
     {
         anim.SetTrigger("Fall");
     }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if ((playerLayerMask.value & (1 << collision.transform.gameObject.layer)) > 0) //Player

@@ -9,10 +9,12 @@ public class PlayerCanvas : MonoBehaviour
     [SerializeField] GameObject[] liberateButtons;
     [SerializeField] GameObject interactButton;
     [SerializeField] Slider trapSlider;
+
     void Update()
     {
         transform.rotation = Quaternion.Euler(0, 0, 0);
     }
+
     public void TrapEvent(bool trapState, float trapLife)
     {
         if (trapState)
@@ -33,10 +35,12 @@ public class PlayerCanvas : MonoBehaviour
             trapSlider.gameObject.SetActive(false);
         }
     }
+
     public void TrapLifeUpdate(float trapLife)
     {
         trapSlider.value = trapLife;
     }
+
     public void InteractEvent(bool interactState)
     {
         if (interactState) interactButton.gameObject.SetActive(true);

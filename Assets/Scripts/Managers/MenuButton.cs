@@ -18,7 +18,7 @@ public class MenuButton : MonoBehaviour
     {
         ScreenManager.Instance.PushInstance(_settingsScreenName);
     }
-
+    #region Async Scene Load
     /*
     public void ChargeAsyncScene(int scene)
     {
@@ -35,7 +35,7 @@ public class MenuButton : MonoBehaviour
         }
         async.allowSceneActivation = true;
     }*/
-
+    #endregion
     public void ExitButton() 
     {
         Application.Quit();

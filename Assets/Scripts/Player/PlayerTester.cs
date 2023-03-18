@@ -5,12 +5,7 @@ using UnityEngine;
 public class PlayerTester : MonoBehaviour
 {
     [SerializeField] private EnergyPower _energyPower;
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
     void Update()
     {
         //_energyPower.EnergyDrain(20f);

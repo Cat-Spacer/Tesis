@@ -24,6 +24,7 @@ public class WindObstacles : MonoBehaviour
         _windColliderStartSize = _windCollider.size;
         _defaultDrag = _playerRb.drag;
     }
+
     protected virtual void Wind(Vector2 direction_arg, float force_arg)
     {
         if (_blockWind) return;
@@ -42,12 +43,12 @@ public class WindObstacles : MonoBehaviour
           //  _blockWind = true;
             OnExitFlower();
         }
+
         /*if (InSightSides(transform.right))
         {
             Debug.Log("BLOCK WIND right");
             _windCollider.size = new Vector2(_windCollider.size.x, transform.position.x - blocker_arg.position.x);
-        }
-           
+        }           
 
         if (InSightSides(transform.up))
         {
@@ -67,8 +68,7 @@ public class WindObstacles : MonoBehaviour
             Debug.Log("unblock wind");
             //  _windCollider.gameObject.SetActive(true);
             //_blockWind = false;
-            OnEnterFlower(); 
-
+            OnEnterFlower();
         }
             
         //_windCollider.size = _windColliderStartSize;
@@ -84,15 +84,13 @@ public class WindObstacles : MonoBehaviour
     {
         Debug.Log("Block Wind");
         BlockWind(other.transform);
-        if (_blockWind) return;
-       
+        if (_blockWind) return;       
     }
 
     protected virtual void OnTriggerExit2D(Collider2D other)
     {
         UnblockWind(other.transform);
-        if (_blockWind) return;
-        
+        if (_blockWind) return;        
     }
     protected virtual void OnTriggerStay2D(Collider2D other)
     {
@@ -100,13 +98,7 @@ public class WindObstacles : MonoBehaviour
        // UnblockWind(other.transform);
     }
 
-    protected virtual void OnExitFlower()
-    {
+    protected virtual void OnExitFlower(){}
 
-    }
-
-    protected virtual void OnEnterFlower()
-    {
-
-    }
+    protected virtual void OnEnterFlower(){}
 }

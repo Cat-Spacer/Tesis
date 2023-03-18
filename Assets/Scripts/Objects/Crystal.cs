@@ -43,8 +43,6 @@ public class Crystal : MonoBehaviour, IInteract
             _door.GetComponent<Door>().ActivateDesactivate(linked);
             if (_nextCrystal)
                 line.SetLines(_prevCrystal, _nextCrystal);
-            //if (!_nextCrystal.line.linkedCrystal)
-            //_door.SetActive(true);
         }
     }
 
