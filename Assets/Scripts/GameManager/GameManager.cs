@@ -51,7 +51,10 @@ public class GameManager : MonoBehaviour
         _player = FindObjectOfType<CustomMovement>();
         GetCurrentLevel(0);
     }
-
+    public GameObject GetPlayer()
+    {
+        return _player.gameObject;
+    }
     public void GetCurrentLevel(int lvl)
     {
         _currentLevel = lvl;
