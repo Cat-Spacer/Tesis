@@ -102,7 +102,6 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     private void Inputs()
     {
         if (PlayerInput.jumpInputDown) onJumpInput = true;
-        else onJumpInput = false;
         if (PlayerInput.jumpInputUp) onJumpInputReleased = true;
         if (PlayerInput.dashInput) onDashInput = true;
         if (PlayerInput.up_Input) w_Input = true;
@@ -242,13 +241,16 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     }
     void JumpUp(bool jumpUp) //Saltar
     {
-        //if (Climb.isClimbing)
-        //{
-        //    onJumpInput = false;
-        //    return;
-        //}
+        if (!jumpUp) return;
+        Debug.Log("JumpInput");
+        onJumpInput = false;
+        if (Climb.isClimbing)
+        {
+            onJumpInput = false;
+            return;
+        }
 
-        if (jumpUp && canJump && (coyoteTimeCounter > 0f || onGround))
+        if (canJump && (coyoteTimeCounter > 0f || onGround))
         {
             if (OnIce)
             {
@@ -284,14 +286,13 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
                 doJumpBuffer = true;
                 _TimeCounterAction += TimeCounterJumpbuffer;
             }
-        }
-        onJumpInput = false;
+        }       
     }
     void JumpStop(bool jumpStop)
     {
         if (jumpStop && !onGround)
         {
-            rb.velocity = new Vector2(rb.velocity.x, Mathf.Min(rb.velocity.y - stopJumpForce, -30));
+            rb.velocity = new Vector2(rb.velocity.x, Mathf.Min(rb.velocity.y - stopJumpForce, -8));
         }
         if (onGround)
         {
@@ -430,7 +431,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     void TimeCounterJumpbuffer()
     {
         jumpBufferCounterTime -= Time.deltaTime;
-        if (jumpBufferCounterTime >= 0 && onGround && doJumpBuffer)
+        if (jumpBufferCounterTime >= 0 && onGround && doJumpBuffer && jumping)
         {
             JumpUp(true);
             doJumpBuffer = false;
