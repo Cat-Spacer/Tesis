@@ -16,6 +16,7 @@ public class CustomOccluder : MonoBehaviour
 
     private void ArtificialStart()
     {
+        if (_restOfLvls.Length < 1) return;
         for (int i = 0; i < _restOfLvls.Length; i++)
             _restOfLvls[i].SetActive(false);
     }

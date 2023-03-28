@@ -290,9 +290,9 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     }
     void JumpStop(bool jumpStop)
     {
-        if (jumpStop && !onGround)
+        if (jumpStop && !onGround && rb.velocity.y > 0)
         {
-            rb.velocity = new Vector2(rb.velocity.x, Mathf.Min(rb.velocity.y - stopJumpForce, -8));
+            //rb.velocity = new Vector2(rb.velocity.x, Mathf.Min(rb.velocity.y - stopJumpForce, -8));
         }
         if (onGround)
         {

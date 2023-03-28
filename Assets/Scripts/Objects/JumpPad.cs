@@ -2,13 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class JumpPad : MonoBehaviour
+public class JumpPad : MonoBehaviour, ICloneable
 {
     [SerializeField] float jumpForce;
     [SerializeField] LayerMask mask;
     [SerializeField] Animator anim;
     [SerializeField] ParticleSystem sporesParticle;
-    
+
+    public void Clone()
+    {
+        
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if ((mask.value & (1 << collision.transform.gameObject.layer)) > 0)

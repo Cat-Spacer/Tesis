@@ -4,30 +4,54 @@ using UnityEngine;
 
 public class SpectrumBehaviour : MonoBehaviour
 {
-    SpectrumInput _input;
+    SpectrumInput _controller;
     Rigidbody2D _rb;
     public Transform _player;
 
-    [Header("DATA")]
+    [Header("Sprite")]
+    [SerializeField] GameObject _currentObject;
+
+    [Header("Movement Data")]
     [SerializeField] float _maxRange, _arriveRadius, _maxSpeed, _maxForce;
     Vector3 _velocity;
 
+    [Header("Clone Data")]
+    [SerializeField] float _cloneRange;
+    bool alreadyCloned = false;
     private void Start()
     {
-        //_player = GameManager.Instance.GetPlayer().transform;
-        _input = GetComponent<SpectrumInput>();
+        _controller = new SpectrumInput(this);
         _rb = GetComponent<Rigidbody2D>();
     }
     void Update()
     {
-        ApplyForce(Arrive());
-        _rb.velocity = _velocity;
-        //Position();
+        _controller.OnUpdate();
     }
-
-    Vector3 Arrive()
+    public void Clone()
     {
-        Vector3 desired = _input.targetPosition - transform.position;
+        if (alreadyCloned) return;
+        var cloneObj = Physics2D.OverlapCircle(transform.position, _cloneRange);
+        if (cloneObj != null && cloneObj.gameObject.GetComponent<ICloneable>() != null)
+        {
+            var newClone = Instantiate(cloneObj.gameObject, transform);
+            newClone.transform.position = transform.position;
+            _currentObject = newClone;
+            alreadyCloned = true;
+        }
+    }
+    public void SpectrumMode()
+    {
+        alreadyCloned = false;
+        Destroy(_currentObject);
+    }
+    public void Move(Vector3 dir)
+    {
+        ApplyForce(Arrive(dir));
+        _rb.velocity = _velocity;
+    }
+    Vector3 Arrive(Vector3 dir)
+    {
+        Vector3 desired = dir - transform.position;
         if (desired.magnitude < _arriveRadius)
         {
             float speed = _maxSpeed * (desired.magnitude / _arriveRadius);
@@ -63,5 +87,6 @@ public class SpectrumBehaviour : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(_player.position, _maxRange);
+        Gizmos.DrawWireSphere(transform.position, _cloneRange);
     }
 }
