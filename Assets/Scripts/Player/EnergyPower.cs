@@ -27,12 +27,6 @@ public class EnergyPower : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.V))
-            FadeIn();
-
-        if (Input.GetKey(KeyCode.B))
-            FadeOut();
-
         UpdateEnergyBar();
 
         if (!_canReg && _time < _timer)
