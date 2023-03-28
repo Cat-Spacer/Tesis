@@ -7,11 +7,10 @@ public class PlayerInput : MonoBehaviour
     public static PlayerInput Inputs;
 
     // public float xAxis { get; private set; }
-    public bool jumpInput { get; private set; }
     public static bool dashInput { get; private set; }
     public static bool dashInputStay { get; private set; }
-    public bool jumpInputStay { get; private set; }
     public static bool jumpInputDown { get; private set; }
+    public static bool jumpInputUp { get; private set; }
     public static bool up_Input { get; private set; }
     public static bool left_Input { get; private set; }
 
@@ -39,12 +38,12 @@ public class PlayerInput : MonoBehaviour
     {
         //Normal Inputs
 
-        if (Input.GetKeyUp(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Jump]))
-        {
-            Climb.canClimbJump = true;
-        }
+        //if (Input.GetKeyUp(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.JumpUp]))
+        //{
+        //    Climb.canClimbJump = true;
+        //}
+
         //   xAxis = Input.GetAxis("Horizontal");
-        jumpInput = Input.GetKeyDown(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Jump]);
         dashInput = Input.GetKeyDown(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Dash]);
         up_Input = Input.GetKey(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.ClimbUp]);
         left_Input = Input.GetKey(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Left]);
@@ -52,9 +51,9 @@ public class PlayerInput : MonoBehaviour
         right_Input = Input.GetKey(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Right]);
         attackImput = Input.GetKeyDown(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Attack]);
         dashInputStay = Input.GetKey(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Dash]);
-        jumpInputStay = Input.GetKey(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Jump]);
         interactionInput = Input.GetKeyDown(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Interact]);
-        jumpInputDown = Input.GetKeyDown(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Jump]);
+        jumpInputUp = Input.GetKeyUp(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.JumpUp]);
+        jumpInputDown = Input.GetKeyDown(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.JumpDown]);
         //TrapInputs
         left_Input_UpKey = Input.GetKeyUp(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Left]);
         right_Input_UpKey = Input.GetKeyUp(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Right]);
