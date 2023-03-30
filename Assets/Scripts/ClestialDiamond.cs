@@ -5,6 +5,7 @@ using UnityEngine;
 public class ClestialDiamond : MonoBehaviour
 {
     [SerializeField] ColliderSides _colliderArea;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         GameManager.Instance.celestialDiamond = true;
