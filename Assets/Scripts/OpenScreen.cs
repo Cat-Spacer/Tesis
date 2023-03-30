@@ -18,10 +18,9 @@ public class OpenScreen : MonoBehaviour
         _screen.SetActive(true);
         if (_desactivateAutomatic)
             StartCoroutine(EndCoroutine());
-            _started = true;
-
-       
+            _started = true;       
     }
+
     IEnumerator EndCoroutine()
     {
         yield return new WaitForSeconds(_time);

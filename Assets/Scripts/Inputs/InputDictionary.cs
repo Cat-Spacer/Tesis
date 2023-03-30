@@ -24,8 +24,16 @@ namespace InputKey
             Interact,
             Dash
         }
+
         public void OnStartIfNotSave()
         {
+            if (buttonKeys != null)
+                foreach (var key in buttonKeys.Keys)
+                    Debug.Log($"<color=green>{key} = {buttonKeys[key]}</color>");
+
+            Debug.Log($"Ingrese");
+
+            if (buttonKeys != null) return;
             buttonKeys = new Dictionary<TypeOfKeys, KeyCode>();
             // Agarrar del PlayerImputs y cargar las teclas / reemplazarlas (si hubo cambios).
             buttonKeys[TypeOfKeys.Jump] = KeyCode.Space;
@@ -36,7 +44,7 @@ namespace InputKey
             buttonKeys[TypeOfKeys.Attack] = KeyCode.J;
             buttonKeys[TypeOfKeys.Interact] = KeyCode.E;
             buttonKeys[TypeOfKeys.Dash] = KeyCode.LeftShift;
-
+            Debug.Log($"<color=yellow>Button Keys set to default</color>");
         }
 
         public bool GetButtonDown(TypeOfKeys buttonName)
@@ -85,9 +93,8 @@ namespace InputKey
                 }
             }
             buttonKeys[buttonName] = keyCode;
+            Debug.Log($"Succesfuly changed {buttonName} to {keyCode}: on dictionary type {buttonKeys[buttonName]}");
             return true;
         }
-
     }
 }
-

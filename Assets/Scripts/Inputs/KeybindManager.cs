@@ -5,17 +5,14 @@ using UnityEngine.UI;
 using System;
 using InputKey;
 
-    public class KeybindManager : MonoBehaviour
-    {
+public class KeybindManager : MonoBehaviour
+{
+    InputDictionary _inputDictionary;
 
-    InputDictionary inputDictionary;
     void Start()
     {
-        inputDictionary = new InputDictionary();
+        _inputDictionary = new InputDictionary();
 
-        inputDictionary.OnStartIfNotSave();
+        _inputDictionary.OnStartIfNotSave();
     }
- 
 }
-
-   

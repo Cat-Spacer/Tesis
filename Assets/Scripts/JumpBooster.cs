@@ -8,11 +8,11 @@ public class JumpBooster : MonoBehaviour
 
     [SerializeField] float boostForce;
 
-
     private void Start()
     {
         _player = FindObjectOfType<CustomMovement>();
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log(CustomMovement.isDashing);
