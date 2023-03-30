@@ -93,6 +93,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         _MovementState();
         GroundCheckPos();
         JumpUp(onJumpInput);
+        JumpStop(onJumpInputReleased);
         Dash();
         //  if (jumpClimb && !PlayerInput.left_Input && !PlayerInput.right_Input)
         // Movement( 1);
@@ -100,8 +101,9 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
 
     private void Inputs()
     {
-        //xMove = playerInput.xAxis;
-        if (playerInput.jumpInput) onJumpInput = true;
+        if (PlayerInput.jumpInputDown) onJumpInput = true;
+        else onJumpInput = false;
+        if (PlayerInput.jumpInputUp) onJumpInputReleased = true;
         if (PlayerInput.dashInput) onDashInput = true;
         if (PlayerInput.up_Input) w_Input = true;
         else w_Input = false;
@@ -240,24 +242,16 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     }
     void JumpUp(bool jumpUp) //Saltar
     {
-        if (Climb.isClimbing)
-        {
-            onJumpInput = false;
-            return;
-        }
-
-        /* if (Climb.isClimbing)
-         {
-             canJump = true;
-             onGround = true;
-         }*/
+        //if (Climb.isClimbing)
+        //{
+        //    onJumpInput = false;
+        //    return;
+        //}
 
         if (jumpUp && canJump && (coyoteTimeCounter > 0f || onGround))
         {
             if (OnIce)
             {
-                Debug.Log("jump velocity " + rb.velocity.x * faceDirection);
-
                 if (rb.velocity.x * faceDirection >= 7)
                 {
                     modiffyIceJumpY = 3;
@@ -291,72 +285,19 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
                 _TimeCounterAction += TimeCounterJumpbuffer;
             }
         }
-
-        if (jumpUp && Climb.isClimbing && (!_climbScript.InSight(_climbLayerMask) || _climbScript.InSight(_climbLayerMask)))
-        {
-            /* jumping = true;
-             anim.SetTrigger("Jump");
-             Debug.Log("SaltoEnPared");
-             rb.gravityScale = 1.0f;
-             gravityForce = gravityForceDefault;
-             rb.velocity = Vector2.zero;
-             canJump = false;
-             ConstrainsReset();
-             if (_climbScript.InSight())
-             {
-
-                 if (faceDirection == 1)
-                     transform.rotation = Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z);
-                 else if (faceDirection == -1)
-                     transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.z * -1, transform.rotation.z);
-
-                 faceDirection = -faceDirection;
-             }
-
-             if (faceDirection == 1) //Salto a la izq
-             {
-
-                 rb.AddForce(-Vector2.right * jumpForceClimbLatitud, ForceMode2D.Impulse);
-                 rb.AddForce(Vector2.up * jumpForceClimbHeight, ForceMode2D.Impulse);
-             }
-             else //Salto a la der
-             {
-                 rb.AddForce(Vector2.right * jumpForceClimbLatitud, ForceMode2D.Impulse);
-                 rb.AddForce(Vector2.up * jumpForceClimbHeight, ForceMode2D.Impulse);
-                 //rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-             */
-        }
-        //Si estoy en la pared
-        if (jumpUp && canJump /*&& _onWall*/)
-        {
-
-            /*  _onWall = false;
-              _onClimb = false;*/
-
-            /*  _onWall = false;
-              _onClimb = false;
-              _canClimb = false;
-              _doClimbUp = false;
-              _doClimbDown = false;
-              _doClimbStaticLeft = false;
-              _doClimbStaticRight = false;*/
-
-            /*  if (faceDirection == 1) //Salto a la izq
-              {
-                  rb.AddForce(-Vector2.right * jumpForce * .5f, ForceMode2D.Impulse);
-                  rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-              }
-              else //Salto a la der
-              {
-                  rb.AddForce(Vector2.right * _wallJumpForceX, ForceMode2D.Impulse);
-                  rb.AddForce(Vector2.up * _wallJumpForceY, ForceMode2D.Impulse);
-                  //rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-              }*/
-
-        }
         onJumpInput = false;
     }
-
+    void JumpStop(bool jumpStop)
+    {
+        if (jumpStop && !onGround)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, Mathf.Min(rb.velocity.y - stopJumpForce, -30));
+        }
+        if (onGround)
+        {
+            onJumpInputReleased = false;
+        }
+    }
     bool jumpClimb = false;
 
     public void JumpClimb2()
@@ -478,14 +419,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
 
     }
 
-    void JumpStop(bool jumpStop)
-    {
-        if (jumpStop && !onGround)
-        {
-            rb.AddForce(Vector2.down * stopJumpForce, ForceMode2D.Impulse);
-        }
-        else if (onGround) onJumpInputReleased = false;
-    }
+
 
     void TimeCounterCoyote()
     {

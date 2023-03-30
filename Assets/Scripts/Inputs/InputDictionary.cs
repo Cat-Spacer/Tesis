@@ -15,7 +15,8 @@ namespace InputKey
         public enum TypeOfKeys
         {
             None,
-            Jump,
+            JumpDown,
+            JumpUp,
             ClimbUp,
             ClimbDown,
             Left,
@@ -36,7 +37,8 @@ namespace InputKey
             if (buttonKeys != null) return;
             buttonKeys = new Dictionary<TypeOfKeys, KeyCode>();
             // Agarrar del PlayerImputs y cargar las teclas / reemplazarlas (si hubo cambios).
-            buttonKeys[TypeOfKeys.Jump] = KeyCode.Space;
+            buttonKeys[TypeOfKeys.JumpDown] = KeyCode.Space;
+            buttonKeys[TypeOfKeys.JumpUp] = KeyCode.Space;
             buttonKeys[TypeOfKeys.Left] = KeyCode.A;
             buttonKeys[TypeOfKeys.Right] = KeyCode.D;
             buttonKeys[TypeOfKeys.ClimbUp] = KeyCode.W;
