@@ -10,6 +10,11 @@ public class SpectrumBehaviour : MonoBehaviour
 
     [Header("Sprite")]
     [SerializeField] GameObject _currentObject;
+    [SerializeField] GameObject _spectrumVisual;
+    [SerializeField] SpriteRenderer _sp;
+    [SerializeField] Sprite _spectrumSp;
+    [SerializeField] SpriteRenderer _cloneSp;
+    [SerializeField] GameObject _cloneCollider;
 
     [Header("Movement Data")]
     [SerializeField] float _maxRange, _arriveRadius, _maxSpeed, _maxForce;
@@ -17,11 +22,13 @@ public class SpectrumBehaviour : MonoBehaviour
 
     [Header("Clone Data")]
     [SerializeField] float _cloneRange;
-    bool alreadyCloned = false;
+    bool prepareClone = false;
+    bool alreadyClone = false;
     private void Start()
     {
         _controller = new SpectrumInput(this);
         _rb = GetComponent<Rigidbody2D>();
+        _sp = GetComponentInChildren<SpriteRenderer>();
     }
     void Update()
     {
@@ -29,20 +36,39 @@ public class SpectrumBehaviour : MonoBehaviour
     }
     public void Clone()
     {
-        if (alreadyCloned) return;
         var cloneObj = Physics2D.OverlapCircle(transform.position, _cloneRange);
-        if (cloneObj != null && cloneObj.gameObject.GetComponent<ICloneable>() != null)
+        
+        if (!prepareClone && !alreadyClone) 
         {
-            var newClone = Instantiate(cloneObj.gameObject, transform);
+            if (cloneObj == null || cloneObj.gameObject.GetComponent<ICloneable>() == null) return;
+            _currentObject = cloneObj.gameObject;
+            _spectrumVisual.SetActive(true);
+            var cloneSp = cloneObj.gameObject.GetComponentInChildren<SpriteRenderer>();
+            _sp.sprite = cloneSp.sprite;
+            _sp.color = new Color(_sp.color.r, _sp.color.g, _sp.color.b, 0.5f);
+            _sp.transform.localScale = cloneSp.transform.localScale;
+            var coll = cloneObj.gameObject.GetComponent<Collider2D>().GetType();
+            _spectrumVisual.AddComponent(coll);
+            prepareClone = true;
+        }
+        else
+        {
+            var newClone = Instantiate(_currentObject);
             newClone.transform.position = transform.position;
+            Destroy(newClone, 5);
             _currentObject = newClone;
-            alreadyCloned = true;
+            alreadyClone = true;
+            SpectrumMode();
         }
     }
     public void SpectrumMode()
     {
-        alreadyCloned = false;
-        Destroy(_currentObject);
+        Destroy(_spectrumVisual.GetComponent<Collider2D>());
+        prepareClone = false;
+        alreadyClone = false;
+        _sp.sprite = _spectrumSp;
+        _sp.transform.localScale = new Vector3(.5f, .5f, .5f);
+        _sp.color = new Color(_sp.color.r, _sp.color.g, _sp.color.b, 1);
     }
     public void Move(Vector3 dir)
     {
