@@ -4,5 +4,6 @@ using UnityEngine;
 
 public interface ICloneable 
 {
-    public void Clone();
+    public void Clone(bool isClone);
+    public bool GetBool();
 }

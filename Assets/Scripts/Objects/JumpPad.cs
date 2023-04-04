@@ -9,15 +9,24 @@ public class JumpPad : MonoBehaviour, ICloneable
     [SerializeField] Animator anim;
     [SerializeField] ParticleSystem sporesParticle;
 
-    public void Clone()
+    public bool _cloneObject = false;
+
+    public void Clone(bool isClone)
     {
-        
+        _cloneObject = isClone;
+    }
+
+    public bool GetBool()
+    {
+        return _cloneObject;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if ((mask.value & (1 << collision.transform.gameObject.layer)) > 0)
         {
+            var player = collision.gameObject.GetComponent<CustomMovement>();
+            player.CancelMovement();
             var particle = Instantiate(sporesParticle);
             particle.transform.position = transform.position;
             SoundManager.instance.Play(SoundManager.Types.Mushroom);
