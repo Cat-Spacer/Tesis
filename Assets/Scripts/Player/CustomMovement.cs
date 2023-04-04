@@ -242,7 +242,6 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     void JumpUp(bool jumpUp) //Saltar
     {
         if (!jumpUp) return;
-        Debug.Log("JumpInput");
         onJumpInput = false;
         if (Climb.isClimbing)
         {
@@ -290,9 +289,9 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     }
     void JumpStop(bool jumpStop)
     {
-        if (jumpStop && !onGround && rb.velocity.y > 0)
+        if (jumpStop && !onGround)
         {
-            //rb.velocity = new Vector2(rb.velocity.x, Mathf.Min(rb.velocity.y - stopJumpForce, -8));
+            rb.velocity = new Vector2(rb.velocity.x, Mathf.Min(rb.velocity.y - stopJumpForce, -8));
         }
         if (onGround)
         {
@@ -414,13 +413,6 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             _climbScript._ClimbState = _climbScript.SutilEnd;
         }
     }
-    IEnumerator JumpReturnControll()
-    {
-        yield return new WaitForSeconds(.5f);
-
-    }
-
-
 
     void TimeCounterCoyote()
     {
@@ -774,18 +766,6 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             _fallParticle.Play();
         }
 
-        /* if (collision.gameObject.layer == 6 && OnIce && rb.velocity.y > 0)
-         {
-             Physics2D.IgnoreCollision(collision.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
-         }*/
-
-        /* if (collision.gameObject.layer == 21)
-         {
-
-
-             //rb.velocity = new Vector2(300 * faceDirection, 0);
-         }*/
-
         if (collision.gameObject.layer == 21 && !icyWall && isJumping)
         {
 
@@ -839,23 +819,6 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         {
             OnIce = true;
         }
-
-        /* if (collision.gameObject.layer == 21 && !icyWall && !onGround)
-         {
-             Debug.Log("vel" + rb.velocity);
-             if (rb.velocity.x * faceDirection >= 6)
-             {
-                 modiffyIceJumpY = 3;
-             }
-             else if (rb.velocity.x * faceDirection >= 4 && rb.velocity.x * faceDirection < 6)
-             {
-                 modiffyIceJumpY = 2;
-             }
-             else if (rb.velocity.x * faceDirection < 4)
-             {
-                 modiffyIceJumpY = 0;
-             }
-         }*/
 
     }
     void OnTriggerExit2D(Collider2D collision)
@@ -947,7 +910,12 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             _playerCanvas.TrapEvent(trapState, life);
         }
     }
-
+    public void CancelMovement()
+    {
+        onJumpInput = false;
+        onJumpInputReleased = false;
+        rb.velocity = Vector3.zero;
+    }
     public void Liberate(){}
 
     private void OnDisable()

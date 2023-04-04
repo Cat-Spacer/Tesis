@@ -36,18 +36,20 @@ public class SpectrumBehaviour : MonoBehaviour
     }
     public void Clone()
     {
-        var cloneObj = Physics2D.OverlapCircle(transform.position, _cloneRange);
-        
-        if (!prepareClone && !alreadyClone) 
+        if (!prepareClone && !alreadyClone)
         {
-            if (cloneObj == null || cloneObj.gameObject.GetComponent<ICloneable>() == null) return;
-            _currentObject = cloneObj.gameObject;
+            var obj = Physics2D.OverlapCircle(transform.position, _cloneRange);
+            if (obj == null) return;
+            var cloneableObj = obj.GetComponent<ICloneable>();
+            if (cloneableObj == null || cloneableObj.GetBool()) return;
+
+            _currentObject = obj.gameObject;
             _spectrumVisual.SetActive(true);
-            var cloneSp = cloneObj.gameObject.GetComponentInChildren<SpriteRenderer>();
+            var cloneSp = obj.gameObject.GetComponentInChildren<SpriteRenderer>();
             _sp.sprite = cloneSp.sprite;
             _sp.color = new Color(_sp.color.r, _sp.color.g, _sp.color.b, 0.5f);
             _sp.transform.localScale = cloneSp.transform.localScale;
-            var coll = cloneObj.gameObject.GetComponent<Collider2D>().GetType();
+            var coll = obj.gameObject.GetComponent<Collider2D>().GetType();
             _spectrumVisual.AddComponent(coll);
             prepareClone = true;
         }
@@ -55,6 +57,7 @@ public class SpectrumBehaviour : MonoBehaviour
         {
             var newClone = Instantiate(_currentObject);
             newClone.transform.position = transform.position;
+            newClone.GetComponent<ICloneable>().Clone(true);
             Destroy(newClone, 5);
             _currentObject = newClone;
             alreadyClone = true;
