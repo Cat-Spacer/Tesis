@@ -30,11 +30,22 @@ namespace InputKey
         {
             if (buttonKeys != null)
                 foreach (var key in buttonKeys.Keys)
-                    Debug.Log($"<color=green>{key} = {buttonKeys[key]}</color>");
+                    Debug.Log($"<color=orange>{key} = {buttonKeys[key]}</color>");
 
-            Debug.Log($"Ingrese");
+            /*if (KeybindManager.Instance.saveManager.CheckFile())
+            {
+                buttonKeys[TypeOfKeys.JumpDown] = KeyCode.Space;
+                buttonKeys[TypeOfKeys.JumpUp] = KeyCode.Space;
+                buttonKeys[TypeOfKeys.Left] = KeyCode.A;
+                buttonKeys[TypeOfKeys.Right] = KeyCode.D;
+                buttonKeys[TypeOfKeys.ClimbUp] = KeyCode.W;
+                buttonKeys[TypeOfKeys.ClimbDown] = KeyCode.S;
+                buttonKeys[TypeOfKeys.Attack] = KeyCode.J;
+                buttonKeys[TypeOfKeys.Interact] = KeyCode.E;
+                buttonKeys[TypeOfKeys.Dash] = KeyCode.LeftShift;
+            }*/
 
-            if (buttonKeys != null) return;
+            if (buttonKeys != null && KeybindManager.Instance.saveManager.CheckFile()) return;
             buttonKeys = new Dictionary<TypeOfKeys, KeyCode>();
             // Agarrar del PlayerImputs y cargar las teclas / reemplazarlas (si hubo cambios).
             buttonKeys[TypeOfKeys.JumpDown] = KeyCode.Space;
@@ -46,6 +57,7 @@ namespace InputKey
             buttonKeys[TypeOfKeys.Attack] = KeyCode.J;
             buttonKeys[TypeOfKeys.Interact] = KeyCode.E;
             buttonKeys[TypeOfKeys.Dash] = KeyCode.LeftShift;
+            KeybindManager.Instance.saveManager.SaveJSON();
             Debug.Log($"<color=yellow>Button Keys set to default</color>");
         }
 
@@ -94,7 +106,7 @@ namespace InputKey
                     return false;
                 }
             }
-            buttonKeys[buttonName] = keyCode;
+            buttonKeys[buttonName] = keyCode;//Usar JSON para guardar los botones
             Debug.Log($"Succesfuly changed {buttonName} to {keyCode}: on dictionary type {buttonKeys[buttonName]}");
             return true;
         }

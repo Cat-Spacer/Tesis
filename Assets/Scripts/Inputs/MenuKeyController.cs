@@ -9,13 +9,15 @@ public class MenuKeyController : MonoBehaviour
     [SerializeField] TMP_InputField _field;
     [SerializeField] TMP_Text _keyTypeText;
     [SerializeField] InputDictionary.TypeOfKeys _keyType;
-    InputDictionary _inputDictionary;
+    InputDictionary _inputDictionary;//usar JSON
+    //SaveManager _saveManager;
 
     private void Start()
     {
+        //_saveManager = FindObjectOfType<SaveManager>();
         _inputDictionary = new InputDictionary();
-
         _inputDictionary.OnStartIfNotSave();
+
 
         if (_keyType != InputDictionary.TypeOfKeys.None)
             _keyTypeText.text = _keyType.ToString();
@@ -36,6 +38,7 @@ public class MenuKeyController : MonoBehaviour
     }
 
     bool detect = true;
+
     public void CheckInput(TMP_Text text_arg)
     {
         _field.text = _field.text.Replace(" ", "");
@@ -43,9 +46,10 @@ public class MenuKeyController : MonoBehaviour
         if (_field.text != string.Empty || text_arg.text != string.Empty)
         {
             detect = true;
-            _field.placeholder.gameObject.SetActive(false);
             _field.DeactivateInputField(true);
+            _field.placeholder.gameObject.SetActive(false);
             //AssignKey(text_arg.ToString());
+            //CheckSpecialKeys();
         }
 
         if (_field.text == string.Empty)
@@ -55,12 +59,15 @@ public class MenuKeyController : MonoBehaviour
             _field.placeholder.gameObject.SetActive(true);
         }
 
-        Debug.Log($"Detected key {_field.text} = {detect}");
+        Debug.Log($"<color=aqua>Detected key {_field.text} = {detect}</color>");
     }
-
+    /// <summary>
+    /// Check the key & replace it in the settings
+    /// </summary>
     public void CheckSpecialKeys()
     {
         //Debug.Log(_field.text);
+        Debug.Log($"<color=cyan>Ingrese a CheckSpecialKeys</color>");/*Ingrese a CheckSpecialKeys*/
         if (!detect) return;
 
         foreach (KeyCode vKey in System.Enum.GetValues(typeof(KeyCode)))
@@ -69,9 +76,14 @@ public class MenuKeyController : MonoBehaviour
             {
                 _field.text = vKey.ToString();
                 _inputDictionary.SetButtonForKey(_keyType, vKey);
+                KeybindManager.Instance.saveManager.SaveJSON();
+                KeybindManager.Instance.Test();
+                //_saveManager.SaveJSON();
                 Debug.Log(vKey.ToString());
             }
         }
+
+        detect = false;
     }
 
     public void AssignKey(string keyName)
