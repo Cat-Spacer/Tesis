@@ -2,24 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class JumpPad : MonoBehaviour, ICloneable
+public class JumpPad : MonoBehaviour
 {
     [SerializeField] float jumpForce;
     [SerializeField] LayerMask mask;
     [SerializeField] Animator anim;
     [SerializeField] ParticleSystem sporesParticle;
 
-    public bool _cloneObject = false;
+    //[SerializeField] Sprite itemSprite;
 
-    public void Clone(bool isClone)
-    {
-        _cloneObject = isClone;
-    }
+    //public bool _cloneObject = false;
 
-    public bool GetBool()
-    {
-        return _cloneObject;
-    }
+    //public void Clone(bool isClone)
+    //{
+    //    _cloneObject = isClone;
+    //}
+
+    //public bool GetBool()
+    //{
+    //    return _cloneObject;
+    //}
+
+    //public Sprite GetSprite()
+    //{
+    //    return itemSprite;
+    //}
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
