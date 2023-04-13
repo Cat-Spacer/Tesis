@@ -17,6 +17,7 @@ namespace Weapons
         public ParticleSystem muzzleFlash;
         public Bullet bulletPrefab;
         [SerializeField] ParticleSystem _spitleParticle;
+        [SerializeField] ParticleSystem _spitleExplotionParticle;
 
         public float distance = 150f;
 
@@ -53,7 +54,7 @@ namespace Weapons
 
             if (fireTimer > 0)
             {
-                fireTimer -= Time.deltaTime;
+                fireTimer -= Time.deltaTime;               
             }
             else
             {
@@ -66,6 +67,7 @@ namespace Weapons
 
         public virtual void FireBullet()
         {
+            _spitleExplotionParticle.Play();
             _spitleParticle.Stop();
             Shoot.Fire(bulletPrefab, firePoint, gameObject);
             #region ObjectFactory (bugeado)

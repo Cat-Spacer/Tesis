@@ -831,7 +831,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     }
 
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         if (showGizmos)
         {

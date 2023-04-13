@@ -134,7 +134,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4958499991366442906}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &289564618
 MonoBehaviour:
@@ -204,110 +204,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!1 &1760670935
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1760670936}
-  - component: {fileID: 1760670937}
-  m_Layer: 18
-  m_Name: AreaLight (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1760670936
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1760670935}
-  m_LocalRotation: {x: -0, y: -0, z: 0.7058806, w: 0.70833087}
-  m_LocalPosition: {x: -0.83, y: -0.36, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4958499991366442906}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1760670937
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1760670935}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_LightType: 3
-  m_BlendStyleIndex: 0
-  m_FalloffIntensity: 0.5
-  m_Color: {r: 0.9607843, g: 0.43494484, b: 0, a: 1}
-  m_Intensity: 1.86
-  m_LightVolumeOpacity: 0.02
-  m_ApplyToSortingLayers: f35cfba5
-  m_LightCookieSprite: {fileID: 0}
-  m_UseNormalMap: 0
-  m_LightOrder: 1
-  m_AlphaBlendOnOverlap: 0
-  m_ShadowIntensity: 0
-  m_ShadowVolumeIntensity: 0
-  m_PointLightInnerAngle: 360
-  m_PointLightOuterAngle: 360
-  m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 1.3906748
-  m_PointLightDistance: 3
-  m_PointLightQuality: 1
-  m_ShapeLightParametricSides: 5
-  m_ShapeLightParametricAngleOffset: 0
-  m_ShapeLightParametricRadius: 1
-  m_ShapeLightFalloffSize: 0.5
-  m_ShapeLightFalloffOffset: {x: 0, y: 0}
-  m_ShapePath:
-  - {x: -0.48179606, y: -0.517823, z: 0}
-  - {x: -0.11508266, y: -0.5178295, z: 0}
-  - {x: 0.7019702, y: -0.8581389, z: 0}
-  - {x: 1.1355461, y: -1.2341086, z: 0}
-  - {x: 1.2759995, y: -0.8903299, z: 0}
-  - {x: 1.9141027, y: -0.7574351, z: 0}
-  - {x: 2.140887, y: -0.9081515, z: 0}
-  - {x: 2.2689881, y: -1.0959407, z: 0}
-  - {x: 2.8433764, y: -0.9006732, z: 0}
-  - {x: 2.8770072, y: -0.6751304, z: 0}
-  - {x: 2.695248, y: -0.52394426, z: 0}
-  - {x: 1.8498125, y: -0.64103025, z: 0}
-  - {x: 1.2880692, y: -0.33175537, z: 0}
-  - {x: 0.8969643, y: 0.024371099, z: 0}
-  - {x: 0.8042199, y: 0.2755877, z: 0}
-  - {x: 0.80824137, y: 0.74400645, z: 0}
-  - {x: 0.67590576, y: 0.8981985, z: 0}
-  - {x: 0.47060758, y: 0.74576265, z: 0}
-  - {x: 0.19371198, y: 0.7847027, z: 0}
-  - {x: -0.17025888, y: 1.1327157, z: 0}
-  - {x: -0.23183995, y: 1.408546, z: 0}
-  - {x: -0.15208223, y: 1.7864133, z: 0}
-  - {x: -0.5910004, y: 2.091731, z: 0}
-  - {x: -1.8597976, y: 1.6509349, z: 0}
-  - {x: -1.6662269, y: 1.5692202, z: 0}
-  - {x: -1.5378036, y: 1.3108585, z: 0}
-  - {x: -1.4109858, y: 1.2032927, z: 0}
-  - {x: -1.3987736, y: 0.84316134, z: 0}
-  - {x: -1.5875204, y: 0.72751534, z: 0}
-  - {x: -1.5303197, y: 0.43088534, z: 0}
-  - {x: -1.243847, y: 0.59606874, z: 0}
-  - {x: -0.9813224, y: 0.47275195, z: 0}
-  - {x: -0.86988825, y: 0.15868333, z: 0}
-  - {x: -0.7161134, y: 0.09726935, z: 0}
-  - {x: -0.7046137, y: -0.1367962, z: 0}
-  - {x: -0.91942376, y: -0.2651849, z: 0}
 --- !u!1 &1622020591308658131
 GameObject:
   m_ObjectHideFlags: 0
@@ -372,7 +268,6 @@ Transform:
   m_Children:
   - {fileID: 1265202454924871606}
   - {fileID: 134848613}
-  - {fileID: 1760670936}
   - {fileID: 289564616}
   m_Father: {fileID: 2866986871330491981}
   m_RootOrder: 0
