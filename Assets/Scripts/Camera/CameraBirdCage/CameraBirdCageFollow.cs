@@ -30,7 +30,7 @@ public class CameraBirdCageFollow : MonoBehaviour
             transform.position = smoothPos;
         }
     }
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         Gizmos.DrawWireCube(transform.position, cameraRange);
     }

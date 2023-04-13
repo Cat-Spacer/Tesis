@@ -18,7 +18,7 @@ public class SpectrumBehaviour : MonoBehaviour
     [SerializeField] GameObject _cloneCollider;
 
     [Header("Movement Data")]
-    [SerializeField] float _maxRange, _arriveRadius, _maxSpeed, _maxForce;
+    [SerializeField] float _maxRange, _arriveRadius, _maxSpeed, _maxForce, limitRadius, lerpAmmount;
     Vector3 _velocity;
 
     [Header("Clone Data")]
@@ -30,7 +30,7 @@ public class SpectrumBehaviour : MonoBehaviour
     {
         _controller = new SpectrumInput(this);
         _inventory = GetComponent<SpectrumInventory>();
-        _rb = GetComponent<Rigidbody2D>();
+        //_rb = GetComponent<Rigidbody2D>();
         _sp = GetComponentInChildren<SpriteRenderer>();
     }
     void Update()
@@ -111,37 +111,36 @@ public class SpectrumBehaviour : MonoBehaviour
     #region Movement
     public void Move(Vector3 dir)
     {
-        ApplyForce(Arrive(dir));
-        _rb.velocity = _velocity;
+        Movement(dir);
     }
-    Vector3 Arrive(Vector3 dir)
+    void Movement(Vector3 dir)
     {
-        Vector3 desired = dir - transform.position;
-        if (desired.magnitude < _arriveRadius)
+        Vector3 centerPos = _player.transform.position;
+        float distance = Vector2.Distance(transform.position, centerPos);
+
+        if (distance > limitRadius)
         {
-            float speed = _maxSpeed * (desired.magnitude / _arriveRadius);
-            desired.Normalize();
-            desired *= speed;
+            Vector3 fromOriginToObject = transform.position - centerPos;
+            fromOriginToObject *= limitRadius / distance;
+            Vector3 newDir = Vector3.Lerp(centerPos + fromOriginToObject, transform.position, lerpAmmount * Time.deltaTime);
+            transform.position = newDir;
         }
         else
         {
-            desired.Normalize();
-            desired *= _maxSpeed;
-        }
-        Vector3 steering = desired - _velocity;
-        steering = Vector3.ClampMagnitude(steering, _maxForce);
-
-        return steering;
-    }
-    void ApplyForce(Vector3 force)
-    {
-        _velocity += force;
-        _velocity = Vector3.ClampMagnitude(_velocity, _maxSpeed);
+            dir.z = 0;
+            Vector3 newDir = Vector3.Lerp(transform.position, dir, lerpAmmount * Time.deltaTime);
+            Vector3.ClampMagnitude(newDir, _maxSpeed);
+            transform.position = newDir;
+        }        
     }
     #endregion
-    private void OnDrawGizmos()
+    private void OnDrawSGizmos()
     {
-        Gizmos.DrawWireSphere(_player.position, _maxRange);
-        Gizmos.DrawWireSphere(transform.position, _cloneRange);
+        
+        //Gizmos.DrawWireSphere(transform.position, _cloneRange);
+    }
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawWireSphere(_player.position, limitRadius);
     }
 }

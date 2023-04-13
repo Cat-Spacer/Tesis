@@ -25,33 +25,35 @@ public class SpectrumInput
 
         _spectrum.Move(targetPosition);
 
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            _spectrum.Clone();
-        }
-        if (Input.GetKeyDown(KeyCode.Mouse1))
-        {
-            _spectrum.SpectrumMode();
-        }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            _spectrum.SaveObject();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            _spectrum.CloneFromInventory(0);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            _spectrum.CloneFromInventory(1);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            _spectrum.CloneFromInventory(2);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            _spectrum.CloneFromInventory(3);
-        }
+
+
+        //if (Input.GetKeyDown(KeyCode.Mouse0))
+        //{
+        //    _spectrum.Clone();
+        //}
+        //if (Input.GetKeyDown(KeyCode.Mouse1))
+        //{
+        //    _spectrum.SpectrumMode();
+        //}
+        //if (Input.GetKeyDown(KeyCode.E))
+        //{
+        //    _spectrum.SaveObject();
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha1))
+        //{
+        //    _spectrum.CloneFromInventory(0);
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha2))
+        //{
+        //    _spectrum.CloneFromInventory(1);
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha3))
+        //{
+        //    _spectrum.CloneFromInventory(2);
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha4))
+        //{
+        //    _spectrum.CloneFromInventory(3);
+        //}
     }
 }
