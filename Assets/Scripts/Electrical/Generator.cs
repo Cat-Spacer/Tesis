@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,10 +6,12 @@ using UnityEngine;
 public class Generator : MonoBehaviour
 {
     public List<GameObject> _connection;
+    [SerializeField] private bool _test = false;
 
     private void Start()
     {
-        StartCoroutine(Delay());
+        if (_test)
+            StartCoroutine(Delay());
     }
 
     IEnumerator Delay()
@@ -22,5 +25,10 @@ public class Generator : MonoBehaviour
             }
             
         }
+    }
+
+    public void StartGenerator()
+    {
+        StartCoroutine(Delay());
     }
 }

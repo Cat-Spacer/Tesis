@@ -15,11 +15,13 @@ public class Hamster : MonoBehaviour
     [SerializeField] Tube _currentTube;
     [SerializeField] Tube _lastTube;
     [SerializeField] Vector3 _currentTubePos;
+    [SerializeField] Generator _testGenerator;
 
     private void Start()
     {
         _controller = new HamsterInput(this);
         _HamsterAction = MoveWithPlayer;
+        _testGenerator = FindObjectOfType<Generator>();
     }
     private void Update()
     {
@@ -63,6 +65,8 @@ public class Hamster : MonoBehaviour
         {
             _currentTube.GetPossiblePaths(this);
             _HamsterAction = delegate { };
+            if (_currentTube.IsExit() && _testGenerator != null)
+                _testGenerator.StartGenerator();
         }
         else
         {

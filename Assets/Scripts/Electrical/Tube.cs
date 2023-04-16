@@ -13,8 +13,7 @@ public class Tube : MonoBehaviour
     [SerializeField] Tube _lastTube;
     [SerializeField] Vector3 center;
     [SerializeField] LayerMask _tubeMask;
-    [SerializeField] bool _checkpoint;
-    [SerializeField] bool _entry;
+    [SerializeField] bool _checkpoint,_entry,_exit;
     private void Start()
     {
         center = transform.position;
@@ -100,6 +99,10 @@ public class Tube : MonoBehaviour
     public bool IsEntry()
     {
         return _entry;
+    }
+    public bool IsExit()
+    {
+        return _exit;
     }
     public bool IsCheckpoint()
     {
