@@ -7,7 +7,8 @@ using InputKey;
 [Serializable]
 public class PlayerSaveData
 {
-    public InputDictionary InputDictionary;
+    public List<InputDictionary.TypeOfKeys> buttonKeys;
+    public List<KeyCode> buttonValues;
     public float speed;
     public int lastLevel;
 

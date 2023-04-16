@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System;
-using System.Xml.Linq;
 
 [Serializable]
 public class SaveManager : MonoBehaviour
 {
-    [SerializeField] PlayerSaveData saveData;
+    [SerializeField] PlayerSaveData _saveData = new PlayerSaveData();
     [SerializeField] string _saveDataPath;
 
     void Awake()
@@ -20,17 +19,9 @@ public class SaveManager : MonoBehaviour
         _saveDataPath = documents + "/CatroInSpace" + "/SaveData" + "/PlayerSave.json";
     }
 
-    void Update()
-    {
-        if ((Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.S))
-            SaveJSON();
-        else if ((Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl)) && Input.GetKeyDown(KeyCode.L))
-            LoadJSON();
-    }
-
     public void SaveJSON()
     {
-        string json = JsonUtility.ToJson(saveData, true);
+        string json = JsonUtility.ToJson(_saveData, true);
 
         Debug.Log($"<color=green>Succesfuly saved: {_saveDataPath}</color>");
 
@@ -42,8 +33,13 @@ public class SaveManager : MonoBehaviour
         if (!File.Exists(_saveDataPath)) return;
 
         string json = File.ReadAllText(_saveDataPath);
-        JsonUtility.FromJsonOverwrite(json, saveData);
-        Debug.Log($"<color=green>Succesfuly saved data loaded</color>");
+        JsonUtility.FromJsonOverwrite(json, _saveData);
+        Debug.Log($"<color=green>Succesfuly data loaded</color>");
+    }
+
+    public PlayerSaveData LoadData()
+    {
+        return _saveData;
     }
 
     public bool CheckFile()

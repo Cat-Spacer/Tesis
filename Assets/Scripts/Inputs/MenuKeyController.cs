@@ -9,15 +9,19 @@ public class MenuKeyController : MonoBehaviour
     [SerializeField] TMP_InputField _field;
     [SerializeField] TMP_Text _keyTypeText;
     [SerializeField] InputDictionary.TypeOfKeys _keyType;
-    InputDictionary _inputDictionary;//usar JSON
-    //SaveManager _saveManager;
+    InputDictionary _inputDictionary;
 
     private void Start()
     {
-        //_saveManager = FindObjectOfType<SaveManager>();
-        _inputDictionary = new InputDictionary();
-        _inputDictionary.OnStartIfNotSave();
+        if (KeybindManager.Instance._inputDictionary != null)
+            _inputDictionary = KeybindManager.Instance._inputDictionary;
+        else
+            _inputDictionary = new InputDictionary();
 
+        if (KeybindManager.Instance.saveManager.LoadData().buttonKeys == null || KeybindManager.Instance.saveManager.LoadData().buttonValues == null)
+            _inputDictionary.OnStartIfNotSave();
+        else
+            _inputDictionary.LoadDictionary(KeybindManager.Instance.saveManager.LoadData().buttonKeys, KeybindManager.Instance.saveManager.LoadData().buttonValues);
 
         if (_keyType != InputDictionary.TypeOfKeys.None)
             _keyTypeText.text = _keyType.ToString();
@@ -48,8 +52,6 @@ public class MenuKeyController : MonoBehaviour
             detect = true;
             _field.DeactivateInputField(true);
             _field.placeholder.gameObject.SetActive(false);
-            //AssignKey(text_arg.ToString());
-            //CheckSpecialKeys();
         }
 
         if (_field.text == string.Empty)
@@ -67,7 +69,7 @@ public class MenuKeyController : MonoBehaviour
     public void CheckSpecialKeys()
     {
         //Debug.Log(_field.text);
-        Debug.Log($"<color=cyan>Ingrese a CheckSpecialKeys</color>");/*Ingrese a CheckSpecialKeys*/
+        Debug.Log($"<color=cyan>Ingrese a CheckSpecialKeys</color>");
         if (!detect) return;
 
         foreach (KeyCode vKey in System.Enum.GetValues(typeof(KeyCode)))
@@ -75,10 +77,16 @@ public class MenuKeyController : MonoBehaviour
             if (Input.GetKeyDown(vKey))
             {
                 _field.text = vKey.ToString();
-                _inputDictionary.SetButtonForKey(_keyType, vKey);
-                KeybindManager.Instance.saveManager.SaveJSON();
-                KeybindManager.Instance.Test();
-                //_saveManager.SaveJSON();
+                //_inputDictionary.SetButtonForKey(_keyType, vKey);
+                if (!_inputDictionary.SetButtonForKey(_keyType, vKey))
+                {
+                    Debug.Log($"<color=yellow>Queres intercambiar las teclas?</color>");
+                    KeybindManager.Instance.popUPScreen();
+                }
+
+                //else input field dejar tecla antigua
+
+                //KeybindManager.Instance.saveManager.SaveJSON();
                 Debug.Log(vKey.ToString());
             }
         }
@@ -86,7 +94,7 @@ public class MenuKeyController : MonoBehaviour
         detect = false;
     }
 
-    public void AssignKey(string keyName)
+    private void ExchangeKeys(KeyCode keyToChange)
     {
 
     }
