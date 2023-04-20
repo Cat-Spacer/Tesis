@@ -148,8 +148,9 @@ public class Climb
         Debug.Log("StartClimbingState");
         SoundManager.instance.Play(SoundManager.Types.Climb);
         onClimb = true;
-        _animator.SetBool("Climbing", true);
-        _animator.SetBool("OnWall", false);
+        _customMovement.ChangeAnimationState("Player_Climb");
+        //_animator.SetBool("Climbing", true);
+        //_animator.SetBool("OnWall", false);
     }
 
     public void WhileClimbingState() { }
@@ -158,22 +159,24 @@ public class Climb
     {
         Debug.Log("EndClimbing");
         onClimb = false;
-        _animator.SetBool("OnWall", false);
-        _animator.SetBool("Climbing", false);
+        //_animator.SetBool("OnWall", false);
+        //_animator.SetBool("Climbing", false);
         SoundManager.instance.Pause(SoundManager.Types.Climb);
     }
 
     public void PauseClimbingState()
     {
-        _animator.SetBool("OnWall", true);
-        _animator.SetBool("Climbing", false);
+        _customMovement.ChangeAnimationState("Player_ClimbIdle");
+        //_animator.SetBool("OnWall", true);
+        //_animator.SetBool("Climbing", false);
         SoundManager.instance.Pause(SoundManager.Types.Climb);
     }
 
     public void FreezeClimbingState()
     {
-        _animator.SetBool("Climbing", false);
-        _animator.SetBool("OnWall", true);
+        _customMovement.ChangeAnimationState("Player_ClimbIdle");
+        //_animator.SetBool("Climbing", false);
+        //_animator.SetBool("OnWall", true);
 
         SoundManager.instance.Pause(SoundManager.Types.Climb);
     }
