@@ -61,6 +61,13 @@ public class PlayerDatas : MonoBehaviour
     [SerializeField] public Animator anim;
     [SerializeField] SpriteRenderer _sr;
     [SerializeField] protected bool jumping;
+    public const string Player_Idle = "Idle";
+    public const string Player_Run = "Run";
+    public const string Player_ClimbIdle = "ClimbIdle";
+    public const string Player_Climb = "Climb";
+    public const string Player_Jump = "Jump";
+    public const string Player_OnAir = "OnAir";
+    public string currentState;
 
     [Header("Particles")]
     [SerializeField] protected ParticleSystem _jumpParticle;
