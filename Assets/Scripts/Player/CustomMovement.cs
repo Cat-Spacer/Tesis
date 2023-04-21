@@ -919,16 +919,12 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             _playerCanvas.TrapEvent(trapState, life);
         }
     }
-<<<<<<< Updated upstream
     public void ChangeAnimationState(string newState)
     {
         if (currentState == newState) return;
         anim.Play(newState);
         currentState = newState;
     }
-=======
-
->>>>>>> Stashed changes
     public void CancelMovement()
     {
         onJumpInput = false;
