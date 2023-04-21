@@ -7,9 +7,9 @@ public class Magnet : MonoBehaviour, IElectric
 {
     Action _MagnetAction = delegate { };
 
-    [SerializeField] Vector2 attractArea;
-    [SerializeField] Vector3 offset;
-    [SerializeField] float attractForce;
+    [SerializeField] Vector2 _attractArea;
+    [SerializeField] Vector3 _offset;
+    [SerializeField] float _attractForce, _pow = 1f;
     [SerializeField] LayerMask _metalLayerMask;
     private void Update()
     {
@@ -17,11 +17,13 @@ public class Magnet : MonoBehaviour, IElectric
     }
     void Attract()
     {
-        var obj = Physics2D.OverlapBox(transform.position + offset, attractArea, 0, _metalLayerMask);
+        var obj = Physics2D.OverlapBox(transform.position + _offset, _attractArea, 0, _metalLayerMask);
         if (obj != null)
         {
+            float dist = (obj.transform.position - transform.position).magnitude;
+            Debug.Log($"dist: {dist}");
             var objRb = obj.GetComponent<Rigidbody2D>();
-            objRb.velocity += Vector2.up * attractForce;
+            objRb.velocity += Vector2.up * (_attractForce / Mathf.Pow(dist, _pow));// Vector2.up * (attractForce/matf.elev(dist,n))
         }
     }
     public void TurnOn()
@@ -35,7 +37,7 @@ public class Magnet : MonoBehaviour, IElectric
     }
     private void OnDrawGizmosSelected()
     {
-        Gizmos.DrawWireCube(transform.position + offset, attractArea);
+        Gizmos.DrawWireCube(transform.position + _offset, _attractArea);
     }
 
 }

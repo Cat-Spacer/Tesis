@@ -174,6 +174,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8998946722778050055}
   - component: {fileID: 8998946722778050053}
+  - component: {fileID: 1723968557}
+  - component: {fileID: 5402169163456660460}
   m_Layer: 6
   m_Name: Square
   m_TagString: Untagged
@@ -223,6 +225,51 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!50 &1723968557
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8998946722778050052}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 100
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 6200000, guid: da1f750a28d7f48489967e0bceddb924, type: 2}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
+--- !u!114 &5402169163456660460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8998946722778050052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71f60874d30a9dc47a6e93615a76966c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  platform: {fileID: 8998946722778050052}
+  _waypoitns:
+  - {fileID: 8998946723777533883}
+  - {fileID: 8998946723320590103}
+  - {fileID: 8998946723301506559}
+  currentWaypoint: 0
+  _speed: 0
+  _baseSpeed: 100
+  arriveMag: 0.8
+  maxLenght: 0
+  _myRB2D: {fileID: 0}
+  _playerRBody: {fileID: 0}
 --- !u!1 &8998946723301506558
 GameObject:
   m_ObjectHideFlags: 0
@@ -355,8 +402,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8998946724102052131}
-  - component: {fileID: 8998946724102052130}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MovingPlatform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -379,25 +425,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8998946724102052130
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8998946724102052129}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71f60874d30a9dc47a6e93615a76966c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  platform: {fileID: 8998946722778050052}
-  waypoitns:
-  - {fileID: 8998946723777533883}
-  - {fileID: 8998946723320590103}
-  - {fileID: 8998946723301506559}
-  currentWaypoint: 0
-  speed: 0
-  baseSpeed: 3
-  arriveMag: 0.8
-  maxLenght: 0

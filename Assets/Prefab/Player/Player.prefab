@@ -70,7 +70,7 @@ TrailRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -31741267
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: -1
   m_Time: 0.35
   m_Parameters:
@@ -523,14 +523,15 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2638962870350567016}
-  - component: {fileID: 2638962870350567023}
   - component: {fileID: 4558909576762252526}
+  - component: {fileID: 1643027280}
+  - component: {fileID: 5616963134929573325}
+  - component: {fileID: 2638962870350567023}
   - component: {fileID: 2638962870350567022}
   - component: {fileID: 2638962870350567021}
-  - component: {fileID: 1643027280}
   m_Layer: 7
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -553,6 +554,54 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4558909576762252526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2638962870350567020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81d864b1ccc6df14da72d4c89bd0be13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  climbKey: 102
+--- !u!114 &1643027280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2638962870350567020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cb04355224e9b149997d0d4e4abec34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _energyBar: {fileID: 0}
+  _imgSlider: []
+  _colorSlider: []
+  _maxEnergy: 100
+  _energyReg: 25
+  _currentEnergy: 0
+  _time: 0
+  _timer: 1.5
+  _alphaValue: 0
+  _fadeSpeed: 0
+  hasEnergy: 0
+--- !u!114 &5616963134929573325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2638962870350567020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c35717f9b17aa3941b4882cf92e8b018, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2638962870350567023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -584,7 +633,6 @@ MonoBehaviour:
   coyoteTime: 0.07
   dashDistance: 3
   dashForce: 30
-  dashing: 0
   canDash: 1
   dashStart: {x: 0, y: 0}
   groundCheckPos: {fileID: 2638962870270759085}
@@ -613,36 +661,36 @@ MonoBehaviour:
   _attackParticle: {fileID: 3994335518852250647, guid: c93de7063f77ccd459ec70f1e9cb0666,
     type: 3}
   _climbParticle: {fileID: 2690062669096964185}
+  _runParticle: {fileID: 0}
   _upSpeed: 5
   _downSpeed: 1.5
   _distanceToRope: 0.46
-  _layerMask:
+  _climbLayerMask:
     serializedVersion: 2
-    m_Bits: 261879
+    m_Bits: 0
   _impulseDirectionExitForce: 6
   _impulseExitRopeForce: 20
   dashForceClimb: 200
+  _interactSize: {x: 0, y: 0}
+  _interactMask:
+    serializedVersion: 2
+    m_Bits: 0
   onDashInput: 0
   constraints2D: 4
+  _playerCanvas: {fileID: 0}
+  showGizmos: 0
   rb: {fileID: 0}
   _respawnPoint: {fileID: 0}
   _dashTrail: {fileID: 543862761}
   jumpForceClimbHeight: 950
   jumpForceClimbLatitud: 200
+  boosterFeedBack: {fileID: 0}
+  modiffyIceJumpY: 1
+  modiffyIceJumpX: 1
   dashClimb: 0
---- !u!114 &4558909576762252526
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2638962870350567020}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81d864b1ccc6df14da72d4c89bd0be13, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  climbKey: 102
+  _obstacleLayers:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!61 &2638962870350567022
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -690,24 +738,6 @@ Rigidbody2D:
   m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &1643027280
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2638962870350567020}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cb04355224e9b149997d0d4e4abec34, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _energyBar: {fileID: 0}
-  _maxEnergy: 100
-  _energyReg: 25
-  _currentEnergy: 0
-  _time: 0
-  _timer: 1.5
 --- !u!1 &2638962871108789580
 GameObject:
   m_ObjectHideFlags: 0
@@ -5640,7 +5670,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -31741267
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: ee043208edb790c49bdf7139d72d6261, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -20466,7 +20496,7 @@ TrailRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -31741267
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: -1
   m_Time: 0.35
   m_Parameters:
@@ -25312,7 +25342,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1436223795
-  m_SortingLayer: 6
+  m_SortingLayer: 7
   m_SortingOrder: 3
   m_RenderMode: 0
   m_SortMode: 0

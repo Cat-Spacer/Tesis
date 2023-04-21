@@ -164,7 +164,9 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         float targetSpeed;
         float velPower;
 
-        anim.SetBool("Run", true);
+        //anim.SetBool("Run", true);
+        ChangeAnimationState(Player_Run);
+
         if (onGround) _runParticle.Play();
         else _runParticle.Stop();
         transform.rotation = Quaternion.Euler(transform.rotation.x, 0, transform.rotation.z);
@@ -183,7 +185,8 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     {
         float targetSpeed;
         float velPower;
-        anim.SetBool("Run", true);
+        ChangeAnimationState(Player_Run);
+        //anim.SetBool("Run", true);
         if (onGround) _runParticle.Play();
         else _runParticle.Stop();
 
@@ -201,7 +204,8 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
 
     public void StopMovement()
     {
-        anim.SetBool("Run", false);
+        ChangeAnimationState(Player_Idle);
+        //anim.SetBool("Run", false);
         _runParticle.Stop();
         if (hasPlayedMovement)
         {
@@ -213,7 +217,8 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     }
     public void StopMovementOnIce()
     {
-        anim.SetBool("Run", false);
+        ChangeAnimationState(Player_Idle);
+        //anim.SetBool("Run", false);
         _runParticle.Stop();
         if (hasPlayedMovement)
         {
@@ -272,8 +277,8 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             _jumpParticle.Play();
             jumping = true;
             isJumping = true;
-            anim.SetBool("Jump", true);
-
+            //anim.SetBool("Jump", true);
+            ChangeAnimationState(Player_Jump);
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             canJump = false;
             return;
@@ -310,8 +315,8 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         //_jumpParticle.Play();
         //    jumping = true;
         // isJumping = true;
-        anim.SetTrigger("Jump");
-
+        //anim.SetTrigger("Jump");
+        ChangeAnimationState(Player_Jump);
         //canJump = false;
         if (!dead) ConstrainsReset();
 
@@ -709,26 +714,29 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             canJump = true;
             canDash = true;
             icyWall = false;
-            anim.SetBool("OnGround", true);
-            anim.SetBool("Jump", false);
-            anim.SetBool("Fall", false);
+            //anim.SetBool("OnGround", true);
+            //anim.SetBool("Jump", false);
+            //anim.SetBool("Fall", false);
+            //ChangeAnimationState(Player_Idle);
         }
         else //Not on ground
         {
             onGround = false;
             if (_climbScript.onClimb)
             {
-                anim.SetBool("Climbing", true);
-                anim.SetBool("Jump", false);
-                anim.SetBool("Fall", false);
+                ChangeAnimationState(Player_Climb);
+                //anim.SetBool("Climbing", true);
+                //anim.SetBool("Jump", false);
+                //anim.SetBool("Fall", false);
             }
             if (!_climbScript.onClimb && rb.velocity.y < 0)
             {
-                anim.SetBool("Climbing", false);
-                anim.SetBool("Fall", true);
+                //anim.SetBool("Climbing", false);
+                //anim.SetBool("Fall", true);
             }
-            else anim.SetBool("Fall", false);
-            anim.SetBool("OnGround", false);
+            //else ChangeAnimationState(Player_Idle);
+            //anim.SetBool("Fall", false);
+            //anim.SetBool("OnGround", false);
         }
 
         if (OnIce && rb.velocity.y > 0)
@@ -754,6 +762,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         if (onGround == true && collision.gameObject.layer == 6)
         {
             _fallParticle.Play();
+            ChangeAnimationState(Player_Idle);
         }
 
         if ((_obstacleLayers.value & (1 << collision.gameObject.layer)) > 0)
@@ -910,6 +919,16 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             _playerCanvas.TrapEvent(trapState, life);
         }
     }
+<<<<<<< Updated upstream
+    public void ChangeAnimationState(string newState)
+    {
+        if (currentState == newState) return;
+        anim.Play(newState);
+        currentState = newState;
+    }
+=======
+
+>>>>>>> Stashed changes
     public void CancelMovement()
     {
         onJumpInput = false;
