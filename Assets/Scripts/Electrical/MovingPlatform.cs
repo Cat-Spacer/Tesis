@@ -9,52 +9,56 @@ public class MovingPlatform : MonoBehaviour, IElectric
 
     public GameObject platform;
     [Header("Waypoints")]
-    [SerializeField] List<Transform> waypoitns;
+    [SerializeField] private List<Transform> _waypoitns;
     public int currentWaypoint = 0;
     [Header("Data")]
-    [SerializeField] float speed;
-    [SerializeField] float baseSpeed;
-    public float arriveMag;
+    [SerializeField] private float _speed = 0, _baseSpeed = 3;
+    public float arriveMag = 0.5f;
     public int maxLenght = 0;
-    int senseDir = 1;
+    private int _senseDir = 1;
+    private Rigidbody2D _myRB2D;
+
     private void Start()
     {
-        maxLenght = waypoitns.Count - 1;
-        speed = baseSpeed;
+        maxLenght = _waypoitns.Count - 1;
+        _speed = _baseSpeed;
+        _myRB2D = platform.GetComponent<Rigidbody2D>();
     }
-    private void Update()
+    private void FixedUpdate()
     {
         _MoveAction();
     }
     void Movement()
     {
-        float dist = Vector3.Distance(platform.transform.position, waypoitns[currentWaypoint].position);
-        Vector3 dir = waypoitns[currentWaypoint].position - platform.transform.position;
+        float dist = Vector3.Distance(platform.transform.position, _waypoitns[currentWaypoint].position);
+        Vector3 dir = _waypoitns[currentWaypoint].position - platform.transform.position;
         dir.Normalize();
         if (dist < 0.1)
         {
             if (currentWaypoint == maxLenght)
             {
-                if (senseDir == 1)
+                if (_senseDir == 1)
                 {
-                    senseDir = -1;
+                    _senseDir = -1;
                     maxLenght = 0;
                 }
                 else
                 {
-                    senseDir = 1;
-                    maxLenght = waypoitns.Count - 1;
+                    _senseDir = 1;
+                    maxLenght = _waypoitns.Count - 1;
                 }
             }
-            currentWaypoint += senseDir;
-        }  
+            currentWaypoint += _senseDir;
+        }
         if (dist < arriveMag)
         {
-            platform.transform.position += dir * speed * dist * Time.deltaTime;           
+            _myRB2D.velocity = dir * _speed * dist * Time.fixedDeltaTime;
+            //platform.transform.position += dir * _speed * dist * Time.deltaTime;
         }
         else
         {
-            platform.transform.position += dir * speed * Time.deltaTime;
+            _myRB2D.velocity = dir * _speed * Time.fixedDeltaTime;
+            //platform.transform.position += dir * _speed * Time.deltaTime;
         }
     }
 

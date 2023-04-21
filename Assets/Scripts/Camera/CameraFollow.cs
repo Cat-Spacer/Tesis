@@ -4,7 +4,13 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    
+    [SerializeField] private Transform target;
+
+    private void Update()
+    {
+        if (target == null) return;
+        transform.position = target.position;
+    }
     void CheckBounds()
     {
         if (transform.position.y > 5) transform.position = new Vector2(transform.position.x, transform.position.y);
@@ -12,8 +18,4 @@ public class CameraFollow : MonoBehaviour
         if (transform.position.x < -5) transform.position = new Vector2(5, transform.position.y);
         if (transform.position.x > 5) transform.position = new Vector2(-5, transform.position.y);
     }
-
-
-    //get player position when colliding and - to collider. collider - player pos.
-    //If is positive then move to right. if is negative then move to left.
 }

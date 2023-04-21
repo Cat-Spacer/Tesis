@@ -23,7 +23,10 @@ public class Generator : MonoBehaviour
             {
                 obj.GetComponent<IElectric>().TurnOn();
             }
-            
+            else if (obj != null && obj.GetComponentInChildren<IElectric>() != null)
+            {
+                obj.GetComponentInChildren<IElectric>().TurnOn();
+            }
         }
     }
 
