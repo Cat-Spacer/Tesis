@@ -265,11 +265,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3660148673615368203}
-  - component: {fileID: 3660148673615368204}
   - component: {fileID: 2959022697441172109}
+  - component: {fileID: 8250831755716046495}
+  - component: {fileID: 1608927924560878899}
+  - component: {fileID: 3660148673615368204}
   - component: {fileID: 3660148673615368205}
   - component: {fileID: 3660148673615368206}
-  - component: {fileID: 1608927924560878899}
   m_Layer: 7
   m_Name: ComicCat
   m_TagString: Untagged
@@ -298,6 +299,60 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2959022697441172109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3660148673615368207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81d864b1ccc6df14da72d4c89bd0be13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  climbKey: 102
+--- !u!114 &8250831755716046495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3660148673615368207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c35717f9b17aa3941b4882cf92e8b018, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerRB: {fileID: 0}
+  _platformRB: {fileID: 0}
+--- !u!114 &1608927924560878899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3660148673615368207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cb04355224e9b149997d0d4e4abec34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _energyBar: {fileID: 0}
+  _imgSlider:
+  - {fileID: 0}
+  - {fileID: 0}
+  _colorSlider:
+  - {r: 0, g: 0, b: 0, a: 0}
+  - {r: 0, g: 0, b: 0, a: 0}
+  _maxEnergy: 100
+  _energyReg: 25
+  _currentEnergy: 0
+  _time: 0
+  _timer: 1.5
+  _alphaValue: 0
+  _fadeSpeed: 2
+  hasEnergy: 0
 --- !u!114 &3660148673615368204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -388,19 +443,6 @@ MonoBehaviour:
   _obstacleLayers:
     serializedVersion: 2
     m_Bits: 508864
---- !u!114 &2959022697441172109
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3660148673615368207}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81d864b1ccc6df14da72d4c89bd0be13, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  climbKey: 102
 --- !u!61 &3660148673615368205
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -414,7 +456,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.097424895, y: -0.44195592}
+  m_Offset: {x: 0.1, y: -0.45}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -425,7 +467,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.9763898, y: 0.99658275}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!50 &3660148673615368206
 Rigidbody2D:
@@ -448,33 +490,6 @@ Rigidbody2D:
   m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &1608927924560878899
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3660148673615368207}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cb04355224e9b149997d0d4e4abec34, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _energyBar: {fileID: 0}
-  _imgSlider:
-  - {fileID: 0}
-  - {fileID: 0}
-  _colorSlider:
-  - {r: 0, g: 0, b: 0, a: 0}
-  - {r: 0, g: 0, b: 0, a: 0}
-  _maxEnergy: 100
-  _energyReg: 25
-  _currentEnergy: 0
-  _time: 0
-  _timer: 1.5
-  _alphaValue: 0
-  _fadeSpeed: 2
-  hasEnergy: 0
 --- !u!1 &3660148673627150031
 GameObject:
   m_ObjectHideFlags: 0
