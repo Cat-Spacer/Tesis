@@ -16,7 +16,7 @@ public class Door : MonoBehaviour
     {
         if (_noAnim)
         {
-            gameObject.SetActive(false);
+            gameObject.SetActive(active);
             return;
         }
         if (currentState == active) return;
