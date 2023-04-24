@@ -16,12 +16,19 @@ public class Hamster : MonoBehaviour
     [SerializeField] Tube _lastTube;
     [SerializeField] Vector3 _currentTubePos;
     [SerializeField] Generator _testGenerator;
+    [SerializeField] int _energyCollected;
 
     private void Start()
     {
         _controller = new HamsterInput(this);
         _HamsterAction = MoveWithPlayer;
         _testGenerator = FindObjectOfType<Generator>();
+    }
+
+    public void AddEnergy(int energy_arg)
+    {
+        Debug.Log("Hamster add energy");
+        _energyCollected += energy_arg;
     }
     private void Update()
     {
@@ -65,8 +72,12 @@ public class Hamster : MonoBehaviour
         {
             _currentTube.GetPossiblePaths(this);
             _HamsterAction = delegate { };
-            if (_currentTube.IsExit() && _testGenerator != null)
+            if (_currentTube.IsExit() && _testGenerator != null && _testGenerator.EnergyNeeded <= _energyCollected)
+            {
+                _energyCollected -= _testGenerator.EnergyNeeded;
                 _testGenerator.StartGenerator();
+            }
+                
         }
         else
         {

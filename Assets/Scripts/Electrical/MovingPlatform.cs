@@ -71,4 +71,6 @@ public class MovingPlatform : MonoBehaviour, IElectric
     {
         _MoveAction = delegate { };
     }
+
+
 }

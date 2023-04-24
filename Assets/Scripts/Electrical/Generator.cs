@@ -7,12 +7,15 @@ public class Generator : MonoBehaviour
 {
     public List<GameObject> _connection;
     [SerializeField] private bool _test = false;
+    [SerializeField] private int _energyNeeded;
 
     private void Start()
     {
         if (_test)
             StartCoroutine(Delay());
     }
+
+    public int EnergyNeeded { get { return _energyNeeded;} }
 
     IEnumerator Delay()
     {
