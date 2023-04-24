@@ -6,4 +6,5 @@ public interface IElectric
 {
     void TurnOn();
     void TurnOff();
+
 }
