@@ -19,7 +19,7 @@ public class ElectricalShield : MonoBehaviour, IElectric
 
     void Start()
     {
-        _IsOn = false;
+        //_IsOn = false;
         scrollbarStartPosition = scrollbarObject.transform.position;
         scrollbarLength = topCapObject.transform.position.y - bottomCapObject.transform.position.y;
     }
