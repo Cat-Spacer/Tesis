@@ -77,7 +77,6 @@ public class Hamster : MonoBehaviour
                 _energyCollected -= _testGenerator.EnergyNeeded;
                 _testGenerator.StartGenerator();
             }
-                
         }
         else
         {
