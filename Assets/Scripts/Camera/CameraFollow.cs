@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    [SerializeField] private Transform target;
+    [SerializeField] private Transform _target;
+    [SerializeField] private Vector3 _offset;
 
     private void Update()
     {
-        if (target == null) return;
-        transform.position = target.position;
+        if (_target == null) return;
+        transform.position = _target.position + _offset;
     }
     void CheckBounds()
     {
