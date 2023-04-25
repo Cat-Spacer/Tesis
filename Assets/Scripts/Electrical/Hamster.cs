@@ -9,8 +9,8 @@ public class Hamster : MonoBehaviour
     [SerializeField] Transform _playerPos;
     [SerializeField] float _speed, _maxSpeed;
     HamsterInput _controller;
-    [SerializeField] float _pointRadius;
-    [SerializeField] LayerMask _tubeLayerMask;
+    [SerializeField] float _pointRadius, _checkRadius = 5.0f;
+    [SerializeField] LayerMask _tubeLayerMask, _generatorLayerMask;
     bool _inTube;
     [SerializeField] Tube _currentTube;
     [SerializeField] Tube _lastTube;
@@ -22,7 +22,7 @@ public class Hamster : MonoBehaviour
     {
         _controller = new HamsterInput(this);
         _HamsterAction = MoveWithPlayer;
-        _testGenerator = FindObjectOfType<Generator>();
+        //_testGenerator = FindObjectOfType<Generator>();
     }
 
     public void AddEnergy(int energy_arg)
@@ -72,6 +72,10 @@ public class Hamster : MonoBehaviour
         {
             _currentTube.GetPossiblePaths(this);
             _HamsterAction = delegate { };
+            if (!Physics2D.OverlapCircle(transform.position, _checkRadius, _generatorLayerMask)) return;
+            var generator = Physics2D.OverlapCircle(transform.position, _checkRadius, _generatorLayerMask)
+                .gameObject.GetComponent<Generator>();
+            _testGenerator = generator;
             if (_currentTube.IsExit() && _testGenerator != null && _testGenerator.EnergyNeeded <= _energyCollected)
             {
                 _energyCollected -= _testGenerator.EnergyNeeded;
@@ -113,6 +117,8 @@ public class Hamster : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        //Gizmos.DrawWireSphere(targetPosition, _pointRadius);
+        Gizmos.color = Color.magenta;
+        //Gizmos.DrawWireCube(transform.position, new Vector3(_checkRadius, _checkRadius));
+        Gizmos.DrawWireSphere(transform.position, _checkRadius);
     }
 }
