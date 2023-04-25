@@ -13,6 +13,7 @@ public class PlayerDatas : MonoBehaviour
     [SerializeField] protected float turnPower;
     [SerializeField] protected float accelPower;
     [SerializeField] public static int faceDirection = 1;
+    [HideInInspector] protected bool running = false;
 
     [Header("PlayerAirMovement")]
     [SerializeField] protected float airRunAccel;
