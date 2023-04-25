@@ -148,7 +148,7 @@ public class Climb
         Debug.Log("StartClimbingState");
         SoundManager.instance.Play(SoundManager.Types.Climb);
         onClimb = true;
-        _customMovement.ChangeAnimationState("Player_Climb");
+        _customMovement.ChangeAnimationState("Climb");
         //_animator.SetBool("Climbing", true);
         //_animator.SetBool("OnWall", false);
     }
@@ -166,7 +166,7 @@ public class Climb
 
     public void PauseClimbingState()
     {
-        _customMovement.ChangeAnimationState("Player_ClimbIdle");
+        _customMovement.ChangeAnimationState("ClimbIdle");
         //_animator.SetBool("OnWall", true);
         //_animator.SetBool("Climbing", false);
         SoundManager.instance.Pause(SoundManager.Types.Climb);
@@ -174,7 +174,7 @@ public class Climb
 
     public void FreezeClimbingState()
     {
-        _customMovement.ChangeAnimationState("Player_ClimbIdle");
+        _customMovement.ChangeAnimationState("ClimbIdle");
         //_animator.SetBool("Climbing", false);
         //_animator.SetBool("OnWall", true);
 
@@ -541,7 +541,6 @@ public class Climb
             }
             CustomMovement.faceDirection = -CustomMovement.faceDirection;
         }
-        _animator.SetTrigger("Jump");
         _ClimbState = Jump;
     }
 

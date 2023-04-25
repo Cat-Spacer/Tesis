@@ -58,8 +58,6 @@ public class GameManager : MonoBehaviour
     public void GetCurrentLevel(int lvl)
     {
         _currentLevel = lvl;
-        miniMap.SetPlayerInLevel(lvl);
-        SetObjectiveInMiniMap(lvl);
     }
 
     public void SaveDistance(float distance)
@@ -113,7 +111,6 @@ public class GameManager : MonoBehaviour
         if (_objectivesInLvl.Count == _pointsPerLevel)
         {
             Debug.Log("Cree");
-            miniMap.CreateObjectiveInMap(_objectivesInLvl);
         }
     }
     public int ObjectivesToCollect()
@@ -123,10 +120,6 @@ public class GameManager : MonoBehaviour
     public void SetRespawnPoint(int index_arg)
     {
         _respawnIndex = index_arg;
-    }
-    public void SetObjectiveInMiniMap(int index_arg)
-    {
-        miniMap.SetObjectiveInMap(index_arg);
     }
     public void GetItem()
     {
