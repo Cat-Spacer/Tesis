@@ -246,7 +246,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     }
     void JumpUp(bool jumpUp) //Saltar
     {
-        if (!jumpUp) return;
+        if (!jumpUp || isJumping) return;
         onJumpInput = false;
         if (Climb.isClimbing)
         {
@@ -752,7 +752,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (onGround == true && collision.gameObject.layer == 6)
+        if (collision.gameObject.layer == 6 && !isJumping)
         {
             _fallParticle.Play();
         }
