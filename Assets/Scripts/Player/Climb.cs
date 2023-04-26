@@ -55,7 +55,6 @@ public class Climb
     }
     public void UpdateClimb()
     {
-
         if (PlayerInput.down_Input)
             ClimbState(KeyCode.S, PlayerInput.down_Input);
         if (PlayerInput.up_Input)
@@ -94,13 +93,15 @@ public class Climb
         {
             if (keyPressed_arg == KeyCode.W)
             {
-                _vector = Vector2.up;
-                _speed = _upSpeed;
+                Debug.Log("Climb Up");
+                //_vector = Vector2.up;
+                //_speed = _upSpeed;
             }
             if (keyPressed_arg == KeyCode.S)
             {
-                _vector = Vector2.down;
-                _speed = _downSpeed;
+                Debug.Log("Climb Down");
+                //_vector = Vector2.down;
+                //_speed = _downSpeed;
             }
 
             if (!_alreadyStarted)
@@ -229,23 +230,27 @@ public class Climb
 
         if (!InSight(_climbLayerMask) && !FootInSight())
         {
+            Debug.Log("1");
             _impulseForce = _impulseDirectionExitForce;
             _ClimbState = EndClimb;
         }
         else if (!InSight(_climbLayerMask) && FootInSight())
         {
+            Debug.Log("2");
             _ClimbState = EndRope;
         }
-        WhileClimbingState();
+        //WhileClimbingState();
 
         if ((PlayerInput.right_Input && !PlayerInput.left_Input && !PlayerInput.up_Input && !PlayerInput.down_Input) ||
             (PlayerInput.left_Input && !PlayerInput.right_Input && !PlayerInput.up_Input && !PlayerInput.down_Input) ||
             (!PlayerInput.left_Input && !PlayerInput.right_Input && !PlayerInput.up_Input && !PlayerInput.down_Input))
         {
+            Debug.Log("3");
             _ClimbState = Freeze;
         }
         else if (PlayerInput.up_Input || PlayerInput.down_Input)
         {
+            Debug.Log("4");
             _rb.velocity = _vector * _speed;
         }
     }
@@ -637,7 +642,7 @@ public class Climb
     }
     public void Freeze()
     {
-        _rb.velocity = new Vector2(0, 0);
+        _rb.velocity = Vector2.zero;
         _rb.angularVelocity = 0;
         _rb.constraints = RigidbodyConstraints2D.FreezeAll;
         FreezeClimbingState();
@@ -648,11 +653,7 @@ public class Climb
     {
         _energyPowerScript.EnergyDrain(0.05f);
 
-        if (PlayerInput.up_Input)
-        {
-            _ClimbState = EndFreeze;
-        }
-        else if (PlayerInput.down_Input)
+        if (PlayerInput.up_Input || PlayerInput.down_Input)
         {
             _ClimbState = EndFreeze;
         }
