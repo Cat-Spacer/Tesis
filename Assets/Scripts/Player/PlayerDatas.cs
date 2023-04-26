@@ -87,6 +87,7 @@ public class PlayerDatas : MonoBehaviour
     [SerializeField] protected float _impulseDirectionExitForce = 6;
     [SerializeField] protected float _impulseExitRopeForce = 20;
     [SerializeField] protected float dashForceClimb;
+    [HideInInspector] public bool onClimb;
 
     [Header("Interact")]
     [SerializeField] protected Vector2 _interactSize; 

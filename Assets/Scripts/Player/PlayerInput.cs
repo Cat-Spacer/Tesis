@@ -46,8 +46,8 @@ public class PlayerInput : MonoBehaviour
         //   xAxis = Input.GetAxis("Horizontal");
         dashInput = Input.GetKeyDown(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Dash]);
         up_Input = Input.GetKey(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.ClimbUp]);
-        left_Input = Input.GetKey(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Left]);
         down_Input = Input.GetKey(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.ClimbDown]);
+        left_Input = Input.GetKey(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Left]);
         right_Input = Input.GetKey(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Right]);
         attackImput = Input.GetKeyDown(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Attack]);
         dashInputStay = Input.GetKey(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Dash]);
@@ -57,8 +57,6 @@ public class PlayerInput : MonoBehaviour
         //TrapInputs
         left_Input_UpKey = Input.GetKeyUp(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Left]);
         right_Input_UpKey = Input.GetKeyUp(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Right]);
-        left_Input_DownKey = Input.GetKeyUp(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Left]);
-        right_Input_DownKey = Input.GetKeyUp(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Right]);
         trapInput = Input.GetKeyDown(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Left])
             || Input.GetKeyDown(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Right]);
         //rightTrapInput = Input.GetKey(KeyCode.A);

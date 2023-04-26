@@ -60,12 +60,12 @@ public class Climb
             ClimbState(KeyCode.S, PlayerInput.down_Input);
         if (PlayerInput.up_Input)
             ClimbState(KeyCode.W, PlayerInput.up_Input);
-        if (PlayerInput.left_Input)
-            ClimbState(KeyCode.A, PlayerInput.left_Input);
-        if (PlayerInput.right_Input)
-            ClimbState(KeyCode.D, PlayerInput.right_Input);
+        if (PlayerInput.up_Input)
+            ClimbState(KeyCode.A, PlayerInput.left_Input_DownKey);
+        if (PlayerInput.left_Input_DownKey)
+            ClimbState(KeyCode.D, PlayerInput.right_Input_DownKey);
         if (PlayerInput.dashInput)
-            ClimbState(KeyCode.LeftShift, PlayerInput.right_Input);
+            ClimbState(KeyCode.LeftShift, PlayerInput.right_Input_DownKey);
 
         if (PlayerInput.jumpInputDown && isClimbing && !isHorizontal)
         {
@@ -105,7 +105,6 @@ public class Climb
 
             if (!_alreadyStarted)
             {
-                Debug.Log("!_alreadyStarted");
                 _customMovement.ForceStopMovement();
                 _customMovement.ForceDashEnd();  // primero forceo a que frene el dash
                 StartClimbingState();
@@ -138,14 +137,14 @@ public class Climb
 
     public void StartClimbWithFreeze()
     {
+        _customMovement.onClimb = true;
         isClimbing = true;
-        Debug.Log("StartClimbWithFreeze");
         _ClimbState = Freeze;
     }
 
     public void StartClimbingState()
     {
-        Debug.Log("StartClimbingState");
+        _customMovement.onClimb = true;
         SoundManager.instance.Play(SoundManager.Types.Climb);
         onClimb = true;
         _customMovement.ChangeAnimationState("Climb");
@@ -158,6 +157,7 @@ public class Climb
     public void EndClimbingState()
     {
         Debug.Log("EndClimbing");
+        _customMovement.onClimb = false;
         onClimb = false;
         //_animator.SetBool("OnWall", false);
         //_animator.SetBool("Climbing", false);

@@ -160,13 +160,9 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
 
     void RightMovement()
     {
-
         float targetSpeed;
-        float velPower;
         running = true;
-
-
-        if (onGround)
+        if (onGround && !onClimb && !isJumping)
         {
             ChangeAnimationState(Player_Run);
             _runParticle.Play();
@@ -174,7 +170,6 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         else _runParticle.Stop();
         transform.rotation = Quaternion.Euler(transform.rotation.x, 0, transform.rotation.z);
         faceDirection = 1;
-        velPower = accelPower;
         if (!hasPlayedMovement)
         {
             SoundManager.instance.Play(SoundManager.Types.Steps);
@@ -187,9 +182,8 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     void LeftMovement()
     {
         float targetSpeed;
-        float velPower;
         running = true;
-        if (onGround)
+        if (onGround && !onClimb && !isJumping)
         {
             ChangeAnimationState(Player_Run);
             _runParticle.Play();
@@ -198,7 +192,6 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
 
         transform.rotation = Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z);
         faceDirection = -1;
-        velPower = accelPower;
         if (!hasPlayedMovement)
         {
             SoundManager.instance.Play(SoundManager.Types.Steps);
@@ -210,7 +203,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
 
     public void StopMovement()
     {
-        ChangeAnimationState(Player_Idle);
+        //ChangeAnimationState(Player_Idle);
         running = false;
         _runParticle.Stop();
         if (hasPlayedMovement)
@@ -221,6 +214,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         if (!OnIce) rb.velocity = new Vector2(0, rb.velocity.y);
         _MovementState = delegate { };
     }
+
     public void StopMovementOnIce()
     {
         //ChangeAnimationState(Player_Idle);
@@ -720,7 +714,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             canJump = true;
             canDash = true;
             icyWall = false;
-            if (!running)
+            if (!running && !onClimb)
             {
                 ChangeAnimationState(Player_Idle);
             }
@@ -811,8 +805,8 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             Climb.isHorizontal = true;
             ForceStopMovement();
             _climbScript.StartClimbingState();
-            _climbScript._ClimbState = _climbScript.ClimbActionHorizontal;
-            canHorizontalClimb = false;
+            //_climbScript._ClimbState = _climbScript.ClimbActionHorizontal;
+            //canHorizontalClimb = false;
         }
 
         if (collision.gameObject.layer == 20)
