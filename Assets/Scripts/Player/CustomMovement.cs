@@ -177,7 +177,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         }
         targetSpeed = faceDirection * maxSpeed;
         rb.velocity = new Vector2(targetSpeed, rb.velocity.y);
-        Debug.Log($"<Color=magenta>The rigidbody velocity is: {rb.velocity}</color>");
+        //Debug.Log($"<Color=magenta>The rigidbody velocity is: {rb.velocity}</color>");
     }
 
     void LeftMovement()
