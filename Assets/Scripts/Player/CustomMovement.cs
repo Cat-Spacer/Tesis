@@ -117,13 +117,13 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         if (PlayerInput.interactionInput) interactionInput = true;
         else interactionInput = false;
 
-        if (PlayerInput.right_Input && !Climb.isHorizontal && !isDashing && !Climb.MoveTowardsBool)
+        if (PlayerInput.right_Input && !Climb.isHorizontal && !isDashing && !Climb.MoveTowardsBool && PlayerInput.canRightMove)
             _MovementState = RightMovement;
 
-        if (PlayerInput.left_Input && !Climb.isHorizontal && !isDashing && !Climb.MoveTowardsBool)
+        if (PlayerInput.left_Input && !Climb.isHorizontal && !isDashing && !Climb.MoveTowardsBool && PlayerInput.canLeftMove)
             _MovementState = LeftMovement;
 
-        if (PlayerInput.right_Input_UpKey || PlayerInput.left_Input_UpKey && !Climb.isHorizontal && !isDashing && !Climb.MoveTowardsBool)
+        if ((PlayerInput.right_Input_UpKey || PlayerInput.left_Input_UpKey) && !Climb.isHorizontal && !isDashing && !Climb.MoveTowardsBool)
             _MovementState = StopMovement;
     }
 
@@ -161,12 +161,24 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     void RightMovement()
     {
         float targetSpeed;
+        float velPower;
+
+        //anim.SetBool("Run", true);
+        if (PlayerInput.canRightMove || Climb.isHorizontal)
+            ChangeAnimationState(Player_Run);
+        else
+            ChangeAnimationState(Player_Idle);
+
+
+        if (onGround) _runParticle.Play();
+
         running = true;
         if (onGround && !onClimb && !isJumping)
         {
             ChangeAnimationState(Player_Run);
             _runParticle.Play();
         }
+
         else _runParticle.Stop();
         transform.rotation = Quaternion.Euler(transform.rotation.x, 0, transform.rotation.z);
         faceDirection = 1;
@@ -183,12 +195,21 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     void LeftMovement()
     {
         float targetSpeed;
+        float velPower;
+        if (PlayerInput.canLeftMove || Climb.isHorizontal)
+            ChangeAnimationState(Player_Run);
+        else
+            ChangeAnimationState(Player_Idle);
+        //anim.SetBool("Run", true);
+        if (onGround) _runParticle.Play();
+
         running = true;
         if (onGround && !onClimb && !isJumping)
         {
             ChangeAnimationState(Player_Run);
             _runParticle.Play();
         }
+
         else _runParticle.Stop();
 
         transform.rotation = Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z);
@@ -293,7 +314,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
                 doJumpBuffer = true;
                 _TimeCounterAction += TimeCounterJumpbuffer;
             }
-        }       
+        }
     }
     void JumpStop(bool jumpStop)
     {
@@ -839,6 +860,12 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             Gizmos.DrawWireCube(transform.position, _interactSize);
         }
     }
+
+    public void Stuck()
+    {
+        _Inputs = delegate { };
+    }
+
     public void GetDamage(float dmg)
     {
         rb.simulated = false;
@@ -912,7 +939,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         rb.velocity = Vector3.zero;
         Debug.Log($"<Color=magenta>The rigidbody velocity is: {rb.velocity}</color>");
     }
-    public void Liberate(){}
+    public void Liberate() { }
 
     private void OnDisable()
     {
