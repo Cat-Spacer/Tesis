@@ -68,12 +68,12 @@ public class Climb
             ClimbState(KeyCode.S, PlayerInput.down_Input);
         if (PlayerInput.up_Input)
             ClimbState(KeyCode.W, PlayerInput.up_Input);
-        if (PlayerInput.up_Input)
-            ClimbState(KeyCode.A, PlayerInput.left_Input_DownKey);
-        if (PlayerInput.left_Input_DownKey)
-            ClimbState(KeyCode.D, PlayerInput.right_Input_DownKey);
+        if (PlayerInput.left_Input)
+            ClimbState(KeyCode.A, PlayerInput.left_Input);
+        if (PlayerInput.right_Input)
+            ClimbState(KeyCode.D, PlayerInput.right_Input);
         if (PlayerInput.dashInput)
-            ClimbState(KeyCode.LeftShift, PlayerInput.right_Input_DownKey);
+            ClimbState(KeyCode.LeftShift, PlayerInput.dashInput);
 
         if (PlayerInput.jumpInputDown && isClimbing && !isHorizontal)
         {
@@ -121,7 +121,7 @@ public class Climb
                 _customMovement.ForceDashEnd();  // primero forceo a que frene el dash
                 StartClimbingState();
                 isClimbing = true;
-
+                
                 CustomMovement.canHorizontalClimb = true;
                 _ClimbState = ClimbActionVertical;
                 _alreadyStarted = true;
