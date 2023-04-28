@@ -177,6 +177,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         }
         targetSpeed = faceDirection * maxSpeed;
         rb.velocity = new Vector2(targetSpeed, rb.velocity.y);
+        Debug.Log($"<Color=magenta>The rigidbody velocity is: {rb.velocity}</color>");
     }
 
     void LeftMovement()
@@ -199,6 +200,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         }
         targetSpeed = faceDirection * maxSpeed;
         rb.velocity = new Vector2(targetSpeed, rb.velocity.y);
+      //  Debug.Log($"<Color=magenta>The rigidbody velocity is: {rb.velocity}</color>");
     }
 
     public void StopMovement()
@@ -212,6 +214,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             hasPlayedMovement = false;
         }
         if (!OnIce) rb.velocity = new Vector2(0, rb.velocity.y);
+       // Debug.Log($"<Color=magenta>The rigidbody velocity is: {rb.velocity}</color>");
         _MovementState = delegate { };
     }
 
@@ -294,9 +297,10 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     }
     void JumpStop(bool jumpStop)
     {
-        if (jumpStop && !onGround)
+        if (jumpStop && !onGround && !Climb.isClimbing)
         {
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Min(rb.velocity.y - stopJumpForce, -8));
+            //Debug.Log($"<Color=magenta>The rigidbody velocity is: {rb.velocity}</color>");
         }
         if (onGround)
         {
@@ -906,6 +910,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         onJumpInput = false;
         onJumpInputReleased = false;
         rb.velocity = Vector3.zero;
+        Debug.Log($"<Color=magenta>The rigidbody velocity is: {rb.velocity}</color>");
     }
     public void Liberate(){}
 

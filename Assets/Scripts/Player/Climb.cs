@@ -55,6 +55,15 @@ public class Climb
     }
     public void UpdateClimb()
     {
+
+     /*   if (_rb.velocity.y < 0)
+        {
+            Debug.Log($"<Color=green>The rigidbody velocity is 0</color>");
+        }
+        else if (_rb.velocity.y > 0)
+        {
+            Debug.Log($"<Color=yellow>The rigidbody velocity is 1</color>");
+        }*/
         if (PlayerInput.down_Input)
             ClimbState(KeyCode.S, PlayerInput.down_Input);
         if (PlayerInput.up_Input)
@@ -89,19 +98,21 @@ public class Climb
     /// </summary>
     void ClimbState(KeyCode keyPressed_arg, bool state)
     {
+        Debug.Log($"<Color=red>Climb State New Direction</color>");
+
         if (InSight(_climbLayerMask) && _energyPowerScript.EnergyDrain(0.05f))
         {
             if (keyPressed_arg == KeyCode.W)
             {
                 Debug.Log("Climb Up");
-                //_vector = Vector2.up;
-                //_speed = _upSpeed;
+                _vector = Vector2.up;
+                _speed = _upSpeed;
             }
             if (keyPressed_arg == KeyCode.S)
             {
                 Debug.Log("Climb Down");
-                //_vector = Vector2.down;
-                //_speed = _downSpeed;
+                _vector = Vector2.down;
+                _speed = _downSpeed;
             }
 
             if (!_alreadyStarted)
@@ -138,13 +149,16 @@ public class Climb
 
     public void StartClimbWithFreeze()
     {
+        Debug.Log( $"<Color=red>Strat climbing with Freeze State</color>");
         _customMovement.onClimb = true;
         isClimbing = true;
         _ClimbState = Freeze;
+        Debug.Log($"<Color=red>Strat climbing vector is: {_vector}</color>");
     }
 
     public void StartClimbingState()
     {
+        Debug.Log($"<Color=red>Start Climbing State</color>");
         _customMovement.onClimb = true;
         SoundManager.instance.Play(SoundManager.Types.Climb);
         onClimb = true;
@@ -157,7 +171,7 @@ public class Climb
 
     public void EndClimbingState()
     {
-        Debug.Log("EndClimbing");
+        Debug.Log($"<Color=red>End Climbing State</color>");
         _customMovement.onClimb = false;
         onClimb = false;
         //_animator.SetBool("OnWall", false);
@@ -167,6 +181,7 @@ public class Climb
 
     public void PauseClimbingState()
     {
+        Debug.Log($"<Color=red>Pause Climbing State</color>");
         _customMovement.ChangeAnimationState("ClimbIdle");
         //_animator.SetBool("OnWall", true);
         //_animator.SetBool("Climbing", false);
@@ -175,6 +190,7 @@ public class Climb
 
     public void FreezeClimbingState()
     {
+        Debug.Log($"<Color=red>Freeze Climbing State</color>");
         _customMovement.ChangeAnimationState("ClimbIdle");
         //_animator.SetBool("Climbing", false);
         //_animator.SetBool("OnWall", true);
@@ -221,7 +237,7 @@ public class Climb
 
     public void ClimbActionVertical()
     {
-        Debug.Log("climb vertical");
+        Debug.Log($"<Color=red> Climbing vertical Action</color>");
 
         rotationVector = _transform.rotation.eulerAngles;
         rotationVector.z = 0;
@@ -251,7 +267,9 @@ public class Climb
         else if (PlayerInput.up_Input || PlayerInput.down_Input)
         {
             Debug.Log("4");
+          //  Debug.Log($"<Color=blue>Climb action vertical direction: {_vector}</color>"); 
             _rb.velocity = _vector * _speed;
+          //  Debug.Log($"<Color=blue>Climb action vertical rb.velocity: {_rb.velocity}</color>");
         }
     }
 
@@ -261,6 +279,7 @@ public class Climb
 
     public void ClimbActionHorizontal()
     {
+        Debug.Log($"<Color=red>Climbing horizontal Action</color>");
         _energyPowerScript.EnergyDrain(0.05f);
         rotationVector = _transform.rotation.eulerAngles;
         rotationVector.z = 90;
@@ -298,6 +317,7 @@ public class Climb
 
     public void FreezeHorizontal()
     {
+        Debug.Log($"<Color=red>Freeze Climbing horizontal Action</color>");
         PauseClimbingState();
         isHorizontal = true;
         _rb.constraints = RigidbodyConstraints2D.FreezeAll;
@@ -311,6 +331,7 @@ public class Climb
 
     public void WaitHorizontal()
     {
+        Debug.Log($"<Color=red>Climbing Idle horizontal state</color>");
         _energyPowerScript.EnergyDrain(0.05f);
 
         if (PlayerInput.left_Input && !PlayerInput.down_Input)
