@@ -161,25 +161,25 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     void RightMovement()
     {
         float targetSpeed;
-        float velPower;
-
-        //anim.SetBool("Run", true);
-        if (PlayerInput.canRightMove || Climb.isHorizontal)
-            ChangeAnimationState(Player_Run);
-        else
-            ChangeAnimationState(Player_Idle);
-
-
-        if (onGround) _runParticle.Play();
-
         running = true;
-        if (onGround && !onClimb && !isJumping)
+        if (onGround)
         {
-            ChangeAnimationState(Player_Run);
-            _runParticle.Play();
+            if (!onClimb && rb.velocity.x > .1f)
+            {
+                ChangeAnimationState(Player_Run);
+                _runParticle.Play();
+            }
+            else
+            {
+                _runParticle.Stop();
+                ChangeAnimationState(Player_Idle);
+            }
+        }
+        else
+        {
+            _runParticle.Stop();
         }
 
-        else _runParticle.Stop();
         transform.rotation = Quaternion.Euler(transform.rotation.x, 0, transform.rotation.z);
         faceDirection = 1;
         if (!hasPlayedMovement)
@@ -195,22 +195,25 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     void LeftMovement()
     {
         float targetSpeed;
-        float velPower;
-        if (PlayerInput.canLeftMove || Climb.isHorizontal)
-            ChangeAnimationState(Player_Run);
-        else
-            ChangeAnimationState(Player_Idle);
-        //anim.SetBool("Run", true);
-        if (onGround) _runParticle.Play();
-
         running = true;
-        if (onGround && !onClimb && !isJumping)
+        if (onGround)
         {
-            ChangeAnimationState(Player_Run);
-            _runParticle.Play();
+            if (!onClimb && rb.velocity.x < -.1f)
+            {
+                ChangeAnimationState(Player_Run);
+                _runParticle.Play();
+            }
+            else
+            {
+                _runParticle.Stop();
+                ChangeAnimationState(Player_Idle);
+            }
+        }
+        else
+        {
+            _runParticle.Stop();
         }
 
-        else _runParticle.Stop();
 
         transform.rotation = Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z);
         faceDirection = -1;
@@ -739,7 +742,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             canJump = true;
             canDash = true;
             icyWall = false;
-            if (!running && !onClimb)
+            if (!running && !onClimb && !isJumping)
             {
                 ChangeAnimationState(Player_Idle);
             }
@@ -747,13 +750,10 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         else //Not on ground
         {
             onGround = false;
-            if (_climbScript.onClimb)
-            {
-                ChangeAnimationState(Player_Climb);
-            }
             if (!_climbScript.onClimb && rb.velocity.y < 0)
             {
                 ChangeAnimationState(Player_OnAir);
+                _runParticle.Stop();
             }
         }
 
