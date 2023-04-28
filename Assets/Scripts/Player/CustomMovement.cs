@@ -117,13 +117,13 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         if (PlayerInput.interactionInput) interactionInput = true;
         else interactionInput = false;
 
-        if (PlayerInput.right_Input && !Climb.isHorizontal && !isDashing && !Climb.MoveTowardsBool)
+        if (PlayerInput.right_Input && !Climb.isHorizontal && !isDashing && !Climb.MoveTowardsBool && PlayerInput.canRightMove)
             _MovementState = RightMovement;
 
-        if (PlayerInput.left_Input && !Climb.isHorizontal && !isDashing && !Climb.MoveTowardsBool)
+        if (PlayerInput.left_Input && !Climb.isHorizontal && !isDashing && !Climb.MoveTowardsBool && PlayerInput.canLeftMove)
             _MovementState = LeftMovement;
 
-        if (PlayerInput.right_Input_UpKey || PlayerInput.left_Input_UpKey && !Climb.isHorizontal && !isDashing && !Climb.MoveTowardsBool)
+        if ((PlayerInput.right_Input_UpKey || PlayerInput.left_Input_UpKey) && !Climb.isHorizontal && !isDashing && !Climb.MoveTowardsBool)
             _MovementState = StopMovement;
     }
 
@@ -165,7 +165,11 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         float velPower;
 
         //anim.SetBool("Run", true);
-        ChangeAnimationState(Player_Run);
+        if (PlayerInput.canRightMove || Climb.isHorizontal)
+            ChangeAnimationState(Player_Run);
+        else
+            ChangeAnimationState(Player_Idle);
+
 
         if (onGround) _runParticle.Play();
         else _runParticle.Stop();
@@ -185,7 +189,10 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     {
         float targetSpeed;
         float velPower;
-        ChangeAnimationState(Player_Run);
+        if (PlayerInput.canLeftMove || Climb.isHorizontal)
+            ChangeAnimationState(Player_Run);
+        else
+            ChangeAnimationState(Player_Idle);
         //anim.SetBool("Run", true);
         if (onGround) _runParticle.Play();
         else _runParticle.Stop();
@@ -290,7 +297,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
                 doJumpBuffer = true;
                 _TimeCounterAction += TimeCounterJumpbuffer;
             }
-        }       
+        }
     }
     void JumpStop(bool jumpStop)
     {
@@ -850,6 +857,12 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             Gizmos.DrawWireCube(transform.position, _interactSize);
         }
     }
+
+    public void Stuck()
+    {
+        _Inputs = delegate { };
+    }
+
     public void GetDamage(float dmg)
     {
         rb.simulated = false;
@@ -931,7 +944,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         onJumpInputReleased = false;
         rb.velocity = Vector3.zero;
     }
-    public void Liberate(){}
+    public void Liberate() { }
 
     private void OnDisable()
     {

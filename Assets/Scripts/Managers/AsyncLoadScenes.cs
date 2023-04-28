@@ -37,6 +37,7 @@ public class AsyncLoadScenes : MonoBehaviour
             if (_progressBar != null && _textPercentage != null)
             {
                 _progressBar.value = async.progress;
+                //Debug.Log($"Async progress = {async.progress}");
                 _textPercentage.text = Mathf.Round(async.progress * 100.0f).ToString() + "%";
             }
             yield return new WaitForEndOfFrame();
