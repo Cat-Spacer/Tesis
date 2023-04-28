@@ -160,7 +160,6 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
 
     void RightMovement()
     {
-
         float targetSpeed;
         float velPower;
 
@@ -172,10 +171,17 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
 
 
         if (onGround) _runParticle.Play();
+
+        running = true;
+        if (onGround && !onClimb && !isJumping)
+        {
+            ChangeAnimationState(Player_Run);
+            _runParticle.Play();
+        }
+
         else _runParticle.Stop();
         transform.rotation = Quaternion.Euler(transform.rotation.x, 0, transform.rotation.z);
         faceDirection = 1;
-        velPower = accelPower;
         if (!hasPlayedMovement)
         {
             SoundManager.instance.Play(SoundManager.Types.Steps);
@@ -183,6 +189,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         }
         targetSpeed = faceDirection * maxSpeed;
         rb.velocity = new Vector2(targetSpeed, rb.velocity.y);
+        //Debug.Log($"<Color=magenta>The rigidbody velocity is: {rb.velocity}</color>");
     }
 
     void LeftMovement()
@@ -195,11 +202,18 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             ChangeAnimationState(Player_Idle);
         //anim.SetBool("Run", true);
         if (onGround) _runParticle.Play();
+
+        running = true;
+        if (onGround && !onClimb && !isJumping)
+        {
+            ChangeAnimationState(Player_Run);
+            _runParticle.Play();
+        }
+
         else _runParticle.Stop();
 
         transform.rotation = Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z);
         faceDirection = -1;
-        velPower = accelPower;
         if (!hasPlayedMovement)
         {
             SoundManager.instance.Play(SoundManager.Types.Steps);
@@ -207,12 +221,13 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         }
         targetSpeed = faceDirection * maxSpeed;
         rb.velocity = new Vector2(targetSpeed, rb.velocity.y);
+      //  Debug.Log($"<Color=magenta>The rigidbody velocity is: {rb.velocity}</color>");
     }
 
     public void StopMovement()
     {
-        ChangeAnimationState(Player_Idle);
-        //anim.SetBool("Run", false);
+        //ChangeAnimationState(Player_Idle);
+        running = false;
         _runParticle.Stop();
         if (hasPlayedMovement)
         {
@@ -220,11 +235,13 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             hasPlayedMovement = false;
         }
         if (!OnIce) rb.velocity = new Vector2(0, rb.velocity.y);
+       // Debug.Log($"<Color=magenta>The rigidbody velocity is: {rb.velocity}</color>");
         _MovementState = delegate { };
     }
+
     public void StopMovementOnIce()
     {
-        ChangeAnimationState(Player_Idle);
+        //ChangeAnimationState(Player_Idle);
         //anim.SetBool("Run", false);
         _runParticle.Stop();
         if (hasPlayedMovement)
@@ -253,7 +270,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     }
     void JumpUp(bool jumpUp) //Saltar
     {
-        if (!jumpUp) return;
+        if (!jumpUp || isJumping) return;
         onJumpInput = false;
         if (Climb.isClimbing)
         {
@@ -301,9 +318,10 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     }
     void JumpStop(bool jumpStop)
     {
-        if (jumpStop && !onGround)
+        if (jumpStop && !onGround && !Climb.isClimbing)
         {
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Min(rb.velocity.y - stopJumpForce, -8));
+            //Debug.Log($"<Color=magenta>The rigidbody velocity is: {rb.velocity}</color>");
         }
         if (onGround)
         {
@@ -721,10 +739,10 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             canJump = true;
             canDash = true;
             icyWall = false;
-            //anim.SetBool("OnGround", true);
-            //anim.SetBool("Jump", false);
-            //anim.SetBool("Fall", false);
-            //ChangeAnimationState(Player_Idle);
+            if (!running && !onClimb)
+            {
+                ChangeAnimationState(Player_Idle);
+            }
         }
         else //Not on ground
         {
@@ -732,18 +750,11 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             if (_climbScript.onClimb)
             {
                 ChangeAnimationState(Player_Climb);
-                //anim.SetBool("Climbing", true);
-                //anim.SetBool("Jump", false);
-                //anim.SetBool("Fall", false);
             }
             if (!_climbScript.onClimb && rb.velocity.y < 0)
             {
-                //anim.SetBool("Climbing", false);
-                //anim.SetBool("Fall", true);
+                ChangeAnimationState(Player_OnAir);
             }
-            //else ChangeAnimationState(Player_Idle);
-            //anim.SetBool("Fall", false);
-            //anim.SetBool("OnGround", false);
         }
 
         if (OnIce && rb.velocity.y > 0)
@@ -766,10 +777,9 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (onGround == true && collision.gameObject.layer == 6)
+        if (collision.gameObject.layer == 6 && !isJumping)
         {
             _fallParticle.Play();
-            ChangeAnimationState(Player_Idle);
         }
 
         if ((_obstacleLayers.value & (1 << collision.gameObject.layer)) > 0)
@@ -777,19 +787,15 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             collisionObstacle = true;
             ForceDashEnd();
         }
-        if (onGround == true && collision.gameObject.layer == 6)
-        {
-            _fallParticle.Play();
-        }
 
         if (collision.gameObject.layer == 21 && !icyWall && isJumping)
         {
 
-            if (CustomMovement.faceDirection == -1)
+            if (faceDirection == -1)
             {
                 transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.z * -1, transform.rotation.z);
             }
-            if (CustomMovement.faceDirection == 1)
+            if (faceDirection == 1)
             {
                 transform.rotation = Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z);
             }
@@ -811,7 +817,6 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         if ((_obstacleLayers.value & (1 << collision.gameObject.layer)) > 0)
         {
             collisionObstacle = false;
-            //Debug.Log("end collision with obstacle");
         }
     }
 
@@ -821,14 +826,12 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     {
         if (collision.gameObject.layer == 17 && canHorizontalClimb)
         {
-            Debug.Log("SOGA");
             Climb.isClimbing = true;
             Climb.isHorizontal = true;
             ForceStopMovement();
             _climbScript.StartClimbingState();
-            _climbScript._ClimbState = _climbScript.ClimbActionHorizontal;
-            //   _climbScript._ClimbState = _climbScript.FreezeHorizontal;
-            canHorizontalClimb = false;
+            //_climbScript._ClimbState = _climbScript.ClimbActionHorizontal;
+            //canHorizontalClimb = false;
         }
 
         if (collision.gameObject.layer == 20)
@@ -873,7 +876,6 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         SoundManager.instance.Play(SoundManager.Types.CatDamage);
         _playerCanvas.TrapEvent(false, 0);
         _playerCanvas.InteractEvent(false);
-        Debug.Log("call ForceDashEnd");
         ForceDashEnd();
         isJumping = false;
         onGround = true;
@@ -881,12 +883,9 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         canDash = true;
         _climbScript._ClimbState = _climbScript.EndClimb;
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
-        anim.SetBool("Death1", true);
     }
     public void ResetPlayer()
     {
-        anim.SetBool("Death1", false);
-        anim.SetBool("TrapByPlant", false);
         _Inputs = Inputs;
         dead = false;
         rb.simulated = true;
@@ -895,13 +894,9 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     {
         while (_climbScript.InSightLast(last, _distanceToRope))
         {
-            Debug.Log("as last");
             yield return Climb._distanceToRope = 0;
         }
-
         Climb._distanceToRope = _distanceToRope;
-
-        Debug.Log("done");
     }
 
     private void TrapInputs()
@@ -910,7 +905,6 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         {
             var trap = currentTrap.GetComponent<ILiberate>();
             if (trap == null) return;
-            Debug.Log("Liberar");
             trap.TryLiberate();
         }
     }
@@ -918,7 +912,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     {
         if (trapState)
         {
-            anim.SetBool("TrapByPlant", true);
+            //anim.SetBool("TrapByPlant", true);
             _PlayerActions = Liberate;
             _Inputs = TrapInputs;
             currentTrap = enemy;
@@ -926,7 +920,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         }
         else
         {
-            anim.SetBool("TrapByPlant", false);
+            //anim.SetBool("TrapByPlant", false);
             _PlayerActions = delegate { };
             _Inputs = Inputs;
             _playerCanvas.TrapEvent(trapState, life);
@@ -943,6 +937,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         onJumpInput = false;
         onJumpInputReleased = false;
         rb.velocity = Vector3.zero;
+        Debug.Log($"<Color=magenta>The rigidbody velocity is: {rb.velocity}</color>");
     }
     public void Liberate() { }
 

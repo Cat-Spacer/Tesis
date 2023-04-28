@@ -286,7 +286,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3660148673615368207}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.32, y: -3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -406,11 +406,11 @@ MonoBehaviour:
   dashForce: 30
   canDash: 1
   dashStart: {x: 0, y: 0}
-  groundCheckPos: {fileID: 0}
+  groundCheckPos: {fileID: 3660148673627150030}
   groundLayer:
     serializedVersion: 2
     m_Bits: 33344
-  groundCheckSize: {x: 0.45, y: 0.06}
+  groundCheckSize: {x: 0.9, y: 0.03}
   groundColl: {fileID: 0}
   onGround: 1
   gravityForce: 0
@@ -418,45 +418,46 @@ MonoBehaviour:
   attackCd: 0.5
   canAttack: 1
   attackRange: {x: 2.5, y: 1.4}
-  attackPoint: {fileID: 0}
+  attackPoint: {fileID: 4650049816605551212}
   damageable:
     serializedVersion: 2
     m_Bits: 74240
-  anim: {fileID: 0}
-  _sr: {fileID: 0}
+  anim: {fileID: 3660148674610887500}
+  _sr: {fileID: 3660148674610887499}
   jumping: 1
   currentState: 
-  _jumpParticle: {fileID: 0}
-  _fallParticle: {fileID: 0}
-  _dashParticleExplotion: {fileID: 0}
-  _dashParticleTrail: {fileID: 0}
+  _jumpParticle: {fileID: 3660148674871137256}
+  _fallParticle: {fileID: 3660148675539411756}
+  _dashParticleExplotion: {fileID: 6846606670184958186}
+  _dashParticleTrail: {fileID: 2984677816267226683}
   _attackParticle: {fileID: 3994335518852250647, guid: c93de7063f77ccd459ec70f1e9cb0666,
     type: 3}
-  _climbParticle: {fileID: 0}
-  _runParticle: {fileID: 0}
+  _climbParticle: {fileID: 3675230670425593402}
+  _runParticle: {fileID: 5009667814863572589}
   _upSpeed: 5
   _downSpeed: 1.5
-  _distanceToRope: 0.46
+  _distanceToRope: 0.8
   _climbLayerMask:
     serializedVersion: 2
     m_Bits: 131328
   _impulseDirectionExitForce: 6
   _impulseExitRopeForce: 20
   dashForceClimb: 200
+  onClimb: 0
   _interactSize: {x: 3, y: 3}
   _interactMask:
     serializedVersion: 2
     m_Bits: 524288
   onDashInput: 0
   constraints2D: 4
-  _playerCanvas: {fileID: 0}
+  _playerCanvas: {fileID: 5009667814854724802}
   showGizmos: 1
   rb: {fileID: 0}
   _respawnPoint: {fileID: 0}
-  _dashTrail: {fileID: 0}
+  _dashTrail: {fileID: 1608927923495790986}
   jumpForceClimbHeight: 1000
   jumpForceClimbLatitud: 600
-  boosterFeedBack: {fileID: 0}
+  boosterFeedBack: {fileID: 5009667815140332041}
   modiffyIceJumpY: 1
   modiffyIceJumpX: 1
   dashClimb: 0
@@ -476,7 +477,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.1, y: -0.45}
+  m_Offset: {x: 0.13095012, y: -0.48235774}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -487,7 +488,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.8806966, y: 0.88782644}
   m_EdgeRadius: 0
 --- !u!50 &3660148673615368206
 Rigidbody2D:
@@ -534,7 +535,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3660148673627150031}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.045, y: -0.74, z: 0}
+  m_LocalPosition: {x: 0.142, y: -0.927, z: 0}
   m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_Children: []
   m_Father: {fileID: 3660148673615368203}
@@ -15757,13 +15758,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5009667814863572498}
-  m_LocalRotation: {x: -0, y: -0.7071066, z: -0, w: 0.70710695}
-  m_LocalPosition: {x: -0.286, y: -0.093, z: -0}
+  m_LocalRotation: {x: -0.080046766, y: -0.7025614, z: -0.080046766, w: 0.7025614}
+  m_LocalPosition: {x: -0.272, y: -0.217, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3660148674145201575}
   m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: -13, y: -90, z: 0}
 --- !u!198 &5009667814863572589
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -15772,7 +15773,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5009667814863572498}
   serializedVersion: 7
-  lengthInSec: 1
+  lengthInSec: 0.5
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -15954,7 +15955,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.3962264, g: 0.3962264, b: 0.3962264, a: 1}
+      maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -16478,7 +16479,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 1
+      value: 0.4
       mode: 0
       spread: 0
       speed:
@@ -16597,7 +16598,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 30
+      scalar: 0
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -16703,7 +16704,7 @@ ParticleSystem:
     m_BurstCount: 0
     m_Bursts: []
   SizeModule:
-    enabled: 0
+    enabled: 1
     curve:
       serializedVersion: 2
       minMaxState: 1
@@ -16714,22 +16715,22 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0
+          value: 0.26153946
           inSlope: 0
-          outSlope: 1
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.33333334
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 1
           outSlope: 0
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.33333334
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 2
+          outSlope: 2
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
@@ -17035,9 +17036,9 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 0.23529412}
+        key0: {r: 1, g: 1, b: 1, a: 1}
         key1: {r: 1, g: 1, b: 1, a: 0}
-        key2: {r: 0, g: 0, b: 0, a: 0}
+        key2: {r: 0, g: 0, b: 0, a: 0.23529412}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
@@ -17051,9 +17052,9 @@ ParticleSystem:
         ctime5: 0
         ctime6: 0
         ctime7: 0
-        atime0: 5204
-        atime1: 15420
-        atime2: 65535
+        atime0: 12914
+        atime1: 37008
+        atime2: 27371
         atime3: 65535
         atime4: 0
         atime5: 0
@@ -20508,9 +20509,9 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1510253325
-  m_SortingLayer: 5
-  m_SortingOrder: 0
+  m_SortingLayerID: 725405911
+  m_SortingLayer: 6
+  m_SortingOrder: 1
   m_RenderMode: 3
   m_SortMode: 0
   m_MinParticleSize: 0
@@ -20656,7 +20657,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5009667815083422804}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0.25, y: 0.75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3660148673615368203}
