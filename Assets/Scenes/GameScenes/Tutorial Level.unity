@@ -6552,11 +6552,11 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0
   far clip plane: 100
   field of view: 60
   orthographic: 1
-  orthographic size: 9
+  orthographic size: 6
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -6601,7 +6601,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1391119732}
   offset: {x: 0, y: 2, z: -10}
-  cameraRange: {x: 5, y: 10}
+  cameraRange: {x: 3, y: 5}
   smoothFactor: 1
   playerLayerMask:
     serializedVersion: 2
@@ -81721,6 +81721,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5175890309154428849, guid: 000c33f689ee65f45915246c82834e9d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5503619508548049885, guid: 000c33f689ee65f45915246c82834e9d,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -7.4813433
+      objectReference: {fileID: 0}
+    - target: {fileID: 5503619508548049885, guid: 000c33f689ee65f45915246c82834e9d,
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
