@@ -110,6 +110,7 @@ public class Hamster : MonoBehaviour
     public void HamsterCatched()
     {
         _inTube = false;
+        _currentTube.ArrowsActDes(false);
         _HamsterAction = MoveWithPlayer;
     }
 

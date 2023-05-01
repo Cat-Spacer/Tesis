@@ -15,6 +15,11 @@ public class CheatManager : MonoBehaviour
         Instance = this;
     }
 
+    private void Start()
+    {
+        player = FindObjectOfType<CustomMovement>().transform;
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.F1))

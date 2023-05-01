@@ -21,6 +21,7 @@ public class HamsterInput : MonoBehaviour
     {
         screenPosition = Input.mousePosition;
         targetPosition = Camera.main.ScreenToWorldPoint(screenPosition);
+        //targetPosition = Camera.main.ScreenPointToRay(screenPosition, Camera.MonoOrStereoscopicEye.Mono).origin;
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {

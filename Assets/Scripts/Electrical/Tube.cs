@@ -92,6 +92,10 @@ public class Tube : MonoBehaviour
         }
 
     }
+    public void ArrowsActDes(bool set = false)
+    {
+        arrows.SetActive(set);
+    }
     public Vector3 GetCenter()
     {
         return center;
