@@ -11,7 +11,7 @@ public class Hamster : MonoBehaviour
     HamsterInput _controller;
     [SerializeField] float _pointRadius, _checkRadius = 5.0f;
     [SerializeField] LayerMask _tubeLayerMask, _generatorLayerMask;
-    bool _inTube;
+    [SerializeField] bool _inTube;
     [SerializeField] Tube _currentTube;
     [SerializeField] Tube _lastTube;
     [SerializeField] Vector3 _currentTubePos;
@@ -32,8 +32,13 @@ public class Hamster : MonoBehaviour
     }
     private void Update()
     {
-        _controller.OnUpdate();
         _HamsterAction();
+    }
+
+    private void FixedUpdate()
+    {
+        _controller.OnUpdate();
+
     }
     public void MoveWithPlayer()
     {
@@ -54,12 +59,12 @@ public class Hamster : MonoBehaviour
     public void GetInTube(Vector3 targetPosition)
     {
         if (_inTube) return;
+        Debug.Log("GetInTube");
         var tubeColl = Physics2D.OverlapCircle(targetPosition, _pointRadius, _tubeLayerMask);
         if (tubeColl)
         {
             var tube = tubeColl.gameObject.GetComponent<Tube>();
             if (!tube.IsEntry()) return;
-            Debug.Log("InTube");
             _HamsterAction = MoveInTubes;
             _currentTube = tube;
             _currentTubePos = tube.GetCenter();
@@ -92,10 +97,12 @@ public class Hamster : MonoBehaviour
     }
     public void MoveToNextTube(Tube tube)
     {
+        //Debug.Log($"tube = {tube}");
         if (tube == null) //Si no hay siguiente tubo sale del tubo
         {
             _inTube = false;
             _HamsterAction = MoveWithPlayer;
+            Debug.Log($"tube = {tube}");
         }
         else //Se mueve al siguiente tubo
         {

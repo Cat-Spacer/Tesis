@@ -15,8 +15,11 @@ public class ElectricalPlatform : MonoBehaviour, IElectric
     void Awake()
     {
         _newPos = transform.position;
-        if (_turnOn) { _canvas.gameObject.SetActive(true); }
-        else { _canvas.gameObject.SetActive(false);}
+        if (_canvas)
+        {
+            if (_turnOn) { _canvas.gameObject.SetActive(true); }
+            else { _canvas.gameObject.SetActive(false); }
+        }
     }
     public void TurnOff()
     {

@@ -29,9 +29,9 @@ namespace InputKey
 
         public void OnStartIfNotSave()
         {
-            if (buttonKeys != null)
+            /*if (buttonKeys != null)
                 foreach (var key in buttonKeys.Keys)
-                    Debug.Log($"<color=orange>{key} = {buttonKeys[key]}</color>");
+                    Debug.Log($"<color=orange>{key} = {buttonKeys[key]}</color>");*/
 
             if (KeybindManager.Instance.saveManager.CheckFile() && buttonKeys != null) return;
 
@@ -53,7 +53,7 @@ namespace InputKey
                 KeybindManager.Instance.saveManager.LoadData().buttonValues.Add(value);
 
             KeybindManager.Instance.saveManager.SaveJSON();
-            Debug.Log($"<color=yellow>Button Keys set to default</color>");
+            //Debug.Log($"<color=yellow>Button Keys set to default</color>");
         }
 
         public bool GetButtonDown(TypeOfKeys buttonName)
@@ -115,10 +115,10 @@ namespace InputKey
             if (buttonKeys == null)
                 buttonKeys = new Dictionary<TypeOfKeys, KeyCode>();
 
-            Debug.Log($"<color=yellow>Loading list of keys {keys} and values {values}: keys.Count {keys.Count}</color>");
+            //Debug.Log($"<color=yellow>Loading list of keys {keys} and values {values}: keys.Count {keys.Count}</color>");
             for (int i = 0; i < keys.Count; i++)
             {
-                Debug.Log($"<color=green>Loading key {keys[i]} and value {values[i]}</color>");
+                //Debug.Log($"<color=green>Loading key {keys[i]} and value {values[i]}</color>");
                 buttonKeys[keys[i]] = values[i];
             }
         }
