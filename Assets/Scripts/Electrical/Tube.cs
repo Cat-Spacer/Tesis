@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Tube : MonoBehaviour
@@ -9,16 +10,19 @@ public class Tube : MonoBehaviour
     [SerializeField] Tube _UpTube, _RightTube, _DownTube, _LeftTube;
     [SerializeField] List<Tube> _possiblePaths = new List<Tube>();
     [SerializeField] bool _UpConnection, _RightConnection, _DownConnection, _LeftConnection;
-    [SerializeField] Tube _nextTube;
-    [SerializeField] Tube _lastTube;
+    [SerializeField] Tube _nextTube, _lastTube;
     [SerializeField] Vector3 center;
     [SerializeField] LayerMask _tubeMask;
     [SerializeField] bool _checkpoint,_entry,_exit;
+    private Vector3 screenPosition;
+    List<Vector3> targetPosition = new List<Vector3>();
+
     private void Start()
     {
         center = transform.position;
         CheckNeighborTubes();       
     }
+
     public void GetPossiblePaths(Hamster ham)
     {
         _hamster = ham;
@@ -26,22 +30,26 @@ public class Tube : MonoBehaviour
     }
     public void GoUp()
     {
+        Debug.Log($"GoUp");
         _hamster.MoveToNextTube(_UpTube);
         arrows.SetActive(false);
     }
     public void GoRight()
     {
+        Debug.Log($"GoRight");
         _hamster.MoveToNextTube(_RightTube);
         arrows.SetActive(false);
     }
     public void GoDown()
     {
+        Debug.Log($"GoDown");
         _hamster.MoveToNextTube(_DownTube);
         arrows.SetActive(false);
 
     }
     public void GoLeft()
     {
+        Debug.Log($"GoLeft");
         _hamster.MoveToNextTube(_LeftTube);
         arrows.SetActive(false);
     }
