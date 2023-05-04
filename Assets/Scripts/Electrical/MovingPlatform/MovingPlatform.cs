@@ -17,13 +17,17 @@ public class MovingPlatform : MonoBehaviour, IElectric
     public int maxLenght = 0;
     private int _senseDir = 1;
     private Rigidbody2D _myRB2D;
+    [SerializeField] private bool _forceTurnOn = false;
 
     private void Start()
     {
         maxLenght = _waypoitns.Count - 1;
         _speed = _baseSpeed;
         _myRB2D = platform.GetComponent<Rigidbody2D>();
+        if (_forceTurnOn)
+            TurnOn();
     }
+
     private void FixedUpdate()
     {
         _MoveAction();
