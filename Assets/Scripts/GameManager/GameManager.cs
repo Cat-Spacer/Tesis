@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     }
 
     public static GameManager Instance;
-    [SerializeField] Transform[] _respawnPoint;
+    [SerializeField] Transform _respawnPoint;
     [SerializeField] AreaPoint[] _respawnArea;
 
     CustomMovement _player;
@@ -74,7 +74,10 @@ public class GameManager : MonoBehaviour
     {
         _player.GetDamage(1);
     }
-
+    public void SetNewCheckPoint(Transform newChekPoint)
+    {
+        _respawnPoint = newChekPoint;
+    }
     public void PlayerDeath ()
     {
         _deathScreen.gameObject.SetActive(true);
@@ -85,19 +88,19 @@ public class GameManager : MonoBehaviour
     IEnumerator PlayerResetPositionCounter(int index_arg)
     {
         yield return new WaitForSeconds(_resetPlayerTime);
-        _player.transform.position = new Vector3(_respawnArea[index_arg].respawnPoint.transform.position.x, _respawnArea[index_arg].respawnPoint.transform.position.y, 0);
+        _player.transform.position = new Vector3(_respawnPoint.position.x, _respawnPoint.position.y, 0);
         _player.ResetPlayer();
 
-        foreach (var item in _respawnArea[index_arg].resetObjects)
-        {
-            item.SetActive(true);
+        //foreach (var item in _respawnArea[index_arg].resetObjects)
+        //{
+        //    item.SetActive(true);
 
-            IRespawn obj = item.GetComponent<IRespawn>();
-            if (obj != null)
-            {
-                obj.Respawn();
-            }
-        }   
+        //    IRespawn obj = item.GetComponent<IRespawn>();
+        //    if (obj != null)
+        //    {
+        //        obj.Respawn();
+        //    }
+        //}   
     }    
     IEnumerator DeathScreenCounter()
     {
