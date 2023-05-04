@@ -9,7 +9,7 @@ public class Hamster : MonoBehaviour
     [SerializeField] Transform _playerPos;
     [SerializeField] float _speed, _maxSpeed;
     HamsterInput _controller;
-    [SerializeField] float _pointRadius, _checkRadius = 5.0f;
+    [SerializeField] float _pointRadius, _checkRadius = 5.0f, _interactRadius = 2.5f;
     [SerializeField] LayerMask _tubeLayerMask, _generatorLayerMask;
     [SerializeField] bool _inTube;
     [SerializeField] Tube _currentTube;
@@ -37,8 +37,11 @@ public class Hamster : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _controller.OnUpdate();
+    }
 
+    private void LateUpdate()
+    {
+        _controller.OnUpdate();
     }
     public void MoveWithPlayer()
     {
@@ -59,16 +62,22 @@ public class Hamster : MonoBehaviour
     public void GetInTube(Vector3 targetPosition)
     {
         if (_inTube) return;
-        Debug.Log("GetInTube");
         var tubeColl = Physics2D.OverlapCircle(targetPosition, _pointRadius, _tubeLayerMask);
+        //Debug.Log($"GetInTube, tubeColl = {tubeColl}, targetPosition = {targetPosition}");
         if (tubeColl)
         {
-            var tube = tubeColl.gameObject.GetComponent<Tube>();
-            if (!tube.IsEntry()) return;
-            _HamsterAction = MoveInTubes;
-            _currentTube = tube;
-            _currentTubePos = tube.GetCenter();
-            _inTube = true;
+            var playerOrigPos = FindObjectOfType<CustomMovement>().gameObject.transform.position;
+            var distance = Vector2.Distance(tubeColl.transform.position, playerOrigPos);
+            ///Debug.Log($"distance = {distance}");
+            if (distance <= _interactRadius)
+            {
+                var tube = tubeColl.gameObject.GetComponent<Tube>();
+                if (!tube.IsEntry()) return;
+                _HamsterAction = MoveInTubes;
+                _currentTube = tube;
+                _currentTubePos = tube.GetCenter();
+                _inTube = true;
+            }
         }
     }
     void CheckNextTube()
