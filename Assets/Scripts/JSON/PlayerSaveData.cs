@@ -13,4 +13,5 @@ public class PlayerSaveData
     public int lastLevel;
 
     public string[] myAbilities;
+    public string[] mySpritesName;
 }
