@@ -74,10 +74,10 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     {
         // Movement(1);
         _Inputs();
-        _TimeCounterAction();
-        Attack();
+        //_TimeCounterAction();
+        //Attack();
         Interact();
-        _PlayerActions = delegate { };
+        //_PlayerActions = delegate { };
         _climbScript.UpdateClimb();
         Debug.DrawRay(transform.position, transform.right * _distanceToRope, Color.red);
 
@@ -271,57 +271,29 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         transform.localScale = startScale;
         groundCheckSize = startGroundCheckSize;
     }
-    void JumpUp(bool jumpUp) //Saltar
+    public void JumpUp(bool jumpUp) //Saltar
     {
-        if (!jumpUp || isJumping) return;
+        if (!jumpUp || isJumping || !canJump) return;
         onJumpInput = false;
-        if (Climb.isClimbing)
-        {
-            onJumpInput = false;
-            return;
-        }
 
-        if (canJump && (coyoteTimeCounter > 0f || onGround))
+        if (coyoteTimeCounter > 0f || onGround || onClimb)
         {
-            if (OnIce)
-            {
-                if (rb.velocity.x * faceDirection >= 7)
-                {
-                    modiffyIceJumpY = 3;
-                }
-                else if (rb.velocity.x * faceDirection >= 5 && rb.velocity.x * faceDirection < 6)
-                {
-                    modiffyIceJumpY = 2;
-                }
-                else if (rb.velocity.x * faceDirection < 4)
-                {
-                    modiffyIceJumpY = 0;
-                }
-            }
-
+            Debug.Log("Jump");
             SoundManager.instance.Play(SoundManager.Types.CatJump);
             _runParticle.Stop();
             _jumpParticle.Play();
             jumping = true;
             isJumping = true;
-            //anim.SetBool("Jump", true);
+            doJumpBuffer = false;
+            canJump = false;
             ChangeAnimationState(Player_Jump);
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            canJump = false;
             return;
-        }
-        else
-        {
-            if (jumpUp && !onGround)
-            {
-                doJumpBuffer = true;
-                _TimeCounterAction += TimeCounterJumpbuffer;
-            }
         }
     }
     void JumpStop(bool jumpStop)
     {
-        if (jumpStop && !onGround && !Climb.isClimbing)
+        if (jumpStop && !onGround)
         {
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Min(rb.velocity.y - stopJumpForce, -8));
             //Debug.Log($"<Color=magenta>The rigidbody velocity is: {rb.velocity}</color>");
@@ -458,7 +430,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         jumpBufferCounterTime -= Time.deltaTime;
         if (jumpBufferCounterTime >= 0 && onGround && doJumpBuffer && jumping)
         {
-            JumpUp(true);
+            //JumpUp(true);
             doJumpBuffer = false;
             jumpBufferCounterTime = jumpBufferTime;
             _TimeCounterAction -= TimeCounterJumpbuffer;
@@ -741,7 +713,6 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             jumpClimb = false;
             canJump = true;
             canDash = true;
-            icyWall = false;
             if (!running && !onClimb && !isJumping)
             {
                 ChangeAnimationState(Player_Idle);
@@ -756,16 +727,6 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
                 _runParticle.Stop();
             }
         }
-
-        if (OnIce && rb.velocity.y > 0)
-        {
-            Physics2D.IgnoreLayerCollision(6, 7, true);
-        }
-
-        if (OnIce && rb.velocity.y <= 0)
-        {
-            Physics2D.IgnoreLayerCollision(6, 7, false);
-        }
     }
 
     public static bool collisionObstacle = false;
@@ -774,7 +735,13 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     public static bool canHorizontalClimb;
 
     bool icyWall;
-
+    public void ClimbState()
+    {
+        jumping = false;
+        isJumping = false;
+        doJumpBuffer = false;
+        canJump = true;
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.layer == 6 && !isJumping)

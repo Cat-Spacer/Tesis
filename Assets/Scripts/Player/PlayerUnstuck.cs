@@ -24,7 +24,6 @@ public class PlayerUnstuck : MonoBehaviour
     private void DontAdvance()
     {
         var detect = Physics2D.OverlapBox(_colPos.position, _colRange, 1, _unstuckLayer);
-        Debug.Log($"DetectedCol: {detect}");
         if (detect)
         {
             if (PlayerDatas.faceDirection > 0)

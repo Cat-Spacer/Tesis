@@ -23,7 +23,7 @@ public class PlayerDatas : MonoBehaviour
     [SerializeField] protected float jumpForce;
     [SerializeField] protected float stopJumpForce;
     [SerializeField] protected Vector2 wallJumpDir;
-    [SerializeField] protected bool canJump;
+    [SerializeField] public bool canJump;
     [Header("PlayerBufferJump")]
     [SerializeField] protected bool doJumpBuffer;
     [SerializeField] protected float jumpBufferCounterTime;
@@ -45,7 +45,7 @@ public class PlayerDatas : MonoBehaviour
     [SerializeField] protected LayerMask groundLayer;
     [SerializeField] protected Vector2 groundCheckSize;
     [HideInInspector] public Collider2D groundColl;
-    [SerializeField] protected bool onGround;
+    [SerializeField] public bool onGround { get; protected set; }
 
     [Header("Gravity")]
     public float gravityForce;
