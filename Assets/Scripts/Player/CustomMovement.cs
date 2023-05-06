@@ -273,12 +273,12 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     }
     public void JumpUp(bool jumpUp) //Saltar
     {
-        if (!jumpUp || isJumping || !canJump) return;
         onJumpInput = false;
+        if (!jumpUp || isJumping || !canJump) return;
 
-        if (coyoteTimeCounter > 0f || onGround || onClimb)
+        if (coyoteTimeCounter > 0f || onGround)
         {
-            Debug.Log("Jump");
+            _climbScript.EndClimb();
             SoundManager.instance.Play(SoundManager.Types.CatJump);
             _runParticle.Stop();
             _jumpParticle.Play();
@@ -288,17 +288,16 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             canJump = false;
             ChangeAnimationState(Player_Jump);
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            return;
         }
+
     }
     void JumpStop(bool jumpStop)
     {
-        if (jumpStop && !onGround)
+        if (jumpStop && !onGround && !Climb.isClimbing)
         {
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Min(rb.velocity.y - stopJumpForce, -8));
-            //Debug.Log($"<Color=magenta>The rigidbody velocity is: {rb.velocity}</color>");
         }
-        if (onGround)
+        else
         {
             onJumpInputReleased = false;
         }
@@ -713,7 +712,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             jumpClimb = false;
             canJump = true;
             canDash = true;
-            if (!running && !onClimb && !isJumping)
+            if (!running && !Climb.isClimbing && !isJumping)
             {
                 ChangeAnimationState(Player_Idle);
             }
