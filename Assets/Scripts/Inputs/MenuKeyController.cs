@@ -26,7 +26,7 @@ public class MenuKeyController : MonoBehaviour
         if (_keyType != InputDictionary.TypeOfKeys.None)
             _keyTypeText.text = _keyType.ToString();
         else
-            Debug.LogWarning("key not assigned");
+            Debug.LogWarning("_key not assigned");
 
         _field.text = _inputDictionary.GetKeyNamesForButton(_keyType);
     }
@@ -61,7 +61,7 @@ public class MenuKeyController : MonoBehaviour
             _field.placeholder.gameObject.SetActive(true);
         }
 
-        Debug.Log($"<color=aqua>Detected key {_field.text} = {detect}</color>");
+        Debug.Log($"<color=aqua>Detected _key {_field.text} = {detect}</color>");
     }
     /// <summary>
     /// Check the key & replace it in the settings
