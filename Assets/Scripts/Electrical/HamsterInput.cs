@@ -20,9 +20,9 @@ public class HamsterInput : MonoBehaviour
 
     void Control()
     {
-        screenPosition = Input.mousePosition;
+        /*screenPosition = Input.mousePosition;
         //targetPosition = Camera.main.ScreenToWorldPoint(screenPosition);
-        foreach (var c in Camera.allCameras) targetPosition.Add(c.ScreenToWorldPoint(screenPosition));
+        foreach (var c in Camera.allCameras) if(c.gameObject.activeInHierarchy) targetPosition.Add(c.ScreenToWorldPoint(screenPosition));
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
@@ -30,6 +30,6 @@ public class HamsterInput : MonoBehaviour
             {
                 _hamster.GetInTube(t);
             }
-        }
+        }*/
     }
 }
