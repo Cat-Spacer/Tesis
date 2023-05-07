@@ -20,7 +20,7 @@ public class Tube : MonoBehaviour
     private void Start()
     {
         center = transform.position;
-        CheckNeighborTubes();       
+        CheckNeighborTubes();
     }
 
     public void GetPossiblePaths(Hamster ham)

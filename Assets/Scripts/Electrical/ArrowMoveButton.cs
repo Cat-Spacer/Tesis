@@ -39,5 +39,6 @@ public class ArrowMoveButton : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))
             EjecuteOrder66();
+        Debug.Log($"mouse is over {gameObject.name}");
     }
 }

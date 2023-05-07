@@ -17,6 +17,7 @@ public class Hamster : MonoBehaviour
     [SerializeField] Vector3 _currentTubePos;
     [SerializeField] Generator _testGenerator;
     [SerializeField] int _energyCollected;
+    public bool visible = true;
 
     private void Start()
     {
@@ -59,7 +60,7 @@ public class Hamster : MonoBehaviour
             CheckNextTube();
         }
     }
-    public void GetInTube(Vector3 targetPosition)
+    public void GetInTube(Vector2 targetPosition)
     {
         if (_inTube) return;
         var tubeColl = Physics2D.OverlapCircle(targetPosition, _pointRadius, _tubeLayerMask);
