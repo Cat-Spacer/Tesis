@@ -7,7 +7,6 @@ public class BubbleCameraManager : MonoBehaviour
     [SerializeField] FadeInOut _fadeInOut;
     [SerializeField] ZoomEffect _zoomEffect;
     [SerializeField] Hamster _hamster;
-    [SerializeField] GameObject _cam;
 
     Camera _camera;
     Plane[] _cameraFrustum;
@@ -38,13 +37,13 @@ public class BubbleCameraManager : MonoBehaviour
         if (GeometryUtility.TestPlanesAABB(_cameraFrustum, bounds))
         {
             _hamster.visible = true;
-            _cam.gameObject.SetActive(false);
+            _zoomEffect.transform.gameObject.SetActive(false);
             _fadeInOut.StartFades(false);
         }
         else
         {
             _hamster.visible = false;
-            _cam.gameObject.SetActive(true);
+            _zoomEffect.transform.gameObject.SetActive(true);
             _fadeInOut.StartFades(true);
         }
     }

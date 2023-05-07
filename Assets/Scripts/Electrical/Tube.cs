@@ -14,8 +14,9 @@ public class Tube : MonoBehaviour
     [SerializeField] Vector3 center;
     [SerializeField] LayerMask _tubeMask;
     [SerializeField] bool _checkpoint,_entry,_exit;
+    /*
     private Vector3 screenPosition;
-    List<Vector3> targetPosition = new List<Vector3>();
+    List<Vector3> targetPosition = new List<Vector3>();*/
 
     private void Start()
     {
@@ -119,5 +120,13 @@ public class Tube : MonoBehaviour
     public bool IsCheckpoint()
     {
         return _checkpoint;
+    }
+
+    private void OnMouseOver()
+    {
+        if (Input.GetKeyDown(KeyCode.Mouse0) && _entry)
+        {
+            FindObjectOfType<Hamster>().GetInTube(transform.position, this);
+        }
     }
 }

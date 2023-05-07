@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public enum TubeActions
@@ -37,8 +33,8 @@ public class ArrowMoveButton : MonoBehaviour
 
     private void OnMouseOver()
     {
+        Debug.Log($"mouse is over {gameObject.name}");
         if (Input.GetKeyDown(KeyCode.Mouse0))
             EjecuteOrder66();
-        Debug.Log($"mouse is over {gameObject.name}");
     }
 }

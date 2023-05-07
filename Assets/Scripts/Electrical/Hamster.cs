@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 public class Hamster : MonoBehaviour
 {
@@ -31,23 +32,22 @@ public class Hamster : MonoBehaviour
         Debug.Log("Hamster add energy");
         _energyCollected += energy_arg;
     }
+
     private void Update()
     {
         _HamsterAction();
-    }
-
-    private void FixedUpdate()
-    {
     }
 
     private void LateUpdate()
     {
         _controller.OnUpdate();
     }
+
     public void MoveWithPlayer()
     {
         transform.position = _playerPos.position;
     }
+
     public void MoveInTubes()
     {
         //Vector3 newDir = Vector3.Lerp(transform.position, _currentTubePos, _speed * Time.deltaTime);
@@ -60,19 +60,27 @@ public class Hamster : MonoBehaviour
             CheckNextTube();
         }
     }
-    public void GetInTube(Vector2 targetPosition)
+
+    public void GetInTube(Vector2 targetPosition, Tube tube = null)
     {
         if (_inTube) return;
-        var tubeColl = Physics2D.OverlapCircle(targetPosition, _pointRadius, _tubeLayerMask);
-        //Debug.Log($"GetInTube, tubeColl = {tubeColl}, targetPosition = {targetPosition}");
-        if (tubeColl)
+        //var tubeColl = Physics2D.OverlapCircle(targetPosition, _pointRadius, _tubeLayerMask);
+        var tubeColl = Physics2D.Raycast(targetPosition, Vector3.forward, _pointRadius, _tubeLayerMask);
+
+        //Debug.Log($"GetInTube, tubeColl = {tubeColl.collider.gameObject.name}, targetPosition = {(Vector3)targetPosition}");
+        if (tubeColl || tube)
         {
             var playerOrigPos = FindObjectOfType<CustomMovement>().gameObject.transform.position;
-            var distance = Vector2.Distance(tubeColl.transform.position, playerOrigPos);
-            ///Debug.Log($"distance = {distance}");
+            var distance = 0.0f;
+            if (tube)
+                distance = Vector2.Distance(tube.transform.position, playerOrigPos);
+            else
+                distance = Vector2.Distance(tubeColl.transform.position, playerOrigPos);
+
+            Debug.Log($"distance = {distance}");
             if (distance <= _interactRadius)
             {
-                var tube = tubeColl.gameObject.GetComponent<Tube>();
+                ///var getTube = tubeColl.collider.gameObject.GetComponent<Tube>();
                 if (!tube.IsEntry()) return;
                 _HamsterAction = MoveInTubes;
                 _currentTube = tube;
