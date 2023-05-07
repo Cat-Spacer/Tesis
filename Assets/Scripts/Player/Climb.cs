@@ -153,6 +153,7 @@ public class Climb
         _customMovement.onClimb = true;
         isClimbing = true;
         _ClimbState = Freeze;
+        _customMovement.ClimbState();
         Debug.Log($"<Color=red>Strat climbing vector is: {_vector}</color>");
     }
 
@@ -163,6 +164,7 @@ public class Climb
         SoundManager.instance.Play(SoundManager.Types.Climb);
         onClimb = true;
         _customMovement.ChangeAnimationState("Climb");
+        _customMovement.ClimbState();
         //_animator.SetBool("Climbing", true);
         //_animator.SetBool("OnWall", false);
     }
@@ -173,6 +175,7 @@ public class Climb
     {
         Debug.Log($"<Color=red>End Climbing State</color>");
         _customMovement.onClimb = false;
+        isClimbing = false;
         onClimb = false;
         //_animator.SetBool("OnWall", false);
         //_animator.SetBool("Climbing", false);
@@ -182,7 +185,7 @@ public class Climb
     public void PauseClimbingState()
     {
         Debug.Log($"<Color=red>Pause Climbing State</color>");
-        _customMovement.ChangeAnimationState("ClimbIdle");
+        if (!_customMovement.onGround) _customMovement.ChangeAnimationState("ClimbIdle");
         //_animator.SetBool("OnWall", true);
         //_animator.SetBool("Climbing", false);
         SoundManager.instance.Pause(SoundManager.Types.Climb);
@@ -191,7 +194,7 @@ public class Climb
     public void FreezeClimbingState()
     {
         Debug.Log($"<Color=red>Freeze Climbing State</color>");
-        _customMovement.ChangeAnimationState("ClimbIdle");
+        if (!_customMovement.onGround) _customMovement.ChangeAnimationState("ClimbIdle");
         //_animator.SetBool("Climbing", false);
         //_animator.SetBool("OnWall", true);
 
@@ -524,7 +527,7 @@ public class Climb
 
     public void EndClimbJump()
     {
-        Climb.isClimbing = false;
+        isClimbing = false;
         _customMovement.dashClimb = false;
         MoveTowardsBool = false;
         _alreadyStarted = false;
@@ -547,6 +550,7 @@ public class Climb
 
     void EndClimbForJump()
     {
+        Debug.Log("ACAAAA");
         canClimbJump = false;
         _rb.velocity = new Vector2(0, 0);
         //_rb.velocity = new Vector2(_rb.velocity.y, 0);
@@ -555,19 +559,19 @@ public class Climb
         _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         EndClimbingState();
         isHorizontal = false;
-        if (InSight(_climbLayerMask))
-        {
-            if (CustomMovement.faceDirection == -1)
-            {
-                _transform.rotation = Quaternion.Euler(_transform.rotation.x, _transform.rotation.z * -1, _transform.rotation.z);
-            }
-            if (CustomMovement.faceDirection == 1)
-            {
-                _transform.rotation = Quaternion.Euler(_transform.rotation.x, 180, _transform.rotation.z);
-            }
-            CustomMovement.faceDirection = -CustomMovement.faceDirection;
-        }
-        _ClimbState = Jump;
+        //if (InSight(_climbLayerMask))
+        //{
+        //    if (CustomMovement.faceDirection == -1)
+        //    {
+        //        _transform.rotation = Quaternion.Euler(_transform.rotation.x, _transform.rotation.z * -1, _transform.rotation.z);
+        //    }
+        //    if (CustomMovement.faceDirection == 1)
+        //    {
+        //        _transform.rotation = Quaternion.Euler(_transform.rotation.x, 180, _transform.rotation.z);
+        //    }
+        //    CustomMovement.faceDirection = -CustomMovement.faceDirection;
+        //}
+        //_ClimbState = Jump;
     }
 
     void Jump()
@@ -580,7 +584,7 @@ public class Climb
             _ClimbState = StartClimbWithFreeze;
         }
 
-        _customMovement.JumpClimb2();
+        //_customMovement.JumpClimb2();
         _alreadyStarted = false;
     }
 
