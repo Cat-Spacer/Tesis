@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using IA;
-using UnityEditor.Experimental.GraphView;
 
 public class SpiderControl : MonoBehaviour
 {
