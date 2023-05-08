@@ -54,16 +54,25 @@ public class MovingPlatform : MonoBehaviour, IElectric
             }
             currentWaypoint += _senseDir;
         }
-        if (dist < arriveMag)
+        if (!stop)
         {
-            _myRB2D.velocity = dir * _speed * dist * Time.fixedDeltaTime;
-            //platform.transform.position += dir * _speed * dist * Time.deltaTime;
+            if (dist < arriveMag)
+            {
+                _myRB2D.velocity = dir * _speed * dist * Time.fixedDeltaTime;
+                //platform.transform.position += dir * _speed * dist * Time.deltaTime;
+            }
+            else
+            {
+                _myRB2D.velocity = dir * _speed * Time.fixedDeltaTime;
+                //platform.transform.position += dir * _speed * Time.deltaTime;
+            }
         }
-        else
-        {
-            _myRB2D.velocity = dir * _speed * Time.fixedDeltaTime;
-            //platform.transform.position += dir * _speed * Time.deltaTime;
+        else if (stop)
+        { 
+            _myRB2D.velocity = new Vector2(0, 0); 
         }
+
+       
     }
 
     public void TurnOn()
@@ -76,6 +85,18 @@ public class MovingPlatform : MonoBehaviour, IElectric
         _MoveAction = delegate { };
         _myRB2D.velocity = new Vector2(0, 0);
     }
-
+    bool stop = false;
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == 27)
+        {
+            stop = true;
+        }
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == 27)
+            stop = false;
+    }
 
 }
