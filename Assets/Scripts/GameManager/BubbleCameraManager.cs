@@ -12,7 +12,7 @@ public class BubbleCameraManager : MonoBehaviour
     private Collider2D _col;
     [SerializeField] private GameObject _container;
     private Plane[] _cameraFrustum;
-    [SerializeField] private bool _startedCorroutine;
+    public bool startedCorroutine = true;
 
     void Start()
     {
@@ -21,8 +21,9 @@ public class BubbleCameraManager : MonoBehaviour
         _hamster = FindObjectOfType<Hamster>();
         _camera = Camera.main;
         _col = _hamster.gameObject.GetComponent<Collider2D>();
-        _startedCorroutine = true;
+        startedCorroutine = true;
         _container = _zoomEffect.transform.gameObject;
+        //_zoomEffect.gameObject.SetActive(false);
     }
 
     void LateUpdate()
@@ -38,21 +39,20 @@ public class BubbleCameraManager : MonoBehaviour
 
         if (GeometryUtility.TestPlanesAABB(_cameraFrustum, bounds))
         {
-            if (_startedCorroutine)
+            if (startedCorroutine)
             {
-                Debug.Log($"_startedCorroutine = {_startedCorroutine}");
+                //Debug.Log($"startedCorroutine = {startedCorroutine}");
+                startedCorroutine = false;
                 _fadeInOut.StartFades(false, _container);
-                _startedCorroutine = false;
             }
         }
         else
         {
-            if (!_startedCorroutine)
+            if (startedCorroutine)
             {
-                Debug.Log($"_startedCorroutine = {_startedCorroutine}");
-
+                //Debug.Log($"startedCorroutine = {startedCorroutine}");
+                startedCorroutine = false;
                 _fadeInOut.StartFades(true, _container);
-                _startedCorroutine = true;
             }
         }
     }
