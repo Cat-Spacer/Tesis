@@ -162,7 +162,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     {
         float targetSpeed;
         running = true;
-        if (onGround)
+        if (onGround && !isJumping)
         {
             if (!onClimb && rb.velocity.x > .1f)
             {
@@ -196,7 +196,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     {
         float targetSpeed;
         running = true;
-        if (onGround)
+        if (onGround && !isJumping)
         {
             if (!onClimb && rb.velocity.x < -.1f)
             {
