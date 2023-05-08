@@ -10,11 +10,20 @@ public class Generator : MonoBehaviour
     [SerializeField] private int _energyNeeded;
     [SerializeField] private float _delaySeconds = 1.0f;
     public GameObject buttons = null;
+    private Hamster _hamster;
 
     private void Start()
     {
         if (_test)
             StartGenerator();
+
+        _hamster=FindObjectOfType<Hamster>();
+    }
+
+    public void ReturnButton()
+    {
+        _hamster.ReturnToCat();
+        buttons.SetActive(false);
     }
 
     public int EnergyNeeded { get { return _energyNeeded; } }

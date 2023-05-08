@@ -74,6 +74,7 @@ public class MovingPlatform : MonoBehaviour, IElectric
     public void TurnOff()
     {
         _MoveAction = delegate { };
+        _myRB2D.velocity = new Vector2(0, 0);
     }
 
 

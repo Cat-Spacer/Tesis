@@ -41,6 +41,10 @@ public class Hamster : MonoBehaviour
     private void LateUpdate()
     {
         _controller.OnUpdate();
+
+        if (Input.GetMouseButtonDown(1)) {
+            ReturnToCat();
+        }
     }
 
     public void MoveWithPlayer()
@@ -105,7 +109,7 @@ public class Hamster : MonoBehaviour
             {
                 _energyCollected -= _generator.EnergyNeeded;
                 //_generator.StartGenerator();
-                _generator.buttons.SetActive(true);
+               // _generator.buttons.SetActive(true);
             }
         }
         else
@@ -128,8 +132,9 @@ public class Hamster : MonoBehaviour
         //Debug.Log($"tube = {tube}");
         if (tube == null) //Si no hay siguiente tubo sale del tubo
         {
-            _inTube = false;
-            _HamsterAction = MoveWithPlayer;
+        
+            _generator.buttons.SetActive(true);
+         
             Debug.Log($"tube = {tube}");
         }
         else //Se mueve al siguiente tubo
@@ -140,6 +145,11 @@ public class Hamster : MonoBehaviour
             _currentTubePos = tube.GetCenter();
             _inTube = true;
         }
+    }
+    public void ReturnToCat()
+    {
+        _inTube = false;
+        _HamsterAction = MoveWithPlayer;
     }
 
     public void HamsterCatched()
