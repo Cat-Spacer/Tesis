@@ -5,47 +5,41 @@ using System;
 
 public class CustomMovement : PlayerDatas, IDamageable, ITrap
 {
-    private PlayerInput playerInput;
+    private PlayerInput _playerInput;
     public Rigidbody2D rb;
-    private Action _TimeCounterAction;
-    private Action _PlayerActions;
-    private Action _Inputs;
-    [SerializeField] Transform _respawnPoint;
-    [SerializeField] TrailRenderer _dashTrail;
+    private Action _TimeCounterAction, _PlayerActions, _Inputs;
+    [SerializeField] private Transform _respawnPoint;
+    [SerializeField] private TrailRenderer _dashTrail;
     public Climb _climbScript;
-    BoxCollider2D _collider;
+    private BoxCollider2D _collider;
     public static bool isJumping = false;
-    private GameObject currentTrap;
-    public float jumpForceClimbHeight = 400;
-    public float jumpForceClimbLatitud = 150;
-    EnergyPower _energyPowerScript;
-    private IInteract interactObj;
-    private Action _MovementState;
-    private Action _DashState;
-    float _baseJump;
+    private GameObject _currentTrap;
+    public float jumpForceClimbHeight = 400, jumpForceClimbLatitud = 150;
+    private EnergyPower _energyPowerScript;
+    private IInteract _interactObj;
+    private Action _MovementState, _DashState;
+    private float _baseJump;
     public GameObject boosterFeedBack;
-    Vector2 startScale;
-    Vector2 smallerScale;
-    Vector2 startGroundCheckSize;
-    Vector2 smallerGroundCheckSize;
+    private Vector2 _startScale, _smallerScale, _startGroundCheckSize, _smallerGroundCheckSize;
 
-    public float modiffyIceJumpY = 1;
-    public float modiffyIceJumpX = 1;
+    public float modiffyIceJumpY = 1, modiffyIceJumpX = 1;
+
+    [SerializeField] private LayerMask _ignoredPhysics;
 
     private void Awake()
     {
-        startScale = transform.localScale;
-        smallerScale = startScale * 0.7f;
-        startGroundCheckSize = groundCheckSize;
-        smallerGroundCheckSize = startGroundCheckSize * 0.7f;
+        _startScale = transform.localScale;
+        _smallerScale = _startScale * 0.7f;
+        _startGroundCheckSize = groundCheckSize;
+        _smallerGroundCheckSize = _startGroundCheckSize * 0.7f;
         boosterFeedBack.gameObject.SetActive(false);
         _collider = GetComponent<BoxCollider2D>();
-        playerInput = GetComponent<PlayerInput>();
+        _playerInput = GetComponent<PlayerInput>();
         _energyPowerScript = GetComponent<EnergyPower>();
         rb = GetComponent<Rigidbody2D>();
 
         _climbScript = new Climb();
-        _climbScript.SetClimb(playerInput, _collider, rb, transform, _upSpeed, _downSpeed,
+        _climbScript.SetClimb(_playerInput, _collider, rb, transform, _upSpeed, _downSpeed,
             _distanceToRope, _climbLayerMask, _impulseDirectionExitForce, _impulseExitRopeForce, anim, this, gravityForceDefault, _energyPowerScript,
              groundLayer);
     }
@@ -112,7 +106,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         else s_Imput = false;
         if (PlayerInput.right_Input) d_Input = true;
         else d_Input = false;
-        if (playerInput.attackImput) attackInput = true;
+        if (_playerInput.attackImput) attackInput = true;
         else attackInput = false;
         if (PlayerInput.interactionInput) interactionInput = true;
         else interactionInput = false;
@@ -134,24 +128,24 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         if (interact == null)
         {
             _playerCanvas.InteractEvent(false);
-            if (interactObj != null)
+            if (_interactObj != null)
             {
-                interactObj.ShowInteract(false);
-                interactObj = null;
+                _interactObj.ShowInteract(false);
+                _interactObj = null;
             }
             return;
         }
-        interactObj = interact.GetComponent<IInteract>();
-        if (interactObj == null) return;
+        _interactObj = interact.GetComponent<IInteract>();
+        if (_interactObj == null) return;
         else
         {
 
             _playerCanvas.InteractEvent(true);
-            interactObj.ShowInteract(true);
+            _interactObj.ShowInteract(true);
         }
         if (PlayerInput.interactionInput)
         {
-            interactObj.Interact();
+            _interactObj.Interact();
         }
     }
     #endregion
@@ -162,7 +156,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     {
         float targetSpeed;
         running = true;
-        if (onGround && !isJumping)
+        if (onGround)
         {
             if (!onClimb && rb.velocity.x > .1f)
             {
@@ -196,7 +190,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     {
         float targetSpeed;
         running = true;
-        if (onGround && !isJumping)
+        if (onGround)
         {
             if (!onClimb && rb.velocity.x < -.1f)
             {
@@ -224,7 +218,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         }
         targetSpeed = faceDirection * maxSpeed;
         rb.velocity = new Vector2(targetSpeed, rb.velocity.y);
-      //  Debug.Log($"<Color=magenta>The rigidbody velocity is: {rb.velocity}</color>");
+        //  Debug.Log($"<Color=magenta>The rigidbody velocity is: {rb.velocity}</color>");
     }
 
     public void StopMovement()
@@ -238,7 +232,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             hasPlayedMovement = false;
         }
         if (!OnIce) rb.velocity = new Vector2(0, rb.velocity.y);
-       // Debug.Log($"<Color=magenta>The rigidbody velocity is: {rb.velocity}</color>");
+        // Debug.Log($"<Color=magenta>The rigidbody velocity is: {rb.velocity}</color>");
         _MovementState = delegate { };
     }
 
@@ -260,16 +254,16 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     {
         jumpForce = force_arg;
         boosterFeedBack.gameObject.SetActive(true);
-        transform.localScale = smallerScale;
-        groundCheckSize = smallerGroundCheckSize;
+        transform.localScale = _smallerScale;
+        groundCheckSize = _smallerGroundCheckSize;
     }
 
     public void RestartJumpValue()
     {
         jumpForce = _baseJump;
         boosterFeedBack.gameObject.SetActive(false);
-        transform.localScale = startScale;
-        groundCheckSize = startGroundCheckSize;
+        transform.localScale = _startScale;
+        groundCheckSize = _startGroundCheckSize;
     }
     public void JumpUp(bool jumpUp) //Saltar
     {
@@ -729,11 +723,11 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     }
 
     public static bool collisionObstacle = false;
-    [SerializeField] LayerMask _obstacleLayers;
+    [SerializeField] private LayerMask _obstacleLayers;
 
     public static bool canHorizontalClimb;
 
-    bool icyWall;
+    private bool icyWall;
     public void ClimbState()
     {
         jumping = false;
@@ -743,6 +737,12 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        /*if (collision.gameObject.layer == 24)
+        {
+            Debug.Log($"Ignored Collision");
+            Physics2D.IgnoreCollision(GetComponent<Collider2D>(), collision.collider);
+        }*/
+
         if (collision.gameObject.layer == 6 && !isJumping)
         {
             _fallParticle.Play();
@@ -786,7 +786,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         }
     }
 
-    bool OnIce = false;
+    private bool OnIce = false;
 
     void OnTriggerEnter2D(Collider2D collision)
     {
@@ -869,7 +869,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     {
         if (PlayerInput.trapInput)
         {
-            var trap = currentTrap.GetComponent<ILiberate>();
+            var trap = _currentTrap.GetComponent<ILiberate>();
             if (trap == null) return;
             trap.TryLiberate();
         }
@@ -881,7 +881,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             //anim.SetBool("TrapByPlant", true);
             _PlayerActions = Liberate;
             _Inputs = TrapInputs;
-            currentTrap = enemy;
+            _currentTrap = enemy;
             _playerCanvas.TrapEvent(trapState, life);
         }
         else

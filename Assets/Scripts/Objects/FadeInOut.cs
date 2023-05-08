@@ -9,11 +9,13 @@ public class FadeInOut : MonoBehaviour
     [SerializeField, Range(0.75f, 1.0f)] float _maxFadeIn = 1.0f;
     [SerializeField, Range(0.0f, 0.6f)] float _maxFadeOut = 0.0f;
 
+    private BubbleCameraManager _bubbleCameraManager;
     private SpriteRenderer _spriteRenderer;
     private Color _color;
 
     void Start()
     {
+        _bubbleCameraManager = FindObjectOfType<BubbleCameraManager>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _color = _spriteRenderer.color;
         _spriteRenderer.color = _color;
@@ -32,13 +34,10 @@ public class FadeInOut : MonoBehaviour
 
     IEnumerator FadeEffect(bool fade, GameObject target = null)
     {
-
-
         while (fade && _fadeOut)///Fade Out - screen on
         {
             if (target)
                 target.SetActive(fade);
-            Debug.Log($"_color.a = {_color.a}");
             _color.a -= Time.deltaTime / _fadeSpeed;
             _spriteRenderer.color = _color;
             if (_color.a < _maxFadeOut)
@@ -61,5 +60,8 @@ public class FadeInOut : MonoBehaviour
             }
             yield return null;
         }
+
+
+        _bubbleCameraManager.startedCorroutine = true;
     }
 }
