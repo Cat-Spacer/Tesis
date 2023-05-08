@@ -79,6 +79,8 @@ GameObject:
   - component: {fileID: 8257163533494423038}
   - component: {fileID: 8257163533494423039}
   - component: {fileID: 8257163533494423036}
+  - component: {fileID: 7090074511239070103}
+  - component: {fileID: 8750489617757838378}
   m_Layer: 16
   m_Name: Spider
   m_TagString: Untagged
@@ -174,6 +176,43 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &7090074511239070103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8257163533494423026}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b17fa342ba03eb344b22c2e3362a8197, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8750489617757838378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8257163533494423026}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d36f3ee7e68c64d4b82dee3642603d5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0
+  maxSpeed: 0
+  maxForce: 0
+  _target: {fileID: 0}
+  viewRadius: 360
+  viewAngle: 360
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
+  pathNodes: []
+  wayPoints: []
+  _wayPointIndex: 0
+  current: 0
 --- !u!1 &8257163533725220132
 GameObject:
   m_ObjectHideFlags: 0
