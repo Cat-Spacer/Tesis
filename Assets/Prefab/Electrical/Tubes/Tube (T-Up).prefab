@@ -1192,6 +1192,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7957785484357119015}
   - component: {fileID: 4637697759503487937}
+  - component: {fileID: 13684614836493462}
   - component: {fileID: 1372704585755793187}
   m_Layer: 23
   m_Name: Settings
@@ -1245,6 +1246,20 @@ MonoBehaviour:
   _checkpoint: 1
   _entry: 0
   _exit: 0
+--- !u!114 &13684614836493462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9047189606618401892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fefc4aea16e09f74c81a1099ae163e96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  neighbours: []
+  cost: 1
 --- !u!61 &1372704585755793187
 BoxCollider2D:
   m_ObjectHideFlags: 0

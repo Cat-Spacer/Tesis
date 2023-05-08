@@ -8,13 +8,13 @@ public class SpiderControl : MonoBehaviour
     public enum States { IDLE, FOLLOW, ATTACK, RETURN }
     private EventFSM<States> _myFsm;
 
-    private Spider spider;
+    private Spider _spider;
     private NodePoint _goalNode;
     private List<NodePoint> pathList;
 
     private void Awake()
     {
-        spider = GetComponent<Spider>();  //asignar de forma correcta, no por get component
+        _spider = GetComponent<Spider>();  //asignar de forma correcta, no por get component
 
 
         var idle = new State<States>("idle");
@@ -58,22 +58,22 @@ public class SpiderControl : MonoBehaviour
         //RETURN
         returning.OnEnter += x =>
         {
-            _goalNode = spider.wayPoints[0].GetComponent<NodePoint>();
+            _goalNode = _spider.wayPoints[0].GetComponent<NodePoint>();
 
-            pathList = spider.ConstructPathAStar(spider.transform.position, _goalNode);
+            pathList = _spider.ConstructPathAStar(_spider.transform.position, _goalNode);
             
         };
 
         returning.OnUpdate += () =>
         {
-            spider.Move(pathList);
+            _spider.Move(pathList);
 
             if (Input.GetKeyDown(KeyCode.F))  //cambiar esto a if ve al player
                 SendInputToFSM(States.FOLLOW);
 
-            if (spider.current >= pathList.Count)
+            if (_spider.current >= pathList.Count)
             {
-                spider.current = 0;
+                _spider.current = 0;
                 SendInputToFSM(States.IDLE);
             }
         };
@@ -86,16 +86,16 @@ public class SpiderControl : MonoBehaviour
         //FOLLOW
         following.OnEnter += x =>
         {
-            _goalNode = spider.wayPoints[0].GetComponent<NodePoint>();  //cambiar por el node en el que se encuentra el player en el momento de ser detectado.
+            _goalNode = _spider.wayPoints[0].GetComponent<NodePoint>();  //cambiar por el node en el que se encuentra el player en el momento de ser detectado.
                                                                         //Al ser detectado agarrar el nodo mas cercano y pasarlo por aca
 
-            pathList = spider.ConstructPathAStar(spider.transform.position, _goalNode);
+            pathList = _spider.ConstructPathAStar(_spider.transform.position, _goalNode);
         };
         following.OnUpdate += () =>
         {
-            spider.Move(pathList);
+            _spider.Move(pathList);
 
-            if (Input.GetKeyDown(KeyCode.R) && spider.current >= pathList.Count)  //cambiar el key r a if DEJA DE VER al player o dejart solo al completar el count
+            if (Input.GetKeyDown(KeyCode.R) && _spider.current >= pathList.Count)  //cambiar el key r a if DEJA DE VER al player o dejart solo al completar el count
                 SendInputToFSM(States.RETURN);
 
             if (Input.GetKeyDown(KeyCode.A))  //cambiar el key down A a if esta en el rango de ataque al player
@@ -114,7 +114,7 @@ public class SpiderControl : MonoBehaviour
         //ATTACK
         attacking.OnEnter += x =>
         {
-            spider.Attack(); 
+            _spider.Attack(); 
         };
         attacking.OnUpdate += () =>
         {

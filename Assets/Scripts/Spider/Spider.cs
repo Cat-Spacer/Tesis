@@ -30,6 +30,11 @@ public class Spider : MonoBehaviour
 
     public int current = 0;
 
+    private void Start()
+    {
+        _target = FindObjectOfType<Hamster>().gameObject;
+    }
+
     private void Update()
     {
         transform.position += _velocity * Time.deltaTime;
@@ -37,7 +42,7 @@ public class Spider : MonoBehaviour
     }
     public void Attack()
     {
-        Debug.Log("spider attack");
+        Debug.Log("_spider attack");
     }
 
     public List<NodePoint> ConstructPathAStar(Vector2 pos, NodePoint goalNode)
