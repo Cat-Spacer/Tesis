@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ElectricalShield : MonoBehaviour, IElectric
 {
-    public GameObject scrollbarObject;
+    public Button scrollbarObject;
     public GameObject topCapObject;
     public GameObject bottomCapObject;
     public float sensitivity = 1f;
@@ -22,34 +23,33 @@ public class ElectricalShield : MonoBehaviour, IElectric
         //_IsOn = false;
         scrollbarStartPosition = scrollbarObject.transform.position;
         scrollbarLength = topCapObject.transform.position.y - bottomCapObject.transform.position.y;
-    }
 
+    }
     void Update()
     {
-        if (!_IsOn)
-            return;
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            isDragging = true;
-            dragStartPosition = Input.mousePosition.y;
-        }
-        else if (Input.GetMouseButtonUp(0))
-        {
-            isDragging = false;
-        }
+       
 
         if (isDragging)
         {
+            Debug.Log("is dragging 2");
+            dragStartPosition = Input.mousePosition.y;
             for (int i = 0; i < 5; i++)
             { // repetir la detección de la posición del mouse 5 veces por fotograma
                 float dragDelta = Input.mousePosition.y - dragStartPosition;
                 float newPosition = scrollbarObject.transform.position.y + dragDelta * sensitivity / 5f;
                 newPosition = Mathf.Clamp(newPosition, bottomCapObject.transform.position.y, topCapObject.transform.position.y);
+                Debug.Log(newPosition);
                 scrollbarObject.transform.position = new Vector3(scrollbarStartPosition.x, newPosition, scrollbarStartPosition.z);
                 dragStartPosition = Input.mousePosition.y;
             }
+
         }
+        if (Input.GetMouseButtonUp(0))
+        {
+            isDragging = false;
+        }
+ 
+        
     }
     public void TurnOff()
     {
@@ -59,6 +59,17 @@ public class ElectricalShield : MonoBehaviour, IElectric
     public void TurnOn()
     {
         _IsOn = true;
+    }
+    public void Clicked()
+    {
+        if (!_IsOn ) return;
+        Vector3 mousePosition = Input.mousePosition;
+
+        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, -Camera.main.transform.position.z));
+
+        if (worldPosition.y <= bottomCapObject.transform.position.y || worldPosition.y >= topCapObject.transform.position.y) return;
+
+            scrollbarObject.transform.position = new Vector3(scrollbarObject.transform.position.x, worldPosition.y, scrollbarObject.transform.position.z);
     }
 
    /* void Start()
