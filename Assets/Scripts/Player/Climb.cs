@@ -98,7 +98,7 @@ public class Climb
     /// </summary>
     void ClimbState(KeyCode keyPressed_arg, bool state)
     {
-        Debug.Log($"<Color=red>Climb State New Direction</color>");
+       // Debug.Log($"<Color=red>Climb State New Direction</color>");
 
         if (InSight(_climbLayerMask) && _energyPowerScript.EnergyDrain(0.05f))
         {
@@ -173,7 +173,7 @@ public class Climb
 
     public void EndClimbingState()
     {
-        Debug.Log($"<Color=red>End Climbing State</color>");
+       // Debug.Log($"<Color=red>End Climbing State</color>");
         _customMovement.onClimb = false;
         isClimbing = false;
         onClimb = false;
@@ -184,7 +184,7 @@ public class Climb
 
     public void PauseClimbingState()
     {
-        Debug.Log($"<Color=red>Pause Climbing State</color>");
+      //  Debug.Log($"<Color=red>Pause Climbing State</color>");
         if (!_customMovement.onGround) _customMovement.ChangeAnimationState("ClimbIdle");
         //_animator.SetBool("OnWall", true);
         //_animator.SetBool("Climbing", false);
