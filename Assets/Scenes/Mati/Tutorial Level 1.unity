@@ -6538,17 +6538,20 @@ MonoBehaviour:
   _maxSpeed: 5
   _pointRadius: 0
   _checkRadius: 2
+  _interactRadius: 2.5
   _tubeLayerMask:
     serializedVersion: 2
     m_Bits: 8388608
   _generatorLayerMask:
     serializedVersion: 2
     m_Bits: 268435456
+  _inTube: 0
   _currentTube: {fileID: 0}
   _lastTube: {fileID: 0}
   _currentTubePos: {x: 0, y: 0, z: 0}
-  _testGenerator: {fileID: 0}
+  _generator: {fileID: 0}
   _energyCollected: 0
+  visible: 1
 --- !u!58 &115382815
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -68288,17 +68291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23f83c549c622dc4ca73775547bc6d47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _respawnPoint:
-  - {fileID: 256110141}
-  - {fileID: 1580889602}
-  - {fileID: 712125877}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  _respawnPoint: {fileID: 0}
   _respawnArea:
   - respawnPoint: {fileID: 256110141}
     resetObjects:
@@ -68411,6 +68404,7 @@ MonoBehaviour:
     speed: 0
     lastLevel: 0
     myAbilities: []
+    mySpritesName: []
   _saveDataPath: 
 --- !u!199 &1483644259647031243
 ParticleSystemRenderer:

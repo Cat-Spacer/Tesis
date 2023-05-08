@@ -39,11 +39,12 @@ public class BubbleCameraManager : MonoBehaviour
 
         if (GeometryUtility.TestPlanesAABB(_cameraFrustum, bounds))
         {
-            if (startedCorroutine)
+            //if (startedCorroutine)
             {
                 //Debug.Log($"startedCorroutine = {startedCorroutine}");
-                startedCorroutine = false;
-                _fadeInOut.StartFades(false, _container);
+                //startedCorroutine = false;
+                //_fadeInOut.StartFades(false, _container);
+                _fadeInOut.StartCoroutine(_fadeInOut.FadeEffect(false, _container));
             }
         }
         else

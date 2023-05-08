@@ -35,7 +35,7 @@ public class ArrowMoveButton : MonoBehaviour
 
     private void OnMouseOver()
     {
-        Debug.Log($"mouse is over {gameObject.name} of {gameObject.transform.parent.name}");
+        //Debug.Log($"mouse is over {gameObject.name} of {gameObject.transform.parent.name}");
         if (Input.GetKeyDown(KeyCode.Mouse0))
             EjecuteOrder66();
     }

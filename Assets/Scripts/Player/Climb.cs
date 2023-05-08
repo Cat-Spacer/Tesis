@@ -104,13 +104,13 @@ public class Climb
         {
             if (keyPressed_arg == KeyCode.W)
             {
-                Debug.Log("Climb Up");
+                //Debug.Log("Climb Up");
                 _vector = Vector2.up;
                 _speed = _upSpeed;
             }
             if (keyPressed_arg == KeyCode.S)
             {
-                Debug.Log("Climb Down");
+                //Debug.Log("Climb Down");
                 _vector = Vector2.down;
                 _speed = _downSpeed;
             }
@@ -149,17 +149,17 @@ public class Climb
 
     public void StartClimbWithFreeze()
     {
-        Debug.Log( $"<Color=red>Strat climbing with Freeze State</color>");
+        //Debug.Log( $"<Color=red>Strat climbing with Freeze State</color>");
         _customMovement.onClimb = true;
         isClimbing = true;
         _ClimbState = Freeze;
         _customMovement.ClimbState();
-        Debug.Log($"<Color=red>Strat climbing vector is: {_vector}</color>");
+        //Debug.Log($"<Color=red>Strat climbing vector is: {_vector}</color>");
     }
 
     public void StartClimbingState()
     {
-        Debug.Log($"<Color=red>Start Climbing State</color>");
+        //Debug.Log($"<Color=red>Start Climbing State</color>");
         _customMovement.onClimb = true;
         SoundManager.instance.Play(SoundManager.Types.Climb);
         onClimb = true;
@@ -193,7 +193,7 @@ public class Climb
 
     public void FreezeClimbingState()
     {
-        Debug.Log($"<Color=red>Freeze Climbing State</color>");
+        //Debug.Log($"<Color=red>Freeze Climbing State</color>");
         if (!_customMovement.onGround) _customMovement.ChangeAnimationState("ClimbIdle");
         //_animator.SetBool("Climbing", false);
         //_animator.SetBool("OnWall", true);
@@ -240,7 +240,7 @@ public class Climb
 
     public void ClimbActionVertical()
     {
-        Debug.Log($"<Color=red> Climbing vertical Action</color>");
+        //Debug.Log($"<Color=red> Climbing vertical Action</color>");
 
         rotationVector = _transform.rotation.eulerAngles;
         rotationVector.z = 0;
@@ -249,13 +249,13 @@ public class Climb
 
         if (!InSight(_climbLayerMask) && !FootInSight())
         {
-            Debug.Log("1");
+            //Debug.Log("1");
             _impulseForce = _impulseDirectionExitForce;
             _ClimbState = EndClimb;
         }
         else if (!InSight(_climbLayerMask) && FootInSight())
         {
-            Debug.Log("2");
+            //Debug.Log("2");
             _ClimbState = EndRope;
         }
         //WhileClimbingState();
@@ -264,12 +264,12 @@ public class Climb
             (PlayerInput.left_Input && !PlayerInput.right_Input && !PlayerInput.up_Input && !PlayerInput.down_Input) ||
             (!PlayerInput.left_Input && !PlayerInput.right_Input && !PlayerInput.up_Input && !PlayerInput.down_Input))
         {
-            Debug.Log("3");
+            //Debug.Log("3");
             _ClimbState = Freeze;
         }
         else if (PlayerInput.up_Input || PlayerInput.down_Input)
         {
-            Debug.Log("4");
+            //Debug.Log("4");
           //  Debug.Log($"<Color=blue>Climb action vertical direction: {_vector}</color>"); 
             _rb.velocity = _vector * _speed;
           //  Debug.Log($"<Color=blue>Climb action vertical rb.velocity: {_rb.velocity}</color>");
@@ -282,7 +282,7 @@ public class Climb
 
     public void ClimbActionHorizontal()
     {
-        Debug.Log($"<Color=red>Climbing horizontal Action</color>");
+        //Debug.Log($"<Color=red>Climbing horizontal Action</color>");
         _energyPowerScript.EnergyDrain(0.05f);
         rotationVector = _transform.rotation.eulerAngles;
         rotationVector.z = 90;
@@ -320,7 +320,7 @@ public class Climb
 
     public void FreezeHorizontal()
     {
-        Debug.Log($"<Color=red>Freeze Climbing horizontal Action</color>");
+        //Debug.Log($"<Color=red>Freeze Climbing horizontal Action</color>");
         PauseClimbingState();
         isHorizontal = true;
         _rb.constraints = RigidbodyConstraints2D.FreezeAll;
@@ -334,7 +334,7 @@ public class Climb
 
     public void WaitHorizontal()
     {
-        Debug.Log($"<Color=red>Climbing Idle horizontal state</color>");
+        //Debug.Log($"<Color=red>Climbing Idle horizontal state</color>");
         _energyPowerScript.EnergyDrain(0.05f);
 
         if (PlayerInput.left_Input && !PlayerInput.down_Input)
@@ -475,7 +475,7 @@ public class Climb
 
     public void ForceDash()
     {
-        Debug.Log("dashing");
+        //Debug.Log("dashing");
         _rb.velocity = Vector2.right * 45 * CustomMovement.faceDirection;
         _rb.constraints = RigidbodyConstraints2D.FreezePositionY;
         _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
@@ -484,12 +484,12 @@ public class Climb
 
     public void EndDash()
     {
-        Debug.Log("END DASH");
+        //Debug.Log("END DASH");
 
         if (InSight(_climbLayerMask))
         {
             _customMovement.EndDashFeedBack();
-            Debug.Log("start climb");
+            //Debug.Log("start climb");
             StartClimbingState();
             _rb.constraints = ~RigidbodyConstraints2D.FreezePositionY;
             CustomMovement.isDashing = false;
@@ -498,7 +498,7 @@ public class Climb
         else if (CustomMovement.collisionObstacle || Vector2.Distance(_transform.position, dashStart) >= 3)
         {
             _customMovement.EndDashFeedBack();
-            Debug.Log("end climb");
+            //Debug.Log("end climb");
             _rb.velocity = Vector2.zero;
             _rb.angularVelocity = 0;
             CustomMovement.isDashing = false;
@@ -550,7 +550,7 @@ public class Climb
 
     void EndClimbForJump()
     {
-        Debug.Log("ACAAAA");
+        //Debug.Log("ACAAAA");
         canClimbJump = false;
         _rb.velocity = new Vector2(0, 0);
         //_rb.velocity = new Vector2(_rb.velocity.y, 0);
@@ -597,7 +597,7 @@ public class Climb
         //_ClimbState = delegate { };
         isHorizontal = false;
         _ClimbState = EndClimb;
-        Debug.Log("SUTIL END");
+        //Debug.Log("SUTIL END");
     }
 
     void EndClimbForDash()
