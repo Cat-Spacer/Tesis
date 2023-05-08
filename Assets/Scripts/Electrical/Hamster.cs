@@ -16,7 +16,7 @@ public class Hamster : MonoBehaviour
     [SerializeField] Tube _currentTube;
     [SerializeField] Tube _lastTube;
     [SerializeField] Vector3 _currentTubePos;
-    [SerializeField] Generator _testGenerator;
+    [SerializeField] Generator _generator;
     [SerializeField] int _energyCollected;
     public bool visible = true;
 
@@ -91,22 +91,32 @@ public class Hamster : MonoBehaviour
     }
     void CheckNextTube()
     {
-        if (_currentTube.IsCheckpoint() || _currentTube.IsEntry())
+        if (_currentTube.IsCheckpoint() || _currentTube.IsEntry() || _currentTube.IsExit())
         {
             _currentTube.GetPossiblePaths(this);
             _HamsterAction = delegate { };
+
             if (!Physics2D.OverlapCircle(transform.position, _checkRadius, _generatorLayerMask)) return;
             var generator = Physics2D.OverlapCircle(transform.position, _checkRadius, _generatorLayerMask)
                 .gameObject.GetComponent<Generator>();
-            _testGenerator = generator;
-            if (_currentTube.IsExit() && _testGenerator != null && _testGenerator.EnergyNeeded <= _energyCollected)
+            _generator = generator;
+
+            if ((_currentTube.IsExit() || _currentTube.IsCheckpoint()) && _generator != null && _generator.EnergyNeeded <= _energyCollected)
             {
-                _energyCollected -= _testGenerator.EnergyNeeded;
-                _testGenerator.StartGenerator();
+                _energyCollected -= _generator.EnergyNeeded;
+                //_generator.StartGenerator();
+                _generator.buttons.SetActive(true);
             }
         }
         else
         {
+            //if (Physics2D.OverlapCircle(transform.position, _checkRadius, _generatorLayerMask))
+            //{
+            //    var generator = Physics2D.OverlapCircle(transform.position, _checkRadius, _generatorLayerMask)
+            //    .gameObject.GetComponent<Generator>();
+            //    if (generator.buttons.activeInHierarchy) _generator.buttons.SetActive(false);
+            //}            
+
             var nextTube = _currentTube.GetNextPath(_lastTube);
             _lastTube = _currentTube;
             _currentTube = nextTube;

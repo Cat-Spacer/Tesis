@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class FadeInOut : MonoBehaviour
 {
-    [SerializeField] float _fadeSpeed = 1.0f;
+    [SerializeField, Range(1.0f, 50.0f)] float _fadeSpeed = 1.0f;
     [SerializeField] bool _fadeOut = false, _fadeIn = false;
     [SerializeField, Range(0.75f, 1.0f)] float _maxFadeIn = 1.0f;
     [SerializeField, Range(0.0f, 0.6f)] float _maxFadeOut = 0.0f;
-    SpriteRenderer _spriteRenderer;
-    Color _color;
+
+    private SpriteRenderer _spriteRenderer;
+    private Color _color;
 
     void Start()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        ///_fadeSpeed = Mathf.Clamp(_fadeSpeed, _maxFadeOut, _maxFadeIn);
         _color = _spriteRenderer.color;
         _spriteRenderer.color = _color;
     }
@@ -25,35 +25,40 @@ public class FadeInOut : MonoBehaviour
             StartCoroutine(FadeEffect());
     }*/
 
-    public void StartFades(bool fade)
+    public void StartFades(bool fade, GameObject target = null)
     {
-        StartCoroutine(FadeEffect(fade));
+        StartCoroutine(FadeEffect(fade, target));
     }
 
-    IEnumerator FadeEffect(bool fade)
+    IEnumerator FadeEffect(bool fade, GameObject target = null)
     {
-        /*if (_color.a >= _maxFadeIn)
-        {
-            _fadeOut = true;
-            _fadeIn = false;
-        }
-        else if (_color.a < _maxFadeOut)
-        {
-            _fadeOut = false;
-            _fadeIn = true;
-        }*/
 
-        while (fade)
+
+        while (fade && _fadeOut)///Fade Out - screen on
         {
+            if (target)
+                target.SetActive(fade);
+            Debug.Log($"_color.a = {_color.a}");
             _color.a -= Time.deltaTime / _fadeSpeed;
             _spriteRenderer.color = _color;
+            if (_color.a < _maxFadeOut)
+            {
+                _fadeOut = false;
+                _fadeIn = true;
+            }
             yield return null;
         }
 
-        while (!fade)
+        while (!fade && _fadeIn)///Fade In - screen off
         {
             _color.a += Time.deltaTime / _fadeSpeed;
             _spriteRenderer.color = _color;
+            if (target && _color.a >= _maxFadeIn)
+            {
+                target.SetActive(fade);
+                _fadeOut = true;
+                _fadeIn = false;
+            }
             yield return null;
         }
     }
