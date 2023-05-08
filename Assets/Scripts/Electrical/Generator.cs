@@ -8,33 +8,56 @@ public class Generator : MonoBehaviour
     public List<GameObject> _connection;
     [SerializeField] private bool _test = false;
     [SerializeField] private int _energyNeeded;
+    [SerializeField] private float _delaySeconds = 1.0f;
+    public GameObject buttons = null;
 
     private void Start()
     {
         if (_test)
-            StartCoroutine(Delay());
+            StartGenerator();
     }
 
-    public int EnergyNeeded { get { return _energyNeeded;} }
+    public int EnergyNeeded { get { return _energyNeeded; } }
+    //public GameObject Buttons() { return _buttons; }
 
-    IEnumerator Delay()
+    IEnumerator Delay(bool power = true)
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(_delaySeconds);
         foreach (var obj in _connection)
         {
-            if (obj != null && obj.GetComponent<IElectric>() != null)
+            if (power)
             {
-                obj.GetComponent<IElectric>().TurnOn();
+                if (obj != null && obj.GetComponent<IElectric>() != null)
+                {
+                    obj.GetComponent<IElectric>().TurnOn();
+                }
+                else if (obj != null && obj.GetComponentInChildren<IElectric>() != null)
+                {
+                    obj.GetComponentInChildren<IElectric>().TurnOn();
+                }
             }
-            else if (obj != null && obj.GetComponentInChildren<IElectric>() != null)
+            else
             {
-                obj.GetComponentInChildren<IElectric>().TurnOn();
+
+                if (obj != null && obj.GetComponent<IElectric>() != null)
+                {
+                    obj.GetComponent<IElectric>().TurnOff();
+                }
+                else if (obj != null && obj.GetComponentInChildren<IElectric>() != null)
+                {
+                    obj.GetComponentInChildren<IElectric>().TurnOff();
+                }
             }
         }
     }
 
-    public void StartGenerator()
+    public void StartGenerator(bool start = true)
     {
-        StartCoroutine(Delay());
+        StartCoroutine(Delay(start));
     }
+
+    //public void PowerOffGenerator() 
+    //{
+    //    StartCoroutine(Delay(false));
+    //}
 }

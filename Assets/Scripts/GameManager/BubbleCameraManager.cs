@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class BubbleCameraManager : MonoBehaviour
 {
-    [SerializeField] FadeInOut _fadeInOut;
-    [SerializeField] ZoomEffect _zoomEffect;
-    [SerializeField] Hamster _hamster;
+    [SerializeField] private FadeInOut _fadeInOut;
+    [SerializeField] private ZoomEffect _zoomEffect;
+    [SerializeField] private Hamster _hamster;
 
-    Camera _camera;
-    Plane[] _cameraFrustum;
-    Collider2D _col;
+    private Camera _camera;
+    private Collider2D _col;
+    [SerializeField] private GameObject _container;
+    private Plane[] _cameraFrustum;
+    [SerializeField] private bool _startedCorroutine;
 
     void Start()
     {
@@ -19,32 +21,39 @@ public class BubbleCameraManager : MonoBehaviour
         _hamster = FindObjectOfType<Hamster>();
         _camera = Camera.main;
         _col = _hamster.gameObject.GetComponent<Collider2D>();
-        _zoomEffect.gameObject.SetActive(false);
-
+        _startedCorroutine = true;
+        _container = _zoomEffect.transform.gameObject;
     }
 
-    void Update()
+    void LateUpdate()
     {
         CameraInput();
     }
 
     private void CameraInput()
     {
-        if (!(_fadeInOut && _zoomEffect && _hamster)) return;
+        if (!(_fadeInOut && _container && _hamster)) return;
         var bounds = _col.bounds;
         _cameraFrustum = GeometryUtility.CalculateFrustumPlanes(_camera);
 
         if (GeometryUtility.TestPlanesAABB(_cameraFrustum, bounds))
         {
-            _hamster.visible = true;
-            _zoomEffect.transform.gameObject.SetActive(false);
-            _fadeInOut.StartFades(false);
+            if (_startedCorroutine)
+            {
+                Debug.Log($"_startedCorroutine = {_startedCorroutine}");
+                _fadeInOut.StartFades(false, _container);
+                _startedCorroutine = false;
+            }
         }
         else
         {
-            _hamster.visible = false;
-            _zoomEffect.transform.gameObject.SetActive(true);
-            _fadeInOut.StartFades(true);
+            if (!_startedCorroutine)
+            {
+                Debug.Log($"_startedCorroutine = {_startedCorroutine}");
+
+                _fadeInOut.StartFades(true, _container);
+                _startedCorroutine = true;
+            }
         }
     }
 }
