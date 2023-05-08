@@ -32,7 +32,7 @@ public class FadeInOut : MonoBehaviour
         StartCoroutine(FadeEffect(fade, target));
     }
 
-    IEnumerator FadeEffect(bool fade, GameObject target = null)
+    public IEnumerator FadeEffect(bool fade, GameObject target = null)
     {
         while (fade && _fadeOut)///Fade Out - screen on
         {
@@ -40,7 +40,7 @@ public class FadeInOut : MonoBehaviour
                 target.SetActive(fade);
             _color.a -= Time.deltaTime / _fadeSpeed;
             _spriteRenderer.color = _color;
-            if (_color.a < _maxFadeOut)
+            if (_color.a <= _maxFadeOut)
             {
                 _fadeOut = false;
                 _fadeIn = true;
@@ -60,8 +60,6 @@ public class FadeInOut : MonoBehaviour
             }
             yield return null;
         }
-
-
         _bubbleCameraManager.startedCorroutine = true;
     }
 }

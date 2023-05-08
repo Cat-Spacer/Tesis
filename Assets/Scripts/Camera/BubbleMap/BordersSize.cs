@@ -14,7 +14,7 @@ public class BordersSize : MonoBehaviour
         _rectTransform = GetComponent<RectTransform>();
         _orgScale = _rectTransform.localScale;
         _orgSize = _rectTransform.sizeDelta;
-        Debug.Log(_camera.scaledPixelWidth/_camera.rect.x);
+        //Debug.Log(_camera.scaledPixelWidth/_camera.rect.x);
     }
 
     private void Update()

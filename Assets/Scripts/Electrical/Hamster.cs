@@ -42,7 +42,8 @@ public class Hamster : MonoBehaviour
     {
         _controller.OnUpdate();
 
-        if (Input.GetMouseButtonDown(1)) {
+        if (Input.GetMouseButtonDown(1))
+        {
             ReturnToCat();
         }
     }
@@ -81,7 +82,7 @@ public class Hamster : MonoBehaviour
             else
                 distance = Vector2.Distance(tubeColl.transform.position, playerOrigPos);
 
-            Debug.Log($"distance = {distance}");
+            //Debug.Log($"distance = {distance}");
             if (distance <= _interactRadius)
             {
                 ///var getTube = tubeColl.collider.gameObject.GetComponent<Tube>();
@@ -109,7 +110,7 @@ public class Hamster : MonoBehaviour
             {
                 _energyCollected -= _generator.EnergyNeeded;
                 //_generator.StartGenerator();
-               // _generator.buttons.SetActive(true);
+                // _generator.buttons.SetActive(true);
             }
         }
         else
@@ -132,9 +133,9 @@ public class Hamster : MonoBehaviour
         //Debug.Log($"tube = {tube}");
         if (tube == null) //Si no hay siguiente tubo sale del tubo
         {
-        
-            _generator.buttons.SetActive(true);
-         
+            if (_generator)
+                _generator.buttons.SetActive(true);
+
             Debug.Log($"tube = {tube}");
         }
         else //Se mueve al siguiente tubo

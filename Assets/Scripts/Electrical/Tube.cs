@@ -31,26 +31,26 @@ public class Tube : MonoBehaviour
     }
     public void GoUp()
     {
-        Debug.Log($"GoUp");
+        //Debug.Log($"GoUp");
         _hamster.MoveToNextTube(_UpTube);
         arrows.SetActive(false);
     }
     public void GoRight()
     {
-        Debug.Log($"GoRight");
+        //Debug.Log($"GoRight");
         _hamster.MoveToNextTube(_RightTube);
         arrows.SetActive(false);
     }
     public void GoDown()
     {
-        Debug.Log($"GoDown");
+        //Debug.Log($"GoDown");
         _hamster.MoveToNextTube(_DownTube);
         arrows.SetActive(false);
 
     }
     public void GoLeft()
     {
-        Debug.Log($"GoLeft");
+        //Debug.Log($"GoLeft");
         _hamster.MoveToNextTube(_LeftTube);
         arrows.SetActive(false);
     }
