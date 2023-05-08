@@ -12,14 +12,13 @@ public class Magnet : MonoBehaviour, IElectric
     [SerializeField] float _attractForce, _pow = 1f;
     [SerializeField] LayerMask _floorLayerMask;
     [SerializeField] LayerMask _metalLayerMask;
-    [SerializeField] GameObject _onSprite, _offSprite;
-    [SerializeField] ParticleSystem _particle;
+    [SerializeField] GameObject _onSprite, _offSprite, _particle;
 
     private void Start()
     {
         _onSprite.SetActive(false);
         _offSprite.SetActive(true);
-        _particle.Stop();
+        _particle.SetActive(false);
     }
 
     private void Update()
@@ -42,7 +41,7 @@ public class Magnet : MonoBehaviour, IElectric
         _MagnetAction = Attract;
         _onSprite.SetActive(true);
         _offSprite.SetActive(false);
-        _particle.Play();
+        _particle.SetActive(true);
     }
 
     public void TurnOff()
@@ -50,7 +49,7 @@ public class Magnet : MonoBehaviour, IElectric
         _MagnetAction = delegate { };
         _onSprite.SetActive(false);
         _offSprite.SetActive(true);
-        _particle.Stop();
+        _particle.SetActive(false);
     }
     private void OnDrawGizmosSelected()
     {
