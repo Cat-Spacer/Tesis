@@ -27,12 +27,12 @@ public class CameraBorderMove : MonoBehaviour
     {
         var mov = Mathf.Lerp(_smooth, _moveAmount, Time.deltaTime);
         if (Input.mousePosition.x > Screen.width - _edgeSize)
-            transform.position = new Vector3(transform.position.x + mov, transform.position.y, transform.position.z);
+            transform.position = new Vector3(transform.position.x + mov, transform.position.y, transform.position.z) * Time.deltaTime;
         if (Input.mousePosition.x < _edgeSize)
-            transform.position = new Vector3(transform.position.x - mov, transform.position.y, transform.position.z);
+            transform.position = new Vector3(transform.position.x - mov, transform.position.y, transform.position.z) * Time.deltaTime;
         if (Input.mousePosition.y > Screen.height - _edgeSize)
-            transform.position = new Vector3(transform.position.x, transform.position.y + mov, transform.position.z);
+            transform.position = new Vector3(transform.position.x, transform.position.y + mov, transform.position.z) * Time.deltaTime;
         if (Input.mousePosition.y < _edgeSize)
-            transform.position = new Vector3(transform.position.x, transform.position.y - mov, transform.position.z);
+            transform.position = new Vector3(transform.position.x, transform.position.y - mov, transform.position.z) * Time.deltaTime;
     }
 }
