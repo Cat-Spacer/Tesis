@@ -8,30 +8,63 @@ public class CameraBirdCageFollow : MonoBehaviour
     Vector2 originalPos;
     public Vector3 offset;
     public Vector2 cameraRange;
+    public Vector2 edgeSize;
+    public float minCameraRange;
+    public float maxCameraRange;
     public float smoothFactor;
+    public float speed;
     public LayerMask playerLayerMask;
     public Collider2D coll;
-
+    public Vector3 worldPosition;
+    Plane plane = new Plane(Vector3.forward, 0);
     private void Start()
     {
         originalPos = player.position + offset;
     }
     void Update()
     {
-        Follow();
+        MousePosition();
+        EdgeScrolling();
     }
-    void Follow()
+    Vector3 Follow()
     {
-        coll = Physics2D.OverlapBox(transform.position, cameraRange, 0, playerLayerMask);
-        if (!coll && Vector3.Distance(originalPos, transform.position) > 0.1)
+        Vector3 targetPosition = player.position + offset;
+        Vector3 smoothPos = Vector3.Lerp(transform.position, targetPosition, smoothFactor * Time.deltaTime);
+        smoothPos.z = 0;
+        return smoothPos;
+    }
+    void EdgeScrolling()
+    {
+ 
+        float distance = Vector3.Distance(worldPosition, player.position);
+        if (distance > maxCameraRange)
         {
-            Vector3 targetPosition = player.position + offset;
-            Vector3 smoothPos = Vector3.Lerp(transform.position, targetPosition, smoothFactor * Time.deltaTime);
-            transform.position = smoothPos;
+            Vector3 fromOriginToObject = worldPosition - player.position;
+            fromOriginToObject *= maxCameraRange / distance;
+            worldPosition = player.position + fromOriginToObject;
+        }
+        var newPos = Vector3.Lerp(transform.position, worldPosition, smoothFactor * Time.deltaTime);
+        newPos.z = offset.z;
+        transform.position = newPos;
+
+
+        if (distance > minCameraRange)
+        {
+        }
+    }
+    void MousePosition()
+    {
+        float distance;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (plane.Raycast(ray, out distance))
+        {
+            worldPosition = ray.GetPoint(distance);
+            worldPosition.z = offset.z;
         }
     }
     private void OnDrawGizmosSelected()
     {
-        Gizmos.DrawWireCube(transform.position, cameraRange);
+        Gizmos.DrawWireSphere(player.position, minCameraRange);
+        Gizmos.DrawWireSphere(player.position, maxCameraRange);
     }
 }
