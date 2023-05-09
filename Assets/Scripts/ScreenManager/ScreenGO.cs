@@ -21,10 +21,7 @@ public class ScreenGO : IScreen
         {
             keyValue.Key.enabled = keyValue.Value;
 
-            if (keyValue.Key.GetComponent<Rigidbody2D>())
-            {
-                keyValue.Key.GetComponent<Rigidbody2D>().simulated = true;
-            }
+            keyValue.Key.gameObject.SetActive(true);
         }
 
         _before.Clear();
@@ -36,10 +33,8 @@ public class ScreenGO : IScreen
         {
             _before[b] = b.enabled;
             b.enabled = false;
-            if (b.GetComponent<Rigidbody2D>())
-            {
-                b.GetComponent<Rigidbody2D>().simulated = false;
-            }
+
+            b.gameObject.SetActive(false);
         }
     }
 
