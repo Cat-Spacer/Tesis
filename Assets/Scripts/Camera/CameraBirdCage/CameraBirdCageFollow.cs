@@ -5,22 +5,13 @@ using UnityEngine;
 public class CameraBirdCageFollow : MonoBehaviour
 {
     public Transform player;
-    Vector2 originalPos;
     public Vector3 offset;
-    public Vector2 cameraRange;
-    public Vector2 edgeSize;
-    public float minCameraRange;
     public float maxCameraRange;
     public float smoothFactor;
-    public float speed;
     public LayerMask playerLayerMask;
-    public Collider2D coll;
     public Vector3 worldPosition;
     Plane plane = new Plane(Vector3.forward, 0);
-    private void Start()
-    {
-        originalPos = player.position + offset;
-    }
+
     void Update()
     {
         MousePosition();
@@ -46,11 +37,6 @@ public class CameraBirdCageFollow : MonoBehaviour
         var newPos = Vector3.Lerp(transform.position, worldPosition, smoothFactor * Time.deltaTime);
         newPos.z = offset.z;
         transform.position = newPos;
-
-
-        if (distance > minCameraRange)
-        {
-        }
     }
     void MousePosition()
     {
@@ -64,7 +50,6 @@ public class CameraBirdCageFollow : MonoBehaviour
     }
     private void OnDrawGizmosSelected()
     {
-        Gizmos.DrawWireSphere(player.position, minCameraRange);
         Gizmos.DrawWireSphere(player.position, maxCameraRange);
     }
 }
