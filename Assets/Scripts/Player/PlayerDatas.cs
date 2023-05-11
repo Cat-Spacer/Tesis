@@ -39,6 +39,7 @@ public class PlayerDatas : MonoBehaviour
     [SerializeField] public static bool isDashing;
     [SerializeField] protected bool canDash;
     [SerializeField] protected Vector2 dashStart;
+    [SerializeField] protected float dashRaycastForce;
 
     [Header("GroundCheck")]
     [SerializeField] protected Transform groundCheckPos;

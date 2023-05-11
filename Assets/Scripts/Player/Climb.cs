@@ -508,9 +508,9 @@ public class Climb
 
     public void EndClimb()
     {
-        rotationVector.x = _transform.rotation.x * CustomMovement.faceDirection;
-        rotationVector.z = 0;
-        _transform.rotation = Quaternion.Euler(rotationVector);
+        //rotationVector.x = _transform.rotation.x * CustomMovement.faceDirection;
+        //rotationVector.z = 0;
+        //_transform.rotation = Quaternion.Euler(rotationVector);
 
         _rb.constraints = ~RigidbodyConstraints2D.FreezeAll;
         _rb.constraints = RigidbodyConstraints2D.FreezeRotation;

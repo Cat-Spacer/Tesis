@@ -6,7 +6,7 @@ using System;
 public class MovingPlatform : MonoBehaviour, IElectric
 {
     Action _MoveAction = delegate { };
-
+    [SerializeField] Vector3 _offset;
     public GameObject platform;
     [Header("Waypoints")]
     [SerializeField] private List<Transform> _waypoitns;
@@ -18,6 +18,7 @@ public class MovingPlatform : MonoBehaviour, IElectric
     private int _senseDir = 1;
     private Rigidbody2D _myRB2D;
     [SerializeField] private bool _forceTurnOn = false;
+    [SerializeField] GameObject pivot;
 
     private void Start()
     {
@@ -34,8 +35,8 @@ public class MovingPlatform : MonoBehaviour, IElectric
     }
     void Movement()
     {
-        float dist = Vector3.Distance(platform.transform.position, _waypoitns[currentWaypoint].position);
-        Vector3 dir = _waypoitns[currentWaypoint].position - platform.transform.position;
+        float dist = Vector3.Distance(pivot.transform.position, _waypoitns[currentWaypoint].position);
+        Vector3 dir = _waypoitns[currentWaypoint].position - (platform.transform.position + _offset);
         dir.Normalize();
         if (dist < 0.1)
         {
@@ -59,12 +60,10 @@ public class MovingPlatform : MonoBehaviour, IElectric
             if (dist < arriveMag)
             {
                 _myRB2D.velocity = dir * _speed * dist * Time.fixedDeltaTime;
-                //platform.transform.position += dir * _speed * dist * Time.deltaTime;
             }
             else
             {
                 _myRB2D.velocity = dir * _speed * Time.fixedDeltaTime;
-                //platform.transform.position += dir * _speed * Time.deltaTime;
             }
         }
         else if (stop)
