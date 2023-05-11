@@ -29,7 +29,7 @@ public class Hamster : MonoBehaviour
 
     public void AddEnergy(int energy_arg)
     {
-        Debug.Log("Hamster add energy");
+        //Debug.Log("Hamster add energy");
         _energyCollected += energy_arg;
     }
 

@@ -7,7 +7,6 @@ public class ZoomEffect : MonoBehaviour
     [SerializeField] private float _zoom = 2f;
     [SerializeField] private RectTransform _rectTransform;
     [SerializeField] private Camera _camera;
-    [SerializeField] private Transform _point;
     [SerializeField] private Rect _wantedRect = new Rect();
     [SerializeField] private Vector2 _size = new Vector2();
 
@@ -72,7 +71,6 @@ public class ZoomEffect : MonoBehaviour
         //if (Input.mousePosition.x > _camera.scaledPixelWidth / 2 && Input.mousePosition.y < _camera.scaledPixelHeight / 2)
         if (dist < _size.x && dist < _size.y)
         {
-            //Debug.Log("MouseOverScreen");
             _camera.rect = _wantedRect;
         }
         else

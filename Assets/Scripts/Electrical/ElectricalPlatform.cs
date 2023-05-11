@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class ElectricalPlatform : MonoBehaviour, IElectric
 {
-    [SerializeField] Transform _PointATop;
-    [SerializeField] Transform _PointBLow;
-    Vector3 _newPos;
-    [SerializeField] float _speed;
-    [SerializeField] GameObject _canvas;
+    [SerializeField] private Transform _PointATop;
+    [SerializeField] private Transform _PointBLow;
+    private Vector3 _newPos;
+    [SerializeField] private float _speed, _moveScale = 3.0f;
+    [SerializeField] private GameObject _canvas;
 
-    [SerializeField] bool _turnOn = false;
+    [SerializeField] private bool _turnOn = false;
 
     void Awake()
     {
@@ -52,13 +52,13 @@ public class ElectricalPlatform : MonoBehaviour, IElectric
     }
     public void UpArrow()
     {
-        _newPos.y += 3;
+        _newPos.y += _moveScale;
         if (_newPos.y > _PointATop.position.y)
             _newPos.y = _PointATop.position.y;
     }
     public void DownArrow()
     {
-        _newPos.y -= 3;
+        _newPos.y -= _moveScale;
         if (_newPos.y < _PointBLow.position.y)
             _newPos.y = _PointBLow.position.y;
     }

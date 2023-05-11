@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,29 +15,29 @@ public class GameManager : MonoBehaviour
     }
 
     public static GameManager Instance;
-    [SerializeField] Transform _respawnPoint;
-    [SerializeField] AreaPoint[] _respawnArea;
+    [SerializeField] private Transform _respawnPoint;
+    [SerializeField] private AreaPoint[] _respawnArea;
 
-    CustomMovement _player;
+    private CustomMovement _player;
 
-    Action _CounterAction;
+    private Action _CounterAction;
     [Header("DeathScreen")]
-    [SerializeField] Animator _deathScreen;
-    [SerializeField] float _resetPlayerTime;
-    [SerializeField] float _deathScreenTime;
+    [SerializeField] private Animator _deathScreen;
+    [SerializeField] private float _resetPlayerTime;
+    [SerializeField] private float _deathScreenTime;
     int _respawnIndex = 0;
     float saveDistance;
     [Header("PickUps")]
-    [SerializeField] Text _pointsText;
-    [SerializeField] int _points = 0;
-    [SerializeField] int _pointsPerLevel = 0;
-    [SerializeField] List<PickUp> _objectivesInLvl;
-    [SerializeField] GameObject winScreen;
-    [SerializeField] MiniMenu minuMenu;
+    [SerializeField] private Text _pointsText;
+    [SerializeField] private int _points = 0;
+    [SerializeField] private int _pointsPerLevel = 0;
+    [SerializeField] private List<PickUp> _objectivesInLvl;
+    [SerializeField] private GameObject _winScreen;
+    [SerializeField] private MiniMenu _minuMenu;
 
     [Header("CurrentLevel")]
     [SerializeField] private int _currentLevel = 0;
-    [SerializeField] MiniMap miniMap;
+    [SerializeField] private MiniMap _miniMap;
 
     public bool celestialDiamond = false;
 
@@ -51,6 +52,12 @@ public class GameManager : MonoBehaviour
         _player = FindObjectOfType<CustomMovement>();
         GetCurrentLevel(0);
     }
+
+    private void Update()
+    {
+        EventSystem.current.SetSelectedGameObject(null);
+    }
+
     public GameObject GetPlayer()
     {
         return _player.gameObject;
@@ -120,22 +127,24 @@ public class GameManager : MonoBehaviour
     {
         return _pointsPerLevel;
     }
+
     public void SetRespawnPoint(int index_arg)
     {
         _respawnIndex = index_arg;
     }
+
     public void GetItem()
     {
         _points++;
         if (_points != _pointsPerLevel)
         {
-            minuMenu.OpenCall();
-            _pointsText.text = _points.ToString() + "/" + _pointsPerLevel.ToString();
-            miniMap.GotItem();
+            _minuMenu.OpenCall();
+            _pointsText.text = _points.ToString() + " / " + _pointsPerLevel.ToString();
+            _miniMap.GotItem();
         }
         else //Ganaste
         {
-            winScreen.SetActive(true);
+            _winScreen.SetActive(true);
         }
     }
 
