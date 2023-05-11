@@ -296,7 +296,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             onJumpInputReleased = false;
         }
     }
-    bool jumpClimb = false;
+    private bool jumpClimb = false;
 
     public void JumpClimb2()
     {

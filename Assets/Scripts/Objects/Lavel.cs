@@ -8,8 +8,8 @@ public class Lavel : MonoBehaviour
     [SerializeField] private GameObject[] _openDoors;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log($"Trigerrie con {collision.gameObject.name}");
-        Debug.Log($"CustomMovement es {collision.gameObject.GetComponent<CustomMovement>()}");
+        /*Debug.Log($"Trigerrie con {collision.gameObject.name}");
+        Debug.Log($"CustomMovement es {collision.gameObject.GetComponent<CustomMovement>()}");*/
         if (collision.gameObject.GetComponent<CustomMovement>())
         {
             foreach (Door door in _doors)
