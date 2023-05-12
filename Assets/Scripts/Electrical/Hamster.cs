@@ -136,7 +136,7 @@ public class Hamster : MonoBehaviour
             if (_generator)
                 _generator.buttons.SetActive(true);
 
-            Debug.Log($"tube = {tube}");
+            //Debug.Log($"tube = {tube}");
         }
         else //Se mueve al siguiente tubo
         {

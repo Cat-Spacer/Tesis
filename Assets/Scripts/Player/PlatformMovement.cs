@@ -4,17 +4,20 @@ using UnityEngine;
 
 public class PlatformMovement : MonoBehaviour
 {
-    [SerializeField] private Rigidbody2D _playerRB, _platformRB;
+    private Rigidbody2D _playerRB, _platformRB;
     private bool _isOnPlatform;
+    private float _orgFriction;
 
     private void Awake()
     {
         _playerRB = GetComponent<Rigidbody2D>();
+        if (_playerRB)
+            _orgFriction = _playerRB.sharedMaterial.friction;
     }
 
     private void FixedUpdate()
     {
-        if (_isOnPlatform)
+        if (_isOnPlatform && _playerRB && _platformRB)
             _playerRB.velocity = new Vector2(_platformRB.velocity.x, _playerRB.velocity.y);
     }
 
@@ -23,6 +26,8 @@ public class PlatformMovement : MonoBehaviour
         if (collision.gameObject.tag == "Platform")
         {
             _platformRB = collision.gameObject.GetComponent<Rigidbody2D>();
+            if (_playerRB)
+                _playerRB.sharedMaterial.friction = _platformRB.sharedMaterial.friction;
             _isOnPlatform = true;
         }
     }
@@ -32,6 +37,8 @@ public class PlatformMovement : MonoBehaviour
         if (collision.gameObject.tag == "Platform")
         {
             _platformRB = null;
+            if (_playerRB)
+                _playerRB.sharedMaterial.friction = _orgFriction;
             _isOnPlatform = false;
         }
     }
