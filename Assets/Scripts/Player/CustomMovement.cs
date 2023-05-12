@@ -506,16 +506,16 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             //    _climbScript._ClimbState = _climbScript.Freeze;
             //}
 
-            //if (Vector2.Distance(transform.position, dashStart) >= dashDistance)
-            //{
-            //    if (!dead) ConstrainsReset();
-            //    _dashParticleTrail.Stop();
-            //    isDashing = false;
-            //    rb.velocity = Vector2.zero;
-            //    rb.angularVelocity = 0;
-            //    // rb.velocity *= 0.5f;
-            //    StartCoroutine(ExampleCoroutine());
-            //}
+            if (Vector2.Distance(transform.position, dashStart) >= dashDistance)
+            {
+                if (!dead) ConstrainsReset();
+                _dashParticleTrail.Stop();
+                isDashing = false;
+                rb.velocity = Vector2.zero;
+                rb.angularVelocity = 0;
+                // rb.velocity *= 0.5f;
+                StartCoroutine(ExampleCoroutine());
+            }
 
             //if (rb.velocity == Vector2.zero)
             //{
