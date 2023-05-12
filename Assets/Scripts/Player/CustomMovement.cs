@@ -390,7 +390,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             rb.velocity *= 0;
             rb.constraints = RigidbodyConstraints2D.FreezePosition;
             _dashParticleTrail.Stop();
-            StartCoroutine(ExampleCoroutine());
+            EndDashFeedBack();
             _climbScript._ClimbState = _climbScript.Freeze;
             Debug.Log("freeze dash");
         }
@@ -402,7 +402,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             _dashParticleTrail.Stop();
             _dashTrail.gameObject.SetActive(false);
             rb.velocity *= 0;
-            StartCoroutine(ExampleCoroutine());
+            EndDashFeedBack();
             Debug.Log("SUTIL END");
             _climbScript._ClimbState = _climbScript.SutilEnd;
         }
@@ -438,13 +438,14 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         SoundManager.instance.Play(SoundManager.Types.CatDash);
         _dashParticleExplotion.Play();
         _dashParticleTrail.Play();
-        anim.SetTrigger("Dash");
         _dashTrail.gameObject.SetActive(true);
     }
 
     public void EndDashFeedBack()
     {
+        _dashParticleExplotion.Stop();
         _dashParticleTrail.Stop();
+        _dashTrail.gameObject.SetActive(false);
     }
 
     void Dash()
@@ -478,7 +479,6 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             _dashParticleExplotion.Play();
             _dashParticleTrail.Play();
             rb.velocity = Vector2.zero;
-            anim.SetTrigger("Dash");
             SoundManager.instance.Play(SoundManager.Types.CatDash);
             _dashTrail.gameObject.SetActive(true);
             //StartCoroutine(DashStop());
@@ -514,7 +514,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
                 rb.velocity = Vector2.zero;
                 rb.angularVelocity = 0;
                 // rb.velocity *= 0.5f;
-                StartCoroutine(ExampleCoroutine());
+                EndDashFeedBack();
             }
 
             //if (rb.velocity == Vector2.zero)
@@ -530,15 +530,13 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         RaycastHit2D ray = Physics2D.Raycast(transform.position, Vector2.right * faceDirection, 1,groundLayer);
         if (ray)
         {
-            Debug.Log(ray.collider.gameObject);
-            Debug.Log("Entre");
             if (!dead) ConstrainsReset();
             _dashParticleTrail.Stop();
             isDashing = false;
             rb.velocity = Vector2.zero;
             rb.angularVelocity = 0;
             _DashState = delegate { };
-            // rb.velocity *= 0.5f;
+            EndDashFeedBack();
         }
     }
     public void ForceDashEnd()
@@ -557,7 +555,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         rb.velocity = Vector2.zero;
         _dashParticleTrail.Stop();
         if (!dead) ConstrainsReset();
-        StartCoroutine(ExampleCoroutine());
+        EndDashFeedBack();
     }
     void StartDash()
     {
@@ -640,12 +638,6 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         }
     }
     #endregion
-
-    IEnumerator ExampleCoroutine()
-    {
-        yield return new WaitForSeconds(0.1f);
-        _dashTrail.gameObject.SetActive(false);
-    }
 
     #region MiauAttack
     void Attack()
