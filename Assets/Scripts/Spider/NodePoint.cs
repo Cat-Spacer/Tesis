@@ -25,9 +25,9 @@ public class NodePoint : MonoBehaviour
     Spider spider;
     private void Awake()
     {
-        spider = FindObjectOfType<Spider>();
+       // spider = FindObjectOfType<Spider>();
 
-        spider.pathNodes.Add(this);
+     //   spider.pathNodes.Add(this);
         obstacleMask = LayerMask.GetMask("Shield");
         nodesMask = LayerMask.GetMask("Tube");
 
