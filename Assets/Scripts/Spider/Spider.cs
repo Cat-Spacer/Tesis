@@ -17,12 +17,12 @@ public class Spider : MonoBehaviour
     public float viewRadius;
     public float viewAngle;
     public LayerMask obstacleMask;
-    public float followArea = 4;
+    public float followArea;
     //private NodePoint _startingNode;
     // private NodePoint _goalNode;
     public NodePoint homeNode;
 
-    public List<NodePoint> pathNodes;
+    public List<NodePoint> areaNodes;
 
     [Header("WayPoints")]
     public List<NodePoint> wayPoints = new List<NodePoint>();
@@ -33,7 +33,8 @@ public class Spider : MonoBehaviour
 
     private void Start()
     {
-        followArea = 4;
+        followArea = 3;
+        speed = 1;
         obstacleMask = LayerMask.GetMask("Shield");
         _target = FindObjectOfType<Hamster>();
     }
@@ -129,7 +130,7 @@ public class Spider : MonoBehaviour
     public NodePoint CheckNearestStart(Vector2 pos)
     {
         PriorityQueue e = new PriorityQueue();
-        foreach (var item in pathNodes)
+        foreach (var item in areaNodes)
         {
             if (InSight(pos, item.transform.position)) 
                 e.Put(item, Heuristic(item.transform.position, pos));

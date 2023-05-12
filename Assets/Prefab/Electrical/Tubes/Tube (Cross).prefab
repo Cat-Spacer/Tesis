@@ -726,7 +726,7 @@ GameObject:
   - component: {fileID: 4695938987953126849}
   - component: {fileID: 1778359527053478637}
   - component: {fileID: 8335024571898792160}
-  - component: {fileID: 21957767824003104}
+  - component: {fileID: 6564720063272593092}
   m_Layer: 23
   m_Name: Settings
   m_TagString: Untagged
@@ -793,8 +793,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   neighbours: []
   cost: 1
---- !u!61 &21957767824003104
-BoxCollider2D:
+  _meshRenderer: {fileID: 0}
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 27
+  nodesMask:
+    serializedVersion: 2
+    m_Bits: 23
+  showGizmos: 1
+--- !u!58 &6564720063272593092
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -803,22 +811,12 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_Offset: {x: 0, y: 0.0069378614}
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Radius: 0.17160714
 --- !u!1 &2819906399738809353
 GameObject:
   m_ObjectHideFlags: 0
