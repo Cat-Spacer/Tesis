@@ -6,20 +6,21 @@ public class Spider : MonoBehaviour
 {
     [Header("Stats")]
     public float speed;
-    private Vector3 _velocity;
-    public float maxSpeed;
-    public float maxForce;
+  //  private Vector2 _velocity;
+  //  public float maxSpeed;
+   // public float maxForce;
 
 
-    public GameObject _target;
+    public Hamster _target;
 
     [Header("Field of View")]
     public float viewRadius;
     public float viewAngle;
     public LayerMask obstacleMask;
-
-    private NodePoint _startingNode;
-    private NodePoint _goalNode;
+    public float followArea = 4;
+    //private NodePoint _startingNode;
+    // private NodePoint _goalNode;
+    public NodePoint homeNode;
 
     public List<NodePoint> pathNodes;
 
@@ -32,16 +33,22 @@ public class Spider : MonoBehaviour
 
     private void Start()
     {
-        _target = FindObjectOfType<Hamster>().gameObject;
+        followArea = 4;
+        obstacleMask = LayerMask.GetMask("Shield");
+        _target = FindObjectOfType<Hamster>();
     }
 
-    private void Update()
-    {
-        transform.position += _velocity * Time.deltaTime;
-        transform.forward = _velocity;
-    }
+    /*  private void Update()
+      {
+          transform.position += _velocity * Time.deltaTime;
+          transform.forward = _velocity;
+      }*/
+
+   public  bool attacked = false;
     public void Attack()
     {
+        _target.HamsterCatched();
+        attacked = true;
         Debug.Log("_spider attack");
     }
 
@@ -106,44 +113,38 @@ public class Spider : MonoBehaviour
     {
         if (path.Count == 0) return;
 
-        Vector3 desired = path[current].transform.position - transform.position;
-
-
-        if (desired.magnitude < 0.15f)
+        if (current < path.Count-1 && Vector2.Distance(transform.position, path[current].transform.position) < 0.15f)
         {
             current++;
         }
 
-        desired.Normalize();
-        desired *= maxSpeed;
+        transform.position = Vector2.MoveTowards(transform.position, path[current].transform.position, speed * Time.deltaTime);
 
-        Vector3 steering = Vector3.ClampMagnitude(desired - _velocity, maxForce);
-
-        ApplyForce(steering);
     }
-    public float Heuristic(Vector3 a, Vector3 b)
+    public float Heuristic(Vector2 a, Vector2 b)
     {
-        return Vector3.Distance(a, b);
+        return Vector2.Distance(a, b);
     }
 
-    public NodePoint CheckNearestStart(Vector3 pos)
+    public NodePoint CheckNearestStart(Vector2 pos)
     {
         PriorityQueue e = new PriorityQueue();
         foreach (var item in pathNodes)
         {
-            if (InSight(transform.position, item.transform.position)) e.Put(item, Heuristic(item.transform.position, pos));
+            if (InSight(pos, item.transform.position)) 
+                e.Put(item, Heuristic(item.transform.position, pos));
         }
         return e.Get();
     }
-    public bool InSight(Vector3 start, Vector3 end)
+    public bool InSight(Vector2 start, Vector2 end)
     {
-        Vector3 dir = end - start;
-        if (!Physics.Raycast(start, dir, dir.magnitude, obstacleMask)) return true;
+        Vector2 dir = end - start;
+        if (!Physics2D.Raycast(start, dir, dir.magnitude, obstacleMask)) return true;
         else return false;
     }
-    public void ApplyForce(Vector3 force)
+   /* public void ApplyForce(Vector2 force)
     {
         _velocity += force;
         _velocity = Vector3.ClampMagnitude(_velocity, maxSpeed);
-    }
+    }*/
 }
