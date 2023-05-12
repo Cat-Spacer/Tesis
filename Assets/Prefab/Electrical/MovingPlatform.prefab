@@ -80,7 +80,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4dfc42d6ee5d50c428b579ba6b11b5b1, type: 2}
+  - {fileID: 2100000, guid: e82c59db189d29d4e8396adc931c39d9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -187,7 +187,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8998946722778050052}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.893, y: 0, z: 0}
+  m_LocalPosition: {x: 6.68, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1369027359}
@@ -314,7 +314,7 @@ MonoBehaviour:
   _baseSpeed: 100
   arriveMag: 0.8
   maxLenght: 0
-  _forceTurnOn: 1
+  _forceTurnOn: 0
   pivot: {fileID: 1369027358}
 --- !u!1 &8998946723320590102
 GameObject:
@@ -341,7 +341,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8998946723320590102}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.5, y: 0, z: 0}
+  m_LocalPosition: {x: 5.76, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8998946723678376692}
@@ -408,6 +408,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8998946723678376692}
   - component: {fileID: 1074067907}
+  - component: {fileID: 75188564}
   m_Layer: 0
   m_Name: Waypoint
   m_TagString: Untagged
@@ -423,7 +424,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8998946723678376691}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.912, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8998946723777533883}
@@ -447,6 +448,22 @@ MonoBehaviour:
   _waypoints:
   - {fileID: 8998946723320590103}
   - {fileID: 8998946723777533883}
+  _lines: {fileID: 1504750042397037634}
+--- !u!114 &75188564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8998946723678376691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e3703f586386184d9b4e13ecb11f0b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _waypoints:
+  - {fileID: 8998946723777533883}
+  - {fileID: 8998946723320590103}
   _lines: {fileID: 1504750042397037634}
 --- !u!1 &8998946723777533882
 GameObject:
