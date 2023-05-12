@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using IA;
+using static UnityEditor.PlayerSettings;
+using System.IO;
 
 public class SpiderControl : MonoBehaviour
 {
@@ -9,8 +11,8 @@ public class SpiderControl : MonoBehaviour
     private EventFSM<States> _myFsm;
 
     private Spider _spider;
-    private NodePoint _goalNode;
-    private List<NodePoint> pathList;
+    public NodePoint _goalNode;
+    public List<NodePoint> pathList;
 
     private void Awake()
     {
@@ -45,20 +47,27 @@ public class SpiderControl : MonoBehaviour
         //IDLE
         idle.OnEnter += x =>
         {
+            Debug.Log("Its Idle");
         };
 
         idle.OnUpdate += () =>
         {
+            Debug.Log(Vector2.Distance(transform.position, _spider._target.transform.position) + " " + _spider.followArea);
 
-            if (Input.GetKeyDown(KeyCode.F))  //cambiar esto a if ve al player
+            if (Vector2.Distance(transform.position, _spider._target.transform.position) <= _spider.followArea)
+            {
                 SendInputToFSM(States.FOLLOW);
+            }
+           
 
         };
 
         //RETURN
         returning.OnEnter += x =>
         {
-            _goalNode = _spider.wayPoints[0].GetComponent<NodePoint>();
+            Debug.Log("Its Returning");
+
+            _goalNode = _spider.homeNode;
 
             pathList = _spider.ConstructPathAStar(_spider.transform.position, _goalNode);
             
@@ -71,6 +80,12 @@ public class SpiderControl : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.F))  //cambiar esto a if ve al player
                 SendInputToFSM(States.FOLLOW);
 
+            if (Vector2.Distance(transform.position, _spider._target.transform.position) <= _spider.followArea && 
+            _spider.InSight(transform.position, _spider._target.transform.position))
+            {
+                SendInputToFSM(States.FOLLOW);
+            }
+
             if (_spider.current >= pathList.Count)
             {
                 _spider.current = 0;
@@ -80,27 +95,31 @@ public class SpiderControl : MonoBehaviour
 
         returning.OnExit += x =>
         {
-
+            _spider.current = 0;
+            pathList.Clear();
         };
 
         //FOLLOW
         following.OnEnter += x =>
         {
-            _goalNode = _spider.wayPoints[0].GetComponent<NodePoint>();  //cambiar por el node en el que se encuentra el player en el momento de ser detectado.
-                                                                        //Al ser detectado agarrar el nodo mas cercano y pasarlo por aca
+            Debug.Log("Its Following");
 
+            _goalNode = _spider.CheckNearestStart(_spider._target.transform.position);
             pathList = _spider.ConstructPathAStar(_spider.transform.position, _goalNode);
         };
         following.OnUpdate += () =>
         {
-            _spider.Move(pathList);
-
-            if (Input.GetKeyDown(KeyCode.R) && _spider.current >= pathList.Count)  //cambiar el key r a if DEJA DE VER al player o dejart solo al completar el count
+            if (_spider.current >= pathList.Count-1 && Vector2.Distance(transform.position, pathList[_spider.current].transform.position) < 0.15f)
+            {
                 SendInputToFSM(States.RETURN);
+            }
 
-            if (Input.GetKeyDown(KeyCode.A))  //cambiar el key down A a if esta en el rango de ataque al player
+            if (Vector2.Distance(transform.position, _spider._target.transform.position) <= 0.7f)
+            {
                 SendInputToFSM(States.ATTACK);
-        
+            }
+
+            _spider.Move(pathList);
         };
 
         following.OnFixedUpdate += () =>
@@ -109,23 +128,25 @@ public class SpiderControl : MonoBehaviour
 
         following.OnExit += x =>
         {
+            _spider.current = 0;
+            pathList.Clear();
         };
 
         //ATTACK
         attacking.OnEnter += x =>
         {
+            Debug.Log("Its Attacking");
+
             _spider.Attack(); 
         };
         attacking.OnUpdate += () =>
         {
-            if (Input.GetKeyDown(KeyCode.R))  //cambiar esto a if DEJA DE VER al player
-                SendInputToFSM(States.RETURN);
-
-            //de ser necesario agregar la opcion de desde el ataque poder volver a encontrar al player por path. balancear con si deja de ver al player
-        };
+            if (_spider.attacked) 
+            { SendInputToFSM(States.RETURN); }
+           };
         attacking.OnExit += x =>
         {
-
+            _spider.attacked = false;
         };
 
         _myFsm = new EventFSM<States>(idle);
