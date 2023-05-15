@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using IA;
-using static UnityEditor.PlayerSettings;
-using System.IO;
 
 public class SpiderControl : MonoBehaviour
 {

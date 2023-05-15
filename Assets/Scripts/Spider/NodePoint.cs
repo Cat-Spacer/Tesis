@@ -2,8 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
-using UnityEditor.Experimental.GraphView;
+
 
 public class NodePoint : MonoBehaviour
 {
@@ -29,7 +28,7 @@ public class NodePoint : MonoBehaviour
 
      //   spider.pathNodes.Add(this);
         obstacleMask = LayerMask.GetMask("Shield");
-        nodesMask = LayerMask.GetMask("Tube");
+        nodesMask = LayerMask.GetMask("Node");
 
         _meshRenderer = GetComponent<Renderer>();
 

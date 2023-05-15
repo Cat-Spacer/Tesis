@@ -134,7 +134,11 @@ public class Hamster : MonoBehaviour
         if (tube == null) //Si no hay siguiente tubo sale del tubo
         {
             if (_generator)
+            {
                 _generator.buttons.SetActive(true);
+                foreach (var partc in _generator.electricParticles)
+                    partc.Play();
+            }
 
             //Debug.Log($"tube = {tube}");
         }

@@ -10,6 +10,7 @@ public class Generator : MonoBehaviour
     [SerializeField] private int _energyNeeded;
     [SerializeField] private float _delaySeconds = 1.0f;
     public GameObject buttons = null;
+    public List<ParticleSystem> electricParticles;
     private Hamster _hamster;
 
     private void Start()
