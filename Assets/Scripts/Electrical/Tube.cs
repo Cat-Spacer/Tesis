@@ -22,10 +22,10 @@ public class Tube : MonoBehaviour
     {
         center = transform.position;
         CheckNeighborTubes();
-        if (!_entry && (GetComponent<BoxCollider2D>() ||GetComponent<Collider2D>()))
-        {
-            GetComponent<Collider2D>().enabled = false;
-        }
+        //if (!_entry && (GetComponent<BoxCollider2D>() ||GetComponent<Collider2D>()))
+        //{
+        //    GetComponent<Collider2D>().enabled = false;
+        //}
     }
 
     public void GetPossiblePaths(Hamster ham)
