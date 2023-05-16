@@ -60,7 +60,6 @@ namespace Weapons
             {
                 fireTimer = fireRate;
                 _spitleParticle.Stop();
-                anim.SetTrigger("Attack");
                 StartCoroutine(WaitForAnim());
             }
         }
