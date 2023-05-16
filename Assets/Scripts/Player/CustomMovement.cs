@@ -68,7 +68,6 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
 
     private void Update()
     {
-        Debug.DrawRay(transform.position, Vector2.right * faceDirection, Color.cyan);
         _Inputs();
         Interact();
         _climbScript.UpdateClimb();
@@ -334,79 +333,6 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
 
     public bool dashClimb = false;
 
-    public void DashClimb()
-    {
-
-        dashClimb = true;
-        Vector2 last = transform.position;
-        onDashInput = false;
-        rb.velocity = Vector2.zero;
-        rb.angularVelocity = 0;
-        rb.gravityScale = 1.0f;
-        gravityForce = gravityForceDefault;
-
-        _dashParticleExplotion.Play();
-        _dashParticleTrail.Play();
-        _dashTrail.gameObject.SetActive(true);
-
-        if (_climbScript.InSight(_climbLayerMask))
-        {
-            if (faceDirection == -1)
-            {
-                transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.z * -1, transform.rotation.z);
-            }
-            if (faceDirection == 1)
-            {
-                transform.rotation = Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z);
-            }
-            faceDirection = -faceDirection;
-        }
-        else
-        {
-            Debug.Log("---NOT FACING WALL---");
-        }
-
-        Debug.Log("---DASH---");
-
-        dashStart = transform.position;
-
-        anim.SetTrigger("Dash");
-        SoundManager.instance.Play(SoundManager.Types.CatDash);
-
-        rb.velocity = Vector2.right * dashForceClimb * faceDirection;
-
-        rb.constraints = RigidbodyConstraints2D.FreezePositionY;
-        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-
-        // rb.isKinematic = true;
-
-        _climbScript._ClimbState = EndDashClimb;
-    }
-
-    public void EndDashClimb()
-    {
-        if (_climbScript.InSight(_climbLayerMask))
-        {
-            rb.velocity *= 0;
-            rb.constraints = RigidbodyConstraints2D.FreezePosition;
-            _dashParticleTrail.Stop();
-            EndDashFeedBack();
-            _climbScript._ClimbState = _climbScript.Freeze;
-            Debug.Log("freeze dash");
-        }
-
-        if (Vector2.Distance(transform.position, dashStart) >= (dashDistance))
-        {
-            rb.constraints = RigidbodyConstraints2D.FreezePosition;
-            //ConstrainsReset();
-            _dashParticleTrail.Stop();
-            _dashTrail.gameObject.SetActive(false);
-            rb.velocity *= 0;
-            EndDashFeedBack();
-            Debug.Log("SUTIL END");
-            _climbScript._ClimbState = _climbScript.SutilEnd;
-        }
-    }
 
     void TimeCounterCoyote()
     {
@@ -481,7 +407,6 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             rb.velocity = Vector2.zero;
             SoundManager.instance.Play(SoundManager.Types.CatDash);
             _dashTrail.gameObject.SetActive(true);
-            //StartCoroutine(DashStop());
 
             if (_climbScript.InSight(_climbLayerMask))
             {
@@ -501,11 +426,6 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             rb.constraints = RigidbodyConstraints2D.FreezePositionY;
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
-            //if (_climbScript.InSight(_climbLayerMask))
-            //{
-            //    _climbScript._ClimbState = _climbScript.Freeze;
-            //}
-
             if (Vector2.Distance(transform.position, dashStart) >= dashDistance)
             {
                 if (!dead) ConstrainsReset();
@@ -513,22 +433,15 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
                 isDashing = false;
                 rb.velocity = Vector2.zero;
                 rb.angularVelocity = 0;
-                // rb.velocity *= 0.5f;
+                _MovementState = StopMovement;
                 EndDashFeedBack();
             }
-
-            //if (rb.velocity == Vector2.zero)
-            //{
-            //    Debug.Log("call ForceDashEnd");
-            //    ForceDashEnd();
-            //}
         }
     }
-
     void DashStop()
     {
-        RaycastHit2D ray = Physics2D.Raycast(transform.position, Vector2.right * faceDirection, 1,groundLayer);
-        if (ray)
+        var coll = Physics2D.OverlapBox(transform.position + offsetDashCheck, dashCheck, 0, groundLayer);
+        if (coll)
         {
             if (!dead) ConstrainsReset();
             _dashParticleTrail.Stop();
@@ -536,7 +449,81 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             rb.velocity = Vector2.zero;
             rb.angularVelocity = 0;
             _DashState = delegate { };
+            _MovementState = StopMovement;
             EndDashFeedBack();
+        }
+    }
+    public void DashClimb()
+    {
+
+        dashClimb = true;
+        Vector2 last = transform.position;
+        onDashInput = false;
+        rb.velocity = Vector2.zero;
+        rb.angularVelocity = 0;
+        rb.gravityScale = 1.0f;
+        gravityForce = gravityForceDefault;
+
+        _dashParticleExplotion.Play();
+        _dashParticleTrail.Play();
+        _dashTrail.gameObject.SetActive(true);
+
+        if (_climbScript.InSight(_climbLayerMask))
+        {
+            if (faceDirection == -1)
+            {
+                transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.z * -1, transform.rotation.z);
+            }
+            if (faceDirection == 1)
+            {
+                transform.rotation = Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z);
+            }
+            faceDirection = -faceDirection;
+        }
+        else
+        {
+            Debug.Log("---NOT FACING WALL---");
+        }
+
+        Debug.Log("---DASH---");
+
+        dashStart = transform.position;
+
+        anim.SetTrigger("Dash");
+        SoundManager.instance.Play(SoundManager.Types.CatDash);
+
+        rb.velocity = Vector2.right * dashForceClimb * faceDirection;
+
+        rb.constraints = RigidbodyConstraints2D.FreezePositionY;
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+
+        // rb.isKinematic = true;
+
+        _climbScript._ClimbState = EndDashClimb;
+    }
+
+    public void EndDashClimb()
+    {
+        if (_climbScript.InSight(_climbLayerMask))
+        {
+            rb.velocity *= 0;
+            rb.constraints = RigidbodyConstraints2D.FreezePosition;
+            _dashParticleTrail.Stop();
+            EndDashFeedBack();
+            _climbScript._ClimbState = _climbScript.Freeze;
+            Debug.Log("freeze dash");
+        }
+
+        if (Vector2.Distance(transform.position, dashStart) >= (dashDistance))
+        {
+            rb.constraints = RigidbodyConstraints2D.FreezePosition;
+            //ConstrainsReset();
+            _dashParticleTrail.Stop();
+            _dashTrail.gameObject.SetActive(false);
+            rb.velocity *= 0;
+            EndDashFeedBack();
+            Debug.Log("SUTIL END");
+            _climbScript._ClimbState = _climbScript.SutilEnd;
         }
     }
     public void ForceDashEnd()
@@ -821,6 +808,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             Gizmos.DrawWireCube(groundCheckPos.transform.position, groundCheckSize);
             Gizmos.DrawWireCube(attackPoint.transform.position, attackRange);
             Gizmos.DrawWireCube(transform.position, _interactSize);
+            Gizmos.DrawWireCube(transform.position + offsetDashCheck, dashCheck);
         }
     }
 

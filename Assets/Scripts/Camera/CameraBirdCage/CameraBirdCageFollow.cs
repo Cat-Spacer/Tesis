@@ -7,27 +7,27 @@ public class CameraBirdCageFollow : MonoBehaviour
     public Transform player;
     public Vector3 offset;
     public float maxCameraRange;
+    public float minCameraRange;
+    public Vector3 edgeRange;
     public float smoothFactor;
     public LayerMask playerLayerMask;
     public Vector3 worldPosition;
     Plane plane = new Plane(Vector3.forward, 0);
+
+    private void Start()
+    {
+        //Cursor.lockState = CursorLockMode.Confined;
+    }
 
     void Update()
     {
         MousePosition();
         EdgeScrolling();
     }
-    Vector3 Follow()
-    {
-        Vector3 targetPosition = player.position + offset;
-        Vector3 smoothPos = Vector3.Lerp(transform.position, targetPosition, smoothFactor * Time.deltaTime);
-        smoothPos.z = 0;
-        return smoothPos;
-    }
     void EdgeScrolling()
     {
- 
-        float distance = Vector3.Distance(worldPosition, player.position);
+        //float distance = Vector3.Distance(new Vector3 (worldPosition.x, worldPosition.y, 0), new Vector3(player.position.x, player.position.y, 0));
+        float distance = Vector3.Distance(worldPosition,player.position);
         if (distance > maxCameraRange)
         {
             Vector3 fromOriginToObject = worldPosition - player.position;
@@ -51,5 +51,6 @@ public class CameraBirdCageFollow : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.DrawWireSphere(player.position, maxCameraRange);
+        Gizmos.DrawWireSphere(player.position, minCameraRange);
     }
 }

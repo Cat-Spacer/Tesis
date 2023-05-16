@@ -6,6 +6,7 @@ using UnityEngine;
 public class Generator : MonoBehaviour
 {
     public List<GameObject> _connection;
+    public List<GameObject> _electricityParticle;
     [SerializeField] private bool _test = false;
     [SerializeField] private int _energyNeeded;
     [SerializeField] private float _delaySeconds = 1.0f;
@@ -33,29 +34,31 @@ public class Generator : MonoBehaviour
     IEnumerator Delay(bool power = true)
     {
         yield return new WaitForSeconds(_delaySeconds);
-        foreach (var obj in _connection)
+        for (int i = 0; i < _connection.Count; i++)
         {
             if (power)
             {
-                if (obj != null && obj.GetComponent<IElectric>() != null)
+                if (_connection[i] != null && _connection[i].GetComponent<IElectric>() != null)
                 {
-                    obj.GetComponent<IElectric>().TurnOn();
+                    _connection[i].GetComponent<IElectric>().TurnOn();
+                    _electricityParticle[i].GetComponentInChildren<Electricty>().Activate();
                 }
-                else if (obj != null && obj.GetComponentInChildren<IElectric>() != null)
+                else if (_connection[i] != null && _connection[i].GetComponentInChildren<IElectric>() != null)
                 {
-                    obj.GetComponentInChildren<IElectric>().TurnOn();
+                    _connection[i].GetComponentInChildren<IElectric>().TurnOn();
+                    _electricityParticle[i].GetComponentInChildren<Electricty>().Activate();
                 }
             }
             else
             {
 
-                if (obj != null && obj.GetComponent<IElectric>() != null)
+                if (_connection[i] != null && _connection[i].GetComponent<IElectric>() != null)
                 {
-                    obj.GetComponent<IElectric>().TurnOff();
+                    _connection[i].GetComponent<IElectric>().TurnOff();
                 }
-                else if (obj != null && obj.GetComponentInChildren<IElectric>() != null)
+                else if (_connection[i] != null && _connection[i].GetComponentInChildren<IElectric>() != null)
                 {
-                    obj.GetComponentInChildren<IElectric>().TurnOff();
+                    _connection[i].GetComponentInChildren<IElectric>().TurnOff();
                 }
             }
         }
