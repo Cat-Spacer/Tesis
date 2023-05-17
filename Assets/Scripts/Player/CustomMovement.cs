@@ -26,6 +26,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
 
     [SerializeField] private LayerMask _ignoredPhysics;
 
+    float xMove;
     private void Awake()
     {
         _startScale = transform.localScale;
@@ -151,7 +152,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     {
         float targetSpeed;
         running = true;
-        if (onGround)
+        if (onGround && !isJumping)
         {
             if (!onClimb && rb.velocity.x > .1f)
             {
@@ -176,8 +177,13 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             SoundManager.instance.Play(SoundManager.Types.Steps);
             hasPlayedMovement = true;
         }
-        targetSpeed = faceDirection * maxSpeed;
-        rb.velocity = new Vector2(targetSpeed, rb.velocity.y);
+
+        xMove = faceDirection * runAccel * Time.deltaTime;
+        xMove = Mathf.Clamp(rb.velocity.x + xMove, 0, maxSpeed);;
+        rb.velocity = new Vector2(xMove, rb.velocity.y);
+
+        //targetSpeed = faceDirection * maxSpeed;
+        //rb.velocity = new Vector2(targetSpeed, rb.velocity.y);
         //Debug.Log($"<Color=magenta>The rigidbody velocity is: {rb.velocity}</color>");
     }
 
@@ -185,7 +191,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     {
         float targetSpeed;
         running = true;
-        if (onGround)
+        if (onGround && !isJumping)
         {
             if (!onClimb && rb.velocity.x < -.1f)
             {
@@ -211,8 +217,11 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             SoundManager.instance.Play(SoundManager.Types.Steps);
             hasPlayedMovement = true;
         }
-        targetSpeed = faceDirection * maxSpeed;
-        rb.velocity = new Vector2(targetSpeed, rb.velocity.y);
+        xMove = faceDirection * runAccel * Time.deltaTime;
+        xMove = Mathf.Clamp(rb.velocity.x + xMove, -maxSpeed, 0);
+        rb.velocity = new Vector2(xMove, rb.velocity.y);
+        //targetSpeed = faceDirection * maxSpeed;
+        //rb.velocity = new Vector2(targetSpeed, rb.velocity.y);
         //  Debug.Log($"<Color=magenta>The rigidbody velocity is: {rb.velocity}</color>");
     }
 
