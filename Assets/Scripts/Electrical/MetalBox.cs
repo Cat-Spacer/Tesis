@@ -17,7 +17,7 @@ public class MetalBox : MonoBehaviour
 
     private void Update()
     {
-        if (_magnet == null) if (!_magnet.active) return;
+        if (_magnet != null) if (!_magnet.active) return;
 
         _myRB2D.simulated = true;
     }
