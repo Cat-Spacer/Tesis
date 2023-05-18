@@ -136,8 +136,8 @@ public class Hamster : MonoBehaviour
             if (_generator)
             {
                 _generator.buttons.SetActive(true);
-                foreach (var partc in _generator.electricParticles)
-                    partc.Play();
+                /*foreach (var partc in _generator.electricParticles)
+                    partc.Play();*/
             }
 
             //Debug.Log($"tube = {tube}");

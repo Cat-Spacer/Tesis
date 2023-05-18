@@ -843,6 +843,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         canDash = true;
         _climbScript._ClimbState = _climbScript.EndClimb;
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        _MovementState = StopMovement;
     }
     public void ResetPlayer()
     {
