@@ -12,7 +12,7 @@ public class PlatformMovement : MonoBehaviour
     {
         _playerRB = GetComponent<Rigidbody2D>();
         if (_playerRB)
-            _orgFriction = _playerRB.sharedMaterial.friction;
+            _orgFriction = _playerRB.sharedMaterial.friction = 0;
     }
 
     private void FixedUpdate()

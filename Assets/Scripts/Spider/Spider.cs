@@ -6,9 +6,9 @@ public class Spider : MonoBehaviour
 {
     [Header("Stats")]
     public float speed;
-  //  private Vector2 _velocity;
-  //  public float maxSpeed;
-   // public float maxForce;
+    //  private Vector2 _velocity;
+    //  public float maxSpeed;
+    // public float maxForce;
 
 
     public Hamster _target;
@@ -17,6 +17,7 @@ public class Spider : MonoBehaviour
     public float viewRadius;
     public float viewAngle;
     public LayerMask obstacleMask;
+    private LayerMask _nodeMask;
     public float followArea;
     //private NodePoint _startingNode;
     // private NodePoint _goalNode;
@@ -36,7 +37,10 @@ public class Spider : MonoBehaviour
         followArea = 3;
         speed = 1;
         obstacleMask = LayerMask.GetMask("Shield");
+        //_nodeMask = LayerMask.GetMask("Node");
         _target = FindObjectOfType<Hamster>();
+        /*if (Physics2D.OverlapBox(transform.position, Vector2.one, _nodeMask).GetComponent<NodePoint>())
+            homeNode = Physics2D.OverlapBox(transform.position, Vector2.one, _nodeMask).GetComponent<NodePoint>();*/
     }
 
     /*  private void Update()
@@ -45,7 +49,7 @@ public class Spider : MonoBehaviour
           transform.forward = _velocity;
       }*/
 
-   public  bool attacked = false;
+    public bool attacked = false;
     public void Attack()
     {
         _target.HamsterCatched();
@@ -114,7 +118,7 @@ public class Spider : MonoBehaviour
     {
         if (path.Count == 0) return;
 
-        if (current < path.Count-1 && Vector2.Distance(transform.position, path[current].transform.position) < 0.15f)
+        if (current < path.Count - 1 && Vector2.Distance(transform.position, path[current].transform.position) < 0.15f)
         {
             current++;
         }
@@ -132,7 +136,7 @@ public class Spider : MonoBehaviour
         PriorityQueue e = new PriorityQueue();
         foreach (var item in areaNodes)
         {
-            if (InSight(pos, item.transform.position)) 
+            if (InSight(pos, item.transform.position))
                 e.Put(item, Heuristic(item.transform.position, pos));
         }
         return e.Get();
@@ -143,9 +147,9 @@ public class Spider : MonoBehaviour
         if (!Physics2D.Raycast(start, dir, dir.magnitude, obstacleMask)) return true;
         else return false;
     }
-   /* public void ApplyForce(Vector2 force)
-    {
-        _velocity += force;
-        _velocity = Vector3.ClampMagnitude(_velocity, maxSpeed);
-    }*/
+    /* public void ApplyForce(Vector2 force)
+     {
+         _velocity += force;
+         _velocity = Vector3.ClampMagnitude(_velocity, maxSpeed);
+     }*/
 }

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7730695837949264349}
   - component: {fileID: 7730695837949264350}
   - component: {fileID: 7730695837949264351}
+  - component: {fileID: 7738080167488090764}
   m_Layer: 24
   m_Name: MetalBox
   m_TagString: Untagged
@@ -131,3 +132,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 5
+--- !u!114 &7738080167488090764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7730695837949264336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f054bbdfe82ee044fb35b8e7ea85b850, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _collMask:
+    serializedVersion: 2
+    m_Bits: 16777216
+  _magnet: {fileID: 0}
