@@ -17,15 +17,16 @@ public class MetalBox : MonoBehaviour
 
     private void Update()
     {
-        if (_magnet != null) if (!_magnet.active) return;
-
-        _myRB2D.simulated = true;
+        if (_magnet == null) return;
+        if (_magnet.active)
+            _myRB2D.simulated = true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (_myRB2D == null && collision.gameObject.layer != _collMask) return;
-
+        if (_myRB2D == null || collision.gameObject.GetComponent<Magnet>() == null) return;
+        _magnet = collision.gameObject.GetComponent<Magnet>();
+        _collMask = _magnet.gameObject.layer;
         _myRB2D.simulated = false;
     }
 }
