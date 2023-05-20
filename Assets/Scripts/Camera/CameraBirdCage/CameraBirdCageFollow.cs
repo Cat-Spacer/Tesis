@@ -14,6 +14,8 @@ public class CameraBirdCageFollow : MonoBehaviour
     public Vector3 worldPosition;
     Plane plane = new Plane(Vector3.forward, 0);
 
+
+
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Confined;
