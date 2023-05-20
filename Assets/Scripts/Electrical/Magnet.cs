@@ -43,7 +43,7 @@ public class Magnet : MonoBehaviour, IElectric
         _onSprite.SetActive(true);
         _offSprite.SetActive(false);
         _particle.SetActive(true);
-        //active = true;
+        active = true;
     }
 
     public void TurnOff()
@@ -52,7 +52,7 @@ public class Magnet : MonoBehaviour, IElectric
         _onSprite.SetActive(false);
         _offSprite.SetActive(true);
         _particle.SetActive(false);
-        //active = false;
+        active = false;
     }
     private void OnDrawGizmosSelected()
     {
