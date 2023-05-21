@@ -145,6 +145,13 @@ public class GameManager : MonoBehaviour
         else //Ganaste
         {
             _winScreen.SetActive(true);
+            if (FindObjectOfType<FadeInOut>() && FindObjectOfType<ZoomEffect>())
+            {
+                var camera = FindObjectOfType<ZoomEffect>().gameObject;
+                var bg = FindObjectOfType<FadeInOut>().gameObject;
+                camera.SetActive(false);
+                bg.SetActive(false);
+            }
         }
     }
 
