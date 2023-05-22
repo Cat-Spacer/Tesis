@@ -9,19 +9,15 @@ public class NodePoint : MonoBehaviour
     [Header("Stats")]
 
     public List<NodePoint> neighbours;
-
     public int cost = 1;
-
-    private float viewRadius = 1.2f;
-
-    public Renderer _meshRenderer;
+    [SerializeField] private float _viewRadius = 1.2f;
+    public Renderer meshRenderer;
 
     [Header("Layers")]
-    public LayerMask obstacleMask = 27;
-    public LayerMask nodesMask = 23;
+    public LayerMask obstacleMask = 27, nodesMask = 23;
     public bool showGizmos = true;
 
-    Spider spider;
+    private Spider _spider;
     private void Awake()
     {
        // spider = FindObjectOfType<Spider>();
@@ -30,7 +26,7 @@ public class NodePoint : MonoBehaviour
         obstacleMask = LayerMask.GetMask("Shield");
         nodesMask = LayerMask.GetMask("Node");
 
-        _meshRenderer = GetComponent<Renderer>();
+        meshRenderer = GetComponent<Renderer>();
 
         neighbours.Clear();
         
@@ -43,7 +39,7 @@ public class NodePoint : MonoBehaviour
 
     void GetNeightbours()
     {
-        Collider2D[] nodesInViewRadius = Physics2D.OverlapCircleAll(transform.position, viewRadius);
+        Collider2D[] nodesInViewRadius = Physics2D.OverlapCircleAll(transform.position, _viewRadius);
 
         foreach (var n in nodesInViewRadius)
         {
@@ -75,7 +71,7 @@ public class NodePoint : MonoBehaviour
         if (showGizmos)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, viewRadius);
+            Gizmos.DrawWireSphere(transform.position, _viewRadius);
 
             Gizmos.color = Color.blue;
             foreach (var n in neighbours)

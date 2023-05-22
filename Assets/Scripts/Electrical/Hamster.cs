@@ -6,18 +6,16 @@ using System.Linq;
 
 public class Hamster : MonoBehaviour
 {
+    private HamsterInput _controller;
     Action _HamsterAction = delegate { };
-    [SerializeField] Transform _playerPos;
-    [SerializeField] float _speed, _maxSpeed;
-    HamsterInput _controller;
-    [SerializeField] float _pointRadius, _checkRadius = 5.0f, _interactRadius = 2.5f;
-    [SerializeField] LayerMask _tubeLayerMask, _generatorLayerMask;
-    [SerializeField] bool _inTube;
-    [SerializeField] Tube _currentTube;
-    [SerializeField] Tube _lastTube;
-    [SerializeField] Vector3 _currentTubePos;
-    [SerializeField] Generator _generator;
-    [SerializeField] int _energyCollected;
+    [SerializeField] private Transform _playerPos;
+    [SerializeField] private float _speed, _maxSpeed, _pointRadius, _checkRadius = 5.0f, _interactRadius = 2.5f;
+    [SerializeField] private LayerMask _tubeLayerMask, _generatorLayerMask;
+    [SerializeField] private bool _inTube;
+    [SerializeField] private Tube _currentTube, _lastTube;
+    [SerializeField] private Vector3 _currentTubePos;
+    [SerializeField] private Generator _generator;
+    [SerializeField] private int _energyCollected;
     public bool visible = true;
 
     private void Start()
