@@ -45,7 +45,7 @@ public class SpiderControl : MonoBehaviour
         //IDLE
         idle.OnEnter += x =>
         {
-            Debug.Log("Its Idle");
+            //Debug.Log("Its Idle");
         };
 
         idle.OnUpdate += () =>
@@ -64,7 +64,7 @@ public class SpiderControl : MonoBehaviour
         //RETURN
         returning.OnEnter += x =>
         {
-            Debug.Log("Its Returning");
+            //Debug.Log("Its Returning");
 
             _goalNode = _spider.homeNode;
 
@@ -101,7 +101,7 @@ public class SpiderControl : MonoBehaviour
         //FOLLOW
         following.OnEnter += x =>
         {
-            Debug.Log("Its Following");
+            //Debug.Log("Its Following");
 
             _goalNode = _spider.CheckNearestStart(_spider._target.transform.position);
             pathList = _spider.ConstructPathAStar(_spider.transform.position, _goalNode);
@@ -134,7 +134,7 @@ public class SpiderControl : MonoBehaviour
         //ATTACK
         attacking.OnEnter += x =>
         {
-            Debug.Log("Its Attacking");
+            //Debug.Log("Its Attacking");
 
             _spider.Attack(); 
         };

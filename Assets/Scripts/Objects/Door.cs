@@ -6,12 +6,15 @@ public class Door : MonoBehaviour
 {
     [SerializeField] private Animator _anim;
     [SerializeField] private SpriteMask _mask;
-    [SerializeField] private bool _noAnim = false;
+    [SerializeField] private bool _noAnim = false, _obstacle = false;
     bool currentState;
     private void Start()
     {
         _anim = GetComponent<Animator>();
     }
+
+    public bool Obstacle { get { return _obstacle; } }
+
     public void ActivateDesactivate(bool active)
     {
         if (_noAnim)
