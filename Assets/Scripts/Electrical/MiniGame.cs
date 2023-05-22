@@ -63,6 +63,7 @@ public class MiniGame : MonoBehaviour
             if (_sweetSquares.Contains(current))
             {
                 _generator.OnWinMiniGame();
+                TurnOff();
             }
             else
             {
