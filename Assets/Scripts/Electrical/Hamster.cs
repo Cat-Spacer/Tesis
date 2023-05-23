@@ -18,6 +18,7 @@ public class Hamster : MonoBehaviour
     [SerializeField] private int _energyCollected;
     public bool visible = true;
 
+
     private void Start()
     {
         _controller = new HamsterInput(this);
@@ -163,6 +164,10 @@ public class Hamster : MonoBehaviour
     }
 
     public bool InTube() { return _inTube; }
+
+    public int Energy { get { return _energyCollected; } }
+
+    public Tube LastTube { get { return _lastTube;} }
 
     private void OnDrawGizmos()
     {
