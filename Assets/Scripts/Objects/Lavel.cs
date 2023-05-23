@@ -13,18 +13,8 @@ public class Lavel : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<CustomMovement>())
         {
-            foreach (Door door in _doors)
-            {
-                if (door.Obstacle)
-                {
-                    if (Physics2D.OverlapCircle(door.transform.position, _searchRad, _TubesMask).GetComponent<Tube>())
-                    {
-                        var tube = Physics2D.OverlapCircle(door.transform.position, _searchRad, _TubesMask).GetComponent<Tube>();
-                        tube.CheckNeighborTubes();
-                    }
-                }
+            foreach (Door door in _doors)//Abre las puertas
                 door.ActivateDesactivate(false);
-            }
             foreach (GameObject go in _openDoors)
                 go.SetActive(true);
         }
@@ -36,15 +26,8 @@ public class Lavel : MonoBehaviour
         {
             foreach (Door door in _doors)
                 door.ActivateDesactivate(true);
-            foreach (GameObject go in _openDoors)
-            {
-                if (Physics2D.OverlapCircle(go.transform.position, _searchRad, _TubesMask).GetComponent<Tube>())
-                {
-                    var tube = Physics2D.OverlapCircle(go.transform.position, _searchRad, _TubesMask).GetComponent<Tube>();
-                    tube.CantPass();
-                }
+            foreach (GameObject go in _openDoors)//Cierra las puertas
                 go.SetActive(false);
-            }
         }
     }
 }

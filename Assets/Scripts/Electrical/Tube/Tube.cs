@@ -13,30 +13,39 @@ public class Tube : MonoBehaviour
     [SerializeField] private Tube _nextTube, _lastTube;
     [SerializeField] private Vector3 center;
     [SerializeField] private LayerMask _tubeMask;
+    [SerializeField] private float _searchRad = 0.25f;
 
-    [SerializeField] private bool _checkpoint, _entry, _exit;
-    /*
-    private Vector3 screenPosition;
-    List<Vector3> targetPosition = new List<Vector3>();*/
+    [SerializeField] private bool _checkpoint, _entry, _exit, _obstacle, _gizmos = true;
 
     private void Start()
     {
         center = transform.position;
-        if (Physics2D.OverlapCircle(transform.position, .1f).GetComponent<HamsterCatch>())
-            if (Physics2D.OverlapCircle(transform.position, .1f).GetComponent<HamsterCatch>().Obstacle){}
-            else
-                CheckNeighborTubes();
-        else
-            CheckNeighborTubes();
 
-        //if (!_entry && (GetComponent<BoxCollider2D>() ||GetComponent<Collider2D>()))
-        //{
-        //    GetComponent<Collider2D>().enabled = false;
-        //}
+        /*if (Physics2D.OverlapCircle(center, _searchRad).GetComponent<Door>())
+        {
+            Debug.Log($"Overlap: {Physics2D.OverlapCircle(center, _searchRad).GetComponent<Door>().Obstacle}");
+
+            if (Physics2D.OverlapCircle(center, _searchRad).GetComponent<Door>().Obstacle)
+            {
+                Debug.Log($"{gameObject.transform.parent.name} en {gameObject.transform.parent.position} si se encontro con algun obstaculo");
+                _obstacle = true;
+            }
+            else
+            {
+                Debug.Log($"{gameObject.transform.parent.name} en {gameObject.transform.parent.position} no encontro obstaculos pero si puertas");
+                CheckNeighborTubes();
+            }
+        }
+        else*/
+        {
+            //Debug.Log($"{gameObject.transform.parent.name} en {gameObject.transform.parent.position} no encontro obstaculos");
+            CheckNeighborTubes();
+        }
     }
 
     public void CantPass()
     {
+        _obstacle = true;
         _UpTube = _RightTube = _DownTube = _LeftTube = null;
         _possiblePaths.Clear();
     }
@@ -49,28 +58,24 @@ public class Tube : MonoBehaviour
 
     public void GoUp()
     {
-        //Debug.Log($"GoUp");
         _hamster.MoveToNextTube(_UpTube);
         arrows.SetActive(false);
     }
 
     public void GoRight()
     {
-        //Debug.Log($"GoRight");
         _hamster.MoveToNextTube(_RightTube);
         arrows.SetActive(false);
     }
 
     public void GoDown()
     {
-        //Debug.Log($"GoDown");
         _hamster.MoveToNextTube(_DownTube);
         arrows.SetActive(false);
     }
 
     public void GoLeft()
     {
-        //Debug.Log($"GoLeft");
         _hamster.MoveToNextTube(_LeftTube);
         arrows.SetActive(false);
     }
@@ -87,13 +92,15 @@ public class Tube : MonoBehaviour
             }
         }
 
-        if (_nextTube != null) return _nextTube;
+        if (_nextTube != null && !_obstacle) return _nextTube;
         else return _lastTube;
     }
 
     public void CheckNeighborTubes()
     {
+        _obstacle = false;
         var counter = 0;
+
         RaycastHit2D hitUp = Physics2D.Raycast(transform.position, Vector2.up, 1, _tubeMask);
         if (hitUp && _UpConnection)
         {
@@ -127,30 +134,17 @@ public class Tube : MonoBehaviour
         }
     }
 
-    public void ArrowsActDes(bool set = false)
-    {
-        arrows.SetActive(set);
-    }
+    public void ArrowsActDes(bool set = false) { arrows.SetActive(set); }
 
-    public Vector3 GetCenter()
-    {
-        return center;
-    }
+    public Vector3 GetCenter() { return center; }
 
-    public bool IsEntry()
-    {
-        return _entry;
-    }
+    public bool IsEntry() { return _entry; }
 
-    public bool IsExit()
-    {
-        return _exit;
-    }
+    public bool IsExit() { return _exit; }
 
-    public bool IsCheckpoint()
-    {
-        return _checkpoint;
-    }
+    public bool IsCheckpoint() { return _checkpoint; }
+
+    public List<Tube> PossiblePaths { get { return _possiblePaths; } }
 
     private void OnMouseOver()
     {
@@ -158,5 +152,12 @@ public class Tube : MonoBehaviour
         {
             FindObjectOfType<Hamster>().GetInTube(transform.position, this);
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (!_gizmos) return;
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, _searchRad);
     }
 }

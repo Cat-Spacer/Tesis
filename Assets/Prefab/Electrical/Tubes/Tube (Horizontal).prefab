@@ -76,7 +76,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   neighbours: []
   cost: 1
-  _meshRenderer: {fileID: 0}
+  _viewRadius: 1.2
+  meshRenderer: {fileID: 0}
   obstacleMask:
     serializedVersion: 2
     m_Bits: 27
@@ -378,7 +379,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1343449567
-  m_SortingLayer: 12
+  m_SortingLayer: 13
   m_SortingOrder: 1
   m_Sprite: {fileID: -3423665349184479882, guid: a4fd8fbe1f7638f49a078fffa9ac4b1b,
     type: 3}
@@ -606,9 +607,13 @@ MonoBehaviour:
   _tubeMask:
     serializedVersion: 2
     m_Bits: 8388608
+  _obstacleMask:
+    serializedVersion: 2
+    m_Bits: 33554432
   _checkpoint: 0
   _entry: 0
   _exit: 0
+  _obstacle: 0
 --- !u!61 &5553020327232138829
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1102,7 +1107,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1343449567
-  m_SortingLayer: 12
+  m_SortingLayer: 13
   m_SortingOrder: 1
   m_Sprite: {fileID: 7614799107178333601, guid: a4fd8fbe1f7638f49a078fffa9ac4b1b,
     type: 3}
