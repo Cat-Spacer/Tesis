@@ -63,34 +63,33 @@ public class Generator : MonoBehaviour
         }
     }
 
-
     public int EnergyNeeded { get { return _energyNeeded; } }
-
-    public void StartGenerator(bool start = true)
-    {
-        if (EnergyNeeded <= _hamster.Energy)
-        {
-            _hamster.AddEnergy(-EnergyNeeded);
-            StartCoroutine(Delay(start));
-        }
 
     void StartMiniGame()
     {
         _miniGame.TurnOn();
     }
+
     public void OnWinMiniGame()
     {
         _miniGameWin = true;
         StartGenerator(true);
     }
+
     public void TurnButtons()
     {
         buttons.SetActive(true);
     }
+
     public void StartGenerator(bool start = true)
     {
         if (_miniGameWin == true)
         {
+            if (EnergyNeeded <= _hamster.Energy)
+            {
+                _hamster.AddEnergy(-EnergyNeeded);
+                StartCoroutine(Delay(start));
+            }
             StartCoroutine(Delay(start));
         }
         else if (!_alreadyStarded)
