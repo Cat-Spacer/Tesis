@@ -148,10 +148,7 @@ public class Tube : MonoBehaviour
 
     private void OnMouseOver()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0) && _entry)
-        {
-            FindObjectOfType<Hamster>().GetInTube(transform.position, this);
-        }
+
     }
 
     private void OnDrawGizmos()

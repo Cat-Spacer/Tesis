@@ -5,6 +5,7 @@ using UnityEngine;
 public class TubeEntry : MonoBehaviour
 {
     [SerializeField] Sprite _open, _closed;
+    [SerializeField] Tube _entryTube;
     SpriteRenderer _sp;
     private void Start()
     {
@@ -23,6 +24,13 @@ public class TubeEntry : MonoBehaviour
         if (collision.GetComponent<CustomMovement>())
         {
             _sp.sprite = _closed;
+        }
+    }
+    private void OnMouseOver()
+    {
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            FindObjectOfType<Hamster>().GetInTube(_entryTube.transform.position, _entryTube);
         }
     }
 }

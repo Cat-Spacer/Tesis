@@ -115,7 +115,9 @@ public class Hamster : MonoBehaviour
         {
             if (_generator)
             {
-                _generator.buttons.SetActive(true);
+                _generator.TurnButtons();
+                /*foreach (var partc in _generator.electricParticles)
+                    partc.Play();*/
             }
         }
         else //Se mueve al siguiente tubo
