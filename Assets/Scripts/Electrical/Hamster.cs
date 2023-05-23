@@ -11,7 +11,7 @@ public class Hamster : MonoBehaviour
     [SerializeField] private Transform _playerPos;
     [SerializeField] private float _speed, _maxSpeed, _pointRadius, _checkRadius = 5.0f, _interactRadius = 2.5f;
     [SerializeField] private LayerMask _tubeLayerMask, _generatorLayerMask;
-    [SerializeField] private bool _inTube;
+    [SerializeField] private bool _inTube, _gizmos = false;
     [SerializeField] private Tube _currentTube, _lastTube;
     [SerializeField] private Vector3 _currentTubePos;
     [SerializeField] private Generator _generator;
@@ -26,11 +26,7 @@ public class Hamster : MonoBehaviour
         //_testGenerator = FindObjectOfType<Generator>();
     }
 
-    public void AddEnergy(int energy_arg)
-    {
-        //Debug.Log("Hamster add energy");
-        _energyCollected += energy_arg;
-    }
+    public void AddEnergy(int energy_arg) { _energyCollected += energy_arg; }
 
     private void Update()
     {
@@ -47,10 +43,7 @@ public class Hamster : MonoBehaviour
         }
     }
 
-    public void MoveWithPlayer()
-    {
-        transform.position = _playerPos.position;
-    }
+    public void MoveWithPlayer() { transform.position = _playerPos.position; }
 
     public void MoveInTubes()
     {
@@ -68,6 +61,7 @@ public class Hamster : MonoBehaviour
     public void GetInTube(Vector2 targetPosition, Tube tube = null)
     {
         if (_inTube) return;
+        //var tubeColl = Physics2D.OverlapPoint(targetPosition, _tubeLayerMask);
         //var tubeColl = Physics2D.OverlapCircle(targetPosition, _pointRadius, _tubeLayerMask);
         var tubeColl = Physics2D.Raycast(targetPosition, Vector3.forward, _pointRadius, _tubeLayerMask);
 
@@ -93,6 +87,7 @@ public class Hamster : MonoBehaviour
             }
         }
     }
+
     void CheckNextTube()
     {
         if (_currentTube.IsCheckpoint() || _currentTube.IsEntry() || _currentTube.IsExit())
@@ -127,9 +122,9 @@ public class Hamster : MonoBehaviour
             _currentTubePos = _currentTube.GetCenter();
         }
     }
+
     public void MoveToNextTube(Tube tube)
     {
-        //Debug.Log($"tube = {tube}");
         if (tube == null) //Si no hay siguiente tubo sale del tubo
         {
             if (_generator)
@@ -150,6 +145,7 @@ public class Hamster : MonoBehaviour
             _inTube = true;
         }
     }
+
     public void ReturnToCat()
     {
         _inTube = false;
@@ -167,10 +163,11 @@ public class Hamster : MonoBehaviour
 
     public int Energy { get { return _energyCollected; } }
 
-    public Tube LastTube { get { return _lastTube;} }
+    public Tube LastTube { get { return _lastTube; } }
 
     private void OnDrawGizmos()
     {
+        if (_gizmos) return;
         Gizmos.color = Color.magenta;
         //Gizmos.DrawWireCube(transform.position, new Vector3(_checkRadius, _checkRadius));
         Gizmos.DrawWireSphere(transform.position, _checkRadius);
