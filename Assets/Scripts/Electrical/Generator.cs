@@ -6,14 +6,12 @@ using UnityEngine;
 public class Generator : MonoBehaviour
 {
     public List<GameObject> _connection;
-    //public List<GameObject> _electricityParticle;
     [SerializeField] private bool _test = false;
     private bool _miniGameWin;
     private bool _alreadyStarded;
     [SerializeField] private int _energyNeeded;
     [SerializeField] private float _delaySeconds = 1.0f;
     public GameObject buttons = null;
-    //public List<ParticleSystem> electricParticles;
     private Hamster _hamster;
     [SerializeField] MiniGame _miniGame;
 
@@ -33,8 +31,6 @@ public class Generator : MonoBehaviour
         buttons.SetActive(false);
     }
 
-    public int EnergyNeeded { get { return _energyNeeded; } }
-    //public GameObject Buttons() { return _buttons; }
 
     IEnumerator Delay(bool power = true)
     {
@@ -46,12 +42,10 @@ public class Generator : MonoBehaviour
                 if (_connection[i] != null && _connection[i].GetComponent<IElectric>() != null)
                 {
                     _connection[i].GetComponent<IElectric>().TurnOn();
-                    //_electricityParticle[i].GetComponent<Electricty>().Activate();
                 }
                 else if (_connection[i] != null && _connection[i].GetComponentInChildren<IElectric>() != null)
                 {
                     _connection[i].GetComponentInChildren<IElectric>().TurnOn();
-                    //_electricityParticle[i].GetComponentInChildren<Electricty>().Activate();
                 }
             }
             else
@@ -68,6 +62,18 @@ public class Generator : MonoBehaviour
             }
         }
     }
+
+
+    public int EnergyNeeded { get { return _energyNeeded; } }
+
+    public void StartGenerator(bool start = true)
+    {
+        if (EnergyNeeded <= _hamster.Energy)
+        {
+            _hamster.AddEnergy(-EnergyNeeded);
+            StartCoroutine(Delay(start));
+        }
+
     void StartMiniGame()
     {
         _miniGame.TurnOn();
@@ -93,9 +99,4 @@ public class Generator : MonoBehaviour
             StartMiniGame();
         }
     }
-
-    //public void PowerOffGenerator() 
-    //{
-    //    StartCoroutine(Delay(false));
-    //}
 }
