@@ -10,25 +10,23 @@ public class HamsterCatch : MonoBehaviour
     {
         if (!collision.gameObject.GetComponent<Hamster>()) return;
 
-            var hamster = collision.gameObject.GetComponent<Hamster>();
+        var hamster = collision.gameObject.GetComponent<Hamster>();
+        if (hamster.InTube())
             if (!_obstacle)
-                if (hamster.InTube())
-                    hamster.ReturnToCat();
+                hamster.ReturnToCat();
             else
-                if (hamster.InTube())
-                    hamster.MoveToNextTube(hamster.LastTube);
+                hamster.MoveToNextTube(hamster.LastTube);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (!collision.gameObject.GetComponent<Hamster>()) return;
 
-            var hamster = collision.gameObject.GetComponent<Hamster>();
+        var hamster = collision.gameObject.GetComponent<Hamster>();
+        if (hamster.InTube())
             if (!_obstacle)
-                if (hamster.InTube())
-                    hamster.ReturnToCat();
+                hamster.ReturnToCat();
             else
-                if (hamster.InTube())
-                    hamster.MoveToNextTube(hamster.LastTube);
+                hamster.MoveToNextTube(hamster.LastTube);
     }
 }

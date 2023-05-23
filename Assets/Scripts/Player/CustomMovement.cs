@@ -27,6 +27,9 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     [SerializeField] private LayerMask _ignoredPhysics;
 
     float xMove;
+
+    public bool Runing { get { return running; } }
+
     private void Awake()
     {
         _startScale = transform.localScale;

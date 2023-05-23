@@ -15,37 +15,17 @@ public class Tube : MonoBehaviour
     [SerializeField] private LayerMask _tubeMask;
     [SerializeField] private float _searchRad = 0.25f;
 
-    [SerializeField] private bool _checkpoint, _entry, _exit, _obstacle, _gizmos = true;
+    [SerializeField] private bool _checkpoint, _entry, _exit, _gizmos = true;
 
     private void Start()
     {
         center = transform.position;
 
-        /*if (Physics2D.OverlapCircle(center, _searchRad).GetComponent<Door>())
-        {
-            Debug.Log($"Overlap: {Physics2D.OverlapCircle(center, _searchRad).GetComponent<Door>().Obstacle}");
-
-            if (Physics2D.OverlapCircle(center, _searchRad).GetComponent<Door>().Obstacle)
-            {
-                Debug.Log($"{gameObject.transform.parent.name} en {gameObject.transform.parent.position} si se encontro con algun obstaculo");
-                _obstacle = true;
-            }
-            else
-            {
-                Debug.Log($"{gameObject.transform.parent.name} en {gameObject.transform.parent.position} no encontro obstaculos pero si puertas");
-                CheckNeighborTubes();
-            }
-        }
-        else*/
-        {
-            //Debug.Log($"{gameObject.transform.parent.name} en {gameObject.transform.parent.position} no encontro obstaculos");
-            CheckNeighborTubes();
-        }
+        CheckNeighborTubes();
     }
 
     public void CantPass()
     {
-        _obstacle = true;
         _UpTube = _RightTube = _DownTube = _LeftTube = null;
         _possiblePaths.Clear();
     }
@@ -92,13 +72,12 @@ public class Tube : MonoBehaviour
             }
         }
 
-        if (_nextTube != null && !_obstacle) return _nextTube;
+        if (_nextTube != null) return _nextTube;
         else return _lastTube;
     }
 
     public void CheckNeighborTubes()
     {
-        _obstacle = false;
         var counter = 0;
 
         RaycastHit2D hitUp = Physics2D.Raycast(transform.position, Vector2.up, 1, _tubeMask);
