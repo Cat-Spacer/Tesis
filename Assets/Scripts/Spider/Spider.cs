@@ -6,55 +6,34 @@ public class Spider : MonoBehaviour
 {
     [Header("Stats")]
     public float speed;
-    //  private Vector2 _velocity;
-    //  public float maxSpeed;
-    // public float maxForce;
-
-
     public Hamster _target;
 
     [Header("Field of View")]
-    public float viewRadius;
-    public float viewAngle;
+    public float viewRadius, viewAngle, followArea;
     public LayerMask obstacleMask;
-    private LayerMask _nodeMask;
-    public float followArea;
-    //private NodePoint _startingNode;
-    // private NodePoint _goalNode;
     public NodePoint homeNode;
 
     public List<NodePoint> areaNodes;
 
     [Header("WayPoints")]
     public List<NodePoint> wayPoints = new List<NodePoint>();
-    public int _wayPointIndex = 0;
-
-
-    public int current = 0;
+    public int _wayPointIndex = 0, current = 0;
+    public bool attacked = false;
 
     private void Start()
     {
         followArea = 3;
         speed = 1;
         obstacleMask = LayerMask.GetMask("Shield");
-        //_nodeMask = LayerMask.GetMask("Node");
         _target = FindObjectOfType<Hamster>();
         /*if (Physics2D.OverlapBox(transform.position, Vector2.one, _nodeMask).GetComponent<NodePoint>())
             homeNode = Physics2D.OverlapBox(transform.position, Vector2.one, _nodeMask).GetComponent<NodePoint>();*/
     }
 
-    /*  private void Update()
-      {
-          transform.position += _velocity * Time.deltaTime;
-          transform.forward = _velocity;
-      }*/
-
-    public bool attacked = false;
     public void Attack()
     {
-        _target.HamsterCatched();
+        _target.ReturnToCat();
         attacked = true;
-        Debug.Log("_spider attack");
     }
 
     public List<NodePoint> ConstructPathAStar(Vector2 pos, NodePoint goalNode)
@@ -114,6 +93,7 @@ public class Spider : MonoBehaviour
 
         return default;
     }
+
     public void Move(List<NodePoint> path)
     {
         if (path.Count == 0) return;
@@ -126,6 +106,7 @@ public class Spider : MonoBehaviour
         transform.position = Vector2.MoveTowards(transform.position, path[current].transform.position, speed * Time.deltaTime);
 
     }
+
     public float Heuristic(Vector2 a, Vector2 b)
     {
         return Vector2.Distance(a, b);
@@ -141,15 +122,11 @@ public class Spider : MonoBehaviour
         }
         return e.Get();
     }
+
     public bool InSight(Vector2 start, Vector2 end)
     {
         Vector2 dir = end - start;
         if (!Physics2D.Raycast(start, dir, dir.magnitude, obstacleMask)) return true;
         else return false;
     }
-    /* public void ApplyForce(Vector2 force)
-     {
-         _velocity += force;
-         _velocity = Vector3.ClampMagnitude(_velocity, maxSpeed);
-     }*/
 }
