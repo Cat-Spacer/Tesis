@@ -50,6 +50,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
 
     private void Start()
     {
+        withHamster = true;
         _baseJump = jumpForce;
         gravityForce = gravityForceDefault;
         defaultMaxSpeed = maxSpeed;
@@ -388,6 +389,11 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
 
     void Dash()
     {
+        if (!withHamster)
+        {
+            onDashInput = false;
+            return;
+        }
         if (Climb.isClimbing)
         {
             onDashInput = false;
@@ -678,7 +684,10 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     {
         if (!dead) rb.constraints = constraints2D;
     }
-
+    public void HamsterCheck(bool check)
+    {
+        withHamster = check;
+    }
     void GroundCheckPos()
     {
         groundColl = Physics2D.OverlapBox

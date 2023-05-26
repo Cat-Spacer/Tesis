@@ -8,6 +8,7 @@ public class Hamster : MonoBehaviour
 {
     private HamsterInput _controller;
     Action _HamsterAction = delegate { };
+    [SerializeField] CustomMovement _player;
     [SerializeField] private Transform _playerPos;
     [SerializeField] private float _speed, _maxSpeed, _pointRadius, _checkRadius = 5.0f, _interactRadius = 2.5f;
     [SerializeField] private LayerMask _tubeLayerMask, _generatorLayerMask;
@@ -61,6 +62,7 @@ public class Hamster : MonoBehaviour
     public void GetInTube(Vector2 targetPosition, Tube tube = null)
     {
         if (_inTube) return;
+        _player.HamsterCheck(false);
         //var tubeColl = Physics2D.OverlapPoint(targetPosition, _tubeLayerMask);
         //var tubeColl = Physics2D.OverlapCircle(targetPosition, _pointRadius, _tubeLayerMask);
         var tubeColl = Physics2D.Raycast(targetPosition, Vector3.forward, _pointRadius, _tubeLayerMask);
@@ -150,6 +152,7 @@ public class Hamster : MonoBehaviour
     {
         _inTube = false;
         _HamsterAction = MoveWithPlayer;
+        _player.HamsterCheck(true);
     }
 
     public void HamsterCatched()
