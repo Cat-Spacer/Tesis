@@ -719,11 +719,20 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         else //Not on ground
         {
             onGround = false;
-            if (!_climbScript.onClimb && rb.velocity.y < 0)
+            if (rb.velocity.y < 0)
             {
-                ChangeAnimationState(Player_OnAir);
-                _runParticle.Stop();
+                if (!_climbScript.onClimb)
+                {
+                    ChangeAnimationState(Player_OnAir);
+                    _runParticle.Stop();
+                }
+
             }
+            else
+            {
+                ChangeAnimationState(Player_Jump);
+            }
+
         }
     }
 
