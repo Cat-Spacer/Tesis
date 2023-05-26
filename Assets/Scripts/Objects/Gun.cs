@@ -16,8 +16,7 @@ namespace Weapons
         public AudioSource audioSource;
         public ParticleSystem muzzleFlash;
         public Bullet bulletPrefab;
-        [SerializeField] ParticleSystem _spitleParticle;
-        [SerializeField] ParticleSystem _spitleExplotionParticle;
+        [SerializeField] ParticleSystem _explotionParticle1, _explotionParticle2;
 
         public float distance = 150f;
 
@@ -59,15 +58,14 @@ namespace Weapons
             else
             {
                 fireTimer = fireRate;
-                _spitleParticle.Stop();
                 StartCoroutine(WaitForAnim());
             }
         }
 
         public virtual void FireBullet()
         {
-            _spitleExplotionParticle.Play();
-            _spitleParticle.Stop();
+            _explotionParticle1.Play();
+            _explotionParticle2.Play();
             Shoot.Fire(bulletPrefab, firePoint, gameObject);
             #region ObjectFactory (bugeado)
             /*
@@ -88,7 +86,6 @@ namespace Weapons
         {
             yield return new WaitForSeconds(wait);
             FireBullet();
-            _spitleParticle.Play();
         }
     }
 }
