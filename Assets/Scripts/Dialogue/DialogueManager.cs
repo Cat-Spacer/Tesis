@@ -12,10 +12,10 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private Queue<string> sentences = new Queue<string>();
     [SerializeField] private Animator animator;
 
-    /*private void Start()
+    private void Start()
     {
-        sentences ;
-    }*/
+        animator.SetBool("IsOpen", true);
+    }
 
     public void StartDialogue(Dialogue dialogue)
     {

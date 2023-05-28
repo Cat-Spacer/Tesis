@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class TutoText : MonoBehaviour
 {
-    [SerializeField] GameObject _text;
+    [SerializeField] DialogueTrigger _dialogue;
     void Start()
     {
-        _text.SetActive(false);
+        _dialogue = GetComponent<DialogueTrigger>();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.GetComponent<CustomMovement>())
         {
-            _text.SetActive(true);
+            _dialogue.TriggerDialogue();
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.GetComponent<CustomMovement>())
-        {
-            _text.SetActive(false);
-        }
+        //if (collision.gameObject.GetComponent<CustomMovement>())
+        //{
+        //    _dialogue.SetActive(false);
+        //}
     }
 }
