@@ -15,6 +15,7 @@ public class Hamster : MonoBehaviour
     [SerializeField] private bool _inTube, _gizmos = false;
     [SerializeField] private Tube _currentTube, _lastTube;
     [SerializeField] private Vector3 _currentTubePos;
+    [SerializeField] private Generator[] _generators;
     [SerializeField] private Generator _generator;
     [SerializeField] private int _energyCollected;
     public bool visible = true;
@@ -24,10 +25,19 @@ public class Hamster : MonoBehaviour
     {
         _controller = new HamsterInput(this);
         _HamsterAction = MoveWithPlayer;
-        //_testGenerator = FindObjectOfType<Generator>();
+        _generators = FindObjectsOfType<Generator>();
     }
 
-    public void AddEnergy(int energy_arg) { _energyCollected += energy_arg; }
+    public void AddEnergy(int energy_arg) 
+    {
+        _energyCollected += energy_arg;
+        foreach (var item in _generators)
+        {
+            item.SetEnergyCounter(_energyCollected);
+        }
+
+        Debug.Log(_energyCollected);
+    }
 
     private void Update()
     {
@@ -90,6 +100,7 @@ public class Hamster : MonoBehaviour
         }
     }
 
+    
     void CheckNextTube()
     {
         if (_currentTube.IsCheckpoint() || _currentTube.IsEntry() || _currentTube.IsExit())
@@ -104,7 +115,7 @@ public class Hamster : MonoBehaviour
 
             if ((_currentTube.IsExit() || _currentTube.IsCheckpoint()) && _generator != null && _generator.EnergyNeeded <= _energyCollected)
             {
-                _energyCollected -= _generator.EnergyNeeded;
+               // _energyCollected -= _generator.EnergyNeeded;
                 //_generator.StartGenerator();
                 // _generator.buttons.SetActive(true);
             }
