@@ -20,6 +20,8 @@ public class Spider : MonoBehaviour
     public int _wayPointIndex = 0, current = 0;
     public bool attacked = false;
 
+
+    [SerializeField] GameObject _alertImage;
     private void Start()
     {
         followArea = 3;
@@ -28,6 +30,11 @@ public class Spider : MonoBehaviour
         _target = FindObjectOfType<Hamster>();
         /*if (Physics2D.OverlapBox(transform.position, Vector2.one, _nodeMask).GetComponent<NodePoint>())
             homeNode = Physics2D.OverlapBox(transform.position, Vector2.one, _nodeMask).GetComponent<NodePoint>();*/
+    }
+
+    public void Alert(bool state_arg)
+    {
+        _alertImage.gameObject.SetActive(state_arg);
     }
 
     public void Attack()
