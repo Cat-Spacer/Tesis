@@ -35,6 +35,7 @@ public class PlatformMovement : MonoBehaviour
     {
         if (collision.gameObject.tag == "Platform")
         {
+
             _platformRB = collision.gameObject.GetComponent<Rigidbody2D>();
             if (_playerRB)
                 _playerRB.sharedMaterial.friction = _platformRB.sharedMaterial.friction;
