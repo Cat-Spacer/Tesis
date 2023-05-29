@@ -290,6 +290,9 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             canJump = false;
             ChangeAnimationState(Player_Jump);
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+
+           // Physics2D.IgnoreLayerCollision(31, 7, true);
+
         }
 
     }
@@ -298,6 +301,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         if (jumpStop && !onGround && !Climb.isClimbing)
         {
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Min(rb.velocity.y - stopJumpForce, -8));
+           
         }
         else
         {
@@ -705,9 +709,13 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
 
         if (groundColl != null) //On ground
         {
+
+
             canHorizontalClimb = true;
             isJumping = false;
             onGround = true;
+            Debug.Log("ON GROUND");
+            //Physics2D.IgnoreLayerCollision(31, 7, false);
             jumpClimb = false;
             canJump = true;
             canDash = true;
@@ -715,12 +723,14 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             {
                 ChangeAnimationState(Player_Idle);
             }
+           
         }
         else //Not on ground
         {
             onGround = false;
             if (rb.velocity.y < 0)
             {
+                Physics2D.IgnoreLayerCollision(31, 7, false);
                 if (!_climbScript.onClimb)
                 {
                     ChangeAnimationState(Player_OnAir);
@@ -731,6 +741,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             else
             {
                 ChangeAnimationState(Player_Jump);
+                Physics2D.IgnoreLayerCollision(31, 7, true);
             }
 
         }
@@ -749,13 +760,17 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         doJumpBuffer = false;
         canJump = true;
     }
+
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        /*if (collision.gameObject.layer == 24)
-        {
-            Debug.Log($"Ignored Collision");
-            Physics2D.IgnoreCollision(GetComponent<Collider2D>(), collision.collider);
-        }*/
+        /*  if (collision.gameObject.layer == 24)
+          {
+              Debug.Log($"Ignored Collision");
+              Physics2D.IgnoreCollision(GetComponent<Collider2D>(), collision.collider);
+          }*/
+
+      
 
         if (collision.gameObject.layer == 6 && !isJumping)
         {
@@ -814,19 +829,19 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             //canHorizontalClimb = false;
         }
 
-        if (collision.gameObject.layer == 20)
+     /*   if (collision.gameObject.layer == 20)
         {
             OnIce = true;
-        }
+        }*/
 
     }
     void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == 20)
+       /* if (collision.gameObject.layer == 20)
         {
             OnIce = false;
             Physics2D.IgnoreLayerCollision(6, 7, false);
-        }
+        }*/
     }
 
 
@@ -932,4 +947,6 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     {
         ConstrainsReset();
     }
+
+  
 }
