@@ -108,6 +108,7 @@ public class SpiderControl : MonoBehaviour
         };
         following.OnUpdate += () =>
         {
+            if (pathList.Count <= 0) return;
             if (_spider.current >= pathList.Count-1 && Vector2.Distance(transform.position, pathList[_spider.current].transform.position) < 0.15f)
             {
                 SendInputToFSM(States.RETURN);

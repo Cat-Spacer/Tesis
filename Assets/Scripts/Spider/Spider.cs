@@ -103,7 +103,7 @@ public class Spider : MonoBehaviour
 
     public void Move(List<NodePoint> path)
     {
-        if (path.Count == 0) return;
+        if (path.Count <= 0 || path == null) return;
 
         if (current < path.Count - 1 && Vector2.Distance(transform.position, path[current].transform.position) < 0.15f)
         {
