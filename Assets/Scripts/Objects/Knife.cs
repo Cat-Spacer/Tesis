@@ -10,6 +10,6 @@ public class Knife : MonoBehaviour
     {
         var obj = collision.gameObject.GetComponent<IDamageable>();
         if (obj == null) return;
-        obj.GetDamage(_damage);
+        obj.GetDamage();
     }
 }

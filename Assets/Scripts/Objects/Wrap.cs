@@ -121,7 +121,7 @@ public class Wrap : MonoBehaviour, ILiberate
             if (Vector2.Distance(_player.transform.position, transform.position) <= 1)
             {
                 var playerDamage = collision.gameObject.GetComponent<IDamageable>();
-                playerDamage.GetDamage(1);//Animation play kill
+                playerDamage.GetDamage();//Animation play kill
                 _TrapLifeAction = delegate { };
                 spitleParticle.gameObject.SetActive(false);
                 _myAnimator.SetTrigger("Eat");

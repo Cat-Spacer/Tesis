@@ -19,7 +19,7 @@ public class Hamster : MonoBehaviour
     [SerializeField] private Generator _generator;
     [SerializeField] private int _energyCollected;
     public bool visible = true;
-
+    bool _owlCatched;
 
     private void Start()
     {
@@ -48,7 +48,7 @@ public class Hamster : MonoBehaviour
     {
         _controller.OnUpdate();
 
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) && !_owlCatched)
         {
             ReturnToCat();
         }
@@ -71,7 +71,7 @@ public class Hamster : MonoBehaviour
 
     public void GetInTube(Vector2 targetPosition, Tube tube = null)
     {
-        if (_inTube) return;
+        if (_inTube || _owlCatched) return;
         _player.HamsterCheck(false);
         //var tubeColl = Physics2D.OverlapPoint(targetPosition, _tubeLayerMask);
         //var tubeColl = Physics2D.OverlapCircle(targetPosition, _pointRadius, _tubeLayerMask);
@@ -161,6 +161,7 @@ public class Hamster : MonoBehaviour
 
     public void ReturnToCat()
     {
+        _owlCatched = false;
         _inTube = false;
         _HamsterAction = MoveWithPlayer;
         _player.HamsterCheck(true);
@@ -179,11 +180,31 @@ public class Hamster : MonoBehaviour
 
     public Tube LastTube { get { return _lastTube; } }
 
+    public void Die()
+    {
+        _player.GetDamage();
+        ResetToPlayer();
+    }
+    public void ResetToPlayer()
+    {
+        ReturnToCat();
+    }
     private void OnDrawGizmos()
     {
         if (_gizmos) return;
         Gizmos.color = Color.magenta;
         //Gizmos.DrawWireCube(transform.position, new Vector3(_checkRadius, _checkRadius));
         Gizmos.DrawWireSphere(transform.position, _checkRadius);
+    }
+    public void OwlCatch(float time)
+    {
+        _owlCatched = true;
+        _HamsterAction = delegate { };
+        StartCoroutine(DieByOwl(time));
+    }
+    IEnumerator DieByOwl(float time)
+    {
+        yield return new WaitForSeconds(time);
+        _player.GetDamage();
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Vine : MonoBehaviour, IDamageable
+public class Vine : MonoBehaviour
 {
     [SerializeField] private float _maxLife;
     [SerializeField] private float _currentLife;
@@ -18,22 +18,6 @@ public class Vine : MonoBehaviour, IDamageable
     {
         var obj = collision.gameObject.GetComponent<IDamageable>();
         if (obj == null) return;
-        obj.GetDamage(dmg);
-    }
-
-    public void GetDamage(float dmg)
-    {
-        _currentLife -= dmg;
-        if (_currentLife <= 0)
-        {
-            foreach (var item in particles)
-            {
-                var newParticle = Instantiate(item);
-                newParticle.transform.position = transform.position;
-            }
-            SoundManager.instance.Play(SoundManager.Types.VineCrunch);
-            gameObject.SetActive(false);
-           // Destroy(gameObject);
-        }
+        obj.GetDamage();
     }
 }

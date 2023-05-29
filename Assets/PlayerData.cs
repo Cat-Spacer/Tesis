@@ -66,9 +66,10 @@ public class PlayerData : MonoBehaviour
 	[Space(5)]
 	[Range(0, 0.5f)] public float dashBufferTime;
 
-
 	//OTHER
 	[Header("Other Settings")]
 	public bool doKeepRunMomentum; //player movement will not decrease speed if above maxSpeed, letting only drag do so. Allows for conservation of momentum
 	public bool doTurnOnWallJump; //player will rotate to face wall jumping direction
+
+
 }

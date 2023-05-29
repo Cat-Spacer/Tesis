@@ -41,7 +41,7 @@ public class CaveSpike : MonoBehaviour
             var damageable = collision.gameObject.GetComponent<IDamageable>();
             if (damageable != null)
             {
-                damageable.GetDamage(1);
+                damageable.GetDamage();
                 var particle = Instantiate(brokenRockParticle);
                 particle.transform.position = transform.position;
                 anim.SetTrigger("Stop");

@@ -128,6 +128,9 @@ public class PlayerDatas : MonoBehaviour
     [Header("Canvas")]
     [SerializeField] protected PlayerCanvas _playerCanvas;
 
+    [Header("Hamster")]
+    [SerializeField] protected Hamster _hamster;
+
     [Header("Other")]
     protected bool dead; 
     [SerializeField] protected bool showGizmos;

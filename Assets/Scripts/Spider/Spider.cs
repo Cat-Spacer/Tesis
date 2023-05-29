@@ -39,7 +39,7 @@ public class Spider : MonoBehaviour
 
     public void Attack()
     {
-        _target.ReturnToCat();
+        _target.Die();
         attacked = true;
     }
 

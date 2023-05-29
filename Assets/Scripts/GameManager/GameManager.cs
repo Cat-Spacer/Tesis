@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
 
     public void ButtonDie()
     {
-        _player.GetDamage(1);
+        _player.GetDamage();
     }
     public void SetNewCheckPoint(Transform newChekPoint)
     {
