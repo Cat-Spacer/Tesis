@@ -672,7 +672,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             var obj = coll.gameObject.GetComponent<IDamageable>();
             if (obj == null) return;
 
-            obj.GetDamage(1);
+            obj.GetDamage();
         }
     }
 
@@ -862,8 +862,9 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         _Inputs = delegate { };
     }
 
-    public void GetDamage(float dmg)
+    public void GetDamage()
     {
+        _hamster.ResetToPlayer();
         rb.simulated = false;
         dead = true;
         _Inputs = delegate { };

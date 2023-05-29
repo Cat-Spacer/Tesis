@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Weapons
 {
-    public class Shooter : Gun, IDamageable
+    public class Shooter : Gun
     {
         Action _StunAction = delegate { };
         float currentStunTime;
@@ -34,14 +34,6 @@ namespace Weapons
                 return;
             }
             base.FireCooldown();
-        }
-
-        public void GetDamage(float dmg)
-        {
-            stun = true;
-            currentStunTime = dmg;
-            _StunAction = Stun;
-            //StartCoroutine(Stun(dmg));
         }
     }
 }

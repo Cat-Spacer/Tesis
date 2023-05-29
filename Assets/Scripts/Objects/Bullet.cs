@@ -25,7 +25,7 @@ public class Bullet : ObjectToSpawn
         if (collision.gameObject != _myFahter)
         {
             var obj = collision.gameObject.GetComponent<IDamageable>();
-            if (obj != null) obj.GetDamage(10);
+            if (obj != null) obj.GetDamage();
 
             //Debug.LogWarning($"{gameObject.name} collided with {collision.gameObject.name}");
 
