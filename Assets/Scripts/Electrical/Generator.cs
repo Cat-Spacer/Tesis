@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Generator : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class Generator : MonoBehaviour
     public GameObject buttons = null;
     private Hamster _hamster;
     [SerializeField] MiniGame _miniGame;
+    [SerializeField] TMP_Text _text;
 
     private void Start()
     {
@@ -23,6 +25,8 @@ public class Generator : MonoBehaviour
         //_miniGame = GetComponentInChildren<MiniGame>();
         _miniGameWin = false;
         _alreadyStarded = false;
+
+        _text.text = "0/" + _energyNeeded;
     }
 
     public void ReturnButton()
@@ -68,11 +72,14 @@ public class Generator : MonoBehaviour
     void StartMiniGame()
     {
         _miniGame.TurnOn();
+
     }
 
     public void OnWinMiniGame()
     {
         _miniGameWin = true;
+        _hamster.AddEnergy(-EnergyNeeded);
+        Debug.Log(-EnergyNeeded);
         StartGenerator(true);
     }
 
@@ -81,13 +88,18 @@ public class Generator : MonoBehaviour
         buttons.SetActive(true);
     }
 
+    public void SetEnergyCounter(int i)
+    {
+        _text.text = i + "/" + _energyNeeded;
+    }
+
     public void StartGenerator(bool start = true)
     {
         if (_miniGameWin == true)
         {
             if (EnergyNeeded <= _hamster.Energy)
             {
-                _hamster.AddEnergy(-EnergyNeeded);
+                
                 StartCoroutine(Delay(start));
             }
             StartCoroutine(Delay(start));
