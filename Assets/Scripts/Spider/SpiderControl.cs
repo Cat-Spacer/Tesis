@@ -102,9 +102,9 @@ public class SpiderControl : MonoBehaviour
         following.OnEnter += x =>
         {
             //Debug.Log("Its Following");
-
-            _goalNode = _spider.CheckNearestStart(_spider._target.transform.position);
-            pathList = _spider.ConstructPathAStar(_spider.transform.position, _goalNode);
+            _spider.Alert(true);
+            StartCoroutine(CoroutineWaitForAttack(0.5f));
+          
         };
         following.OnUpdate += () =>
         {
@@ -135,8 +135,8 @@ public class SpiderControl : MonoBehaviour
         attacking.OnEnter += x =>
         {
             //Debug.Log("Its Attacking");
-
-            _spider.Attack(); 
+           
+            _spider.Attack();
         };
         attacking.OnUpdate += () =>
         {
@@ -150,8 +150,18 @@ public class SpiderControl : MonoBehaviour
 
         _myFsm = new EventFSM<States>(idle);
     }
+ 
+    
 
-    private void Start()
+public IEnumerator CoroutineWaitForAttack(float waitTime)
+{
+    yield return new WaitForSeconds(waitTime);
+        _goalNode = _spider.CheckNearestStart(_spider._target.transform.position);
+        pathList = _spider.ConstructPathAStar(_spider.transform.position, _goalNode);
+        _spider.Alert(false);
+
+    }
+private void Start()
     {
         SendInputToFSM(States.IDLE);
     }
