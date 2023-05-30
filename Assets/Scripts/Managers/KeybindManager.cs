@@ -1,14 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using System;
 using InputKey;
 
 public class KeybindManager : MonoBehaviour
 {
     public static KeybindManager Instance;
-    public InputDictionary _inputDictionary;
+    public InputDictionary inputDictionary;
     public SaveManager saveManager;
     [SerializeField] private GameObject _popUP;
 
@@ -18,7 +14,7 @@ public class KeybindManager : MonoBehaviour
 
         if (saveManager!)
             saveManager = GetComponent<SaveManager>();
-        _inputDictionary = new InputDictionary();
+        inputDictionary = new InputDictionary();
     }
 
     void Start()
@@ -26,9 +22,9 @@ public class KeybindManager : MonoBehaviour
         saveManager.LoadJSON();
 
         if (saveManager.LoadData().buttonKeys == null || saveManager.LoadData().buttonValues == null || !saveManager.CheckFile())
-            _inputDictionary.OnStartIfNotSave();
+            inputDictionary.OnStartIfNotSave();
         else
-            _inputDictionary.LoadDictionary(saveManager.LoadData().buttonKeys, saveManager.LoadData().buttonValues);
+            inputDictionary.LoadDictionary(saveManager.LoadData().buttonKeys, saveManager.LoadData().buttonValues);
     }
 
     public void popUPScreen()
@@ -38,6 +34,6 @@ public class KeybindManager : MonoBehaviour
 
     public void Test()
     {
-        Debug.Log($"<color=teal>Testing KeybindManager components: saveManager = {saveManager} | inputDictionary = {_inputDictionary}</color>");
+        Debug.Log($"<color=teal>Testing KeybindManager components: saveManager = {saveManager} | inputDictionary = {inputDictionary}</color>");
     }
 }

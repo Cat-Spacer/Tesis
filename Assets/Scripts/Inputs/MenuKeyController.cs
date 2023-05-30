@@ -13,8 +13,8 @@ public class MenuKeyController : MonoBehaviour
 
     private void Start()
     {
-        if (KeybindManager.Instance._inputDictionary != null)
-            _inputDictionary = KeybindManager.Instance._inputDictionary;
+        if (KeybindManager.Instance.inputDictionary != null)
+            _inputDictionary = KeybindManager.Instance.inputDictionary;
         else
             _inputDictionary = new InputDictionary();
 
