@@ -1,15 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System;
-using TMPro;
 
 [Serializable]
 public class SaveManager : MonoBehaviour
 {
-    [SerializeField] PlayerSaveData _saveData = new PlayerSaveData();
-    [SerializeField] string _saveDataPath;
+    [SerializeField] private PlayerSaveData _saveData = new PlayerSaveData();
+    [SerializeField] private string _saveDataPath;
 
     void Awake()
     {
