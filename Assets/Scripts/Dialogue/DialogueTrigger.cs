@@ -20,6 +20,11 @@ public class DialogueTrigger : MonoBehaviour
         if (_dialogue == null || !FindObjectOfType<DialogueManager>()) return;
         _dialogueManager.StartDialogue(_dialogue);
     }
+    public void EndDialogue()
+    {
+        if (_dialogue == null || !FindObjectOfType<DialogueManager>()) return;
+        _dialogueManager.EndDialogue();
+    }
 
     private void LoadDialogue()
     {

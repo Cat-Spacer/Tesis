@@ -18,4 +18,11 @@ public class TutoText : MonoBehaviour
             _dialogue.TriggerDialogue();
         }
     }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.GetComponent<CustomMovement>())
+        {
+            _dialogue.EndDialogue();
+        }
+    }
 }

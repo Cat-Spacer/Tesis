@@ -23,7 +23,6 @@ public class Hamster : MonoBehaviour
 
     private void Start()
     {
-        _controller = new HamsterInput(this);
         _HamsterAction = MoveWithPlayer;
         _generators = FindObjectsOfType<Generator>();
     }
@@ -46,7 +45,6 @@ public class Hamster : MonoBehaviour
 
     private void LateUpdate()
     {
-        _controller.OnUpdate();
 
         if (Input.GetMouseButtonDown(1) && !_owlCatched)
         {
