@@ -7,6 +7,11 @@ public class ButtonsManager : MonoBehaviour
 {
     [SerializeField] private GameObject mainMenu, controlsMenu, optionsMenu, mainFirstBTN, controlsFirstBTN, optionsFirstBTN;
 
+    private void Start()
+    {
+        Cursor.lockState = CursorLockMode.Confined;
+    }
+
     public void OpenMainMenu()
     {
         if (!mainMenu) return;

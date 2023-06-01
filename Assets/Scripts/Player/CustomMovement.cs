@@ -9,7 +9,6 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     public Rigidbody2D rb;
     private Action _TimeCounterAction, _PlayerActions, _Inputs;
     [SerializeField] private Transform _respawnPoint;
-    [SerializeField] private TrailRenderer _dashTrail;
     public Climb _climbScript;
     private BoxCollider2D _collider;
     public static bool isJumping = false;
@@ -154,7 +153,6 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
 
     void RightMovement()
     {
-        float targetSpeed;
         running = true;
         if (onGround && !isJumping)
         {
@@ -185,7 +183,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         xMove = faceDirection * runAccel * Time.deltaTime;
         xMove = Mathf.Clamp(rb.velocity.x + xMove, 0, maxSpeed);;
         rb.velocity = new Vector2(xMove, rb.velocity.y);
-
+        //float targetSpeed;
         //targetSpeed = faceDirection * maxSpeed;
         //rb.velocity = new Vector2(targetSpeed, rb.velocity.y);
         //Debug.Log($"<Color=magenta>The rigidbody velocity is: {rb.velocity}</color>");
@@ -193,7 +191,6 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
 
     void LeftMovement()
     {
-        float targetSpeed;
         running = true;
         if (onGround && !isJumping)
         {
@@ -224,6 +221,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         xMove = faceDirection * runAccel * Time.deltaTime;
         xMove = Mathf.Clamp(rb.velocity.x + xMove, -maxSpeed, 0);
         rb.velocity = new Vector2(xMove, rb.velocity.y);
+        //float targetSpeed;
         //targetSpeed = faceDirection * maxSpeed;
         //rb.velocity = new Vector2(targetSpeed, rb.velocity.y);
         //  Debug.Log($"<Color=magenta>The rigidbody velocity is: {rb.velocity}</color>");
@@ -380,15 +378,13 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     {
         SoundManager.instance.Play(SoundManager.Types.CatDash);
         _dashParticleExplotion.Play();
-        _dashParticleTrail.Play();
-        _dashTrail.gameObject.SetActive(true);
+        _dashParticleTrail.SetActive(true);
     }
 
     public void EndDashFeedBack()
     {
         _dashParticleExplotion.Stop();
-        _dashParticleTrail.Stop();
-        _dashTrail.gameObject.SetActive(false);
+        _dashParticleTrail.SetActive(false);
     }
 
     void Dash()
@@ -425,10 +421,9 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             isDashing = true;
             dashStart = transform.position;
             _dashParticleExplotion.Play();
-            _dashParticleTrail.Play();
+            _dashParticleTrail.SetActive(true);
             rb.velocity = Vector2.zero;
             SoundManager.instance.Play(SoundManager.Types.CatDash);
-            _dashTrail.gameObject.SetActive(true);
 
             if (_climbScript.InSight(_climbLayerMask))
             {
@@ -451,7 +446,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             if (Vector2.Distance(transform.position, dashStart) >= dashDistance)
             {
                 if (!dead) ConstrainsReset();
-                _dashParticleTrail.Stop();
+                _dashParticleTrail.SetActive(false);
                 isDashing = false;
                 rb.velocity = Vector2.zero;
                 rb.angularVelocity = 0;
@@ -466,7 +461,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         if (coll)
         {
             if (!dead) ConstrainsReset();
-            _dashParticleTrail.Stop();
+            _dashParticleTrail.SetActive(false);
             isDashing = false;
             rb.velocity = Vector2.zero;
             rb.angularVelocity = 0;
@@ -487,8 +482,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         gravityForce = gravityForceDefault;
 
         _dashParticleExplotion.Play();
-        _dashParticleTrail.Play();
-        _dashTrail.gameObject.SetActive(true);
+        _dashParticleTrail.SetActive(true);
 
         if (_climbScript.InSight(_climbLayerMask))
         {
@@ -530,7 +524,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         {
             rb.velocity *= 0;
             rb.constraints = RigidbodyConstraints2D.FreezePosition;
-            _dashParticleTrail.Stop();
+            _dashParticleTrail.SetActive(false);
             EndDashFeedBack();
             _climbScript._ClimbState = _climbScript.Freeze;
             Debug.Log("freeze dash");
@@ -540,8 +534,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         {
             rb.constraints = RigidbodyConstraints2D.FreezePosition;
             //ConstrainsReset();
-            _dashParticleTrail.Stop();
-            _dashTrail.gameObject.SetActive(false);
+            _dashParticleTrail.SetActive(false);
             rb.velocity *= 0;
             EndDashFeedBack();
             Debug.Log("SUTIL END");
@@ -562,7 +555,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         canDash = true;
 
         rb.velocity = Vector2.zero;
-        _dashParticleTrail.Stop();
+        _dashParticleTrail.SetActive(false);
         if (!dead) ConstrainsReset();
         EndDashFeedBack();
     }
@@ -645,42 +638,6 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             _DashState = delegate { };
             //_ClimbState = EndClimb;
         }
-    }
-    #endregion
-
-    #region MiauAttack
-    void Attack()
-    {
-        if (attackInput && canAttack && _energyPowerScript.EnergyDrain(10))
-        {
-            anim.SetTrigger("Attack");
-            SoundManager.instance.Play(SoundManager.Types.CatAttack);
-            var attackParticle = Instantiate(_attackParticle);
-            attackParticle.gameObject.transform.right = attackPoint.right;
-            attackParticle.gameObject.transform.position = attackPoint.position;
-            Destroy(attackParticle.gameObject, 1);
-
-            canAttack = false;
-            if (onGround)
-            {
-                maxSpeed *= 0.05f;
-            }
-            StartCoroutine(AttackCd());
-
-            var coll = Physics2D.OverlapBox(attackPoint.position, attackRange, 1, damageable);
-            if (coll == null) return;
-            var obj = coll.gameObject.GetComponent<IDamageable>();
-            if (obj == null) return;
-
-            obj.GetDamage();
-        }
-    }
-
-    IEnumerator AttackCd()
-    {
-        yield return new WaitForSeconds(attackCd);
-        maxSpeed = defaultMaxSpeed;
-        canAttack = true;
     }
     #endregion
 
