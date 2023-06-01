@@ -16,6 +16,6 @@ public class PlayerSaveData
     public string[] myAbilities,mySpritesName;
 
     //---------- Scene Dialogues ----------//
-    public List<string> dialogues;
+    public List<string[]> dialogues;
     public string[] charNames, imageNames;
 }

@@ -30,16 +30,9 @@ public class DialogueTrigger : MonoBehaviour
             if (image == _dialogue.charName)
                 _image = Resources.Load("Art/Avatars" + image) as Image;
 
-        foreach (var charName in _dialogueManager.saveManager.LoadData().charNames)
-        {
-            if (charName == _dialogue.charName)
-            {
-                foreach (var dialogues in _dialogueManager.saveManager.LoadData().dialogues)
-                {
-
-                }
-            }
-        }
-        //dialogue.charName = _dialogueManager.saveManager.LoadData().charNames[0];
+            foreach (var dialogues in _dialogueManager.saveManager.LoadData().dialogues)
+                if (dialogues[0] == _dialogue.charName)
+                    for (int i = 1; i < dialogues.Length; i++)
+                        _dialogue.sentences.Add(dialogues[i]);
     }
 }
