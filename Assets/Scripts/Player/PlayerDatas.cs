@@ -77,7 +77,7 @@ public class PlayerDatas : MonoBehaviour
     [SerializeField] protected ParticleSystem _jumpParticle;
     [SerializeField] protected ParticleSystem _fallParticle;
     [SerializeField] protected ParticleSystem _dashParticleExplotion;
-    [SerializeField] protected ParticleSystem _dashParticleTrail;
+    [SerializeField] protected GameObject _dashParticleTrail;
     [SerializeField] protected ParticleSystem _attackParticle;
     [SerializeField] protected ParticleSystem _climbParticle;
     [SerializeField] protected ParticleSystem _runParticle;
