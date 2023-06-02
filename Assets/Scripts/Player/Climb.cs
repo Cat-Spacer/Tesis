@@ -163,7 +163,7 @@ public class Climb
         _customMovement.onClimb = true;
         SoundManager.instance.Play(SoundManager.Types.Climb);
         onClimb = true;
-        _customMovement.ChangeAnimationState("Climb");
+        if (!_customMovement.onGround) _customMovement.ChangeAnimationState("Climb");
         _customMovement.ClimbState();
         //_animator.SetBool("Climbing", true);
         //_animator.SetBool("OnWall", false);
