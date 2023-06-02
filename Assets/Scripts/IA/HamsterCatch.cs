@@ -18,7 +18,7 @@ public class HamsterCatch : MonoBehaviour
                 hamster.MoveToNextTube(hamster.LastTube);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter2D(Collision collision)
     {
         if (!collision.gameObject.GetComponent<Hamster>()) return;
 
