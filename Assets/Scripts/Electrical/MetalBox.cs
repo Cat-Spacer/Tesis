@@ -19,7 +19,7 @@ public class MetalBox : MonoBehaviour
     {
         if (_magnet == null) return;
         if (!_magnet.active)
-            _myRB2D.constraints = RigidbodyConstraints2D.FreezeAll;
+            _myRB2D.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -27,6 +27,6 @@ public class MetalBox : MonoBehaviour
         if (_myRB2D == null || collision.gameObject.GetComponent<Magnet>() == null) return;
         _magnet = collision.gameObject.GetComponent<Magnet>();
         //_collMask = _magnet.gameObject.layer;
-        _myRB2D.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+        _myRB2D.constraints = RigidbodyConstraints2D.FreezeAll;
     }
 }
