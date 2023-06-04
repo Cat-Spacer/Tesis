@@ -159,17 +159,18 @@ public class Hamster : MonoBehaviour
 
     public void ReturnToCat()
     {
-        _owlCatched = false;
         _inTube = false;
-        _HamsterAction = MoveWithPlayer;
+        _owlCatched = false;
         _player.HamsterCheck(true);
+        _HamsterAction = MoveWithPlayer;
+        _currentTube.ArrowsActDes(false);
     }
 
     public void HamsterCatched()
     {
         _inTube = false;
-        _currentTube.ArrowsActDes(false);
         _HamsterAction = MoveWithPlayer;
+        _currentTube.ArrowsActDes(false);
     }
 
     public bool InTube() { return _inTube; }
