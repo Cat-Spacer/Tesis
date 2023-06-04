@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ZoomEffect : MonoBehaviour
@@ -7,14 +5,15 @@ public class ZoomEffect : MonoBehaviour
     [SerializeField] private float _zoom = 2f;
     [SerializeField] private RectTransform _rectTransform;
     [SerializeField] private Camera _camera;
-    [SerializeField] private Rect _wantedRect = new Rect();
     [SerializeField] private Vector2 _size = new Vector2();
+    public Rect _wantedRect = new Rect(), _horizontalSize = new Rect();
 
     private CircleCollider2D _circleCollider2D;
     private BoxCollider2D _boxCollider2D;
     private Plane _plane = new Plane(Vector3.back, 0);
-    private Rect _orgRect = new Rect();
+    [HideInInspector] public Rect _orgRect = new Rect();
     private Vector3 _orgScale = Vector3.one;
+
 
     private void Start()
     {
@@ -51,11 +50,21 @@ public class ZoomEffect : MonoBehaviour
     private void Update()
     {
         CantUseMouseOver();
+        if (Input.GetKeyUp(KeyCode.Tab))
+            Rescale();
+    }
+
+    private void Rescale()
+    {
+        if (_camera.rect.x <= _wantedRect.x)
+            _camera.rect = _horizontalSize;
+        else
+            _camera.rect = new Rect(_wantedRect.x + 0.05f, _orgRect.y, _orgRect.width, _orgRect.height);
     }
 
     private void CantUseMouseOver()
     {
-        if (!_camera) return;
+        if (!_camera || _camera.rect.x == 0 || _camera.rect.y == 0) return;
 
         var mPos = Input.mousePosition;
         var ray = _camera.ScreenPointToRay(mPos);
@@ -71,10 +80,18 @@ public class ZoomEffect : MonoBehaviour
         //if (Input.mousePosition.x > _camera.scaledPixelWidth / 2 && Input.mousePosition.y < _camera.scaledPixelHeight / 2)
         if (dist < _size.x && dist < _size.y)
         {
-            _camera.rect = _wantedRect;
+            if (_camera.rect.x >= _wantedRect.x)
+                _camera.rect = new Rect(_horizontalSize.x, _horizontalSize.y + .05f, _horizontalSize.width, _horizontalSize.height);
+            else
+                _camera.rect = _wantedRect;
         }
         else
-            _camera.rect = _orgRect;
+        {
+            if (_camera.rect.x >= _wantedRect.x)
+                _camera.rect = _orgRect;
+            else
+                _camera.rect = new Rect(_wantedRect.x + 0.05f, _orgRect.y, _orgRect.width, _orgRect.height);
+        }
     }
 
     private void OnMouseOver()
