@@ -679,12 +679,11 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             canHorizontalClimb = true;
             isJumping = false;
             onGround = true;
-            Debug.Log("ON GROUND");
             //Physics2D.IgnoreLayerCollision(31, 7, false);
             jumpClimb = false;
             canJump = true;
             canDash = true;
-            if (!running && !isJumping)
+            if (!running && !isJumping && !Climb.startClimb)
             {
                 ChangeAnimationState(Player_Idle);
             }
@@ -832,6 +831,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
 
     public void GetDamage()
     {
+        if (dead) return;
         _hamster.ResetToPlayer();
         rb.simulated = false;
         dead = true;

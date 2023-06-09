@@ -163,7 +163,8 @@ public class Hamster : MonoBehaviour
         _owlCatched = false;
         _player.HamsterCheck(true);
         _HamsterAction = MoveWithPlayer;
-        _currentTube.ArrowsActDes(false);
+        if (_currentTube != null) _currentTube.ArrowsActDes(false);
+
     }
 
     public void HamsterCatched()

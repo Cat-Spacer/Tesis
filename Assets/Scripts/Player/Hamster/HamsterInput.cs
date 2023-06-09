@@ -4,32 +4,58 @@ using UnityEngine;
 
 public class HamsterInput : MonoBehaviour
 {
-    //Hamster _hamster;
-    //Vector3 screenPosition;
-    //List<Vector3> targetPosition = new List<Vector3>();
+    public CameraBirdCageFollow cam;
+    [SerializeField] float _radius;
+    Vector3 targetPosition;
+    IMouseOver lastInteraction;
+    [SerializeField] LayerMask interactLayerMask;
 
     //public HamsterInput(Hamster ham)
     //{
     //    _hamster = ham;
     //}
 
+    private void Update()
+    {
+        Control();
+    }
     //public void OnUpdate()
     //{
     //    Control();
     //}
 
-    //void Control()
-    //{
-    //    /*screenPosition = Input.mousePosition;
-    //    //targetPosition = Camera.main.ScreenToWorldPoint(screenPosition);
-    //    foreach (var c in Camera.allCameras) if(c.gameObject.activeInHierarchy) targetPosition.Add(c.ScreenToWorldPoint(screenPosition));
+    void Control()
+    {
+        //screenPosition = Input.mousePosition;
+        //targetPosition = Camera.main.ScreenToWorldPoint(screenPosition);
+        targetPosition = cam.MousePosition();
+        var coll = Physics2D.OverlapCircle(targetPosition, _radius, interactLayerMask);
+        if (!coll) return;
+        var interact = coll.GetComponent<IMouseOver>();
+        if (interact != null)
+        {
+            interact.MouseOver();
+            lastInteraction = interact;
+        }
+        else
+        {
+            Debug.Log("Sali");
+            if (lastInteraction != null)
+            {
+                Debug.Log(lastInteraction);
+                lastInteraction.MouseExit();
+                //lastInteraction = null;
+            }
+            return;
+        }
 
-    //    if (Input.GetKeyDown(KeyCode.Mouse0))
-    //    {
-    //        foreach (var t in targetPosition)
-    //        {
-    //            _hamster.GetInTube(t);
-    //        }
-    //    }*/
-    //}
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            interact.Interact();
+        }
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(targetPosition, _radius);
+    }
 }

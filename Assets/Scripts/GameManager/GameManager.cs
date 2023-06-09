@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     }
 
     public static GameManager Instance;
-    [SerializeField] private Transform _respawnPoint;
+    [SerializeField] private Vector3 _respawnPoint;
     [SerializeField] private AreaPoint[] _respawnArea;
 
     private CustomMovement _player;
@@ -83,31 +83,20 @@ public class GameManager : MonoBehaviour
     }
     public void SetNewCheckPoint(Transform newChekPoint)
     {
-        _respawnPoint = newChekPoint;
+        _respawnPoint = newChekPoint.position;
     }
     public void PlayerDeath ()
     {
         _deathScreen.gameObject.SetActive(true);
         SoundManager.instance.Play(SoundManager.Types.PlayerDeath);
-        StartCoroutine(PlayerResetPositionCounter(_respawnIndex));
         StartCoroutine(DeathScreenCounter());
+        StartCoroutine(PlayerResetPositionCounter(_respawnIndex));
     }
     IEnumerator PlayerResetPositionCounter(int index_arg)
     {
         yield return new WaitForSeconds(_resetPlayerTime);
-        _player.transform.position = new Vector3(_respawnPoint.position.x, _respawnPoint.position.y, 0);
+        _player.transform.position = new Vector3(_respawnPoint.x, _respawnPoint.y, 0);
         _player.ResetPlayer();
-
-        //foreach (var item in _respawnArea[index_arg].resetObjects)
-        //{
-        //    item.SetActive(true);
-
-        //    IRespawn obj = item.GetComponent<IRespawn>();
-        //    if (obj != null)
-        //    {
-        //        obj.Respawn();
-        //    }
-        //}   
     }    
     IEnumerator DeathScreenCounter()
     {

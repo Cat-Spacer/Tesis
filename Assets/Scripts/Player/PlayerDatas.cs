@@ -96,7 +96,8 @@ public class PlayerDatas : MonoBehaviour
 
     [Header("Interact")]
     [SerializeField] protected Vector2 _interactSize; 
-    [SerializeField] protected LayerMask _interactMask; 
+    [SerializeField] protected LayerMask _interactMask;
+    [SerializeField] float _radius;
     /* [Header("WallClimb")]
      [SerializeField] protected int _wallLayerNumber;
      [SerializeField] protected float _gravityScale;
