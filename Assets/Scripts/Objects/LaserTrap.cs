@@ -17,7 +17,6 @@ public class LaserTrap : MonoBehaviour, IElectric
     {
         _line.enabled = true;
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector3.down, 10, _groundLayerMask);
-        Debug.Log(transform.position - Vector3.down);
         if (hit)
         {
             _line.SetPosition(0, transform.position);

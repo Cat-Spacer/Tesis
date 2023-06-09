@@ -40,7 +40,7 @@ public class CameraBirdCageFollow : MonoBehaviour
         newPos.z = offset.z;
         transform.position = newPos;
     }
-    void MousePosition()
+    public Vector3 MousePosition()
     {
         float distance;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -48,7 +48,9 @@ public class CameraBirdCageFollow : MonoBehaviour
         {
             worldPosition = ray.GetPoint(distance);
             worldPosition.z = offset.z;
+            return worldPosition;
         }
+        else return Vector3.zero;
     }
     private void OnDrawGizmosSelected()
     {

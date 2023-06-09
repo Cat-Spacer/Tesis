@@ -3,6 +3,7 @@ using System;
 
 public class Climb
 {
+    public static bool startClimb;
     public bool onClimb;
     float _upSpeed = 5;
     float _downSpeed = 5 * 0.8f;
@@ -104,12 +105,16 @@ public class Climb
         {
             if (keyPressed_arg == KeyCode.W)
             {
+                _customMovement.ChangeAnimationState("Climb");
+                startClimb = true;
                 //Debug.Log("Climb Up");
                 _vector = Vector2.up;
                 _speed = _upSpeed;
             }
             if (keyPressed_arg == KeyCode.S)
             {
+                _customMovement.ChangeAnimationState("Climb");
+                startClimb = true;
                 //Debug.Log("Climb Down");
                 _vector = Vector2.down;
                 _speed = _downSpeed;
@@ -163,7 +168,7 @@ public class Climb
         _customMovement.onClimb = true;
         SoundManager.instance.Play(SoundManager.Types.Climb);
         onClimb = true;
-        if (!_customMovement.onGround) _customMovement.ChangeAnimationState("Climb");
+        //if (!_customMovement.onGround) _customMovement.ChangeAnimationState("Climb");
         _customMovement.ClimbState();
         //_animator.SetBool("Climbing", true);
         //_animator.SetBool("OnWall", false);
@@ -177,6 +182,7 @@ public class Climb
         _customMovement.onClimb = false;
         isClimbing = false;
         onClimb = false;
+        startClimb = false;
         //_animator.SetBool("OnWall", false);
         //_animator.SetBool("Climbing", false);
         SoundManager.instance.Pause(SoundManager.Types.Climb);
