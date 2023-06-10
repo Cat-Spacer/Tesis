@@ -8,13 +8,17 @@ public class TubeEntry : MonoBehaviour, IMouseOver
     [SerializeField] private Tube _entryTube;
     [SerializeField] private float _searchRad = 1.0f;
     bool _isOpen;
+    bool _isOutline;
     SpriteRenderer _sp;
+    [SerializeField] Material outlineMat;
+    Material defaultMat;
 
     private void Start()
     {
         _sp = GetComponent<SpriteRenderer>();
         _sp.sprite = _closed;
-
+        defaultMat = GetComponent<SpriteRenderer>().material;
+        _isOutline = false;
         /*if (!_entryTube && Physics2D.OverlapCircle(transform.position, _searchRad).GetComponent<Tube>())
             _entryTube = Physics2D.OverlapCircle(transform.position, _searchRad).GetComponent<Tube>();*/
     }
@@ -44,12 +48,16 @@ public class TubeEntry : MonoBehaviour, IMouseOver
 
     public void MouseOver()
     {
-        Debug.Log("Highlight");
+        if (_isOutline || !_isOpen) return;
+        _sp.material = outlineMat;
+        _isOutline = true;
     }
 
     public void MouseExit()
     {
-        Debug.Log("No Highlight");
+        if (!_isOutline) return;
+        _sp.material = defaultMat;
+        _isOutline = false;
     }
 
     public void Interact()
