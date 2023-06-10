@@ -13,7 +13,7 @@ public class Electricty : MonoBehaviour
     private void Start()
     {
         _particle = GetComponent<ParticleSystem>();
-        _particle.Play();
+        _particle.Stop();
         _Action = delegate { };
     }
     private void Update()
@@ -28,8 +28,8 @@ public class Electricty : MonoBehaviour
             if (current == _waypoints.Count - 1)
             {
                 current = 0;
-                _particle.Stop();
-                _Action = delegate { };
+                //_particle.Stop();
+                //_Action = delegate { };
                 transform.position = _waypoints[0].position;
             }
             else
@@ -43,5 +43,6 @@ public class Electricty : MonoBehaviour
     public void Activate()
     {
         _Action = Move;
+        _particle.Play();
     }
 }
