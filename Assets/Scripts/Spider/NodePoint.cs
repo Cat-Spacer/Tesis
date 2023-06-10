@@ -68,18 +68,18 @@ public class NodePoint : MonoBehaviour
     }
     void OnDrawGizmos()
     {
-        if (showGizmos)
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, _viewRadius);
+        //if (showGizmos)
+        //{
+        //    Gizmos.color = Color.red;
+        //    Gizmos.DrawWireSphere(transform.position, _viewRadius);
 
-            Gizmos.color = Color.blue;
-            foreach (var n in neighbours)
-            {
-                Vector3 direction = n.transform.position - transform.position;
-                Gizmos.DrawRay(transform.position, direction);
-            }
-        }
+        //    Gizmos.color = Color.blue;
+        //    foreach (var n in neighbours)
+        //    {
+        //        Vector3 direction = n.transform.position - transform.position;
+        //        Gizmos.DrawRay(transform.position, direction);
+        //    }
+        //}
     }
     /*public bool blocked;
     

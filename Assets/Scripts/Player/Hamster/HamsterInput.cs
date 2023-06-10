@@ -44,11 +44,9 @@ public class HamsterInput : MonoBehaviour
             {
                 Debug.Log(lastInteraction);
                 lastInteraction.MouseExit();
-                //lastInteraction = null;
             }
             return;
         }
-
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             interact.Interact();
