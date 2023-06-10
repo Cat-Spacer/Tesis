@@ -50,8 +50,8 @@ public class ZoomEffect : MonoBehaviour
     private void Update()
     {
         CantUseMouseOver();
-        if (Input.GetKeyUp(KeyCode.Tab))
-            Rescale();
+        /*if (Input.GetKeyUp(KeyCode.Tab))
+            Rescale();*/
     }
 
     private void Rescale()
@@ -80,16 +80,16 @@ public class ZoomEffect : MonoBehaviour
         //if (Input.mousePosition.x > _camera.scaledPixelWidth / 2 && Input.mousePosition.y < _camera.scaledPixelHeight / 2)
         if (dist < _size.x && dist < _size.y)
         {
-            if (_camera.rect.x >= _wantedRect.x)
+            /*if (_camera.rect.x >= _wantedRect.x)
                 _camera.rect = new Rect(_horizontalSize.x, _horizontalSize.y + .05f, _horizontalSize.width, _horizontalSize.height);
-            else
+            else*/
                 _camera.rect = _wantedRect;
         }
         else
         {
-            if (_camera.rect.x >= _wantedRect.x)
+            /*if (_camera.rect.x >= _wantedRect.x)
                 _camera.rect = _orgRect;
-            else
+            else*/
                 _camera.rect = new Rect(_wantedRect.x + 0.05f, _orgRect.y, _orgRect.width, _orgRect.height);
         }
     }

@@ -20,6 +20,17 @@ public class ArrowMoveButton : MonoBehaviour
     {
         if (!_tube)
             _tube = GetComponentInParent<Tube>();
+        DisableButton();
+    }
+
+    private void DisableButton()
+    {
+        if (!_tube) return;
+        if ((_tubeActions == TubeActions.Up && !_tube.GetUp()) ||
+            (_tubeActions == TubeActions.Down && !_tube.GetDown()) ||
+            (_tubeActions == TubeActions.Left && !_tube.GetLeft()) ||
+            (_tubeActions == TubeActions.Right && !_tube.GetRight()))
+            gameObject.SetActive(false);
     }
 
     private void EjecuteOrder66()
@@ -39,11 +50,4 @@ public class ArrowMoveButton : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0))
             EjecuteOrder66();
     }
-
-    /*private void OnMouseDown()
-    {
-        Debug.Log($"mouse is down {gameObject.name} of {gameObject.transform.parent.name}");
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-            EjecuteOrder66();
-    }*/
 }

@@ -27,9 +27,9 @@ public class BordersSize : MonoBehaviour
         //_rectTransform.localScale = new Vector3(_camera.rect.x,Mathf.Abs( _camera.rect.y)) + _orgScale;
         if (_camera.rect.x != _bubbleCameraZoom._orgRect.x)
         {
-            if (_camera.rect.x <= _bubbleCameraZoom._wantedRect.x)
+            /*if (_camera.rect.x <= _bubbleCameraZoom._wantedRect.x)
                 _rectTransform.sizeDelta = _horizontalSize;
-            else
+            else*/
                 _rectTransform.sizeDelta = _wantedSize;
         }
         else

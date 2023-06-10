@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
 
@@ -32,9 +30,10 @@ public class Magnet : MonoBehaviour, IElectric
         if (obj != null)
         {
             float dist = (obj.transform.position - transform.position).magnitude;
+            Vector2 dir = transform.position - obj.transform.position;
           //  Debug.Log($"dist: {dist}");
             var objRb = obj.GetComponent<Rigidbody2D>();
-            objRb.velocity += Vector2.up * (_attractForce / Mathf.Pow(dist, _pow));// Vector2.up * (attractForce/matf.elev(dist,n))
+            objRb.velocity += dir * (_attractForce / Mathf.Pow(dist, _pow));// Vector2.up * (attractForce/matf.elev(dist,n))
         }
     }
     public void TurnOn()
