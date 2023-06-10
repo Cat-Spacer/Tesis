@@ -16,6 +16,7 @@ public class Generator : MonoBehaviour
     private Hamster _hamster;
     [SerializeField] MiniGame _miniGame;
     [SerializeField] TMP_Text _text;
+    [SerializeField] Electricty[] _electricityParticle;
 
     private void Start()
     {
@@ -46,10 +47,12 @@ public class Generator : MonoBehaviour
                 if (_connection[i] != null && _connection[i].GetComponent<IElectric>() != null)
                 {
                     _connection[i].GetComponent<IElectric>().TurnOn();
+                    _electricityParticle[i].Activate();
                 }
                 else if (_connection[i] != null && _connection[i].GetComponentInChildren<IElectric>() != null)
                 {
                     _connection[i].GetComponentInChildren<IElectric>().TurnOn();
+                    _electricityParticle[i].Activate();
                 }
             }
             else
