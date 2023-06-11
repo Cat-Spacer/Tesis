@@ -16,7 +16,7 @@ public class MiniConsole : MonoBehaviour, IMouseOver
         if (_hamster == null)
             _hamster = FindObjectOfType<Hamster>();
 
-        if (_generator == null)
+        if (_generator == null && Physics2D.OverlapArea(transform.position, transform.position * _checkRadius, _generatorMask))
             _generator = Physics2D.OverlapArea(transform.position, transform.position * _checkRadius, _generatorMask).gameObject.GetComponent<Generator>();
     }
 

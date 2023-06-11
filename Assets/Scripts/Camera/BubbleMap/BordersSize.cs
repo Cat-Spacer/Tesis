@@ -16,14 +16,15 @@ public class BordersSize : MonoBehaviour
         _rectTransform = GetComponent<RectTransform>();
         _orgScale = _rectTransform.localScale;
         _orgSize = _rectTransform.sizeDelta;
-        if (!_bubbleCameraZoom && _camera.GetComponent<ZoomEffect>())
+        if (!_bubbleCameraZoom && _camera)
+            if (_camera.GetComponent<ZoomEffect>())
             _bubbleCameraZoom = _camera.GetComponent<ZoomEffect>();
         //Debug.Log(_camera.scaledPixelWidth/_camera.rect.x);
     }
 
     private void Update()
     {
-        if (!_rectTransform) return;
+        if (!(_bubbleCameraZoom && _camera && _rectTransform)) return;
         //_rectTransform.localScale = new Vector3(_camera.rect.x,Mathf.Abs( _camera.rect.y)) + _orgScale;
         if (_camera.rect.x != _bubbleCameraZoom._orgRect.x)
         {
