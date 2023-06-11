@@ -47,14 +47,14 @@ public class Generator : MonoBehaviour
                 if (_connection[i] != null && _connection[i].GetComponent<IElectric>() != null)
                 {
                     _connection[i].GetComponent<IElectric>().TurnOn();
-                    if (_electricityParticle[i])
-                        _electricityParticle[i].Activate();
+                    //if (_electricityParticle[i])
+                    //    _electricityParticle[i].Activate();
                 }
                 else if (_connection[i] != null && _connection[i].GetComponentInChildren<IElectric>() != null)
                 {
                     _connection[i].GetComponentInChildren<IElectric>().TurnOn();
-                    if (_electricityParticle[i])
-                        _electricityParticle[i].Activate();
+                    //if (_electricityParticle[i])
+                    //    _electricityParticle[i].Activate();
                 }
             }
             else

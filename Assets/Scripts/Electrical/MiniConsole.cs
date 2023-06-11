@@ -11,6 +11,10 @@ public class MiniConsole : MonoBehaviour, IMouseOver
     [SerializeField] private Transform _hamsterPos = null;
     [SerializeField] private bool _gizmos = true;
 
+    bool _isOn;
+    public List<GameObject> _connection;
+    public float _delaySeconds;
+
     private void Start()
     {
         if (_hamster == null)
@@ -30,11 +34,52 @@ public class MiniConsole : MonoBehaviour, IMouseOver
 
     public void Interact()
     {
-        if (!(_hamster || _generator)) return;
-        if (Vector2.Distance(transform.position, _hamster.transform.position) <= _checkRadius)
-            HamsterGetInside();
-    }
+        Debug.Log("Entre");
+        if (_isOn)
+        {
+            _isOn = false;
+            StartCoroutine(Delay(_isOn));
+        }
+        else
+        {
+            _isOn = true;
+            StartCoroutine(Delay(_isOn));
+        }
 
+        //if (!(_hamster || _generator)) return;
+        //if (Vector2.Distance(transform.position, _hamster.transform.position) <= _checkRadius)
+        //    HamsterGetInside();
+    }
+    IEnumerator Delay(bool power = true)
+    {
+        yield return new WaitForSeconds(_delaySeconds);
+        for (int i = 0; i < _connection.Count; i++)
+        {
+            if (power)
+            {
+                if (_connection[i] != null && _connection[i].GetComponent<IElectric>() != null)
+                {
+                    _connection[i].GetComponent<IElectric>().TurnOn();
+                }
+                else if (_connection[i] != null && _connection[i].GetComponentInChildren<IElectric>() != null)
+                {
+                    _connection[i].GetComponentInChildren<IElectric>().TurnOn();
+                }
+            }
+            else
+            {
+
+                if (_connection[i] != null && _connection[i].GetComponent<IElectric>() != null)
+                {
+                    _connection[i].GetComponent<IElectric>().TurnOff();
+                }
+                else if (_connection[i] != null && _connection[i].GetComponentInChildren<IElectric>() != null)
+                {
+                    _connection[i].GetComponentInChildren<IElectric>().TurnOff();
+                }
+            }
+        }
+    }
     public void MouseExit()
     {
 
