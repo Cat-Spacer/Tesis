@@ -119,7 +119,7 @@ public class Hamster : MonoBehaviour
             if ((_currentTube.IsExit() || _currentTube.IsCheckpoint()) && _generator != null && _generator.EnergyNeeded <= _energyCollected)
             {
                 _generator.TurnButtons();
-
+                _generator.StartGenerator();
                 // _energyCollected -= _generator.EnergyNeeded;
                 //_generator.StartGenerator();
                 // _generator.buttons.SetActive(true);
@@ -148,6 +148,7 @@ public class Hamster : MonoBehaviour
             if (_generator)
             {
                 _generator.TurnButtons();
+                _generator.StartGenerator();
             }
 
             //Debug.Log($"tube = {tube}");
