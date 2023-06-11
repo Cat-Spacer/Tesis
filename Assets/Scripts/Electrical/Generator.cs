@@ -13,10 +13,11 @@ public class Generator : MonoBehaviour
     [SerializeField] private int _energyNeeded;
     [SerializeField] private float _delaySeconds = 1.0f;
     public GameObject buttons = null;
+    [SerializeField] private GameObject _batterySprite = null;
     private Hamster _hamster;
-    [SerializeField] MiniGame _miniGame;
-    [SerializeField] TMP_Text _text;
-    [SerializeField] Electricty[] _electricityParticle;
+    [SerializeField] private MiniGame _miniGame;
+    [SerializeField] private TMP_Text _text;
+    [SerializeField] private Electricty[] _electricityParticle;
 
     private void Start()
     {
@@ -28,6 +29,8 @@ public class Generator : MonoBehaviour
         _alreadyStarded = false;
 
         _text.text = "0/" + _energyNeeded;
+        if (_energyNeeded <= 0 && _batterySprite)
+            _batterySprite.SetActive(false);
     }
 
     public void ReturnButton()
