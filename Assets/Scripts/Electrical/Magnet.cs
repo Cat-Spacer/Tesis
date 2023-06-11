@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 public class Magnet : MonoBehaviour, IElectric
 {
@@ -7,9 +8,10 @@ public class Magnet : MonoBehaviour, IElectric
 
     [SerializeField] private Vector2 _attractArea;
     [SerializeField] private Vector3 _offset;
-    [SerializeField] private float _attractForce, _pow = 1f;
+    [SerializeField] private float _attractForce, _pow = 1f, _degrees = 0;
     [SerializeField] private LayerMask _floorLayerMask, _metalLayerMask;
     [SerializeField] private GameObject _onSprite, _offSprite, _particle;
+    [SerializeField] private bool _gizmos = true, _test = false, _collider = true;
     [HideInInspector] public bool active = false;
 
     private void Start()
@@ -18,15 +20,20 @@ public class Magnet : MonoBehaviour, IElectric
         _offSprite.SetActive(true);
         _particle.SetActive(false);
         active = false;
+
+        if (_test)
+            TurnOn();
     }
 
     private void Update()
     {
         _MagnetAction();
+        _degrees = transform.rotation.z;
     }
     void Attract()
     {
-        var obj = Physics2D.OverlapBox(transform.position + _offset, _attractArea, 0, _metalLayerMask);
+        if (_collider) return;
+        var obj = Physics2D.OverlapBox((transform.position + _offset), _attractArea, transform.rotation.z, _metalLayerMask);
         if (obj != null)
         {
             float dist = (obj.transform.position - transform.position).magnitude;
@@ -53,8 +60,24 @@ public class Magnet : MonoBehaviour, IElectric
         _particle.SetActive(false);
         active = false;
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!(collision.GetComponent<Rigidbody2D>() || _collider)) return;
+        var obj = collision.gameObject;
+
+        float dist = (obj.transform.position - transform.position).magnitude;
+        Vector2 dir = transform.position - obj.transform.position;
+
+        var objRb = obj.GetComponent<Rigidbody2D>();
+        objRb.velocity += dir * (_attractForce / Mathf.Pow(dist, _pow));
+
+    }
     private void OnDrawGizmosSelected()
     {
+        if (!_gizmos) return;
+        //Gizmos.matrix = transform.localToWorldMatrix;
+        //Gizmos.matrix = Matrix4x4.TRS(transform.position, transform.rotation, transform.lossyScale);
         Gizmos.DrawWireCube(transform.position + _offset, _attractArea);
     }
 

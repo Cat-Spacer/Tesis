@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1065584430803747052}
   - component: {fileID: 4844540672728756924}
+  - component: {fileID: 6669669832762792833}
   m_Layer: 0
   m_Name: MiniConsole
   m_TagString: Untagged
@@ -27,7 +28,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 56.7, y: 0.17, z: 0}
   m_LocalScale: {x: 0.5, y: 0.8, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 2279844892241071091}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -82,3 +84,53 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6669669832762792833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1186393398895927930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0f5e6bb232aad340b090b2e10e2c0f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _checkRadius: 1
+  _hamster: {fileID: 0}
+  _generator: {fileID: 0}
+  _generatorMask:
+    serializedVersion: 2
+    m_Bits: 268435456
+  _hamsterPos: {fileID: 2279844892241071091}
+  _gizmos: 1
+--- !u!1 &5273384844225661008
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2279844892241071091}
+  m_Layer: 0
+  m_Name: HamsterPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2279844892241071091
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5273384844225661008}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1065584430803747052}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
