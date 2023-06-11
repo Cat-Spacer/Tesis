@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Linq;
+using static UnityEditor.PlayerSettings;
 
 public class Hamster : MonoBehaviour
 {
@@ -59,12 +60,16 @@ public class Hamster : MonoBehaviour
         //Vector3 newDir = Vector3.Lerp(transform.position, _currentTubePos, _speed * Time.deltaTime);
         //Vector3.ClampMagnitude(newDir, _maxSpeed);
         //transform.position = newDir;
-        transform.position = Vector3.MoveTowards(transform.position, _currentTubePos, _speed * Time.deltaTime);
+        //transform.position = Vector3.MoveTowards(transform.position, _currentTubePos, _speed * Time.deltaTime);
+        MoveToPosition(_currentTubePos);
 
         if (Vector3.Distance(transform.position, _currentTubePos) < .01f)
-        {
             CheckNextTube();
-        }
+    }
+
+    public void MoveToPosition(Vector2 pos)
+    {
+        transform.position = Vector3.MoveTowards(transform.position, pos, _speed * Time.deltaTime);
     }
 
     public void GetInTube(Vector2 targetPosition, Tube tube = null)
@@ -113,7 +118,9 @@ public class Hamster : MonoBehaviour
 
             if ((_currentTube.IsExit() || _currentTube.IsCheckpoint()) && _generator != null && _generator.EnergyNeeded <= _energyCollected)
             {
-               // _energyCollected -= _generator.EnergyNeeded;
+                _generator.TurnButtons();
+
+                // _energyCollected -= _generator.EnergyNeeded;
                 //_generator.StartGenerator();
                 // _generator.buttons.SetActive(true);
             }
@@ -141,8 +148,6 @@ public class Hamster : MonoBehaviour
             if (_generator)
             {
                 _generator.TurnButtons();
-                /*foreach (var partc in _generator.electricParticles)
-                    partc.Play();*/
             }
 
             //Debug.Log($"tube = {tube}");
@@ -161,10 +166,9 @@ public class Hamster : MonoBehaviour
     {
         _inTube = false;
         _owlCatched = false;
-        _player.HamsterCheck(true);
+        if (_player) _player.HamsterCheck(true);
         _HamsterAction = MoveWithPlayer;
-        if (_currentTube != null) _currentTube.ArrowsActDes(false);
-
+        if (_currentTube) _currentTube.ArrowsActDes(false);
     }
 
     public void HamsterCatched()

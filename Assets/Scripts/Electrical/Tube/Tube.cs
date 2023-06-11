@@ -24,12 +24,6 @@ public class Tube : MonoBehaviour
         CheckNeighborTubes();
     }
 
-    public void CantPass()
-    {
-        _UpTube = _RightTube = _DownTube = _LeftTube = null;
-        _possiblePaths.Clear();
-    }
-
     public void GetPossiblePaths(Hamster ham)
     {
         _hamster = ham;
@@ -123,12 +117,10 @@ public class Tube : MonoBehaviour
 
     public bool IsCheckpoint() { return _checkpoint; }
 
-    public List<Tube> PossiblePaths { get { return _possiblePaths; } }
-
-    private void OnMouseOver()
-    {
-
-    }
+    public Tube GetUp() { return _UpTube; }
+    public Tube GetDown() { return _DownTube; }
+    public Tube GetLeft() { return _LeftTube; }
+    public Tube GetRight() { return _RightTube; }
 
     private void OnDrawGizmos()
     {
