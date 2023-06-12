@@ -18,6 +18,8 @@ public class ElectricalShield : MonoBehaviour, IElectric
 
     [SerializeField] bool _IsOn = false;
 
+    [SerializeField] bool _inX = true;
+
     void Start()
     {
         //_IsOn = false;
@@ -67,9 +69,41 @@ public class ElectricalShield : MonoBehaviour, IElectric
 
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(new Vector3(mousePosition.x, mousePosition.y, -Camera.main.transform.position.z));
 
-        if (worldPosition.y <= bottomCapObject.transform.position.y || worldPosition.y >= topCapObject.transform.position.y) return;
+        //  Debug.Log(mousePosition + " " + worldPosition);
 
-            scrollbarObject.transform.position = new Vector3(scrollbarObject.transform.position.x, worldPosition.y, scrollbarObject.transform.position.z);
+        if (!_inX )
+        {
+            if (worldPosition.y <= bottomCapObject.transform.position.y || worldPosition.y >= topCapObject.transform.position.y)
+            {
+                Debug.Log("RETURN");
+                return;
+            }
+            else
+            {
+
+                scrollbarObject.transform.position = new Vector3(scrollbarObject.transform.position.x, worldPosition.y, scrollbarObject.transform.position.z);
+
+                Debug.Log(" no RETURN " + scrollbarObject.transform.position);
+            }
+        }
+        if (_inX)
+        {
+            if (worldPosition.x <= bottomCapObject.transform.position.x || worldPosition.x >= topCapObject.transform.position.x)
+            {
+                Debug.Log("RETURN");
+                return;
+            }
+            else
+            {
+                scrollbarObject.transform.position = new Vector3(worldPosition.x, scrollbarObject.transform.position.y, scrollbarObject.transform.position.z);
+
+                Debug.Log(" no RETURN " + scrollbarObject.transform.position);
+            }
+            
+        }
+
+
+        //isDragging = true;
     }
 
    /* void Start()
