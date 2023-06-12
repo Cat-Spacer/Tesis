@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 public class CustomMovement : PlayerDatas, IDamageable, ITrap
 {
@@ -28,6 +29,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     float xMove;
 
     public bool Runing { get { return running; } }
+
 
     private void Awake()
     {
@@ -62,6 +64,10 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         _MovementState = delegate { };
         _DashState = delegate { };
         GameManager.Instance.SetNewCheckPoint(transform);
+
+
+
+
         //_DashState = delegate { };
     }
 
@@ -695,7 +701,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             onGround = false;
             if (rb.velocity.y < 0)
             {
-                Physics2D.IgnoreLayerCollision(31, 7, false);
+                
                 if (!_climbScript.onClimb)
                 {
                     ChangeAnimationState(Player_OnAir);
@@ -705,12 +711,15 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             }
             else
             {
+               
+
                 if (!_climbScript.onClimb)
                 {
                     ChangeAnimationState(Player_Jump);
                     _runParticle.Stop();
                 }
-                Physics2D.IgnoreLayerCollision(31, 7, true);
+
+              
             }
 
         }
@@ -788,6 +797,8 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
 
     void OnTriggerEnter2D(Collider2D collision)
     {
+     
+
         if (collision.gameObject.layer == 17 && canHorizontalClimb)
         {
             Climb.isClimbing = true;
@@ -798,12 +809,15 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             //canHorizontalClimb = false;
         }
 
-     /*   if (collision.gameObject.layer == 20)
-        {
-            OnIce = true;
-        }*/
+  
+
+        /*   if (collision.gameObject.layer == 20)
+           {
+               OnIce = true;
+           }*/
 
     }
+  
     void OnTriggerExit2D(Collider2D collision)
     {
        /* if (collision.gameObject.layer == 20)
