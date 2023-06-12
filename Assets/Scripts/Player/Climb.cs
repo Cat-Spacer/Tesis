@@ -105,7 +105,7 @@ public class Climb
         {
             if (keyPressed_arg == KeyCode.W)
             {
-                _customMovement.ChangeAnimationState("Climb");
+               // _customMovement.ChangeAnimationState("Climb");
                 startClimb = true;
                 //Debug.Log("Climb Up");
                 _vector = Vector2.up;
@@ -113,7 +113,7 @@ public class Climb
             }
             if (keyPressed_arg == KeyCode.S)
             {
-                _customMovement.ChangeAnimationState("Climb");
+                //_customMovement.ChangeAnimationState("Climb");
                 startClimb = true;
                 //Debug.Log("Climb Down");
                 _vector = Vector2.down;
@@ -158,7 +158,9 @@ public class Climb
         _customMovement.onClimb = true;
         isClimbing = true;
         _ClimbState = Freeze;
+        _customMovement.ChangeAnimationState("Climb");
         _customMovement.ClimbState();
+
         //Debug.Log($"<Color=red>Strat climbing vector is: {_vector}</color>");
     }
 
@@ -168,13 +170,16 @@ public class Climb
         _customMovement.onClimb = true;
         SoundManager.instance.Play(SoundManager.Types.Climb);
         onClimb = true;
+        _customMovement.ChangeAnimationState("Climb");
         //if (!_customMovement.onGround) _customMovement.ChangeAnimationState("Climb");
         _customMovement.ClimbState();
+
         //_animator.SetBool("Climbing", true);
         //_animator.SetBool("OnWall", false);
     }
 
-    public void WhileClimbingState() { }
+    public void WhileClimbingState() {
+    }
 
     public void EndClimbingState()
     {
@@ -186,6 +191,7 @@ public class Climb
         //_animator.SetBool("OnWall", false);
         //_animator.SetBool("Climbing", false);
         SoundManager.instance.Pause(SoundManager.Types.Climb);
+        _customMovement.ChangeAnimationState("EndClimbAnim");
     }
 
     public void PauseClimbingState()
@@ -521,6 +527,7 @@ public class Climb
         _rb.constraints = ~RigidbodyConstraints2D.FreezeAll;
         _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
 
+        
         EndClimbingState();
 
         isHorizontal = false;
