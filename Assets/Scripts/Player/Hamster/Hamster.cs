@@ -116,7 +116,7 @@ public class Hamster : MonoBehaviour
                 .gameObject.GetComponent<Generator>();
             _generator = generator;
 
-            if ((_currentTube.IsExit() || _currentTube.IsCheckpoint()) && _generator != null && _generator.EnergyNeeded <= _energyCollected)
+            if (_currentTube.IsExit() && _generator != null && _generator.EnergyNeeded <= _energyCollected)
             {
                 _generator.TurnButtons();
                 _generator.StartGenerator();
