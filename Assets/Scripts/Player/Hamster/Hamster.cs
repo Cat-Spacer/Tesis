@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Linq;
-using static UnityEditor.PlayerSettings;
 
 public class Hamster : MonoBehaviour
 {
