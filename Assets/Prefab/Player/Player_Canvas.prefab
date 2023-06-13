@@ -5231,13 +5231,14 @@ GameObject:
   - component: {fileID: 6530788637312877546}
   - component: {fileID: 6530788637312877544}
   - component: {fileID: 6530788637312877545}
+  - component: {fileID: 442461879}
   m_Layer: 5
   m_Name: BubbleMap Horizontal
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6530788637312877550
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5304,6 +5305,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _objetive: {fileID: 6530788636540495771}
   _target: {fileID: 0}
+--- !u!95 &442461879
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6530788637312877551}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &6530788637334385504
 GameObject:
   m_ObjectHideFlags: 0
@@ -5486,10 +5506,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6530788636257441221}
     m_Modifications:
-    - target: {fileID: 3182795863825615053, guid: 9e6a203dab4067249a1131a62eaf76eb,
+    - target: {fileID: 3182795864112718742, guid: 9e6a203dab4067249a1131a62eaf76eb,
         type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
+      propertyPath: m_AnchoredPosition.y
+      value: -3.100006
       objectReference: {fileID: 0}
     - target: {fileID: 3182795865103040314, guid: 9e6a203dab4067249a1131a62eaf76eb,
         type: 3}
@@ -5509,32 +5529,32 @@ PrefabInstance:
     - target: {fileID: 3182795865103040314, guid: 9e6a203dab4067249a1131a62eaf76eb,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 0.00026041668
       objectReference: {fileID: 0}
     - target: {fileID: 3182795865103040314, guid: 9e6a203dab4067249a1131a62eaf76eb,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 0.00046296295
       objectReference: {fileID: 0}
     - target: {fileID: 3182795865103040314, guid: 9e6a203dab4067249a1131a62eaf76eb,
         type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: -0.00026041668
       objectReference: {fileID: 0}
     - target: {fileID: 3182795865103040314, guid: 9e6a203dab4067249a1131a62eaf76eb,
         type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: -0.00046296295
       objectReference: {fileID: 0}
     - target: {fileID: 3182795865103040314, guid: 9e6a203dab4067249a1131a62eaf76eb,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3182795865103040314, guid: 9e6a203dab4067249a1131a62eaf76eb,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3182795865103040314, guid: 9e6a203dab4067249a1131a62eaf76eb,
         type: 3}
@@ -5600,6 +5620,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DialogueSystem
+      objectReference: {fileID: 0}
+    - target: {fileID: 3182795865558659242, guid: 9e6a203dab4067249a1131a62eaf76eb,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 851.49994
+      objectReference: {fileID: 0}
+    - target: {fileID: 3182795865558659242, guid: 9e6a203dab4067249a1131a62eaf76eb,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -311.09998
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9e6a203dab4067249a1131a62eaf76eb, type: 3}
