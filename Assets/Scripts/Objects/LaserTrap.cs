@@ -5,17 +5,19 @@ using UnityEngine;
 public class LaserTrap : MonoBehaviour, IElectric
 {
     [SerializeField] LineRenderer _line;
-    [SerializeField] LayerMask _groundLayerMask;
+    [SerializeField] LayerMask _hitLayerMask;
     [SerializeField] ParticleSystem[] _particles;
     [SerializeField] ParticleSystem[] _particles2;
     [SerializeField] float _loopTime;
     [SerializeField] bool _loop;
     bool _firstStart;
     [SerializeField] bool _on;
+    BoxCollider2D coll;
 
     void Start()
     {
         _firstStart = true;
+        coll = GetComponent<BoxCollider2D>();
         if (_on)
         {
             TurnOn();
@@ -40,7 +42,7 @@ public class LaserTrap : MonoBehaviour, IElectric
                 _on = true;
                 _line.enabled = true;
                 _firstStart = false;
-                RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, 10, _groundLayerMask);
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, 10, _hitLayerMask);
                 if (hit)
                 {
                     foreach (var particle2 in _particles2)
@@ -49,6 +51,10 @@ public class LaserTrap : MonoBehaviour, IElectric
                     }
                     _line.SetPosition(0, transform.position);
                     _line.SetPosition(1, hit.point);
+                    float dist = Vector2.Distance(transform.position, hit.point);
+                    var center = dist / 2;
+                    coll.offset = new Vector2(0, center);
+                    coll.size = new Vector2(0.1f, dist);
                     foreach (var particle in _particles)
                     {
                         particle.transform.position = hit.point;
@@ -66,7 +72,7 @@ public class LaserTrap : MonoBehaviour, IElectric
             _on = true;
             _line.enabled = true;
             _firstStart = false;
-            RaycastHit2D hit2 = Physics2D.Raycast(transform.position, transform.up, 10, _groundLayerMask);
+            RaycastHit2D hit2 = Physics2D.Raycast(transform.position, transform.up, 10, _hitLayerMask);
             if (hit2)
             {
                 foreach (var particle2 in _particles2)
@@ -75,11 +81,16 @@ public class LaserTrap : MonoBehaviour, IElectric
                 }
                 _line.SetPosition(0, transform.position);
                 _line.SetPosition(1, hit2.point);
+                float dist = Vector2.Distance(transform.position, hit2.point);
+                var center = dist / 2;
+                coll.offset = new Vector2(0, center);
+                coll.size = new Vector2(0.1f, dist);
                 foreach (var particle in _particles)
                 {
                     particle.transform.position = hit2.point;
                     particle.Play();
                 }
+
                 if (_loop)
                 {
                     StartCoroutine(LoopTurnOff());
