@@ -11,7 +11,7 @@ public class SoundManager : MonoBehaviour
     public static SoundManager instance;
     float _baseVolume;
 
-    public Dictionary<string,float> mixerValue = new Dictionary<string, float>();
+    public Dictionary<string, float> mixerValue = new Dictionary<string, float>();
     void Awake()
     {
         if (instance == null)
@@ -36,19 +36,25 @@ public class SoundManager : MonoBehaviour
 
     private void Update()
     {
-        /*if (FindObjectOfType<GameManager>())
-        {
-            Play(Types.MusicForest);
-            Play(Types.WoodAmbientSound);
-            Play(Types.Rain);
-        }*/
         //if (Input.GetKeyDown(KeyCode.P)) //Probar sonido
         //    SoundManager.instance.Play(SoundManager.Types.VineCrunch);
     }
 
-    public void Play(Types name,bool loop = true)
+    public void Play(Types name, bool loop = true)
     {
         Sound s = Array.Find(sounds, sound => sound.nameType == name);
+        if (s == null)
+        {
+            Debug.LogWarning("Sound: " + name + " not found!");
+            return;
+        }
+        s.loop = loop;
+        s.source.Play();
+    }
+
+    public void Play(string name, bool loop = true)
+    {
+        Sound s = Array.Find(sounds, sound => sound.name == name);
         if (s == null)
         {
             Debug.LogWarning("Sound: " + name + " not found!");
@@ -67,9 +73,17 @@ public class SoundManager : MonoBehaviour
             return;
         }
         s.source.Pause();
-        // StartCoroutine(FadeOut(s.source, 0.05f));
+    }
 
-        //s.source.Pause();
+    public void Pause(string name)
+    {
+        Sound s = Array.Find(sounds, sound => sound.name == name);
+        if (s == null)
+        {
+            Debug.LogWarning("Sound: " + name + " not found!");
+            return;
+        }
+        s.source.Pause();
     }
 
     public void PauseAll()
@@ -84,15 +98,15 @@ public class SoundManager : MonoBehaviour
 
         while (audioSource.volume > 0)
         {
-                audioSource.volume -= startVolume * Time.deltaTime / FadeTime;
-            Debug.Log("A");
-                yield return null;
+            audioSource.volume -= startVolume * Time.deltaTime / FadeTime;
+
+            yield return null;
         }
 
         audioSource.Pause();
         audioSource.volume = startVolume;
     }
-    
+
     public enum Types
     {
         WindForest,
@@ -116,11 +130,12 @@ public class SoundManager : MonoBehaviour
         VineCrunch,
         MagicCat,
         ClestialDiamond,
-        StalacticBreaking
+        StalacticBreaking,
+        MetalFall
     }
 
     public void OnClickSound()
     {
-       // instance.Play(Types.Click);
+        // instance.Play(Types.Click);
     }
 }
