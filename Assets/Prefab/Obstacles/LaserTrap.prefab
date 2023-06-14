@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6766877373976522990}
   - component: {fileID: 3961000821667972235}
   - component: {fileID: 1380068514912635692}
-  - component: {fileID: 3961000821667972232}
+  - component: {fileID: 6240693357384670381}
   m_Layer: 9
   m_Name: Laser
   m_TagString: Untagged
@@ -46,9 +46,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _line: {fileID: 1380068514912635692}
-  _groundLayerMask:
+  _hitLayerMask:
     serializedVersion: 2
-    m_Bits: 2298478912
+    m_Bits: 150995392
   _particles:
   - {fileID: 6705080248530439551}
   - {fileID: 6705080249598128473}
@@ -59,7 +59,6 @@ MonoBehaviour:
   - {fileID: 6705080249598128473}
   _loopTime: 0
   _loop: 0
-  _firstStart: 0
   _on: 1
 --- !u!120 &1380068514912635692
 LineRenderer:
@@ -159,7 +158,7 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
---- !u!61 &3961000821667972232
+--- !u!61 &6240693357384670381
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -172,7 +171,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 2.6322727}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -183,7 +182,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.10000059, y: 5.255455}
+  m_Size: {x: 0.1, y: 0.1}
   m_EdgeRadius: 0
 --- !u!1 &6705080248530439520
 GameObject:

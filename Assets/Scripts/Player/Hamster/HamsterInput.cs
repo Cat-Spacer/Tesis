@@ -8,7 +8,9 @@ public class HamsterInput : MonoBehaviour
     [SerializeField] float _radius;
     Vector3 targetPosition;
     IMouseOver lastInteraction;
+    [SerializeField] GameObject lastInteraction2;
     [SerializeField] LayerMask interactLayerMask;
+    [SerializeField] Collider2D coll;
 
     //public HamsterInput(Hamster ham)
     //{
@@ -19,33 +21,25 @@ public class HamsterInput : MonoBehaviour
     {
         Control();
     }
-    //public void OnUpdate()
-    //{
-    //    Control();
-    //}
 
     void Control()
     {
-        //screenPosition = Input.mousePosition;
-        //targetPosition = Camera.main.ScreenToWorldPoint(screenPosition);
         targetPosition = cam.MousePosition();
-        var coll = Physics2D.OverlapCircle(targetPosition, _radius, interactLayerMask);
-        if (!coll) return;
-        var interact = coll.GetComponent<IMouseOver>();
-        if (interact != null)
+        coll = Physics2D.OverlapCircle(targetPosition, _radius, interactLayerMask);
+        if (!coll)
         {
-            interact.MouseOver();
-            lastInteraction = interact;
-        }
-        else
-        {
-            Debug.Log("Sali");
             if (lastInteraction != null)
             {
-                Debug.Log(lastInteraction);
                 lastInteraction.MouseExit();
             }
             return;
+        }
+        var interact = coll.GetComponent<IMouseOver>();
+        if (interact != null) //Tiene
+        {
+            interact.MouseOver();
+            lastInteraction = interact;
+            lastInteraction2 = coll.gameObject;
         }
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
