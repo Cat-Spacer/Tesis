@@ -32,6 +32,7 @@ public class JumpPad : MonoBehaviour
         {
             var player = collision.gameObject.GetComponent<CustomMovement>();
             player.CancelMovement();
+            player.ResetDash();
             SoundManager.instance.Play(SoundManager.Types.Mushroom);
             var entityRb = collision.gameObject.GetComponent<Rigidbody2D>();
             entityRb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);

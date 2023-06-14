@@ -25,8 +25,8 @@ public class Spider : MonoBehaviour
     private void Start()
     {
         followArea = 3;
-        speed = 1;
         obstacleMask = LayerMask.GetMask("Shield");
+        obstacleMask += LayerMask.GetMask("HamsterEnemy");
         _target = FindObjectOfType<Hamster>();
         /*if (Physics2D.OverlapBox(transform.position, Vector2.one, _nodeMask).GetComponent<NodePoint>())
             homeNode = Physics2D.OverlapBox(transform.position, Vector2.one, _nodeMask).GetComponent<NodePoint>();*/
