@@ -87,6 +87,7 @@ public class GameManager : MonoBehaviour
     }
     public void PlayerDeath ()
     {
+        EventManager.Instance.Trigger("PlayerDeath");
         _deathScreen.gameObject.SetActive(true);
         SoundManager.instance.Play(SoundManager.Types.PlayerDeath);
         StartCoroutine(DeathScreenCounter());

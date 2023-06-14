@@ -388,7 +388,11 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         _dashParticleExplotion.Play();
         _dashParticleTrail.SetActive(true);
     }
-
+    public void ResetDash()
+    {
+        onDashInput = false;
+        canDash = true;
+    }
     public void EndDashFeedBack()
     {
         _dashParticleExplotion.Stop();
@@ -906,6 +910,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             _playerCanvas.TrapEvent(trapState, life);
         }
     }
+
     public void ChangeAnimationState(string newState)
     {
         if (currentState == newState) return;
