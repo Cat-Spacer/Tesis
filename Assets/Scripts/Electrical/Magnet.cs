@@ -30,6 +30,7 @@ public class Magnet : MonoBehaviour, IElectric
         _MagnetAction();
         _degrees = transform.rotation.z;
     }
+
     void Attract()
     {
         if (_collider) return;
@@ -43,6 +44,7 @@ public class Magnet : MonoBehaviour, IElectric
             objRb.velocity += dir * (_attractForce / Mathf.Pow(dist, _pow));// Vector2.up * (attractForce/matf.elev(dist,n))
         }
     }
+
     public void TurnOn()
     {
         _MagnetAction = Attract;
@@ -71,8 +73,8 @@ public class Magnet : MonoBehaviour, IElectric
 
         var objRb = obj.GetComponent<Rigidbody2D>();
         objRb.velocity += dir * (_attractForce / Mathf.Pow(dist, _pow));
-
     }
+
     private void OnDrawGizmosSelected()
     {
         if (!_gizmos) return;
@@ -80,5 +82,4 @@ public class Magnet : MonoBehaviour, IElectric
         //Gizmos.matrix = Matrix4x4.TRS(transform.position, transform.rotation, transform.lossyScale);
         Gizmos.DrawWireCube(transform.position + _offset, _attractArea);
     }
-
 }
