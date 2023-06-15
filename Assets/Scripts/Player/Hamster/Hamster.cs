@@ -2,12 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using System.Linq;
 
 public class Hamster : MonoBehaviour
 {
     private HamsterInput _controller;
-    Action _HamsterAction = delegate { };
+    private Action _HamsterAction = delegate { };
     [SerializeField] CustomMovement _player;
     [SerializeField] private Transform _playerPos;
     [SerializeField] private float _speed, _maxSpeed, _pointRadius, _checkRadius = 5.0f, _interactRadius = 2.5f;
@@ -19,7 +18,7 @@ public class Hamster : MonoBehaviour
     [SerializeField] private Generator _generator;
     [SerializeField] private int _energyCollected;
     public bool visible = true;
-    bool _owlCatched;
+    private bool _owlCatched;
 
     private void Start()
     {
@@ -27,15 +26,13 @@ public class Hamster : MonoBehaviour
         _generators = FindObjectsOfType<Generator>();
     }
 
-    public void AddEnergy(int energy_arg) 
+    public void AddEnergy(int energy_arg)
     {
         _energyCollected += energy_arg;
         foreach (var item in _generators)
-        {
             item.SetEnergyCounter(_energyCollected);
-        }
 
-        Debug.Log(_energyCollected);
+        //Debug.Log(_energyCollected);
     }
 
     private void Update()
@@ -45,11 +42,8 @@ public class Hamster : MonoBehaviour
 
     private void LateUpdate()
     {
-
         if (Input.GetMouseButtonDown(1) && !_owlCatched)
-        {
             ReturnToCat();
-        }
     }
 
     public void MoveWithPlayer() { transform.position = _playerPos.position; }
@@ -66,10 +60,7 @@ public class Hamster : MonoBehaviour
             CheckNextTube();
     }
 
-    public void MoveToPosition(Vector2 pos)
-    {
-        transform.position = Vector3.MoveTowards(transform.position, pos, _speed * Time.deltaTime);
-    }
+    public void MoveToPosition(Vector2 pos) { transform.position = Vector3.MoveTowards(transform.position, pos, _speed * Time.deltaTime); }
 
     public void GetInTube(Vector2 targetPosition, Tube tube = null)
     {
@@ -102,7 +93,6 @@ public class Hamster : MonoBehaviour
         }
     }
 
-    
     void CheckNextTube()
     {
         if (_currentTube.IsCheckpoint() || _currentTube.IsEntry() || _currentTube.IsExit())
@@ -115,13 +105,16 @@ public class Hamster : MonoBehaviour
                 .gameObject.GetComponent<Generator>();
             _generator = generator;
 
-            if (_currentTube.IsExit() && _generator != null && _generator.EnergyNeeded <= _energyCollected)
+            if (_currentTube.IsExit() && _generator)
             {
-                _generator.TurnButtons();
-                _generator.StartGenerator();
-                // _energyCollected -= _generator.EnergyNeeded;
-                //_generator.StartGenerator();
-                // _generator.buttons.SetActive(true);
+                if (_generator.EnergyNeeded <= _energyCollected || _generator.IsAlreadyStarded)
+                {
+                    _generator.TurnButtons();
+                    _generator.StartGenerator();
+                    // _energyCollected -= _generator.EnergyNeeded;
+                    //_generator.StartGenerator();
+                    // _generator.buttons.SetActive(true);
+                }
             }
         }
         else
@@ -190,10 +183,9 @@ public class Hamster : MonoBehaviour
         _player.GetDamage();
         ResetToPlayer();
     }
-    public void ResetToPlayer()
-    {
-        ReturnToCat();
-    }
+
+    public void ResetToPlayer() { ReturnToCat(); }
+
     private void OnDrawGizmos()
     {
         if (_gizmos) return;
@@ -201,12 +193,14 @@ public class Hamster : MonoBehaviour
         //Gizmos.DrawWireCube(transform.position, new Vector3(_checkRadius, _checkRadius));
         Gizmos.DrawWireSphere(transform.position, _checkRadius);
     }
+
     public void OwlCatch(float time)
     {
         _owlCatched = true;
         _HamsterAction = delegate { };
         StartCoroutine(DieByOwl(time));
     }
+
     IEnumerator DieByOwl(float time)
     {
         yield return new WaitForSeconds(time);
