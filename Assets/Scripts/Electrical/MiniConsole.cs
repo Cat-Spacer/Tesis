@@ -10,7 +10,7 @@ public class MiniConsole : MonoBehaviour, IMouseOver
     [SerializeField] private LayerMask _generatorMask;
     [SerializeField] private Transform _hamsterPos = null;
     [SerializeField] private bool _gizmos = true;
-
+    [SerializeField] LineRenderer feedbackLines;
     bool _isOn;
     public List<GameObject> _connection;
     public float _delaySeconds;
@@ -22,8 +22,18 @@ public class MiniConsole : MonoBehaviour, IMouseOver
 
         if (_generator == null && Physics2D.OverlapArea(transform.position, transform.position * _checkRadius, _generatorMask))
             _generator = Physics2D.OverlapArea(transform.position, transform.position * _checkRadius, _generatorMask).gameObject.GetComponent<Generator>();
-    }
 
+        SetLines();
+    }
+    void SetLines()
+    {
+        foreach (var connection in _connection)
+        {
+            var newLine = Instantiate(feedbackLines, transform);
+            newLine.SetPosition(0, transform.position);
+            newLine.SetPosition(1, connection.transform.position);
+        }
+    }
     private void HamsterGetInside()
     {
         if (!_hamster) return;

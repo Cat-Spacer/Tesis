@@ -16,6 +16,7 @@ public class Generator : MonoBehaviour
     [SerializeField] private MiniGame _miniGame;
     [SerializeField] private TMP_Text _text;
     [SerializeField] private Electricty[] _electricityParticle;
+    [SerializeField] LineRenderer feedbackLines;
 
     private void Start()
     {
@@ -29,8 +30,18 @@ public class Generator : MonoBehaviour
         _text.text = "0/" + _energyNeeded;
         if (_energyNeeded <= 0 && _batterySprite)
             _batterySprite.SetActive(false);
+        SetLines();
     }
-
+    void SetLines()
+    {
+        if (_connection.Count == 0) return;
+        foreach (var connection in _connection)
+        {
+            var newLine = Instantiate(feedbackLines, transform);
+            newLine.SetPosition(0, transform.position);
+            newLine.SetPosition(1, connection.transform.position);
+        }
+    }
     public void StartGenerator(bool start = true)
     {
         if (_miniGameWin == true)
