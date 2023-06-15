@@ -6,8 +6,7 @@ using UnityEngine.UI;
 public class AlphaCopy : MonoBehaviour
 {
     [SerializeField] private Image _objetive = null;
-    [SerializeField] private SpriteRenderer _target = null;
-    
+    [SerializeField] private SpriteRenderer _target = null;    
 
     void Update()
     {

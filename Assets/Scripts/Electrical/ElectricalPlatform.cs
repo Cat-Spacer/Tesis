@@ -37,7 +37,8 @@ public class ElectricalPlatform : MonoBehaviour, IElectric
     }
     private void Start()
     {
-        EventManager.Instance.Subscribe("PlayerDeath", ResetPlatform);
+        if (EventManager.Instance)
+            EventManager.Instance.Subscribe("PlayerDeath", ResetPlatform);
         _max = _checkpoints.Length - 1;
         _startCheckpoint = _current;
     }
@@ -82,7 +83,7 @@ public class ElectricalPlatform : MonoBehaviour, IElectric
             _MoveAction = GoUp;
             _canvas.gameObject.SetActive(false);
         }
-       
+
     }
     void GoUp()
     {
