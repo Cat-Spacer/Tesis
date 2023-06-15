@@ -7,8 +7,7 @@ public class Generator : MonoBehaviour
 {
     public List<GameObject> _connection;
     [SerializeField] private bool _test = false;
-    private bool _miniGameWin;
-    private bool _alreadyStarded;
+    private bool _miniGameWin, _alreadyStarded;
     [SerializeField] private int _energyNeeded;
     [SerializeField] private float _delaySeconds = 1.0f;
     public GameObject buttons = null;
@@ -38,7 +37,6 @@ public class Generator : MonoBehaviour
         {
             if (EnergyNeeded <= _hamster.Energy)
             {
-
                 StartCoroutine(Delay(start));
             }
             StartCoroutine(Delay(start));
@@ -67,7 +65,7 @@ public class Generator : MonoBehaviour
     {
         _miniGameWin = true;
         _hamster.AddEnergy(-EnergyNeeded);
-        Debug.Log(-EnergyNeeded);
+        //Debug.Log(-EnergyNeeded);
         StartGenerator(true);
     }
 
@@ -77,8 +75,9 @@ public class Generator : MonoBehaviour
 
     public void SetEnergyCounter(int i) { _text.text = i + "/" + _energyNeeded; }
 
-
     public int EnergyNeeded { get { return _energyNeeded; } }
+
+    public bool IsAlreadyStarded { get { return _alreadyStarded; } }
 
     IEnumerator Delay(bool power = true)
     {
