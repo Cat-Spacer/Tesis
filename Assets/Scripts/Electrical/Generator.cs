@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,12 +32,53 @@ public class Generator : MonoBehaviour
             _batterySprite.SetActive(false);
     }
 
+    public void StartGenerator(bool start = true)
+    {
+        if (_miniGameWin == true)
+        {
+            if (EnergyNeeded <= _hamster.Energy)
+            {
+
+                StartCoroutine(Delay(start));
+            }
+            StartCoroutine(Delay(start));
+        }
+        else if (!_alreadyStarded)
+        {
+            _alreadyStarded = true;
+            StartMiniGame();
+        }
+    }
+
+    public void StopGenerator()
+    {
+        TurnButtons(false);
+        _miniGame.TurnOff();
+        StartCoroutine(Delay(false));
+    }
+
     public void ReturnButton()
     {
         _hamster.ReturnToCat();
-        buttons.SetActive(false);
+        StopGenerator();
     }
 
+    public void OnWinMiniGame()
+    {
+        _miniGameWin = true;
+        _hamster.AddEnergy(-EnergyNeeded);
+        Debug.Log(-EnergyNeeded);
+        StartGenerator(true);
+    }
+
+    void StartMiniGame() { _miniGame.TurnOn(); }
+
+    public void TurnButtons(bool active = true) { buttons.SetActive(active); }
+
+    public void SetEnergyCounter(int i) { _text.text = i + "/" + _energyNeeded; }
+
+
+    public int EnergyNeeded { get { return _energyNeeded; } }
 
     IEnumerator Delay(bool power = true)
     {
@@ -72,50 +112,6 @@ public class Generator : MonoBehaviour
                     _connection[i].GetComponentInChildren<IElectric>().TurnOff();
                 }
             }
-        }
-    }
-
-    public int EnergyNeeded { get { return _energyNeeded; } }
-
-    void StartMiniGame()
-    {
-        _miniGame.TurnOn();
-
-    }
-
-    public void OnWinMiniGame()
-    {
-        _miniGameWin = true;
-        _hamster.AddEnergy(-EnergyNeeded);
-        Debug.Log(-EnergyNeeded);
-        StartGenerator(true);
-    }
-
-    public void TurnButtons()
-    {
-        buttons.SetActive(true);
-    }
-
-    public void SetEnergyCounter(int i)
-    {
-        _text.text = i + "/" + _energyNeeded;
-    }
-
-    public void StartGenerator(bool start = true)
-    {
-        if (_miniGameWin == true)
-        {
-            if (EnergyNeeded <= _hamster.Energy)
-            {
-
-                StartCoroutine(Delay(start));
-            }
-            StartCoroutine(Delay(start));
-        }
-        else if (!_alreadyStarded)
-        {
-            _alreadyStarded = true;
-            StartMiniGame();
         }
     }
 }
