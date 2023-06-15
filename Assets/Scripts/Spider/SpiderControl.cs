@@ -11,6 +11,7 @@ public class SpiderControl : MonoBehaviour
     private Spider _spider;
     public NodePoint _goalNode;
     public List<NodePoint> pathList;
+    
 
     private void Awake()
     {
@@ -52,12 +53,12 @@ public class SpiderControl : MonoBehaviour
         {
             //Debug.Log(Vector2.Distance(transform.position, _spider._target.transform.position) + " " + _spider.followArea);
 
-            if (Vector2.Distance(transform.position, _spider._target.transform.position) <= _spider.followArea && 
+            if (Vector2.Distance(transform.position, _spider._target.transform.position) <= _spider.followArea &&
             _spider.InSight(transform.position, _spider._target.transform.position))
             {
                 SendInputToFSM(States.FOLLOW);
             }
-           
+
 
         };
 
@@ -69,7 +70,7 @@ public class SpiderControl : MonoBehaviour
             _goalNode = _spider.homeNode;
 
             pathList = _spider.ConstructPathAStar(_spider.transform.position, _goalNode);
-            
+
         };
 
         returning.OnUpdate += () =>
@@ -79,7 +80,7 @@ public class SpiderControl : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.F))  //cambiar esto a if ve al player
                 SendInputToFSM(States.FOLLOW);
 
-            if (Vector2.Distance(transform.position, _spider._target.transform.position) <= _spider.followArea && 
+            if (Vector2.Distance(transform.position, _spider._target.transform.position) <= _spider.followArea &&
             _spider.InSight(transform.position, _spider._target.transform.position))
             {
                 SendInputToFSM(States.FOLLOW);
@@ -104,17 +105,17 @@ public class SpiderControl : MonoBehaviour
             //Debug.Log("Its Following");
             _spider.Alert(true);
             StartCoroutine(CoroutineWaitForAttack(0.5f));
-          
         };
+
         following.OnUpdate += () =>
         {
             if (pathList.Count <= 0) return;
-            if (_spider.current >= pathList.Count-1 && Vector2.Distance(transform.position, pathList[_spider.current].transform.position) < 0.15f)
+            if (_spider.current >= pathList.Count - 1 && Vector2.Distance(transform.position, pathList[_spider.current].transform.position) < 0.15f)
             {
                 SendInputToFSM(States.RETURN);
             }
 
-            if (Vector2.Distance(transform.position, _spider._target.transform.position) <= 0.7f)
+            if (Vector2.Distance(transform.position, _spider._target.transform.position) <= _spider.attackArea)
             {
                 SendInputToFSM(States.ATTACK);
             }
@@ -136,14 +137,14 @@ public class SpiderControl : MonoBehaviour
         attacking.OnEnter += x =>
         {
             //Debug.Log("Its Attacking");
-           
+
             _spider.Attack();
         };
         attacking.OnUpdate += () =>
         {
-            if (_spider.attacked) 
+            if (_spider.attacked)
             { SendInputToFSM(States.RETURN); }
-           };
+        };
         attacking.OnExit += x =>
         {
             _spider.attacked = false;
@@ -151,18 +152,18 @@ public class SpiderControl : MonoBehaviour
 
         _myFsm = new EventFSM<States>(idle);
     }
- 
-    
 
-public IEnumerator CoroutineWaitForAttack(float waitTime)
-{
-    yield return new WaitForSeconds(waitTime);
+
+
+    public IEnumerator CoroutineWaitForAttack(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
         _goalNode = _spider.CheckNearestStart(_spider._target.transform.position);
         pathList = _spider.ConstructPathAStar(_spider.transform.position, _goalNode);
         _spider.Alert(false);
 
     }
-private void Start()
+    private void Start()
     {
         SendInputToFSM(States.IDLE);
     }

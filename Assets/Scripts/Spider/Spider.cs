@@ -9,7 +9,7 @@ public class Spider : MonoBehaviour
     public Hamster _target;
 
     [Header("Field of View")]
-    public float viewRadius, viewAngle, followArea;
+    public float viewRadius, viewAngle, followArea, attackArea = 0.25f, attackTimer = 0.5f;
     public LayerMask obstacleMask;
     public NodePoint homeNode;
 
@@ -28,8 +28,6 @@ public class Spider : MonoBehaviour
         obstacleMask = LayerMask.GetMask("Shield");
         obstacleMask += LayerMask.GetMask("HamsterEnemy");
         _target = FindObjectOfType<Hamster>();
-        /*if (Physics2D.OverlapBox(transform.position, Vector2.one, _nodeMask).GetComponent<NodePoint>())
-            homeNode = Physics2D.OverlapBox(transform.position, Vector2.one, _nodeMask).GetComponent<NodePoint>();*/
     }
 
     public void Alert(bool state_arg)

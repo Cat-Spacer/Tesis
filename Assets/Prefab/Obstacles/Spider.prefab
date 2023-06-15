@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4075684173478989646}
   - component: {fileID: 3942390792987592903}
   m_Layer: 0
-  m_Name: Asset 53
+  m_Name: Alert Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69,7 +69,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -31741267
-  m_SortingLayer: 9
+  m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: b4152cd2a0bb158429f90587ba640fac, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -155,7 +155,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -31741267
-  m_SortingLayer: 9
+  m_SortingLayer: 11
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 83ee8e3e88e49314287f95e0e91d05de, type: 3}
   m_Color: {r: 0.8113208, g: 0.8113208, b: 0.8113208, a: 1}
@@ -220,6 +220,8 @@ MonoBehaviour:
   viewRadius: 360
   viewAngle: 360
   followArea: 4
+  attackArea: 0.25
+  attackTimer: 0.5
   obstacleMask:
     serializedVersion: 2
     m_Bits: 0
