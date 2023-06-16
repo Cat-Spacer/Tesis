@@ -19,9 +19,14 @@ public class MovingPlatform : MonoBehaviour, IElectric
     private Rigidbody2D _myRB2D;
     [SerializeField] private bool _forceTurnOn = false;
     [SerializeField] GameObject pivot;
+    Vector3 _startPos;
+    int startingWaypoint;
 
     private void Start()
     {
+        _startPos = platform.transform.position;
+        startingWaypoint = currentWaypoint;
+        EventManager.Instance.Subscribe("PlayerDeath", ResetPosition);
         maxLenght = _waypoitns.Count - 1;
         _speed = _baseSpeed;
         _myRB2D = platform.GetComponent<Rigidbody2D>();
@@ -97,5 +102,9 @@ public class MovingPlatform : MonoBehaviour, IElectric
         if (collision.gameObject.layer == 27)
             stop = false;
     }
-
+    void ResetPosition(params object[] param)
+    {
+        platform.transform.position = _startPos;
+        currentWaypoint = startingWaypoint;
+    }
 }
