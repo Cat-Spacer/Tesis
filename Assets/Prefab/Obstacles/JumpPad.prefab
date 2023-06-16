@@ -130,7 +130,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -4938,6 +4938,8 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 128
+  _particle: {fileID: 3074480167539307940}
+  _isOn: 0
 --- !u!61 &378694722967262684
 BoxCollider2D:
   m_ObjectHideFlags: 0

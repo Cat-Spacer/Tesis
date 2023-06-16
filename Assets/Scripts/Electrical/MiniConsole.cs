@@ -14,9 +14,12 @@ public class MiniConsole : MonoBehaviour, IMouseOver
     bool _isOn;
     public List<GameObject> _connection;
     public float _delaySeconds;
+    SpriteRenderer _sp;
+    [SerializeField] Sprite _spActivated, _spDesactivated;
 
     private void Start()
     {
+        _sp = GetComponent<SpriteRenderer>();
         if (_hamster == null)
             _hamster = FindObjectOfType<Hamster>();
 
@@ -45,14 +48,13 @@ public class MiniConsole : MonoBehaviour, IMouseOver
     public void Interact()
     {
         Debug.Log("Entre");
-        if (_isOn)
+        if (!_isOn)
         {
-            _isOn = false;
+            _isOn = true;
             StartCoroutine(Delay(_isOn));
         }
         else
         {
-            _isOn = true;
             StartCoroutine(Delay(_isOn));
         }
 
@@ -67,9 +69,11 @@ public class MiniConsole : MonoBehaviour, IMouseOver
         {
             if (power)
             {
+                _sp.sprite = _spActivated;
                 if (_connection[i] != null && _connection[i].GetComponent<IElectric>() != null)
                 {
                     _connection[i].GetComponent<IElectric>().TurnOn();
+                   
                 }
                 else if (_connection[i] != null && _connection[i].GetComponentInChildren<IElectric>() != null)
                 {
@@ -78,7 +82,7 @@ public class MiniConsole : MonoBehaviour, IMouseOver
             }
             else
             {
-
+                _sp.sprite = _spDesactivated;
                 if (_connection[i] != null && _connection[i].GetComponent<IElectric>() != null)
                 {
                     _connection[i].GetComponent<IElectric>().TurnOff();
