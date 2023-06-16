@@ -28,6 +28,10 @@ public class JumpPad : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
         if ((mask.value & (1 << collision.transform.gameObject.layer)) > 0)
         {
             var player = collision.gameObject.GetComponent<CustomMovement>();
