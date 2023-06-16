@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1186393398895927930}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 56.7, y: 0.17, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.8, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2279844892241071091}
   m_Father: {fileID: 0}
@@ -71,9 +71,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1510253325
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 78f9359b22c308f4ea754ebf587c3290, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 24b8f682d3a427e43aee922dd2aa49a3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -104,6 +104,11 @@ MonoBehaviour:
     m_Bits: 268435456
   _hamsterPos: {fileID: 2279844892241071091}
   _gizmos: 1
+  feedbackLines: {fileID: 0}
+  _connection: []
+  _delaySeconds: 0
+  _spActivated: {fileID: 21300000, guid: 0b20598481d1a05468a4f84ccb356602, type: 3}
+  _spDesactivated: {fileID: 21300000, guid: 24b8f682d3a427e43aee922dd2aa49a3, type: 3}
 --- !u!1 &5273384844225661008
 GameObject:
   m_ObjectHideFlags: 0
