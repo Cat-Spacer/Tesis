@@ -41,6 +41,7 @@ public class ElectricalPlatform : MonoBehaviour, IElectric
             EventManager.Instance.Subscribe("PlayerDeath", ResetPlatform);
         _max = _checkpoints.Length - 1;
         _startCheckpoint = _current;
+        _startPos = transform;
     }
     public void TurnOff()
     {
@@ -160,6 +161,7 @@ public class ElectricalPlatform : MonoBehaviour, IElectric
     }
     public void ResetPlatform(params object[] parameters)
     {
+        Debug.Log("Reset Platform");
         transform.position = _startPos.position;
         _current = _startCheckpoint;
     }

@@ -74,6 +74,7 @@ public class Generator : MonoBehaviour
 
     public void OnWinMiniGame()
     {
+        TurnButtons(true); 
         _miniGameWin = true;
         _hamster.AddEnergy(-EnergyNeeded);
         //Debug.Log(-EnergyNeeded);

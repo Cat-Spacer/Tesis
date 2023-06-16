@@ -16,12 +16,16 @@ public class ElectricalShield : MonoBehaviour, IElectric
     private bool isDragging = false;
     private float dragStartPosition;
 
+    Transform _startPos;
+
     [SerializeField] bool _IsOn = false;
 
     [SerializeField] bool _inX = true;
 
     void Start()
     {
+        _startPos = scrollbarObject.transform;
+        EventManager.Instance.Subscribe("PlayerDeath", ResetPosition);
         //_IsOn = false;
         scrollbarStartPosition = scrollbarObject.transform.position;
         scrollbarLength = topCapObject.transform.position.y - bottomCapObject.transform.position.y;
@@ -105,7 +109,10 @@ public class ElectricalShield : MonoBehaviour, IElectric
 
         //isDragging = true;
     }
-
+    void ResetPosition(params object[] param)
+    {
+        scrollbarObject.transform.position = scrollbarStartPosition;
+    }
    /* void Start()
     {
         scrollbarStartPosition = scrollbarObject.transform.position;
