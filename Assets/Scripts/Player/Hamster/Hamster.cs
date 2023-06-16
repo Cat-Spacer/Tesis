@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
 
@@ -18,6 +17,7 @@ public class Hamster : MonoBehaviour
     [SerializeField] private Generator _generator;
     [SerializeField] private int _energyCollected;
     public bool visible = true;
+    [SerializeField] private GameObject _returnBTN = null;
     private bool _owlCatched;
 
     private void Start()
@@ -44,6 +44,8 @@ public class Hamster : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1) && !_owlCatched)
             ReturnToCat();
+        /*if (_inTube && _returnBTN)
+            if (!_returnBTN.activeInHierarchy) _returnBTN.SetActive(true);*/
     }
 
     public void MoveWithPlayer() { transform.position = _playerPos.position; }
@@ -89,6 +91,7 @@ public class Hamster : MonoBehaviour
                 _currentTube = tube;
                 _currentTubePos = tube.GetCenter();
                 _inTube = true;
+                if (_returnBTN) _returnBTN.SetActive(true);
             }
         }
     }
@@ -163,13 +166,7 @@ public class Hamster : MonoBehaviour
         _HamsterAction = MoveWithPlayer;
         if (_currentTube) _currentTube.ArrowsActDes(false);
         if (_generator) _generator.StopGenerator();
-    }
-
-    public void HamsterCatched()
-    {
-        _inTube = false;
-        _HamsterAction = MoveWithPlayer;
-        _currentTube.ArrowsActDes(false);
+        if (_returnBTN) _returnBTN.SetActive(false);
     }
 
     public bool InTube() { return _inTube; }

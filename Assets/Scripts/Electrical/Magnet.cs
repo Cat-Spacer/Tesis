@@ -1,6 +1,5 @@
-using UnityEngine;
 using System;
-using System.Collections.Generic;
+using UnityEngine;
 
 public class Magnet : MonoBehaviour, IElectric
 {
@@ -41,15 +40,16 @@ public class Magnet : MonoBehaviour, IElectric
             {
                 var metalBox = obj.GetComponent<MetalBox>();
                 var boxColl = obj.GetComponent<BoxCollider2D>();
-                if (metalBox.GetRigidbody.bodyType == RigidbodyType2D.Static 
+                if (metalBox.GetRigidbody.bodyType == RigidbodyType2D.Static
                     && Vector2.Distance(transform.position, metalBox.transform.position) > boxColl.bounds.size.magnitude)
                     metalBox.DefrostPos();
             }
+
             float dist = (obj.transform.position - transform.position).magnitude;
             Vector2 dir = transform.position - obj.transform.position;
-            //  Debug.Log($"dist: {dist}");
+
             var objRb = obj.GetComponent<Rigidbody2D>();
-            objRb.velocity += dir * (_attractForce / Mathf.Pow(dist, _pow));// Vector2.up * (attractForce/matf.elev(dist,n))
+            if (objRb.bodyType != RigidbodyType2D.Static) objRb.velocity += dir * (_attractForce / Mathf.Pow(dist, _pow));
         }
     }
 
