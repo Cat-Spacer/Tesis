@@ -147,7 +147,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7730695837949264336}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -174,12 +174,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _collMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 192
   _floorMask:
     serializedVersion: 2
     m_Bits: 64
   _sound: 22
   _fallParticle: {fileID: 684955338083663466}
+  _magnet: {fileID: 0}
 --- !u!1001 &9015595382146051643
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -187,6 +188,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7730695837949264348}
     m_Modifications:
+    - target: {fileID: 8402775153671163984, guid: ce29c1513b32b74409b2b006c60c02ef,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8402775153671163984, guid: ce29c1513b32b74409b2b006c60c02ef,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: 725405911
+      objectReference: {fileID: 0}
     - target: {fileID: 8402775153671163986, guid: ce29c1513b32b74409b2b006c60c02ef,
         type: 3}
       propertyPath: m_Name
@@ -196,6 +207,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8402775153671163987, guid: ce29c1513b32b74409b2b006c60c02ef,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8402775153671163987, guid: ce29c1513b32b74409b2b006c60c02ef,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 8402775153671163987, guid: ce29c1513b32b74409b2b006c60c02ef,
         type: 3}

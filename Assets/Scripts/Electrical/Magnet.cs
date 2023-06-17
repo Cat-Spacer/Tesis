@@ -7,7 +7,7 @@ public class Magnet : MonoBehaviour, IElectric
 
     [SerializeField] private Vector2 _attractArea;
     [SerializeField] private Vector3 _offset;
-    [SerializeField] private float _attractForce, _pow = 1f, _degrees = 0;
+    [SerializeField] private float _attractForce, _pow = 1f/*, _degrees = 0*/, _attractLimit = 1.0f;
     [SerializeField] private LayerMask _floorLayerMask, _metalLayerMask;
     [SerializeField] private GameObject _onSprite, _offSprite, _particle;
     [SerializeField] private bool _gizmos = true, _test = false, _collider = true;
@@ -24,10 +24,9 @@ public class Magnet : MonoBehaviour, IElectric
             TurnOn();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         _MagnetAction();
-        _degrees = transform.rotation.z;
     }
 
     void Attract()
@@ -41,8 +40,11 @@ public class Magnet : MonoBehaviour, IElectric
                 var metalBox = obj.GetComponent<MetalBox>();
                 var boxColl = obj.GetComponent<BoxCollider2D>();
                 if (metalBox.GetRigidbody.bodyType == RigidbodyType2D.Static
-                    && Vector2.Distance(transform.position, metalBox.transform.position) > boxColl.bounds.size.magnitude)
+                    && Vector2.Distance(transform.position, metalBox.transform.position) > boxColl.bounds.size.magnitude/*_attractLimit*/)
+                {
                     metalBox.DefrostPos();
+                    Debug.Log($"DEfrezeado");
+                }
             }
 
             float dist = (obj.transform.position - transform.position).magnitude;
@@ -75,6 +77,18 @@ public class Magnet : MonoBehaviour, IElectric
     {
         if (!(collision.GetComponent<Rigidbody2D>() || _collider)) return;
         var obj = collision.gameObject;
+
+        if (obj.GetComponent<MetalBox>())
+        {
+            var metalBox = obj.GetComponent<MetalBox>();
+            var boxColl = obj.GetComponent<BoxCollider2D>();
+            if (metalBox.GetRigidbody.bodyType == RigidbodyType2D.Static
+                && Vector2.Distance(transform.position, metalBox.transform.position) > boxColl.bounds.size.magnitude/*_attractLimit*/)
+            {
+                metalBox.DefrostPos();
+                Debug.Log($"DEfrezeado");
+            }
+        }   
 
         float dist = (obj.transform.position - transform.position).magnitude;
         Vector2 dir = transform.position - obj.transform.position;
