@@ -88,7 +88,7 @@ public class Magnet : MonoBehaviour, IElectric
                 metalBox.DefrostPos();
                 Debug.Log($"DEfrezeado");
             }
-        }
+        }   
 
         float dist = (obj.transform.position - transform.position).magnitude;
         Vector2 dir = transform.position - obj.transform.position;

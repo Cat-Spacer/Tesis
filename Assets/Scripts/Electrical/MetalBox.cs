@@ -53,7 +53,7 @@ public class MetalBox : MonoBehaviour
     private void PlayFeedbacks(LayerMask layer)
     {
         SoundManager.instance.Play(_sound);
-        if (_fallParticle && layer.value == _floorMask.value) _fallParticle.Play();
+        if (_fallParticle && (_floorMask.value & (1 << layer.value)) > 0) _fallParticle.Play(); // si colisiona con algo que es floor hace particulas
         else
             Debug.Log($"Play metal crash particles");
     }
