@@ -52,7 +52,7 @@ public class Generator : MonoBehaviour
             }
             StartCoroutine(Delay(start));
         }
-        else if (!_alreadyStarded)
+        else //if (!_alreadyStarded)
         {
             _alreadyStarded = true;
             StartMiniGame();

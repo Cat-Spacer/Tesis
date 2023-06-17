@@ -69,7 +69,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1510253325
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 2
   m_Sprite: {fileID: 8236921800692627709, guid: 2fd0172934f7bd045b4e023f760891cc,
     type: 3}
@@ -4860,7 +4860,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1436223795
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 1
   m_RenderMode: 0
   m_SortMode: 0
@@ -4956,7 +4956,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1510253325
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 2
   m_Sprite: {fileID: 5056887281317641957, guid: 2fd0172934f7bd045b4e023f760891cc,
     type: 3}
@@ -5039,7 +5039,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1510253325
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 2
   m_Sprite: {fileID: 4488756246903136778, guid: 2fd0172934f7bd045b4e023f760891cc,
     type: 3}
@@ -9830,7 +9830,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1510253325
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 1
   m_RenderMode: 0
   m_SortMode: 0
@@ -9926,7 +9926,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1510253325
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 2
   m_Sprite: {fileID: 6513253489876158457, guid: 2fd0172934f7bd045b4e023f760891cc,
     type: 3}
@@ -9997,7 +9997,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4469088682922171358}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 1.25, z: 0}
+  m_LocalPosition: {x: -0.5, y: -0.325, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2500368041622059579}
@@ -10132,7 +10132,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 725405911
-  m_SortingLayer: 6
+  m_SortingLayer: 7
   m_SortingOrder: 1
   m_Sprite: {fileID: -2988339257838675328, guid: 2fd0172934f7bd045b4e023f760891cc,
     type: 3}
@@ -14924,7 +14924,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1510253325
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 1
   m_RenderMode: 0
   m_SortMode: 0
@@ -14961,8 +14961,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7673755628926047440}
   - component: {fileID: 7673755628926047441}
-  - component: {fileID: 7673755628926047447}
-  m_Layer: 0
+  - component: {fileID: 5241281021179029153}
+  m_Layer: 6
   m_Name: Magnet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15004,7 +15004,7 @@ MonoBehaviour:
   _offset: {x: 0, y: -2, z: 0}
   _attractForce: 7.5
   _pow: 1.25
-  _degrees: 0
+  _attractLimit: 1
   _floorLayerMask:
     serializedVersion: 2
     m_Bits: 0
@@ -15018,7 +15018,7 @@ MonoBehaviour:
   _test: 0
   _collider: 0
   active: 0
---- !u!61 &7673755628926047447
+--- !u!61 &5241281021179029153
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -15031,7 +15031,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.7}
+  m_Offset: {x: 0, y: -1}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -15042,7 +15042,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.75, y: 0.5}
+  m_Size: {x: 1.75, y: 0.01}
   m_EdgeRadius: 0
 --- !u!1 &7723375847061670259
 GameObject:
@@ -15113,7 +15113,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 725405911
-  m_SortingLayer: 6
+  m_SortingLayer: 7
   m_SortingOrder: 1
   m_Sprite: {fileID: 4891576996777596727, guid: 2fd0172934f7bd045b4e023f760891cc,
     type: 3}
@@ -15137,7 +15137,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1280069138909307560}
   - component: {fileID: 7510219056338843150}
-  - component: {fileID: 6726837752410630057}
   m_Layer: 6
   m_Name: Rayo Iman
   m_TagString: Untagged
@@ -15153,7 +15152,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7827708257141380631}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.51, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 7673755628926047440}
@@ -15197,7 +15196,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1510253325
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 1
   m_Sprite: {fileID: 1535325516486818496, guid: 2fd0172934f7bd045b4e023f760891cc,
     type: 3}
@@ -15211,22 +15210,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!70 &6726837752410630057
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7827708257141380631}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 4.25, y: 4.125}
-  m_Direction: 0
 --- !u!1 &9024224874830970262
 GameObject:
   m_ObjectHideFlags: 0
@@ -15251,7 +15234,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9024224874830970262}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 1.25, z: 0}
+  m_LocalPosition: {x: -0.5, y: -0.325, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5691251539756642917}
