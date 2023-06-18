@@ -8,13 +8,14 @@ public class MoveOnCollision : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if ((collision.gameObject.layer & (1 << _colMask.value)) > 0)
+        if ((_colMask.value & (1 << collision.gameObject.layer)) > 0)
             collision.transform.SetParent(transform);
+        Debug.Log($"{gameObject.name} colisionó con {collision.gameObject.name}");
     }
 
     void OnCollisionExit2D(Collision2D collision)
     {
-        if ((collision.gameObject.layer & (1 << _colMask.value)) > 0)
+        if ((_colMask.value & (1 << collision.gameObject.layer)) > 0)
             collision.transform.SetParent(GameManager.Instance.GetConfig.mainGame);
     }
 }
