@@ -24,10 +24,7 @@ public class MetalBox : MonoBehaviour
     {
         if (!_magnet) return;
         if (!_magnet.active)
-        {
             DefrostPos();
-            Debug.Log($"DEfrezeado");
-        }
     }
 
     public void FreezePos()
@@ -69,7 +66,6 @@ public class MetalBox : MonoBehaviour
         {
             PlayFeedbacks(collision.gameObject.layer);
             FreezePos();
-            Debug.Log($"Frezeado por {collision.gameObject.name}");
         }
 
         if (!collision.gameObject.GetComponent<Magnet>()) return;
@@ -79,7 +75,6 @@ public class MetalBox : MonoBehaviour
             FreezePos();
         else
             DefrostPos();
-        Debug.Log($"Frezeado");
     }
 
     /*private void OnTriggerExit2D(Collider2D collision)

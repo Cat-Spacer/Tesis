@@ -41,6 +41,8 @@ public class GameManager : MonoBehaviour
 
     public bool celestialDiamond = false;
 
+    private Config _config = null;
+
     private void Awake()
     {
         Instance = this;
@@ -50,6 +52,7 @@ public class GameManager : MonoBehaviour
     {
         _pointsText.text = _points.ToString() + "/" + _pointsPerLevel.ToString();
         _player = FindObjectOfType<CustomMovement>();
+        _config = GetComponent<Config>();
         GetCurrentLevel(0);
     }
 
@@ -81,10 +84,12 @@ public class GameManager : MonoBehaviour
     {
         _player.GetDamage();
     }
+
     public void SetNewCheckPoint(Transform newChekPoint)
     {
         _respawnPoint = newChekPoint.position;
     }
+
     public void PlayerDeath ()
     {
         EventManager.Instance.Trigger("PlayerDeath");
@@ -93,18 +98,8 @@ public class GameManager : MonoBehaviour
         StartCoroutine(DeathScreenCounter());
         StartCoroutine(PlayerResetPositionCounter(_respawnIndex));
     }
-    IEnumerator PlayerResetPositionCounter(int index_arg)
-    {
-        yield return new WaitForSeconds(_resetPlayerTime);
-        _player.transform.position = new Vector3(_respawnPoint.x, _respawnPoint.y, 0);
-        _player.ResetPlayer();
-    }    
-    IEnumerator DeathScreenCounter()
-    {
-        yield return new WaitForSeconds(_deathScreenTime);
-        _deathScreen.gameObject.SetActive(false);
-        _player.ConstrainsReset();
-    }
+
+
     public void GetAllObjectivesInLevel(PickUp objective)
     {
         _objectivesInLvl.Add(objective);
@@ -113,6 +108,7 @@ public class GameManager : MonoBehaviour
             //Debug.Log("Cree");
         }
     }
+
     public int ObjectivesToCollect()
     {
         return _pointsPerLevel;
@@ -148,6 +144,22 @@ public class GameManager : MonoBehaviour
     public void WaitForEndClimb(float waitTime)
     {
         StartCoroutine(CoroutineWaitForEndClimb(waitTime));
+    }
+
+    public Config GetConfig { get { return _config; } }
+
+    IEnumerator PlayerResetPositionCounter(int index_arg)
+    {
+        yield return new WaitForSeconds(_resetPlayerTime);
+        _player.transform.position = new Vector3(_respawnPoint.x, _respawnPoint.y, 0);
+        _player.ResetPlayer();
+    }
+
+    IEnumerator DeathScreenCounter()
+    {
+        yield return new WaitForSeconds(_deathScreenTime);
+        _deathScreen.gameObject.SetActive(false);
+        _player.ConstrainsReset();
     }
 
     public IEnumerator CoroutineWaitForEndClimb(float waitTime)

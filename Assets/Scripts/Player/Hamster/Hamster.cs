@@ -43,7 +43,7 @@ public class Hamster : MonoBehaviour
     private void LateUpdate()
     {
         if (Input.GetMouseButtonDown(1) && !_owlCatched)
-            ReturnToCat();
+            ReturnToPlayer();
         /*if (_inTube && _returnBTN)
             if (!_returnBTN.activeInHierarchy) _returnBTN.SetActive(true);*/
     }
@@ -145,8 +145,6 @@ public class Hamster : MonoBehaviour
                 _generator.TurnButtons();
                 _generator.StartGenerator();
             }
-
-            //Debug.Log($"tube = {tube}");
         }
         else //Se mueve al siguiente tubo
         {
@@ -158,11 +156,11 @@ public class Hamster : MonoBehaviour
         }
     }
 
-    public void ReturnToCat()
+    public void ReturnToPlayer()
     {
         _inTube = false;
         _owlCatched = false;
-        if (_player) _player.HamsterCheck(true);
+        if (_player) { _player.HamsterCheck(true); }
         _HamsterAction = MoveWithPlayer;
         if (_currentTube) _currentTube.ArrowsActDes(false);
         if (_generator) _generator.StopGenerator();
@@ -178,10 +176,8 @@ public class Hamster : MonoBehaviour
     public void Die()
     {
         _player.GetDamage();
-        ResetToPlayer();
+        ReturnToPlayer();
     }
-
-    public void ResetToPlayer() { ReturnToCat(); }
 
     private void OnDrawGizmos()
     {

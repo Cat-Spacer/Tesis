@@ -68,7 +68,7 @@ public class Generator : MonoBehaviour
 
     public void ReturnButton()
     {
-        _hamster.ReturnToCat();
+        _hamster.ReturnToPlayer();
         StopGenerator();
     }
 

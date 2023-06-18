@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class JumpPad : MonoBehaviour, IElectric
 {
-    [SerializeField] float jumpForce;
-    [SerializeField] LayerMask mask;
-    [SerializeField] ParticleSystem _particle;
-    [SerializeField] bool _isOn;
+    [SerializeField] private float jumpForce;
+    [SerializeField] private LayerMask mask;
+    [SerializeField] private ParticleSystem _particle;
+    [SerializeField] private bool _isOn;
 
     private void Start()
     {
@@ -62,7 +62,8 @@ public class JumpPad : MonoBehaviour, IElectric
         if ((mask.value & (1 << collision.transform.gameObject.layer)) > 0)
         {
             var player = collision.gameObject.GetComponent<CustomMovement>();
-            player.CancelMovement();
+            player.ForceStopMovement();
+            player.RestartJumpValue();
             player.ResetDash();
             SoundManager.instance.Play(SoundManager.Types.Mushroom);
             var entityRb = collision.gameObject.GetComponent<Rigidbody2D>();
