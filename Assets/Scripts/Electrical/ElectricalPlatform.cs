@@ -8,10 +8,9 @@ public class ElectricalPlatform : MonoBehaviour, IElectric
     [SerializeField] private Transform _PointATop;
     [SerializeField] private Transform _PointBLow;
     [SerializeField] private Transform[] _checkpoints;
-    [SerializeField] int _current;
-    [SerializeField] int _max;
+    [SerializeField] private int _current, _max;
     Transform _startPos;
-    int _startCheckpoint;
+    private int _startCheckpoint;
 
     private Vector3 _newPos;
     [SerializeField] private float _speed, _moveScale = 3.0f;
@@ -19,11 +18,11 @@ public class ElectricalPlatform : MonoBehaviour, IElectric
 
     [SerializeField] private bool _turnOn = false;
 
-    [SerializeField] Vector2 _checkBottom;
-    [SerializeField] Vector3 _offsetBottom;
-    [SerializeField] LayerMask _playerLayerMask;
+    [SerializeField] private Vector2 _checkBottom;
+    [SerializeField] private Vector3 _offsetBottom;
+    [SerializeField] private LayerMask _playerLayerMask;
 
-    Action _MoveAction = delegate { };
+    private Action _MoveAction = delegate { };
 
     void Awake()
     {
@@ -55,10 +54,7 @@ public class ElectricalPlatform : MonoBehaviour, IElectric
         _canvas.gameObject.SetActive(true);
     }
 
-    public void NewClickPosition(Transform pos_arg)
-    {
-
-    }
+    public void NewClickPosition(Transform pos_arg) { }
 
     void Update()
     {
@@ -73,6 +69,7 @@ public class ElectricalPlatform : MonoBehaviour, IElectric
         //}
         _MoveAction();
     }
+
     public void UpArrow()
     {
         //_newPos.y += _moveScale;
@@ -84,8 +81,8 @@ public class ElectricalPlatform : MonoBehaviour, IElectric
             _MoveAction = GoUp;
             _canvas.gameObject.SetActive(false);
         }
-
     }
+
     void GoUp()
     {
         //var dist = Vector2.Distance(transform.position, _PointATop.position);
@@ -116,6 +113,7 @@ public class ElectricalPlatform : MonoBehaviour, IElectric
             _MoveAction = delegate { };
         }
     }
+
     public void DownArrow()
     {
         //_newPos.y -= _moveScale;
@@ -128,6 +126,7 @@ public class ElectricalPlatform : MonoBehaviour, IElectric
             _canvas.gameObject.SetActive(false);
         }
     }
+
     void GoDown()
     {
         //if (Physics2D.OverlapBox(transform.position + _offsetBottom, _checkBottom, 0, _playerLayerMask)) return;
@@ -159,12 +158,14 @@ public class ElectricalPlatform : MonoBehaviour, IElectric
             _MoveAction = delegate { };
         }
     }
+
     public void ResetPlatform(params object[] parameters)
     {
         Debug.Log("Reset Platform");
         transform.position = _startPos.position;
         _current = _startCheckpoint;
     }
+
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireCube(transform.position + _offsetBottom, _checkBottom);

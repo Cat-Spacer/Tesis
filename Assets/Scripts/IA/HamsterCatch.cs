@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HamsterCatch : MonoBehaviour
@@ -13,7 +11,7 @@ public class HamsterCatch : MonoBehaviour
         var hamster = collision.gameObject.GetComponent<Hamster>();
         if (hamster.InTube())
             if (!_obstacle)
-                hamster.ReturnToCat();
+                hamster.Die();
             else
                 hamster.MoveToNextTube(hamster.LastTube);
     }
@@ -25,7 +23,7 @@ public class HamsterCatch : MonoBehaviour
         var hamster = collision.gameObject.GetComponent<Hamster>();
         if (hamster.InTube())
             if (!_obstacle)
-                hamster.ReturnToCat();
+                hamster.Die();
             else
                 hamster.MoveToNextTube(hamster.LastTube);
     }

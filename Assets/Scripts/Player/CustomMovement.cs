@@ -12,7 +12,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     [SerializeField] private Transform _respawnPoint;
     public Climb _climbScript;
     private BoxCollider2D _collider;
-    public static bool isJumping = false;
+    public static bool isJumping = false, collisionObstacle = false, canHorizontalClimb;
     private GameObject _currentTrap;
     public float jumpForceClimbHeight = 400, jumpForceClimbLatitud = 150;
     private EnergyPower _energyPowerScript;
@@ -21,15 +21,18 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     private float _baseJump;
     public GameObject boosterFeedBack;
     private Vector2 _startScale, _smallerScale, _startGroundCheckSize, _smallerGroundCheckSize;
+    Vector3 rotationVector;
 
     public float modiffyIceJumpY = 1, modiffyIceJumpX = 1;
 
-    [SerializeField] private LayerMask _ignoredPhysics;
+    [SerializeField] private LayerMask _ignoredPhysics, _obstacleLayers;
 
-    float xMove;
+    private float xMove;
+
+    public bool dashClimb = false;
+    private bool icyWall, hasPlayedMovement = false, jumpClimb = false;
 
     public bool Runing { get { return running; } }
-
 
     private void Awake()
     {
@@ -65,16 +68,10 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         _DashState = delegate { };
         GameManager.Instance.SetNewCheckPoint(transform);
 
-
-
-
         //_DashState = delegate { };
     }
 
-    public void ForceStopMovement()
-    {
-        _MovementState = StopMovement;
-    }
+    public void ForceStopMovement() { _MovementState = StopMovement; }
 
     private void Update()
     {
@@ -154,8 +151,8 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         }
     }
     #endregion
+
     #region Movement
-    bool hasPlayedMovement = false;
 
     void RightMovement()
     {
@@ -188,7 +185,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         }
 
         xMove = faceDirection * runAccel * Time.deltaTime;
-        xMove = Mathf.Clamp(rb.velocity.x + xMove, 0, maxSpeed);;
+        xMove = Mathf.Clamp(rb.velocity.x + xMove, 0, maxSpeed); ;
         rb.velocity = new Vector2(xMove, rb.velocity.y);
         //float targetSpeed;
         //targetSpeed = faceDirection * maxSpeed;
@@ -217,7 +214,6 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         {
             _runParticle.Stop();
         }
-
 
         transform.rotation = Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z);
         faceDirection = -1;
@@ -263,6 +259,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         _MovementState = delegate { };
     }
     #endregion
+
     #region JUMP
     public void BoostJump(float force_arg)
     {
@@ -279,6 +276,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         transform.localScale = _startScale;
         groundCheckSize = _startGroundCheckSize;
     }
+
     public void JumpUp(bool jumpUp) //Saltar
     {
         onJumpInput = false;
@@ -297,24 +295,22 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             ChangeAnimationState(Player_Jump);
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
 
-           // Physics2D.IgnoreLayerCollision(31, 7, true);
-
+            // Physics2D.IgnoreLayerCollision(31, 7, true);
         }
-
     }
+
     void JumpStop(bool jumpStop)
     {
         if (jumpStop && !onGround && !Climb.isClimbing)
         {
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Min(rb.velocity.y - stopJumpForce, -8));
-           
+
         }
         else
         {
             onJumpInputReleased = false;
         }
     }
-    private bool jumpClimb = false;
 
     public void JumpClimb2()
     {
@@ -354,9 +350,6 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     }
     #endregion
 
-    public bool dashClimb = false;
-
-
     void TimeCounterCoyote()
     {
         if (onGround || coyoteTime <= 0) coyoteTimeCounter = coyoteTime;
@@ -388,16 +381,19 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         _dashParticleExplotion.Play();
         _dashParticleTrail.SetActive(true);
     }
+
     public void ResetDash()
     {
         onDashInput = false;
         canDash = true;
     }
+
     public void EndDashFeedBack()
     {
         _dashParticleExplotion.Stop();
         _dashParticleTrail.SetActive(false);
     }
+
     void StartDash()
     {
         if (!withHamster)
@@ -448,10 +444,10 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         }
         else onDashInput = false;
     }
+
     void Dash()
     {
         rb.velocity = Vector2.right * dashForce * faceDirection;
-
 
         if (Vector2.Distance(transform.position, dashStart) >= dashDistance)
         {
@@ -464,11 +460,10 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             EndDashFeedBack();
             _DashState = delegate { };
         }
-        if (isDashing)
-        {
 
-        }
+        if (isDashing) { }
     }
+
     void DashStop()
     {
         var coll = Physics2D.OverlapBox(dashPos.position, dashCheck, 0, groundLayer);
@@ -485,14 +480,15 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             _DashState = delegate { };
         }
     }
+
     IEnumerator DashCd()
     {
         yield return new WaitForSeconds(2);
         dashAvailable = true;
     }
+
     public void DashClimb()
     {
-
         dashClimb = true;
         Vector2 last = transform.position;
         onDashInput = false;
@@ -561,6 +557,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             _climbScript._ClimbState = _climbScript.SutilEnd;
         }
     }
+
     public void ForceDashEnd()
     {
         _DashState = delegate { };
@@ -579,6 +576,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         if (!dead) ConstrainsReset();
         EndDashFeedBack();
     }
+
     //void StartDash()
     //{
     //    CustomMovement.isDashing = true;
@@ -591,8 +589,6 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     //    //isHorizontal = false;
     //    _DashState = MoveTowardsDash;
     //}
-
-    Vector3 rotationVector;
 
     void MoveTowardsDash()
     {
@@ -661,14 +657,10 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     }
     #endregion
 
-    public void ConstrainsReset()
-    {
-        if (!dead) rb.constraints = constraints2D;
-    }
-    public void HamsterCheck(bool check)
-    {
-        withHamster = check;
-    }
+    public void ConstrainsReset() { if (!dead) rb.constraints = constraints2D; }
+
+    public void HamsterCheck(bool check) { withHamster = check; }
+
     void GroundCheckPos()
     {
         groundColl = Physics2D.OverlapBox
@@ -697,43 +689,29 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             {
                 ChangeAnimationState(Player_Idle);
             }
-           
         }
         else //Not on ground
         {
             onGround = false;
             if (rb.velocity.y < 0)
             {
-                
                 if (!_climbScript.onClimb)
                 {
                     ChangeAnimationState(Player_OnAir);
                     _runParticle.Stop();
                 }
-
             }
             else
             {
-               
-
                 if (!_climbScript.onClimb)
                 {
                     ChangeAnimationState(Player_Jump);
                     _runParticle.Stop();
                 }
-
-              
             }
-
         }
     }
 
-    public static bool collisionObstacle = false;
-    [SerializeField] private LayerMask _obstacleLayers;
-
-    public static bool canHorizontalClimb;
-
-    private bool icyWall;
     public void ClimbState()
     {
         jumping = false;
@@ -742,7 +720,6 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         canJump = true;
     }
 
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
         /*  if (collision.gameObject.layer == 24)
@@ -750,8 +727,6 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
               Debug.Log($"Ignored Collision");
               Physics2D.IgnoreCollision(GetComponent<Collider2D>(), collision.collider);
           }*/
-
-      
 
         if (collision.gameObject.layer == 6 && !isJumping)
         {
@@ -791,17 +766,13 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     private void OnCollisionExit2D(Collision2D collision)
     {
         if ((_obstacleLayers.value & (1 << collision.gameObject.layer)) > 0)
-        {
             collisionObstacle = false;
-        }
     }
 
     private bool OnIce = false;
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-     
-
         if (collision.gameObject.layer == 17 && canHorizontalClimb)
         {
             Climb.isClimbing = true;
@@ -812,24 +783,11 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             //canHorizontalClimb = false;
         }
 
-  
-
         /*   if (collision.gameObject.layer == 20)
            {
                OnIce = true;
            }*/
-
     }
-  
-    void OnTriggerExit2D(Collider2D collision)
-    {
-       /* if (collision.gameObject.layer == 20)
-        {
-            OnIce = false;
-            Physics2D.IgnoreLayerCollision(6, 7, false);
-        }*/
-    }
-
 
     private void OnDrawGizmosSelected()
     {
@@ -842,15 +800,12 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         }
     }
 
-    public void Stuck()
-    {
-        _Inputs = delegate { };
-    }
+    public void Stuck() { _Inputs = delegate { }; }
 
     public void GetDamage()
     {
         if (dead) return;
-        _hamster.ResetToPlayer();
+        _hamster.ReturnToPlayer();
         rb.simulated = false;
         dead = true;
         _Inputs = delegate { };
@@ -868,12 +823,14 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
         _MovementState = StopMovement;
     }
+
     public void ResetPlayer()
     {
         _Inputs = Inputs;
         dead = false;
         rb.simulated = true;
     }
+
     public IEnumerator CoroutineWaitForRestartDistance(Vector2 last)
     {
         while (_climbScript.InSightLast(last, _distanceToRope))
@@ -892,6 +849,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             trap.TryLiberate();
         }
     }
+
     public void Trap(bool trapState, float life, GameObject enemy)
     {
         if (trapState)
@@ -917,6 +875,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         anim.Play(newState);
         currentState = newState;
     }
+
     public void CancelMovement()
     {
         onJumpInput = false;
@@ -924,17 +883,10 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         rb.velocity = Vector3.zero;
         Debug.Log($"<Color=magenta>The rigidbody velocity is: {rb.velocity}</color>");
     }
+
     public void Liberate() { }
 
-    private void OnDisable()
-    {
-        rb.constraints = RigidbodyConstraints2D.FreezeAll;
-    }
+    private void OnDisable() { rb.constraints = RigidbodyConstraints2D.FreezeAll; }
 
-    private void OnEnable()
-    {
-        ConstrainsReset();
-    }
-
-  
+    private void OnEnable() { ConstrainsReset(); }
 }
