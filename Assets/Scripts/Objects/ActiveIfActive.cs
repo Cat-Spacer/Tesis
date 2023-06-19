@@ -11,6 +11,6 @@ public class ActiveIfActive : MonoBehaviour
 
     private void ForTheAlliance()
     {
-        _origin.SetActive(_target.activeInHierarchy);
+        if (_origin && _target) _origin.SetActive(_target.activeInHierarchy);
     }
 }

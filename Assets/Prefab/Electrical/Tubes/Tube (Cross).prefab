@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3970276976417099196}
   - component: {fileID: 1702617056379788719}
   - component: {fileID: 7592745067794246975}
-  - component: {fileID: 6664598664445470099}
+  - component: {fileID: 520587606147430923}
   - component: {fileID: 4879612757932406156}
   m_Layer: 23
   m_Name: LeftArrow
@@ -134,8 +134,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!61 &6664598664445470099
-BoxCollider2D:
+--- !u!60 &520587606147430923
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -157,9 +157,11 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0, y: 0.275}
+      - {x: -0.2, y: -0.25}
+      - {x: 0.2, y: -0.25}
 --- !u!114 &4879612757932406156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -289,7 +291,7 @@ GameObject:
   - component: {fileID: 7884552554179325152}
   - component: {fileID: 7691922869684150331}
   - component: {fileID: 1450582436969264563}
-  - component: {fileID: 2517315320981787873}
+  - component: {fileID: 6613345410788541122}
   - component: {fileID: 7507135521964653503}
   m_Layer: 23
   m_Name: UpArrow
@@ -315,7 +317,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0.8}
-  m_SizeDelta: {x: 0.5, y: 0.45}
+  m_SizeDelta: {x: 0.45, y: 0.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7884552554179325152
 CanvasRenderer:
@@ -411,8 +413,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!61 &2517315320981787873
-BoxCollider2D:
+--- !u!60 &6613345410788541122
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -434,9 +436,11 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0, y: 0.275}
+      - {x: -0.2, y: -0.25}
+      - {x: 0.2, y: -0.25}
 --- !u!114 &7507135521964653503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -463,7 +467,7 @@ GameObject:
   - component: {fileID: 2812851709831117333}
   - component: {fileID: 5702965471058853847}
   - component: {fileID: 7490399136040478656}
-  - component: {fileID: 6044101757508536874}
+  - component: {fileID: 6507287312573930229}
   - component: {fileID: 9017551974063082605}
   m_Layer: 23
   m_Name: RightArrow
@@ -585,8 +589,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!61 &6044101757508536874
-BoxCollider2D:
+--- !u!60 &6507287312573930229
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -608,9 +612,11 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0, y: 0.275}
+      - {x: -0.2, y: -0.25}
+      - {x: 0.2, y: -0.25}
 --- !u!114 &9017551974063082605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1945,7 +1951,7 @@ GameObject:
   - component: {fileID: 2670758793611911315}
   - component: {fileID: 8511549737779311898}
   - component: {fileID: 658683508386034963}
-  - component: {fileID: 6542620125638294131}
+  - component: {fileID: 924071865220276733}
   - component: {fileID: 5767949254961520756}
   m_Layer: 23
   m_Name: DownArrow
@@ -1971,7 +1977,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -0.8}
-  m_SizeDelta: {x: 0.5, y: 0.45}
+  m_SizeDelta: {x: 0.45, y: 0.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2670758793611911315
 CanvasRenderer:
@@ -2067,8 +2073,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!61 &6542620125638294131
-BoxCollider2D:
+--- !u!60 &924071865220276733
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -2090,9 +2096,11 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0, y: 0.275}
+      - {x: -0.2, y: -0.25}
+      - {x: 0.2, y: -0.25}
 --- !u!114 &5767949254961520756
 MonoBehaviour:
   m_ObjectHideFlags: 0
