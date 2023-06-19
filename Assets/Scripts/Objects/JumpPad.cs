@@ -5,7 +5,7 @@ using UnityEngine;
 public class JumpPad : MonoBehaviour, IElectric
 {
     [SerializeField] private float jumpForce;
-    [SerializeField] private LayerMask mask;
+    [SerializeField] private LayerMask _mask;
     [SerializeField] private ParticleSystem _particle;
     [SerializeField] private bool _isOn;
 
@@ -56,10 +56,11 @@ public class JumpPad : MonoBehaviour, IElectric
     {
 
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!_isOn) return;
-        if ((mask.value & (1 << collision.transform.gameObject.layer)) > 0)
+        if ((_mask.value & (1 << collision.transform.gameObject.layer)) > 0)
         {
             var player = collision.gameObject.GetComponent<CustomMovement>();
             player.ForceStopMovement();

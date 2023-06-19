@@ -18,8 +18,7 @@ public class ArrowMoveButton : MonoBehaviour
 
     void Start()
     {
-        if (!_tube)
-            _tube = GetComponentInParent<Tube>();
+        if (!_tube) _tube = GetComponentInParent<Tube>();
         DisableButton();
     }
 
@@ -36,9 +35,10 @@ public class ArrowMoveButton : MonoBehaviour
     private void EjecuteOrder66()
     {
         if (!_tube) return;
+
         var button = GetComponent<Button>();
-        //Debug.Log($"{gameObject.name}: _tubeActions = {_tubeActions}, button = {button}");
         var ped = new PointerEventData(EventSystem.current);
+
         if (!button) return;
         ExecuteEvents.Execute(button.gameObject, ped, ExecuteEvents.pointerEnterHandler);
         ExecuteEvents.Execute(button.gameObject, ped, ExecuteEvents.submitHandler);
@@ -46,7 +46,6 @@ public class ArrowMoveButton : MonoBehaviour
 
     private void OnMouseOver()
     {
-        //Debug.Log($"mouse is over {gameObject.name} of {gameObject.transform.parent.name}");
         if (Input.GetKeyDown(KeyCode.Mouse0))
             EjecuteOrder66();
     }

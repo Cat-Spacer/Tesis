@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4011446790797939196}
   - component: {fileID: 305437039075201204}
   - component: {fileID: 918679972896183627}
-  - component: {fileID: 1631284905840045498}
+  - component: {fileID: 7655501123203989900}
   - component: {fileID: 5759136178449668273}
   m_Layer: 23
   m_Name: LeftArrow
@@ -70,7 +70,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 6d030456f6e8ba64b9c2671c032cbd09, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -134,8 +134,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!61 &1631284905840045498
-BoxCollider2D:
+--- !u!60 &7655501123203989900
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -157,9 +157,11 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0, y: 0.275}
+      - {x: -0.2, y: -0.25}
+      - {x: 0.2, y: -0.25}
 --- !u!114 &5759136178449668273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -886,7 +888,7 @@ GameObject:
   - component: {fileID: 8707685306600875195}
   - component: {fileID: 7886824240862566313}
   - component: {fileID: 2724915851661705274}
-  - component: {fileID: 4386930578887861642}
+  - component: {fileID: 7296724177868235469}
   - component: {fileID: 5534106028265896858}
   m_Layer: 23
   m_Name: UpArrow
@@ -912,7 +914,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0.8}
-  m_SizeDelta: {x: 0.5, y: 0.45}
+  m_SizeDelta: {x: 0.45, y: 0.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8707685306600875195
 CanvasRenderer:
@@ -944,7 +946,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 6d030456f6e8ba64b9c2671c032cbd09, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -1008,8 +1010,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!61 &4386930578887861642
-BoxCollider2D:
+--- !u!60 &7296724177868235469
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1031,9 +1033,11 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0, y: 0.275}
+      - {x: -0.2, y: -0.25}
+      - {x: 0.2, y: -0.25}
 --- !u!114 &5534106028265896858
 MonoBehaviour:
   m_ObjectHideFlags: 0
