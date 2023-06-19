@@ -80,7 +80,6 @@ public class MetalBox : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (!_myRB2D) return;
-        _isColl = false;
 
         /*if ((_collMask.value & (1 << collision.gameObject.layer)) > 0 && _magnet)
         {
