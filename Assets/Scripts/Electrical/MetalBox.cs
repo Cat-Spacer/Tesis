@@ -3,13 +3,11 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class MetalBox : MonoBehaviour
 {
-    [SerializeField] private LayerMask _collMask, _platformMask, _floorMask;
+    [SerializeField] private LayerMask _collMask, _floorMask;
     [SerializeField] private SoundManager.Types _sound;
     [SerializeField] private ParticleSystem _fallParticle;
     [SerializeField] private Magnet _magnet;
     private Rigidbody2D _myRB2D = null;
-    private bool _isColl;
-    private Rigidbody2D _objToFollow;
 
     void Start()
     {
@@ -27,18 +25,6 @@ public class MetalBox : MonoBehaviour
         if (!_magnet) return;
         if (!_magnet.active)
             DefrostPos();
-    }
-
-    private void FixedUpdate()
-    {
-        if (_isColl)
-            MoveWithColl();
-    }
-
-    private void MoveWithColl()
-    {
-        if (!_myRB2D) return;
-        _myRB2D.velocity = _objToFollow.velocity;
     }
 
     public void FreezePos()
@@ -75,14 +61,6 @@ public class MetalBox : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!_myRB2D) return;
-        //Debug.Log($"{gameObject.name} colisionó con {collision.gameObject.name} con layer {collision.gameObject.layer}");
-
-        if ((_platformMask.value & (1 << collision.gameObject.layer)) != 0)
-        {
-            Debug.Log($"{gameObject.name} colisionó con {collision.gameObject.name}");
-            _objToFollow = collision.GetComponent<Rigidbody2D>();
-            _isColl = true;
-        }
 
         if ((_collMask.value & (1 << collision.gameObject.layer)) != 0 && !collision.gameObject.GetComponent<Magnet>())
         {
