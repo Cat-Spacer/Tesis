@@ -81,7 +81,7 @@ public class PlayerDatas : MonoBehaviour
     [SerializeField] protected ParticleSystem _dashParticleExplotion;
     [SerializeField] protected GameObject _dashParticleTrail;
     [SerializeField] protected ParticleSystem _attackParticle;
-    [SerializeField] protected ParticleSystem _climbParticle;
+    [SerializeField] protected ParticleSystem[] _climbParticle;
     [SerializeField] protected ParticleSystem _runParticle;
 
     [Header("Attributes Wall Climb")]
@@ -92,6 +92,10 @@ public class PlayerDatas : MonoBehaviour
     [SerializeField] protected float _impulseDirectionExitForce = 6;
     [SerializeField] protected float _impulseExitRopeForce = 20;
     [SerializeField] protected float dashForceClimb;
+    [SerializeField] public Vector3 endClimbOffset;
+    [SerializeField] public Vector3 endClimbPosition;
+    [SerializeField] public float endClimbDistance;
+    [HideInInspector] public bool endingClimb;
     [HideInInspector] public bool onClimb;
 
     [Header("Interact")]

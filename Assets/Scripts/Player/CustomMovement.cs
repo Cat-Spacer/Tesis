@@ -797,6 +797,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             Gizmos.DrawWireCube(groundCheckPos.transform.position, groundCheckSize);
             //Gizmos.DrawWireCube(transform.position, _interactSize);
             Gizmos.DrawWireCube(dashPos.position, dashCheck);
+            Gizmos.DrawRay(transform.position + new Vector3(endClimbOffset.x * faceDirection, endClimbOffset.y) , transform.right * endClimbDistance);
         }
     }
 
@@ -873,9 +874,29 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     {
         if (currentState == newState) return;
         anim.Play(newState);
+
         currentState = newState;
     }
-
+    public void ClimbDown(bool isTrue)
+    {
+        if (isTrue)
+        {
+            foreach (var particle in _climbParticle)
+            {
+                if (!particle.isPlaying)
+                {
+                    particle.Play();
+                }
+            }
+        }
+        else
+        {
+            foreach (var particle in _climbParticle)
+            {
+                particle.Stop();
+            }
+        }
+    }
     public void CancelMovement()
     {
         onJumpInput = false;
