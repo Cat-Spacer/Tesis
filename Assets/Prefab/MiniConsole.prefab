@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 1065584430803747052}
   - component: {fileID: 4844540672728756924}
   - component: {fileID: 6669669832762792833}
-  m_Layer: 0
+  - component: {fileID: 5258648146926459697}
+  m_Layer: 19
   m_Name: MiniConsole
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,11 +105,38 @@ MonoBehaviour:
     m_Bits: 268435456
   _hamsterPos: {fileID: 2279844892241071091}
   _gizmos: 1
-  feedbackLines: {fileID: 0}
+  feedbackLines: {fileID: 3776598562492550118, guid: 1abac8bba2149c248badc61dacde8c9a,
+    type: 3}
   _connection: []
   _delaySeconds: 0
   _spActivated: {fileID: 21300000, guid: 0b20598481d1a05468a4f84ccb356602, type: 3}
   _spDesactivated: {fileID: 21300000, guid: 24b8f682d3a427e43aee922dd2aa49a3, type: 3}
+--- !u!61 &5258648146926459697
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1186393398895927930}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1.738, y: 1.928}
+    newSize: {x: 1.25, y: 2.97}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.738, y: 1.928}
+  m_EdgeRadius: 0
 --- !u!1 &5273384844225661008
 GameObject:
   m_ObjectHideFlags: 0

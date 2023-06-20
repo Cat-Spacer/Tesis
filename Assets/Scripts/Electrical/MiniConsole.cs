@@ -55,6 +55,7 @@ public class MiniConsole : MonoBehaviour, IMouseOver
         }
         else
         {
+            _isOn = false;
             StartCoroutine(Delay(_isOn));
         }
 
