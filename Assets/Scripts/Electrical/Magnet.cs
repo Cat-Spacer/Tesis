@@ -69,6 +69,7 @@ public class Magnet : MonoBehaviour, IElectric
         {
             _box = obj.GetComponent<MagnetBox>();
             _box.GetSetUseGravity = false;
+            if (_box.GetSetIndex > 1) return;
             _box.GetSetIndex++;
         }
 

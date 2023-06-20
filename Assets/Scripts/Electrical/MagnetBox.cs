@@ -10,7 +10,7 @@ public class MagnetBox : MonoBehaviour
     [SerializeField] private SoundManager.Types _sound;
     [SerializeField] private ParticleSystem _fallParticle;
     private Collider2D _coll2D;
-    private int _index = 0;
+    [SerializeField] private int _index = 0;
 
     private void Start()
     {
@@ -28,19 +28,20 @@ public class MagnetBox : MonoBehaviour
     private void CustomGravity()
     {
         if (!(_useGravity && !Physics2D.OverlapBox(transform.position, _coll2D.bounds.size * _overlapOffSet, 0, _collLayer))) return;
-        Debug.Log($"{gameObject.name} is overlaping: {Physics2D.OverlapBox(transform.position, _coll2D.bounds.size * _overlapOffSet, 0, _collLayer)}");
+
         _playOnce = true;
         transform.position += Vector3.down * _gravity * Time.deltaTime;
     }
 
     private void StopMovement()
     {
-        if ((!Physics2D.OverlapBox(transform.position, _coll2D.bounds.size * _overlapOffSet, 0, _collLayer) && _index > 1) || !_playOnce) return;
+        if ((!Physics2D.OverlapBox(transform.position, _coll2D.bounds.size * _overlapOffSet, 0, _collLayer) && _index <= 1) || !_playOnce) return;
+
+        Debug.Log($"{gameObject.name} stopt");
         transform.position = transform.position;
         _playOnce = false;
-        var objLayer = Physics2D.OverlapBox(transform.position, _coll2D.bounds.size, 0, _collLayer).gameObject.layer;
-        if (objLayer != 0)
-            PlayFeedbacks(objLayer);
+        var objLayer = Physics2D.OverlapBox(transform.position, _coll2D.bounds.size, 0, _collLayer);
+        if (objLayer) PlayFeedbacks(objLayer.gameObject.layer);
     }
 
     private void PlayFeedbacks(LayerMask layer)
