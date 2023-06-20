@@ -110,6 +110,11 @@ public class Climb
                 //Debug.Log("Climb Up");
                 _vector = Vector2.up;
                 _speed = _upSpeed;
+                if (!_customMovement.endingClimb) _customMovement.ChangeAnimationState("Climb");
+                _customMovement.ClimbDown(false);
+                EndClimbPosition();
+
+
             }
             if (keyPressed_arg == KeyCode.S)
             {
@@ -118,6 +123,8 @@ public class Climb
                 //Debug.Log("Climb Down");
                 _vector = Vector2.down;
                 _speed = _downSpeed;
+                _customMovement.ChangeAnimationState("ClimbDown");
+                _customMovement.ClimbDown(true);
             }
 
             if (!_alreadyStarted)
@@ -151,7 +158,20 @@ public class Climb
             //Debug.Log("insight");
         }
     }
-
+    void EndClimbPosition()
+    {
+        Debug.Log("Ray");
+        RaycastHit2D hit = Physics2D.Raycast(_customMovement.transform.position + 
+            new Vector3(_customMovement.endClimbOffset.x * CustomMovement.faceDirection, _customMovement.endClimbOffset.y), 
+            _customMovement.transform.right, _customMovement.endClimbDistance, _groundMask);
+        if (!hit)
+        {
+            Debug.Log("EndClimb");
+            _customMovement.endingClimb = true;
+            _customMovement.ChangeAnimationState("EndClimbAnim");
+        }
+        else _customMovement.endingClimb = false;
+    }
     public void StartClimbWithFreeze()
     {
         //Debug.Log( $"<Color=red>Strat climbing with Freeze State</color>");
@@ -170,7 +190,6 @@ public class Climb
         _customMovement.onClimb = true;
         SoundManager.instance.Play(SoundManager.Types.Climb);
         onClimb = true;
-        _customMovement.ChangeAnimationState("Climb");
         //if (!_customMovement.onGround) _customMovement.ChangeAnimationState("Climb");
         _customMovement.ClimbState();
 
@@ -192,12 +211,14 @@ public class Climb
         //_animator.SetBool("Climbing", false);
         SoundManager.instance.Pause(SoundManager.Types.Climb);
         _customMovement.ChangeAnimationState("EndClimbAnim");
+        _customMovement.ClimbDown(false);
     }
 
     public void PauseClimbingState()
     {
       //  Debug.Log($"<Color=red>Pause Climbing State</color>");
         if (!_customMovement.onGround) _customMovement.ChangeAnimationState("ClimbIdle");
+        _customMovement.ClimbDown(false);
         //_animator.SetBool("OnWall", true);
         //_animator.SetBool("Climbing", false);
         SoundManager.instance.Pause(SoundManager.Types.Climb);
@@ -207,6 +228,7 @@ public class Climb
     {
         //Debug.Log($"<Color=red>Freeze Climbing State</color>");
         if (!_customMovement.onGround) _customMovement.ChangeAnimationState("ClimbIdle");
+        _customMovement.ClimbDown(false);
         //_animator.SetBool("Climbing", false);
         //_animator.SetBool("OnWall", true);
 
