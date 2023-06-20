@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlatformMovement : MonoBehaviour
 {
     private CustomMovement _customMovement = null;
-    private Rigidbody2D _playerRB = null, _platformRB = null;
+    private Rigidbody2D _playerRB = null, _moverRB = null;
     private bool _isOnPlatform = false, _hoizontalPlat = false;
     private float _orgFriction = 0.0f;
 
@@ -18,27 +18,25 @@ public class PlatformMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_isOnPlatform && _playerRB && _platformRB)
-            if (!_customMovement.Runing) _playerRB.velocity = new Vector2(_platformRB.velocity.x, _playerRB.velocity.y);
+        if (_isOnPlatform && _playerRB && _moverRB)
+            if (!_customMovement.Runing) _playerRB.velocity = new Vector2(_moverRB.velocity.x, _playerRB.velocity.y);
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        var movPlat = collision.gameObject.GetComponentInChildren<MovingPlatform>();
-        var elecPlat = collision.gameObject.GetComponentInChildren<ElectricalPlatform>();
-        if (!(movPlat || elecPlat)) return;
+        var movOColl = collision.gameObject.GetComponentInChildren<MoveOnCollision>();
+        if (!movOColl) return;
 
-        _platformRB = collision.gameObject.GetComponent<Rigidbody2D>();
+        _moverRB = collision.gameObject.GetComponent<Rigidbody2D>();
         _isOnPlatform = true;
     }
 
     void OnCollisionExit2D(Collision2D collision)
     {
-        var movPlat = collision.gameObject.GetComponentInChildren<MovingPlatform>();
-        var elecPlat = collision.gameObject.GetComponentInChildren<ElectricalPlatform>();
-        if (!(movPlat || elecPlat)) return;
+        var movOColl = collision.gameObject.GetComponentInChildren<MoveOnCollision>();
+        if (!movOColl) return;
 
-        _platformRB = null;
+        _moverRB = null;
         _isOnPlatform = false;
     }
 

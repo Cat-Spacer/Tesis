@@ -8,9 +8,11 @@ public class MetalBox : MonoBehaviour
     [SerializeField] private ParticleSystem _fallParticle;
     [SerializeField] private Magnet _magnet;
     private Rigidbody2D _myRB2D = null;
+    private bool _onPlatform = false;
 
     void Start()
     {
+        _onPlatform = false;
         if (!_myRB2D)
         {
             _myRB2D = GetComponent<Rigidbody2D>();
@@ -61,8 +63,8 @@ public class MetalBox : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!_myRB2D) return;
-
-        if ((_collMask.value & (1 << collision.gameObject.layer)) != 0 && !collision.gameObject.GetComponent<Magnet>())
+        if(collision.gameObject.GetComponent<MoveOnCollision>()) _onPlatform = true;
+        if ((_collMask.value & (1 << collision.gameObject.layer)) != 0 && !collision.gameObject.GetComponent<Magnet>() && !_onPlatform)
         {
             PlayFeedbacks(collision.gameObject.layer);
             FreezePos();
@@ -80,13 +82,6 @@ public class MetalBox : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (!_myRB2D) return;
-
-        /*if ((_collMask.value & (1 << collision.gameObject.layer)) > 0 && _magnet)
-        {
-            if (!_magnet.active)
-                DefrostPos();
-        }
-        else if ((_collMask.value & (1 << collision.gameObject.layer)) > 0)
-            DefrostPos();*/
+        if (collision.gameObject.GetComponent<MoveOnCollision>()) _onPlatform = false;
     }
 }
