@@ -6,25 +6,22 @@ public class ZoomEffect : MonoBehaviour
     [SerializeField] private RectTransform _rectTransform;
     [SerializeField] private Camera _camera;
     [SerializeField] private Vector2 _size = new Vector2();
-    public Rect _wantedRect = new Rect(), _horizontalSize = new Rect();
+    [SerializeField] private Rect _wantedRect = new Rect();
 
-    private CircleCollider2D _circleCollider2D;
     private BoxCollider2D _boxCollider2D;
-    private Plane _plane = new Plane(Vector3.back, 0);
-    [HideInInspector] public Rect _orgRect = new Rect();
-    private Vector3 _orgScale = Vector3.one;
+    private CircleCollider2D _circleCollider2D;
 
+    [HideInInspector] public Rect orgRect = new Rect();
+    private Vector3 _orgScale = Vector3.one;
+    private Plane _plane = new Plane(Vector3.back, 0);
 
     private void Start()
     {
-        if (!_rectTransform)
-            _rectTransform = GetComponent<RectTransform>();
+        if (!_rectTransform) _rectTransform = GetComponent<RectTransform>();
 
-        if (!_camera)
-            _camera = GetComponent<Camera>();
+        if (!_camera) _camera = GetComponent<Camera>();
 
-        if (_camera)
-            _orgRect = _camera.rect;
+        if (_camera) orgRect = _camera.rect;
 
         if (!_circleCollider2D && !_camera)
         {
@@ -47,20 +44,7 @@ public class ZoomEffect : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        CantUseMouseOver();
-        /*if (Input.GetKeyUp(KeyCode.Tab))
-            Rescale();*/
-    }
-
-    private void Rescale()
-    {
-        if (_camera.rect.x <= _wantedRect.x)
-            _camera.rect = _horizontalSize;
-        else
-            _camera.rect = new Rect(_wantedRect.x + 0.05f, _orgRect.y, _orgRect.width, _orgRect.height);
-    }
+    private void Update() { CantUseMouseOver(); }
 
     private void CantUseMouseOver()
     {
@@ -70,39 +54,21 @@ public class ZoomEffect : MonoBehaviour
         var ray = _camera.ScreenPointToRay(mPos);
         var worldPos = new Vector3();
 
-        if (_plane.Raycast(ray, out float distance))
-        {
-            worldPos = ray.GetPoint(distance);
-        }
+        if (_plane.Raycast(ray, out float distance)) worldPos = ray.GetPoint(distance);
 
         var dist = Vector2.Distance(worldPos, _camera.transform.position);
 
-        //if (Input.mousePosition.x > _camera.scaledPixelWidth / 2 && Input.mousePosition.y < _camera.scaledPixelHeight / 2)
-        if (dist < _size.x && dist < _size.y)
-        {
-            /*if (_camera.rect.x >= _wantedRect.x)
-                _camera.rect = new Rect(_horizontalSize.x, _horizontalSize.y + .05f, _horizontalSize.width, _horizontalSize.height);
-            else*/
-                _camera.rect = _wantedRect;
-        }
-        else
-        {
-            /*if (_camera.rect.x >= _wantedRect.x)
-                _camera.rect = _orgRect;
-            else*/
-                _camera.rect = new Rect(_wantedRect.x + 0.05f, _orgRect.y, _orgRect.width, _orgRect.height);
-        }
+        if (dist < _size.x && dist < _size.y) _camera.rect = _wantedRect;
+        else _camera.rect = orgRect;
     }
 
     private void OnMouseOver()
     {
-        if (_rectTransform)
-            _rectTransform.localScale = _orgScale * _zoom;
+        if (_rectTransform) _rectTransform.localScale = _orgScale * _zoom;
     }
 
     private void OnMouseExit()
     {
-        if (_rectTransform)
-            _rectTransform.localScale = _orgScale;
+        if (_rectTransform) _rectTransform.localScale = _orgScale;
     }
 }
