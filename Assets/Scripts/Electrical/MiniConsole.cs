@@ -17,9 +17,16 @@ public class MiniConsole : MonoBehaviour, IMouseOver
     SpriteRenderer _sp;
     [SerializeField] Sprite _spActivated, _spDesactivated;
 
+    bool _isOutline;
+    bool _showConnections;
+    [SerializeField] Material outlineMat;
+    Material defaultMat;
+    List<GameObject> _linesConnection = new List<GameObject>();
+
     private void Start()
     {
         _sp = GetComponent<SpriteRenderer>();
+        defaultMat = GetComponent<SpriteRenderer>().material;
         if (_hamster == null)
             _hamster = FindObjectOfType<Hamster>();
 
@@ -35,6 +42,8 @@ public class MiniConsole : MonoBehaviour, IMouseOver
             var newLine = Instantiate(feedbackLines, transform);
             newLine.SetPosition(0, transform.position);
             newLine.SetPosition(1, connection.transform.position);
+            _linesConnection.Add(newLine.gameObject);
+            newLine.gameObject.SetActive(false);
         }
     }
     private void HamsterGetInside()
@@ -95,14 +104,28 @@ public class MiniConsole : MonoBehaviour, IMouseOver
             }
         }
     }
-    public void MouseExit()
-    {
-
-    }
-
     public void MouseOver()
     {
+        if (_isOutline) return;
+        _sp.material = outlineMat;
+        _isOutline = true;
+        _showConnections = true;
+        foreach (var lines in _linesConnection)
+        {
+            lines.SetActive(true);
+        }
+    }
 
+    public void MouseExit()
+    {
+        if (!_isOutline) return;
+        _sp.material = defaultMat;
+        _isOutline = false;
+        _showConnections = false;
+        foreach (var lines in _linesConnection)
+        {
+            lines.SetActive(false);
+        }
     }
 
     private void OnDrawGizmos()

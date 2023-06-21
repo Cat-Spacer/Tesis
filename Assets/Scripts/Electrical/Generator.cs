@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class Generator : MonoBehaviour
+public class Generator : MonoBehaviour, IMouseOver
 {
     public List<GameObject> _connection;
+    List<GameObject> _linesConnection = new List<GameObject>();
     [SerializeField] private bool _test = false;
     private bool _miniGameWin, _alreadyStarded;
     [SerializeField] private int _energyNeeded;
@@ -18,10 +19,18 @@ public class Generator : MonoBehaviour
     [SerializeField] private Electricty[] _electricityParticle;
     [SerializeField] LineRenderer feedbackLines;
 
+    bool _isOutline;
+    bool _showConnections;
+    SpriteRenderer _sp;
+    [SerializeField] Material outlineMat;
+    Material defaultMat;
+
+
     private void Start()
     {
         if (_test) TurnButtons();
-
+        _sp = GetComponent<SpriteRenderer>();
+        defaultMat = GetComponent<SpriteRenderer>().material;
         _hamster = FindObjectOfType<Hamster>();
         //_miniGame = GetComponentInChildren<MiniGame>();
         _miniGameWin = false;
@@ -40,6 +49,8 @@ public class Generator : MonoBehaviour
             var newLine = Instantiate(feedbackLines, transform);
             newLine.SetPosition(0, transform.position);
             newLine.SetPosition(1, connection.transform.position);
+            _linesConnection.Add(newLine.gameObject);
+            newLine.gameObject.SetActive(false);
         }
     }
     public void StartGenerator(bool start = true)
@@ -74,7 +85,7 @@ public class Generator : MonoBehaviour
 
     public void OnWinMiniGame()
     {
-        TurnButtons(true); 
+        TurnButtons(true);
         _miniGameWin = true;
         _hamster.AddEnergy(-EnergyNeeded);
         //Debug.Log(-EnergyNeeded);
@@ -124,5 +135,34 @@ public class Generator : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void MouseOver()
+    {
+        if (_isOutline) return;
+        _sp.material = outlineMat;
+        _isOutline = true;
+        _showConnections = true;
+        foreach (var lines in _linesConnection)
+        {
+            lines.SetActive(true);
+        }
+    }
+
+    public void MouseExit()
+    {
+        if (!_isOutline) return;
+        _sp.material = defaultMat;
+        _isOutline = false;
+        _showConnections = false;
+        foreach (var lines in _linesConnection)
+        {
+            lines.SetActive(false);
+        }
+    }
+    public void Interact()
+    {
+        //if (_showConnections) _showConnections = false;
+        //else _showConnections = true;
     }
 }
