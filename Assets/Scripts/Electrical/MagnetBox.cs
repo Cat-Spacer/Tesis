@@ -28,18 +28,28 @@ public class MagnetBox : MonoBehaviour
     private void CustomGravity()
     {
         if (!(_useGravity && !Physics2D.OverlapBox(transform.position, _coll2D.bounds.size * _overlapOffSet, 0, _collLayer))) return;
+        transform.SetParent(GameManager.Instance.GetConfig.mainGame);
 
         _playOnce = true;
         transform.position += Vector3.down * _gravity * Time.deltaTime;
     }
 
+    private void ParentToObject()
+    {
+        if ((!Physics2D.OverlapBox(transform.position, _coll2D.bounds.size * _overlapOffSet, 0, _collLayer) || !_playOnce)) return;
+        _playOnce = false;
+
+        var platfomr = Physics2D.OverlapBox(transform.position, _coll2D.bounds.size * _overlapOffSet, 0, _collLayer).GetComponent<MoveOnCollision>();
+        if (platfomr) transform.SetParent(platfomr.transform);
+    }
+
     private void StopMovement()
     {
+        ParentToObject();
         if ((!Physics2D.OverlapBox(transform.position, _coll2D.bounds.size * _overlapOffSet, 0, _collLayer) && _index <= 1) || !_playOnce) return;
 
-        Debug.Log($"{gameObject.name} stopt");
-        transform.position = transform.position;
         _playOnce = false;
+        //transform.position = transform.position;
         var objLayer = Physics2D.OverlapBox(transform.position, _coll2D.bounds.size, 0, _collLayer);
         if (objLayer) PlayFeedbacks(objLayer.gameObject.layer);
     }
