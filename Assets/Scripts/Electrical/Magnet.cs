@@ -29,6 +29,11 @@ public class Magnet : MonoBehaviour, IElectric
 
     private void FixedUpdate()
     {
+        //_MagnetAction();
+    }
+
+    private void Update()
+    {
         _MagnetAction();
     }
 
@@ -61,6 +66,11 @@ public class Magnet : MonoBehaviour, IElectric
         var obj = Physics2D.OverlapBox(transform.position + _offset, _attractArea, transform.rotation.z, _metalLayerMask);
         if (!obj)
         {
+            if (_box)
+            {
+                _box.GetSetIndex--;
+                _box.GetSetUseGravity = true;
+            }
             _box = null;
             return;
         }
@@ -114,7 +124,7 @@ public class Magnet : MonoBehaviour, IElectric
         }
     }
 
-    public bool GetActive {  get { return _active; } }
+    public bool GetActive { get { return _active; } }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
