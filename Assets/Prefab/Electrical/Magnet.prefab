@@ -15001,6 +15001,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _attractArea: {x: 2, y: 5.5}
+  _magnetArea: {x: 2, y: 2}
   _offset: {x: 0, y: -2, z: 0}
   _attractForce: 7.5
   _pow: 1.25
@@ -15017,7 +15018,8 @@ MonoBehaviour:
   _gizmos: 1
   _test: 0
   _collider: 0
-  active: 0
+  _attractWPhysics: 1
+  _box: {fileID: 0}
 --- !u!61 &5241281021179029153
 BoxCollider2D:
   m_ObjectHideFlags: 0
