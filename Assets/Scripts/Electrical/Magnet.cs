@@ -6,7 +6,7 @@ public class Magnet : MonoBehaviour, IElectric
 {
     Action _MagnetAction = delegate { };
 
-    [SerializeField] private Vector2 _attractArea;
+    [SerializeField] private Vector2 _attractArea, _magnetArea;
     [SerializeField] private Vector3 _offset;
     [SerializeField] private float _attractForce, _pow = 1f/*, _degrees = 0*/, _attractLimit = 1.0f;
     [SerializeField] private LayerMask _floorLayerMask, _metalLayerMask;
@@ -67,8 +67,9 @@ public class Magnet : MonoBehaviour, IElectric
         else
             _box = obj.GetComponent<MagnetBox>();
 
-        var boxColl = obj.GetComponent<BoxCollider2D>();
-        if (!(Vector2.Distance(transform.position, _box.transform.position) > boxColl.bounds.size.magnitude * 0.75f)) return;
+        //var boxColl = obj.GetComponent<BoxCollider2D>();
+        //if (!(Vector2.Distance(transform.position, _box.transform.position) > boxColl.bounds.size.magnitude * 0.75f)) return;
+        if (Physics2D.OverlapBox(transform.position, _magnetArea, transform.rotation.z, _metalLayerMask)) return;
 
         if (_doOnce)
         {
@@ -146,5 +147,7 @@ public class Magnet : MonoBehaviour, IElectric
         if (!_gizmos) return;
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireCube(transform.position + _offset, _attractArea);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(transform.position, _magnetArea);
     }
 }
