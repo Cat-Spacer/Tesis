@@ -410,7 +410,7 @@ GameObject:
   - component: {fileID: 6630861789779717888}
   - component: {fileID: 6630861789779717891}
   - component: {fileID: 7850435842822579656}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: Lavel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -445,14 +445,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _doors:
-  - {fileID: 0}
   - {fileID: 6518923976740787334}
-  _openDoors:
-  - {fileID: 0}
+  _openDoors: []
   _TubesMask:
     serializedVersion: 2
     m_Bits: 8388608
   _searchRad: 0.01
+  outlineMat: {fileID: 2100000, guid: c515bae76d2941747ac99cf671a91eb1, type: 2}
+  _connection: []
+  feedbackLines: {fileID: 3776598562492550118, guid: 1abac8bba2149c248badc61dacde8c9a,
+    type: 3}
 --- !u!61 &6630861789779717891
 BoxCollider2D:
   m_ObjectHideFlags: 0
