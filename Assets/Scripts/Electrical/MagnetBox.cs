@@ -30,26 +30,27 @@ public class MagnetBox : MonoBehaviour
         if (!(_useGravity && !Physics2D.OverlapBox(transform.position, _coll2D.bounds.size * _overlapOffSet, 0, _collLayer))) return;
         transform.SetParent(GameManager.Instance.GetConfig.mainGame);
 
+        if (_index > 0)
+            _index--;
+
         _playOnce = true;
         transform.position += Vector3.down * _gravity * Time.deltaTime;
     }
 
     private void ParentToObject()
     {
-        if ((!Physics2D.OverlapBox(transform.position, _coll2D.bounds.size * _overlapOffSet, 0, _collLayer) || !_playOnce)) return;
-        _playOnce = false;
-
+        if (!Physics2D.OverlapBox(transform.position, _coll2D.bounds.size * _overlapOffSet, 0, _collLayer)) return;
         var platfomr = Physics2D.OverlapBox(transform.position, _coll2D.bounds.size * _overlapOffSet, 0, _collLayer).GetComponent<MoveOnCollision>();
         if (platfomr) transform.SetParent(platfomr.transform);
     }
 
     private void StopMovement()
     {
-        ParentToObject();
         if ((!Physics2D.OverlapBox(transform.position, _coll2D.bounds.size * _overlapOffSet, 0, _collLayer) && _index <= 1) || !_playOnce) return;
 
-        _playOnce = false;
-        //transform.position = transform.position;
+        ParentToObject();
+        if (_playOnce) _playOnce = false;
+
         var objLayer = Physics2D.OverlapBox(transform.position, _coll2D.bounds.size, 0, _collLayer);
         if (objLayer) PlayFeedbacks(objLayer.gameObject.layer);
     }
@@ -59,15 +60,9 @@ public class MagnetBox : MonoBehaviour
         SoundManager.instance.Play(_sound);
         if (_fallParticle && (_floorMask.value & (1 << layer.value)) > 0) _fallParticle.Play(); // si colisiona con algo que es floor hace particulas
         else
-            Debug.Log($"Play metal crash particles");
+            Debug.Log($"{gameObject.name} Played metal crash particles");
     }
 
     public bool GetSetUseGravity { get { return _useGravity; } set { _useGravity = value; } }
     public int GetSetIndex { get { return _index; } set { _index = value; } }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawWireCube(transform.position, GetComponent<Collider2D>().bounds.size * _overlapOffSet);
-    }
 }

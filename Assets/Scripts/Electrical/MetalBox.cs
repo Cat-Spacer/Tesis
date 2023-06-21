@@ -25,7 +25,7 @@ public class MetalBox : MonoBehaviour
     private void Update()
     {
         if (!_magnet) return;
-        if (!_magnet.active)
+        if (!_magnet.GetActive)
             DefrostPos();
     }
 
@@ -73,7 +73,7 @@ public class MetalBox : MonoBehaviour
         if (!collision.gameObject.GetComponent<Magnet>()) return;
         _magnet = collision.gameObject.GetComponent<Magnet>();
         if (!((_collMask.value & (1 << collision.gameObject.layer)) != 0)) _collMask += _magnet.gameObject.layer;
-        if (_magnet.active)
+        if (_magnet.GetActive)
             FreezePos();
         else
             DefrostPos();
