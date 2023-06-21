@@ -18,6 +18,8 @@ namespace Weapons
         public Bullet bulletPrefab;
         [SerializeField] ParticleSystem _explotionParticle1, _explotionParticle2;
 
+        string currentState;
+
         public float distance = 150f;
 
         private void Awake()
@@ -35,7 +37,7 @@ namespace Weapons
 
         private void Start()
         {
-            anim = GetComponent<Animator>();
+            anim = GetComponentInChildren<Animator>();
         }
 
         protected virtual void Update()
@@ -59,6 +61,7 @@ namespace Weapons
             {
                 fireTimer = fireRate;
                 StartCoroutine(WaitForAnim());
+                ChangeAnimationState("OwlPreShoot");
             }
         }
 
@@ -67,6 +70,7 @@ namespace Weapons
             _explotionParticle1.Play();
             _explotionParticle2.Play();
             Shoot.Fire(bulletPrefab, firePoint, gameObject);
+            currentState = "";
             #region ObjectFactory (bugeado)
             /*
             ObjectToSpawn bullet = ObjectFactory.Instance.pool.GetObject();
@@ -86,6 +90,13 @@ namespace Weapons
         {
             yield return new WaitForSeconds(wait);
             FireBullet();
+        }
+        public void ChangeAnimationState(string newState)
+        {
+            if (currentState == newState) return;
+            anim.Play(newState);
+
+            currentState = newState;
         }
     }
 }
