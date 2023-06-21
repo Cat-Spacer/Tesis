@@ -11,15 +11,15 @@ public class Magnet : MonoBehaviour, IElectric
     [SerializeField] private LayerMask _floorLayerMask, _metalLayerMask;
     [SerializeField] private GameObject _onSprite, _offSprite, _particle;
     [SerializeField] private bool _gizmos = true, _test = false, _collider = true, _attractWPhysics = true;
-    [HideInInspector] public bool active = false;
     [SerializeField] private MagnetBox _box = null;
+    private bool _doOnce = true, _active = false;
 
     private void Start()
     {
         _onSprite.SetActive(false);
         _offSprite.SetActive(true);
         _particle.SetActive(false);
-        active = false;
+        _active = false;
 
         if (_test)
             TurnOn();
@@ -55,7 +55,7 @@ public class Magnet : MonoBehaviour, IElectric
 
     void AttractWTransform()
     {
-        if (_collider || !_box || _box.GetSetIndex > 1) return;
+        if (_collider) return;
         var obj = Physics2D.OverlapBox(transform.position + _offset, _attractArea, transform.rotation.z, _metalLayerMask);
         if (!obj)
         {
@@ -64,6 +64,17 @@ public class Magnet : MonoBehaviour, IElectric
         }
         else
             _box = obj.GetComponent<MagnetBox>();
+
+        if (_box && _doOnce)
+        {
+            _box.transform.SetParent(GameManager.Instance.GetConfig.mainGame);
+
+            _doOnce = false;
+            if (_box.GetSetUseGravity) _box.GetSetUseGravity = false;
+            _box.GetSetIndex++;
+        }
+
+        if (_box.GetSetIndex > 1) return;
 
         float dist = (_box.transform.position - transform.position).magnitude;
         Vector3 dir = transform.position - _box.transform.position;
@@ -75,18 +86,7 @@ public class Magnet : MonoBehaviour, IElectric
         _onSprite.SetActive(true);
         _offSprite.SetActive(false);
         _particle.SetActive(true);
-        active = true;
-
-        var obj = Physics2D.OverlapBox(transform.position + _offset, _attractArea, transform.rotation.z, _metalLayerMask);
-        if (!obj) return;
-
-        _box = obj.GetComponent<MagnetBox>();
-
-        if (_box)
-        {
-            _box.GetSetUseGravity = false;
-            _box.GetSetIndex++;
-        }
+        _active = true;
 
         if (_attractWPhysics) _MagnetAction = AttractWPhysics;
         else _MagnetAction = AttractWTransform;
@@ -98,7 +98,8 @@ public class Magnet : MonoBehaviour, IElectric
         _onSprite.SetActive(false);
         _offSprite.SetActive(true);
         _particle.SetActive(false);
-        active = false;
+        _active = false;
+        _doOnce = true;
         if (_box)
         {
             _box.GetSetIndex--;
@@ -106,6 +107,8 @@ public class Magnet : MonoBehaviour, IElectric
             _box = null;
         }
     }
+
+    public bool GetActive {  get { return _active; } }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
