@@ -12,7 +12,7 @@ public class Magnet : MonoBehaviour, IElectric
     [SerializeField] private GameObject _onSprite, _offSprite, _particle;
     [SerializeField] private bool _gizmos = true, _test = false, _collider = true, _attractWPhysics = true;
     [HideInInspector] public bool active = false;
-    private MagnetBox _box = null;
+    [SerializeField] private MagnetBox _box = null;
 
     private void Start()
     {
@@ -55,37 +55,41 @@ public class Magnet : MonoBehaviour, IElectric
 
     void AttractWTransform()
     {
-        if (_collider) return;
+        if (_collider || !_box || _box.GetSetIndex > 1) return;
         var obj = Physics2D.OverlapBox(transform.position + _offset, _attractArea, transform.rotation.z, _metalLayerMask);
-        if (!obj) return;
-        /*var boxColl = obj.GetComponent<BoxCollider2D>();
-        float xArea = (transform.position.x + boxColl.bounds.size.magnitude) * 0.5f;
-        float yArea = (transform.position.y + boxColl.bounds.size.magnitude) * 0.5f;
-        if (!(obj.transform.position.x >= xArea && obj.transform.position.x <= -xArea
-            ||
-            obj.transform.position.y >= yArea && obj.transform.position.y <= -yArea)) return;*/
-
-        if (obj.GetComponent<MagnetBox>())
+        if (!obj)
         {
-            _box = obj.GetComponent<MagnetBox>();
-            _box.GetSetUseGravity = false;
-            if (_box.GetSetIndex > 1) return;
-            _box.GetSetIndex++;
+            _box = null;
+            return;
         }
+        else
+            _box = obj.GetComponent<MagnetBox>();
 
-        float dist = (obj.transform.position - transform.position).magnitude;
-        Vector3 dir = transform.position - obj.transform.position;
-        obj.transform.position += dir * (_attractForce / Mathf.Pow(dist, _pow)) * Time.deltaTime;
+        float dist = (_box.transform.position - transform.position).magnitude;
+        Vector3 dir = transform.position - _box.transform.position;
+        _box.transform.position += dir * (_attractForce / Mathf.Pow(dist, _pow)) * Time.deltaTime;
     }
 
     public void TurnOn()
     {
-        if (_attractWPhysics) _MagnetAction = AttractWPhysics;
-        else _MagnetAction = AttractWTransform;
         _onSprite.SetActive(true);
         _offSprite.SetActive(false);
         _particle.SetActive(true);
         active = true;
+
+        var obj = Physics2D.OverlapBox(transform.position + _offset, _attractArea, transform.rotation.z, _metalLayerMask);
+        if (!obj) return;
+
+        _box = obj.GetComponent<MagnetBox>();
+
+        if (_box)
+        {
+            _box.GetSetUseGravity = false;
+            _box.GetSetIndex++;
+        }
+
+        if (_attractWPhysics) _MagnetAction = AttractWPhysics;
+        else _MagnetAction = AttractWTransform;
     }
 
     public void TurnOff()
