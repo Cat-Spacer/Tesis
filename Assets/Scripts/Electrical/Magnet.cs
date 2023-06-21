@@ -8,7 +8,7 @@ public class Magnet : MonoBehaviour, IElectric
 
     [SerializeField] private Vector2 _attractArea, _magnetArea;
     [SerializeField] private Vector3 _offset;
-    [SerializeField] private float _attractForce, _pow = 1f/*, _degrees = 0*/, _attractLimit = 1.0f;
+    [SerializeField] private float _attractForce, _pow = 1f, _attractLimit = 1.0f;
     [SerializeField] private LayerMask _floorLayerMask, _metalLayerMask;
     [SerializeField] private GameObject _onSprite, _offSprite, _particle, _area;
     [SerializeField] private bool _gizmos = true, _test = false, _collider = true, _attractWPhysics = true;
@@ -67,8 +67,6 @@ public class Magnet : MonoBehaviour, IElectric
         else
             _box = obj.GetComponent<MagnetBox>();
 
-        //var boxColl = obj.GetComponent<BoxCollider2D>();
-        //if (!(Vector2.Distance(transform.position, _box.transform.position) > boxColl.bounds.size.magnitude * 0.75f)) return;
         if (Physics2D.OverlapBox(transform.position, _magnetArea, transform.rotation.z, _metalLayerMask)) return;
 
         if (_doOnce)
