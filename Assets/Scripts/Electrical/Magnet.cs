@@ -1,4 +1,5 @@
 using System;
+using UnityEditor.Tilemaps;
 using UnityEngine;
 
 public class Magnet : MonoBehaviour, IElectric
@@ -65,7 +66,10 @@ public class Magnet : MonoBehaviour, IElectric
         else
             _box = obj.GetComponent<MagnetBox>();
 
-        if (_box && _doOnce)
+        var boxColl = obj.GetComponent<BoxCollider2D>();
+        if (!(Vector2.Distance(transform.position, _box.transform.position) > boxColl.bounds.size.magnitude * 0.75f)) return;
+
+        if (_doOnce)
         {
             _box.transform.SetParent(GameManager.Instance.GetConfig.mainGame);
 
