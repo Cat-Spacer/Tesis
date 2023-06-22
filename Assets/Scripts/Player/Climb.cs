@@ -112,7 +112,7 @@ public class Climb
                 _speed = _upSpeed;
                 if (!_customMovement.endingClimb) _customMovement.ChangeAnimationState("Climb");
                 _customMovement.ClimbDown(false);
-                EndClimbPosition();
+                //EndClimbPosition();
 
 
             }
@@ -153,6 +153,7 @@ public class Climb
             }
             if (keyPressed_arg == KeyCode.LeftShift)
             {
+                if (!_customMovement.withHamster) return;
                 _ClimbState = EndClimbForDash;
             }
             //Debug.Log("insight");
@@ -168,7 +169,7 @@ public class Climb
         {
             Debug.Log("EndClimb");
             _customMovement.endingClimb = true;
-            _customMovement.ChangeAnimationState("EndClimbAnim");
+            //_customMovement.ChangeAnimationState("EndClimbAnim");
         }
         else _customMovement.endingClimb = false;
     }
@@ -202,6 +203,7 @@ public class Climb
 
     public void EndClimbingState()
     {
+        Debug.Log("END DASH");
        // Debug.Log($"<Color=red>End Climbing State</color>");
         _customMovement.onClimb = false;
         isClimbing = false;
@@ -210,7 +212,7 @@ public class Climb
         //_animator.SetBool("OnWall", false);
         //_animator.SetBool("Climbing", false);
         SoundManager.instance.Pause(SoundManager.Types.Climb);
-        _customMovement.ChangeAnimationState("EndClimbAnim");
+        //_customMovement.ChangeAnimationState("EndClimbAnim");
         _customMovement.ClimbDown(false);
     }
 
@@ -467,6 +469,7 @@ public class Climb
 
     void MoveTowardsDash()
     {
+        if (!_customMovement.withHamster) return;
         MoveTowardsBool = true;
 
         dashStart = _transform.position;
@@ -548,7 +551,6 @@ public class Climb
 
         _rb.constraints = ~RigidbodyConstraints2D.FreezeAll;
         _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-
         
         EndClimbingState();
 
@@ -651,6 +653,7 @@ public class Climb
     }
     public void EndClimbForMirrorDash()
     {
+        Debug.Log("EndClimbForMirrorDash");
         isHorizontal = false;
         FreezeClimbingState();
         _rb.velocity = new Vector2(0, 0);

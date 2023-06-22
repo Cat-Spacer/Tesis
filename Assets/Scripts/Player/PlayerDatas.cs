@@ -141,5 +141,5 @@ public class PlayerDatas : MonoBehaviour
     [Header("Other")]
     protected bool dead; 
     [SerializeField] protected bool showGizmos;
-    [HideInInspector] protected bool withHamster;
+    [HideInInspector] public bool withHamster;
 }

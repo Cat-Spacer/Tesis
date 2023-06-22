@@ -22,6 +22,8 @@ public class MovingPlatform : MonoBehaviour, IElectric
     Vector3 _startPos;
     int startingWaypoint;
 
+    [SerializeField] private GameObject _connectionSource;
+
     private void Start()
     {
         _startPos = platform.transform.position;
@@ -89,6 +91,12 @@ public class MovingPlatform : MonoBehaviour, IElectric
         _MoveAction = delegate { };
         _myRB2D.velocity = new Vector2(0, 0);
     }
+
+    public Transform ConnectionSource()
+    {
+        return _connectionSource.transform;
+    }
+
     bool stop = false;
     private void OnCollisionEnter2D(Collision2D collision)
     {

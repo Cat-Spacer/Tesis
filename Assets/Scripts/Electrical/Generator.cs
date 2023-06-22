@@ -6,7 +6,7 @@ using TMPro;
 public class Generator : MonoBehaviour, IMouseOver
 {
     public List<GameObject> _connection;
-    private List<GameObject> _linesConnection = new List<GameObject>();
+    private Dictionary<LineRenderer, Transform> _linesConnection = new Dictionary<LineRenderer, Transform>();
     [SerializeField] private bool _test = false;
     private bool _miniGameWin, _alreadyStarded;
     [SerializeField] private int _energyNeeded;
@@ -39,21 +39,31 @@ public class Generator : MonoBehaviour, IMouseOver
         _text.text = "0/" + _energyNeeded;
         if (_energyNeeded <= 0 && _batterySprite)
             _batterySprite.SetActive(false);
-        SetLines();
+        CreateLines();
     }
-    void SetLines()
+    void CreateLines()
     {
         if (_connection.Count == 0) return;
         foreach (var connection in _connection)
         {
             var newLine = Instantiate(feedbackLines, transform);
+            var connectionPos = connection.GetComponent<IElectric>().ConnectionSource();
             newLine.SetPosition(0, transform.position);
-            newLine.SetPosition(1, connection.transform.position);
-            _linesConnection.Add(newLine.gameObject);
+            newLine.SetPosition(1, connectionPos.position);
+            _linesConnection.Add(newLine, connectionPos);
             newLine.gameObject.SetActive(false);
         }
     }
 
+    void ShowLines()
+    {
+        foreach (var line in _linesConnection)
+        {
+            line.Key.gameObject.SetActive(true);
+            line.Key.SetPosition(0, transform.position);
+            line.Key.SetPosition(1, line.Value.position);
+        }
+    }
     public void StartGenerator(bool start = true)
     {
         if (_miniGame) if (!_miniGame.GetSetGenerator) _miniGame.GetSetGenerator = this;
@@ -145,14 +155,15 @@ public class Generator : MonoBehaviour, IMouseOver
 
     public void MouseOver()
     {
+        ShowLines();
         if (_isOutline) return;
         _sp.material = outlineMat;
         _isOutline = true;
         _showConnections = true;
-        foreach (var lines in _linesConnection)
-        {
-            lines.SetActive(true);
-        }
+        // foreach (var lines in _linesConnection)
+        // {
+        //     lines.Key.gameObject.SetActive(true);
+        // }
     }
 
     public void MouseExit()
@@ -163,7 +174,7 @@ public class Generator : MonoBehaviour, IMouseOver
         _showConnections = false;
         foreach (var lines in _linesConnection)
         {
-            lines.SetActive(false);
+            lines.Key.gameObject.SetActive(false);
         }
     }
     public void Interact()

@@ -13,6 +13,7 @@ public class LaserTrap : MonoBehaviour, IElectric
     bool _firstStart;
     [SerializeField] bool _on;
     BoxCollider2D coll;
+    [SerializeField] GameObject _connectionSource;
 
     void Start()
     {
@@ -146,6 +147,12 @@ public class LaserTrap : MonoBehaviour, IElectric
         }
 
     }
+
+    public Transform ConnectionSource()
+    {
+        return _connectionSource.transform;
+    }
+
     IEnumerator LoopTurnOn()
     {
         yield return new WaitForSeconds(_loopTime);

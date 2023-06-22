@@ -15034,6 +15034,36 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!1 &6573602553018890499
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7282245974272588738}
+  m_Layer: 0
+  m_Name: MagnetConnectionSource
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7282245974272588738
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6573602553018890499}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.638, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7673755628926047440}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7673755628926047444
 GameObject:
   m_ObjectHideFlags: 0
@@ -15069,6 +15099,7 @@ Transform:
   - {fileID: 1390110530611230022}
   - {fileID: 8032286413259458369}
   - {fileID: 2098356026519385361}
+  - {fileID: 7282245974272588738}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -15100,6 +15131,7 @@ MonoBehaviour:
   _offSprite: {fileID: 4469088682922171358}
   _particle: {fileID: 4189710688013633580}
   _area: {fileID: 2165124160788054060}
+  _connectionSource: {fileID: 6573602553018890499}
   _gizmos: 1
   _test: 0
   _collider: 0

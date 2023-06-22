@@ -8,6 +8,7 @@ public class JumpPad : MonoBehaviour, IElectric
     [SerializeField] private LayerMask _mask;
     [SerializeField] private ParticleSystem _particle;
     [SerializeField] private bool _isOn;
+    [SerializeField] GameObject _connectionSource;
 
     private void Start()
     {
@@ -25,6 +26,11 @@ public class JumpPad : MonoBehaviour, IElectric
     {
         _particle.Stop();
         _isOn = false;
+    }
+
+    public Transform ConnectionSource()
+    {
+        return _connectionSource.transform;
     }
 
     public void TurnOn()
@@ -54,11 +60,6 @@ public class JumpPad : MonoBehaviour, IElectric
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
         if (!_isOn) return;
         if ((_mask.value & (1 << collision.transform.gameObject.layer)) > 0)
         {
@@ -70,5 +71,9 @@ public class JumpPad : MonoBehaviour, IElectric
             var entityRb = collision.gameObject.GetComponent<Rigidbody2D>();
             entityRb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
         }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+
     }
 }

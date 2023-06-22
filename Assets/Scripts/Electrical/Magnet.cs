@@ -10,7 +10,7 @@ public class Magnet : MonoBehaviour, IElectric
     [SerializeField] private Vector3 _offset;
     [SerializeField] private float _attractForce, _pow = 1f, _attractLimit = 1.0f;
     [SerializeField] private LayerMask _floorLayerMask, _metalLayerMask;
-    [SerializeField] private GameObject _onSprite, _offSprite, _particle, _area;
+    [SerializeField] private GameObject _onSprite, _offSprite, _particle, _area, _connectionSource;
     [SerializeField] private bool _gizmos = true, _test = false, _collider = true, _attractWPhysics = true;
     [SerializeField] private MagnetBox _box = null;
     private bool _doOnce = true, _active = false;
@@ -122,6 +122,11 @@ public class Magnet : MonoBehaviour, IElectric
             _box.GetSetUseGravity = true;
             _box = null;
         }
+    }
+
+    public Transform ConnectionSource()
+    {
+        return _connectionSource.transform;
     }
 
     public bool GetActive { get { return _active; } }

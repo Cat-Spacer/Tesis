@@ -22,6 +22,8 @@ public class ElectricalShield : MonoBehaviour, IElectric
 
     [SerializeField] bool _inX = true;
 
+    [SerializeField] private GameObject _connectionSource;
+
     void Start()
     {
         _startPos = scrollbarObject.transform;
@@ -40,7 +42,7 @@ public class ElectricalShield : MonoBehaviour, IElectric
             Debug.Log("is dragging 2");
             dragStartPosition = Input.mousePosition.y;
             for (int i = 0; i < 5; i++)
-            { // repetir la detección de la posición del mouse 5 veces por fotograma
+            { // repetir la detecciï¿½n de la posiciï¿½n del mouse 5 veces por fotograma
                 float dragDelta = Input.mousePosition.y - dragStartPosition;
                 float newPosition = scrollbarObject.transform.position.y + dragDelta * sensitivity / 5f;
                 newPosition = Mathf.Clamp(newPosition, bottomCapObject.transform.position.y, topCapObject.transform.position.y);
@@ -60,6 +62,11 @@ public class ElectricalShield : MonoBehaviour, IElectric
     public void TurnOff()
     {
         _IsOn = false;
+    }
+
+    public Transform ConnectionSource()
+    {
+        return _connectionSource.transform;
     }
 
     public void TurnOn()

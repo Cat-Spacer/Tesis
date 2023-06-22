@@ -22,6 +22,8 @@ public class ElectricalPlatform : MonoBehaviour, IElectric
     [SerializeField] private Vector3 _offsetBottom;
     [SerializeField] private LayerMask _playerLayerMask;
 
+    [SerializeField] private GameObject _connectionSource; 
+
     private Action _MoveAction = delegate { };
 
     void Awake()
@@ -46,6 +48,11 @@ public class ElectricalPlatform : MonoBehaviour, IElectric
     {
         _turnOn = false;
         _canvas.gameObject.SetActive(false);
+    }
+
+    public Transform ConnectionSource()
+    {
+        return _connectionSource.transform;
     }
 
     public void TurnOn()
