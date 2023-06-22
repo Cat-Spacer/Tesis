@@ -21,7 +21,7 @@ public class MiniConsole : MonoBehaviour, IMouseOver
     bool _showConnections;
     [SerializeField] Material outlineMat;
     Material defaultMat;
-    List<GameObject> _linesConnection = new List<GameObject>();
+    private Dictionary<LineRenderer, Transform> _linesConnection = new Dictionary<LineRenderer, Transform>();
 
     private void Start()
     {
@@ -33,17 +33,28 @@ public class MiniConsole : MonoBehaviour, IMouseOver
         if (_generator == null && Physics2D.OverlapArea(transform.position, transform.position * _checkRadius, _generatorMask))
             _generator = Physics2D.OverlapArea(transform.position, transform.position * _checkRadius, _generatorMask).gameObject.GetComponent<Generator>();
 
-        SetLines();
+        CreateLines();
     }
-    void SetLines()
+    void CreateLines()
     {
+        if (_connection.Count == 0) return;
         foreach (var connection in _connection)
         {
             var newLine = Instantiate(feedbackLines, transform);
+            var connectionPos = connection.GetComponent<IElectric>().ConnectionSource();
             newLine.SetPosition(0, transform.position);
-            newLine.SetPosition(1, connection.transform.position);
-            _linesConnection.Add(newLine.gameObject);
+            newLine.SetPosition(1, connectionPos.position);
+            _linesConnection.Add(newLine, connectionPos);
             newLine.gameObject.SetActive(false);
+        }
+    }
+    void ShowLines()
+    {
+        foreach (var line in _linesConnection)
+        {
+            line.Key.gameObject.SetActive(true);
+            line.Key.SetPosition(0, transform.position);
+            line.Key.SetPosition(1, line.Value.position);
         }
     }
     private void HamsterGetInside()
@@ -106,14 +117,15 @@ public class MiniConsole : MonoBehaviour, IMouseOver
     }
     public void MouseOver()
     {
+        ShowLines();
         if (_isOutline) return;
         _sp.material = outlineMat;
         _isOutline = true;
         _showConnections = true;
-        foreach (var lines in _linesConnection)
-        {
-            lines.SetActive(true);
-        }
+        // foreach (var lines in _linesConnection)
+        // {
+        //     lines.SetActive(true);
+        // }
     }
 
     public void MouseExit()
@@ -124,7 +136,7 @@ public class MiniConsole : MonoBehaviour, IMouseOver
         _showConnections = false;
         foreach (var lines in _linesConnection)
         {
-            lines.SetActive(false);
+            lines.Key.gameObject.SetActive(false);
         }
     }
 

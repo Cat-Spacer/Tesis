@@ -10,11 +10,12 @@ public class Owl : MonoBehaviour
     [SerializeField] GameObject target;
     [SerializeField] Transform _claw, _resetPos;
     OwlAttack _parent;
-
+    private SpriteRenderer _sp;
     void Start()
     {
         _parent = GetComponentInParent<OwlAttack>();
         transform.position = _resetPos.position;
+        _sp = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -25,6 +26,10 @@ public class Owl : MonoBehaviour
     void Attack()
     {
         var newDir = target.transform.position - _claw.transform.position;
+        // if (newDir.x > 0) _sp.flipX = true;
+        // else _sp.flipX = true;
+        if (newDir.x > 0) transform.rotation = Quaternion.Euler(0, 0, 0);
+        else transform.rotation = Quaternion.Euler(0, 180, 0);;
         transform.position += newDir.normalized * _speed * Time.deltaTime;
         if (Vector3.Distance(_claw.position, target.transform.position) < 0.1f)
         {

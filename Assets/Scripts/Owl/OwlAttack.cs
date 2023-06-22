@@ -10,10 +10,12 @@ public class OwlAttack : MonoBehaviour
     [SerializeField] Owl _owl;
     [SerializeField] LayerMask _hamsterMask;
 
+
     void Start()
     {
         _owl = GetComponentInChildren<Owl>();
         _SearchAction = Search;
+ 
     }
 
     // Update is called once per frame

@@ -7,4 +7,6 @@ public interface IElectric
     void TurnOn();
     void TurnOff();
 
+    Transform ConnectionSource();
+
 }
