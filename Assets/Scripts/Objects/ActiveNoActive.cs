@@ -12,9 +12,9 @@ public class ActiveNoActive : MonoBehaviour
     public void ActiveDesactive()
     {
         for (int i = 0; i < activeGameObject.Length; i++)
-            activeGameObject[i].SetActive(true);
+            if (desactiveGameObject[i]) activeGameObject[i].SetActive(true);
         for (int j = 0; j < desactiveGameObject.Length; j++)
-            desactiveGameObject[j].SetActive(false);
+            if(desactiveGameObject[j]) desactiveGameObject[j].SetActive(false);
     }
 
     public void ActiveDesactiveButton()
