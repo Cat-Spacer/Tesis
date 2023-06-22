@@ -6,17 +6,17 @@ using System;
 
 public class MiniGame : MonoBehaviour
 {
-    [SerializeField] Generator _generator;
-    Action _Action = delegate { };
-    [SerializeField] GameObject _handle;
-    [SerializeField] GameObject miniGameCanva;
+    [SerializeField] private Generator _generator;
+    private Action _Action = delegate { };
+    [SerializeField] private GameObject _handle;
+    [SerializeField] private GameObject miniGameCanva;
 
-    [SerializeField] float speed;
-    [SerializeField] int random, current, max;
-    bool turnOn;
-    [SerializeField] List<GameObject> _OnSquare;
-    [SerializeField] List<GameObject> _OffSquare;
-    [SerializeField] List<int> _sweetSquares;
+    [SerializeField] private float speed;
+    [SerializeField] private int random, current, max;
+    private bool turnOn;
+    [SerializeField] private List<GameObject> _OnSquare;
+    [SerializeField] private List<GameObject> _OffSquare;
+    [SerializeField] private List<int> _sweetSquares;
 
     void Start()
     {
@@ -30,30 +30,6 @@ public class MiniGame : MonoBehaviour
         _Action();
     }
 
-    IEnumerator MoveRight()
-    {
-        yield return new WaitForSeconds(speed);
-        current += 1;
-        _handle.transform.position = _OffSquare[current].transform.position;
-        if (current == max)
-        {
-            current = max;
-            StartCoroutine(MoveLeft());
-        }
-        else StartCoroutine(MoveRight());
-    }
-    IEnumerator MoveLeft()
-    {
-        yield return new WaitForSeconds(speed);
-        current -= 1;
-        _handle.transform.position = _OffSquare[current].transform.position;
-        if (current == 0)
-        {
-            current = 0;
-            StartCoroutine(MoveRight());
-        }
-        else StartCoroutine(MoveLeft());
-    }
     public void Check()
     {
         _Action = delegate { };
@@ -62,7 +38,7 @@ public class MiniGame : MonoBehaviour
             StopAllCoroutines();
             if (_sweetSquares.Contains(current))
             {
-                _generator.OnWinMiniGame();
+                if(_generator) _generator.OnWinMiniGame();
                 TurnOff();
             }
             else
@@ -74,6 +50,7 @@ public class MiniGame : MonoBehaviour
             }
         }
     }
+
     public void TurnOn()
     {
         ChangeValues();
@@ -82,6 +59,7 @@ public class MiniGame : MonoBehaviour
         miniGameCanva.gameObject.SetActive(true);
         StartCoroutine(MoveRight());
     }
+
     void ChangeValues()
     {
         _sweetSquares.Clear();
@@ -118,6 +96,7 @@ public class MiniGame : MonoBehaviour
             _sweetSquares.Add(random - 1);
         }
     }
+
     public void TurnOff()
     {
         miniGameCanva.gameObject.SetActive(false);
@@ -127,5 +106,33 @@ public class MiniGame : MonoBehaviour
         }
         turnOn = false;
         _Action = delegate { };
+    }
+
+    public Generator GetSetGenerator { get { return _generator; } set { _generator = value; } }
+
+    IEnumerator MoveRight()
+    {
+        yield return new WaitForSeconds(speed);
+        current += 1;
+        _handle.transform.position = _OffSquare[current].transform.position;
+        if (current == max)
+        {
+            current = max;
+            StartCoroutine(MoveLeft());
+        }
+        else StartCoroutine(MoveRight());
+    }
+
+    IEnumerator MoveLeft()
+    {
+        yield return new WaitForSeconds(speed);
+        current -= 1;
+        _handle.transform.position = _OffSquare[current].transform.position;
+        if (current == 0)
+        {
+            current = 0;
+            StartCoroutine(MoveRight());
+        }
+        else StartCoroutine(MoveLeft());
     }
 }

@@ -6,7 +6,7 @@ using TMPro;
 public class Generator : MonoBehaviour, IMouseOver
 {
     public List<GameObject> _connection;
-    List<GameObject> _linesConnection = new List<GameObject>();
+    private List<GameObject> _linesConnection = new List<GameObject>();
     [SerializeField] private bool _test = false;
     private bool _miniGameWin, _alreadyStarded;
     [SerializeField] private int _energyNeeded;
@@ -17,13 +17,12 @@ public class Generator : MonoBehaviour, IMouseOver
     [SerializeField] private MiniGame _miniGame;
     [SerializeField] private TMP_Text _text;
     [SerializeField] private Electricty[] _electricityParticle;
-    [SerializeField] LineRenderer feedbackLines;
+    [SerializeField] private LineRenderer feedbackLines;
+    [SerializeField] private Material outlineMat;
 
-    bool _isOutline;
-    bool _showConnections;
-    SpriteRenderer _sp;
-    [SerializeField] Material outlineMat;
-    Material defaultMat;
+    private bool _showConnections, _isOutline;
+    private SpriteRenderer _sp;
+    private Material defaultMat;
 
 
     private void Start()
@@ -35,6 +34,7 @@ public class Generator : MonoBehaviour, IMouseOver
         //_miniGame = GetComponentInChildren<MiniGame>();
         _miniGameWin = false;
         _alreadyStarded = false;
+        if (!_miniGame) _miniGame = FindObjectOfType<MiniGame>();
 
         _text.text = "0/" + _energyNeeded;
         if (_energyNeeded <= 0 && _batterySprite)
@@ -53,8 +53,10 @@ public class Generator : MonoBehaviour, IMouseOver
             newLine.gameObject.SetActive(false);
         }
     }
+
     public void StartGenerator(bool start = true)
     {
+        if (_miniGame) if (!_miniGame.GetSetGenerator) _miniGame.GetSetGenerator = this;
         if (_miniGameWin == true)
         {
             if (EnergyNeeded <= _hamster.Energy)
@@ -73,7 +75,11 @@ public class Generator : MonoBehaviour, IMouseOver
     public void StopGenerator()
     {
         TurnButtons(false);
-        _miniGame.TurnOff();
+        if (_miniGame)
+        {
+            _miniGame.TurnOff();
+            if (_miniGame.GetSetGenerator) _miniGame.GetSetGenerator = null;
+        }
         StartCoroutine(Delay(false));
     }
 
@@ -92,7 +98,7 @@ public class Generator : MonoBehaviour, IMouseOver
         StartGenerator(true);
     }
 
-    void StartMiniGame() { _miniGame.TurnOn(); }
+    void StartMiniGame() { if (_miniGame) _miniGame.TurnOn(); }
 
     public void TurnButtons(bool active = true) { buttons.SetActive(active); }
 
