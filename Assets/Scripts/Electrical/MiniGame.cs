@@ -32,6 +32,7 @@ public class MiniGame : MonoBehaviour
 
     public void Check()
     {
+        StopAllCoroutines();
         _Action = delegate { };
         if (turnOn)
         {
@@ -54,7 +55,7 @@ public class MiniGame : MonoBehaviour
     public void TurnOn()
     {
         ChangeValues();
-
+        current = 0;
         turnOn = true;
         miniGameCanva.gameObject.SetActive(true);
         StartCoroutine(MoveRight());
@@ -99,13 +100,15 @@ public class MiniGame : MonoBehaviour
 
     public void TurnOff()
     {
+        StopAllCoroutines();
+        _Action = delegate { };
+        turnOn = false;
+        Debug.Log("Turn OFf");
         miniGameCanva.gameObject.SetActive(false);
         foreach (var square in _OnSquare)
         {
             square.SetActive(false);
         }
-        turnOn = false;
-        _Action = delegate { };
     }
 
     public Generator GetSetGenerator { get { return _generator; } set { _generator = value; } }
@@ -113,9 +116,10 @@ public class MiniGame : MonoBehaviour
     IEnumerator MoveRight()
     {
         yield return new WaitForSeconds(speed);
+        Debug.Log("moveRight");
         current += 1;
         _handle.transform.position = _OffSquare[current].transform.position;
-        if (current == max)
+        if (current >= max)
         {
             current = max;
             StartCoroutine(MoveLeft());
@@ -126,9 +130,10 @@ public class MiniGame : MonoBehaviour
     IEnumerator MoveLeft()
     {
         yield return new WaitForSeconds(speed);
+        Debug.Log("moveLeft");
         current -= 1;
         _handle.transform.position = _OffSquare[current].transform.position;
-        if (current == 0)
+        if (current <= 0)
         {
             current = 0;
             StartCoroutine(MoveRight());
