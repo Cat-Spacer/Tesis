@@ -24,14 +24,19 @@ public class ElectricalShield : MonoBehaviour, IElectric
 
     [SerializeField] private GameObject _connectionSource;
 
+    private Image _img;
+    [SerializeField] private Sprite _turnOnSprite, _turnOffSprite;
+
     void Start()
     {
+        _img = GetComponentInChildren<Image>();
         _startPos = scrollbarObject.transform;
         EventManager.Instance.Subscribe("PlayerDeath", ResetPosition);
         //_IsOn = false;
         scrollbarStartPosition = scrollbarObject.transform.position;
         scrollbarLength = topCapObject.transform.position.y - bottomCapObject.transform.position.y;
-
+        if (_IsOn) TurnOn();
+        else TurnOff();
     }
     void Update()
     {
@@ -62,6 +67,7 @@ public class ElectricalShield : MonoBehaviour, IElectric
     public void TurnOff()
     {
         _IsOn = false;
+        _img.sprite = _turnOffSprite;
     }
 
     public Transform ConnectionSource()
@@ -72,6 +78,7 @@ public class ElectricalShield : MonoBehaviour, IElectric
     public void TurnOn()
     {
         _IsOn = true;
+        _img.sprite = _turnOnSprite;
     }
     public void Clicked()
     {
