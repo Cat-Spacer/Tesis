@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1369027358}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.25, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8998946722778050055}
@@ -5022,8 +5022,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8998946722778050052}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.516, y: 0.002, z: 0}
+  m_LocalScale: {x: 0.85, y: 1, z: 1}
   m_Children:
   - {fileID: 1369027359}
   - {fileID: 6871135737945378022}
@@ -5071,7 +5071,7 @@ SpriteRenderer:
   m_SortingLayerID: -1510253325
   m_SortingLayer: 6
   m_SortingOrder: 3
-  m_Sprite: {fileID: 21300000, guid: 402bd2969f5f7b8428b1f41cc5859c7f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b9b0c2f6291772d49922164f3e550a5f, type: 3}
   m_Color: {r: 0.95256066, g: 0.9481132, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5095,18 +5095,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.25}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.02, y: 0.88}
+    oldSize: {x: 2.375978, y: 0.3642857}
     newSize: {x: 4.1, y: 1.79}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2, y: 0.4}
+  m_Size: {x: 2.4, y: 0.36}
   m_EdgeRadius: 0
 --- !u!50 &1723968557
 Rigidbody2D:
@@ -5141,7 +5141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71f60874d30a9dc47a6e93615a76966c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _offset: {x: 0, y: -0.25, z: 0}
+  _offset: {x: 0, y: 0, z: 0}
   platform: {fileID: 8998946722778050052}
   _waypoitns:
   - {fileID: 8998946723777533883}
@@ -5154,6 +5154,8 @@ MonoBehaviour:
   _forceTurnOn: 0
   pivot: {fileID: 1369027358}
   _connectionSource: {fileID: 7276340257800020299}
+  _turnOnSprite: {fileID: 21300000, guid: b9b0c2f6291772d49922164f3e550a5f, type: 3}
+  _turnOffSprite: {fileID: 21300000, guid: 2b8446fe4bbd6514d8e33f284f55749c, type: 3}
 --- !u!114 &6730168590903767927
 MonoBehaviour:
   m_ObjectHideFlags: 0

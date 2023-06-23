@@ -24,7 +24,7 @@ public class Generator : MonoBehaviour, IMouseOver
     private SpriteRenderer _sp;
     private Material defaultMat;
 
-
+    [SerializeField] private Sprite _powerOnSprite, _powerOffSprite;
     private void Start()
     {
         if (_test) TurnButtons();
@@ -67,7 +67,7 @@ public class Generator : MonoBehaviour, IMouseOver
     public void StartGenerator(bool start = true)
     {
         if (_miniGame) if (!_miniGame.GetSetGenerator) _miniGame.GetSetGenerator = this;
-        if (_miniGameWin == true)
+        if (_miniGameWin)
         {
             if (EnergyNeeded <= _hamster.Energy)
             {
@@ -75,10 +75,15 @@ public class Generator : MonoBehaviour, IMouseOver
             }
             StartCoroutine(Delay(start));
         }
-        else //if (!_alreadyStarded)
+        else if (!_alreadyStarded)
         {
             _alreadyStarded = true;
             StartMiniGame();
+        }
+        else
+        {
+            _alreadyStarded = false;
+            StopMiniGame();
         }
     }
 
@@ -109,7 +114,7 @@ public class Generator : MonoBehaviour, IMouseOver
     }
 
     void StartMiniGame() { if (_miniGame) _miniGame.TurnOn(); }
-
+    void StopMiniGame() { _miniGame.TurnOff(); }
     public void TurnButtons(bool active = true) { buttons.SetActive(active); }
 
     public void SetEnergyCounter(int i) { _text.text = i + "/" + _energyNeeded; }
@@ -121,6 +126,8 @@ public class Generator : MonoBehaviour, IMouseOver
     IEnumerator Delay(bool power = true)
     {
         yield return new WaitForSeconds(_delaySeconds);
+        if (power) _sp.sprite = _powerOnSprite;
+        else  _sp.sprite = _powerOffSprite;
         for (int i = 0; i < _connection.Count; i++)
         {
             if (power)

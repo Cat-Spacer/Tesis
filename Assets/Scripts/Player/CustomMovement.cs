@@ -432,6 +432,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             SoundManager.instance.Play(SoundManager.Types.CatDash);
             _DashState = DashStop;
             _DashState += Dash;
+            _dashParticleTrail.GetComponent<ParticleSystem>().Clear();
             if (_climbScript.InSight(_climbLayerMask))
             {
                 if (faceDirection == 1)

@@ -24,16 +24,22 @@ public class MovingPlatform : MonoBehaviour, IElectric
 
     [SerializeField] private GameObject _connectionSource;
 
+    private SpriteRenderer _sp;
+    [SerializeField] private Sprite _turnOnSprite, _turnOffSprite;
+    
+
     private void Start()
     {
+        _sp = GetComponent<SpriteRenderer>();
         _startPos = platform.transform.position;
         startingWaypoint = currentWaypoint;
         EventManager.Instance.Subscribe("PlayerDeath", ResetPosition);
         maxLenght = _waypoitns.Count - 1;
         _speed = _baseSpeed;
         _myRB2D = platform.GetComponent<Rigidbody2D>();
-        if (_forceTurnOn)
-            TurnOn();
+        if (_forceTurnOn) TurnOn();
+        else TurnOff();
+
     }
 
     private void FixedUpdate()
@@ -84,11 +90,13 @@ public class MovingPlatform : MonoBehaviour, IElectric
     public void TurnOn()
     {
         _MoveAction = Movement;
+        _sp.sprite = _turnOnSprite;
     }
 
     public void TurnOff()
     {
         _MoveAction = delegate { };
+        _sp.sprite = _turnOffSprite;
         _myRB2D.velocity = new Vector2(0, 0);
     }
 
