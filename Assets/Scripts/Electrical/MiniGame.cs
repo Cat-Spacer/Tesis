@@ -103,7 +103,7 @@ public class MiniGame : MonoBehaviour
         StopAllCoroutines();
         _Action = delegate { };
         turnOn = false;
-        Debug.Log("Turn OFf");
+        Debug.Log("Turn Off");
         miniGameCanva.gameObject.SetActive(false);
         foreach (var square in _OnSquare)
         {

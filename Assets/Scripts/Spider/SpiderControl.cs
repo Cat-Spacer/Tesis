@@ -11,7 +11,7 @@ public class SpiderControl : MonoBehaviour
     private Spider _spider;
     public NodePoint _goalNode;
     public List<NodePoint> pathList;
-    
+
 
     private void Awake()
     {
@@ -70,7 +70,6 @@ public class SpiderControl : MonoBehaviour
             _goalNode = _spider.homeNode;
 
             pathList = _spider.ConstructPathAStar(_spider.transform.position, _goalNode);
-
         };
 
         returning.OnUpdate += () =>
@@ -153,15 +152,17 @@ public class SpiderControl : MonoBehaviour
         _myFsm = new EventFSM<States>(idle);
     }
 
-
-
     public IEnumerator CoroutineWaitForAttack(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
         _goalNode = _spider.CheckNearestStart(_spider._target.transform.position);
         pathList = _spider.ConstructPathAStar(_spider.transform.position, _goalNode);
         _spider.Alert(false);
-
+        if (pathList.Count <= 0)
+        {
+            _goalNode = _spider.homeNode;
+            pathList = _spider.ConstructPathAStar(_spider.transform.position, _goalNode);
+        }
     }
     private void Start()
     {

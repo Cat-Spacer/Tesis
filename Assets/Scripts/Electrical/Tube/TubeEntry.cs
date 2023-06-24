@@ -62,6 +62,11 @@ public class TubeEntry : MonoBehaviour, IMouseOver
 
     public void Interact()
     {
-        FindObjectOfType<Hamster>().GetInTube(_entryTube.transform.position, _entryTube);
+        var hamster = FindObjectOfType<Hamster>();
+        if (!hamster) return;
+
+        //hamster.GetInTube(transform.position);
+        //if (hamster.transform.position == transform.position)
+        hamster.GetInTube(_entryTube.transform.position, _entryTube);
     }
 }
