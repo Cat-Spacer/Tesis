@@ -6,28 +6,29 @@ using TMPro;
 public class Generator : MonoBehaviour, IMouseOver
 {
     public List<GameObject> _connection;
-    private Dictionary<LineRenderer, Transform> _linesConnection = new Dictionary<LineRenderer, Transform>();
     [SerializeField] private bool _test = false;
-    private bool _miniGameWin, _alreadyStarded;
     [SerializeField] private int _energyNeeded;
     [SerializeField] private float _delaySeconds = 1.0f;
-    public GameObject buttons = null;
+    [SerializeField] private GameObject buttons = null;
     [SerializeField] private GameObject _batterySprite = null;
-    private Hamster _hamster;
     [SerializeField] private MiniGame _miniGame;
     [SerializeField] private TMP_Text _text;
     [SerializeField] private Electricty[] _electricityParticle;
     [SerializeField] private LineRenderer feedbackLines;
     [SerializeField] private Material outlineMat;
+    [SerializeField] private Sprite _powerOnSprite, _powerOffSprite;
 
+    private Dictionary<LineRenderer, Transform> _linesConnection = new Dictionary<LineRenderer, Transform>();
+    [SerializeField] private bool _miniGameWin, _alreadyStarded;
+    private Hamster _hamster;
     private bool _showConnections, _isOutline;
     private SpriteRenderer _sp;
     private Material defaultMat;
 
-    [SerializeField] private Sprite _powerOnSprite, _powerOffSprite;
+
     private void Start()
     {
-        if (_test) TurnButtons();
+        if (_test) StartMiniGame();
         _sp = GetComponent<SpriteRenderer>();
         defaultMat = GetComponent<SpriteRenderer>().material;
         _hamster = FindObjectOfType<Hamster>();
@@ -37,10 +38,15 @@ public class Generator : MonoBehaviour, IMouseOver
         if (!_miniGame) _miniGame = FindObjectOfType<MiniGame>();
 
         _text.text = "0/" + _energyNeeded;
-        if (_energyNeeded <= 0 && _batterySprite)
-            _batterySprite.SetActive(false);
+        if (_energyNeeded <= 0)
+        {
+            _energyNeeded = 0;
+            if (_batterySprite)
+                _batterySprite.SetActive(false);
+        }
         CreateLines();
     }
+
     void CreateLines()
     {
         if (_connection.Count == 0) return;
@@ -64,15 +70,17 @@ public class Generator : MonoBehaviour, IMouseOver
             line.Key.SetPosition(1, line.Value.position);
         }
     }
+
     public void StartGenerator(bool start = true)
     {
-        if (_miniGame) if (!_miniGame.GetSetGenerator) _miniGame.GetSetGenerator = this;
+        if (_miniGame) _miniGame.GetSetGenerator = this;
         if (_miniGameWin)
         {
-            if (EnergyNeeded <= _hamster.Energy)
-            {
-                StartCoroutine(Delay(start));
-            }
+            if (_hamster)
+                if (EnergyNeeded <= _hamster.Energy)
+                {
+                    StartCoroutine(Delay(start));
+                }
             StartCoroutine(Delay(start));
         }
         else if (!_alreadyStarded)
@@ -108,13 +116,14 @@ public class Generator : MonoBehaviour, IMouseOver
     {
         TurnButtons(true);
         _miniGameWin = true;
-        _hamster.AddEnergy(-EnergyNeeded);
-        //Debug.Log(-EnergyNeeded);
+        if (_hamster) _hamster.AddEnergy(-EnergyNeeded);
         StartGenerator(true);
     }
 
     void StartMiniGame() { if (_miniGame) _miniGame.TurnOn(); }
+
     void StopMiniGame() { _miniGame.TurnOff(); }
+
     public void TurnButtons(bool active = true) { buttons.SetActive(active); }
 
     public void SetEnergyCounter(int i) { _text.text = i + "/" + _energyNeeded; }
@@ -127,7 +136,7 @@ public class Generator : MonoBehaviour, IMouseOver
     {
         yield return new WaitForSeconds(_delaySeconds);
         if (power) _sp.sprite = _powerOnSprite;
-        else  _sp.sprite = _powerOffSprite;
+        else _sp.sprite = _powerOffSprite;
         for (int i = 0; i < _connection.Count; i++)
         {
             if (power)

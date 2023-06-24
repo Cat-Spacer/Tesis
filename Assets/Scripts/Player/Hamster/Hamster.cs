@@ -15,7 +15,7 @@ public class Hamster : MonoBehaviour
     [SerializeField] private Vector3 _currentTubePos;
     [SerializeField] private Generator[] _generators;
     [SerializeField] private Generator _generator;
-    [SerializeField] private int _energyCollected;
+    [SerializeField] private int _energyCollected, _maxEnergy = 3;
     public bool visible = true;
     [SerializeField] private GameObject _returnBTN = null;
     private bool _owlCatched;
@@ -26,14 +26,6 @@ public class Hamster : MonoBehaviour
         _generators = FindObjectsOfType<Generator>();
     }
 
-    public void AddEnergy(int energy_arg)
-    {
-        _energyCollected += energy_arg;
-        foreach (var item in _generators)
-            item.SetEnergyCounter(_energyCollected);
-
-        //Debug.Log(_energyCollected);
-    }
 
     private void Update()
     {
@@ -50,12 +42,17 @@ public class Hamster : MonoBehaviour
 
     public void MoveWithPlayer() { transform.position = _playerPos.position; }
 
+    public void AddEnergy(int energy_arg)
+    {
+        _energyCollected += energy_arg;
+        if (_energyCollected < 0) _energyCollected = 0;
+        if (_energyCollected > _maxEnergy) _energyCollected = _maxEnergy;
+        foreach (var item in _generators)
+            item.SetEnergyCounter(_energyCollected);
+    }
+
     public void MoveInTubes()
     {
-        //Vector3 newDir = Vector3.Lerp(transform.position, _currentTubePos, _speed * Time.deltaTime);
-        //Vector3.ClampMagnitude(newDir, _maxSpeed);
-        //transform.position = newDir;
-        //transform.position = Vector3.MoveTowards(transform.position, _currentTubePos, _speed * Time.deltaTime);
         MoveToPosition(_currentTubePos);
 
         if (Vector3.Distance(transform.position, _currentTubePos) < .01f)
@@ -68,8 +65,7 @@ public class Hamster : MonoBehaviour
     {
         if (_inTube || _owlCatched) return;
         _player.HamsterCheck(false);
-        //var tubeColl = Physics2D.OverlapPoint(targetPosition, _tubeLayerMask);
-        //var tubeColl = Physics2D.OverlapCircle(targetPosition, _pointRadius, _tubeLayerMask);
+
         var tubeColl = Physics2D.Raycast(targetPosition, Vector3.forward, _pointRadius, _tubeLayerMask);
 
         //Debug.Log($"GetInTube, tubeColl = {tubeColl.collider.gameObject.name}, targetPosition = {(Vector3)targetPosition}");
@@ -85,7 +81,6 @@ public class Hamster : MonoBehaviour
             //Debug.Log($"distance = {distance}");
             if (distance <= _interactRadius)
             {
-                ///var getTube = tubeColl.collider.gameObject.GetComponent<Tube>();
                 if (!tube.IsEntry()) return;
                 _HamsterAction = MoveInTubes;
                 _currentTube = tube;
@@ -95,7 +90,6 @@ public class Hamster : MonoBehaviour
             }
         }
     }
-
     void CheckNextTube()
     {
         if (_currentTube.IsCheckpoint() || _currentTube.IsEntry() || _currentTube.IsExit())
@@ -114,9 +108,6 @@ public class Hamster : MonoBehaviour
                 {
                     _generator.TurnButtons();
                     _generator.StartGenerator();
-                    // _energyCollected -= _generator.EnergyNeeded;
-                    //_generator.StartGenerator();
-                    // _generator.buttons.SetActive(true);
                 }
             }
         }
@@ -170,6 +161,7 @@ public class Hamster : MonoBehaviour
     public bool InTube() { return _inTube; }
 
     public int Energy { get { return _energyCollected; } }
+    public int MaxEnergy { get { return _maxEnergy; } }
 
     public Tube LastTube { get { return _lastTube; } }
 

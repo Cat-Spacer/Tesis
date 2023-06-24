@@ -27,7 +27,7 @@ public class Tube : MonoBehaviour
     public void GetPossiblePaths(Hamster ham)
     {
         _hamster = ham;
-        arrows.SetActive(true);
+        if (!arrows.activeInHierarchy) arrows.SetActive(true);
     }
 
     public void GoUp()

@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent (typeof(Camera))]
 public class ZoomEffect : MonoBehaviour
 {
     [SerializeField] private float _zoom = 2f;

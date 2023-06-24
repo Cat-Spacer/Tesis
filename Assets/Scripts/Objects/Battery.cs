@@ -9,13 +9,12 @@ public class Battery : MonoBehaviour
         if (collision.gameObject.GetComponent<Hamster>())
         {
             var hamster = collision.gameObject.GetComponent<Hamster>();
-            if (hamster == null)
+            if (hamster == null) return;
+            if (hamster.Energy < hamster.MaxEnergy)
             {
-                Debug.Log("Hamster is null");
-                return;
+                hamster.AddEnergy(1);
+                gameObject.SetActive(false);
             }
-            hamster.AddEnergy(1);
-            gameObject.SetActive(false);
         }
     }
     private void OnCollisionEnter2D(Collision2D collision)
@@ -23,13 +22,12 @@ public class Battery : MonoBehaviour
         if (collision.gameObject.GetComponent<Hamster>())
         {
             var hamster = collision.gameObject.GetComponent<Hamster>();
-            if (hamster == null)
+            if (hamster == null) return;
+            if (hamster.Energy < hamster.MaxEnergy)
             {
-                Debug.Log("Hamster is null");
-                return;
+                hamster.AddEnergy(1);
+                gameObject.SetActive(false);
             }
-            hamster.AddEnergy(1);
-            gameObject.SetActive(false);
         }
     }
 }

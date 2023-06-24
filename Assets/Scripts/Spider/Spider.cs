@@ -17,6 +17,8 @@ public class Spider : MonoBehaviour
 
     [Header("WayPoints")]
     public List<NodePoint> wayPoints = new List<NodePoint>();
+    [SerializeField] private float _nodeSearchRad = 0.1f;
+    [SerializeField] private LayerMask _nodeLayer;
     public int _wayPointIndex = 0, current = 0;
     public bool attacked = false;
 
@@ -28,6 +30,7 @@ public class Spider : MonoBehaviour
         obstacleMask = LayerMask.GetMask("Shield");
         obstacleMask += LayerMask.GetMask("HamsterEnemy");
         _target = FindObjectOfType<Hamster>();
+        if (!homeNode) homeNode = Physics2D.OverlapCircle(transform.position, _nodeSearchRad, _nodeLayer).GetComponent<NodePoint>();
     }
 
     public void Alert(bool state_arg)
@@ -43,6 +46,8 @@ public class Spider : MonoBehaviour
 
     public List<NodePoint> ConstructPathAStar(Vector2 pos, NodePoint goalNode)
     {
+        if (!goalNode) return new List<NodePoint>();
+
         NodePoint startingNode = CheckNearestStart(pos);
 
 
