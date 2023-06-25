@@ -9,8 +9,7 @@ public class Generator : MonoBehaviour, IMouseOver
     [SerializeField] private bool _test = false;
     [SerializeField] private int _energyNeeded;
     [SerializeField] private float _delaySeconds = 1.0f;
-    [SerializeField] private GameObject buttons = null;
-    [SerializeField] private GameObject _batterySprite = null;
+    [SerializeField] private GameObject buttons = null, _batterySprite = null;
     [SerializeField] private MiniGame _miniGame;
     [SerializeField] private TMP_Text _text;
     [SerializeField] private Electricty[] _electricityParticle;
@@ -117,6 +116,7 @@ public class Generator : MonoBehaviour, IMouseOver
         TurnButtons(true);
         _miniGameWin = true;
         if (_hamster) _hamster.AddEnergy(-EnergyNeeded);
+        if (_batterySprite) _batterySprite.SetActive(false);
         StartGenerator(true);
     }
 
