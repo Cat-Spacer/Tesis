@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,7 +12,7 @@ public class MiniConsole : MonoBehaviour, IMouseOver
     [SerializeField] private Transform _hamsterPos = null;
     [SerializeField] private bool _gizmos = true;
     [SerializeField] LineRenderer feedbackLines;
-    bool _isOn;
+    [SerializeField] bool _isOn;
     public List<GameObject> _connection;
     public float _delaySeconds;
     SpriteRenderer _sp;
@@ -23,6 +24,8 @@ public class MiniConsole : MonoBehaviour, IMouseOver
     Material defaultMat;
     private Dictionary<LineRenderer, Transform> _linesConnection = new Dictionary<LineRenderer, Transform>();
 
+    private bool _inRange;
+
     private void Start()
     {
         _sp = GetComponent<SpriteRenderer>();
@@ -30,8 +33,9 @@ public class MiniConsole : MonoBehaviour, IMouseOver
         if (_hamster == null)
             _hamster = FindObjectOfType<Hamster>();
 
-        if (_generator == null && Physics2D.OverlapArea(transform.position, transform.position * _checkRadius, _generatorMask))
-            _generator = Physics2D.OverlapArea(transform.position, transform.position * _checkRadius, _generatorMask).gameObject.GetComponent<Generator>();
+        StartCoroutine(Delay(_isOn));
+        // if (_generator == null && Physics2D.OverlapArea(transform.position, transform.position * _checkRadius, _generatorMask))
+        //     _generator = Physics2D.OverlapArea(transform.position, transform.position * _checkRadius, _generatorMask).gameObject.GetComponent<Generator>();
 
         CreateLines();
     }
@@ -67,17 +71,20 @@ public class MiniConsole : MonoBehaviour, IMouseOver
 
     public void Interact()
     {
-        Debug.Log("Entre");
-        if (!_isOn)
+        if (_inRange)
         {
-            _isOn = true;
-            StartCoroutine(Delay(_isOn));
+            if (!_isOn)
+            {
+                _isOn = true;
+                StartCoroutine(Delay(_isOn));
+            }
+            else
+            {
+                _isOn = false;
+                StartCoroutine(Delay(_isOn));
+            }
         }
-        else
-        {
-            _isOn = false;
-            StartCoroutine(Delay(_isOn));
-        }
+
 
         //if (!(_hamster || _generator)) return;
         //if (Vector2.Distance(transform.position, _hamster.transform.position) <= _checkRadius)
@@ -145,5 +152,29 @@ public class MiniConsole : MonoBehaviour, IMouseOver
         if (!_gizmos) return;
         Gizmos.color = Color.magenta;
         Gizmos.DrawWireSphere(transform.position, _checkRadius);
+    }
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        var player = col.GetComponent<CustomMovement>();
+        if (player != null)
+        {
+            if (player.withHamster)
+            {
+                _inRange = true;
+            }
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        var player = other.GetComponent<CustomMovement>();
+        if (player != null)
+        {
+            if (player.withHamster)
+            {
+                _inRange = false;
+            }
+        }
     }
 }
