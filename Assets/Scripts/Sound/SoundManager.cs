@@ -131,7 +131,8 @@ public class SoundManager : MonoBehaviour
         MagicCat,
         ClestialDiamond,
         StalacticBreaking,
-        MetalFall
+        MetalFall,
+        Button
     }
 
     public void OnClickSound()
