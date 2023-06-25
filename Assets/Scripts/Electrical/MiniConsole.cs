@@ -156,9 +156,9 @@ public class MiniConsole : MonoBehaviour, IMouseOver, IGenerator
         Gizmos.DrawWireSphere(transform.position, _checkRadius);
     }
 
-    private void OnTriggerEnter2D(Collider2D col)
+    private void OnTriggerStay2D(Collider2D other)
     {
-        var player = col.GetComponent<CustomMovement>();
+        var player = other.GetComponent<CustomMovement>();
         if (player != null)
         {
             if (player.withHamster)
@@ -166,6 +166,11 @@ public class MiniConsole : MonoBehaviour, IMouseOver, IGenerator
                 _inRange = true;
             }
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+
     }
 
     private void OnTriggerExit2D(Collider2D other)

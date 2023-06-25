@@ -18,9 +18,12 @@ public class Magnet : MonoBehaviour, IElectric, IMouseOver
     private bool firstCall = true;
     private LineRenderer _myLineConnection;
     private IGenerator _myGen;
+    private bool _startingBool;
     private void Start()
     {
         FirstCall();
+        EventManager.Instance.Subscribe("PlayerDeath", ResetPosition);
+        _startingBool = _isOn;
     }
 
     private void FixedUpdate()
@@ -209,9 +212,8 @@ public class Magnet : MonoBehaviour, IElectric, IMouseOver
     public void MouseOver()
     {
         _myGen.ShowLineConnection(_myLineConnection);
-        Debug.Log("ShowLine");
     }
-
+    
     public void MouseExit()
     {
         _myGen.NotShowLineConnection(_myLineConnection);
@@ -220,5 +222,11 @@ public class Magnet : MonoBehaviour, IElectric, IMouseOver
     public void Interact()
     {
 
+    }
+    void ResetPosition(params object[] param)
+    {
+        if (_startingBool) _isOn = true;
+        else _isOn = false;
+        FirstCall();
     }
 }

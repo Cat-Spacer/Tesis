@@ -808,6 +808,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     {
         if (dead) return;
         _hamster.ReturnToPlayer();
+        _hamster.ResetEnergy();
         rb.simulated = false;
         dead = true;
         _Inputs = delegate { };

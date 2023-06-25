@@ -166,7 +166,7 @@ public class Hamster : MonoBehaviour
             _HamsterAction = () => MoveWithPlayer(_speed * 1.5f);
 
         if (_currentTube) _currentTube.ArrowsActDes(false);
-        if (_generator) _generator.StopMinigame();
+        if (_generator) _generator.StopMiniGame();
         _generator = null;
         if (_returnBTN) _returnBTN.SetActive(false);
     }
@@ -184,10 +184,14 @@ public class Hamster : MonoBehaviour
     public void Die()
     {
         _player.GetDamage();
-        _energyCollected = 0;
+        ResetEnergy();
         ReturnToPlayer();
     }
 
+    public void ResetEnergy()
+    {
+        _energyCollected = 0;
+    }
     private void OnDrawGizmos()
     {
         if (_gizmos) return;

@@ -108,6 +108,8 @@ public class MiniGame : MonoBehaviour
         {
             square.SetActive(false);
         }
+        current = 0;
+        _handle.transform.position = _OffSquare[current].transform.position;
     }
 
     public Generator GetSetGenerator { get { return _generator; } set { _generator = value; } }
