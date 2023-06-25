@@ -16,6 +16,7 @@ public class CameraSet : MonoBehaviour
         if (FindObjectOfType<ZoomEffect>())
             if (FindObjectOfType<ZoomEffect>().GetComponent<Camera>())
                 _setCam = FindObjectOfType<ZoomEffect>().GetComponent<Camera>();
+        _myCanvas.worldCamera = _mainCam;
     }
 
     void Update()
