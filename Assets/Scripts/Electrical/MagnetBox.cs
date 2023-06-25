@@ -26,7 +26,7 @@ public class MagnetBox : MonoBehaviour
 
     private void CustomGravity()
     {
-        if (!(_useGravity && !Physics2D.OverlapBox(transform.position, _coll2D.bounds.size * _overlapOffSet, 0, _collLayer))) return;
+        if (!(_useGravity && !CollWLayer())) return;
         transform.SetParent(GameManager.Instance.GetConfig.mainGame);
 
         if (_index > 0)
@@ -38,20 +38,26 @@ public class MagnetBox : MonoBehaviour
 
     private void ParentToObject()
     {
-        if (!Physics2D.OverlapBox(transform.position, _coll2D.bounds.size * _overlapOffSet, 0, _collLayer)) return;
+        if (!CollWLayer()) return;
         var platfomr = Physics2D.OverlapBox(transform.position, _coll2D.bounds.size * _overlapOffSet, 0, _collLayer).GetComponent<MoveOnCollision>();
         if (platfomr) transform.SetParent(platfomr.transform);
     }
 
     private void StopMovement()
     {
-        if ((!Physics2D.OverlapBox(transform.position, _coll2D.bounds.size * _overlapOffSet, 0, _collLayer) && _index <= 1) || !_playOnce) return;
+        if (!(CollWLayer() && _index <= 1) || !_playOnce) return;
 
         ParentToObject();
+
         if (_playOnce) _playOnce = false;
 
         var objLayer = Physics2D.OverlapBox(transform.position, _coll2D.bounds.size, 0, _collLayer);
         if (objLayer) PlayFeedbacks(objLayer.gameObject.layer);
+    }
+
+    public bool CollWLayer()
+    {
+        return Physics2D.OverlapBox(transform.position, _coll2D.bounds.size * _overlapOffSet, 0, _collLayer);
     }
 
     private void PlayFeedbacks(LayerMask layer)

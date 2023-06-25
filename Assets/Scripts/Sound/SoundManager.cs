@@ -132,11 +132,31 @@ public class SoundManager : MonoBehaviour
         ClestialDiamond,
         StalacticBreaking,
         MetalFall,
-        Button
+        Button,
+        MusicMenu
     }
 
-    public void OnClickSound()
+    public void OnClickSound(string name)
     {
-        // instance.Play(Types.Click);
+        Sound s = Array.Find(sounds, sound => sound.name == name);
+        if (s == null)
+        {
+            Debug.LogWarning("Sound: " + name + " not found!");
+            return;
+        }
+        s.loop = false;
+        s.source.Play();
+    }
+
+    public void OnClickSound(Types name)
+    {
+        Sound s = Array.Find(sounds, sound => sound.nameType == name);
+        if (s == null)
+        {
+            Debug.LogWarning("Sound: " + name + " not found!");
+            return;
+        }
+        s.loop = false;
+        s.source.Play();
     }
 }
