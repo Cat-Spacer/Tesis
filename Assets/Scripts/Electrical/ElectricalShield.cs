@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ElectricalShield : MonoBehaviour, IElectric
+public class ElectricalShield : MonoBehaviour, IElectric, IMouseOver
 {
     public Button scrollbarObject;
     public GameObject topCapObject;
@@ -26,7 +26,8 @@ public class ElectricalShield : MonoBehaviour, IElectric
 
     private Image _img;
     [SerializeField] private Sprite _turnOnSprite, _turnOffSprite;
-
+    private LineRenderer _myLineConnection;
+    private IGenerator _myGen;
     void Start()
     {
         _img = GetComponentInChildren<Image>();
@@ -74,7 +75,11 @@ public class ElectricalShield : MonoBehaviour, IElectric
     {
         return _connectionSource.transform;
     }
-
+    public void SetGenerator(IGenerator gen, LineRenderer line)
+    {
+        _myGen = gen;
+        _myLineConnection = line;
+    }
     public void TurnOn()
     {
         _IsOn = true;
@@ -140,4 +145,18 @@ public class ElectricalShield : MonoBehaviour, IElectric
         newPosition = Mathf.Clamp(newPosition, bottomCapObject.transform.position.y, topCapObject.transform.position.y);
         scrollbarObject.transform.position = new Vector3(scrollbarStartPosition.x, newPosition, scrollbarStartPosition.z);
     }*/
+   public void MouseOver()
+   {
+       _myGen.ShowLineConnection(_myLineConnection);
+   }
+
+   public void MouseExit()
+   {
+       _myGen.NotShowLineConnection(_myLineConnection);
+   }
+
+   public void Interact()
+   {
+
+   }
 }

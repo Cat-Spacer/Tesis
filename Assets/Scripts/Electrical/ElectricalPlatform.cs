@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class ElectricalPlatform : MonoBehaviour, IElectric
+public class ElectricalPlatform : MonoBehaviour, IElectric, IMouseOver
 {
     [SerializeField] private Transform _PointATop;
     [SerializeField] private Transform _PointBLow;
@@ -25,7 +25,8 @@ public class ElectricalPlatform : MonoBehaviour, IElectric
     [SerializeField] private GameObject _connectionSource; 
 
     private Action _MoveAction = delegate { };
-
+    private LineRenderer _myLineConnection;
+    private IGenerator _myGen;
     void Awake()
     {
         _newPos = transform.position;
@@ -54,7 +55,11 @@ public class ElectricalPlatform : MonoBehaviour, IElectric
     {
         return _connectionSource.transform;
     }
-
+    public void SetGenerator(IGenerator gen, LineRenderer line)
+    {
+        _myGen = gen;
+        _myLineConnection = line;
+    }
     public void TurnOn()
     {
         _turnOn = true;
@@ -176,5 +181,20 @@ public class ElectricalPlatform : MonoBehaviour, IElectric
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireCube(transform.position + _offsetBottom, _checkBottom);
+    }
+
+    public void MouseOver()
+    {
+        _myGen.ShowLineConnection(_myLineConnection);
+    }
+
+    public void MouseExit()
+    {
+        _myGen.NotShowLineConnection(_myLineConnection);
+    }
+
+    public void Interact()
+    {
+
     }
 }

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MiniConsole : MonoBehaviour, IMouseOver
+public class MiniConsole : MonoBehaviour, IMouseOver, IGenerator
 {
     [SerializeField, Range(0.01f, 10f)] private float _checkRadius = 1f;
     [SerializeField] private Hamster _hamster = null;
@@ -45,9 +45,11 @@ public class MiniConsole : MonoBehaviour, IMouseOver
         foreach (var connection in _connection)
         {
             var newLine = Instantiate(feedbackLines, transform);
-            var connectionPos = connection.GetComponent<IElectric>().ConnectionSource();
+            var currentConnection = connection.GetComponent<IElectric>();
+            var connectionPos = currentConnection.ConnectionSource();
             newLine.SetPosition(0, transform.position);
             newLine.SetPosition(1, connectionPos.position);
+            currentConnection.SetGenerator(GetComponent<IGenerator>() , newLine);
             _linesConnection.Add(newLine, connectionPos);
             newLine.gameObject.SetActive(false);
         }
@@ -174,6 +176,28 @@ public class MiniConsole : MonoBehaviour, IMouseOver
             if (player.withHamster)
             {
                 _inRange = false;
+            }
+        }
+    }
+    public void ShowLineConnection(LineRenderer line)
+    {
+        foreach (var currentLine in _linesConnection)
+        {
+            if (currentLine.Key == line)
+            {
+                currentLine.Key.gameObject.SetActive(true);
+                currentLine.Key.SetPosition(0, transform.position);
+                currentLine.Key.SetPosition(1, currentLine.Value.position);
+            }
+        }
+    }
+    public void NotShowLineConnection(LineRenderer line)
+    {
+        foreach (var currentLine in _linesConnection)
+        {
+            if (currentLine.Key == line)
+            {
+                currentLine.Key.gameObject.SetActive(false);
             }
         }
     }

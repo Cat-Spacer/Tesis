@@ -9,4 +9,6 @@ public interface IElectric
 
     Transform ConnectionSource();
 
+    void SetGenerator(IGenerator gen ,LineRenderer line);
+
 }

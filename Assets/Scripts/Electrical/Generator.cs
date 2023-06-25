@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class Generator : MonoBehaviour, IMouseOver
+public class Generator : MonoBehaviour, IMouseOver, IGenerator
 {
     public List<GameObject> _connection;
     [SerializeField] private bool _test = false;
@@ -23,8 +23,6 @@ public class Generator : MonoBehaviour, IMouseOver
     private bool _showConnections, _isOutline;
     private SpriteRenderer _sp;
     private Material defaultMat;
-
-
     private void Start()
     {
         if (_test) StartMiniGame();
@@ -52,9 +50,11 @@ public class Generator : MonoBehaviour, IMouseOver
         foreach (var connection in _connection)
         {
             var newLine = Instantiate(feedbackLines, transform);
-            var connectionPos = connection.GetComponent<IElectric>().ConnectionSource();
+            var currentConnection = connection.GetComponent<IElectric>();
+            var connectionPos = currentConnection.ConnectionSource();
             newLine.SetPosition(0, transform.position);
             newLine.SetPosition(1, connectionPos.position);
+            currentConnection.SetGenerator(GetComponent<IGenerator>() , newLine);
             _linesConnection.Add(newLine, connectionPos);
             newLine.gameObject.SetActive(false);
         }
@@ -69,7 +69,6 @@ public class Generator : MonoBehaviour, IMouseOver
             line.Key.SetPosition(1, line.Value.position);
         }
     }
-
     public void StartGenerator(bool start = true)
     {
         if (_miniGame) _miniGame.GetSetGenerator = this;
@@ -196,5 +195,28 @@ public class Generator : MonoBehaviour, IMouseOver
     {
         //if (_showConnections) _showConnections = false;
         //else _showConnections = true;
+    }
+    public void ShowLineConnection(LineRenderer line)
+    {
+        foreach (var currentLine in _linesConnection)
+        {
+            if (currentLine.Key == line)
+            {
+                currentLine.Key.gameObject.SetActive(true);
+                currentLine.Key.SetPosition(0, transform.position);
+                currentLine.Key.SetPosition(1, currentLine.Value.position);
+            }
+        }
+    }
+
+    public void NotShowLineConnection(LineRenderer line)
+    {
+        foreach (var currentLine in _linesConnection)
+        {
+            if (currentLine.Key == line)
+            {
+                currentLine.Key.gameObject.SetActive(false);
+            }
+        }
     }
 }

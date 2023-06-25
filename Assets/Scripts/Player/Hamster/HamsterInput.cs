@@ -42,7 +42,7 @@ public class HamsterInput : MonoBehaviour
             lastInteraction2 = coll.gameObject;
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse0)) interact.Interact();
+        if (Input.GetKeyDown(KeyCode.Mouse0) && interact != null) interact.Interact();
     }
     private void OnDrawGizmos()
     {

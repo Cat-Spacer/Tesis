@@ -67,7 +67,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         _MovementState = delegate { };
         _DashState = delegate { };
         GameManager.Instance.SetNewCheckPoint(transform);
-
+        
         //_DashState = delegate { };
     }
 
