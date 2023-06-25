@@ -7,7 +7,7 @@ public class TubeEntry : MonoBehaviour, IMouseOver
     [SerializeField] private Tube _entryTube;
     [SerializeField] private float _searchRad = 1.0f;
     [SerializeField] private Material outlineMat;
-    private bool _isOpen, _isOutline;
+    [SerializeField] private bool _isOpen, _isOutline, _allReadyIn = false;
     private SpriteRenderer _sp;
     private Material defaultMat;
 
@@ -63,14 +63,17 @@ public class TubeEntry : MonoBehaviour, IMouseOver
     public void Interact()
     {
         var hamster = FindObjectOfType<Hamster>();
-        if (!(hamster && _isOpen)) return;
+        if (!(hamster && _isOpen)) if(!_allReadyIn) return;
+        Debug.Log("Ejecuto");
 
+        _allReadyIn = true;
         if (!hamster.InTube())
             StartCoroutine(HamsterToEntry(hamster));
         else
             StartCoroutine(HamsterToPlayer(hamster));
-
     }
+
+
 
     private IEnumerator HamsterToEntry(Hamster squix)
     {
@@ -79,7 +82,9 @@ public class TubeEntry : MonoBehaviour, IMouseOver
             squix.GoToPosition(transform.position);
             yield return new WaitForEndOfFrame();
         }
+        Debug.Log("Entro al tubo");
         squix.GetInTube(_entryTube.transform.position, _entryTube);
+        Debug.Log("Salí de la corutina");
     }
     private IEnumerator HamsterToPlayer(Hamster squix)
     {
@@ -89,6 +94,5 @@ public class TubeEntry : MonoBehaviour, IMouseOver
             yield return new WaitForEndOfFrame();
         }
         squix.ReturnToPlayer(false);
-        //squix.GetInTube(_entryTube.transform.position, _entryTube);
     }
 }

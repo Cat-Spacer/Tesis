@@ -18,6 +18,7 @@ public class Hamster : MonoBehaviour
     [SerializeField] private int _energyCollected, _maxEnergy = 3;
     public bool visible = true;
     [SerializeField] private GameObject _returnBTN = null;
+    [SerializeField] private KeyCode _retBTNKey = KeyCode.F12;
     private bool _owlCatched;
 
     private void Start()
@@ -34,7 +35,7 @@ public class Hamster : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (Input.GetMouseButtonDown(1) && !_owlCatched)
+        if (Input.GetKeyDown(_retBTNKey) && !_owlCatched)
             ReturnToPlayer();
         /*if (_inTube && _returnBTN)
             if (!_returnBTN.activeInHierarchy) _returnBTN.SetActive(true);*/
@@ -56,47 +57,47 @@ public class Hamster : MonoBehaviour
     public void MoveInTubes()
     {
         MoveToPosition(_currentTubePos);
-
+        Debug.Log("Me muevo en los tubos");
         if (Vector3.Distance(transform.position, _currentTubePos) < .01f)
             CheckNextTube();
     }
 
     public void MoveToPosition(Vector2 pos) { transform.position = Vector3.MoveTowards(transform.position, pos, _speed * Time.deltaTime); }
 
-    public void GoToPosition(Vector2 pos)
-    {
-        _HamsterAction = () => MoveToPosition(pos);
-    }
+    public void GoToPosition(Vector2 pos) { _HamsterAction = () => MoveToPosition(pos); }
 
     public void GetInTube(Vector2 targetPosition, Tube tube = null)
     {
         if (_inTube || _owlCatched) return;
         _player.HamsterCheck(false);
+        Debug.Log("Entre al tubo");
 
         var tubeColl = Physics2D.Raycast(targetPosition, Vector3.forward, _pointRadius, _tubeLayerMask);
 
         //Debug.Log($"GetInTube, tubeColl = {tubeColl.collider.gameObject.name}, targetPosition = {(Vector3)targetPosition}");
         if (tubeColl || tube)
         {
+            /*
             var playerOrigPos = FindObjectOfType<CustomMovement>().gameObject.transform.position;
             var distance = 0.0f;
             if (tube)
                 distance = Vector2.Distance(tube.transform.position, playerOrigPos);
             else
-                distance = Vector2.Distance(tubeColl.transform.position, playerOrigPos);
+                distance = Vector2.Distance(tubeColl.transform.position, playerOrigPos);*/
 
             //Debug.Log($"distance = {distance}");
-            if (distance <= _interactRadius)
-            {
-                if (!tube.IsEntry()) return;
-                _HamsterAction = MoveInTubes;
-                _currentTube = tube;
-                _currentTubePos = tube.GetCenter();
-                _inTube = true;
-                if (_returnBTN) _returnBTN.SetActive(true);
-            }
+            //if (distance <= _interactRadius)
+            //{
+            if (!tube.IsEntry()) return;
+            _HamsterAction = MoveInTubes;
+            _currentTube = tube;
+            _currentTubePos = tube.GetCenter();
+            _inTube = true;
+            if (_returnBTN) _returnBTN.SetActive(true);
+            //}
         }
     }
+
     void CheckNextTube()
     {
         if (_currentTube.IsCheckpoint() || _currentTube.IsEntry() || _currentTube.IsExit())

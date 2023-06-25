@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 305437039075201204}
   - component: {fileID: 918679972896183627}
   - component: {fileID: 6934063176762242988}
-  - component: {fileID: 1818886602362788600}
   - component: {fileID: 5948385619561257960}
+  - component: {fileID: 1818886602362788600}
   m_Layer: 23
   m_Name: DownArrow
   m_TagString: Untagged
@@ -163,20 +163,6 @@ PolygonCollider2D:
     - - {x: 0, y: 0.275}
       - {x: -0.2, y: -0.25}
       - {x: 0.2, y: -0.25}
---- !u!114 &1818886602362788600
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 114022660314458737}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34271eb9f461be341a741c5b80c923b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _tube: {fileID: 6160478471313254657}
-  _tubeActions: 2
 --- !u!61 &5948385619561257960
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -203,6 +189,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.5}
   m_EdgeRadius: 0
+--- !u!114 &1818886602362788600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 114022660314458737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34271eb9f461be341a741c5b80c923b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tube: {fileID: 6160478471313254657}
+  _tubeActions: 2
 --- !u!1 &1396843678660904380
 GameObject:
   m_ObjectHideFlags: 0
@@ -837,8 +837,8 @@ GameObject:
   - component: {fileID: 7886824240862566313}
   - component: {fileID: 2724915851661705274}
   - component: {fileID: 3600284065694872925}
-  - component: {fileID: 7100306387498633869}
   - component: {fileID: 3573054967904056180}
+  - component: {fileID: 7100306387498633869}
   m_Layer: 23
   m_Name: LeftArrow
   m_TagString: Untagged
@@ -987,20 +987,6 @@ PolygonCollider2D:
     - - {x: 0, y: 0.275}
       - {x: -0.2, y: -0.25}
       - {x: 0.2, y: -0.25}
---- !u!114 &7100306387498633869
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6380679189104423764}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34271eb9f461be341a741c5b80c923b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _tube: {fileID: 6160478471313254657}
-  _tubeActions: 3
 --- !u!61 &3573054967904056180
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1027,6 +1013,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.5}
   m_EdgeRadius: 0
+--- !u!114 &7100306387498633869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6380679189104423764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34271eb9f461be341a741c5b80c923b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tube: {fileID: 6160478471313254657}
+  _tubeActions: 3
 --- !u!1 &6532891094492689627
 GameObject:
   m_ObjectHideFlags: 0
