@@ -22,8 +22,6 @@ public class BubbleCameraFollow : MonoBehaviour
 
         if (_hamster.Generator)
         {
-            Debug.Log($"Distance of targets = {Vector3.Distance(_target.position, _hamster.Generator.transform.position)}");
-
             if (Vector3.Distance(_target.position, _hamster.Generator.transform.position) < _focusRad)
                 transform.position = Vector3.Lerp((Vector2)transform.position,
                     (Vector2)((_hamster.Generator.transform.position + _target.position) / 2.0f),

@@ -69,17 +69,17 @@ public class Generator : MonoBehaviour, IMouseOver, IGenerator
             line.Key.SetPosition(1, line.Value.position);
         }
     }
+
     public void StartGenerator(bool start = true)
     {
         if (_miniGame) _miniGame.GetSetGenerator = this;
+
         if (_miniGameWin)
         {
             if (_hamster)
                 if (EnergyNeeded <= _hamster.Energy)
-                {
                     StartCoroutine(Delay(start));
-                }
-            StartCoroutine(Delay(start));
+            //StartCoroutine(Delay(start));
         }
         else if (!_alreadyStarded)
         {
@@ -93,14 +93,19 @@ public class Generator : MonoBehaviour, IMouseOver, IGenerator
         }
     }
 
-    public void StopGenerator()
+    public void StopMinigame()
     {
-        TurnButtons(false);
         if (_miniGame)
         {
             _miniGame.TurnOff();
             if (_miniGame.GetSetGenerator) _miniGame.GetSetGenerator = null;
         }
+    }
+
+    public void StopGenerator()
+    {
+        TurnButtons(false);
+        StopMinigame();
         StartCoroutine(Delay(false));
     }
 
