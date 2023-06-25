@@ -12,6 +12,7 @@ public class CameraFollow : MonoBehaviour
         if (_target == null) return;
         transform.position = _target.position + _offset;
     }
+
     void CheckBounds()
     {
         if (transform.position.y > 5) transform.position = new Vector2(transform.position.x, transform.position.y);
