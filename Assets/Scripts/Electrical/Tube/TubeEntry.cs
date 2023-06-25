@@ -38,13 +38,6 @@ public class TubeEntry : MonoBehaviour, IMouseOver
             _sp.sprite = _closed;
         }
     }
-    //private void OnMouseOver()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.Mouse0))
-    //    {
-    //        FindObjectOfType<Hamster>().GetInTube(_entryTube.transform.position, _entryTube);
-    //    }
-    //}
 
     public void MouseOver()
     {
@@ -64,7 +57,6 @@ public class TubeEntry : MonoBehaviour, IMouseOver
     {
         var hamster = FindObjectOfType<Hamster>();
         if (!(hamster && _isOpen)) if(!_allReadyIn) return;
-        Debug.Log("Ejecuto");
 
         _allReadyIn = true;
         if (!hamster.InTube())
@@ -73,8 +65,6 @@ public class TubeEntry : MonoBehaviour, IMouseOver
             StartCoroutine(HamsterToPlayer(hamster));
     }
 
-
-
     private IEnumerator HamsterToEntry(Hamster squix)
     {
         while (squix.transform.position != transform.position)
@@ -82,10 +72,9 @@ public class TubeEntry : MonoBehaviour, IMouseOver
             squix.GoToPosition(transform.position);
             yield return new WaitForEndOfFrame();
         }
-        Debug.Log("Entro al tubo");
         squix.GetInTube(_entryTube.transform.position, _entryTube);
-        Debug.Log("Salí de la corutina");
     }
+
     private IEnumerator HamsterToPlayer(Hamster squix)
     {
         while (squix.transform.position != transform.position)

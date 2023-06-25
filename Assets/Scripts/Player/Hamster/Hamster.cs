@@ -57,7 +57,6 @@ public class Hamster : MonoBehaviour
     public void MoveInTubes()
     {
         MoveToPosition(_currentTubePos);
-        Debug.Log("Me muevo en los tubos");
         if (Vector3.Distance(transform.position, _currentTubePos) < .01f)
             CheckNextTube();
     }
@@ -70,7 +69,6 @@ public class Hamster : MonoBehaviour
     {
         if (_inTube || _owlCatched) return;
         _player.HamsterCheck(false);
-        Debug.Log("Entre al tubo");
 
         var tubeColl = Physics2D.Raycast(targetPosition, Vector3.forward, _pointRadius, _tubeLayerMask);
 
@@ -114,7 +112,7 @@ public class Hamster : MonoBehaviour
             {
                 if (_generator.EnergyNeeded <= _energyCollected || _generator.IsAlreadyStarded)
                 {
-                    _generator.TurnButtons();
+                    //_generator.TurnButtons();
                     _generator.StartGenerator();
                 }
             }
@@ -141,6 +139,7 @@ public class Hamster : MonoBehaviour
         {
             if (_generator)
             {
+                Debug.Log("Prendo generador");
                 _generator.TurnButtons();
                 _generator.StartGenerator();
             }
@@ -167,7 +166,7 @@ public class Hamster : MonoBehaviour
             _HamsterAction = () => MoveWithPlayer(_speed * 1.5f);
 
         if (_currentTube) _currentTube.ArrowsActDes(false);
-        //if (_generator) _generator.StopGenerator();
+        if (_generator) _generator.StopMinigame();
         _generator = null;
         if (_returnBTN) _returnBTN.SetActive(false);
     }
@@ -185,6 +184,7 @@ public class Hamster : MonoBehaviour
     public void Die()
     {
         _player.GetDamage();
+        _energyCollected = 0;
         ReturnToPlayer();
     }
 
