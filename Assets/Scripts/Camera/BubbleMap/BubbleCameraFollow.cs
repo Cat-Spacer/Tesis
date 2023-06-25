@@ -20,7 +20,9 @@ public class BubbleCameraFollow : MonoBehaviour
         if (_target == null) return;
 
         if (_hamster.Generator)
-            transform.position = Vector3.Lerp(transform.position, _hamster.Generator.transform.position, smoothFactor * Time.deltaTime);
+            transform.position = Vector3.Lerp((Vector2)transform.position,
+                (Vector2)(_hamster.Generator.transform.position + _hamster.Generator.transform.position.normalized * 0.25f),
+                smoothFactor * Time.deltaTime) + _offset;
         else
             transform.position = _target.position + _offset;
     }
