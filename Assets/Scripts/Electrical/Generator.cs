@@ -156,7 +156,6 @@ public class Generator : MonoBehaviour, IMouseOver
             }
             else
             {
-
                 if (_connection[i] != null && _connection[i].GetComponent<IElectric>() != null)
                 {
                     _connection[i].GetComponent<IElectric>().TurnOff();

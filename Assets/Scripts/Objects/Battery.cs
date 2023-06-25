@@ -1,9 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Battery : MonoBehaviour
 {
+    private void Start()
+    {
+        EventManager.Instance.Subscribe("PlayerDeath", OnReset);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.GetComponent<Hamster>())
@@ -29,5 +35,10 @@ public class Battery : MonoBehaviour
                 gameObject.SetActive(false);
             }
         }
+    }
+
+    void OnReset(params object[] param)
+    {
+        gameObject.SetActive(true);
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Magnet : MonoBehaviour, IElectric
 {
@@ -10,20 +11,15 @@ public class Magnet : MonoBehaviour, IElectric
     [SerializeField] private float _attractForce, _pow = 1f, _attractLimit = 1.0f;
     [SerializeField] private LayerMask _floorLayerMask, _metalLayerMask;
     [SerializeField] private GameObject _onSprite, _offSprite, _particle, _area, _connectionSource;
-    [SerializeField] private bool _gizmos = true, _test = false, _collider = true, _attractWPhysics = true;
+    [SerializeField] private bool _gizmos = true;
+    [SerializeField] private bool _isOn = false;
+    [SerializeField] private bool _collider = true, _attractWPhysics = true;
     [SerializeField] private MagnetBox _box = null;
     private bool _doOnce = true, _active = false;
-
+    private bool firstCall = true;
     private void Start()
     {
-        _onSprite.SetActive(false);
-        _offSprite.SetActive(true);
-        _particle.SetActive(false);
-        _active = false;
-
-        if (_test)
-            TurnOn();
-        else TurnOff();
+        FirstCall();
     }
 
     private void FixedUpdate()
@@ -96,33 +92,82 @@ public class Magnet : MonoBehaviour, IElectric
 
     public void TurnOn()
     {
-        _onSprite.SetActive(true);
-        _offSprite.SetActive(false);
-        _particle.SetActive(true);
-        _area.SetActive(true);
-        _active = true;
-
-        if (_attractWPhysics) _MagnetAction = AttractWPhysics;
-        else _MagnetAction = AttractWTransform;
+        Debug.Log(_isOn);
+        Debug.Log("TurnOn");
+        if (!_isOn)
+        {
+            _onSprite.SetActive(true);
+            _offSprite.SetActive(false);
+            _particle.SetActive(true);
+            _area.SetActive(true);
+            _active = true;
+            _isOn = true;
+            if (_attractWPhysics) _MagnetAction = AttractWPhysics;
+            else _MagnetAction = AttractWTransform;
+        }
+        else
+        {
+            TurnOff(); 
+        }
     }
 
     public void TurnOff()
     {
-        _MagnetAction = delegate { };
-        _onSprite.SetActive(false);
-        _offSprite.SetActive(true);
-        _particle.SetActive(false);
-        _area.SetActive(false);
-        _active = false;
-        _doOnce = true;
-        if (_box)
+        Debug.Log(_isOn);
+        Debug.Log("TurnOff");
+        if (_isOn)
         {
-            _box.GetSetIndex--;
-            _box.GetSetUseGravity = true;
-            _box = null;
+            _MagnetAction = delegate { };
+            _onSprite.SetActive(false);
+            _offSprite.SetActive(true);
+            _particle.SetActive(false);
+            _area.SetActive(false);
+            _active = false;
+            _doOnce = true;
+            _isOn = false;
+            if (_box)
+            {
+                _box.GetSetIndex--;
+                _box.GetSetUseGravity = true;
+                _box = null;
+            }
+        }
+        else
+        {
+            TurnOn();
         }
     }
 
+    void FirstCall()
+    {
+        if (_isOn)
+        {
+            Debug.Log("Entre");
+            _onSprite.SetActive(true);
+            _offSprite.SetActive(false);
+            _particle.SetActive(true);
+            _area.SetActive(true);
+            _active = true;
+            if (_attractWPhysics) _MagnetAction = AttractWPhysics;
+            else _MagnetAction = AttractWTransform;
+        }
+        else
+        {
+            _MagnetAction = delegate { };
+            _onSprite.SetActive(false);
+            _offSprite.SetActive(true);
+            _particle.SetActive(false);
+            _area.SetActive(false);
+            _active = false;
+            _doOnce = true;
+            if (_box)
+            {
+                _box.GetSetIndex--;
+                _box.GetSetUseGravity = true;
+                _box = null;
+            }
+        }
+    }
     public Transform ConnectionSource()
     {
         return _connectionSource.transform;
