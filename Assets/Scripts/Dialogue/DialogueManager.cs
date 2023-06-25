@@ -22,7 +22,7 @@ public class DialogueManager : MonoBehaviour
 
     private void Start()
     {
-        animator.SetBool("IsOpen", true);
+        //animator.SetBool("IsOpen", true);
     }
 
     public void StartDialogue(Dialogue dialogue)

@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEditor;
 
-public class MovingPlatform : MonoBehaviour, IElectric
+public class MovingPlatform : MonoBehaviour, IElectric, IMouseOver
 {
     Action _MoveAction = delegate { };
     [SerializeField] Vector3 _offset;
@@ -21,7 +22,8 @@ public class MovingPlatform : MonoBehaviour, IElectric
     [SerializeField] GameObject pivot;
     Vector3 _startPos;
     int startingWaypoint;
-
+    private LineRenderer _myLineConnection;
+    private IGenerator _myGen; 
     [SerializeField] private GameObject _connectionSource;
 
     private SpriteRenderer _sp;
@@ -105,6 +107,17 @@ public class MovingPlatform : MonoBehaviour, IElectric
         return _connectionSource.transform;
     }
 
+    public void SetGenerator(IGenerator gen, LineRenderer line)
+    {
+        _myGen = gen;
+        _myLineConnection = line;
+    }
+
+    public void SetGenerator(LineRenderer line)
+    {
+        _myLineConnection = line;
+    }
+
     bool stop = false;
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -122,5 +135,20 @@ public class MovingPlatform : MonoBehaviour, IElectric
     {
         platform.transform.position = _startPos;
         currentWaypoint = startingWaypoint;
+    }
+
+    public void MouseOver()
+    {
+        _myGen.ShowLineConnection(_myLineConnection);
+    }
+
+    public void MouseExit()
+    {
+        _myGen.NotShowLineConnection(_myLineConnection);
+    }
+
+    public void Interact()
+    {
+
     }
 }

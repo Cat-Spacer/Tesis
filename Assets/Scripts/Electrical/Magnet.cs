@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class Magnet : MonoBehaviour, IElectric
+public class Magnet : MonoBehaviour, IElectric, IMouseOver
 {
     Action _MagnetAction = delegate { };
 
@@ -16,7 +16,8 @@ public class Magnet : MonoBehaviour, IElectric
     [SerializeField] private MagnetBox _box = null;
     private bool _doOnce = true, _active = false;
     private bool firstCall = true;
-
+    private LineRenderer _myLineConnection;
+    private IGenerator _myGen;
     private void Start()
     {
         FirstCall();
@@ -92,8 +93,6 @@ public class Magnet : MonoBehaviour, IElectric
 
     public void TurnOn()
     {
-        Debug.Log(_isOn);
-        Debug.Log("TurnOn");
         if (!_isOn)
         {
             _onSprite.SetActive(true);
@@ -113,8 +112,6 @@ public class Magnet : MonoBehaviour, IElectric
 
     public void TurnOff()
     {
-        Debug.Log(_isOn);
-        Debug.Log("TurnOff");
         if (_isOn)
         {
             _MagnetAction = delegate { };
@@ -142,7 +139,6 @@ public class Magnet : MonoBehaviour, IElectric
     {
         if (_isOn)
         {
-            Debug.Log("Entre");
             _onSprite.SetActive(true);
             _offSprite.SetActive(false);
             _particle.SetActive(true);
@@ -173,6 +169,11 @@ public class Magnet : MonoBehaviour, IElectric
         return _connectionSource.transform;
     }
 
+    public void SetGenerator(IGenerator gen, LineRenderer line)
+    {
+        _myGen = gen;
+        _myLineConnection = line;
+    }
     public bool GetActive { get { return _active; } }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -203,5 +204,21 @@ public class Magnet : MonoBehaviour, IElectric
         Gizmos.DrawWireCube(transform.position + _offset, _attractArea);
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(transform.position, _magnetArea);
+    }
+
+    public void MouseOver()
+    {
+        _myGen.ShowLineConnection(_myLineConnection);
+        Debug.Log("ShowLine");
+    }
+
+    public void MouseExit()
+    {
+        _myGen.NotShowLineConnection(_myLineConnection);
+    }
+
+    public void Interact()
+    {
+
     }
 }

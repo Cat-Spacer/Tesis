@@ -103,7 +103,6 @@ public class MiniGame : MonoBehaviour
         StopAllCoroutines();
         _Action = delegate { };
         turnOn = false;
-        Debug.Log("Turn Off");
         miniGameCanva.gameObject.SetActive(false);
         foreach (var square in _OnSquare)
         {
@@ -116,7 +115,6 @@ public class MiniGame : MonoBehaviour
     IEnumerator MoveRight()
     {
         yield return new WaitForSeconds(speed);
-        Debug.Log("moveRight");
         current += 1;
         _handle.transform.position = _OffSquare[current].transform.position;
         if (current >= max)
@@ -130,7 +128,6 @@ public class MiniGame : MonoBehaviour
     IEnumerator MoveLeft()
     {
         yield return new WaitForSeconds(speed);
-        Debug.Log("moveLeft");
         current -= 1;
         _handle.transform.position = _OffSquare[current].transform.position;
         if (current <= 0)

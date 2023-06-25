@@ -9,7 +9,8 @@ public class JumpPad : MonoBehaviour, IElectric
     [SerializeField] private ParticleSystem _particle;
     [SerializeField] private bool _isOn;
     [SerializeField] GameObject _connectionSource;
-
+    private LineRenderer _myLineConnection;
+    private IGenerator _myGen;
     private void Start()
     {
         if (_isOn)
@@ -31,6 +32,12 @@ public class JumpPad : MonoBehaviour, IElectric
     public Transform ConnectionSource()
     {
         return _connectionSource.transform;
+    }
+
+    public void SetGenerator(IGenerator gen, LineRenderer line)
+    {
+        _myGen = gen;
+        _myLineConnection = line;
     }
 
     public void TurnOn()
@@ -76,4 +83,5 @@ public class JumpPad : MonoBehaviour, IElectric
     {
 
     }
+    
 }
