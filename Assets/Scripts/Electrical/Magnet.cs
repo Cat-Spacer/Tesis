@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class Magnet : MonoBehaviour, IElectric
 {
@@ -17,6 +16,7 @@ public class Magnet : MonoBehaviour, IElectric
     [SerializeField] private MagnetBox _box = null;
     private bool _doOnce = true, _active = false;
     private bool firstCall = true;
+
     private void Start()
     {
         FirstCall();
@@ -64,7 +64,7 @@ public class Magnet : MonoBehaviour, IElectric
             if (_box)
             {
                 _box.GetSetIndex--;
-                _box.GetSetUseGravity = true;
+                if (_box.GetSetIndex < 1) _box.GetSetUseGravity = true;
             }
             _box = null;
             return;
@@ -107,7 +107,7 @@ public class Magnet : MonoBehaviour, IElectric
         }
         else
         {
-            TurnOff(); 
+            TurnOff();
         }
     }
 
@@ -128,7 +128,7 @@ public class Magnet : MonoBehaviour, IElectric
             if (_box)
             {
                 _box.GetSetIndex--;
-                _box.GetSetUseGravity = true;
+                if (_box.GetSetIndex < 1) _box.GetSetUseGravity = true;
                 _box = null;
             }
         }
@@ -163,7 +163,7 @@ public class Magnet : MonoBehaviour, IElectric
             if (_box)
             {
                 _box.GetSetIndex--;
-                _box.GetSetUseGravity = true;
+                if (_box.GetSetIndex < 1) _box.GetSetUseGravity = true;
                 _box = null;
             }
         }
@@ -186,10 +186,7 @@ public class Magnet : MonoBehaviour, IElectric
             var boxColl = obj.GetComponent<BoxCollider2D>();
             if (metalBox.GetRigidbody.bodyType == RigidbodyType2D.Static
                 && Vector2.Distance(transform.position, metalBox.transform.position) > boxColl.bounds.size.magnitude/*_attractLimit*/)
-            {
                 metalBox.DefrostPos();
-                Debug.Log($"DEfrezeado");
-            }
         }
 
         float dist = (obj.transform.position - transform.position).magnitude;
