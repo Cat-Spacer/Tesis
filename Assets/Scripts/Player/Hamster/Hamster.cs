@@ -42,6 +42,8 @@ public class Hamster : MonoBehaviour
 
     public void MoveWithPlayer() { transform.position = _playerPos.position; }
 
+    public void MoveWithPlayer(float speed) { transform.position = Vector3.MoveTowards(transform.position, _playerPos.position, speed * Time.deltaTime); }
+
     public void AddEnergy(int energy_arg)
     {
         _energyCollected += energy_arg;
@@ -60,6 +62,11 @@ public class Hamster : MonoBehaviour
     }
 
     public void MoveToPosition(Vector2 pos) { transform.position = Vector3.MoveTowards(transform.position, pos, _speed * Time.deltaTime); }
+
+    public void GoToPosition(Vector2 pos)
+    {
+        _HamsterAction = () => MoveToPosition(pos);
+    }
 
     public void GetInTube(Vector2 targetPosition, Tube tube = null)
     {
@@ -147,21 +154,30 @@ public class Hamster : MonoBehaviour
         }
     }
 
-    public void ReturnToPlayer()
+    public void ReturnToPlayer(bool instant = true)
     {
         _inTube = false;
         _owlCatched = false;
-        if (_player) { _player.HamsterCheck(true); }
-        _HamsterAction = MoveWithPlayer;
+        if (_player) _player.HamsterCheck(true);
+
+        if (instant)
+            _HamsterAction = MoveWithPlayer;
+        else
+            _HamsterAction = () => MoveWithPlayer(_speed * 1.5f);
+
         if (_currentTube) _currentTube.ArrowsActDes(false);
         if (_generator) _generator.StopGenerator();
+        _generator = null;
         if (_returnBTN) _returnBTN.SetActive(false);
     }
 
     public bool InTube() { return _inTube; }
 
     public int Energy { get { return _energyCollected; } }
+
     public int MaxEnergy { get { return _maxEnergy; } }
+
+    public Generator Generator { get { return _generator; } }
 
     public Tube LastTube { get { return _lastTube; } }
 

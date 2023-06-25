@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TubeEntry : MonoBehaviour, IMouseOver
@@ -7,11 +6,10 @@ public class TubeEntry : MonoBehaviour, IMouseOver
     [SerializeField] private Sprite _open, _closed;
     [SerializeField] private Tube _entryTube;
     [SerializeField] private float _searchRad = 1.0f;
-    bool _isOpen;
-    bool _isOutline;
-    SpriteRenderer _sp;
-    [SerializeField] Material outlineMat;
-    Material defaultMat;
+    [SerializeField] private Material outlineMat;
+    private bool _isOpen, _isOutline;
+    private SpriteRenderer _sp;
+    private Material defaultMat;
 
     private void Start()
     {
@@ -19,9 +17,10 @@ public class TubeEntry : MonoBehaviour, IMouseOver
         _sp.sprite = _closed;
         defaultMat = GetComponent<SpriteRenderer>().material;
         _isOutline = false;
-        /*if (!_entryTube && Physics2D.OverlapCircle(transform.position, _searchRad).GetComponent<Tube>())
-            _entryTube = Physics2D.OverlapCircle(transform.position, _searchRad).GetComponent<Tube>();*/
+        if (!_entryTube && Physics2D.OverlapCircle(transform.position, _searchRad).GetComponent<Tube>())
+            _entryTube = Physics2D.OverlapCircle(transform.position, _searchRad).GetComponent<Tube>();
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.GetComponent<CustomMovement>())
@@ -30,6 +29,7 @@ public class TubeEntry : MonoBehaviour, IMouseOver
             _sp.sprite = _open;
         }
     }
+
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.GetComponent<CustomMovement>())
@@ -63,10 +63,32 @@ public class TubeEntry : MonoBehaviour, IMouseOver
     public void Interact()
     {
         var hamster = FindObjectOfType<Hamster>();
-        if (!hamster) return;
+        if (!(hamster && _isOpen)) return;
 
-        //hamster.GetInTube(transform.position);
-        //if (hamster.transform.position == transform.position)
-        hamster.GetInTube(_entryTube.transform.position, _entryTube);
+        if (!hamster.InTube())
+            StartCoroutine(HamsterToEntry(hamster));
+        else
+            StartCoroutine(HamsterToPlayer(hamster));
+
+    }
+
+    private IEnumerator HamsterToEntry(Hamster squix)
+    {
+        while (squix.transform.position != transform.position)
+        {
+            squix.GoToPosition(transform.position);
+            yield return new WaitForEndOfFrame();
+        }
+        squix.GetInTube(_entryTube.transform.position, _entryTube);
+    }
+    private IEnumerator HamsterToPlayer(Hamster squix)
+    {
+        while (squix.transform.position != transform.position)
+        {
+            squix.GoToPosition(transform.position);
+            yield return new WaitForEndOfFrame();
+        }
+        squix.ReturnToPlayer(false);
+        //squix.GetInTube(_entryTube.transform.position, _entryTube);
     }
 }
