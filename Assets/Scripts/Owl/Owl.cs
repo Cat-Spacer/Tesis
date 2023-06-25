@@ -16,6 +16,7 @@ public class Owl : MonoBehaviour
         _parent = GetComponentInParent<OwlAttack>();
         transform.position = _resetPos.position;
         _sp = GetComponent<SpriteRenderer>();
+        EventManager.Instance.Subscribe("PlayerDeath", ResetPosition);
     }
 
     // Update is called once per frame
@@ -45,7 +46,7 @@ public class Owl : MonoBehaviour
     }
     IEnumerator ResetAttack()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(3.5f);
         transform.position = _resetPos.position;
         _AttackAction = delegate { };
         _parent.ResetAttack();
@@ -54,5 +55,12 @@ public class Owl : MonoBehaviour
     {
         target = newTarget;
         _AttackAction = Attack;
+    }
+
+    void ResetPosition(params object[] param)
+    {
+        transform.position = _resetPos.position;
+        _parent.ResetAttack();
+        _AttackAction = delegate { };
     }
 }

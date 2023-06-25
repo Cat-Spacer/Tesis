@@ -139,11 +139,13 @@ public class MovingPlatform : MonoBehaviour, IElectric, IMouseOver
 
     public void MouseOver()
     {
+        if (_myGen == null) return;
         _myGen.ShowLineConnection(_myLineConnection);
     }
 
     public void MouseExit()
     {
+        if (_myGen == null) return;
         _myGen.NotShowLineConnection(_myLineConnection);
     }
 

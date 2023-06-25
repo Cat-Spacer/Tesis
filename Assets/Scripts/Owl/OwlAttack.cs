@@ -15,7 +15,7 @@ public class OwlAttack : MonoBehaviour
     {
         _owl = GetComponentInChildren<Owl>();
         _SearchAction = Search;
- 
+        EventManager.Instance.Subscribe("PlayerDeath", ResetPosition);
     }
 
     // Update is called once per frame
@@ -40,5 +40,16 @@ public class OwlAttack : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.DrawWireCube(transform.position, _range);
+    }
+    void ResetPosition(params object[] param)
+    {
+        _SearchAction = delegate { };
+        StartCoroutine(WaitForReanim());
+    }
+
+    IEnumerator WaitForReanim()
+    {
+        yield return new WaitForSeconds(3.5f);
+        _SearchAction = Search;
     }
 }
