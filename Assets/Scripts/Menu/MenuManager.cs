@@ -94,7 +94,7 @@ public class MenuManager : MonoBehaviour
         if (_mainCamera != null  && _mainCamera.orthographicSize != _targetZoom)
         {
             float newSize = Mathf.Lerp(_mainCamera.orthographicSize, _targetZoom, _sizeSpeed * Time.deltaTime);
-            Debug.Log("AAAA " + _sizeSpeed);
+
             // Asignar el nuevo valor al orthographic size de la cámara
             _mainCamera.orthographicSize = newSize;
         }
