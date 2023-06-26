@@ -78,6 +78,7 @@ public class Generator : MonoBehaviour, IMouseOver, IGenerator
         {
             if (_hamster)
                 if (EnergyNeeded <= _hamster.Energy) StartCoroutine(Delay(start));
+            StartCoroutine(Delay(start));
         }
         else if (!_alreadyStarded)
         {
@@ -124,8 +125,6 @@ public class Generator : MonoBehaviour, IMouseOver, IGenerator
     }
 
     void StartMiniGame() { if (_miniGame) _miniGame.TurnOn(); }
-
-
 
     public void TurnButtons(bool active = true) { buttons.SetActive(active); }
 
