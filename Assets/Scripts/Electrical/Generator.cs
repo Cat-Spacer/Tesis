@@ -77,11 +77,7 @@ public class Generator : MonoBehaviour, IMouseOver, IGenerator
         if (_miniGameWin)
         {
             if (_hamster)
-                if (EnergyNeeded <= _hamster.Energy)
-                {
-                    StartCoroutine(Delay(start));
-                }
-            StartCoroutine(Delay(start));
+                if (EnergyNeeded <= _hamster.Energy) StartCoroutine(Delay(start));
         }
         else if (!_alreadyStarded)
         {
@@ -103,6 +99,7 @@ public class Generator : MonoBehaviour, IMouseOver, IGenerator
             if (_miniGame.GetSetGenerator) _miniGame.GetSetGenerator = null;
         }
     }
+
     public void StopGenerator()
     {
         _onText.SetActive(false);
