@@ -58,4 +58,12 @@ public class ScreenSettings : MonoBehaviour, IScreen
         _screenCanvas.sortingLayerName = _sortingLayer;
         _buttons = GetComponentsInChildren<Button>();
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            BTN_Back();
+        }
+    }
 }

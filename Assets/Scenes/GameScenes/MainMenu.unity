@@ -728,10 +728,10 @@ RectTransform:
   m_Father: {fileID: 953060704}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.47395834, y: 0.16481477}
-  m_AnchorMax: {x: 0.6822917, y: 0.53518516}
-  m_AnchoredPosition: {x: 95.152504, y: 49.206512}
-  m_SizeDelta: {x: 299.63342, y: 230.70006}
+  m_AnchorMin: {x: 0.55882066, y: 0.020115422}
+  m_AnchorMax: {x: 1.3891098, y: 0.8951785}
+  m_AnchoredPosition: {x: -0.000015258789, y: 0}
+  m_SizeDelta: {x: -0.000015258789, y: -0.0000076293945}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &93300772
 MonoBehaviour:
@@ -2013,7 +2013,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &296461456
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2376,7 +2376,7 @@ GameObject:
   - component: {fileID: 359482850}
   - component: {fileID: 359482849}
   m_Layer: 5
-  m_Name: Controls
+  m_Name: OldControls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4134,10 +4134,10 @@ RectTransform:
   m_Father: {fileID: 848287785}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: -0.016145866, y: -0.037963025}
-  m_AnchorMax: {x: 0.19218749, y: 0.3324074}
-  m_AnchoredPosition: {x: 164.79167, y: 140.96382}
-  m_SizeDelta: {x: 316.66672, y: 251.48149}
+  m_AnchorMin: {x: -0.027500084, y: -0.01246908}
+  m_AnchorMax: {x: 0.97250015, y: 0.9850372}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &493864699
 MonoBehaviour:
@@ -4159,7 +4159,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 22cb1dbb583fd914ea81447072e2d91e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 871ac38bcf4f4294a9af291489ba5caf, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -5346,6 +5346,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 509634600661837810, guid: 1c865519df088fd4cb5f4f3e9f4b30f8,
+        type: 3}
+      propertyPath: sounds.Array.data[22].volume
+      value: 0.12
+      objectReference: {fileID: 0}
     - target: {fileID: 509634600661837811, guid: 1c865519df088fd4cb5f4f3e9f4b30f8,
         type: 3}
       propertyPath: m_Name
@@ -6522,7 +6527,7 @@ RectTransform:
   m_AnchorMin: {x: 0.38324353, y: 0.38920847}
   m_AnchorMax: {x: 0.6394935, y: 0.5803196}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0.0000047683716, y: 0.0000029116209}
+  m_SizeDelta: {x: 0.00002040863, y: 0.0000029116209}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &831918945
 MonoBehaviour:
@@ -6593,7 +6598,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 848287784}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -6601,9 +6606,9 @@ RectTransform:
   - {fileID: 296461456}
   m_Father: {fileID: 1018985752}
   m_RootOrder: 10
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
-  m_AnchorMin: {x: 0.80989575, y: -0.037962962}
-  m_AnchorMax: {x: 1.0182291, y: 0.33333334}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.80989575, y: 0.06111111}
+  m_AnchorMax: {x: 1.0182291, y: 0.4324074}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -6642,7 +6647,7 @@ RectTransform:
   m_AnchorMin: {x: -0.0276694, y: 0.020115422}
   m_AnchorMax: {x: 0.80261964, y: 0.8951785}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: -0.0000076293945}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &850424951
 MonoBehaviour:
@@ -8639,10 +8644,10 @@ RectTransform:
   m_Father: {fileID: 953060704}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.31927085, y: 0.16481477}
-  m_AnchorMax: {x: 0.52760416, y: 0.53518516}
-  m_AnchoredPosition: {x: -127.32529, y: 49.206512}
-  m_SizeDelta: {x: 299.63333, y: 230.70006}
+  m_AnchorMin: {x: -0.027616948, y: 0.020115422}
+  m_AnchorMax: {x: 0.80267197, y: 0.8951785}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: -0.0000076293945}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1120793576
 MonoBehaviour:
@@ -10115,18 +10120,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 359482848}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
       - m_Target: {fileID: 685828286}
         m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
         m_MethodName: OnClickSound
@@ -10139,9 +10132,9 @@ MonoBehaviour:
           m_StringArgument: Button
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1841961170}
-        m_TargetAssemblyTypeName: ButtonsManager, Assembly-CSharp
-        m_MethodName: OpenControlsMenu
+      - m_Target: {fileID: 1841961166}
+        m_TargetAssemblyTypeName: MenuButton, Assembly-CSharp
+        m_MethodName: BTN_Controls
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12210,7 +12203,7 @@ RectTransform:
   m_AnchorMin: {x: 0.45012498, y: 0.27627778}
   m_AnchorMax: {x: 0.731375, y: 0.34294444}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0.0000038226444}
+  m_SizeDelta: {x: 0.000017166138, y: 0.0000038226444}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1706463671
 MonoBehaviour:
@@ -12977,6 +12970,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   loadingScreenIndex: 1
   _settingsScreenName: Settings_Menu
+  _controlsScreenName: Control_Menu
 --- !u!4 &1841961167
 Transform:
   m_ObjectHideFlags: 0
