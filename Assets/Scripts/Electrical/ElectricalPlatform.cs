@@ -27,6 +27,8 @@ public class ElectricalPlatform : MonoBehaviour, IElectric, IMouseOver
     private Action _MoveAction = delegate { };
     private LineRenderer _myLineConnection;
     private IGenerator _myGen;
+    [SerializeField] private Sprite _onSprite, _offSprite;
+    [SerializeField] private SpriteRenderer _sp;
     void Awake()
     {
         _newPos = transform.position;
@@ -49,6 +51,7 @@ public class ElectricalPlatform : MonoBehaviour, IElectric, IMouseOver
     {
         _turnOn = false;
         _canvas.gameObject.SetActive(false);
+        _sp.sprite = _offSprite;
     }
 
     public Transform ConnectionSource()
@@ -64,6 +67,7 @@ public class ElectricalPlatform : MonoBehaviour, IElectric, IMouseOver
     {
         _turnOn = true;
         _canvas.gameObject.SetActive(true);
+        _sp.sprite = _onSprite;
     }
 
     public void NewClickPosition(Transform pos_arg) { }
@@ -173,7 +177,7 @@ public class ElectricalPlatform : MonoBehaviour, IElectric, IMouseOver
 
     public void ResetPlatform(params object[] parameters)
     {
-        Debug.Log("Reset Platform");
+        TurnOff();
         transform.position = _startPos.position;
         _current = _startCheckpoint;
     }

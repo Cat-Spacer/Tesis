@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class Generator : MonoBehaviour, IMouseOver, IGenerator
 {
@@ -24,6 +25,10 @@ public class Generator : MonoBehaviour, IMouseOver, IGenerator
     private bool _showConnections, _isOutline;
     private SpriteRenderer _sp;
     private Material defaultMat;
+    
+    [SerializeField] private Sprite _buttonGreenOn, _buttonGreenOff, _buttonRedOn, _buttonRedOff;
+
+    [SerializeField] Image _greenButton, _redButton;
 
     private void Start()
     {
@@ -144,11 +149,16 @@ public class Generator : MonoBehaviour, IMouseOver, IGenerator
         if (power)
         {
             _sp.sprite = _powerOnSprite;
+            _greenButton.sprite = _buttonGreenOn;
+            _redButton.sprite = _buttonRedOff;
             _onText.SetActive(true);
         }
         else
         {
             _sp.sprite = _powerOffSprite;
+            
+            _greenButton.sprite = _buttonGreenOff;
+            _redButton.sprite = _buttonRedOn;
             _onText.SetActive(false);
         }
         for (int i = 0; i < _connection.Count; i++)
