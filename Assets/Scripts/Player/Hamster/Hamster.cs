@@ -181,6 +181,7 @@ public class Hamster : MonoBehaviour
     public Generator Generator { get { return _generator; } }
 
     public Tube LastTube { get { return _lastTube; } }
+    public Tube CurrentTube { get { return _currentTube; } }
 
     public void Die()
     {

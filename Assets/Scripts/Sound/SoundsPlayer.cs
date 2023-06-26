@@ -10,14 +10,13 @@ public class SoundsPlayer : MonoBehaviour
 
     private void Start()
     {
-        SoundManager soundManager = FindObjectOfType<SoundManager>();
-        if (soundManager == null)
+        if (SoundManager.instance == null)
             return;
 
         foreach (var sound in _soundPlayName)
-            soundManager.Play(sound, _loop);
+            SoundManager.instance.Play(sound, _loop);
 
         if (_pauseAll)
-            soundManager.PauseAll();
+            SoundManager.instance.PauseAll();
     }
 }

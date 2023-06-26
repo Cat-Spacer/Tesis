@@ -60,7 +60,7 @@ public class TubeEntry : MonoBehaviour, IMouseOver
 
         if (!hamster.InTube())
             StartCoroutine(HamsterToEntry(hamster));
-        else
+        else if (hamster.CurrentTube == _entryTube)
             StartCoroutine(HamsterToPlayer(hamster));
     }
 

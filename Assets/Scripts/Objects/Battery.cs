@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Battery : MonoBehaviour
 {
+    [SerializeField] private SoundManager.Types _soundName = SoundManager.Types.BatteryCollected;
     private void Start()
     {
         EventManager.Instance.Subscribe("PlayerDeath", OnReset);
@@ -15,6 +16,7 @@ public class Battery : MonoBehaviour
             if (hamster == null) return;
             if (hamster.Energy < hamster.MaxEnergy)
             {
+                SoundManager.instance.Play(_soundName, false);
                 hamster.AddEnergy(1);
                 gameObject.SetActive(false);
             }
@@ -28,6 +30,7 @@ public class Battery : MonoBehaviour
             if (hamster == null) return;
             if (hamster.Energy < hamster.MaxEnergy)
             {
+                SoundManager.instance.Play(_soundName, false);
                 hamster.AddEnergy(1);
                 gameObject.SetActive(false);
             }
