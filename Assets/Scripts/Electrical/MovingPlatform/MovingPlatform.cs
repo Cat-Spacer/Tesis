@@ -7,7 +7,7 @@ using UnityEditor;
 public class MovingPlatform : MonoBehaviour, IElectric, IMouseOver
 {
     Action _MoveAction = delegate { };
-    [SerializeField] Vector3 _offset;
+    [SerializeField] private Vector3 _offset;
     public GameObject platform;
     [Header("Waypoints")]
     [SerializeField] private List<Transform> _waypoitns;
@@ -19,17 +19,18 @@ public class MovingPlatform : MonoBehaviour, IElectric, IMouseOver
     private int _senseDir = 1;
     private Rigidbody2D _myRB2D;
     [SerializeField] private bool _forceTurnOn = false;
-    [SerializeField] GameObject pivot;
-    Vector3 _startPos;
-    int startingWaypoint;
+    [SerializeField] private GameObject pivot;
+    private Vector3 _startPos;
+    private int startingWaypoint;
     private LineRenderer _myLineConnection;
     private IGenerator _myGen; 
     [SerializeField] private GameObject _connectionSource;
-
     private SpriteRenderer _sp;
     [SerializeField] private Sprite _turnOnSprite, _turnOffSprite;
-
     [SerializeField] private bool _alwaysOn = false;
+    [SerializeField] private SoundManager.Types _sound;
+    private bool stop = false;
+
     private void Start()
     {
         _sp = GetComponent<SpriteRenderer>();
@@ -41,7 +42,6 @@ public class MovingPlatform : MonoBehaviour, IElectric, IMouseOver
         _myRB2D = platform.GetComponent<Rigidbody2D>();
         if (_forceTurnOn) TurnOn();
         else TurnOff();
-
     }
 
     private void FixedUpdate()
@@ -91,6 +91,7 @@ public class MovingPlatform : MonoBehaviour, IElectric, IMouseOver
 
     public void TurnOn()
     {
+        SoundManager.instance.Play(_sound);
         _MoveAction = Movement;
         _sp.sprite = _turnOnSprite;
     }
@@ -118,7 +119,6 @@ public class MovingPlatform : MonoBehaviour, IElectric, IMouseOver
         _myLineConnection = line;
     }
 
-    bool stop = false;
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.layer == 27)

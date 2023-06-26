@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
-    [SerializeField] GameObject _on, _off;
-    bool alreadyOn;
+    [SerializeField] private GameObject _on, _off;
+    [SerializeField] private SoundManager.Types _sound = SoundManager.Types.Item;
+    private bool alreadyOn;
+
     private void Start()
     {
         _on.SetActive(false);
@@ -15,6 +17,7 @@ public class Checkpoint : MonoBehaviour
     {
         if (collision.gameObject == GameManager.Instance.GetPlayer() && !alreadyOn)
         {
+            SoundManager.instance.Play(_sound, false);
             GameManager.Instance.SetNewCheckPoint(transform);
             _on.SetActive(true);
             _off.SetActive(false);

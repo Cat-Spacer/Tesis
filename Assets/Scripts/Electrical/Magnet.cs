@@ -4,7 +4,6 @@ using UnityEngine;
 public class Magnet : MonoBehaviour, IElectric, IMouseOver
 {
     Action _MagnetAction = delegate { };
-
     [SerializeField] private Vector2 _attractArea, _magnetArea;
     [SerializeField] private Vector3 _offset;
     [SerializeField] private float _attractForce, _pow = 1f, _attractLimit = 1.0f;
@@ -82,7 +81,6 @@ public class Magnet : MonoBehaviour, IElectric, IMouseOver
         }
         else
             _box = obj.GetComponent<MagnetBox>();
-
 
         if (_doOnce)
         {
@@ -188,6 +186,7 @@ public class Magnet : MonoBehaviour, IElectric, IMouseOver
             }
         }
     }
+
     public Transform ConnectionSource()
     {
         return _connectionSource.transform;
@@ -198,6 +197,7 @@ public class Magnet : MonoBehaviour, IElectric, IMouseOver
         _myGen = gen;
         _myLineConnection = line;
     }
+
     public bool GetActive { get { return _active; } }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -240,10 +240,8 @@ public class Magnet : MonoBehaviour, IElectric, IMouseOver
         _myGen.NotShowLineConnection(_myLineConnection);
     }
 
-    public void Interact()
-    {
+    public void Interact() { }
 
-    }
     void ResetPosition(params object[] param)
     {
         if (_startingBool) _isOn = true;
