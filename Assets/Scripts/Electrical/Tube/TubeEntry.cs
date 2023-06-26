@@ -56,9 +56,8 @@ public class TubeEntry : MonoBehaviour, IMouseOver
     public void Interact()
     {
         var hamster = FindObjectOfType<Hamster>();
-        if (!(hamster && _isOpen)) if(!_allReadyIn) return;
+        if (!(hamster && _isOpen)) return;
 
-        _allReadyIn = true;
         if (!hamster.InTube())
             StartCoroutine(HamsterToEntry(hamster));
         else

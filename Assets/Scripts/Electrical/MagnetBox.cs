@@ -8,6 +8,7 @@ public class MagnetBox : MonoBehaviour
     [SerializeField] private LayerMask _collLayer, _floorMask;
     [SerializeField] private SoundManager.Types _sound;
     [SerializeField] private ParticleSystem _fallParticle;
+    [SerializeField] private GameObject _On = null, _Off = null;
     private Collider2D _coll2D;
     [SerializeField] private int _index = 0;
 
@@ -16,6 +17,7 @@ public class MagnetBox : MonoBehaviour
         _coll2D = GetComponent<Collider2D>();
         if (!(_fallParticle && GetComponentInChildren<ParticleSystem>()))
             _fallParticle = GetComponentInChildren<ParticleSystem>();
+        if(_On) _On.SetActive(false);
     }
 
     void Update()
@@ -67,6 +69,9 @@ public class MagnetBox : MonoBehaviour
         else
             Debug.Log($"{gameObject.name} Played metal crash particles");
     }
+
+    public GameObject GetOnGO { get { return _On; } }
+    public GameObject GetOffGO { get { return _Off; } }
 
     public bool GetSetUseGravity { get { return _useGravity; } set { _useGravity = value; } }
     public int GetSetIndex { get { return _index; } set { _index = value; } }

@@ -133,7 +133,22 @@ public class SoundManager : MonoBehaviour
         StalacticBreaking,
         MetalFall,
         Button,
-        MusicMenu
+        MusicMenu,
+        Charging,
+        BatteryCollected,
+        DoorTuberies,
+        Electricity,
+        ElectricityFadeOff,
+        ElectricityFadeOn,
+        ElectricityLoop,
+        Generator,
+        GeneratorFadeOff,
+        GeneratorFadeOn,
+        GeneratorLoop,
+        MetalDoorTuberies,
+        MiniGameWon,
+        Owl,
+        Spider
     }
 
     public void OnClickSound(string name)
