@@ -148,7 +148,8 @@ public class SoundManager : MonoBehaviour
         MetalDoorTuberies,
         MiniGameWon,
         Owl,
-        Spider
+        Spider,
+        Platform
     }
 
     public void OnClickSound(string name)
@@ -176,6 +177,11 @@ public class SoundManager : MonoBehaviour
     }
 
     internal void Play(object sound, bool v)
+    {
+        throw new NotImplementedException();
+    }
+
+    internal void Play(object sound)
     {
         throw new NotImplementedException();
     }

@@ -23,7 +23,9 @@ public class Spider : MonoBehaviour
     public bool attacked = false;
 
 
-    [SerializeField] GameObject _alertImage;
+    [SerializeField] private GameObject _alertImage;
+    [SerializeField] private SoundManager.Types _sound = SoundManager.Types.Spider;
+
     private void Start()
     {
         followArea = 3;
@@ -40,6 +42,7 @@ public class Spider : MonoBehaviour
 
     public void Attack()
     {
+        SoundManager.instance.Play(_sound,false);
         _target.Die();
         attacked = true;
     }

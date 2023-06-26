@@ -9,21 +9,22 @@ public class Generator : MonoBehaviour, IMouseOver, IGenerator
     [SerializeField] private bool _test = false;
     [SerializeField] private int _energyNeeded;
     [SerializeField] private float _delaySeconds = 1.0f;
-    [SerializeField] private GameObject buttons = null, _batterySprite = null;
+    [SerializeField] private GameObject buttons = null, _batterySprite = null, _onText;
     [SerializeField] private MiniGame _miniGame;
     [SerializeField] private TMP_Text _text;
     [SerializeField] private Electricty[] _electricityParticle;
     [SerializeField] private LineRenderer feedbackLines;
     [SerializeField] private Material outlineMat;
     [SerializeField] private Sprite _powerOnSprite, _powerOffSprite;
-    [SerializeField] private GameObject _onText;
+    [SerializeField] private bool _miniGameWin, _alreadyStarded;
+    [SerializeField] private SoundManager.Types _sound = SoundManager.Types.GeneratorLoop;
 
     private Dictionary<LineRenderer, Transform> _linesConnection = new Dictionary<LineRenderer, Transform>();
-    [SerializeField] private bool _miniGameWin, _alreadyStarded;
     private Hamster _hamster;
     private bool _showConnections, _isOutline;
     private SpriteRenderer _sp;
     private Material defaultMat;
+
     private void Start()
     {
         if (_test) StartMiniGame();
@@ -71,11 +72,13 @@ public class Generator : MonoBehaviour, IMouseOver, IGenerator
             line.Key.SetPosition(1, line.Value.position);
         }
     }
+
     public void StartGenerator(bool start = true)
     {
         if (_miniGame) _miniGame.GetSetGenerator = this;
         if (_miniGameWin)
         {
+            SoundManager.instance.Play(_sound);
             /*if (_hamster)
                 if (EnergyNeeded <= _hamster.Energy) StartCoroutine(Delay(start));*/
             StartCoroutine(Delay(start));
@@ -103,6 +106,7 @@ public class Generator : MonoBehaviour, IMouseOver, IGenerator
 
     public void StopGenerator()
     {
+        SoundManager.instance.Pause(_sound);
         _onText.SetActive(false);
         TurnButtons(false);
         StopMiniGame();
