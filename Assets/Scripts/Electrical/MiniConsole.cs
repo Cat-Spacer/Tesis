@@ -17,7 +17,7 @@ public class MiniConsole : MonoBehaviour, IMouseOver, IGenerator
     public float _delaySeconds;
     SpriteRenderer _sp;
     [SerializeField] Sprite _spActivated, _spDesactivated;
-
+    [SerializeField] private GameObject _icon;
     bool _isOutline;
     bool _showConnections;
     [SerializeField] Material outlineMat;
@@ -32,7 +32,7 @@ public class MiniConsole : MonoBehaviour, IMouseOver, IGenerator
         defaultMat = GetComponent<SpriteRenderer>().material;
         if (_hamster == null)
             _hamster = FindObjectOfType<Hamster>();
-
+        _icon.SetActive(false);
         StartCoroutine(Delay(_isOn));
         // if (_generator == null && Physics2D.OverlapArea(transform.position, transform.position * _checkRadius, _generatorMask))
         //     _generator = Physics2D.OverlapArea(transform.position, transform.position * _checkRadius, _generatorMask).gameObject.GetComponent<Generator>();
@@ -164,6 +164,7 @@ public class MiniConsole : MonoBehaviour, IMouseOver, IGenerator
             if (player.withHamster)
             {
                 _inRange = true;
+                _icon.SetActive(true);
             }
         }
     }
@@ -181,6 +182,7 @@ public class MiniConsole : MonoBehaviour, IMouseOver, IGenerator
             if (player.withHamster)
             {
                 _inRange = false;
+                _icon.SetActive(false);
             }
         }
     }

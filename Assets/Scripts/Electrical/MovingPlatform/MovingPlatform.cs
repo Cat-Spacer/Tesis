@@ -28,8 +28,8 @@ public class MovingPlatform : MonoBehaviour, IElectric, IMouseOver
 
     private SpriteRenderer _sp;
     [SerializeField] private Sprite _turnOnSprite, _turnOffSprite;
-    
 
+    [SerializeField] private bool _alwaysOn = false;
     private void Start()
     {
         _sp = GetComponent<SpriteRenderer>();
@@ -133,6 +133,8 @@ public class MovingPlatform : MonoBehaviour, IElectric, IMouseOver
     }
     void ResetPosition(params object[] param)
     {
+        if (_alwaysOn) return;
+        TurnOff();
         platform.transform.position = _startPos;
         currentWaypoint = startingWaypoint;
     }
