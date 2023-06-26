@@ -46,14 +46,14 @@ public class MiniMap : MonoBehaviour
         }
     }
 
-    public void CreateObjectiveInMap(List<PickUp> pickUp_arg)
-    {
-        foreach (var item in pickUp_arg)
-        {
-            var objective = Instantiate(objectiveImage, transform);
-            objective.transform.position = lvls[item._currentLvl].gameObject.transform.position;
-            objective.gameObject.SetActive(false);
-            objectivesDic.Add(item._currentLvl, objective);
-        }
-    }
+    // public void CreateObjectiveInMap(List<PickUp> pickUp_arg)
+    // {
+    //     foreach (var item in pickUp_arg)
+    //     {
+    //         var objective = Instantiate(objectiveImage, transform);
+    //         objective.transform.position = lvls[item._currentLvl].gameObject.transform.position;
+    //         objective.gameObject.SetActive(false);
+    //         objectivesDic.Add(item._currentLvl, objective);
+    //     }
+    // }
 }

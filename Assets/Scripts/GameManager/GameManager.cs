@@ -142,6 +142,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void EndGame()
+    {
+        _winScreen.SetActive(true);
+    }
     public void WaitForEndClimb(float waitTime)
     {
         StartCoroutine(CoroutineWaitForEndClimb(waitTime));
