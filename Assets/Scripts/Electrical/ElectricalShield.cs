@@ -130,6 +130,7 @@ public class ElectricalShield : MonoBehaviour, IElectric, IMouseOver
     }
     void ResetPosition(params object[] param)
     {
+        TurnOff();
         scrollbarObject.transform.position = scrollbarStartPosition;
     }
    /* void Start()

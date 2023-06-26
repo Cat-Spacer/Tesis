@@ -22,7 +22,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
     public GameObject boosterFeedBack;
     private Vector2 _startScale, _smallerScale, _startGroundCheckSize, _smallerGroundCheckSize;
     Vector3 rotationVector;
-
+    [SerializeField] private GameObject _hasmterIcon; 
     public float modiffyIceJumpY = 1, modiffyIceJumpX = 1;
 
     [SerializeField] private LayerMask _ignoredPhysics, _obstacleLayers;
@@ -660,7 +660,11 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
 
     public void ConstrainsReset() { if (!dead) rb.constraints = constraints2D; }
 
-    public void HamsterCheck(bool check) { withHamster = check; }
+    public void HamsterCheck(bool check)
+    {
+        withHamster = check; 
+        _hasmterIcon.SetActive(check);
+    }
 
     void GroundCheckPos()
     {

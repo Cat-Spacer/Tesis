@@ -18,12 +18,11 @@ public class Magnet : MonoBehaviour, IElectric, IMouseOver
     private bool firstCall = true;
     private LineRenderer _myLineConnection;
     private IGenerator _myGen;
-    private bool _startingBool;
+    [SerializeField] private bool _startingBool = false;
     private void Start()
     {
         FirstCall();
         EventManager.Instance.Subscribe("PlayerDeath", ResetPosition);
-        _startingBool = _isOn;
     }
 
     private void FixedUpdate()
