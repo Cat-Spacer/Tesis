@@ -16,20 +16,18 @@ public class MovingPlatform : MonoBehaviour, IElectric, IMouseOver
     [SerializeField] private float _speed = 0, _baseSpeed = 3;
     public float arriveMag = 0.5f;
     public int maxLenght = 0;
-    private int _senseDir = 1;
-    private Rigidbody2D _myRB2D;
     [SerializeField] private bool _forceTurnOn = false;
-    [SerializeField] private GameObject pivot;
-    private Vector3 _startPos;
-    private int startingWaypoint;
-    private LineRenderer _myLineConnection;
-    private IGenerator _myGen; 
-    [SerializeField] private GameObject _connectionSource;
-    private SpriteRenderer _sp;
+    [SerializeField] private GameObject pivot, _connectionSource;
     [SerializeField] private Sprite _turnOnSprite, _turnOffSprite;
     [SerializeField] private bool _alwaysOn = false;
-    [SerializeField] private SoundManager.Types _sound;
+    [SerializeField] private SoundManager.Types _sound = SoundManager.Types.Platform;
     private bool stop = false;
+    private IGenerator _myGen;
+    private Vector3 _startPos;
+    private SpriteRenderer _sp;
+    private Rigidbody2D _myRB2D;
+    private LineRenderer _myLineConnection;
+    private int _senseDir = 1, startingWaypoint;
 
     private void Start()
     {
@@ -98,6 +96,7 @@ public class MovingPlatform : MonoBehaviour, IElectric, IMouseOver
 
     public void TurnOff()
     {
+        SoundManager.instance.Pause(_sound);
         _MoveAction = delegate { };
         _sp.sprite = _turnOffSprite;
         _myRB2D.velocity = new Vector2(0, 0);
@@ -126,11 +125,13 @@ public class MovingPlatform : MonoBehaviour, IElectric, IMouseOver
             stop = true;
         }
     }
+
     private void OnCollisionExit2D(Collision2D collision)
     {
         if (collision.gameObject.layer == 27)
             stop = false;
     }
+
     void ResetPosition(params object[] param)
     {
         if (_alwaysOn) return;

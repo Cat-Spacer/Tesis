@@ -12,16 +12,16 @@ public class MiniConsole : MonoBehaviour, IMouseOver, IGenerator
     [SerializeField] private Transform _hamsterPos = null;
     [SerializeField] private bool _gizmos = true;
     [SerializeField] LineRenderer feedbackLines;
-    [SerializeField] bool _isOn;
+    [SerializeField] private bool _isOn;
     public List<GameObject> _connection;
     public float _delaySeconds;
-    SpriteRenderer _sp;
+    private SpriteRenderer _sp;
     [SerializeField] Sprite _spActivated, _spDesactivated;
     [SerializeField] private GameObject _icon;
-    bool _isOutline;
-    bool _showConnections;
-    [SerializeField] Material outlineMat;
-    Material defaultMat;
+    private bool _isOutline, _showConnections;
+    [SerializeField] private Material outlineMat;
+    [SerializeField] private SoundManager.Types _sound = SoundManager.Types.Button;
+    private Material defaultMat;
     private Dictionary<LineRenderer, Transform> _linesConnection = new Dictionary<LineRenderer, Transform>();
 
     private bool _inRange;
@@ -78,10 +78,12 @@ public class MiniConsole : MonoBehaviour, IMouseOver, IGenerator
             if (!_isOn)
             {
                 _isOn = true;
+                SoundManager.instance.Play(_sound,false);
                 StartCoroutine(Delay(_isOn));
             }
             else
             {
+                SoundManager.instance.Play(_sound, false);
                 _isOn = false;
                 StartCoroutine(Delay(_isOn));
             }
