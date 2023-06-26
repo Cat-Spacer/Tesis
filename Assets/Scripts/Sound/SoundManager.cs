@@ -174,4 +174,9 @@ public class SoundManager : MonoBehaviour
         s.loop = false;
         s.source.Play();
     }
+
+    internal void Play(object sound, bool v)
+    {
+        throw new NotImplementedException();
+    }
 }

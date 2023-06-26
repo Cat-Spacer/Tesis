@@ -76,8 +76,8 @@ public class Generator : MonoBehaviour, IMouseOver, IGenerator
         if (_miniGame) _miniGame.GetSetGenerator = this;
         if (_miniGameWin)
         {
-            if (_hamster)
-                if (EnergyNeeded <= _hamster.Energy) StartCoroutine(Delay(start));
+            /*if (_hamster)
+                if (EnergyNeeded <= _hamster.Energy) StartCoroutine(Delay(start));*/
             StartCoroutine(Delay(start));
         }
         else if (!_alreadyStarded)
