@@ -68,7 +68,15 @@ public class Magnet : MonoBehaviour, IElectric, IMouseOver
             if (_box)
             {
                 _box.GetSetIndex--;
-                if (_box.GetSetIndex < 1) _box.GetSetUseGravity = true;
+                if (_box.GetSetIndex < 1)
+                {
+                    if (_box.GetOnGO && _box.GetOffGO)
+                    {
+                        _box.GetOnGO.SetActive(false);
+                        _box.GetOffGO.SetActive(true);
+                    }
+                    _box.GetSetUseGravity = true;
+                }
             }
             _box = null;
             return;
@@ -76,17 +84,21 @@ public class Magnet : MonoBehaviour, IElectric, IMouseOver
         else
             _box = obj.GetComponent<MagnetBox>();
 
-        if (Physics2D.OverlapBox(transform.position, _magnetArea, transform.rotation.z, _metalLayerMask)) return;
 
         if (_doOnce)
         {
             _box.transform.SetParent(GameManager.Instance.GetConfig.mainGame);
-
+            if (_box.GetOnGO && _box.GetOffGO)
+            {
+                _box.GetOnGO.SetActive(true);
+                _box.GetOffGO.SetActive(false);
+            }
             _doOnce = false;
             if (_box.GetSetUseGravity) _box.GetSetUseGravity = false;
             _box.GetSetIndex++;
         }
 
+        if (Physics2D.OverlapBox(transform.position, _magnetArea, transform.rotation.z, _metalLayerMask)) return;
         if (_box.GetSetIndex > 1) return;
 
         float dist = (_box.transform.position - transform.position).magnitude;
@@ -129,6 +141,11 @@ public class Magnet : MonoBehaviour, IElectric, IMouseOver
             {
                 _box.GetSetIndex--;
                 if (_box.GetSetIndex < 1) _box.GetSetUseGravity = true;
+                if (_box.GetOnGO && _box.GetOffGO)
+                {
+                    _box.GetOnGO.SetActive(false);
+                    _box.GetOffGO.SetActive(true);
+                }
                 _box = null;
             }
         }
@@ -163,6 +180,11 @@ public class Magnet : MonoBehaviour, IElectric, IMouseOver
             {
                 _box.GetSetIndex--;
                 if (_box.GetSetIndex < 1) _box.GetSetUseGravity = true;
+                if (_box.GetOnGO && _box.GetOffGO)
+                {
+                    _box.GetOnGO.SetActive(false);
+                    _box.GetOffGO.SetActive(true);
+                }
                 _box = null;
             }
         }
@@ -213,7 +235,7 @@ public class Magnet : MonoBehaviour, IElectric, IMouseOver
     {
         _myGen.ShowLineConnection(_myLineConnection);
     }
-    
+
     public void MouseExit()
     {
         _myGen.NotShowLineConnection(_myLineConnection);
