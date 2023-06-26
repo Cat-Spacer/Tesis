@@ -40,10 +40,10 @@ public class MenuManager : MonoBehaviour
         _monitorScreen.SetActive(false);
         _targetPos = new Vector3(_monitorArea.position.x, _monitorArea.position.y, -10);
         _targetZoom = _highlightZoom;
-       /* foreach (var item in _buttonOutZoom)
+       foreach (var item in _buttonOutZoom)
         {
             item.SetActive(true);
-        }*/
+        }
         foreach (var item in _buttonsOptions)
         {
             item.SetActive(true);
@@ -54,10 +54,10 @@ public class MenuManager : MonoBehaviour
     {
         _targetPos = new Vector3(_planetsArea.position.x, _planetsArea.position.y, -10);
         _targetZoom = _highlightZoom;
-       /* foreach (var item in _buttonOutZoom)
+        foreach (var item in _buttonOutZoom)
         {
             item.SetActive(true);
-        }*/
+        }
         foreach (var item in _buttonsOptions)
         {
             item.SetActive(true);
@@ -68,10 +68,10 @@ public class MenuManager : MonoBehaviour
         _title.SetActive(false);
         _targetPos = new Vector3(_spaceArea.position.x, _spaceArea.position.y, -10);
         _targetZoom = _highlightZoom;
-       /* foreach (var item in _buttonOutZoom)
+        foreach (var item in _buttonOutZoom)
         {
             item.SetActive(true);
-        }*/
+        }
         foreach (var item in _buttonsOptions)
         {
             item.SetActive(true);
@@ -109,11 +109,11 @@ public class MenuManager : MonoBehaviour
 
 
         _targetZoom = _normalZoom;
-      /*  foreach (var item in _buttonOutZoom)
+        foreach (var item in _buttonOutZoom)
         {
             item.SetActive(false);
 
-        }*/
+        }
         foreach (var item in _buttonsOptions)
         {
             item.SetActive(false);
