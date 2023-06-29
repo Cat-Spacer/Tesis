@@ -18,10 +18,17 @@ public class Magnet : MonoBehaviour, IElectric, IMouseOver
     private LineRenderer _myLineConnection;
     private IGenerator _myGen;
     [SerializeField] private bool _startingBool = false;
+
+    [SerializeField]private SpriteRenderer _myMat;
+    [SerializeField] private float _speed;
+    [SerializeField] private float _attractAreaOffset;
     private void Start()
     {
         FirstCall();
         EventManager.Instance.Subscribe("PlayerDeath", ResetPosition);
+        _myMat = _area.GetComponent<SpriteRenderer>();
+        if (firstCall) _attractAreaOffset = -1;
+        else _attractAreaOffset = 0;
     }
 
     private void FixedUpdate()
@@ -115,6 +122,7 @@ public class Magnet : MonoBehaviour, IElectric, IMouseOver
             _isOn = true;
             if (_attractWPhysics) _MagnetAction = AttractWPhysics;
             else _MagnetAction = AttractWTransform;
+            _MagnetAction += AttrackAreaOn;
         }
         else
         {
@@ -122,11 +130,38 @@ public class Magnet : MonoBehaviour, IElectric, IMouseOver
         }
     }
 
+    public void AttrackAreaOn()
+    {
+        Debug.Log("on");
+        _attractAreaOffset += Time.deltaTime * _speed;
+        if (_attractAreaOffset <= 0)
+        {
+            _myMat.material.SetFloat("_offset", _attractAreaOffset);   
+        }
+        else
+        {
+            _attractAreaOffset = 0;
+            _MagnetAction -= AttrackAreaOn;
+        }
+    }
+    public void AttrackAreaOff()
+    {
+        _attractAreaOffset -= Time.deltaTime * _speed;
+        if (_attractAreaOffset >= -1)
+        {
+            _myMat.material.SetFloat("_offset", _attractAreaOffset);   
+        }
+        else
+        {
+            _attractAreaOffset = -1;
+            _MagnetAction = delegate {  };
+        }
+    }
     public void TurnOff()
     {
         if (_isOn)
         {
-            _MagnetAction = delegate { };
+            _MagnetAction = AttrackAreaOff;
             _onSprite.SetActive(false);
             _offSprite.SetActive(true);
             _particle.SetActive(false);
@@ -163,10 +198,11 @@ public class Magnet : MonoBehaviour, IElectric, IMouseOver
             _active = true;
             if (_attractWPhysics) _MagnetAction = AttractWPhysics;
             else _MagnetAction = AttractWTransform;
+            _MagnetAction += AttrackAreaOn;
         }
         else
         {
-            _MagnetAction = delegate { };
+            _MagnetAction = AttrackAreaOff;
             _onSprite.SetActive(false);
             _offSprite.SetActive(true);
             _particle.SetActive(false);
