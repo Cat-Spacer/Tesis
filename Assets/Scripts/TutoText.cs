@@ -33,7 +33,7 @@ public class TutoText : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<CustomMovement>())
         {
-            SoundManager.instance.Play(_sound, false);
+            //SoundManager.instance.Play(_sound, false);
             _dialogue.EndDialogue();
             _icon.SetActive(false);
             _sp.sprite = _off;

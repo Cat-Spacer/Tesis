@@ -13,7 +13,6 @@ public class Generator : MonoBehaviour, IMouseOver, IGenerator
     [SerializeField] private GameObject buttons = null, _batterySprite = null, _onText;
     [SerializeField] private MiniGame _miniGame;
     [SerializeField] private TMP_Text _text;
-    [SerializeField] private Electricty[] _electricityParticle;
     [SerializeField] private LineRenderer feedbackLines;
     [SerializeField] private Material outlineMat;
     [SerializeField] private Sprite _powerOnSprite, _powerOffSprite;
@@ -111,7 +110,7 @@ public class Generator : MonoBehaviour, IMouseOver, IGenerator
 
     public void StopGenerator()
     {
-        SoundManager.instance.Pause(_sound);
+        //SoundManager.instance.Pause(_sound);
         _onText.SetActive(false);
         TurnButtons(false);
         StopMiniGame();

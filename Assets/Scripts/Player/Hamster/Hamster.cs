@@ -24,7 +24,7 @@ public class Hamster : MonoBehaviour
     private void Start()
     {
         MoveWithPlayer();
-        _HamsterAction = () => MoveWithPlayer(_speed * 2.25f);
+        _HamsterAction = () => MoveWithPlayer(_speed * 4f);
         _generators = FindObjectsOfType<Generator>();
     }
 
@@ -164,7 +164,7 @@ public class Hamster : MonoBehaviour
         if (instant)
             _HamsterAction = MoveWithPlayer;
         else
-            _HamsterAction = () => MoveWithPlayer(_speed * 2.25f);
+            _HamsterAction = () => MoveWithPlayer(_speed * 4f);
 
         if (_currentTube) _currentTube.ArrowsActDes(false);
         if (_generator) _generator.StopMiniGame();
