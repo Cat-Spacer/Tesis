@@ -6,9 +6,11 @@ public class Hamster : MonoBehaviour
 {
     private HamsterInput _controller;
     private Action _HamsterAction = delegate { };
-    [SerializeField] CustomMovement _player;
+    [SerializeField] private CustomMovement _player;
     [SerializeField] private Transform _playerPos;
-    [SerializeField] private float _speed, _maxSpeed, _pointRadius, _checkRadius = 5.0f, _interactRadius = 2.5f;
+    [SerializeField]
+    private float _speed = 3.0f, _maxSpeed = 5.0f, _aceleration = 0.0f, _pointRadius = 0f,
+                                    _checkRadius = 5.0f, _interactRadius = 2.5f, _maxDistance = 2.0f;
     [SerializeField] private LayerMask _tubeLayerMask, _generatorLayerMask;
     [SerializeField] private bool _inTube, _gizmos = false;
     [SerializeField] private Tube _currentTube, _lastTube;
@@ -17,15 +19,26 @@ public class Hamster : MonoBehaviour
     [SerializeField] private Generator _generator;
     [SerializeField] private int _energyCollected, _maxEnergy = 3;
     public bool visible = true;
-    [SerializeField] private GameObject _returnBTN = null;
+    [SerializeField] private GameObject _canvas = null;
     [SerializeField] private KeyCode _retBTNKey = KeyCode.F12;
     private bool _owlCatched;
+    /*
+    private HingeJoint2D _joint2D;
+    private DistanceJoint2D _distanceJoint2D;*/
 
     private void Start()
     {
+        _aceleration = 0.0f;
+        if (_maxSpeed <= 0 || _maxSpeed < _speed) _maxSpeed = 2.0f * _speed;
         MoveWithPlayer();
-        _HamsterAction = () => MoveWithPlayer(_speed * 4f);
+        _HamsterAction = () => MoveWithPlayerSmoth();
         _generators = FindObjectsOfType<Generator>();
+        if (!_player) _player = FindObjectOfType<CustomMovement>();
+        _canvas.SetActive(false);
+        /*_joint2D = GetComponent<HingeJoint2D>();
+        if (_joint2D && FindObjectOfType<CustomMovement>()) _joint2D.connectedBody = FindObjectOfType<CustomMovement>().rb;
+        _distanceJoint2D = GetComponent<DistanceJoint2D>();
+        if (_distanceJoint2D && FindObjectOfType<CustomMovement>()) _distanceJoint2D.connectedBody = FindObjectOfType<CustomMovement>().rb;*/
     }
 
 
@@ -38,13 +51,33 @@ public class Hamster : MonoBehaviour
     {
         if (Input.GetKeyDown(_retBTNKey) && !_owlCatched)
             ReturnToPlayer();
-        /*if (_inTube && _returnBTN)
-            if (!_returnBTN.activeInHierarchy) _returnBTN.SetActive(true);*/
     }
 
     public void MoveWithPlayer() { transform.position = _playerPos.position; }
 
-    public void MoveWithPlayer(float speed) { transform.position = Vector3.MoveTowards(transform.position, _playerPos.position, speed * Time.deltaTime); }
+    public void MoveWithPlayerSmoth() { transform.position = Vector3.MoveTowards(transform.position, _playerPos.position, HamsterSpeed(_speed)); }
+
+    private float HamsterSpeed(float speed)
+    {
+        float distance = Vector2.Distance(transform.position, _playerPos.position);
+        //Debug.Log(distance);
+
+        /*float distanceX = _playerPos.position.x - transform.position.x; // Distance between center and new position on X axis
+        float distanceZ = _playerPos.position.z - transform.position.z; // Distance between center and new position on Y axis*/
+
+        if (distance > _maxDistance)
+        {
+            /*Vector2 pos = (Vector2)_playerPos.position + Vector2.one * _maxDistance;
+            float angle = Mathf.Atan2(-distanceZ, -distanceX);
+            float x = _playerPos.position.x + _maxDistance * Mathf.Cos(angle);
+            float z = _playerPos.position.z + _maxDistance * Mathf.Sin(angle);
+            Vector3 distPos = new Vector3(x, transform.position.y, z);
+            //transform.position = pos;
+            transform.position = Vector3.MoveTowards(transform.position, _playerPos.position, speed * Time.deltaTime);*/
+            speed *= distance;
+        }
+        return speed * Time.deltaTime;
+    }
 
     public void AddEnergy(int energy_arg)
     {
@@ -62,7 +95,8 @@ public class Hamster : MonoBehaviour
             CheckNextTube();
     }
 
-    public void MoveToPosition(Vector2 pos) { transform.position = Vector3.MoveTowards(transform.position, pos, _speed * Time.deltaTime); }
+    public void MoveToPosition(Vector2 pos)
+    { transform.position = Vector3.MoveTowards(transform.position, pos, (_speed + _aceleration) * Time.deltaTime); }
 
     public void GoToPosition(Vector2 pos) { _HamsterAction = () => MoveToPosition(pos); }
 
@@ -73,27 +107,14 @@ public class Hamster : MonoBehaviour
 
         var tubeColl = Physics2D.Raycast(targetPosition, Vector3.forward, _pointRadius, _tubeLayerMask);
 
-        //Debug.Log($"GetInTube, tubeColl = {tubeColl.collider.gameObject.name}, targetPosition = {(Vector3)targetPosition}");
         if (tubeColl || tube)
         {
-            /*
-            var playerOrigPos = FindObjectOfType<CustomMovement>().gameObject.transform.position;
-            var distance = 0.0f;
-            if (tube)
-                distance = Vector2.Distance(tube.transform.position, playerOrigPos);
-            else
-                distance = Vector2.Distance(tubeColl.transform.position, playerOrigPos);*/
-
-            //Debug.Log($"distance = {distance}");
-            //if (distance <= _interactRadius)
-            //{
             if (!tube.IsEntry()) return;
             _HamsterAction = MoveInTubes;
             _currentTube = tube;
             _currentTubePos = tube.GetCenter();
             _inTube = true;
-            if (_returnBTN) _returnBTN.SetActive(true);
-            //}
+            if (_canvas) _canvas.SetActive(true);
         }
     }
 
@@ -101,8 +122,10 @@ public class Hamster : MonoBehaviour
     {
         if (_currentTube.IsCheckpoint() || _currentTube.IsEntry() || _currentTube.IsExit())
         {
+            _canvas.SetActive(true);
             _currentTube.GetPossiblePaths(this);
             _HamsterAction = delegate { };
+            _aceleration = 0.0f;
 
             if (!Physics2D.OverlapCircle(transform.position, _checkRadius, _generatorLayerMask)) return;
             var generator = Physics2D.OverlapCircle(transform.position, _checkRadius, _generatorLayerMask)
@@ -120,17 +143,11 @@ public class Hamster : MonoBehaviour
         }
         else
         {
-            //if (Physics2D.OverlapCircle(transform.position, _checkRadius, _generatorLayerMask))
-            //{
-            //    var generator = Physics2D.OverlapCircle(transform.position, _checkRadius, _generatorLayerMask)
-            //    .gameObject.GetComponent<Generator>();
-            //    if (generator.buttons.activeInHierarchy) _generator.buttons.SetActive(false);
-            //}            
-
             var nextTube = _currentTube.GetNextPath(_lastTube);
             _lastTube = _currentTube;
             _currentTube = nextTube;
             _currentTubePos = _currentTube.GetCenter();
+            if (_aceleration + _speed <= _maxSpeed) _aceleration++;
         }
     }
 
@@ -140,7 +157,6 @@ public class Hamster : MonoBehaviour
         {
             if (_generator)
             {
-                Debug.Log("Prendo generador");
                 _generator.TurnButtons();
                 _generator.StartGenerator();
             }
@@ -164,24 +180,13 @@ public class Hamster : MonoBehaviour
         if (instant)
             _HamsterAction = MoveWithPlayer;
         else
-            _HamsterAction = () => MoveWithPlayer(_speed * 4f);
+            _HamsterAction = MoveWithPlayerSmoth;
 
         if (_currentTube) _currentTube.ArrowsActDes(false);
         if (_generator) _generator.StopMiniGame();
         _generator = null;
-        if (_returnBTN) _returnBTN.SetActive(false);
+        if (_canvas) _canvas.SetActive(false);
     }
-
-    public bool InTube() { return _inTube; }
-
-    public int Energy { get { return _energyCollected; } }
-
-    public int MaxEnergy { get { return _maxEnergy; } }
-
-    public Generator Generator { get { return _generator; } }
-
-    public Tube LastTube { get { return _lastTube; } }
-    public Tube CurrentTube { get { return _currentTube; } }
 
     public void Die()
     {
@@ -194,13 +199,18 @@ public class Hamster : MonoBehaviour
     {
         _energyCollected = 0;
     }
-    private void OnDrawGizmos()
-    {
-        if (_gizmos) return;
-        Gizmos.color = Color.magenta;
-        //Gizmos.DrawWireCube(transform.position, new Vector3(_checkRadius, _checkRadius));
-        Gizmos.DrawWireSphere(transform.position, _checkRadius);
-    }
+
+    public bool InTube() { return _inTube; }
+
+    public int Energy { get { return _energyCollected; } }
+    public int MaxEnergy { get { return _maxEnergy; } }
+
+    public Generator Generator { get { return _generator; } }
+
+    public Tube LastTube { get { return _lastTube; } }
+    public Tube CurrentTube { get { return _currentTube; } }
+
+    public GameObject Canvas { get { return _canvas; } }
 
     public void OwlCatch(float time)
     {
@@ -213,5 +223,13 @@ public class Hamster : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         _player.GetDamage();
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (!_gizmos) return;
+        Gizmos.color = Color.magenta;
+        //Gizmos.DrawWireCube(transform.position, new Vector3(_checkRadius, _checkRadius));
+        Gizmos.DrawWireSphere(transform.position, _checkRadius);
     }
 }
