@@ -5007,6 +5007,7 @@ GameObject:
   - component: {fileID: 1723968557}
   - component: {fileID: 5402169163456660460}
   - component: {fileID: 6730168590903767927}
+  - component: {fileID: 5155707032375651472}
   m_Layer: 31
   m_Name: Square
   m_TagString: Platform
@@ -5022,7 +5023,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8998946722778050052}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.516, y: 0.002, z: 0}
+  m_LocalPosition: {x: -0.5, y: 0, z: 0}
   m_LocalScale: {x: 0.85, y: 1, z: 1}
   m_Children:
   - {fileID: 1369027359}
@@ -5156,6 +5157,8 @@ MonoBehaviour:
   _connectionSource: {fileID: 7276340257800020299}
   _turnOnSprite: {fileID: 21300000, guid: b9b0c2f6291772d49922164f3e550a5f, type: 3}
   _turnOffSprite: {fileID: 21300000, guid: 2b8446fe4bbd6514d8e33f284f55749c, type: 3}
+  _alwaysOn: 0
+  _sound: 40
 --- !u!114 &6730168590903767927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5171,6 +5174,30 @@ MonoBehaviour:
   _colMask:
     serializedVersion: 2
     m_Bits: 16777344
+--- !u!167 &5155707032375651472
+AudioReverbZone:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8998946722778050052}
+  m_Enabled: 1
+  m_MinDistance: 2.5
+  m_MaxDistance: 5
+  m_ReverbPreset: 16
+  m_Room: -1000
+  m_RoomHF: -3300
+  m_DecayTime: 1.49
+  m_DecayHFRatio: 0.54
+  m_Reflections: -2560
+  m_ReflectionsDelay: 0.162
+  m_Reverb: -229
+  m_ReverbDelay: 0.088
+  m_HFReference: 5000
+  m_Diffusion: 79
+  m_Density: 100
+  m_LFReference: 250
+  m_RoomLF: 0
 --- !u!1 &8998946723320590102
 GameObject:
   m_ObjectHideFlags: 0

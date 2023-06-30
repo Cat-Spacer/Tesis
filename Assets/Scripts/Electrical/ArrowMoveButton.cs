@@ -44,6 +44,16 @@ public class ArrowMoveButton : MonoBehaviour
         ExecuteEvents.Execute(button.gameObject, ped, ExecuteEvents.submitHandler);
     }
 
+    public void GoToTube()
+    {
+        if (_tubeActions == TubeActions.Up) _tube.GetUp();
+        if (_tubeActions == TubeActions.Down) _tube.GetDown();
+        if (_tubeActions == TubeActions.Left) _tube.GetLeft();
+        if (_tubeActions == TubeActions.Right) _tube.GetRight();
+    }
+
+    public Tube Tube { get { return _tube; } set { _tube = value; } }
+
     private void OnMouseOver()
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))

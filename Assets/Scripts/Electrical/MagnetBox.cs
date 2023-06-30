@@ -64,7 +64,9 @@ public class MagnetBox : MonoBehaviour
 
     private void PlayFeedbacks(LayerMask layer)
     {
-        SoundManager.instance.Play(_sound);
+        if (!GetComponentInChildren<Renderer>().isVisible) return;
+        
+            SoundManager.instance.Play(_sound);
         if (_fallParticle && (_floorMask.value & (1 << layer.value)) > 0) _fallParticle.Play(); // si colisiona con algo que es floor hace particulas
         else
             Debug.Log($"{gameObject.name} Played metal crash particles");

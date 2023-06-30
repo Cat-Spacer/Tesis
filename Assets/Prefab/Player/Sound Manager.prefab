@@ -53,21 +53,39 @@ MonoBehaviour:
     pitch: 1
     loop: 1
     source: {fileID: 0}
-  - name: Steps
-    nameType: 1
-    clip: {fileID: 8300000, guid: 49228b8c922765240bb3d2d35a0a3a55, type: 3}
-    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
-      type: 2}
-    volume: 1
-    pitch: 1
-    loop: 1
-    source: {fileID: 0}
   - name: MusicForest
     nameType: 3
     clip: {fileID: 8300000, guid: ff11042a7f1fd264192e117fa010bcc2, type: 3}
     audioMixerGroup: {fileID: 4101229154234308651, guid: e07322b82f3368c4694feb4b7f3f2a9f,
       type: 2}
     volume: 0.5
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: MusicMenu
+    nameType: 24
+    clip: {fileID: 8300000, guid: 9c853cacd49b4274ca248e8710b7eb30, type: 3}
+    audioMixerGroup: {fileID: 4101229154234308651, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.1
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: Rain
+    nameType: 14
+    clip: {fileID: 8300000, guid: db0f075e49b62bb49b3f4dbfc8211313, type: 3}
+    audioMixerGroup: {fileID: 4101229154234308651, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.05
+    pitch: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: Steps
+    nameType: 1
+    clip: {fileID: 8300000, guid: 49228b8c922765240bb3d2d35a0a3a55, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 1
     pitch: 1
     loop: 1
     source: {fileID: 0}
@@ -152,15 +170,6 @@ MonoBehaviour:
     pitch: 2.33
     loop: 1
     source: {fileID: 0}
-  - name: Rain
-    nameType: 14
-    clip: {fileID: 8300000, guid: db0f075e49b62bb49b3f4dbfc8211313, type: 3}
-    audioMixerGroup: {fileID: 4101229154234308651, guid: e07322b82f3368c4694feb4b7f3f2a9f,
-      type: 2}
-    volume: 0.05
-    pitch: 1
-    loop: 1
-    source: {fileID: 0}
   - name: CarnivorousPlant
     nameType: 15
     clip: {fileID: 8300000, guid: 5f4df11412f067348b3f57f43b29e067, type: 3}
@@ -226,7 +235,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: MetalicFall
     nameType: 22
-    clip: {fileID: 8300000, guid: df8e40dd66b74294ead38476df4c8a92, type: 3}
+    clip: {fileID: 8300000, guid: d927718996a43654bbf6b507e02dbf2d, type: 3}
     audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
       type: 2}
     volume: 1
@@ -241,15 +250,6 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     loop: 0
-    source: {fileID: 0}
-  - name: MusicMenu
-    nameType: 24
-    clip: {fileID: 8300000, guid: 9c853cacd49b4274ca248e8710b7eb30, type: 3}
-    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
-      type: 2}
-    volume: 0.1
-    pitch: 1
-    loop: 1
     source: {fileID: 0}
   - name: Charging
     nameType: 25
@@ -316,12 +316,12 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: Generator
     nameType: 32
-    clip: {fileID: 8300000, guid: 3fd9b1b5b7f945a41a96792af7cf11ad, type: 3}
+    clip: {fileID: 8300000, guid: c8d7144bb322b554391423b710911d73, type: 3}
     audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
       type: 2}
-    volume: 1
-    pitch: 1
-    loop: 0
+    volume: 0.95
+    pitch: 1.05
+    loop: 1
     source: {fileID: 0}
   - name: GeneratorFadeOff
     nameType: 33
@@ -346,9 +346,9 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: f210752f8799f7c488a725fdd13a39ba, type: 3}
     audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
       type: 2}
-    volume: 1
+    volume: 0.75
     pitch: 1
-    loop: 0
+    loop: 1
     source: {fileID: 0}
   - name: MetalDoorTuberies
     nameType: 36
@@ -387,11 +387,20 @@ MonoBehaviour:
     loop: 0
     source: {fileID: 0}
   - name: Platform
-    nameType: 39
+    nameType: 40
     clip: {fileID: 8300000, guid: 417e9e0267c05f44ab654e24716fef55, type: 3}
     audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
       type: 2}
     volume: 1
     pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: SapceShip
+    nameType: 41
+    clip: {fileID: 8300000, guid: e8ad14cffbd93794faaad4a4acba1c91, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.15
+    pitch: 1.25
     loop: 0
     source: {fileID: 0}
