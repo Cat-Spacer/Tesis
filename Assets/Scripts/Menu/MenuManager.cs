@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
@@ -16,6 +17,9 @@ public class MenuManager : MonoBehaviour
     [SerializeField] Vector3 _targetPos;
     [SerializeField] float _targetZoom;
     [SerializeField] float _sizeSpeed = 5;
+    [SerializeField] GameObject[] _CatroAndSquix;
+    [SerializeField] Button[] _area;
+    bool notIdle = false;
     private void Awake()
     {
         _mainCamera = Camera.main;
@@ -31,7 +35,38 @@ public class MenuManager : MonoBehaviour
         {
             item.SetActive(false);
         }
+
+        foreach (var item in _CatroAndSquix)
+        {
+            item.SetActive(false);
+        }
+        _CatroAndSquix[0].SetActive(true);
     }
+
+    public void SetCatroAndSquix(int img_arg)
+    {
+        _CatroAndSquix[0].SetActive(false);
+        _CatroAndSquix[img_arg].SetActive(true);
+        foreach (var item in _area)
+        {
+            item.gameObject.SetActive(false);
+        }
+    }
+
+    public void SetIdle()
+    {
+        foreach (var item in _CatroAndSquix)
+        {
+            item.SetActive(false);
+        }
+        _CatroAndSquix[0].SetActive(true);
+        foreach (var item in _area)
+        {
+            item.gameObject.SetActive(true);
+        }
+    }
+
+
 
     public void ZoomMonitor()
     {
