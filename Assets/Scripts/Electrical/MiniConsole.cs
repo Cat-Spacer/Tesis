@@ -63,11 +63,11 @@ public class MiniConsole : MonoBehaviour, IMouseOver, IGenerator
             line.Key.SetPosition(1, line.Value.position);
         }
     }
+
     private void HamsterGetInside()
     {
         if (!_hamster) return;
 
-        Debug.Log("ingrese");
         _hamster.MoveToPosition(_hamsterPos.position);
     }
 

@@ -149,7 +149,8 @@ public class SoundManager : MonoBehaviour
         MiniGameWon,
         Owl,
         Spider,
-        Platform
+        Platform,
+        SpaceShip
     }
 
     public void OnClickSound(string name)
