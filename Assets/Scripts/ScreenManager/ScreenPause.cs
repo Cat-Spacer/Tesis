@@ -8,6 +8,8 @@ public class ScreenPause : MonoBehaviour, IScreen
     [SerializeField] private Button[] _buttons;
     [SerializeField] private string _settingsScreenName = "Settings_Menu";
     [SerializeField] private string _sortingLayer = "Canvas";
+    [SerializeField]
+    private string _settingsPauseScreenName = "Settings_MenuPause";
     Canvas _screenCanvas;
 
     private string _result;
@@ -27,6 +29,13 @@ public class ScreenPause : MonoBehaviour, IScreen
 
         ScreenManager.Instance.Pop();
         ScreenManager.Instance.PushInstance(_settingsScreenName);
+    }
+    public void BTN_SettingsPause()
+    {
+        _result = "Settings";
+
+        ScreenManager.Instance.Pop();
+        ScreenManager.Instance.PushInstance(_settingsPauseScreenName);
     }
 
     public void BTN_Back()
