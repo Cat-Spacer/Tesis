@@ -82,9 +82,7 @@ public class MovingPlatform : MonoBehaviour, IElectric, IMouseOver
         else if (stop)
         { 
             _myRB2D.velocity = new Vector2(0, 0); 
-        }
-
-       
+        }       
     }
 
     public void TurnOn()

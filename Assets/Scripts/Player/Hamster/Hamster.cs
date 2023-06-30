@@ -34,7 +34,7 @@ public class Hamster : MonoBehaviour
         _HamsterAction = () => MoveWithPlayerSmoth();
         _generators = FindObjectsOfType<Generator>();
         if (!_player) _player = FindObjectOfType<CustomMovement>();
-        _canvas.SetActive(false);
+        if(_canvas) _canvas.SetActive(false);
         /*_joint2D = GetComponent<HingeJoint2D>();
         if (_joint2D && FindObjectOfType<CustomMovement>()) _joint2D.connectedBody = FindObjectOfType<CustomMovement>().rb;
         _distanceJoint2D = GetComponent<DistanceJoint2D>();
