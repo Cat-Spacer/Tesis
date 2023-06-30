@@ -165,7 +165,6 @@ public class Magnet : MonoBehaviour, IElectric, IMouseOver
             _onSprite.SetActive(false);
             _offSprite.SetActive(true);
             _particle.SetActive(false);
-            _area.SetActive(false);
             _active = false;
             _doOnce = true;
             _isOn = false;
