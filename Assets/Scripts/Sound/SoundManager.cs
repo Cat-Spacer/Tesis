@@ -32,6 +32,8 @@ public class SoundManager : MonoBehaviour
             s.source.pitch = s.pitch;
             s.source.loop = s.loop;
         }
+
+        PauseAll();
     }
 
     private void Update()
@@ -48,7 +50,7 @@ public class SoundManager : MonoBehaviour
             Debug.LogWarning("Sound: " + name + " not found!");
             return;
         }
-        s.loop = loop;
+        s.source.loop = loop;
         s.source.Play();
     }
 
@@ -60,7 +62,7 @@ public class SoundManager : MonoBehaviour
             Debug.LogWarning("Sound: " + name + " not found!");
             return;
         }
-        s.loop = loop;
+        s.source.loop = loop;
         s.source.Play();
     }
 
@@ -161,7 +163,7 @@ public class SoundManager : MonoBehaviour
             Debug.LogWarning("Sound: " + name + " not found!");
             return;
         }
-        s.loop = false;
+        s.source.loop = false;
         s.source.Play();
     }
 
@@ -173,17 +175,7 @@ public class SoundManager : MonoBehaviour
             Debug.LogWarning("Sound: " + name + " not found!");
             return;
         }
-        s.loop = false;
+        s.source.loop = false;
         s.source.Play();
-    }
-
-    internal void Play(object sound, bool v)
-    {
-        throw new NotImplementedException();
-    }
-
-    internal void Play(object sound)
-    {
-        throw new NotImplementedException();
     }
 }
