@@ -113,8 +113,8 @@ public class MenuManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-            OutZoom();
+        //if (Input.GetKeyDown(KeyCode.Escape))
+           // OutZoom();
 
         if (_mainCamera!= null && _targetPos!=null &&_mainCamera.transform.position != _targetPos)
         {
