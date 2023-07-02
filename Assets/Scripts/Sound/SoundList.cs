@@ -22,4 +22,5 @@ public class SoundList : MonoBehaviour
         }
         s.source.Play();
     }
+    public void StopAll() { SoundManager.instance.PauseAll(); }
 }

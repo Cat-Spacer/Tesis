@@ -132,7 +132,7 @@ public class Magnet : MonoBehaviour, IElectric, IMouseOver
 
     public void AttrackAreaOn()
     {
-        Debug.Log("on");
+        //Debug.Log("on");
         _attractAreaOffset += Time.deltaTime * _speed;
         if (_attractAreaOffset <= 0)
         {

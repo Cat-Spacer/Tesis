@@ -20,7 +20,7 @@ public class BubbleCameraManager : MonoBehaviour
         _zoomEffect = FindObjectOfType<ZoomEffect>();
         _hamster = FindObjectOfType<Hamster>();
         _camera = Camera.main;
-        _col = _hamster.gameObject.GetComponent<Collider2D>();
+        if (_hamster) _col = _hamster.gameObject.GetComponent<Collider2D>();
         startedCorroutine = true;
         _container = _zoomEffect.transform.gameObject;
         //_zoomEffect.gameObject.SetActive(false);

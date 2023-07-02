@@ -42,7 +42,7 @@ public class Spider : MonoBehaviour
 
     public void Attack()
     {
-        SoundManager.instance.Play(_sound,false);
+        SoundManager.instance.Play(_sound, false);
         _target.Die();
         attacked = true;
     }

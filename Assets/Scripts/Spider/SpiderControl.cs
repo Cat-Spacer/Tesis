@@ -52,7 +52,7 @@ public class SpiderControl : MonoBehaviour
         idle.OnUpdate += () =>
         {
             //Debug.Log(Vector2.Distance(transform.position, _spider._target.transform.position) + " " + _spider.followArea);
-
+            if(!_spider._target) return;
             if (Vector2.Distance(transform.position, _spider._target.transform.position) <= _spider.followArea &&
             _spider.InSight(transform.position, _spider._target.transform.position))
             {

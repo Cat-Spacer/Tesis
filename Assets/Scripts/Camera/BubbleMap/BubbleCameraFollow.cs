@@ -12,7 +12,7 @@ public class BubbleCameraFollow : MonoBehaviour
     private void Start()
     {
         _hamster = FindObjectOfType<Hamster>();
-        _target = _hamster.transform;
+        if (_hamster) _target = _hamster.transform;
         transform.position = _target.position + _offset;
     }
 
