@@ -31,9 +31,7 @@ public class SoundManager : MonoBehaviour
             s.source.volume = s.volume;
             s.source.pitch = s.pitch;
             s.source.loop = s.loop;
-        }
-
-        PauseAll();
+        }        
     }
 
     private void Update()
@@ -42,7 +40,7 @@ public class SoundManager : MonoBehaviour
         //    SoundManager.instance.Play(SoundManager.Types.VineCrunch);
     }
 
-    public void Play(Types name, bool loop = true)
+    public void Play(Types name, bool loop = false)
     {
         Sound s = Array.Find(sounds, sound => sound.nameType == name);
         if (s == null)

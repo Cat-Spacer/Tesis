@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class Tube : MonoBehaviour
 {
-    Hamster _hamster;
-    [SerializeField] private GameObject arrows;
+    private Hamster _hamster;
+    [SerializeField] private GameObject _arrows;
     [SerializeField] private Tube _UpTube, _RightTube, _DownTube, _LeftTube;
     [SerializeField] private List<Tube> _possiblePaths = new List<Tube>();
     [SerializeField] private bool _UpConnection, _RightConnection, _DownConnection, _LeftConnection;
@@ -27,31 +27,32 @@ public class Tube : MonoBehaviour
     public void GetPossiblePaths(Hamster ham)
     {
         _hamster = ham;
-        if (!arrows.activeInHierarchy) arrows.SetActive(true);
+        if(_arrows) if (!_arrows.activeInHierarchy) _arrows.SetActive(true);
     }
 
     public void GoUp()
     {
         _hamster.MoveToNextTube(_UpTube);
-        arrows.SetActive(false);
+        if (_arrows) _arrows.SetActive(false);
     }
 
     public void GoRight()
     {
         _hamster.MoveToNextTube(_RightTube);
-        arrows.SetActive(false);
+        if (_arrows) _arrows.SetActive(false);
     }
 
     public void GoDown()
     {
+        Debug.Log($"GoDown");
         _hamster.MoveToNextTube(_DownTube);
-        arrows.SetActive(false);
+        if (_arrows) _arrows.SetActive(false);
     }
 
     public void GoLeft()
     {
         _hamster.MoveToNextTube(_LeftTube);
-        arrows.SetActive(false);
+        if (_arrows) _arrows.SetActive(false);
     }
 
     public Tube GetNextPath(Tube lastTube)
@@ -107,7 +108,7 @@ public class Tube : MonoBehaviour
         }
     }
 
-    public void ArrowsActDes(bool set = false) { arrows.SetActive(set); }
+    public void ArrowsActDes(bool set = false) { if (_arrows) _arrows.SetActive(set); }
 
     public Vector3 GetCenter() { return center; }
 

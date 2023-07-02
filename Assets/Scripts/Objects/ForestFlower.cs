@@ -8,7 +8,7 @@ public class ForestFlower : WindObstacles
     [SerializeField] float _forceDown = 40;
     [SerializeField] float _strongerForceUp = 100;
     [SerializeField] private float _ventdrag = 0.3f;  //aumentar para lentitud de movimiento 
-    
+
     [SerializeField] private Transform _flower;
     [SerializeField] private float _maxUp;
     [SerializeField] private float _maxDown;
@@ -16,16 +16,16 @@ public class ForestFlower : WindObstacles
     public static bool onFlower = false;
     bool _goingDown;
 
-     protected override void OnTriggerEnter2D(Collider2D other)
-     {
+    protected override void OnTriggerEnter2D(Collider2D other)
+    {
         base.OnTriggerEnter2D(other);
 
         if (other != _playerCollider) return;
         onFlower = true;
         if (_blockWind) return;
 
-        OnEnterFlower();    
-     }
+        OnEnterFlower();
+    }
 
     protected override void OnTriggerStay2D(Collider2D other)
     {
@@ -36,18 +36,18 @@ public class ForestFlower : WindObstacles
 
         if (playerLocalVelY < 0 && _playerTransform.position.y - _flower.transform.position.y <= _stop)
         {
-   
+
             Wind(_player.transform.up, _strongerForceUp);
-            
+
         }
 
         if (_playerTransform.position.y - _flower.transform.position.y >= _maxUp)
         {
-   
+
             Wind(_player.transform.up, _forceDown);
-        
+
             _goingDown = true;
-        }    
+        }
         else if (_playerTransform.position.y - _flower.transform.position.y <= _maxUp && !_goingDown)
         {
             Wind(_player.transform.up, _forceUp);
@@ -58,12 +58,12 @@ public class ForestFlower : WindObstacles
         {
             _goingDown = false;
         }
-            
+
     }
     protected override void OnTriggerExit2D(Collider2D other)
     {
         base.OnTriggerExit2D(other);
-        
+
         if (other != _playerCollider) return;
 
         OnExitFlower();
@@ -74,20 +74,20 @@ public class ForestFlower : WindObstacles
     {
         base.OnEnterFlower();
 
-        SoundManager.instance.Play(SoundManager.Types.FlowerWind);
+        SoundManager.instance.Play(SoundManager.Types.FlowerWind, false);
 
-     //   Debug.Log("on enter");
-           
+        //   Debug.Log("on enter");
+
         _playerRb.drag = _ventdrag;
-         _player.ForceDashEnd();
+        _player.ForceDashEnd();
     }
 
     protected override void OnExitFlower()
     {
         base.OnExitFlower();
-        
+
         _playerRb.drag = _defaultDrag;
 
-        SoundManager.instance.Pause(SoundManager.Types.FlowerWind);   
+        SoundManager.instance.Pause(SoundManager.Types.FlowerWind);
     }
 }

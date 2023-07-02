@@ -87,7 +87,7 @@ public class MovingPlatform : MonoBehaviour, IElectric, IMouseOver
 
     public void TurnOn()
     {
-        SoundManager.instance.Play(_sound);
+        SoundManager.instance.Play(_sound, true);
         _MoveAction = Movement;
         _sp.sprite = _turnOnSprite;
     }

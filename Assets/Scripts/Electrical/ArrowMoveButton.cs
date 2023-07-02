@@ -19,17 +19,28 @@ public class ArrowMoveButton : MonoBehaviour
     void Start()
     {
         if (!_tube) _tube = GetComponentInParent<Tube>();
-        DisableButton();
+        DisableEnableButton();
     }
 
-    private void DisableButton()
+    public void DisableEnableButton()
     {
-        if (!_tube) return;
+        if (!_tube)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+
         if ((_tubeActions == TubeActions.Up && !_tube.GetUp()) ||
             (_tubeActions == TubeActions.Down && !_tube.GetDown()) ||
             (_tubeActions == TubeActions.Left && !_tube.GetLeft()) ||
             (_tubeActions == TubeActions.Right && !_tube.GetRight()))
             gameObject.SetActive(false);
+
+        if ((_tubeActions == TubeActions.Up && _tube.GetUp()) ||
+            (_tubeActions == TubeActions.Down && _tube.GetDown()) ||
+            (_tubeActions == TubeActions.Left && _tube.GetLeft()) ||
+            (_tubeActions == TubeActions.Right && _tube.GetRight()))
+            gameObject.SetActive(true);
     }
 
     private void EjecuteOrder66()
@@ -46,10 +57,11 @@ public class ArrowMoveButton : MonoBehaviour
 
     public void GoToTube()
     {
-        if (_tubeActions == TubeActions.Up) _tube.GetUp();
-        if (_tubeActions == TubeActions.Down) _tube.GetDown();
-        if (_tubeActions == TubeActions.Left) _tube.GetLeft();
-        if (_tubeActions == TubeActions.Right) _tube.GetRight();
+        if (_tubeActions == TubeActions.Up && _tube) _tube.GoUp();
+        if (_tubeActions == TubeActions.Down && _tube) _tube.GoDown();
+        if (_tubeActions == TubeActions.Left && _tube) _tube.GoLeft();
+        if (_tubeActions == TubeActions.Right && _tube) _tube.GoRight();
+        gameObject.SetActive(false);
     }
 
     public Tube Tube { get { return _tube; } set { _tube = value; } }

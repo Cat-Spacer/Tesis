@@ -82,7 +82,7 @@ public class Generator : MonoBehaviour, IMouseOver, IGenerator
         if (_miniGame) _miniGame.GetSetGenerator = this;
         if (_miniGameWin)
         {
-            SoundManager.instance.Play(_sound);
+            SoundManager.instance.Play(_sound, true);
             /*if (_hamster)
                 if (EnergyNeeded <= _hamster.Energy) StartCoroutine(Delay(start));*/
             StartCoroutine(Delay(start));

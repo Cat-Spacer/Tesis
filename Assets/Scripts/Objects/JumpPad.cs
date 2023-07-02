@@ -74,7 +74,7 @@ public class JumpPad : MonoBehaviour, IElectric
             player.ForceStopMovement();
             player.RestartJumpValue();
             player.ResetDash();
-            SoundManager.instance.Play(SoundManager.Types.Mushroom);
+            SoundManager.instance.Play(SoundManager.Types.Mushroom, false);
             var entityRb = collision.gameObject.GetComponent<Rigidbody2D>();
             entityRb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
         }
@@ -83,5 +83,5 @@ public class JumpPad : MonoBehaviour, IElectric
     {
 
     }
-    
+
 }

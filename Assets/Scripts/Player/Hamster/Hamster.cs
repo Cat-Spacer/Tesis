@@ -19,6 +19,7 @@ public class Hamster : MonoBehaviour
     [SerializeField] private Generator _generator;
     [SerializeField] private int _energyCollected, _maxEnergy = 3;
     public bool visible = true;
+    [SerializeField] private HamsterArrows _arrows;
     [SerializeField] private GameObject _canvas = null;
     [SerializeField] private KeyCode _retBTNKey = KeyCode.F12;
     private bool _owlCatched;
@@ -34,7 +35,7 @@ public class Hamster : MonoBehaviour
         _HamsterAction = () => MoveWithPlayerSmoth();
         _generators = FindObjectsOfType<Generator>();
         if (!_player) _player = FindObjectOfType<CustomMovement>();
-        if(_canvas) _canvas.SetActive(false);
+        if (_canvas) if(_canvas.GetComponent<HamsterArrows>()) _arrows = _canvas.GetComponent<HamsterArrows>();
         /*_joint2D = GetComponent<HingeJoint2D>();
         if (_joint2D && FindObjectOfType<CustomMovement>()) _joint2D.connectedBody = FindObjectOfType<CustomMovement>().rb;
         _distanceJoint2D = GetComponent<DistanceJoint2D>();
@@ -122,7 +123,8 @@ public class Hamster : MonoBehaviour
     {
         if (_currentTube.IsCheckpoint() || _currentTube.IsEntry() || _currentTube.IsExit())
         {
-            _canvas.SetActive(true);
+            //_canvas.SetActive(true);
+            if(_arrows) _arrows.SetTubes();
             _currentTube.GetPossiblePaths(this);
             _HamsterAction = delegate { };
             _aceleration = 0.0f;
@@ -183,9 +185,10 @@ public class Hamster : MonoBehaviour
             _HamsterAction = MoveWithPlayerSmoth;
 
         if (_currentTube) _currentTube.ArrowsActDes(false);
+        if (_arrows) _arrows.ResetTubes();
+
         if (_generator) _generator.StopMiniGame();
         _generator = null;
-        if (_canvas) _canvas.SetActive(false);
     }
 
     public void Die()
@@ -209,8 +212,6 @@ public class Hamster : MonoBehaviour
 
     public Tube LastTube { get { return _lastTube; } }
     public Tube CurrentTube { get { return _currentTube; } }
-
-    public GameObject Canvas { get { return _canvas; } }
 
     public void OwlCatch(float time)
     {
