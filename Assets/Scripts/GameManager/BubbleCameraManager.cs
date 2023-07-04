@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BubbleCameraManager : MonoBehaviour
@@ -41,7 +39,6 @@ public class BubbleCameraManager : MonoBehaviour
         {
             if (startedCorroutine)
             {
-                //Debug.Log($"startedCorroutine = {startedCorroutine}");
                 startedCorroutine = false;
                 _fadeInOut.StartFades(false, _container);
                 //_fadeInOut.StartCoroutine(_fadeInOut.FadeEffect(false, _container));
@@ -51,7 +48,6 @@ public class BubbleCameraManager : MonoBehaviour
         {
             if (startedCorroutine)
             {
-                //Debug.Log($"startedCorroutine = {startedCorroutine}");
                 startedCorroutine = false;
                 _fadeInOut.StartFades(true, _container);
             }

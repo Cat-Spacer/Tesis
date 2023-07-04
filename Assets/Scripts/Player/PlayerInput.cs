@@ -57,8 +57,8 @@ public class PlayerInput : MonoBehaviour
         attackImput = Input.GetKeyDown(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Attack]);
         dashInputStay = Input.GetKey(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Dash]);
         interactionInput = Input.GetKeyDown(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Interact]);
-        jumpInputUp = Input.GetKeyUp(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.JumpUp]);
-        jumpInputDown = Input.GetKeyDown(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.JumpDown]);
+        jumpInputUp = Input.GetKeyUp(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Jump]);
+        jumpInputDown = Input.GetKeyDown(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Jump]);
         //TrapInputs
         left_Input_UpKey = Input.GetKeyUp(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Left]);
         right_Input_UpKey = Input.GetKeyUp(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Right]);

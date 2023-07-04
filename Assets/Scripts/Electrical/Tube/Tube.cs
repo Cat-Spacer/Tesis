@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class Tube : MonoBehaviour
@@ -14,7 +12,6 @@ public class Tube : MonoBehaviour
     [SerializeField] private Vector3 center;
     [SerializeField] private LayerMask _tubeMask;
     [SerializeField] private float _searchRad = 0.25f;
-
     [SerializeField] private bool _checkpoint, _entry, _exit, _gizmos = true;
 
     private void Start()
@@ -113,9 +110,7 @@ public class Tube : MonoBehaviour
     public Vector3 GetCenter() { return center; }
 
     public bool IsEntry() { return _entry; }
-
     public bool IsExit() { return _exit; }
-
     public bool IsCheckpoint() { return _checkpoint; }
 
     public Tube GetUp() { return _UpTube; }
