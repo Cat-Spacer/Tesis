@@ -12,12 +12,6 @@ public class HamsterArrows : MonoBehaviour
         if (_hamster && !_tube) _tube = _hamster.CurrentTube;
     }
 
-    private void Update()
-    {
-        /*if (!_hamster && _arrowMoveButton.Length < 1) if (!_hamster.InTube()) return;
-        HelloThere();*/
-    }
-
     public void SetTubes()
     {
         if (_hamster && !_tube) _tube = _hamster.CurrentTube;

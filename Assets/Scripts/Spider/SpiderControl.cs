@@ -12,11 +12,9 @@ public class SpiderControl : MonoBehaviour
     public NodePoint _goalNode;
     public List<NodePoint> pathList;
 
-
     private void Awake()
     {
         _spider = GetComponent<Spider>();  //asignar de forma correcta, no por get component
-
 
         var idle = new State<States>("idle");
         var following = new State<States>("following");
@@ -43,7 +41,7 @@ public class SpiderControl : MonoBehaviour
             .SetTransition(States.FOLLOW, following)
             .Done();
 
-        //IDLE
+        //----------- IDLE -----------//
         idle.OnEnter += x =>
         {
             //Debug.Log("Its Idle");
@@ -62,11 +60,9 @@ public class SpiderControl : MonoBehaviour
 
         };
 
-        //RETURN
+        //----------- RETURN -----------//
         returning.OnEnter += x =>
         {
-            //Debug.Log("Its Returning");
-
             _goalNode = _spider.homeNode;
 
             pathList = _spider.ConstructPathAStar(_spider.transform.position, _goalNode);
@@ -76,8 +72,8 @@ public class SpiderControl : MonoBehaviour
         {
             _spider.Move(pathList);
 
-            if (Input.GetKeyDown(KeyCode.F))  //cambiar esto a if ve al player
-                SendInputToFSM(States.FOLLOW);
+            /*if (Input.GetKeyDown(KeyCode.F))  //cambiar esto a if ve al player
+                SendInputToFSM(States.FOLLOW);*/
 
             if (Vector2.Distance(transform.position, _spider._target.transform.position) <= _spider.followArea &&
             _spider.InSight(transform.position, _spider._target.transform.position))
@@ -98,7 +94,7 @@ public class SpiderControl : MonoBehaviour
             pathList.Clear();
         };
 
-        //FOLLOW
+        //----------- FOLLOW -----------//
         following.OnEnter += x =>
         {
             //Debug.Log("Its Following");
@@ -122,9 +118,7 @@ public class SpiderControl : MonoBehaviour
             _spider.Move(pathList);
         };
 
-        following.OnFixedUpdate += () =>
-        {
-        };
+        following.OnFixedUpdate += () => { };
 
         following.OnExit += x =>
         {
@@ -132,26 +126,39 @@ public class SpiderControl : MonoBehaviour
             pathList.Clear();
         };
 
-        //ATTACK
-        attacking.OnEnter += x =>
-        {
-            //Debug.Log("Its Attacking");
+        //----------- ATTACK -----------//
+        attacking.OnEnter += x => { _spider.Attack(); };
 
-            _spider.Attack();
-        };
         attacking.OnUpdate += () =>
         {
             if (_spider.attacked)
             { SendInputToFSM(States.RETURN); }
         };
-        attacking.OnExit += x =>
-        {
-            _spider.attacked = false;
-        };
+
+        attacking.OnExit += x => { _spider.attacked = false; };
 
         _myFsm = new EventFSM<States>(idle);
     }
 
+    
+
+    private void Start()
+    {
+        SendInputToFSM(States.IDLE);
+    }
+
+    private void Update()
+    {
+        _myFsm.Update();
+    }
+
+    private void FixedUpdate()
+    {
+        _myFsm.FixedUpdate();
+    }
+
+    private void SendInputToFSM(States inp) { _myFsm.SendInput(inp); }
+    
     public IEnumerator CoroutineWaitForAttack(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
@@ -163,23 +170,5 @@ public class SpiderControl : MonoBehaviour
             _goalNode = _spider.homeNode;
             pathList = _spider.ConstructPathAStar(_spider.transform.position, _goalNode);
         }
-    }
-    private void Start()
-    {
-        SendInputToFSM(States.IDLE);
-    }
-
-    private void SendInputToFSM(States inp)
-    {
-        _myFsm.SendInput(inp);
-    }
-    private void Update()
-    {
-        _myFsm.Update();
-    }
-
-    private void FixedUpdate()
-    {
-        _myFsm.FixedUpdate();
     }
 }

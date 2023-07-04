@@ -17,7 +17,7 @@ namespace InputKey
         {
             None = -1,
             JumpDown,
-            JumpUp,
+            Jump,
             ClimbUp,
             ClimbDown,
             Left,
@@ -37,7 +37,7 @@ namespace InputKey
 
             buttonKeys = new Dictionary<TypeOfKeys, KeyCode>();
             buttonKeys[TypeOfKeys.JumpDown] = KeyCode.Space;
-            buttonKeys[TypeOfKeys.JumpUp] = KeyCode.Space;
+            buttonKeys[TypeOfKeys.Jump] = KeyCode.Space;
             buttonKeys[TypeOfKeys.ClimbUp] = KeyCode.W;
             buttonKeys[TypeOfKeys.ClimbDown] = KeyCode.S;
             buttonKeys[TypeOfKeys.Left] = KeyCode.A;
@@ -126,7 +126,9 @@ namespace InputKey
         public void SaveKeysData(TypeOfKeys key, KeyCode keyCode)
         {
             buttonKeys[key] = keyCode;
-            KeybindManager.Instance.saveManager.LoadData().buttonValues[key.GetHashCode()] = buttonKeys[key];
+            Debug.Log($"TypeOfKeys value = {(int)key}");
+            KeybindManager.Instance.saveManager.LoadData().buttonValues[(int)key] = buttonKeys[key];
+            //KeybindManager.Instance.saveManager.SaveJSON();
         }
 
         public void ReplaceKeyValue()
