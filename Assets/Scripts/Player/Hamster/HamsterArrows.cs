@@ -1,10 +1,11 @@
 using UnityEngine;
+using static UnityEditor.UIElements.ToolbarMenu;
 
 public class HamsterArrows : MonoBehaviour
 {
-    [SerializeField] private Tube _tube;
-    [SerializeField] private Hamster _hamster;
-    [SerializeField] private ArrowMoveButton[] _arrowMoveButton;
+    [SerializeField] private Tube _tube = null;
+    [SerializeField] private Hamster _hamster = null;
+    [SerializeField] private ArrowMoveButton[] _arrowMoveButton = new ArrowMoveButton[0];
 
     void Start()
     {
