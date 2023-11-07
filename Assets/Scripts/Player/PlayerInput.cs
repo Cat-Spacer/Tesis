@@ -41,14 +41,6 @@ public class PlayerInput : MonoBehaviour
 
     private void Update()
     {
-        //Normal Inputs
-
-        //if (Input.GetKeyUp(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.JumpUp]))
-        //{
-        //    Climb.canClimbJump = true;
-        //}
-
-        //   xAxis = Input.GetAxis("Horizontal");
         dashInput = Input.GetKeyDown(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Dash]);
         up_Input = Input.GetKey(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.ClimbUp]);
         down_Input = Input.GetKey(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.ClimbDown]);
@@ -59,12 +51,10 @@ public class PlayerInput : MonoBehaviour
         interactionInput = Input.GetKeyDown(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Interact]);
         jumpInputUp = Input.GetKeyUp(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Jump]);
         jumpInputDown = Input.GetKeyDown(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Jump]);
-        //TrapInputs
         left_Input_UpKey = Input.GetKeyUp(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Left]);
         right_Input_UpKey = Input.GetKeyUp(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Right]);
         trapInput = Input.GetKeyDown(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Left])
             || Input.GetKeyDown(InputDictionary.buttonKeys[InputDictionary.TypeOfKeys.Right]);
-        //rightTrapInput = Input.GetKey(KeyCode.A);
     }
 
     IEnumerator ExampleCoroutine()
