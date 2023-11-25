@@ -15,6 +15,10 @@ public class HamsterChar : PlayerCharacter
         
         Debug.Log("PUNCH " + attackable);
         attackable.GetKnockback(_data.punchForce, transform.right + transform.up, _data.stunForce);
+        if (LiveCamera.instance.IsOnAir())
+        {
+            LiveCamera.instance.ChangePeace(-1);
+        }
     }
     private void OnDrawGizmos()
     {
