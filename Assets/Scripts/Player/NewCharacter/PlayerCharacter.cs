@@ -54,7 +54,7 @@ public class PlayerCharacter : MonoBehaviour,IPlayerInteract
       
             _rb.velocity = new Vector2(xMove, _rb.velocity.y);
             _model.ChangeAnimationState("Run");
-            Debug.Log("Ground run");
+            //Debug.Log("Ground run");
         }
         else
         {
@@ -64,7 +64,7 @@ public class PlayerCharacter : MonoBehaviour,IPlayerInteract
             else if (_data.faceDirection == -1 && _data.maxSpeed > Mathf.Abs(_rb.velocity.x)) xMove = Mathf.Clamp(_rb.velocity.x + xMove, -_data.maxSpeed, 0);
             
             _rb.velocity = new Vector2(xMove, _rb.velocity.y);
-            Debug.Log("Air run");
+            //Debug.Log("Air run");
         }
     }
     public void GroundFriction()
