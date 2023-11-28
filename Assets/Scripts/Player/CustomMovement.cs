@@ -141,7 +141,6 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         if (_interactObj == null) return;
         else
         {
-
             _playerCanvas.InteractEvent(true);
             _interactObj.ShowInteract(true);
         }

@@ -71,8 +71,19 @@ public class CharacterData : MonoBehaviour
     public bool isFalling;
     [HideInInspector] public bool running = false;
 
+    [Header("Interact")] 
+    public Vector2 interactSize;
+    public IInteract _interactObj;
+
+    [Header("CatSpecial")] 
+    public float specialTimmer;
+    
+    [Header("Canvas")] 
+    public PlayerCanvas playerCanvas;
+    
     [Header("Layers")] 
     public LayerMask groundLayer;
     public LayerMask attackableLayer;
     public LayerMask playerMask;
+    public LayerMask interactMask;
 }

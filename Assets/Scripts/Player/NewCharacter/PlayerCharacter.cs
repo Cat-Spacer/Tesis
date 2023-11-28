@@ -20,6 +20,10 @@ public class PlayerCharacter : MonoBehaviour,IPlayerInteract
         _data.gravity = new Vector2(0, -Physics2D.gravity.y);
     }
 
+    protected virtual void Update()
+    {
+
+    }
 
     protected virtual void FixedUpdate()
     {
@@ -28,6 +32,7 @@ public class PlayerCharacter : MonoBehaviour,IPlayerInteract
         _HitAction();
         _DebuffAction();
         IsFalling();
+        
     }
 #region MOVEMENT
     public void Movement(bool onInput ,int direction)
@@ -82,8 +87,14 @@ public class PlayerCharacter : MonoBehaviour,IPlayerInteract
         if (_data.faceDirection == 1) transform.rotation = Quaternion.Euler(transform.rotation.x, 0, transform.rotation.z);
         else transform.rotation = Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z);
     }
+
+    public float GetFaceDirection()
+    {
+        return _data.faceDirection;
+    }
 #endregion
 #region JUMP
+
     public void JumpUp(bool jump)
     {
         Debug.Log("Try Jump");
@@ -185,27 +196,48 @@ public void GetStun(float intensity)
 
 #region CHAR_ACTIONS
 
-public virtual void Punch(){}
+    public virtual void Special(){}
+    public virtual void Punch(){}
+    public void Interact(bool onPress)
+    {
+        var interact = Physics2D.OverlapBox(transform.position, _data.interactSize, 0, _data.interactMask);
+        if (interact == null)
+        {
+            _data.playerCanvas.InteractEvent(false);
+            if (_data._interactObj != null)
+            {
+                _data._interactObj.ShowInteract(false);
+                _data._interactObj = null;
+            }
+            return;
+        }
+        _data._interactObj = interact.GetComponent<IInteract>();
+        if (_data._interactObj == null) return;
+        
+        _data.playerCanvas.InteractEvent(true);
+        _data._interactObj.ShowInteract(true);
+        
+        if (onPress)
+        {
+            _data._interactObj.Interact();
+        }
+    }
 
 public virtual void JumpImpulse()
 {
     var otherPlayer = Physics2D.OverlapBox(transform.position, _data.jumpInpulseArea, 0, _data.playerMask);
-    Debug.Log(otherPlayer);
     if (otherPlayer)
     {
         var playerInteract = otherPlayer.gameObject.GetComponent<IPlayerInteract>();
         if (playerInteract != null)
         {
-            playerInteract.GetJumpImpulse(_data.jumpImpulse); 
-            Debug.Log("JumpUmpulse");
-
+            playerInteract.GetJumpImpulse(_data.jumpImpulse);
         }
     }
 }
 
 public void GetJumpImpulse(float pushForce)
 {
-    Debug.Log("FIUMM");
     _rb.velocity = new Vector2(_rb.velocity.x, pushForce);
 }
 
