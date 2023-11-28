@@ -42,6 +42,8 @@ public class HamsterCharacterInput : MonoBehaviour
         if (attack_Input) _character.Punch();
         impulse_Input = Input.GetKeyDown(KeyCode.Keypad2);
         if(impulse_Input) _character.JumpImpulse();
+        
+        
     }
     private void FixedUpdate()
     {

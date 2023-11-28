@@ -6,6 +6,7 @@ using InputKey;
 public class CatCharacterInput : MonoBehaviour
 {
     private PlayerCharacter _character;
+    private CatSpecial _catSpecial;
     private CharacterData _data;
     private CharacterModel _model;
     public bool up_Input { get; private set; }
@@ -14,12 +15,16 @@ public class CatCharacterInput : MonoBehaviour
     public  bool right_Input { get; private set; }
     public  bool attack_Input { get; private set; }
     public  bool impulse_Input { get; private set; }
+    public  bool spit_Input { get; private set; }
+    public  bool interact_Input { get; private set; }
+    public  bool special_Input { get; private set; }
     
     void Start()
     {
         _character = GetComponent<PlayerCharacter>();
         _data = GetComponent<CharacterData>();
         _model = GetComponent<CharacterModel>();
+        _catSpecial = GetComponent<CatSpecial>();
     }
 
     // Update is called once per frame
@@ -45,6 +50,16 @@ public class CatCharacterInput : MonoBehaviour
         
         impulse_Input = Input.GetKeyDown(KeyCode.K);
         if(impulse_Input) _character.JumpImpulse();
+        
+        // spit_Input = Input.GetKeyDown(KeyCode.L);
+        // if(spit_Input) _character.Special();
+        
+        interact_Input = Input.GetKeyDown(KeyCode.E);
+        if(interact_Input) _character.Interact(true);
+        else _character.Interact(false);
+        
+        special_Input = Input.GetKeyDown(KeyCode.L);
+        if(special_Input) _catSpecial.Special();
     }
     private void FixedUpdate()
     {
