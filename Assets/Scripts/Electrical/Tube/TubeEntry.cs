@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class TubeEntry : MonoBehaviour, IMouseOver
+public class TubeEntry : MonoBehaviour, IInteract
 {
     [SerializeField] private Sprite _open, _closed;
     [SerializeField] private Tube _entryTube;
@@ -10,6 +10,7 @@ public class TubeEntry : MonoBehaviour, IMouseOver
     [SerializeField] private bool _isOpen, _isOutline, _allReadyIn = false;
     private SpriteRenderer _sp;
     private Material defaultMat;
+    private HamsterChar _hamster;
 
     private void Start()
     {
@@ -19,49 +20,50 @@ public class TubeEntry : MonoBehaviour, IMouseOver
         _isOutline = false;
         if (!_entryTube && Physics2D.OverlapCircle(transform.position, _searchRad).GetComponent<Tube>())
             _entryTube = Physics2D.OverlapCircle(transform.position, _searchRad).GetComponent<Tube>();
+        _hamster = GameManager.Instance.GetHamsterChar();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    // private void OnTriggerEnter2D(Collider2D collision)
+    // {
+    //     if (collision.GetComponent<HamsterChar>())
+    //     {
+    //         _isOpen = true;
+    //         _sp.sprite = _open;
+    //     }
+    // }
+    //
+    // private void OnTriggerExit2D(Collider2D collision)
+    // {
+    //     if (collision.GetComponent<HamsterChar>())
+    //     {
+    //         _isOpen = false;
+    //         _sp.sprite = _closed;
+    //     }
+    // }
+
+    public void Interact()
     {
-        if (collision.GetComponent<CustomMovement>())
+        if (!(_hamster && _isOpen)) return;
+        
+        Debug.Log("Puedo entrar");
+        // if (!_hamster.InTube())
+        //     StartCoroutine(HamsterToEntry(_hamster));
+        // else if (_hamster.CurrentTube == _entryTube)
+        //     StartCoroutine(HamsterToPlayer(_hamster));
+    }
+
+    public void ShowInteract(bool showInteractState)
+    {
+        if (showInteractState)
         {
             _isOpen = true;
             _sp.sprite = _open;
         }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.GetComponent<CustomMovement>())
+        else
         {
             _isOpen = false;
             _sp.sprite = _closed;
         }
-    }
-
-    public void MouseOver()
-    {
-        if (_isOutline || !_isOpen) return;
-        _sp.material = outlineMat;
-        _isOutline = true;
-    }
-
-    public void MouseExit()
-    {
-        if (!_isOutline) return;
-        _sp.material = defaultMat;
-        _isOutline = false;
-    }
-
-    public void Interact()
-    {
-        var hamster = FindObjectOfType<Hamster>();
-        if (!(hamster && _isOpen)) return;
-
-        if (!hamster.InTube())
-            StartCoroutine(HamsterToEntry(hamster));
-        else if (hamster.CurrentTube == _entryTube)
-            StartCoroutine(HamsterToPlayer(hamster));
     }
 
     private IEnumerator HamsterToEntry(Hamster squix)

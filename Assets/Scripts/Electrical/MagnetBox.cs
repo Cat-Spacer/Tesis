@@ -29,7 +29,7 @@ public class MagnetBox : MonoBehaviour
     private void CustomGravity()
     {
         if (!(_useGravity && !CollWLayer())) return;
-        transform.SetParent(GameManager.Instance.GetConfig.mainGame);
+        //transform.SetParent(GameManager.Instance.GetConfig.mainGame);
 
         if (_index > 0)
             _index--;

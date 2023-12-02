@@ -13,8 +13,4 @@ public class SpecialMushroom_SO : ScriptableObject
     public MushroomType type;
     public float time;
 
-    public virtual void Special()
-    {
-
-    }
 }

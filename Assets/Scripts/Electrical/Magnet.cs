@@ -91,7 +91,7 @@ public class Magnet : MonoBehaviour, IElectric, IMouseOver
 
         if (_doOnce)
         {
-            _box.transform.SetParent(GameManager.Instance.GetConfig.mainGame);
+            //_box.transform.SetParent(GameManager.Instance.GetConfig.mainGame);
             if (_box.GetOnGO && _box.GetOffGO)
             {
                 _box.GetOnGO.SetActive(true);

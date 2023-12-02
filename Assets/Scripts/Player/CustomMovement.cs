@@ -66,7 +66,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         _PlayerActions = delegate { };
         _MovementState = delegate { };
         _DashState = delegate { };
-        GameManager.Instance.SetNewCheckPoint(transform);
+        //GameManager.Instance.SetNewCheckPoint(transform);
 
         //_DashState = delegate { };
     }
@@ -816,7 +816,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         dead = true;
         _Inputs = delegate { };
         rb.velocity = Vector2.zero;
-        GameManager.Instance.PlayerDeath();
+        //GameManager.Instance.PlayerDeath();
         SoundManager.instance.Play(SoundManager.Types.CatDamage);
         _playerCanvas.TrapEvent(false, 0);
         _playerCanvas.InteractEvent(false);
