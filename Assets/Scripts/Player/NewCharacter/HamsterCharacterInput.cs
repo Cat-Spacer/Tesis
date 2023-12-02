@@ -13,6 +13,7 @@ public class HamsterCharacterInput : MonoBehaviour
     public  bool right_Input { get; private set; }
     public  bool attack_Input { get; private set; }
     public  bool impulse_Input { get; private set; }
+    public  bool interact_Input { get; private set; }
     void Start()
     {
         _character = GetComponent<PlayerCharacter>();
@@ -43,7 +44,9 @@ public class HamsterCharacterInput : MonoBehaviour
         impulse_Input = Input.GetKeyDown(KeyCode.Keypad2);
         if(impulse_Input) _character.JumpImpulse();
         
-        
+        interact_Input = Input.GetKeyDown(KeyCode.Keypad4);
+        if(interact_Input) _character.Interact(true);
+        else _character.Interact(false);
     }
     private void FixedUpdate()
     {
@@ -67,5 +70,6 @@ public class HamsterCharacterInput : MonoBehaviour
         // {
         //     _charMovement.StopJump();
         // }
+        
     }
 }

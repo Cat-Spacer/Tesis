@@ -8,7 +8,7 @@ public class PickUp : MonoBehaviour
     {
         if (trig.GetComponent<CustomMovement>())
         {
-            GameManager.Instance.EndGame();
+            //GameManager.Instance.EndGame();
         }
     }    
 }

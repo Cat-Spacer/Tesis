@@ -18,10 +18,10 @@ public class DoorTrigger : Obstacle, IInteract
     public void Interact()
     {
 
-        if (_isFirst && !GameManager.Instance.celestialDiamond)
-        {
-            return;
-        }
+        // if (_isFirst && !GameManager.Instance.celestialDiamond)
+        // {
+        //     return;
+        // }
         
         if (_doOnce && canRepeat) return;
 

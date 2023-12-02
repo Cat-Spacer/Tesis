@@ -2,62 +2,54 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FallingFloor : MonoBehaviour, IRespawn
+public class FallingFloor : MonoBehaviour
 {
-    Rigidbody2D rb;
     [SerializeField] LayerMask mask;
-    [SerializeField] GameObject player;
-    [SerializeField] float gravityScale;
-    [SerializeField] RigidbodyConstraints2D constraints2D;
-    [SerializeField] float delay;
-    [SerializeField] bool activated = false;
-    [SerializeField] Animator anim;
-    [SerializeField] ParticleSystem fallingRocksParticle;
-    Vector2 _startingPos;
-
+    [SerializeField] float _desactivateDelay, _activateDelay;
+    private SpriteRenderer _sp;
+    private BoxCollider2D _coll;
+    [SerializeField] private Color activatedColor, desactivatedColor;
+    private bool _isActive;
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        _startingPos = transform.position;
+        _sp = GetComponent<SpriteRenderer>();
+        _coll = GetComponent<BoxCollider2D>();
+        _isActive = true;
     }
 
-    private void Activate()
+    private void Activate(bool activated)
     {
-        SoundManager.instance.Pause(SoundManager.Types.FallingDebris);
-        gameObject.SetActive(false);
-        //rb.constraints = constraints2D;
-        //rb.gravityScale = gravityScale;
-        //anim.SetTrigger("Stop");
-    }
-    IEnumerator StartFalling()
-    {
-        yield return new WaitForSeconds(delay);
-        Activate();
-        fallingRocksParticle.Stop();
-        //gameObject.GetComponent<BoxCollider2D>().enabled = false;
-        //StartCoroutine(End(5));
-    }
-
-    /*IEnumerator End(float time)
-    {
-        yield return new WaitForSeconds(time);
-        Destroy(gameObject);
-    }*/
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if ((mask.value & (1 << collision.transform.gameObject.layer)) > 0  && !activated)
+        //gameObject.SetActive(activated);
+        if (activated)
         {
-            activated = true;
-            StartCoroutine(StartFalling());
-            fallingRocksParticle.Play();
-            anim.SetTrigger("Fall");
-            SoundManager.instance.Play(SoundManager.Types.FallingDebris);
+            _sp.color = activatedColor;
+            _coll.enabled = true;
+            _isActive = true;
+        }
+        else
+        {
+            _sp.color = desactivatedColor;
+            _coll.enabled = false;
+            _isActive = false;
+            StartCoroutine(ActivateFloor());
         }
     }
-
-    public void Respawn()
+    IEnumerator DesactivateFloor()
     {
-        transform.position = _startingPos;
+        yield return new WaitForSeconds(_desactivateDelay);
+        Activate(false);
+    }
+    IEnumerator ActivateFloor()
+    {
+        yield return new WaitForSeconds(_activateDelay);
+        Activate(true);
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if ((mask.value & (1 << collision.transform.gameObject.layer)) > 0  && _isActive)
+        {
+            _isActive = false;
+            StartCoroutine(DesactivateFloor());
+        }
     }
 }
