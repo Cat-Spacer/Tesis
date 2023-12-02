@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Tube : MonoBehaviour
 {
-    private Hamster _hamster;
+    private HamsterChar _hamster;
     [SerializeField] private GameObject _arrows;
     [SerializeField] private Tube _UpTube, _RightTube, _DownTube, _LeftTube;
     [SerializeField] private List<Tube> _possiblePaths = new List<Tube>();
@@ -21,7 +21,7 @@ public class Tube : MonoBehaviour
         CheckNeighborTubes();
     }
 
-    public void GetPossiblePaths(Hamster ham)
+    public void GetPossiblePaths(HamsterChar ham)
     {
         _hamster = ham;
         if(_arrows) if (!_arrows.activeInHierarchy) _arrows.SetActive(true);

@@ -11,7 +11,7 @@ public class PlayerCharacter : MonoBehaviour,IPlayerInteract
     protected Rigidbody2D _rb;
     protected Action _HitAction = delegate {  };
     protected Action _DebuffAction = delegate {  };
-    void Start()
+    public virtual void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
         _data = GetComponent<CharacterData>();

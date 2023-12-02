@@ -5,6 +5,7 @@ public class TubeEntry : MonoBehaviour, IInteract
 {
     [SerializeField] private Sprite _open, _closed;
     [SerializeField] private Tube _entryTube;
+    [SerializeField] Transform entry;
     [SerializeField] private float _searchRad = 1.0f;
     [SerializeField] private Material outlineMat;
     [SerializeField] private bool _isOpen, _isOutline, _allReadyIn = false;
@@ -44,12 +45,8 @@ public class TubeEntry : MonoBehaviour, IInteract
     public void Interact()
     {
         if (!(_hamster && _isOpen)) return;
-        
-        Debug.Log("Puedo entrar");
-        // if (!_hamster.InTube())
-        //     StartCoroutine(HamsterToEntry(_hamster));
-        // else if (_hamster.CurrentTube == _entryTube)
-        //     StartCoroutine(HamsterToPlayer(_hamster));
+
+        _hamster.GetInTube(entry.position);
     }
 
     public void ShowInteract(bool showInteractState)

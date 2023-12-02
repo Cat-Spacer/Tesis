@@ -125,7 +125,7 @@ public class Hamster : MonoBehaviour
         {
             //_canvas.SetActive(true);
             if(_arrows) _arrows.SetTubes();
-            _currentTube.GetPossiblePaths(this);
+           // _currentTube.GetPossiblePaths(this);
             _HamsterAction = delegate { };
             _aceleration = 0.0f;
 

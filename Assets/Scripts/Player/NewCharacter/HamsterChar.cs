@@ -5,7 +5,17 @@ using UnityEngine;
 
 public class HamsterChar : PlayerCharacter
 {
-    private bool _inTube;
+    HamsterCharacterInput _inputs;
+    public override void Start()
+    {
+        base.Start();
+        _inputs = GetComponent<HamsterCharacterInput>();
+    }
+    protected override void FixedUpdate()
+    {
+        base.FixedUpdate();
+        _TubesMovementAction();
+    }
     public override void Punch()
     {
         var obj = Physics2D.OverlapCircle(_data.attackPoint.position, _data.attackRange.x, _data.attackableLayer);
@@ -23,83 +33,88 @@ public class HamsterChar : PlayerCharacter
     }
 
     #region TUBES
-
+    private bool _inTube;
+    private float _speed = -5;
     private Vector2 _currentTubePos;
-    
-    public void GetInTube(Vector2 targetPosition, Tube tube = null)
+    Action _TubesMovementAction = delegate { };
+    Vector2 _tubeEntry;
+    Tube _currentTube, _lastTube;
+
+    public void GetInTube(Vector2 targetPosition)
     {
         if (_inTube) return;
-
-
+        _inputs.ChangeToTubesInputs(true);
+        _tubeEntry = targetPosition;
+        _TubesMovementAction = EnterTube;
     }
-    
-    // public void MoveInTubes()
-    // {
-    //     MoveToPosition(_currentTubePos);
-    //     if (Vector3.Distance(transform.position, _currentTubePos) < .01f)
-    //         CheckNextTube();
-    // }
+    void EnterTube()
+    {
+        MoveToPosition(_currentTubePos);
+        if (Vector3.Distance(transform.position, _currentTubePos) < .01f) CheckNextTube();
+    }
+
+    public void MoveInTubes()
+    {
+        MoveToPosition(_currentTubePos);
+        if (Vector3.Distance(transform.position, _currentTubePos) < .01f)
+            CheckNextTube();
+    }
 
     public void MoveToPosition(Vector2 pos)
-    { transform.position = Vector3.MoveTowards(transform.position, pos, (_speed + _aceleration) * Time.deltaTime); }
+    { transform.position = Vector3.MoveTowards(transform.position, pos, _speed * Time.deltaTime); }
 
-    //public void GoToPosition(Vector2 pos) { _HamsterAction = () => MoveToPosition(pos); }
+    public void GoToPosition(Vector2 pos) { _TubesMovementAction = () => MoveToPosition(pos); }
 
+    public void TubeDirection(Vector2 dir)
+    {
+        if(dir == new Vector2(1, 0))
+        {
+            _currentTube.GoRight();
+        }
+        if (dir == new Vector2(-1, 0))
+        {
+            _currentTube.GoLeft();
+        }
+        if (dir == new Vector2(0, 1))
+        {
+            _currentTube.GoUp();
+        }
+        if (dir == new Vector2(0, -1))
+        {
+            _currentTube.GoDown();
+        }
+    }
 
+    void CheckNextTube()
+    {
+        if (_currentTube.IsCheckpoint() || _currentTube.IsEntry() || _currentTube.IsExit())
+        {
+            //_canvas.SetActive(true);
+            //if (_arrows) _arrows.SetTubes();
+            _currentTube.GetPossiblePaths(this);
+            _TubesMovementAction = delegate { };
+        }
+        else
+        {
+            var nextTube = _currentTube.GetNextPath(_lastTube);
+            _lastTube = _currentTube;
+            _currentTube = nextTube;
+            _currentTubePos = _currentTube.GetCenter();
+        }
+    }
 
-    // void CheckNextTube()
-    // {
-    //     if (_currentTube.IsCheckpoint() || _currentTube.IsEntry() || _currentTube.IsExit())
-    //     {
-    //         //_canvas.SetActive(true);
-    //         if(_arrows) _arrows.SetTubes();
-    //         _currentTube.GetPossiblePaths(this);
-    //         _HamsterAction = delegate { };
-    //         _aceleration = 0.0f;
-    //
-    //         if (!Physics2D.OverlapCircle(transform.position, _checkRadius, _generatorLayerMask)) return;
-    //         var generator = Physics2D.OverlapCircle(transform.position, _checkRadius, _generatorLayerMask)
-    //             .gameObject.GetComponent<Generator>();
-    //         _generator = generator;
-    //
-    //         if (_currentTube.IsExit() && _generator)
-    //         {
-    //             if (_generator.EnergyNeeded <= _energyCollected || _generator.IsAlreadyStarded)
-    //             {
-    //                 //_generator.TurnButtons();
-    //                 _generator.StartGenerator();
-    //             }
-    //         }
-    //     }
-    //     else
-    //     {
-    //         var nextTube = _currentTube.GetNextPath(_lastTube);
-    //         _lastTube = _currentTube;
-    //         _currentTube = nextTube;
-    //         _currentTubePos = _currentTube.GetCenter();
-    //         if (_aceleration + _speed <= _maxSpeed) _aceleration++;
-    //     }
-    // }
-    //
-    // public void MoveToNextTube(Tube tube)
-    // {
-    //     if (tube == null) //Si no hay siguiente tubo sale del tubo
-    //     {
-    //         if (_generator)
-    //         {
-    //             _generator.TurnButtons();
-    //             _generator.StartGenerator();
-    //         }
-    //     }
-    //     else //Se mueve al siguiente tubo
-    //     {
-    //         _HamsterAction = MoveInTubes;
-    //         _lastTube = _currentTube;
-    //         _currentTube = tube;
-    //         _currentTubePos = tube.GetCenter();
-    //         _inTube = true;
-    //     }
-    // }
+    public void MoveToNextTube(Tube tube)
+    {
+        if (tube != null) //Se mueve al siguiente tubo
+        {
+            _TubesMovementAction = MoveInTubes;
+            _lastTube = _currentTube;
+            _currentTube = tube;
+            _currentTubePos = tube.GetCenter();
+            _inTube = true;
+        } 
+        else return; //Si no hay siguiente tubo sale del tubo
+    }
 
     #endregion
     public bool InTube()
