@@ -133,7 +133,7 @@ public class PlayerDatas : MonoBehaviour
     [SerializeField] protected RigidbodyConstraints2D constraints2D;
 
     [Header("Canvas")]
-    [SerializeField] protected PlayerCanvas _playerCanvas;
+    [SerializeField] protected CatCanvas catCanvas;
 
     [Header("Hamster")]
     [SerializeField] protected Hamster _hamster;

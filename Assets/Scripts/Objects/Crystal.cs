@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Crystal : MonoBehaviour, IInteract
+public class Crystal : MonoBehaviour
 {
     [SerializeField] private Crystal[] _nextCrystal;
     public Crystal _prevCrystal;

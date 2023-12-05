@@ -79,7 +79,14 @@ public class CharacterData : MonoBehaviour
     public float specialTimmer;
     
     [Header("Canvas")] 
-    public PlayerCanvas playerCanvas;
+    public PlayerCanvas canvas;
+
+    [Header("Inventory")] 
+    public float dropForce;
+    public Vector3 _dropOffset;
+    public bool _hasItem;
+    public Item _onHand;
+    public Transform _inventoryPos;
     
     [Header("Layers")] 
     public LayerMask groundLayer;

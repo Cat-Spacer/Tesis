@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class PeaceSystem : MonoBehaviour
 {
+    public static PeaceSystem instance;
     [SerializeField] private int _currentPeace;
     [SerializeField] private int _minPeace;
     [SerializeField] private int _midPeace;
@@ -20,6 +21,8 @@ public class PeaceSystem : MonoBehaviour
 
     private void Start()
     {
+        if (instance == null) instance = this;
+        
         _currentPeace = _midPeace;
         slider.minValue = _minPeace;
         slider.maxValue = _maxPeace;
@@ -36,7 +39,7 @@ public class PeaceSystem : MonoBehaviour
     {
         return _currentPeace;
     }
-
+    
     public int GetNewTime()
     {
         int newTime = _currentPeace * _timeMultiplier + _extraTime;

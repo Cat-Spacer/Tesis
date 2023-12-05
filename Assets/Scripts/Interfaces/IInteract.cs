@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface IInteract
 {
-    void Interact();
+    void Interact(params object[] param);
     void ShowInteract(bool showInteractState);
 }
