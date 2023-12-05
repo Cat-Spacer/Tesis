@@ -5,6 +5,7 @@ using UnityEngine;
 public class CatChar : PlayerCharacter
 {
     private MushroomType _type;
+    public CatCanvas canvas;
     private bool _canInteract = false;
     private bool canSpit = false;
     protected override void Update()

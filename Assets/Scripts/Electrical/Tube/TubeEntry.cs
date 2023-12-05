@@ -42,11 +42,10 @@ public class TubeEntry : MonoBehaviour, IInteract
     //     }
     // }
 
-    public void Interact()
+    public void Interact(params object[] param)
     {
-        if (!(_hamster && _isOpen)) return;
-
-        _hamster.GetInTube(entry.position);
+        if (_hamster && _isOpen && !_hamster.InTube()) _hamster.GetInTube(entry.position, _entryTube);
+        else if(_hamster.InTube())_hamster.GetOutOfTube(entry.position);
     }
 
     public void ShowInteract(bool showInteractState)

@@ -1,19 +1,54 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum ItemType
+{
+    Flower
+}
 public class Item : MonoBehaviour
 {
-    [SerializeField] private int _sceneToLoad = 0;
-
-    private void OnCollisionEnter2D(Collision2D collision)
+    public ItemType type;
+    private BoxCollider2D _boxCollider;
+    private Rigidbody2D _rb;
+    private void Start()
     {
-        SceneManager.LoadScene(_sceneToLoad);
+        _boxCollider = GetComponent<BoxCollider2D>();
+        _rb = GetComponent<Rigidbody2D>();
+    }
+    
+    public virtual void PickUp(PlayerCharacter player, bool pickUp)
+    {
+        if (pickUp)
+        {
+            player.PickUp(this);
+            HasPhysics(false);
+        }
+    }
+    public virtual void Drop(Vector2 dir, float dropForce)
+    {
+        HasPhysics(true);
+        _rb.AddForce(dir * dropForce);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void HasPhysics(bool has)
     {
-        SceneManager.LoadScene(_sceneToLoad);
+        if (has)
+        {
+            _boxCollider.enabled = false;
+            _rb.simulated = false;
+        }
+        else
+        {
+            _boxCollider.enabled = false;
+            _rb.simulated = false;
+        }
+
+    }
+    public ItemType Type()
+    {
+        return type;
     }
 }

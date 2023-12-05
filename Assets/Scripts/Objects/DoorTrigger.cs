@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DoorTrigger : Obstacle, IInteract
+public class DoorTrigger : Obstacle
 {
     [SerializeField] private GameObject[] targetA;
     [SerializeField] private GameObject[] targetB;

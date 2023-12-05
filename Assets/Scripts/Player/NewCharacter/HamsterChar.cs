@@ -6,10 +6,13 @@ using UnityEngine;
 public class HamsterChar : PlayerCharacter
 {
     HamsterCharacterInput _inputs;
+    private CircleCollider2D _coll;
+    public HamsterCanvas canvas;
     public override void Start()
     {
         base.Start();
         _inputs = GetComponent<HamsterCharacterInput>();
+        _coll = GetComponent<CircleCollider2D>();
     }
     protected override void FixedUpdate()
     {
@@ -34,54 +37,81 @@ public class HamsterChar : PlayerCharacter
 
     #region TUBES
     private bool _inTube;
-    private float _speed = -5;
+    private float _speed = 8f;
     private Vector2 _currentTubePos;
     Action _TubesMovementAction = delegate { };
     Vector2 _tubeEntry;
     Tube _currentTube, _lastTube;
 
-    public void GetInTube(Vector2 targetPosition)
+    public void GetInTube(Vector2 targetPosition, Tube tube)
     {
         if (_inTube) return;
+        _inTube = true;
+        _coll.enabled = false;
+        _rb.simulated = false;
         _inputs.ChangeToTubesInputs(true);
         _tubeEntry = targetPosition;
-        _TubesMovementAction = EnterTube;
+        _currentTube = tube;
+        GoToPosition(_tubeEntry);
+        _TubesMovementAction += EnterTube;
+    }
+
+    public void GetOutOfTube(Vector2 targetPosition)
+    {
+        _tubeEntry = targetPosition;
+        GoToPosition(_tubeEntry);
+        _TubesMovementAction += GetInWorld;
+    }
+
+    void GetInWorld()
+    {
+        if (Vector2.Distance(transform.position, _tubeEntry) < .1f)
+        {
+            _coll.enabled = true;
+            _rb.simulated = true;
+            _inTube = false;
+            canvas.HideArrows();
+            _inputs.ChangeToTubesInputs(false);
+            _TubesMovementAction = delegate {  };
+        }
     }
     void EnterTube()
     {
-        MoveToPosition(_currentTubePos);
-        if (Vector3.Distance(transform.position, _currentTubePos) < .01f) CheckNextTube();
+        if (Vector2.Distance(transform.position, _tubeEntry) < .1f)
+        {
+            MoveToNextTube(_currentTube);
+        }
     }
 
     public void MoveInTubes()
     {
-        MoveToPosition(_currentTubePos);
         if (Vector3.Distance(transform.position, _currentTubePos) < .01f)
             CheckNextTube();
     }
 
-    public void MoveToPosition(Vector2 pos)
+    void MoveToPosition(Vector2 pos)
     { transform.position = Vector3.MoveTowards(transform.position, pos, _speed * Time.deltaTime); }
 
     public void GoToPosition(Vector2 pos) { _TubesMovementAction = () => MoveToPosition(pos); }
 
     public void TubeDirection(Vector2 dir)
     {
+        if (!_currentTube.IsCheckpoint()) return;
         if(dir == new Vector2(1, 0))
         {
-            _currentTube.GoRight();
+            MoveToNextTube(_currentTube.GoRight());
         }
         if (dir == new Vector2(-1, 0))
         {
-            _currentTube.GoLeft();
+            MoveToNextTube(_currentTube.GoLeft());
         }
         if (dir == new Vector2(0, 1))
         {
-            _currentTube.GoUp();
+            MoveToNextTube(_currentTube.GoUp());
         }
         if (dir == new Vector2(0, -1))
         {
-            _currentTube.GoDown();
+            MoveToNextTube(_currentTube.GoDown());
         }
     }
 
@@ -89,17 +119,18 @@ public class HamsterChar : PlayerCharacter
     {
         if (_currentTube.IsCheckpoint() || _currentTube.IsEntry() || _currentTube.IsExit())
         {
-            //_canvas.SetActive(true);
-            //if (_arrows) _arrows.SetTubes();
-            _currentTube.GetPossiblePaths(this);
+            canvas.gameObject.SetActive(true);
+            canvas.CheckTubeDirections(_currentTube);
+            //_currentTube.GetPossiblePaths(this);
             _TubesMovementAction = delegate { };
         }
         else
         {
-            var nextTube = _currentTube.GetNextPath(_lastTube);
-            _lastTube = _currentTube;
-            _currentTube = nextTube;
-            _currentTubePos = _currentTube.GetCenter();
+            // var nextTube = _currentTube.GetNextPath(_lastTube);
+            // _lastTube = _currentTube;
+            // _currentTube = nextTube;
+            // _currentTubePos = _currentTube.GetCenter();
+            MoveToNextTube(_currentTube.GetNextPath(_lastTube));
         }
     }
 
@@ -107,20 +138,22 @@ public class HamsterChar : PlayerCharacter
     {
         if (tube != null) //Se mueve al siguiente tubo
         {
-            _TubesMovementAction = MoveInTubes;
+            canvas.HideArrows();
             _lastTube = _currentTube;
             _currentTube = tube;
             _currentTubePos = tube.GetCenter();
+            GoToPosition(_currentTubePos);
+            _TubesMovementAction += MoveInTubes;
             _inTube = true;
         } 
         else return; //Si no hay siguiente tubo sale del tubo
     }
-
-    #endregion
     public bool InTube()
     {
         return _inTube;
     }
+    #endregion
+
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(_data.attackPoint.position, _data.attackRange.x);

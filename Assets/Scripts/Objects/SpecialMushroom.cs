@@ -27,7 +27,7 @@ public class SpecialMushroom : MonoBehaviour, IInteract
         
     }
 
-    public void Interact()
+    public void Interact(params object[] param)
     {
         PowerUpManager.instance.PowerUp(type);
         GetEated();

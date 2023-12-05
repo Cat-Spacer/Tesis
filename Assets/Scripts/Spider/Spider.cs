@@ -84,23 +84,23 @@ public class Spider : MonoBehaviour
                 return path;
             }
 
-            foreach (var next in current.neighbours)
-            {
-                int newCost = costSoFar[current] + next.cost;
-                float priority = newCost + Heuristic(next.transform.position, goalNode.transform.position);
-                if (!costSoFar.ContainsKey(next))
-                {
-                    frontier.Put(next, priority);
-                    costSoFar.Add(next, newCost);
-                    cameFrom.Add(next, current);
-                }
-                else if (costSoFar.ContainsKey(next) && newCost < costSoFar[next])
-                {
-                    frontier.Put(next, priority);
-                    costSoFar[next] = newCost;
-                    cameFrom[next] = current;
-                }
-            }
+            // foreach (var next in current.neighbours)
+            // {
+            //     int newCost = costSoFar[current] + next.cost;
+            //     float priority = newCost + Heuristic(next.transform.position, goalNode.transform.position);
+            //     if (!costSoFar.ContainsKey(next))
+            //     {
+            //         frontier.Put(next, priority);
+            //         costSoFar.Add(next, newCost);
+            //         cameFrom.Add(next, current);
+            //     }
+            //     else if (costSoFar.ContainsKey(next) && newCost < costSoFar[next])
+            //     {
+            //         frontier.Put(next, priority);
+            //         costSoFar[next] = newCost;
+            //         cameFrom[next] = current;
+            //     }
+            // }
         }
 
 

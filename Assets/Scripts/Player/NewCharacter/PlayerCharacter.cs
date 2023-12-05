@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -203,7 +204,7 @@ public void GetStun(float intensity)
         var interact = Physics2D.OverlapBox(transform.position, _data.interactSize, 0, _data.interactMask);
         if (interact == null)
         {
-            _data.playerCanvas.InteractEvent(false);
+            _data.canvas.InteractEvent(false);
             if (_data._interactObj != null)
             {
                 _data._interactObj.ShowInteract(false);
@@ -212,34 +213,72 @@ public void GetStun(float intensity)
             return;
         }
         _data._interactObj = interact.GetComponent<IInteract>();
-        if (_data._interactObj == null) return;
-        
-        _data.playerCanvas.InteractEvent(true);
-        _data._interactObj.ShowInteract(true);
-        
-        if (onPress)
+        if (_data._interactObj != null)
         {
-            _data._interactObj.Interact();
+            _data.canvas.InteractEvent(true);
+            _data._interactObj.ShowInteract(true);
+            if (onPress)
+            {
+                Debug.Log("Tubo");
+                _data._interactObj.Interact(this);
+            }
+            return;
+        }
+        var item = interact.GetComponent<Item>();
+        if (item != null)
+        {
+            _data.canvas.InteractEvent(true);
+            if (onPress)
+            {
+                _data._onHand = item;
+                _data._onHand.PickUp(this, true);
+            }
         }
     }
-
-public virtual void JumpImpulse()
-{
-    var otherPlayer = Physics2D.OverlapBox(transform.position, _data.jumpInpulseArea, 0, _data.playerMask);
-    if (otherPlayer)
+    
+    public virtual void JumpImpulse()
     {
-        var playerInteract = otherPlayer.gameObject.GetComponent<IPlayerInteract>();
-        if (playerInteract != null)
+        var otherPlayer = Physics2D.OverlapBox(transform.position, _data.jumpInpulseArea, 0, _data.playerMask);
+        if (otherPlayer)
         {
-            playerInteract.GetJumpImpulse(_data.jumpImpulse);
+             var playerInteract = otherPlayer.gameObject.GetComponent<IPlayerInteract>();
+             if (playerInteract != null)
+             {
+                 playerInteract.GetJumpImpulse(_data.jumpImpulse);
+             }
         }
     }
-}
 
-public void GetJumpImpulse(float pushForce)
-{
-    _rb.velocity = new Vector2(_rb.velocity.x, pushForce);
-}
+    public void GetJumpImpulse(float pushForce)
+    {
+        _rb.velocity = new Vector2(_rb.velocity.x, pushForce);
+    }
+
+    public Item GiveItem(ItemType type)
+    {
+        if (_data._onHand.Type() == type)
+        {
+            var item = _data._onHand;
+            item.transform.parent = null;
+            _data._onHand = null;
+            return item;
+        }
+        return null;
+    }
+    public void PickUp(Item item)
+    {
+        _data._onHand = item;
+        item.transform.parent = _data._inventoryPos.transform;
+        item.transform.position = _data._inventoryPos.transform.position;
+    }
+
+    public void DropItem()
+    {
+        if (_data._onHand == null) return;
+        _data._onHand.transform.parent = null;
+        _data._onHand.Drop(new Vector2(GetFaceDirection(), _data._dropOffset.y), _data.dropForce);
+        _data._onHand = null;
+    }
 
 #endregion
 #region OTHER

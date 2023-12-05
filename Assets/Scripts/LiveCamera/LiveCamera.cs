@@ -43,7 +43,7 @@ public class LiveCamera : MonoBehaviour
     }
     public void GoOffAir()
     {
-        Debug.Log("Off Air");
+        //Debug.Log("Off Air");
         _onAir = false;
         _camera.SetActive(false);
         SetCheckLive();

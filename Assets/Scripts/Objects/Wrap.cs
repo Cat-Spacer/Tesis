@@ -24,7 +24,7 @@ public class Wrap : MonoBehaviour, ILiberate
     [SerializeField] BoxCollider2D _myboxCollider;
     [SerializeField] Transform _liberatedPos;
     [SerializeField] SpriteRenderer sp;
-    [SerializeField] PlayerCanvas _playerCanvas;
+    [SerializeField] CatCanvas catCanvas;
     [SerializeField] ParticleSystem spitleParticle;
     private ITrap playerITrap;
     private float _wrpHeight = 0.0f;
@@ -105,7 +105,7 @@ public class Wrap : MonoBehaviour, ILiberate
                 playerITrap = _player.GetComponent<ITrap>();
             }           
             playerITrap.Trap(true, _trapLife, gameObject);
-            _playerCanvas = collision.gameObject.GetComponentInChildren<PlayerCanvas>();      
+            catCanvas = collision.gameObject.GetComponentInChildren<CatCanvas>();      
             _TrapLifeAction = TrapLifeRecover;
             spitleParticle.gameObject.SetActive(true);
         }
@@ -117,7 +117,7 @@ public class Wrap : MonoBehaviour, ILiberate
         if (player == _player && _onTrap)
         {
             _player.transform.position = _playerTrapPoint.position;
-            _playerCanvas.TrapLifeUpdate(_trapLife);
+            //catCanvas.TrapLifeUpdate(_trapLife);
             if (Vector2.Distance(_player.transform.position, transform.position) <= 1)
             {
                 var playerDamage = collision.gameObject.GetComponent<IDamageable>();

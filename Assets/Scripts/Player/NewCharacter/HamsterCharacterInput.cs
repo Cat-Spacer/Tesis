@@ -5,7 +5,7 @@ using System;
 
 public class HamsterCharacterInput : MonoBehaviour
 {
-    Action _InputAction;
+    Action _InputAction = delegate {  };
     private PlayerCharacter _character;
     private HamsterChar _hamster;
     private CharacterData _data;
@@ -21,6 +21,8 @@ public class HamsterCharacterInput : MonoBehaviour
     public  bool attack_Input { get; private set; }
     public  bool impulse_Input { get; private set; }
     public  bool interact_Input { get; private set; }
+    public  bool special_Input { get; private set; }
+    public  bool drop_Input { get; private set; }
     void Start()
     {
         _character = GetComponent<PlayerCharacter>();
@@ -35,18 +37,21 @@ public class HamsterCharacterInput : MonoBehaviour
     {
         //up_Input = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Space);
 
-        //if (Input.GetKeyDown(KeyCode.UpArrow))
-        //{
-        //    _character.JumpUp(true);
-        //}
+        if (Input.GetKeyDown(KeyCode.UpArrow) && !_hamster.InTube())
+        {
+            _character.JumpUp(true);
+        }
 
-        //if (Input.GetKeyUp(KeyCode.UpArrow))
-        //{
-        //    _character.StopJump();
-        //}
+        if (Input.GetKeyUp(KeyCode.UpArrow) && !_hamster.InTube())
+        {
+            _character.StopJump();
+        }
 
-        jump_InputUp = Input.GetKeyUp(KeyCode.UpArrow);
-        jump_InputDown = Input.GetKeyDown(KeyCode.UpArrow);
+        // jump_InputUp = Input.GetKey(KeyCode.UpArrow);
+        // if(jump_InputUp && !_hamster.InTube()) _character.JumpUp(true);
+        // jump_InputDown = Input.GetKeyDown(KeyCode.UpArrow);
+        // if(jump_InputDown && !_hamster.InTube()) _character.StopJump();
+        
         up_Input = Input.GetKey(KeyCode.UpArrow);
         down_Input = Input.GetKey(KeyCode.DownArrow);
         left_Input = Input.GetKey(KeyCode.LeftArrow);
@@ -60,6 +65,9 @@ public class HamsterCharacterInput : MonoBehaviour
         interact_Input = Input.GetKeyDown(KeyCode.Keypad4);
         if(interact_Input) _character.Interact(true);
         else _character.Interact(false);
+        
+        drop_Input = Input.GetKeyDown(KeyCode.Keypad5);
+        if(drop_Input) _character.DropItem();
     }
     private void FixedUpdate()
     {
@@ -80,15 +88,15 @@ public class HamsterCharacterInput : MonoBehaviour
             _character.Movement(false, 0);
         }
 
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            _character.JumpUp(true);
-        }
-
-        if (Input.GetKeyUp(KeyCode.UpArrow))
-        {
-            _character.StopJump();
-        }
+        // if (Input.GetKeyDown(KeyCode.UpArrow))
+        // {
+        //     _character.JumpUp(true);
+        // }
+        //
+        // if (Input.GetKeyUp(KeyCode.UpArrow))
+        // {
+        //     _character.StopJump();
+        // }
     }
     void TubesInputs()
     {

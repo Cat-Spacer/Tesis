@@ -9,49 +9,52 @@ public class Tube : MonoBehaviour
     [SerializeField] private List<Tube> _possiblePaths = new List<Tube>();
     [SerializeField] private bool _UpConnection, _RightConnection, _DownConnection, _LeftConnection;
     [SerializeField] private Tube _nextTube, _lastTube;
-    [SerializeField] private Vector3 center;
+    [SerializeField] private Vector2 center;
     [SerializeField] private LayerMask _tubeMask;
     [SerializeField] private float _searchRad = 0.25f;
     [SerializeField] private bool _checkpoint, _entry, _exit, _gizmos = true;
+    private List<string> _connections = new List<string>();
 
     private void Start()
     {
         center = transform.position;
-
         CheckNeighborTubes();
+        
     }
 
-    public void GetPossiblePaths(HamsterChar ham)
+    // public void GetPossiblePaths(HamsterChar ham)
+    // {
+    //     _hamster = ham;
+    //     //if(_arrows) if (!_arrows.activeInHierarchy) _arrows.SetActive(true);
+    // }
+
+    public Tube GoUp()
     {
-        _hamster = ham;
-        if(_arrows) if (!_arrows.activeInHierarchy) _arrows.SetActive(true);
+        // ham.MoveToNextTube(_UpTube);
+        // if (_arrows) _arrows.SetActive(false);
+        return _UpTube;
     }
 
-    public void GoUp()
+    public Tube GoRight()
     {
-        _hamster.MoveToNextTube(_UpTube);
-        if (_arrows) _arrows.SetActive(false);
+        // _hamster.MoveToNextTube(_RightTube);
+        // if (_arrows) _arrows.SetActive(false);
+        return _RightTube;
     }
 
-    public void GoRight()
+    public Tube GoDown()
     {
-        _hamster.MoveToNextTube(_RightTube);
-        if (_arrows) _arrows.SetActive(false);
+        // _hamster.MoveToNextTube(_DownTube);
+        // if (_arrows) _arrows.SetActive(false);
+        return _DownTube;
     }
 
-    public void GoDown()
+    public Tube GoLeft()
     {
-        Debug.Log($"GoDown");
-        _hamster.MoveToNextTube(_DownTube);
-        if (_arrows) _arrows.SetActive(false);
+        // _hamster.MoveToNextTube(_LeftTube);
+        // if (_arrows) _arrows.SetActive(false);
+        return _LeftTube;
     }
-
-    public void GoLeft()
-    {
-        _hamster.MoveToNextTube(_LeftTube);
-        if (_arrows) _arrows.SetActive(false);
-    }
-
     public Tube GetNextPath(Tube lastTube)
     {
         _lastTube = lastTube;
@@ -77,6 +80,7 @@ public class Tube : MonoBehaviour
         {
             _UpTube = hitUp.transform.gameObject.GetComponent<Tube>();
             _possiblePaths.Add(_UpTube);
+            _connections.Add("Up");
             counter++;
         }
 
@@ -85,6 +89,7 @@ public class Tube : MonoBehaviour
         {
             _RightTube = hitRight.transform.gameObject.GetComponent<Tube>();
             _possiblePaths.Add(_RightTube);
+            _connections.Add("Right");
             counter++;
         }
 
@@ -93,6 +98,7 @@ public class Tube : MonoBehaviour
         {
             _DownTube = hitDown.transform.gameObject.GetComponent<Tube>();
             _possiblePaths.Add(_DownTube);
+            _connections.Add("Down");
             counter++;
         }
 
@@ -101,13 +107,18 @@ public class Tube : MonoBehaviour
         {
             _LeftTube = hitLeft.transform.gameObject.GetComponent<Tube>();
             _possiblePaths.Add(_LeftTube);
+            _connections.Add("Left");
             counter++;
         }
     }
 
     public void ArrowsActDes(bool set = false) { if (_arrows) _arrows.SetActive(set); }
 
-    public Vector3 GetCenter() { return center; }
+    public List<string> Connections()
+    {
+        return _connections;
+    }
+    public Vector2 GetCenter() { return center; }
 
     public bool IsEntry() { return _entry; }
     public bool IsExit() { return _exit; }

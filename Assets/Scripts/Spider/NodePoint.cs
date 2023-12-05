@@ -6,66 +6,63 @@ using UnityEngine;
 
 public class NodePoint : MonoBehaviour
 {
-    [Header("Stats")]
-
-    public List<NodePoint> neighbours;
-    public int cost = 1;
-    [SerializeField] private float _viewRadius = 1.2f;
-    public Renderer meshRenderer;
-
-    [Header("Layers")]
-    public LayerMask obstacleMask = 27, nodesMask = 23;
-    public bool showGizmos = true;
-
-    private Spider _spider;
-    private void Awake()
-    {
-       // spider = FindObjectOfType<Spider>();
-
-     //   spider.pathNodes.Add(this);
-        obstacleMask = LayerMask.GetMask("Shield");
-        nodesMask = LayerMask.GetMask("Node");
-
-        meshRenderer = GetComponent<Renderer>();
-
-        neighbours.Clear();
-        
-    }
-
-    private void Start()
-    {
-        GetNeightbours();
-    }
-
-    void GetNeightbours()
-    {
-        Collider2D[] nodesInViewRadius = Physics2D.OverlapCircleAll(transform.position, _viewRadius);
-
-        foreach (var n in nodesInViewRadius)
-        {
-            var _node = n.GetComponentInChildren<NodePoint>();
-
-            if (_node != null && _node != this && !neighbours.Contains(_node) && InSight(transform.position, n.gameObject.transform.position))
-            {
-                neighbours.Add(_node);
-            }
-
-
-            // && GameManager.instance.allNodes.Contains(_node)
-        }
-
-        foreach (var n in neighbours)
-        {
-            if (!InSight(transform.position, n.gameObject.transform.position))
-                neighbours.Remove(n.GetComponent<NodePoint>());
-        }
-    }
-    public bool InSight(Vector3 start, Vector3 end)
-    {
-        Vector3 dir = end - start;
-        if (!Physics2D.Raycast(start, dir, dir.magnitude, obstacleMask)) return true;
-        else return false;
-    }
+    // [Header("Stats")]
+    //
+    // public List<NodePoint> neighbours;
+    // public int cost = 1;
+    // [SerializeField] private float _viewRadius = 1.2f;
+    // public Renderer meshRenderer;
+    //
+    // [Header("Layers")]
+    // public LayerMask obstacleMask = 27, nodesMask = 23;
+    // public bool showGizmos = true;
+    //
+    // private Spider _spider;
+    // private void Awake()
+    // {
+    //     obstacleMask = LayerMask.GetMask("Shield");
+    //     nodesMask = LayerMask.GetMask("Node");
+    //
+    //     meshRenderer = GetComponent<Renderer>();
+    //
+    //     neighbours.Clear();
+    //     
+    // }
+    //
+    // private void Start()
+    // {
+    //     GetNeightbours();
+    // }
+    //
+    // void GetNeightbours()
+    // {
+    //     Collider2D[] nodesInViewRadius = Physics2D.OverlapCircleAll(transform.position, _viewRadius);
+    //
+    //     foreach (var n in nodesInViewRadius)
+    //     {
+    //         var _node = n.GetComponentInChildren<NodePoint>();
+    //
+    //         if (_node != null && _node != this && !neighbours.Contains(_node) && InSight(transform.position, n.gameObject.transform.position))
+    //         {
+    //             neighbours.Add(_node);
+    //         }
+    //
+    //
+    //         // && GameManager.instance.allNodes.Contains(_node)
+    //     }
+    //
+    //     foreach (var n in neighbours)
+    //     {
+    //         if (!InSight(transform.position, n.gameObject.transform.position))
+    //             neighbours.Remove(n.GetComponent<NodePoint>());
+    //     }
+    // }
+    // public bool InSight(Vector3 start, Vector3 end)
+    // {
+    //     Vector3 dir = end - start;
+    //     if (!Physics2D.Raycast(start, dir, dir.magnitude, obstacleMask)) return true;
+    //     else return false;
+    // }
     void OnDrawGizmos()
     {
         //if (showGizmos)

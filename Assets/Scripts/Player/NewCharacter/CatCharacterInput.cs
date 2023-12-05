@@ -18,6 +18,7 @@ public class CatCharacterInput : MonoBehaviour
     public  bool spit_Input { get; private set; }
     public  bool interact_Input { get; private set; }
     public  bool special_Input { get; private set; }
+    public  bool drop_Input { get; private set; }
     
     void Start()
     {
@@ -60,6 +61,9 @@ public class CatCharacterInput : MonoBehaviour
         
         special_Input = Input.GetKeyDown(KeyCode.L);
         if(special_Input) _catSpecial.Special();
+        
+        drop_Input = Input.GetKeyDown(KeyCode.Q);
+        if(drop_Input) _character.DropItem();
     }
     private void FixedUpdate()
     {

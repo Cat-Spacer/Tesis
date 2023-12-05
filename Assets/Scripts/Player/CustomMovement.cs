@@ -129,7 +129,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         var interact = Physics2D.OverlapBox(transform.position, _interactSize, 0, _interactMask);
         if (interact == null)
         {
-            _playerCanvas.InteractEvent(false);
+            catCanvas.InteractEvent(false);
             if (_interactObj != null)
             {
                 _interactObj.ShowInteract(false);
@@ -141,7 +141,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         if (_interactObj == null) return;
         else
         {
-            _playerCanvas.InteractEvent(true);
+            catCanvas.InteractEvent(true);
             _interactObj.ShowInteract(true);
         }
         if (PlayerInput.interactionInput)
@@ -818,8 +818,8 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         rb.velocity = Vector2.zero;
         //GameManager.Instance.PlayerDeath();
         SoundManager.instance.Play(SoundManager.Types.CatDamage);
-        _playerCanvas.TrapEvent(false, 0);
-        _playerCanvas.InteractEvent(false);
+        //catCanvas.TrapEvent(false, 0);
+        catCanvas.InteractEvent(false);
         ForceDashEnd();
         isJumping = false;
         onGround = true;
@@ -864,14 +864,14 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             _PlayerActions = Liberate;
             _Inputs = TrapInputs;
             _currentTrap = enemy;
-            _playerCanvas.TrapEvent(trapState, life);
+            //catCanvas.TrapEvent(trapState, life);
         }
         else
         {
             //anim.SetBool("TrapByPlant", false);
             _PlayerActions = delegate { };
             _Inputs = Inputs;
-            _playerCanvas.TrapEvent(trapState, life);
+            //catCanvas.TrapEvent(trapState, life);
         }
     }
 
