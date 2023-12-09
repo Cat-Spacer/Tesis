@@ -3,10 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.SceneManagement;
 
 public class Launcher : MonoBehaviourPunCallbacks
 {
     public GameObject mainScreen, connectedScreen;
+
+    private void Start()
+    {
+        BTN_Connect();
+    }
 
     public void BTN_Connect()
     {
@@ -20,8 +26,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public override void OnJoinedLobby()
     {
-        mainScreen.SetActive(false);
-        connectedScreen.SetActive(true);
+        SceneManager.LoadScene("CreateJoinLobby");
     }
 
     public override void OnDisconnected(DisconnectCause cause)
