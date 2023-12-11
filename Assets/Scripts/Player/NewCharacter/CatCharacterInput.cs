@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using InputKey;
-public class CatCharacterInput : MonoBehaviour
+using Photon.Pun;
+public class CatCharacterInput : MonoBehaviourPunCallbacks
 {
     private PlayerCharacter _character;
     private CatSpecial _catSpecial;
@@ -32,7 +33,7 @@ public class CatCharacterInput : MonoBehaviour
     void Update()
     {
         //up_Input = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Space);
-
+        if (!photonView.IsMine) return;
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Space))
         {
             _character.JumpUp(true);
@@ -47,24 +48,25 @@ public class CatCharacterInput : MonoBehaviour
         right_Input = Input.GetKey(KeyCode.D);
         
         attack_Input = Input.GetKeyDown(KeyCode.J);
-        if (attack_Input) _character.Punch();
+        if (attack_Input) photonView.RPC("RPCPunch", RpcTarget.All);
         
         impulse_Input = Input.GetKeyDown(KeyCode.K);
-        if(impulse_Input) _character.JumpImpulse();
+        if(impulse_Input) photonView.RPC("RPCImpulse", RpcTarget.All);
         
         // spit_Input = Input.GetKeyDown(KeyCode.L);
         // if(spit_Input) _character.Special();
         
         interact_Input = Input.GetKeyDown(KeyCode.E);
-        if(interact_Input) _character.Interact(true);
-        else _character.Interact(false);
+        if(interact_Input) photonView.RPC("RPCInteract", RpcTarget.All, true);
+        else photonView.RPC("RPCInteract", RpcTarget.All, false);
         
         special_Input = Input.GetKeyDown(KeyCode.L);
-        if(special_Input) _catSpecial.Special();
+        if(special_Input) photonView.RPC("RPCSpecial", RpcTarget.All);
         
         drop_Input = Input.GetKeyDown(KeyCode.Q);
-        if(drop_Input) _character.DropItem();
+        if(drop_Input) photonView.RPC("RPCDrop", RpcTarget.All);
     }
+    
     private void FixedUpdate()
     {
         if (right_Input)
@@ -88,5 +90,31 @@ public class CatCharacterInput : MonoBehaviour
         // {
         //     _charMovement.StopJump();
         // }
+    }
+
+    [PunRPC]
+    void RPCPunch()
+    {
+        _character.Punch();
+    }
+    [PunRPC]
+    void RPCImpulse()
+    {
+        _character.JumpImpulse();
+    }
+    [PunRPC]
+    void RPCInteract(bool _do)
+    {
+        _character.Interact(_do);
+    }
+    [PunRPC]
+    void RPCSpecial()
+    {
+        _catSpecial.Special();
+    }
+    [PunRPC]
+    void RPCDrop()
+    {
+        _character.DropItem();
     }
 }

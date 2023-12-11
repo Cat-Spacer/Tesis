@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Photon.Pun;
 
-public class HamsterCharacterInput : MonoBehaviour
+public class HamsterCharacterInput : MonoBehaviourPunCallbacks
 {
     Action _InputAction = delegate {  };
     private PlayerCharacter _character;
@@ -35,39 +36,35 @@ public class HamsterCharacterInput : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!photonView.IsMine) return;
         //up_Input = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Space);
 
-        if (Input.GetKeyDown(KeyCode.UpArrow) && !_hamster.InTube())
+        if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Space)) && !_hamster.InTube())
         {
             _character.JumpUp(true);
         }
 
-        if (Input.GetKeyUp(KeyCode.UpArrow) && !_hamster.InTube())
+        if ((Input.GetKeyUp(KeyCode.W) || Input.GetKeyUp(KeyCode.Space)) && !_hamster.InTube())
         {
             _character.StopJump();
         }
 
-        // jump_InputUp = Input.GetKey(KeyCode.UpArrow);
-        // if(jump_InputUp && !_hamster.InTube()) _character.JumpUp(true);
-        // jump_InputDown = Input.GetKeyDown(KeyCode.UpArrow);
-        // if(jump_InputDown && !_hamster.InTube()) _character.StopJump();
+        up_Input = Input.GetKey(KeyCode.W);
+        down_Input = Input.GetKey(KeyCode.S);
+        left_Input = Input.GetKey(KeyCode.A);
+        right_Input = Input.GetKey(KeyCode.D);
         
-        up_Input = Input.GetKey(KeyCode.UpArrow);
-        down_Input = Input.GetKey(KeyCode.DownArrow);
-        left_Input = Input.GetKey(KeyCode.LeftArrow);
-        right_Input = Input.GetKey(KeyCode.RightArrow);
+        attack_Input = Input.GetKeyDown(KeyCode.J);
+        if (attack_Input) photonView.RPC("RPCPunch", RpcTarget.All);
+        impulse_Input = Input.GetKeyDown(KeyCode.K);
+        if(impulse_Input) photonView.RPC("RPCImpulse", RpcTarget.All);
         
-        attack_Input = Input.GetKeyDown(KeyCode.Keypad1);
-        if (attack_Input) _character.Punch();
-        impulse_Input = Input.GetKeyDown(KeyCode.Keypad2);
-        if(impulse_Input) _character.JumpImpulse();
+        interact_Input = Input.GetKeyDown(KeyCode.E);
+        if(interact_Input) photonView.RPC("RPCInteract", RpcTarget.All, true);
+        else photonView.RPC("RPCInteract", RpcTarget.All, false);
         
-        interact_Input = Input.GetKeyDown(KeyCode.Keypad4);
-        if(interact_Input) _character.Interact(true);
-        else _character.Interact(false);
-        
-        drop_Input = Input.GetKeyDown(KeyCode.Keypad5);
-        if(drop_Input) _character.DropItem();
+        drop_Input = Input.GetKeyDown(KeyCode.Q);
+        if(drop_Input) photonView.RPC("RPCDrop", RpcTarget.All);
     }
     private void FixedUpdate()
     {
@@ -121,5 +118,26 @@ public class HamsterCharacterInput : MonoBehaviour
     {
         if (change) _InputAction = TubesInputs;
         else _InputAction = NormalImputs;
+    }
+    
+    [PunRPC]
+    void RPCPunch()
+    {
+        _character.Punch();
+    }
+    [PunRPC]
+    void RPCImpulse()
+    {
+        _character.JumpImpulse();
+    }
+    [PunRPC]
+    void RPCInteract(bool _do)
+    {
+        _character.Interact(_do);
+    }
+    [PunRPC]
+    void RPCDrop(bool _do)
+    {
+        _character.DropItem();
     }
 }
