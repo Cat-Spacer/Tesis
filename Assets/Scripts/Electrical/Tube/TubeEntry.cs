@@ -21,7 +21,7 @@ public class TubeEntry : MonoBehaviour, IInteract
         _isOutline = false;
         if (!_entryTube && Physics2D.OverlapCircle(transform.position, _searchRad).GetComponent<Tube>())
             _entryTube = Physics2D.OverlapCircle(transform.position, _searchRad).GetComponent<Tube>();
-        _hamster = GameManager.Instance.GetHamsterChar();
+
     }
 
     // private void OnTriggerEnter2D(Collider2D collision)
@@ -44,6 +44,7 @@ public class TubeEntry : MonoBehaviour, IInteract
 
     public void Interact(params object[] param)
     {
+        _hamster = GameManager.Instance.GetHamsterChar();
         if (_hamster && _isOpen && !_hamster.InTube()) _hamster.GetInTube(entry.position, _entryTube);
         else if(_hamster.InTube())_hamster.GetOutOfTube(entry.position);
     }

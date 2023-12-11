@@ -183,6 +183,22 @@ public class GameManager : MonoBehaviour
         if (Instance == null) Instance = this;
     }
 
+    public void SetChar(List<PlayerFA> playerFa)
+    {
+        foreach (var player in playerFa)
+        {
+            if (player.GetComponent<CatChar>()) catChar = player.GetComponent<CatChar>();
+            else hamsterChar = player.GetComponent<HamsterChar>();
+        }
+    }
+    public void SetCat(CatChar cat)
+    {
+        catChar = cat;
+    }
+    public void SetHamster(HamsterChar hamster)
+    {
+        hamsterChar = hamster;
+    }
     public CatChar GetCatChar()
     {
         return catChar;

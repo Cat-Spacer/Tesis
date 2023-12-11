@@ -21,12 +21,6 @@ public class SpecialMushroom : MonoBehaviour, IInteract
         _defaultMat = _sp.material;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void Interact(params object[] param)
     {
         PowerUpManager.instance.PowerUp(type);

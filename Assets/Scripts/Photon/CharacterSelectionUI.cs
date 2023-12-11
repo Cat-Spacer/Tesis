@@ -17,8 +17,12 @@ public class CharacterSelectionUI : MonoBehaviourPunCallbacks
     bool playersReady = false;
     bool catSelected;
     bool hamsterSelected;
+    private bool playerHasSelected = false;
 
-    List<PlayerFA> players = new List<PlayerFA>();
+    public List<PlayerFA> players = new List<PlayerFA>();
+
+    [SerializeField] private PlayerFA catCharacter;
+    [SerializeField] private PlayerFA hamsterCharacter;
 
     private void Update()
     {
@@ -39,40 +43,50 @@ public class CharacterSelectionUI : MonoBehaviourPunCallbacks
         waitingForPlayer.SetActive(false);
         characterSelection.SetActive(true);
     }
-
     [PunRPC]
     void OnCharacterSelected()
     {
         gameObject.SetActive(false);
     }
     public void SelectCatButton()
-    { 
-        if(!catSelected) photonView.RPC("SelectCat", RpcTarget.All, PhotonNetwork.LocalPlayer);
+    {
+        var player = PhotonNetwork.LocalPlayer;
+        if (catSelected || playerHasSelected) return;
+        playerHasSelected = true;
+        catCharacter = PhotonNetwork.Instantiate(catPrefab.name, catSpawnPoint.position, Quaternion.identity)
+            .GetComponent<PlayerFA>()
+            .SetInitialParameters(player, player.ActorNumber);
+        photonView.RPC("SelectCat", RpcTarget.All, PhotonNetwork.LocalPlayer);
     }
     public void SelectHamsterButton()
     {
-        if(!hamsterSelected) photonView.RPC("SelectHamster", RpcTarget.All, PhotonNetwork.LocalPlayer);
+        if (hamsterSelected || playerHasSelected) return;
+        playerHasSelected = true;
+        var player = PhotonNetwork.LocalPlayer;
+        hamsterCharacter = PhotonNetwork.Instantiate(hamsterPrefab.name, hamsterSpawnPoint.position, Quaternion.identity)
+            .GetComponent<PlayerFA>()
+            .SetInitialParameters(player, player.ActorNumber);
+        photonView.RPC("SelectHamster", RpcTarget.All, PhotonNetwork.LocalPlayer);
     }
     [PunRPC]
     public void SelectCat(Player player)
     {
+        //players.Add(catCharacter);
+        var cat = FindObjectOfType<CatChar>();
+        //var cat = catCharacter.gameObject.GetComponent<CatChar>();
+        if(cat != null) GameManager.Instance.SetCat(cat);
+        PowerUpManager.instance.cat = cat.GetComponent<CatSpecial>();
         catText.text = "Player " + player.ActorNumber;
         catSelected = true;
-
-        PlayerFA newCharacter = PhotonNetwork.Instantiate(catPrefab.name, catSpawnPoint.position, Quaternion.identity)
-                                .GetComponentInChildren<PlayerFA>()
-                                .SetInitialParameters(player, player.ActorNumber);
-                                players.Add(newCharacter);
     }
     [PunRPC]
     public void SelectHamster(Player player)
     {
+        //players.Add(hamsterCharacter);
+        var hamster = FindObjectOfType<HamsterChar>();
+        //var hamster = hamsterCharacter.gameObject.GetComponent<HamsterChar>();
+        if(hamster != null) GameManager.Instance.SetHamster(hamster);
         hamsterText.text = "Player " + player.ActorNumber;
         hamsterSelected = true;
-
-        PlayerFA newCharacter = PhotonNetwork.Instantiate(hamsterPrefab.name, hamsterSpawnPoint.position, Quaternion.identity)
-                        .GetComponentInChildren<PlayerFA>()
-                        .SetInitialParameters(player, player.ActorNumber);
-        players.Add(newCharacter);
     }
 }
