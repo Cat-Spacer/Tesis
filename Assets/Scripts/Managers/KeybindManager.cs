@@ -3,17 +3,16 @@ using InputKey;
 
 public class KeybindManager : MonoBehaviour
 {
-    public static KeybindManager Instance;
-    public InputDictionary inputDictionary;
-    public SaveManager saveManager;
-    [SerializeField] private GameObject _popUP;
+    public static KeybindManager Instance = default;
+    public InputDictionary inputDictionary = default;
+    public SaveManager saveManager = default;
+    [SerializeField] private GameObject _popUP = default;
 
     private void Awake()
     {
         Instance = this;
 
-        if (saveManager!)
-            saveManager = GetComponent<SaveManager>();
+        if (!saveManager) saveManager = GetComponent<SaveManager>();
         inputDictionary = new InputDictionary();
     }
 

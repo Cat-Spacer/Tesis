@@ -6,7 +6,7 @@ using System;
 public class SaveManager : MonoBehaviour
 {
     [SerializeField] private PlayerSaveData _saveData = new PlayerSaveData();
-    [SerializeField] private string _saveDataPath;
+    [SerializeField] private string _saveDataPath = default;
 
     void Awake()
     {
