@@ -6,10 +6,7 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(VideoPlayer))]
 public class VideoManager : MonoBehaviour
 {
-    VideoPlayer videoPlayer
-    {
-        get { return GetComponent<VideoPlayer>(); }
-    }
+    private VideoPlayer videoPlayer { get { return GetComponent<VideoPlayer>(); } }
 
     public int mainMenuScene = 1;
     public float duration = 5f;
