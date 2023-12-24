@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Photon.Realtime;
 
 public class GameManager : MonoBehaviour
 {
@@ -177,6 +178,9 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     [SerializeField] private CatChar catChar;
     [SerializeField] private HamsterChar hamsterChar;
+    [SerializeField] private DoubleLinkedList<PlayerCharacter> _players = default;
+
+    public DoubleLinkedList<PlayerCharacter> GetPlayers { get => _players; }
 
     private void Awake()
     {
@@ -199,6 +203,13 @@ public class GameManager : MonoBehaviour
     {
         hamsterChar = hamster;
     }
+
+    public void SetPlayer(PlayerCharacter player) 
+    {
+        if (!player || _players.Count < 2 || _players.Contains(player)) return;
+        _players.Add(player);
+    }
+
     public CatChar GetCatChar()
     {
         return catChar;
@@ -207,4 +218,6 @@ public class GameManager : MonoBehaviour
     {
         return hamsterChar;
     }
+
+    
 }
