@@ -7,26 +7,28 @@ using TMPro;
 public class AsyncLoadScenes : MonoBehaviour
 {
     public static int sceneToLoad = 1;
-    [SerializeField] private Slider _progressBar;
     [SerializeField] private int _sceneToLoad = 0;
+    [SerializeField] private Slider _progressBar;
     [SerializeField] private TextMeshProUGUI _textPercentage;
 
     private void Awake()
     {
         _sceneToLoad = sceneToLoad;
-        if (_progressBar != false) _progressBar = FindObjectOfType<Slider>();
+        if (_sceneToLoad < 0) _sceneToLoad = 0;
+        if (!_progressBar) _progressBar = FindObjectOfType<Slider>();
+        if (!_textPercentage) _textPercentage = _progressBar.GetComponentInChildren<TextMeshProUGUI>();
     }
 
     private void Start()
     {
-        if (_sceneToLoad >= 0 && _sceneToLoad < SceneManager.sceneCountInBuildSettings && _progressBar != null)
+        if (_sceneToLoad >= 0 && _sceneToLoad < SceneManager.sceneCountInBuildSettings && _progressBar)
             ChargeAsyncScene(_sceneToLoad);
     }
 
     public void ChargeAsyncScene(int scene)
     {
         var async = SceneManager.LoadSceneAsync(scene);
-
+        Application.backgroundLoadingPriority = ThreadPriority.High;//High si hay escena de carga Low si se carga dentro de la escena.
         StartCoroutine(ChargeCoroutine(async));
     }
 
@@ -34,10 +36,9 @@ public class AsyncLoadScenes : MonoBehaviour
     {
         while (!async.isDone)
         {
-            if (_progressBar != null && _textPercentage != null)
+            if (_progressBar && _textPercentage)
             {
                 _progressBar.value = async.progress;
-                //Debug.Log($"Async progress = {async.progress}");
                 _textPercentage.text = Mathf.Round(async.progress * 100.0f).ToString() + "%";
             }
             yield return new WaitForEndOfFrame();

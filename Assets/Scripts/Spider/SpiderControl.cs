@@ -24,7 +24,7 @@ public class SpiderControl : MonoBehaviour
         //creo las transiciones
         StateConfigurer.Create(idle)
             .SetTransition(States.FOLLOW, following)
-            .Done(); //aplico y asigno
+            .Done(); //aplico y asigno / defino.
 
         StateConfigurer.Create(following)
             .SetTransition(States.ATTACK, attacking)
@@ -56,8 +56,6 @@ public class SpiderControl : MonoBehaviour
             {
                 SendInputToFSM(States.FOLLOW);
             }
-
-
         };
 
         //----------- RETURN -----------//
