@@ -8,9 +8,7 @@ public class Hamster : MonoBehaviour
     private Action _HamsterAction = delegate { };
     [SerializeField] private CustomMovement _player;
     [SerializeField] private Transform _playerPos;
-    [SerializeField]
-    private float _speed = 3.0f, _maxSpeed = 5.0f, _aceleration = 0.0f, _pointRadius = 0f,
-                                    _checkRadius = 5.0f, _interactRadius = 2.5f, _maxDistance = 2.0f;
+    [SerializeField] private float _speed = 3.0f, _maxSpeed = 5.0f, _aceleration = 0.0f, _pointRadius = 0f, _checkRadius = 5.0f,/* _interactRadius = 2.5f,*/ _maxDistance = 2.0f;
     [SerializeField] private LayerMask _tubeLayerMask, _generatorLayerMask;
     [SerializeField] private bool _inTube, _gizmos = false;
     [SerializeField] private Tube _currentTube, _lastTube;

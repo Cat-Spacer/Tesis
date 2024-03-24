@@ -1,32 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Crystal : MonoBehaviour
 {
-    [SerializeField] private Crystal[] _nextCrystal;
-    public Crystal _prevCrystal;
+    [SerializeField] private Crystal[] _nextCrystal = default;
+    public Crystal prevCrystal = default;
     public LineCollision line { get; set; }
     [SerializeField] private bool _forceStart = false, _rotable = true;
-    [SerializeField] private int _crystalNumber, _cristalsLenght = 0, _sidesForRotation = 4;
-    [SerializeField] private bool _lastCrystal;
-    [SerializeField] private GameObject _door;
+    [SerializeField] private int /*_crystalNumber = default,*/ _sidesForRotation = 4;
+    [SerializeField] private bool _lastCrystal = default;
+    [SerializeField] private GameObject _door = default;
 
-    bool alreadyShowLight;
-    [SerializeField] GameObject interactLight;
+    private bool _alreadyShowLight = default;
+    //[SerializeField] private GameObject _interactLight = default;  
 
     public bool _activatedCrystal = false;
 
     private void Start()
     {
-        if (!line)
-            line = GetComponent<LineCollision>();
+        if (!line) line = GetComponent<LineCollision>();
     }
     private void Update()
     {
         if (_forceStart)
         {
-            CallCrystal(_prevCrystal);
+            CallCrystal(prevCrystal);
             _forceStart = false;
         }
     }
@@ -48,7 +45,7 @@ public class Crystal : MonoBehaviour
             */
 
             for (int i = 0; i < _nextCrystal.Length && _nextCrystal[i]; i++)
-                line.SetLines(_prevCrystal, _nextCrystal[i]);
+                line.SetLines(prevCrystal, _nextCrystal[i]);
         }
     }
 
@@ -56,21 +53,21 @@ public class Crystal : MonoBehaviour
     {
         if (prevCrystal == this) return;
         //Debug.Log($"{gameObject.name} call. _prevCrystal = {prevCrystal}");
-        _prevCrystal = prevCrystal;
+        this.prevCrystal = prevCrystal;
         for (int i = 0; i < _nextCrystal.Length && _nextCrystal[i]; i++)
-            line.SetLight(_prevCrystal, this, _nextCrystal[i]);
+            line.SetLight(this.prevCrystal, this, _nextCrystal[i]);
         _activatedCrystal = true;
     }
 
     public void RotateCrystal()
     {
         transform.Rotate(0, 0, transform.rotation.y + (360 / _sidesForRotation));
-        if (_activatedCrystal) CallCrystal(_prevCrystal);
+        if (_activatedCrystal) CallCrystal(prevCrystal);
     }
 
     public Crystal GetPrevCrystal()
     {
-        return _prevCrystal;
+        return prevCrystal;
     }
     public Crystal[] GetNextCrystal()
     {
@@ -79,22 +76,21 @@ public class Crystal : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!_prevCrystal) return;
-        _prevCrystal.CallCrystal(_prevCrystal._prevCrystal);
-        CallCrystal(_prevCrystal);
+        if (!prevCrystal) return;
+        prevCrystal.CallCrystal(prevCrystal.prevCrystal);
+        CallCrystal(prevCrystal);
         if (GetComponent<Rigidbody2D>()) Destroy(GetComponent<Rigidbody2D>());
         if (GetComponent<BoxCollider2D>()) GetComponent<BoxCollider2D>().isTrigger = true;
     }
 
     public void Interact()
     {
-        if (_rotable)
-            RotateCrystal();
+        if (_rotable) RotateCrystal();
     }
 
     public void ShowInteract(bool showInteractState)
     {
-        if (showInteractState && !alreadyShowLight)
+        if (showInteractState && !_alreadyShowLight)
         {
             //interactLight.SetActive(true);
             //alreadyShowLight = true;

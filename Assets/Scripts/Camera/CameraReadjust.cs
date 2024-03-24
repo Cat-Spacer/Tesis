@@ -2,6 +2,7 @@ using Photon.Realtime;
 using System.Linq;
 using UnityEngine;
 
+[RequireComponent(typeof(Camera))]
 public class CameraReadjust : MonoBehaviour
 {
     [SerializeField] private Camera _camera;
@@ -21,9 +22,8 @@ public class CameraReadjust : MonoBehaviour
     void Update()
     {
         if (_players.Count < 2) return;
-        float playersDis = 0.0f, actualZoom = 0.0f;
-        playersDis = Vector3.Distance(_players[0].transform.position, _players[1].transform.position);
-        actualZoom = Mathf.Lerp(_minZoom,_maxZoom,playersDis);
+        float playersDis = Vector3.Distance(_players[0].transform.position, _players[1].transform.position);
+        float actualZoom = Mathf.Lerp(_minZoom, _maxZoom, playersDis);
 
         if (_camera.orthographic) _camera.fieldOfView = actualZoom;
     }

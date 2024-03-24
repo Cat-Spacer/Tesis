@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
 
@@ -8,27 +6,21 @@ public class Wrap : MonoBehaviour, ILiberate
     // the mouth is the center
     Action _TrapLifeAction = delegate { };
     private float _time = 0;
-    [SerializeField] float _timer = 0;
-    [SerializeField] float _speedToTramp = 0;
-    [SerializeField] float _heithSize = 0;
-    [SerializeField] float _wrapSpeed = 0;
-    [SerializeField] float _trapLife = 0;
-    [SerializeField] float _trapLifeRecover = 0;
+    [SerializeField] private float _timer = 0, _heithSize = 0, _wrapSpeed = 0, _trapLife = 0, _trapLifeRecover = 0;
     private float _maxTrapLife = 0;
-    [SerializeField] bool _up = true, _onTrap = false;
-    [SerializeField] int _relaseCuant = 20;
-    [SerializeField] Transform _playerTrapPoint;
-    [SerializeField] GameObject _mouth, _wraps, _toung;
-    [SerializeField] Animator _myAnimator;
-    [SerializeField] CustomMovement _player;
-    [SerializeField] BoxCollider2D _myboxCollider;
-    [SerializeField] Transform _liberatedPos;
-    [SerializeField] SpriteRenderer sp;
-    [SerializeField] CatCanvas catCanvas;
-    [SerializeField] ParticleSystem spitleParticle;
-    private ITrap playerITrap;
+    [SerializeField] private bool _up = true, _onTrap = false;
+    //[SerializeField] private int _relaseCuant = 20;
+    [SerializeField] private Transform _playerTrapPoint = default/*, _liberatedPos = default*/;
+    [SerializeField] private GameObject /*_mouth = default, */_wraps = default, _toung = default;
+    [SerializeField] private Animator _myAnimator = default;
+    [SerializeField] private CustomMovement _player = default;
+    [SerializeField] private BoxCollider2D _myboxCollider = default;
+    //[SerializeField] private SpriteRenderer sp = default;
+    [SerializeField] private CatCanvas catCanvas = default;
+    [SerializeField] private ParticleSystem spitleParticle = default;
+    private ITrap playerITrap = default;
     private float _wrpHeight = 0.0f;
-    private Vector2 _wrpIntPos;
+    private Vector2 _wrpIntPos = default    ;
 
     Action<float> _onCatch = delegate { };
 

@@ -5,15 +5,14 @@ public class PlatformMovement : MonoBehaviour
 {
     private CustomMovement _customMovement = null;
     private Rigidbody2D _playerRB = null, _moverRB = null;
-    private bool _isOnPlatform = false, _hoizontalPlat = false;
-    private float _orgFriction = 0.0f;
+    private bool _isOnPlatform = false/*, _hoizontalPlat = false*/;
+    //private float _orgFriction = 0.0f;
 
     private void Awake()
     {
         _playerRB = GetComponent<Rigidbody2D>();
         _customMovement = GetComponent<CustomMovement>();
-        if (_playerRB)
-            _orgFriction = _playerRB.sharedMaterial.friction = 0;
+        //if (_playerRB) _orgFriction = _playerRB.sharedMaterial.friction = 0;
     }
 
     private void FixedUpdate()

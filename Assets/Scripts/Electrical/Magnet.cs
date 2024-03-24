@@ -6,7 +6,7 @@ public class Magnet : MonoBehaviour, IElectric, IMouseOver
     Action _MagnetAction = delegate { };
     [SerializeField] private Vector2 _attractArea, _magnetArea;
     [SerializeField] private Vector3 _offset;
-    [SerializeField] private float _attractForce, _pow = 1f, _attractLimit = 1.0f;
+    [SerializeField] private float _attractForce, _pow = 1f/*, _attractLimit = 1.0f*/;
     [SerializeField] private LayerMask _floorLayerMask, _metalLayerMask;
     [SerializeField] private GameObject _onSprite, _offSprite, _particle, _area, _connectionSource;
     [SerializeField] private bool _gizmos = true;

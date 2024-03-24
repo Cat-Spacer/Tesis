@@ -1,30 +1,32 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MiniConsole : MonoBehaviour, IMouseOver, IGenerator
 {
+    #region Varaibles
+
     [SerializeField, Range(0.01f, 10f)] private float _checkRadius = 1f;
     [SerializeField] private Hamster _hamster = null;
-    [SerializeField] private Generator _generator = null;
-    [SerializeField] private LayerMask _generatorMask;
+    //[SerializeField] private Generator _generator = null;
+    //[SerializeField] private LayerMask _generatorMask = default;
     [SerializeField] private Transform _hamsterPos = null;
     [SerializeField] private bool _gizmos = true;
-    [SerializeField] LineRenderer feedbackLines;
-    [SerializeField] private bool _isOn;
-    public List<GameObject> _connection;
-    public float _delaySeconds;
-    private SpriteRenderer _sp;
-    [SerializeField] Sprite _spActivated, _spDesactivated;
-    [SerializeField] private GameObject _icon;
-    private bool _isOutline, _showConnections;
-    [SerializeField] private Material outlineMat;
+    [SerializeField] LineRenderer feedbackLines = default;
+    [SerializeField] private bool _isOn = default;
+    public List<GameObject> _connection = default;
+    public float _delaySeconds = default;
+    private SpriteRenderer _sp = default;
+    [SerializeField] Sprite _spActivated = default, _spDesactivated = default;
+    [SerializeField] private GameObject _icon = default;
+    private bool _isOutline = default/*, _showConnections = default*/;
+    [SerializeField] private Material outlineMat = default;
     [SerializeField] private SoundManager.Types _sound = SoundManager.Types.Button;
-    private Material defaultMat;
+    private Material defaultMat = default;
     private Dictionary<LineRenderer, Transform> _linesConnection = new Dictionary<LineRenderer, Transform>();
 
-    private bool _inRange;
+    private bool _inRange = default; 
+    #endregion
 
     private void Start()
     {
@@ -132,7 +134,7 @@ public class MiniConsole : MonoBehaviour, IMouseOver, IGenerator
         if (_isOutline) return;
         _sp.material = outlineMat;
         _isOutline = true;
-        _showConnections = true;
+        //_showConnections = true;
         // foreach (var lines in _linesConnection)
         // {
         //     lines.SetActive(true);
@@ -144,7 +146,7 @@ public class MiniConsole : MonoBehaviour, IMouseOver, IGenerator
         if (!_isOutline) return;
         _sp.material = defaultMat;
         _isOutline = false;
-        _showConnections = false;
+        //_showConnections = false;
         foreach (var lines in _linesConnection)
         {
             lines.Key.gameObject.SetActive(false);

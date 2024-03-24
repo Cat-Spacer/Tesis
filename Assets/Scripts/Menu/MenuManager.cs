@@ -25,8 +25,7 @@ public class MenuManager : MonoBehaviour
 
     [SerializeField, Header("Canvas Areas")] private Button[] _area = default;
 
-    private bool notIdle = false;
-    private Camera _mainCamera;
+    private Camera _mainCamera = default;
 
     private void Awake()
     {
