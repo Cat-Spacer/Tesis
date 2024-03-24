@@ -20,7 +20,7 @@ public class PlatformsDetection : MonoBehaviour
         _collider = gameObject.GetComponent<BoxCollider2D>();
     }
 
-    bool isUnder = false;
+    //private bool _isUnder = false;
     private void FixedUpdate()
     {
         // Realizar BoxCast hacia arriba

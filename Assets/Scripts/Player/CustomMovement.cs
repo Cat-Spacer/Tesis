@@ -1,36 +1,34 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
-using System.Linq;
 
 public class CustomMovement : PlayerDatas, IDamageable, ITrap
 {
-    private PlayerInput _playerInput;
-    public Rigidbody2D rb;
-    private Action _TimeCounterAction, _PlayerActions, _Inputs;
-    [SerializeField] private Transform _respawnPoint;
-    public Climb _climbScript;
-    private BoxCollider2D _collider;
-    public static bool isJumping = false, collisionObstacle = false, canHorizontalClimb;
-    private GameObject _currentTrap;
+    private PlayerInput _playerInput = default;
+    public Rigidbody2D rb = default;
+    private Action _TimeCounterAction = default, _PlayerActions = default, _Inputs = default;
+    //[SerializeField] private Transform _respawnPoint = default;
+    public Climb _climbScript = default;
+    private BoxCollider2D _collider = default;
+    public static bool isJumping = false, collisionObstacle = false, canHorizontalClimb = default;
+    private GameObject _currentTrap = default;
     public float jumpForceClimbHeight = 400, jumpForceClimbLatitud = 150;
-    private EnergyPower _energyPowerScript;
-    private IInteract _interactObj;
-    private Action _MovementState, _DashState;
-    private float _baseJump;
-    public GameObject boosterFeedBack;
-    private Vector2 _startScale, _smallerScale, _startGroundCheckSize, _smallerGroundCheckSize;
-    Vector3 rotationVector;
-    [SerializeField] private GameObject _hasmterIcon;
+    private EnergyPower _energyPowerScript = default;
+    private IInteract _interactObj = default;
+    private Action _MovementState = default, _DashState = default;
+    private float _baseJump = default;
+    public GameObject boosterFeedBack = default;
+    private Vector2 _startScale = default, _smallerScale = default, _startGroundCheckSize = default, _smallerGroundCheckSize = default;
+    private Vector3 _rotationVector = default;
+    [SerializeField] private GameObject _hasmterIcon = default;
     public float modiffyIceJumpY = 1, modiffyIceJumpX = 1;
 
-    [SerializeField] private LayerMask _ignoredPhysics, _obstacleLayers;
+    [SerializeField] private LayerMask _obstacleLayers = default;
 
-    private float xMove;
+    private float _xMove = default;
 
     public bool dashClimb = false;
-    private bool icyWall, hasPlayedMovement = false, jumpClimb = false;
+    private bool _icyWall = default, _hasPlayedMovement = false, _jumpClimb = false;
 
     public bool Runing { get { return running; } }
 
@@ -177,15 +175,15 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
 
         transform.rotation = Quaternion.Euler(transform.rotation.x, 0, transform.rotation.z);
         faceDirection = 1;
-        if (!hasPlayedMovement)
+        if (!_hasPlayedMovement)
         {
             SoundManager.instance.Play(SoundManager.Types.Steps);
-            hasPlayedMovement = true;
+            _hasPlayedMovement = true;
         }
 
-        xMove = faceDirection * runAccel * Time.deltaTime;
-        xMove = Mathf.Clamp(rb.velocity.x + xMove, 0, maxSpeed); ;
-        rb.velocity = new Vector2(xMove, rb.velocity.y);
+        _xMove = faceDirection * runAccel * Time.deltaTime;
+        _xMove = Mathf.Clamp(rb.velocity.x + _xMove, 0, maxSpeed); ;
+        rb.velocity = new Vector2(_xMove, rb.velocity.y);
         //float targetSpeed;
         //targetSpeed = faceDirection * maxSpeed;
         //rb.velocity = new Vector2(targetSpeed, rb.velocity.y);
@@ -216,14 +214,14 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
 
         transform.rotation = Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z);
         faceDirection = -1;
-        if (!hasPlayedMovement)
+        if (!_hasPlayedMovement)
         {
             SoundManager.instance.Play(SoundManager.Types.Steps);
-            hasPlayedMovement = true;
+            _hasPlayedMovement = true;
         }
-        xMove = faceDirection * runAccel * Time.deltaTime;
-        xMove = Mathf.Clamp(rb.velocity.x + xMove, -maxSpeed, 0);
-        rb.velocity = new Vector2(xMove, rb.velocity.y);
+        _xMove = faceDirection * runAccel * Time.deltaTime;
+        _xMove = Mathf.Clamp(rb.velocity.x + _xMove, -maxSpeed, 0);
+        rb.velocity = new Vector2(_xMove, rb.velocity.y);
         //float targetSpeed;
         //targetSpeed = faceDirection * maxSpeed;
         //rb.velocity = new Vector2(targetSpeed, rb.velocity.y);
@@ -235,10 +233,10 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         //ChangeAnimationState(Player_Idle);
         running = false;
         _runParticle.Stop();
-        if (hasPlayedMovement)
+        if (_hasPlayedMovement)
         {
             SoundManager.instance.Pause(SoundManager.Types.Steps);
-            hasPlayedMovement = false;
+            _hasPlayedMovement = false;
         }
         if (!OnIce) rb.velocity = new Vector2(0, rb.velocity.y);
         // Debug.Log($"<Color=magenta>The rigidbody velocity is: {rb.velocity}</color>");
@@ -250,10 +248,10 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         //ChangeAnimationState(Player_Idle);
         //anim.SetBool("Run", false);
         _runParticle.Stop();
-        if (hasPlayedMovement)
+        if (_hasPlayedMovement)
         {
             SoundManager.instance.Pause(SoundManager.Types.Steps);
-            hasPlayedMovement = false;
+            _hasPlayedMovement = false;
         }
         _MovementState = delegate { };
     }
@@ -332,7 +330,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
         float zComponent = Mathf.Sin(angle) * jumpForceClimbHeight;
         Vector3 forceApplied = new Vector3(xComponent * faceDirection, zComponent, 0);
 
-        jumpClimb = true;
+        _jumpClimb = true;
         rb.AddForce(forceApplied);
         _climbScript._ClimbState = _climbScript.EndClimbJump;
         //  canJump = false;
@@ -604,12 +602,12 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             if (CustomMovement.faceDirection == -1)
             {
                 transform.rotation = Quaternion.Euler(transform.rotation.x, 0, transform.rotation.z);
-                rotationVector.y = 0;
+                _rotationVector.y = 0;
             }
             if (CustomMovement.faceDirection == 1)
             {
                 transform.rotation = Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z);
-                rotationVector.y = 180;
+                _rotationVector.y = 180;
             }
             CustomMovement.faceDirection = -CustomMovement.faceDirection;
         }
@@ -675,7 +673,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             canHorizontalClimb = true;
             isJumping = false;
             onGround = true;
-            jumpClimb = false;
+            _jumpClimb = false;
             canJump = true;
             canDash = true;
         }
@@ -686,7 +684,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             isJumping = false;
             onGround = true;
             //Physics2D.IgnoreLayerCollision(31, 7, false);
-            jumpClimb = false;
+            _jumpClimb = false;
             canJump = true;
             canDash = true;
             if (!running && !isJumping && !Climb.startClimb)
@@ -743,7 +741,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             ForceDashEnd();
         }
 
-        if (collision.gameObject.layer == 21 && !icyWall && isJumping)
+        if (collision.gameObject.layer == 21 && !_icyWall && isJumping)
         {
 
             if (faceDirection == -1)
@@ -763,7 +761,7 @@ public class CustomMovement : PlayerDatas, IDamageable, ITrap
             Vector2 forceApplied = new Vector2(xComponent * faceDirection, zComponent);
 
             rb.AddForce(forceApplied);
-            icyWall = true;
+            _icyWall = true;
         }
     }
 

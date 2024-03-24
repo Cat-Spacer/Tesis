@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace Weapons
 {
@@ -9,13 +10,12 @@ namespace Weapons
         [Header("Stats")]
         public int damage = 10;
         public float fireRate = 1.0f, fireTimer = 1.0f, bulletLifeTime = 1.0f, wait = 1.0f;
-        public string shootSound = "gun_shoot";
+        public string shootSound = "gun_shoot", animState = "OwlPreShoot";
 
         [Header("Objects")]
         public Transform firePoint;
         public AudioSource audioSource;
         public ParticleSystem muzzleFlash;
-        public Bullet bulletPrefab;
         [SerializeField] ParticleSystem _explotionParticle1, _explotionParticle2;
 
         string currentState;
@@ -61,29 +61,18 @@ namespace Weapons
             {
                 fireTimer = fireRate;
                 StartCoroutine(WaitForAnim());
-                ChangeAnimationState("OwlPreShoot");
+                ChangeAnimationState(animState);
             }
         }
 
         public virtual void FireBullet()
         {
+            Bullet bullet = BulletManager.Instance.objectPool.GetObject();
+            if (bullet!) return;
             _explotionParticle1.Play();
             _explotionParticle2.Play();
-            Shoot.Fire(bulletPrefab, firePoint, gameObject);
+            Shoot.Fire(bullet, firePoint, gameObject);
             currentState = "";
-            #region ObjectFactory (bugeado)
-            /*
-            ObjectToSpawn bullet = ObjectFactory.Instance.pool.GetObject();
-            //Debug.Log($"{bullet.name} instantiated from factory");
-            //SoundManager.instance.Play();
-            if (audioSource != null)
-                 audioSource.Play();
-             if (muzzleFlash != null)
-                 muzzleFlash.Play();
-            //Shoot.Fire(bullet.gameObject, firePoint);//cambiar por metodo
-            bullet.transform.position = firePoint.position;
-            bullet.transform.rotation = firePoint.rotation;*/
-            #endregion
         }
 
         IEnumerator WaitForAnim()

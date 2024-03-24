@@ -7,7 +7,7 @@ public class FollowTarget : MonoBehaviour
     [SerializeField] private Rigidbody2D _myRigidbody;
     [SerializeField] private Animator _myAnimator;
     [SerializeField] private Transform _target, _guardPoint;
-    [SerializeField] private string _chaseParameterName = "IsMoving", _targetName = "Hamster";
+    [SerializeField] private string _chaseParameterName = "IsMoving"/*, _targetName = "Hamster"*/;
     [SerializeField] private float _movementSpeed = 2;
     [SerializeField] private bool _canChase = false;
 

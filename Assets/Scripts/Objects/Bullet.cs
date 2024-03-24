@@ -1,15 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Bullet : ObjectToSpawn
 {
-    [Header("Stats")]
     [Header("Has ObjectToSpawn on it")]
+    [Header("Stats")]
     [SerializeField] private float _speed = 1.0f;
-    [SerializeField] ParticleSystem particles;
-    [SerializeField] ParticleSystem particlesExplotion;
-    [SerializeField] GameObject _myFahter;
+    [SerializeField] ParticleSystem particles = default;
+    [SerializeField] ParticleSystem particlesExplotion = default;
+    [SerializeField] GameObject _myFahter = default;
     void Update()
     {
         NormalMovement();
@@ -42,9 +40,9 @@ public class Bullet : ObjectToSpawn
             }
             var particle = Instantiate(particlesExplotion);
             particle.transform.position = gameObject.transform.position;
-            Destroy(gameObject);
-        }       
-        //ObjectFactory.Instance.ReturnObject(this);
+            //Destroy(gameObject);
+            objectPool.ReturnObject(this);
+        }
     }
     public Bullet SetBullet(GameObject father)
     {

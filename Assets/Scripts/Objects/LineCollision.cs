@@ -1,21 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using System;
 
 public class LineCollision : MonoBehaviour
 {
-    [SerializeField] LineRenderer _lineRenderer;
-    [SerializeField] private Transform[] _sidesOfCrystals;
-    [SerializeField] private int _countLineRenderer = 1, _limitCount = 0;
-    [SerializeField] private float _distance = 100.0f, _time = 0;
+    [SerializeField] private LineRenderer _lineRenderer = default;
+    [SerializeField] private Transform[] _sidesOfCrystals = default;
+    [SerializeField] private int _countLineRenderer = 1;
+    [SerializeField] private float _distance = 100.0f/*, _time = 0*/;
     public bool linkedCrystal = false;
     private bool _hittedCrystal = false;
     public Action _GrowState = delegate { };
-    [SerializeField] LayerMask _layerMaskObstacles, _layerMaskCrystal;
-    Vector2 posUpdate;
-    [SerializeField] private Vector2[] _directions;
-    private Crystal _myCrystal;
+    [SerializeField] private LayerMask _layerMaskObstacles = default, _layerMaskCrystal = default;
+    private Vector2 posUpdate = default;
+    [SerializeField] private Vector2[] _directions = default;
+    private Crystal _myCrystal = default;
 
     void Start()
     {

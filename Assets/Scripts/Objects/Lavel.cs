@@ -1,21 +1,19 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Lavel : MonoBehaviour, IMouseOver
 {
-    [SerializeField] private Door[] _doors;
-    [SerializeField] private GameObject[] _openDoors;
-    [SerializeField] private LayerMask _TubesMask;
-    [SerializeField] private float _searchRad = .05f;
-    SpriteRenderer _sp;
-    bool _isOutline;
-    bool _showConnections;
-    [SerializeField] Material outlineMat;
-    Material defaultMat;
-    List<GameObject> _linesConnection = new List<GameObject>();
-    public List<GameObject> _connection;
-    [SerializeField] LineRenderer feedbackLines;
+    [SerializeField] private Door[] _doors = default;
+    [SerializeField] private GameObject[] _openDoors = default;
+    //[SerializeField] private LayerMask _TubesMask = default;
+    //[SerializeField] private float _searchRad = 0.05f;
+    private SpriteRenderer _sp = default;
+    private bool _isOutline = default, _showConnections = default;
+    [SerializeField] private Material outlineMat = default;
+    private Material defaultMat = default;
+    private List<GameObject> _linesConnection = new List<GameObject>();
+    public List<GameObject> connection = default;
+    [SerializeField] private LineRenderer _feedbackLines = default;
 
     private void Start()
     {
@@ -35,9 +33,9 @@ public class Lavel : MonoBehaviour, IMouseOver
     }
     void SetLines()
     {
-        foreach (var connection in _connection)
+        foreach (var connection in connection)
         {
-            var newLine = Instantiate(feedbackLines, transform);
+            var newLine = Instantiate(_feedbackLines, transform);
             newLine.SetPosition(0, transform.position);
             newLine.SetPosition(1, connection.transform.position);
             _linesConnection.Add(newLine.gameObject);

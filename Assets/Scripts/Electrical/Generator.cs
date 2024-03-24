@@ -6,28 +6,28 @@ using UnityEngine.UI;
 
 public class Generator : MonoBehaviour, IMouseOver, IGenerator
 {
-  public List<GameObject> _connection;
+  public List<GameObject> _connection = default;
     [SerializeField] private bool _test = false;
-    [SerializeField] private int _energyNeeded;
+    [SerializeField] private int _energyNeeded = default;
     [SerializeField] private float _delaySeconds = 1.0f;
-    [SerializeField] private GameObject buttons = null, _batterySprite = null, _onText;
-    [SerializeField] private MiniGame _miniGame;
-    [SerializeField] private TMP_Text _text;
-    [SerializeField] private LineRenderer feedbackLines;
-    [SerializeField] private Material outlineMat;
-    [SerializeField] private Sprite _powerOnSprite, _powerOffSprite;
-    [SerializeField] private bool _miniGameWin, _alreadyStarded;
+    [SerializeField] private GameObject buttons = null, _batterySprite = null, _onText = default;
+    [SerializeField] private MiniGame _miniGame = default;
+    [SerializeField] private TMP_Text _text = default;
+    [SerializeField] private LineRenderer feedbackLines = default;
+    [SerializeField] private Material outlineMat = default;
+    [SerializeField] private Sprite _powerOnSprite = default, _powerOffSprite = default;
+    [SerializeField] private bool _miniGameWin = default, _alreadyStarded = default;
     [SerializeField] private SoundManager.Types _sound = SoundManager.Types.GeneratorLoop;
 
     private Dictionary<LineRenderer, Transform> _linesConnection = new Dictionary<LineRenderer, Transform>();
-    private Hamster _hamster;
-    private bool _showConnections, _isOutline;
-    private SpriteRenderer _sp;
-    private Material defaultMat;
+    private Hamster _hamster = default;
+    private bool _showConnections = default, _isOutline = default;
+    private SpriteRenderer _sp = default;
+    private Material defaultMat = default;
     
-    [SerializeField] private Sprite _buttonGreenOn, _buttonGreenOff, _buttonRedOn, _buttonRedOff;
+    [SerializeField] private Sprite _buttonGreenOn = default, _buttonGreenOff = default, _buttonRedOn = default, _buttonRedOff = default;
 
-    [SerializeField] Image _greenButton, _redButton;
+    [SerializeField] Image _greenButton = default, _redButton = default;
 
     private void Start()
     {

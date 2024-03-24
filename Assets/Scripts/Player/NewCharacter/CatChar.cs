@@ -1,13 +1,10 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
 public class CatChar : PlayerCharacter
 {
-    private MushroomType _type;
+    //private MushroomType _type;
     public CatCanvas canvas;
-    private bool _canInteract = false;
-    private bool canSpit = false;
+    //private bool _canInteract = false, canSpit = false;
     protected override void Update()
     {
         base.Update();
@@ -54,5 +51,4 @@ public class CatChar : PlayerCharacter
         //Gizmos.DrawWireCube(_data.bounceDetectionLeft.position, _data.bounceSize);
         
     }
-
 }

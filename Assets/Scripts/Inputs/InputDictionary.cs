@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -10,8 +9,8 @@ namespace InputKey
      /// Setea las teclas para cada accion
      /// </summary>
         //Hacer que dependiendo del boton que sea ppal o alternativo
-        public static Dictionary<TypeOfKeys, KeyCode> buttonKeys;
-        private TypeOfKeys _replaceThisKey, _oldKey;
+        public static Dictionary<TypeOfKeys, KeyCode> buttonKeys = default;
+        private TypeOfKeys _replaceThisKey = default, _oldKey = default;
 
         public enum TypeOfKeys
         {
@@ -133,11 +132,17 @@ namespace InputKey
 
         public void ReplaceKeyValue()
         {
+            (buttonKeys[_replaceThisKey], buttonKeys[_oldKey]) = (buttonKeys[_oldKey], buttonKeys[_replaceThisKey]);
+            KeybindManager.Instance.saveManager.LoadData().buttonValues[_oldKey.GetHashCode()] = buttonKeys[_oldKey];
+            KeybindManager.Instance.saveManager.LoadData().buttonValues[_replaceThisKey.GetHashCode()] = buttonKeys[_replaceThisKey];
+
+            /*
             KeyCode valueToReplace = buttonKeys[_oldKey];
             buttonKeys[_oldKey] = buttonKeys[_replaceThisKey];
             buttonKeys[_replaceThisKey] = valueToReplace;
             KeybindManager.Instance.saveManager.LoadData().buttonValues[_oldKey.GetHashCode()] = buttonKeys[_oldKey];
             KeybindManager.Instance.saveManager.LoadData().buttonValues[_replaceThisKey.GetHashCode()] = valueToReplace;
+             */
 
             /*foreach (var key in buttonKeys.Keys)
                 foreach (var value in buttonKeys.Values)

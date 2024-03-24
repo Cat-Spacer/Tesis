@@ -8,7 +8,7 @@ public class TubeEntry : MonoBehaviour, IInteract
     [SerializeField] Transform entry;
     [SerializeField] private float _searchRad = 1.0f;
     [SerializeField] private Material outlineMat;
-    [SerializeField] private bool _isOpen, _isOutline, _allReadyIn = false;
+    [SerializeField] private bool _isOpen/*, _isOutline, _allReadyIn = false*/;
     private SpriteRenderer _sp;
     private Material defaultMat;
     private HamsterChar _hamster;
@@ -18,10 +18,9 @@ public class TubeEntry : MonoBehaviour, IInteract
         _sp = GetComponent<SpriteRenderer>();
         _sp.sprite = _closed;
         defaultMat = GetComponent<SpriteRenderer>().material;
-        _isOutline = false;
+        //_isOutline = false;
         if (!_entryTube && Physics2D.OverlapCircle(transform.position, _searchRad).GetComponent<Tube>())
             _entryTube = Physics2D.OverlapCircle(transform.position, _searchRad).GetComponent<Tube>();
-
     }
 
     // private void OnTriggerEnter2D(Collider2D collision)

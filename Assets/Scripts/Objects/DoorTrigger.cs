@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DoorTrigger : Obstacle
@@ -8,21 +6,14 @@ public class DoorTrigger : Obstacle
     [SerializeField] private GameObject[] targetB;
     [SerializeField] private Crystal targetC;
     [SerializeField] GameObject interactLight;
-    private float _currentLife;
     public float dmg;
     bool alreadyShowLight;
     [SerializeField] public Animator anim;
 
-    [SerializeField] bool _isFirst = false, _doOnce = false, canRepeat = false;
+    [SerializeField] bool _doOnce = false, canRepeat = false;
 
     public void Interact()
-    {
-
-        // if (_isFirst && !GameManager.Instance.celestialDiamond)
-        // {
-        //     return;
-        // }
-        
+    {        
         if (_doOnce && canRepeat) return;
 
         Debug.Log("interactuando");
@@ -57,5 +48,3 @@ public class DoorTrigger : Obstacle
         }
     }
 }
-
- 

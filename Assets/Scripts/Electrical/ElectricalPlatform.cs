@@ -1,37 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
 
 public class ElectricalPlatform : MonoBehaviour, IElectric, IMouseOver
 {
-    [SerializeField] private Transform _PointATop;
-    [SerializeField] private Transform _PointBLow;
-    [SerializeField] private Transform[] _checkpoints;
-    [SerializeField] private int _current, _max;
-    Transform _startPos;
-    private int _startCheckpoint;
+    #region Varaibles
+    //[SerializeField] private Transform _PointATop = default, _PointBLow = default;
+    [SerializeField] private Transform[] _checkpoints = default;
+    [SerializeField] private int _current = default, _max = default;
+    private Transform _startPos = default;
+    private int _startCheckpoint = default;
 
-    private Vector3 _newPos;
-    [SerializeField] private float _speed, _moveScale = 3.0f;
-    [SerializeField] private GameObject _canvas;
+    //private Vector3 _newPos = default;
+    [SerializeField] private float _speed = default/*, _moveScale = 3.0f*/;
+    [SerializeField] private GameObject _canvas = default, _connectionSource = default;
+
+    [SerializeField] private Vector2 _checkBottom = default;
+    [SerializeField] private Vector3 _offsetBottom = default;
+    [SerializeField] private LayerMask _playerLayerMask = default;
 
     [SerializeField] private bool _turnOn = false;
 
-    [SerializeField] private Vector2 _checkBottom;
-    [SerializeField] private Vector3 _offsetBottom;
-    [SerializeField] private LayerMask _playerLayerMask;
-
-    [SerializeField] private GameObject _connectionSource; 
-
     private Action _MoveAction = delegate { };
-    private LineRenderer _myLineConnection;
-    private IGenerator _myGen;
-    [SerializeField] private Sprite _onSprite, _offSprite;
-    [SerializeField] private SpriteRenderer _sp;
+    private LineRenderer _myLineConnection = default;
+    private IGenerator _myGen = default;
+    [SerializeField] private Sprite _onSprite = default, _offSprite = default;
+    [SerializeField] private SpriteRenderer _sp = default;
+    #endregion
+
     void Awake()
     {
-        _newPos = transform.position;
+        //_newPos = transform.position;
         if (_canvas)
         {
             if (_turnOn) { _canvas.gameObject.SetActive(true); }
