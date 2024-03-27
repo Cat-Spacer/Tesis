@@ -13,7 +13,7 @@ public class Item : MonoBehaviour
     public ItemType type;
     private BoxCollider2D _boxCollider;
     private Rigidbody2D _rb;
-    private void Start()
+    public virtual void Start()
     {
         _boxCollider = GetComponent<BoxCollider2D>();
         _rb = GetComponent<Rigidbody2D>();
@@ -23,29 +23,21 @@ public class Item : MonoBehaviour
     {
         if (pickUp)
         {
-            player.PickUp(this);
             HasPhysics(false);
+            player.PickUp(this);
         }
     }
     public virtual void Drop(Vector2 dir, float dropForce)
     {
+        Debug.Log("Drop");
         HasPhysics(true);
         _rb.AddForce(dir * dropForce);
     }
 
     public void HasPhysics(bool has)
     {
-        if (has)
-        {
-            _boxCollider.enabled = false;
-            _rb.simulated = false;
-        }
-        else
-        {
-            _boxCollider.enabled = false;
-            _rb.simulated = false;
-        }
-
+        _boxCollider.enabled = has;
+        _rb.simulated = has;
     }
     public ItemType Type()
     {

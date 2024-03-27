@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class HamsterChar : PlayerCharacter
 {
-    HamsterCharacterInput _inputs;
+    HamsterImputCoop _inputs;
     private CircleCollider2D _coll;
     public HamsterCanvas canvas;
     public override void Start()
     {
         base.Start();
-        _inputs = GetComponent<HamsterCharacterInput>();
+        _inputs = GetComponent<HamsterImputCoop>();
         _coll = GetComponent<CircleCollider2D>();
     }
     protected override void FixedUpdate()
