@@ -28,7 +28,7 @@ public class FlowerStatue : MonoBehaviour, IInteract
     {
         var player = param[0] as PlayerCharacter;
         var flower = player.GiveItem(ItemType.Flower);
-        PutFlower(flower);
+        if(flower != null) PutFlower(flower);
     }
 
     public void ShowInteract(bool showInteractState)

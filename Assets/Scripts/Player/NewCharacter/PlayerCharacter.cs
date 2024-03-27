@@ -256,6 +256,7 @@ public void GetStun(float intensity)
 
     public Item GiveItem(ItemType type)
     {
+        if (_data._onHand == null) return default;
         if (_data._onHand.Type() == type)
         {
             var item = _data._onHand;
@@ -267,6 +268,7 @@ public void GetStun(float intensity)
     }
     public void PickUp(Item item)
     {
+        if (item == null) return;
         _data._onHand = item;
         item.transform.parent = _data._inventoryPos.transform;
         item.transform.position = _data._inventoryPos.transform.position;
