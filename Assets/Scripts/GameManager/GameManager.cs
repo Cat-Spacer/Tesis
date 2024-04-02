@@ -179,14 +179,17 @@ public class GameManager : MonoBehaviour
     [SerializeField] private CatChar catChar;
     [SerializeField] private HamsterChar hamsterChar;
     [SerializeField] private DoubleLinkedList<PlayerCharacter> _players = default;
-
     public DoubleLinkedList<PlayerCharacter> GetPlayers { get => _players; }
 
+    [SerializeField] private List<PlayerCharacter> players;
     private void Awake()
     {
         if (Instance == null) Instance = this;
+        players.Add(catChar);
+        players.Add(hamsterChar);
+        // SetPlayer(catChar.GetComponent<PlayerCharacter>());
+        // SetPlayer(hamsterChar.GetComponent<PlayerCharacter>());
     }
-
     public void SetChar(List<PlayerFA> playerFa)
     {
         foreach (var player in playerFa)
@@ -204,12 +207,16 @@ public class GameManager : MonoBehaviour
         hamsterChar = hamster;
     }
 
-    public void SetPlayer(PlayerCharacter player) 
+    void SetPlayer(PlayerCharacter player) 
     {
         if (!player || _players.Count < 2 || _players.Contains(player)) return;
         _players.Add(player);
     }
 
+    public List<PlayerCharacter> GetCharacters()
+    {
+        return players;
+    }
     public CatChar GetCatChar()
     {
         return catChar;
