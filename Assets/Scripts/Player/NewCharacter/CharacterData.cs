@@ -14,6 +14,7 @@ public class CharacterData : MonoBehaviour
     public float turnPower;
     public int faceDirection = 1;
     public bool isRunning;
+    public bool canMove = true;
     
     [Header("Air Movement")] 
     public float airMaxSpeed;
@@ -28,6 +29,7 @@ public class CharacterData : MonoBehaviour
     public float jumpCounter = 0;
     public float jumpMultiplier = 0;
     public float jumpStopForce;
+    public bool canJump = true;
 
     [Header("Attack")] 
     public float stunForce;
