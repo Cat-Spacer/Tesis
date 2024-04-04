@@ -1,22 +1,26 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using JetBrains.Annotations;
-using Unity.Mathematics;
 using UnityEngine;
 
-public class PlayerCharacter : MonoBehaviour,IPlayerInteract 
+public class PlayerCharacter : MonoBehaviour,IPlayerInteract, IDamageable 
 {
     [SerializeField] protected CharacterData _data;
     private CharacterModel _model;
     protected Rigidbody2D _rb;
     protected Action _HitAction = delegate {  };
     protected Action _DebuffAction = delegate {  };
+
+    private Material _material;
+    private int _dissolveAmount = Shader.PropertyToID("_DissolveAmount");
+    private float _dissolveTime = 2f;
+
+
     public virtual void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
         _data = GetComponent<CharacterData>();
         _model = GetComponent<CharacterModel>();
+        _material = GetComponentInChildren<SpriteRenderer>().material;
         _data.characterPhysicsMat = _rb.sharedMaterial;
         _data.gravity = new Vector2(0, -Physics2D.gravity.y);
     }
@@ -38,7 +42,7 @@ public class PlayerCharacter : MonoBehaviour,IPlayerInteract
 #region MOVEMENT
     public void Movement(bool onInput ,int direction)
     {
-        if (!onInput || _data.isStun)
+        if (!onInput || _data.isStun || !_data.canMove)
         {
             _data.isRunning = false;
             if (!_data.isJumping && OnGround())
@@ -99,7 +103,7 @@ public class PlayerCharacter : MonoBehaviour,IPlayerInteract
     public void JumpUp(bool jump)
     {
         Debug.Log("Try Jump");
-        if (_data.isStun || _data.isJumping) return;
+        if (_data.isStun || _data.isJumping || !_data.canJump) return;
         Debug.Log("Jump");
         if (jump && OnGround())
         {
@@ -303,6 +307,69 @@ public void GetStun(float intensity)
             _data.isFalling = true;
         }
         else _data.isFalling = false;
+    }
+
+    public void StopMovement()
+    {
+        _rb.velocity = Vector3.zero;
+    }
+
+    public void Freeze(bool freeze)
+    {
+        if(freeze) _rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        else
+        {
+            _rb.constraints = RigidbodyConstraints2D.None;
+            _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+        }
+    }
+    public void GetDamage()
+    {
+        Freeze(true);
+        Die();
+    }
+
+    IEnumerator Vanish()
+    {
+        float elapsedTime = 0f;
+        while (elapsedTime < _dissolveTime)
+        {
+            elapsedTime += Time.deltaTime;
+
+            float lerpedDissolve = Mathf.Lerp(0, 1.1f, (elapsedTime / _dissolveTime));
+
+            _material.SetFloat(_dissolveAmount, lerpedDissolve);
+            yield return null;
+        }
+        Freeze(false);
+        transform.position = GameManager.Instance.GetRespawnPoint();
+        Revive();
+    }
+    IEnumerator Appear()
+    {
+        float elapsedTime = 0f;
+        while (elapsedTime < _dissolveTime)
+        {
+            elapsedTime += Time.deltaTime;
+
+            float lerpedDissolve = Mathf.Lerp(1.1f, 0f, (elapsedTime / _dissolveTime));
+
+            _material.SetFloat(_dissolveAmount, lerpedDissolve);
+            yield return null;
+        }
+        _data.canMove = true;
+        _data.canJump = true;
+    }
+    void Die()
+    {
+        _data.canMove = false;
+        _data.canJump = false;
+        StartCoroutine(Vanish());
+    }
+
+    void Revive()
+    {
+        StartCoroutine(Appear());
     }
 #endregion
 }

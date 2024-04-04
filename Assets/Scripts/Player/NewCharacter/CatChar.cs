@@ -2,25 +2,7 @@ using UnityEngine;
 
 public class CatChar : PlayerCharacter
 {
-    //private MushroomType _type;
     public CatCanvas canvas;
-    //private bool _canInteract = false, canSpit = false;
-    protected override void Update()
-    {
-        base.Update();
-        
-    }
-
-    // public override void Interact()
-    // {
-    //     var coll = Physics2D.OverlapCircle(transform.position, 2, _data.interactMask);
-    //     if (!coll) return;
-    //     var interact = coll.gameObject.GetComponent<IInteract>();
-    //     if (interact == null) return;
-    //     
-    //     interact.Interact();
-    // }
-
     public override void Special()
     {
         

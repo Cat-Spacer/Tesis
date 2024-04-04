@@ -182,6 +182,7 @@ public class GameManager : MonoBehaviour
     public DoubleLinkedList<PlayerCharacter> GetPlayers { get => _players; }
 
     [SerializeField] private List<PlayerCharacter> players;
+    private Respawn _respawnManager;
     private void Awake()
     {
         if (Instance == null) Instance = this;
@@ -189,6 +190,7 @@ public class GameManager : MonoBehaviour
         players.Add(hamsterChar);
         // SetPlayer(catChar.GetComponent<PlayerCharacter>());
         // SetPlayer(hamsterChar.GetComponent<PlayerCharacter>());
+        _respawnManager = GetComponentInChildren<Respawn>();
     }
     public void SetChar(List<PlayerFA> playerFa)
     {
@@ -207,6 +209,14 @@ public class GameManager : MonoBehaviour
         hamsterChar = hamster;
     }
 
+    public void SetRespawnPoint(Vector3 pos)
+    {
+        _respawnManager.SetRespawnPoint(pos);
+    }
+    public Vector3 GetRespawnPoint()
+    {
+        return _respawnManager.GetRespawnPoint();
+    }
     void SetPlayer(PlayerCharacter player) 
     {
         if (!player || _players.Count < 2 || _players.Contains(player)) return;

@@ -22,6 +22,7 @@ public class FlowerStatue : MonoBehaviour, IInteract
         _flower.transform.position = _flowerPos.position;
         coll.enabled = false;
         PeaceSystem.instance.UpdatePeace(2);
+        GameManager.Instance.SetRespawnPoint(transform.position);
     }
 
     public void Interact(params object[] param)

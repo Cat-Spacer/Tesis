@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class Respawn : MonoBehaviour
 {
-    [SerializeField] Transform _respawnPoint;
+    private Vector3 _currentRespawnPoint;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void SetRespawnPoint(Vector3 pos)
     {
-        var player = collision.gameObject.GetComponent<CustomMovement>();
+        _currentRespawnPoint = pos;
+    }
 
-        if (player == null) return;
-
-        player.transform.position = new Vector3(_respawnPoint.transform.position.x, _respawnPoint.transform.position.y, 0);
+    public Vector3 GetRespawnPoint()
+    {
+        return _currentRespawnPoint;
     }
 }
