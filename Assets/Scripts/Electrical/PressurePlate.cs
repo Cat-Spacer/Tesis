@@ -2,35 +2,44 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Threading;
 
 public class PressurePlate : MonoBehaviour
 {
-    Action _PressurePlateAction = delegate { };
     [SerializeField] float speedUp, speedDown;
     [SerializeField] Transform _topPoint, _downPoint;
-  
-    void Update()
+    [SerializeField] private GameObject _plate;
+    [SerializeField] private GameObject _connectionObj;
+    private IActivate _connection;
+    void Start()
     {
-        _PressurePlateAction();
+        _connection = _connectionObj.GetComponent<IActivate>();
+    }
+    void Activate()
+    {
+        transform.position = _downPoint.position;
+        _connection.Activate();
     }
 
-    void OnPress()
+    void Desactivate()
     {
-        if (Vector2.Distance(_downPoint.position, transform.position) > .1) transform.Translate(0, -speedDown, 0);
-        else _PressurePlateAction = delegate { };       
+        transform.position = _topPoint.position;
+        _connection.Desactivate();
     }
-    void OnStop()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (Vector2.Distance(_topPoint.position, transform.position) > .1) transform.Translate(0, speedUp, 0);
-        else _PressurePlateAction = delegate { };
+        var player = collision.gameObject.GetComponent<PlayerCharacter>();
+        if (player != null)
+        {
+            Activate();
+        }
     }
-
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        _PressurePlateAction = OnPress;
-    }
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        _PressurePlateAction = OnStop;
+        var player = collision.gameObject.GetComponent<PlayerCharacter>();
+        if (player != null)
+        {
+            Desactivate();
+        }
     }
 }

@@ -23,7 +23,19 @@ public class SpecialMushroom : MonoBehaviour, IInteract
 
     public void Interact(params object[] param)
     {
-        PowerUpManager.instance.PowerUp(type);
+        var player = (GameObject)param[0];
+        var cat = player.GetComponent<CatSpecial>();
+        switch (type.type)
+        {
+            case MushroomType.Spit:
+            {
+                cat.SpitMushroom(type.time);
+            } break;
+            case MushroomType.Throw:
+            {
+                cat.ThrowMushroom(type.time);
+            } break;
+        }
         GetEated();
     }
 
