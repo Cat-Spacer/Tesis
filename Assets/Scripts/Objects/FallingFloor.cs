@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class FallingFloor : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class FallingFloor : MonoBehaviour
     private BoxCollider2D _coll;
     [SerializeField] private Color activatedColor, desactivatedColor;
     private bool _isActive;
+    [SerializeField] private Vector3 offset, size;
     private void Start()
     {
         _sp = GetComponent<SpriteRenderer>();
@@ -17,6 +19,10 @@ public class FallingFloor : MonoBehaviour
         _isActive = true;
     }
 
+    private void Update()
+    {
+        var coll = Physics2D.OverlapBox(transform.position + offset, size,0, mask);
+    }
     private void Activate(bool activated)
     {
         //gameObject.SetActive(activated);
@@ -52,4 +58,10 @@ public class FallingFloor : MonoBehaviour
             StartCoroutine(DesactivateFloor());
         }
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireCube(transform.position + offset, size);
+    }
+
 }

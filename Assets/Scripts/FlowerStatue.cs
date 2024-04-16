@@ -22,12 +22,12 @@ public class FlowerStatue : MonoBehaviour, IInteract
         _flower.transform.position = _flowerPos.position;
         coll.enabled = false;
         PeaceSystem.instance.UpdatePeace(2);
-        GameManager.Instance.SetRespawnPoint(transform.position);
     }
 
     public void Interact(params object[] param)
     {
-        var player = param[0] as PlayerCharacter;
+        var obj = (GameObject)param[0];
+        var player = obj.GetComponent<PlayerCharacter>();
         var flower = player.GiveItem(ItemType.Flower);
         if(flower != null) PutFlower(flower);
     }

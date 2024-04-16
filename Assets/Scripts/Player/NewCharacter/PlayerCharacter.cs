@@ -224,7 +224,7 @@ public void GetStun(float intensity)
             if (onPress)
             {
                 Debug.Log("Tubo");
-                _data._interactObj.Interact(this);
+                _data._interactObj.Interact(gameObject);
             }
             return;
         }
@@ -334,7 +334,7 @@ public void GetStun(float intensity)
         float elapsedTime = 0f;
         while (elapsedTime < _dissolveTime)
         {
-            elapsedTime += Time.deltaTime;
+            elapsedTime += Time.deltaTime * 1.5f;
 
             float lerpedDissolve = Mathf.Lerp(0, 1.1f, (elapsedTime / _dissolveTime));
 
@@ -350,7 +350,7 @@ public void GetStun(float intensity)
         float elapsedTime = 0f;
         while (elapsedTime < _dissolveTime)
         {
-            elapsedTime += Time.deltaTime;
+            elapsedTime += Time.deltaTime * 1.5f;
 
             float lerpedDissolve = Mathf.Lerp(1.1f, 0f, (elapsedTime / _dissolveTime));
 
