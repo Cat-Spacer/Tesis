@@ -175,6 +175,7 @@ public class GameManager : MonoBehaviour
     //     //Climb.isClimbing = false;        
     // }
     #endregion
+
     public static GameManager Instance;
     [SerializeField] private CatChar catChar;
     [SerializeField] private HamsterChar hamsterChar;
