@@ -26,13 +26,12 @@ public class HamsterChar : PlayerCharacter
         if (obj == null) return;
         var attackable = obj.GetComponent<IPlayerInteract>();
         if (attackable == null) return;
-        
-        Debug.Log("PUNCH " + attackable);
         attackable.GetKnockback(_data.punchForce, transform.right + transform.up, _data.stunForce);
-        if (LiveCamera.instance.IsOnAir())
-        {
-            LiveCamera.instance.ChangePeace(-1);
-        }
+        EventManager.Instance.Trigger("OnPunchPlayer", true);
+        // if (LiveCamera.instance.IsOnAir())
+        // {
+        //     LiveCamera.instance.ChangePeace(-1);
+        // }
     }
 
     #region TUBES

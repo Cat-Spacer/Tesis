@@ -9,11 +9,16 @@ public class Door : MonoBehaviour, IActivate
     [SerializeField] private bool _noAnim = false;
     bool currentState;
     private BoxCollider2D _coll;
+    [SerializeField] private bool _open;
 
     private void Start()
     {
         _anim = GetComponent<Animator>();
         _coll = GetComponent<BoxCollider2D>();
+        
+        if(!_open) Activate();
+        else Desactivate();
+        
     }
 
     public void ActivateDesactivate(bool active)
