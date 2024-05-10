@@ -26,7 +26,7 @@ public class Lavel : MonoBehaviour, IMouseOver
         if (collision.gameObject.GetComponent<CustomMovement>())
         {
             foreach (Door door in _doors)//Abre las puertas
-                door.ActivateDesactivate(false);
+                //door.ActivateDesactivate(false);
             foreach (GameObject go in _openDoors)
                 go.SetActive(true);
         }
@@ -47,7 +47,7 @@ public class Lavel : MonoBehaviour, IMouseOver
         if (collision.gameObject.GetComponent<CustomMovement>())
         {
             foreach (Door door in _doors)
-                door.ActivateDesactivate(true);
+                //door.ActivateDesactivate(true);
             foreach (GameObject go in _openDoors)//Cierra las puertas
                 go.SetActive(false);
         }

@@ -7,11 +7,12 @@ public class FieldOfView : MonoBehaviour
 {
     //[SerializeField] private float _fov, angle, _viewDistance;
     //[SerializeField] private int _rayCount;
-    [SerializeField] private LayerMask _playerLayerMask;
-    Vector3 origin = Vector3.zero;
+    [SerializeField] private LayerMask _wallLayerMask;
+    Vector3 origin;
     private Mesh _mesh;
     float fov;
-    private float startingAngle;
+    private float startingAngle = 45;
+    float viewDistance;
     void Start()
     {
         _mesh = new Mesh();
@@ -21,10 +22,9 @@ public class FieldOfView : MonoBehaviour
 
     void LateUpdate()
     {
-        int rayCount = 30;
-        float angle = 36f;
+        int rayCount = 50;
+        float angle = startingAngle;
         float angleIncrease = fov / rayCount;
-        float viewDistance = 25f;
 
         Vector3[] vertices = new Vector3[rayCount + 1 + 1];
         Vector2[] uv = new Vector2[vertices.Length];
@@ -37,7 +37,7 @@ public class FieldOfView : MonoBehaviour
         for (int i = 0; i <= rayCount; i++)
         {
             Vector3 vertex;
-            RaycastHit2D raycastHit2d = Physics2D.Raycast(origin, GetVectorFormAngle(angle), viewDistance, _playerLayerMask);
+            RaycastHit2D raycastHit2d = Physics2D.Raycast(origin, GetVectorFormAngle(angle), viewDistance, _wallLayerMask);
             if (raycastHit2d.collider == null)
             {
                 vertex = origin + GetVectorFormAngle(angle) * viewDistance;
@@ -72,6 +72,14 @@ public class FieldOfView : MonoBehaviour
         this.origin = origin;
     }
 
+    public void SetFoV(float fov)
+    {
+        this.fov = fov;
+    }
+    public void SetViewDistance(float viewDistance)
+    {
+        this.viewDistance = viewDistance;
+    }
     public void SetAimDirection(Vector3 aimDirection)
     {
         startingAngle = GetAngleFormVectorFloat(aimDirection) - fov / 2f;
