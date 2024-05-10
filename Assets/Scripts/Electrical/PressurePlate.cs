@@ -6,29 +6,39 @@ using System.Threading;
 
 public class PressurePlate : MonoBehaviour
 {
-    [SerializeField] float speedUp, speedDown;
     [SerializeField] Transform _topPoint, _downPoint;
     [SerializeField] private GameObject _plate;
-    [SerializeField] private GameObject _connectionObj;
-    private IActivate _connection;
+    [SerializeField] private List<GameObject> _connectionObj;
+    private List<IActivate> _connection  = new List<IActivate>();
     void Start()
     {
-        _connection = _connectionObj.GetComponent<IActivate>();
+        foreach (var connection in _connectionObj)
+        {
+            var obj = connection.GetComponent<IActivate>();
+            Debug.Log(obj);
+            _connection.Add(obj);
+        }
     }
     void Activate()
     {
-        transform.position = _downPoint.position;
-        _connection.Activate();
+        _plate.transform.position = _downPoint.position;
+        foreach (var connection in _connection)
+        {
+            connection.Activate();
+        }
     }
 
     void Desactivate()
     {
-        transform.position = _topPoint.position;
-        _connection.Desactivate();
+        _plate.transform.position = _topPoint.position;
+        foreach (var connection in _connection)
+        {
+            connection.Desactivate();
+        }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        var player = collision.gameObject.GetComponent<PlayerCharacter>();
+        var player = collision.gameObject.GetComponent<CatChar>();
         if (player != null)
         {
             Activate();
@@ -36,7 +46,7 @@ public class PressurePlate : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        var player = collision.gameObject.GetComponent<PlayerCharacter>();
+        var player = collision.gameObject.GetComponent<CatChar>();
         if (player != null)
         {
             Desactivate();

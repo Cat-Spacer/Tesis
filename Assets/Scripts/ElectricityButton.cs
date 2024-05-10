@@ -5,17 +5,17 @@ using UnityEngine;
 
 public class ElectricityButton : MonoBehaviour, IInteract
 {
-    [SerializeField] private GameObject _connectionObj;
-    private IActivate _connection;
+    [SerializeField] private List<GameObject> _connectionObj;
+    private List<IActivate> _connection = new List<IActivate>();
     private bool _activated;
-    
-    [SerializeField] SpriteRenderer _sp;
-    [SerializeField] private Color _pressedColor, _normalColor;
-    
+
     void Start()
     {
-        _connection = _connectionObj.GetComponent<IActivate>();
-        //_sp = GetComponent<SpriteRenderer>();
+        foreach (var connection in _connectionObj)
+        {
+            var obj = connection.GetComponent<IActivate>();
+            _connection.Add(obj);
+        }
     }
 
     // Update is called once per frame
@@ -28,16 +28,20 @@ public class ElectricityButton : MonoBehaviour, IInteract
     {
         if (!_activated)
         {
-            _connection.Activate();
+            foreach (var connection in _connection)
+            {
+                connection.Activate();
+            }
             transform.localScale = new Vector3(0.25f, .7f, 1);
-            _sp.material.color = _pressedColor;
             _activated = true;
         }
         else
         {
-            _connection.Desactivate();
+            foreach (var connection in _connection)
+            {
+                connection.Desactivate();
+            }
             transform.localScale = new Vector3(0.5f, .7f, 1);
-            _sp.material.color = _normalColor;
             _activated = false;
         }
     }

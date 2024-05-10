@@ -37,7 +37,7 @@ public class Crystal : MonoBehaviour
         if (_lastCrystal && _door != null && _door.GetComponent<Door>())
         {
             Debug.Log($"{gameObject.name} es last y tiene a {_door.gameObject} como puerta");
-            _door.GetComponent<Door>().ActivateDesactivate(linked);
+            //_door.GetComponent<Door>().ActivateDesactivate(linked);
 
             /*//old
              if (_nextCrystal)
