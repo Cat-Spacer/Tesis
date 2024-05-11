@@ -489,7 +489,7 @@ TextureImporter:
       213: -6866375619549470487
     second: vk_None
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -506,10 +506,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -548,6 +550,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -559,6 +563,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -571,6 +576,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -583,6 +589,46 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 1024
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -4000,9 +4046,171 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-  spritePackingTag: 
+    nameFileIdTable:
+      vk_0: -7211872766480677324
+      vk_1: 4122538246891209839
+      vk_2: 5376449150558900352
+      vk_3: 638108689688833195
+      vk_4: -1775034848628933637
+      vk_5: 3845469943865885876
+      vk_6: 493859914396549516
+      vk_7: 3088985693743825853
+      vk_8: 1241085952896105527
+      vk_9: -6583553387580982621
+      vk_A: -1646250909901269461
+      vk_Alt: 5145654689511074536
+      vk_Apostrophe: 1159416022392070812
+      vk_App_1: 1252584529067609641
+      vk_App_2: -6006666497768670599
+      vk_Apps: 5079115949308096211
+      vk_Arrow_Down: 8902532953115212751
+      vk_Arrow_Left: -3423665349184479882
+      vk_Arrow_Right: 7614799107178333601
+      vk_Arrow_Up: -5895781350598344821
+      vk_Attn: -2065038104936641268
+      vk_B: -248301278942796892
+      vk_Back: 1499648071390262276
+      vk_Back_Space: -183747210360911765
+      vk_C: 1530689222772717143
+      vk_CTRL: -6907198733479217075
+      vk_Cancel: 1640014541480860323
+      vk_Caps: -172530223276212763
+      vk_Clea: -5195659814411740536
+      vk_Clear: 4411210600893860242
+      vk_Comma: -5292980432847967727
+      vk_Cross: 2008839801269696407
+      vk_Crsel: -6683775401601457586
+      vk_D: -8303604765411544240
+      vk_Delete: 174942217766280896
+      vk_Divide: -3750932062708113951
+      vk_Dot: 820409276790997747
+      vk_Dot_Symol: 2151468759505685468
+      vk_Double__Vertical_Line_&_Lanbda: 1021756417397771044
+      vk_Double_dot_&_ Semicolon: -7873927128350601928
+      vk_E: 7820946754477997829
+      vk_End: -8938537984379746184
+      vk_Enter: 8027999759886621699
+      vk_Eredf: -3991810025785378933
+      vk_Escape: 4331918311007197475
+      vk_Execute: -1990959165244381317
+      vk_Exsel: -1292987715598998694
+      vk_F: -745258911359981207
+      vk_F1: 920612178340801490
+      vk_F10: 8848868266091307185
+      vk_F11: 1218533555182310722
+      vk_F12: 8310325732938601888
+      vk_F13: 7817745026818983059
+      vk_F14: -3582411757395220289
+      vk_F15: 2733405129873932201
+      vk_F16: 2747283213102230125
+      vk_F17: -2235116098598852802
+      vk_F18: -8893801871088717043
+      vk_F19: 1761576994497264129
+      vk_F2: 2420083197079622627
+      vk_F20: -1859041221265099174
+      vk_F21: -1745985297461460850
+      vk_F22: -7459126783626962047
+      vk_F23: 3117191863363888394
+      vk_F24: -8574242376983640487
+      vk_F3: -4727654579367728109
+      vk_F4: 3231522793409430661
+      vk_F5: -3295121336514694113
+      vk_F6: 3828398561244135484
+      vk_F7: 1507420688611811219
+      vk_F8: 677263398859641688
+      vk_F9: 8009037854618094473
+      vk_Fast_Forward: 120403939195815454
+      vk_Find: 3651248404613704142
+      vk_Forward: -4079085612732162180
+      vk_G: 965368905322085585
+      vk_H: -1774804710526689400
+      vk_Help: -6685997035473805465
+      vk_Home: 35115488831723217
+      vk_House: -8885333309217900428
+      vk_I: 239939657681214399
+      vk_Insert: 2742554151435211969
+      vk_J: -197834945121475107
+      vk_K: -7798254793123337081
+      vk_L: 8337582687036370699
+      vk_LMB: 168440607956209271
+      vk_LWin: 3970299527075621639
+      vk_Left_Brakets: 6182237333267561465
+      vk_Left_Control: -4225951443436244586
+      vk_Left_Menu: -5906914479295509163
+      vk_Left_Shift: -7546212080976579346
+      vk_Less_Volume: -5179711046103601412
+      vk_M: -9109294689265752205
+      vk_MMB: -3065448929618670269
+      vk_Message: -3329174888738516995
+      vk_Minus: 3947908547436425700
+      vk_Misc: 5242506441881133691
+      vk_More_Volume: -3572694639415795049
+      vk_Muliply: 6212024365041193369
+      vk_Music: -4028202173994717853
+      vk_Mute: 8200385245713955213
+      vk_N: -7141293343748659787
+      vk_None: -6866375619549470487
+      vk_Num: 7693287087171594473
+      vk_Num_0: 1290797338245280429
+      vk_Num_1: -6259611920024512178
+      vk_Num_2: 9192148215376487191
+      vk_Num_3: -9014830475186709933
+      vk_Num_4: -863886361500987801
+      vk_Num_5: -3882896866019860192
+      vk_Num_6: 2100224480613247100
+      vk_Num_7: 4194692482820427152
+      vk_Num_8: -5918011523601026064
+      vk_Num_9: -6493600615544785092
+      vk_O: 8401962807668687212
+      vk_P: 2356998963400236537
+      vk_Pa1: 1544502281290062123
+      vk_Pause: -7575310105324501121
+      vk_Pause_Play: -4029655910529648426
+      vk_Pg_Down: -5538996569280535502
+      vk_Pg_Up: 6860075437320508257
+      vk_Pkt: -6414728680673407125
+      vk_Play: -3746285800607948476
+      vk_Plus: -2726820802945221595
+      vk_Print: -1885619774613708871
+      vk_Print_Screen: -618708208526071939
+      vk_Proc: -8016266879190853771
+      vk_Q: -7643021318822264120
+      vk_Question_Mark: -8642838089813308403
+      vk_R: 785417056150841163
+      vk_RMB: 4957576633629826712
+      vk_RWin: -121864710180791703
+      vk_Recicle: -8096954502173643337
+      vk_Reverse: -1687763166078249505
+      vk_Right_Brakets: -7901385206343170234
+      vk_Right_Control: -1465818714494043340
+      vk_Right_Menu: 4915152923048531997
+      vk_Right_Shift: -4388675435332905558
+      vk_S: 843274048589909674
+      vk_Scroll_Lock: 2758783091672627029
+      vk_Select: -5960692741239930942
+      vk_Sep: 2805285450151142641
+      vk_Shift: -8263952263190350208
+      vk_Slash: -6500764475359826515
+      vk_Sleep: -1672657051767706348
+      vk_Space: 891917676200643139
+      vk_Star: -2832480740407642887
+      vk_Stop_Button: -6873388662096294661
+      vk_T: 7594467836498683805
+      vk_Tab: 3747146226830685177
+      vk_Tilde: 706242053210159538
+      vk_U: -110390541788016060
+      vk_Upper_Line: 8422190073133904918
+      vk_V: -7215364159858044769
+      vk_W: 7498719951157823574
+      vk_X: 7321338228828136831
+      vk_X1: 8576522341490085704
+      vk_X2: -7462368854387651696
+      vk_X_Cross: -2481393841436255281
+      vk_Y: -3300475085904506098
+      vk_Z: -2911228044834432587
+      vk_Zoom: -492971455066474195
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
