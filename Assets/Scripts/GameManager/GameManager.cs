@@ -4,7 +4,6 @@ using UnityEngine;
 using System;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using Photon.Realtime;
 
 public class GameManager : MonoBehaviour
 {
@@ -192,14 +191,6 @@ public class GameManager : MonoBehaviour
         // SetPlayer(catChar.GetComponent<PlayerCharacter>());
         // SetPlayer(hamsterChar.GetComponent<PlayerCharacter>());
         _respawnManager = GetComponentInChildren<Respawn>();
-    }
-    public void SetChar(List<PlayerFA> playerFa)
-    {
-        foreach (var player in playerFa)
-        {
-            if (player.GetComponent<CatChar>()) catChar = player.GetComponent<CatChar>();
-            else hamsterChar = player.GetComponent<HamsterChar>();
-        }
     }
     public void SetCat(CatChar cat)
     {

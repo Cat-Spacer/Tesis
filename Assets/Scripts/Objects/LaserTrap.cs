@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LaserTrap : MonoBehaviour, IElectric, IMouseOver
+public class LaserTrap : MonoBehaviour
 {
     [SerializeField] LineRenderer _line;
     [SerializeField] LayerMask _hitLayerMask;
@@ -15,7 +15,6 @@ public class LaserTrap : MonoBehaviour, IElectric, IMouseOver
     BoxCollider2D coll;
     [SerializeField] GameObject _connectionSource;
     private LineRenderer _myLineConnection;
-    private IGenerator _myGen;
     void Start()
     {
         _firstStart = true;
@@ -153,13 +152,6 @@ public class LaserTrap : MonoBehaviour, IElectric, IMouseOver
     {
         return _connectionSource.transform;
     }
-
-    public void SetGenerator(IGenerator gen, LineRenderer line)
-    {
-        _myGen = gen;
-        _myLineConnection = line;
-    }
-
     IEnumerator LoopTurnOn()
     {
         yield return new WaitForSeconds(_loopTime);
@@ -177,16 +169,6 @@ public class LaserTrap : MonoBehaviour, IElectric, IMouseOver
         {
             player.GetDamage();
         }
-    }
-
-    public void MouseOver()
-    {
-        _myGen.ShowLineConnection(_myLineConnection);
-    }
-
-    public void MouseExit()
-    {
-        _myGen.NotShowLineConnection(_myLineConnection);
     }
 
     public void Interact()
