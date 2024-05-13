@@ -10,6 +10,5 @@ public enum Type
 [CreateAssetMenu(fileName = "Inputs", menuName = "Input")]
 public class SO_Inputs : ScriptableObject
 {
-    public HamsterInput coop;
-    public HamsterInputMulti multi;
+
 }

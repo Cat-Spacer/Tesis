@@ -10,7 +10,6 @@ public class JumpPad : MonoBehaviour
     [SerializeField] private ParticleSystem _particle;
     [SerializeField] private bool _isOn;
     private LineRenderer _myLineConnection;
-    private IGenerator _myGen;
     private void Start()
     {
         if (_isOn)
