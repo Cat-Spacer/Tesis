@@ -1,8 +1,9 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using Unity.Netcode;
 
-public class PlayerCharacter : MonoBehaviour,IPlayerInteract, IDamageable 
+public class PlayerCharacterMultiplayer : NetworkBehaviour,IPlayerInteract, IDamageable 
 {
     [SerializeField] protected CharacterData _data;
     private CharacterModel _model;
@@ -235,7 +236,7 @@ public void GetStun(float intensity)
             if (onPress)
             {
                 _data._onHand = item;
-                _data._onHand.PickUp(this, true);
+                //_data._onHand.PickUp(this, true);
             }
         }
     }
