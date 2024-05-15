@@ -52,16 +52,6 @@ public class CharacterData : MonoBehaviour
     public Vector2 knockbackDir;
     [HideInInspector] public float knockbackForce;
 
-    [Header("Bounce")] 
-    public PhysicsMaterial2D bouncePhysicsMat;
-    public PhysicsMaterial2D characterPhysicsMat;
-    public Transform bounceDetectionRight;
-    public Transform bounceDetectionLeft;
-    public Vector2 bounceSize;
-    public float bounceSpeedModifier;
-    public bool doBounce;
-    [HideInInspector] public Collider2D currentWall;
-
     [Header("Ground")] 
     public Vector2 groundCheckArea;
     public Transform groundPos;
