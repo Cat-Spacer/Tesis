@@ -1,16 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using Unity.Netcode;
-using Unity.Netcode;
+using UnityEngine.SceneManagement;
 
 public class NetworkManagerUI : NetworkBehaviour
 {
     [SerializeField] private Button serverButton;
     [SerializeField] private Button hostButton;
     [SerializeField] private Button clientButton;
-
     private void Awake()
     {
         serverButton.onClick.AddListener(() =>
@@ -26,14 +24,19 @@ public class NetworkManagerUI : NetworkBehaviour
             NetworkManager.Singleton.StartClient();
         });
     }
-    void Start()
+
+    private void Update()
     {
-        
+        if (!IsHost) return;
+        if (NetworkManager.Singleton.ConnectedClients.Count == 2)
+        {
+            OpenLevelClientRpc();
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    [ClientRpc]
+    void OpenLevelClientRpc()
     {
-        
+        NetworkManager.SceneManager.LoadScene("MultiplayerTesting", LoadSceneMode.Single);
     }
 }
