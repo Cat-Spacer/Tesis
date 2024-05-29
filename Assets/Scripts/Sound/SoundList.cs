@@ -9,7 +9,7 @@ public class SoundList : MonoBehaviour
 
     void Start()
     {
-        sounds = SoundManager.instance.sounds;
+        if(SoundManager.instance) sounds = SoundManager.instance.sounds;
     }
 
     public void Play(string name)
