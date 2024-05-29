@@ -1,26 +1,24 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace Weapons
 {
     public class Gun : MonoBehaviour
     {
-        Animator anim;
+        private Animator _anim = default;
         [Header("Stats")]
         public int damage = 10;
-        public float fireRate = 1.0f, fireTimer = 1.0f, bulletLifeTime = 1.0f, wait = 1.0f;
+        public float fireRate = 1.0f, fireTimer = 1.0f, bulletLifeTime = 1.0f, wait = 1.0f, distance = 150f;
         public string shootSound = "gun_shoot", animState = "OwlPreShoot";
 
         [Header("Objects")]
-        public Transform firePoint;
-        public AudioSource audioSource;
-        public ParticleSystem muzzleFlash;
-        [SerializeField] ParticleSystem _explotionParticle1, _explotionParticle2;
+        public Transform firePoint = default;
+        public AudioSource audioSource = default;
+        public ParticleSystem muzzleFlash = default;
+        [SerializeField] ParticleSystem _explotionParticle1 = default, _explotionParticle2 = default;
 
-        string currentState;
+        private string _currentState = default;
 
-        public float distance = 150f;
 
         private void Awake()
         {
@@ -37,7 +35,7 @@ namespace Weapons
 
         private void Start()
         {
-            anim = GetComponentInChildren<Animator>();
+            _anim = GetComponentInChildren<Animator>();
         }
 
         protected virtual void Update()
@@ -67,12 +65,12 @@ namespace Weapons
 
         public virtual void FireBullet()
         {
-            Bullet bullet = BulletManager.Instance.objectPool.GetObject();
+            Bullet bullet = BulletManager.instance.objectPool.GetObject();
             if (bullet!) return;
             _explotionParticle1.Play();
             _explotionParticle2.Play();
             Shoot.Fire(bullet, firePoint, gameObject);
-            currentState = "";
+            _currentState = "";
         }
 
         IEnumerator WaitForAnim()
@@ -82,10 +80,10 @@ namespace Weapons
         }
         public void ChangeAnimationState(string newState)
         {
-            if (currentState == newState) return;
-            anim.Play(newState);
+            if (_currentState == newState) return;
+            _anim.Play(newState);
 
-            currentState = newState;
+            _currentState = newState;
         }
     }
 }

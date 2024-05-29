@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
-using UnityEngine.Audio;
-using UnityEngine.SceneManagement;
 
 public class SoundManager : MonoBehaviour
 {
-    public Sound[] sounds;
-    public static SoundManager instance;
-    float _baseVolume;
+    public static SoundManager instance = default;
+    public Sound[] sounds = default;
+    private float _baseVolume = default;
+    private LookUpTable<Types, Sound> _usedSounds = default;
+    private LookUpTable<string, Sound> _usedSoundsByName = default;
 
-    public Dictionary<string, float> mixerValue = new Dictionary<string, float>();
+    public Dictionary<string, float> mixerValue = new();
+
     void Awake()
     {
         if (instance == null)
@@ -23,15 +24,7 @@ public class SoundManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(gameObject);
-        foreach (Sound s in sounds)
-        {
-            s.source = gameObject.AddComponent<AudioSource>();
-            s.source.clip = s.clip;
-            s.source.outputAudioMixerGroup = s.audioMixerGroup;
-            s.source.volume = s.volume;
-            s.source.pitch = s.pitch;
-            s.source.loop = s.loop;
-        }        
+        InitialSet();
     }
 
     private void Update()
@@ -40,9 +33,33 @@ public class SoundManager : MonoBehaviour
         //    SoundManager.instance.Play(SoundManager.Types.VineCrunch);
     }
 
+    private void InitialSet()
+    {
+        foreach (Sound s in sounds)
+        {
+            s.source = gameObject.AddComponent<AudioSource>();
+            s.source.clip = s.clip;
+            s.source.outputAudioMixerGroup = s.audioMixerGroup;
+            s.source.volume = s.volume;
+            s.source.pitch = s.pitch;
+            s.source.loop = s.loop;
+        }
+        _usedSounds = new LookUpTable<Types, Sound>(SearchSound);
+        _usedSoundsByName = new LookUpTable<string, Sound>(SearchSound);
+    }
+
+    private Sound SearchSound(Types name)
+    {
+        return Array.Find(sounds, sound => sound.nameType == name);
+    }
+    private Sound SearchSound(string name)
+    {
+        return Array.Find(sounds, sound => sound.name == name);
+    }
+
     public void Play(Types name, bool loop = false)
     {
-        Sound s = Array.Find(sounds, sound => sound.nameType == name);
+        Sound s = _usedSounds.ReturnValue(name);
         if (s == null)
         {
             Debug.LogWarning("Sound: " + name + " not found!");
@@ -54,7 +71,7 @@ public class SoundManager : MonoBehaviour
 
     public void Play(string name, bool loop = true)
     {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
+        Sound s = _usedSoundsByName.ReturnValue(name);
         if (s == null)
         {
             Debug.LogWarning("Sound: " + name + " not found!");
@@ -66,7 +83,7 @@ public class SoundManager : MonoBehaviour
 
     public void Pause(Types name)
     {
-        Sound s = Array.Find(sounds, sound => sound.nameType == name);
+        Sound s = _usedSounds.ReturnValue(name);
         if (s == null)
         {
             Debug.LogWarning("Sound: " + name + " not found!");
@@ -77,7 +94,7 @@ public class SoundManager : MonoBehaviour
 
     public void Pause(string name)
     {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
+        Sound s = _usedSoundsByName.ReturnValue(name);
         if (s == null)
         {
             Debug.LogWarning("Sound: " + name + " not found!");
@@ -155,7 +172,7 @@ public class SoundManager : MonoBehaviour
 
     public void OnClickSound(string name)
     {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
+        Sound s = _usedSoundsByName.ReturnValue(name);
         if (s == null)
         {
             Debug.LogWarning("Sound: " + name + " not found!");
@@ -167,7 +184,7 @@ public class SoundManager : MonoBehaviour
 
     public void OnClickSound(Types name)
     {
-        Sound s = Array.Find(sounds, sound => sound.nameType == name);
+        Sound s = _usedSounds.ReturnValue(name);
         if (s == null)
         {
             Debug.LogWarning("Sound: " + name + " not found!");

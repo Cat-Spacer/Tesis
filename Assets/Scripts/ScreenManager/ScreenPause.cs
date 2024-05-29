@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class ScreenPause : MonoBehaviour, IScreen
 {
+    public static ScreenPause instance = default;
     [SerializeField] private Button[] _buttons;
     [SerializeField] private string _settingsScreenName = "Settings_Menu";
     [SerializeField] private string _sortingLayer = "Canvas";
@@ -16,6 +17,11 @@ public class ScreenPause : MonoBehaviour, IScreen
 
     private void Awake()
     {
+        if (!instance)
+            instance = this;
+        else
+            Destroy(gameObject);
+
         SetCamera();
         foreach (var button in _buttons)
         {
