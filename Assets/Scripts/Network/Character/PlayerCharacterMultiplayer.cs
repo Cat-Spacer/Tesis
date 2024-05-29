@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using Unity.Netcode;
 
-public class PlayerCharacterMultiplayer : NetworkBehaviour,IPlayerInteract, IDamageable 
+public class PlayerCharacterMultiplayer : NetworkBehaviour,IPlayerInteract, IDamageable, IEquatable<PlayerCharacterMultiplayer>, INetworkSerializable
 {
     [SerializeField] protected CharacterData _data;
     private CharacterModel _model;
@@ -373,5 +373,22 @@ public void GetStun(float intensity)
         StartCoroutine(Appear());
     }
 #endregion
+
+    public bool Equals(PlayerCharacterMultiplayer other)
+    {
+        return true;
+    }
+
+    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+    {
+        // if (serializer.IsReader)
+        // {
+        //     var reader = serializer.GetFastBufferReader();
+        // }
+        // else
+        // {
+        //     var writer = serializer.GetFastBufferWriter();
+        // }
+    }
 }
 

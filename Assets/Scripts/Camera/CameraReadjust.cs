@@ -1,13 +1,15 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Netcode;
 using UnityEngine;
 
 [RequireComponent(typeof(Camera))]
-public class CameraReadjust : MonoBehaviour
+public class CameraReadjust : NetworkBehaviour
 {
+    private Action _movementAction;
     [SerializeField] private Camera _camera;
-    [SerializeField] private DoubleLinkedList<PlayerCharacter> _players;
-    [SerializeField] private List<PlayerCharacter> characters;
+    [SerializeField] private List<PlayerCharacterMultiplayer> characters = new List<PlayerCharacterMultiplayer>();
     [SerializeField] private float _minZoom = 5, _maxZoom = 10f;
 
     public Vector3 offset;
@@ -17,18 +19,16 @@ public class CameraReadjust : MonoBehaviour
     private void Awake()
     {
         if (!_camera) _camera = GetComponent<Camera>();
+        _movementAction = CheckPlayers;
     }
 
     void Start()
     {
-        //if (_players.Count < 2) _players = GameManager.Instance.GetPlayers;
-        
-        characters = GameManager.Instance.GetCharacters();
+        characters.Clear();
     }
     void LateUpdate()
     {
-        Move();
-        Zoom();
+        _movementAction();
     }
 
     void Move()
@@ -68,5 +68,32 @@ public class CameraReadjust : MonoBehaviour
         }
 
         return bounds.center;
+    }
+
+    void CheckPlayers()
+    {
+        if (IsServer)
+        {
+            if (characters.Count != 2) return;
+            StartMovementRpc();
+        }
+    }
+    [Rpc(SendTo.Everyone)]
+    void StartMovementRpc()
+    {
+        _movementAction = Move;
+        _movementAction += Zoom;
+    }
+    [Rpc(SendTo.Everyone)]
+    public void SetCatCharRpc(PlayerCharacterMultiplayer player)
+    {
+        if (characters.Contains(player)) return;
+        characters.Add(player);
+    }
+    [Rpc(SendTo.Everyone)]
+    public void SetHamsterCharRpc(PlayerCharacterMultiplayer player)
+    {
+        if (characters.Contains(player)) return;
+        characters.Add(player);
     }
 } 
