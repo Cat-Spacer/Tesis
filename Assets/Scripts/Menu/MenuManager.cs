@@ -35,18 +35,20 @@ public class MenuManager : MonoBehaviour
 
         foreach (var item in _buttonOutZoom)
         {
-            item.SetActive(false);
-        }
-        foreach (var item in _buttonsOptions)
-        {
-            item.SetActive(false);
-        }
-        foreach (var item in _CatroAndSquix)
-        {
-            item.SetActive(false);
+            if (item) item.SetActive(false);
         }
 
-        _CatroAndSquix[0].SetActive(true);
+        foreach (var item in _buttonsOptions)
+        {
+            if (item) item.SetActive(false);
+        }
+
+        foreach (var item in _CatroAndSquix)
+        {
+            if (item) item.SetActive(false);
+        }
+
+        if (_CatroAndSquix.Length > 0) if (_CatroAndSquix[0]) _CatroAndSquix[0].SetActive(true);
     }
     private void Update()
     {
@@ -73,11 +75,11 @@ public class MenuManager : MonoBehaviour
     #region Set Objects
     public void SetCatroAndSquix(int img_arg)
     {
-        _CatroAndSquix[0].SetActive(false);
-        _CatroAndSquix[img_arg].SetActive(true);
+        if (_CatroAndSquix.Length > 0) if (_CatroAndSquix[0]) _CatroAndSquix[0].SetActive(false);
+        if (_CatroAndSquix.Length > img_arg) if (_CatroAndSquix[img_arg]) _CatroAndSquix[img_arg].SetActive(true);
         foreach (var item in _area)
         {
-            item.gameObject.SetActive(false);
+            if (item) item.gameObject.SetActive(false);
         }
     }
 
@@ -85,31 +87,31 @@ public class MenuManager : MonoBehaviour
     {
         foreach (var item in _CatroAndSquix)
         {
-            item.SetActive(false);
+            if (item) item.SetActive(false);
         }
         foreach (var item in _area)
         {
-            item.gameObject.SetActive(true);
+            if (item) item.gameObject.SetActive(true);
         }
 
-        _CatroAndSquix[0].SetActive(true);
+        if (_CatroAndSquix.Length > 0) if (_CatroAndSquix[0]) _CatroAndSquix[0].SetActive(true);
     }
     #endregion
 
     #region Zoom Methods
     public void ZoomMonitor()
     {
-        _monitorScreen.SetActive(false);
+        if (_monitorScreen) _monitorScreen.SetActive(false);
         _targetPos = new Vector3(_monitorArea.position.x, _monitorArea.position.y, -10);
         _targetZoom = _highlightZoom;
 
         foreach (var item in _buttonOutZoom)
         {
-            item.SetActive(true);
+            if (item) item.SetActive(true);
         }
         foreach (var item in _buttonsOptions)
         {
-            item.SetActive(true);
+            if (item) item.SetActive(true);
         }
     }
 
@@ -119,48 +121,50 @@ public class MenuManager : MonoBehaviour
         _targetZoom = _highlightZoom;
         foreach (var item in _buttonOutZoom)
         {
-            item.SetActive(true);
+            if (item) item.SetActive(true);
         }
         foreach (var item in _buttonsOptions)
         {
-            item.SetActive(true);
+            if (item) item.SetActive(true);
         }
     }
 
     public void ZoomSpace()
     {
+        foreach (var item in _buttonOutZoom) if (!item) return;
+        foreach (var item in _buttonsOptions) if (!item) return;
+
         _title.SetActive(false);
         _targetPos = new Vector3(_spaceArea.position.x, _spaceArea.position.y, -10);
         _targetZoom = _highlightZoom;
 
         foreach (var item in _buttonOutZoom)
         {
-            item.SetActive(true);
+            if (item) item.SetActive(true);
         }
         foreach (var item in _buttonsOptions)
         {
-            item.SetActive(true);
+            if (item) item.SetActive(true);
         }
     }
 
     public void OutZoom()
     {
         //  _mainCamera.transform.position = new Vector3(0, 0, -10);
-        _title.SetActive(true);
+        if (_title) _title.SetActive(true);
         _targetPos = new Vector3(0, 0, -10);
         _targetZoom = _normalZoom;
 
         foreach (var item in _buttonOutZoom)
         {
-            item.SetActive(false);
-
+            if (item) item.SetActive(false);
         }
         foreach (var item in _buttonsOptions)
         {
-            item.SetActive(false);
+            if (item) item.SetActive(false);
         }
 
-        _monitorScreen.SetActive(true);
+        if (_monitorScreen) _monitorScreen.SetActive(true);
     }
     #endregion
 }
