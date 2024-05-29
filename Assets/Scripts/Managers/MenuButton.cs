@@ -23,6 +23,13 @@ public class MenuButton : MonoBehaviour
     {
         ScreenManager.Instance.PushInstance(_controlsScreenName);
     }
+    
+    public void BTN_General(string screenName)
+    {
+        ScreenManager.Instance.PushInstance(screenName);
+    }
+
+
 
     public void ExitButton() 
     {

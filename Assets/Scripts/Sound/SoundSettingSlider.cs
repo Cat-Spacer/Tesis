@@ -16,20 +16,25 @@ public class SoundSettingSlider : MonoBehaviour
 
     private void Awake()
     {
-        _soundManager = FindObjectOfType<SoundManager>();
-        if (_soundManager == null)
-            Debug.LogError($"There is no SoundManager in scene for {gameObject.name}");
-        mixerName = _audioMixerGroup.name;
-        if (!_soundManager.mixerValue.ContainsKey(mixerName))
-            _soundManager.mixerValue[mixerName] = slider.value;
-        LoadVolumeValues();
+        if (!SoundManager.instance)
+            Debug.LogWarning($"There is no SoundManager in scene for {gameObject.name}");
+        else
+        {
+            _soundManager = SoundManager.instance;
+            mixerName = _audioMixerGroup.name;
+            if (!_soundManager.mixerValue.ContainsKey(mixerName))
+                _soundManager.mixerValue[mixerName] = slider.value;
+            LoadVolumeValues();
+
+        }
     }
 
     public void SetVolume(float val)
     {
+        if (!CheckSoundManger()) return;
         if (_audioMixerGroup == null)
         {
-            Debug.LogError($"There is no Mixer Group in Audio Mixer Group Variable");
+            Debug.LogWarning($"There is no Mixer Group in Audio Mixer Group Variable");
             return;
         }
         _audioMixerGroup.audioMixer.SetFloat(mixerName, Mathf.Log10(val) * 20.0f);
@@ -37,6 +42,7 @@ public class SoundSettingSlider : MonoBehaviour
 
     public void SaveVolumeValues()
     {
+        if (!CheckSoundManger()) return;
         _soundManager.mixerValue[mixerName] = slider.value;
     }
 
@@ -44,6 +50,16 @@ public class SoundSettingSlider : MonoBehaviour
     {
         slider.value = _soundManager.mixerValue[mixerName];
         _audioMixerGroup.audioMixer.SetFloat(mixerName, Mathf.Log10(slider.value) * 20.0f);
+    }
+
+    private bool CheckSoundManger()
+    {
+
+        if (!_soundManager)
+        {
+            Debug.LogWarning($"There is no SoundManager");
+        }
+        return _soundManager;
     }
 
     private void OnDisable()
