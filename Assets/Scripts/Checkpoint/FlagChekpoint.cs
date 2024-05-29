@@ -24,7 +24,7 @@ public class FlagChekpoint : MonoBehaviour
             Debug.Log("FlagOn");
             _isOn = true;
             _anim.SetTrigger("ON");
-            GameManager.Instance.SetRespawnPoint(transform.position);
+            CharacterSelectionMenu.Instance.SetRespawnPoint(transform.position);
         }
     }
 

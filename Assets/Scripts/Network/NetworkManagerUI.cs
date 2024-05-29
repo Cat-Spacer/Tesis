@@ -30,6 +30,8 @@ public class NetworkManagerUI : NetworkBehaviour
     [SerializeField] private TMP_InputField _clientCodeText;
     [SerializeField] private Button _pasteCode;
 
+    [SerializeField] private GameObject _levelSelectionMenu; 
+
     private Action _StartGameAction;
     private void Awake()
     {
@@ -101,17 +103,15 @@ public class NetworkManagerUI : NetworkBehaviour
     }
     void CheckPlayers()
     {
-        if (!ServerIsHost) return;
-        Debug.Log($"Try start game {NetworkManager.Singleton.ConnectedClients.Count}");
+        if (!NetworkManager.Singleton.ServerIsHost) return;
         if (NetworkManager.Singleton.ConnectedClients.Count == 2)
         {
-            Debug.Log("Start game");
-            OpenLevelClientRpc();
+            OpenLevelSelectionRpc();
         }
     }
     void HostMenu()
     {
-        _server.gameObject.SetActive(false);
+        //_server.gameObject.SetActive(false);
         _client.gameObject.SetActive(false);
         _hostButton.gameObject.SetActive(false);
         _backButton.gameObject.SetActive(true);
@@ -119,7 +119,7 @@ public class NetworkManagerUI : NetworkBehaviour
     } 
     void ClientMenu()
     {
-        _server.gameObject.SetActive(false);
+        //_server.gameObject.SetActive(false);
         _host.gameObject.SetActive(false);
         _clientButton.gameObject.SetActive(false);
         _connectClient.gameObject.SetActive(true);
@@ -128,7 +128,7 @@ public class NetworkManagerUI : NetworkBehaviour
 
     void MainMenu()
     {
-        _server.gameObject.SetActive(true);
+        //_server.gameObject.SetActive(true);
         _host.gameObject.SetActive(true);
         _client.gameObject.SetActive(true);
         _serverButton.gameObject.SetActive(true);
@@ -173,9 +173,19 @@ public class NetworkManagerUI : NetworkBehaviour
     {
         JoinRelay(_clientCodeText.text);
     }
-    [ClientRpc]
-    void OpenLevelClientRpc()
+    [Rpc(SendTo.Everyone)]
+    void OpenLevelSelectionRpc()
     {
-        NetworkManager.SceneManager.LoadScene("MultiplayerTesting", LoadSceneMode.Single);
+        //_server.gameObject.SetActive(false);
+        _host.gameObject.SetActive(false);
+        _client.gameObject.SetActive(false);
+        _serverButton.gameObject.SetActive(false);
+        _hostButton.gameObject.SetActive(false);
+        _clientButton.gameObject.SetActive(false);
+        _waitingPartner.gameObject.SetActive(false);
+        _connectClient.gameObject.SetActive(false);
+        _backButton.gameObject.SetActive(true);
+        _levelSelectionMenu.gameObject.SetActive(true);
+        //NetworkManager.SceneManager.LoadScene("MultiplayerTesting", LoadSceneMode.Single);
     }
 }
