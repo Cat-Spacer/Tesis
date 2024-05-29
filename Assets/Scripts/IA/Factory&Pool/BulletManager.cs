@@ -1,18 +1,18 @@
 using UnityEngine;
 
-public class BulletManager : MonoBehaviour//Si sigue fallando que cada uno tenga su object pool
+public class BulletManager : MonoBehaviour
 {
-    public static BulletManager Instance;
+    public static BulletManager instance = default;
 
-    public Bullet bulletPrefab;
-    private BulletFactory factory;
-    public ObjectPool<Bullet> objectPool;
+    public Bullet bulletPrefab = default;
+    private BulletFactory factory = default;
+    public ObjectPool<Bullet> objectPool = default;
 
     private void Awake()
     {
-        if (Instance!)
+        if (instance!)
         {
-            Instance = this;
+            instance = this;
             factory = new BulletFactory(bulletPrefab);
             objectPool = new ObjectPool<Bullet>(factory.GetObj, ObjectToSpawn.TurnOff, ObjectToSpawn.TurnOn, 4);
         }

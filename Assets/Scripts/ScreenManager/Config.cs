@@ -14,11 +14,11 @@ public class Config : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
         {
-            if (FindObjectOfType<ScreenPause>())
+            if (ScreenPause.instance)
                 ScreenManager.Instance.Pop();
             else
             {
-                if (FindObjectOfType<ScreenSettings>())
+                if (ScreenSettings.instance)
                     ScreenManager.Instance.Pop();
 
                 var screenPause = Instantiate(Resources.Load<ScreenPause>(_pauseScreenName));
