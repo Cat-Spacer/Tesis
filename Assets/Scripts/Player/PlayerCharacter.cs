@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
 
 public class PlayerCharacter : MonoBehaviour,IPlayerInteract, IDamageable 
@@ -258,6 +259,11 @@ public void GetStun(float intensity)
         _rb.velocity = new Vector2(_rb.velocity.x, pushForce);
     }
 
+    public NetworkObject GetNetworkObject()
+    {
+        throw new NotImplementedException();
+    }
+
     public Item GiveItem(ItemType type)
     {
         if (_data._onHand == null) return default;
@@ -342,7 +348,7 @@ public void GetStun(float intensity)
             yield return null;
         }
         Freeze(false);
-        transform.position = GameManager.Instance.GetRespawnPoint();
+        transform.position = GameManagerNetwork.Instance.GetRespawnPoint();
         Revive();
     }
     IEnumerator Appear()

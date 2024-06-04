@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
+using Unity.Netcode;
 
-public class GameManager : MonoBehaviour
+public class GameManagerNetwork : NetworkBehaviour
 {
     #region OLD
     // [Serializable]
@@ -174,33 +173,28 @@ public class GameManager : MonoBehaviour
     //     //Climb.isClimbing = false;        
     // }
     #endregion
-
-    public static GameManager Instance;
-    [SerializeField] private CatChar catChar;
-    [SerializeField] private HamsterChar hamsterChar;
-    [SerializeField] private DoubleLinkedList<PlayerCharacter> _players = default;
-    public DoubleLinkedList<PlayerCharacter> GetPlayers { get => _players; }
-
+    public static GameManagerNetwork Instance;
+    [SerializeField] private PlayerCharacterMultiplayer _cat, _hamster;
     [SerializeField] private List<PlayerCharacter> players;
     private Respawn _respawnManager;
     private void Awake()
     {
         if (Instance == null) Instance = this;
-        players.Add(catChar);
-        players.Add(hamsterChar);
-        // SetPlayer(catChar.GetComponent<PlayerCharacter>());
-        // SetPlayer(hamsterChar.GetComponent<PlayerCharacter>());
         _respawnManager = GetComponentInChildren<Respawn>();
-    }
-    public void SetCat(CatChar cat)
-    {
-        catChar = cat;
-    }
-    public void SetHamster(HamsterChar hamster)
-    {
-        hamsterChar = hamster;
+        Debug.Log("Awake");
     }
 
+    public void StartGame()
+    {
+        StartGameRpc();
+    }
+
+    [Rpc(SendTo.Everyone)]
+    void StartGameRpc()
+    {
+        Debug.Log("StartGameRpc");
+        LiveCameraNetwork.Instance.StartLiveCamera(true);
+    }
     public void SetRespawnPoint(Vector3 pos)
     {
         _respawnManager.SetRespawnPoint(pos);
@@ -209,24 +203,13 @@ public class GameManager : MonoBehaviour
     {
         return _respawnManager.GetRespawnPoint();
     }
-    void SetPlayer(PlayerCharacter player) 
+    public void SetCatChar(PlayerCharacterMultiplayer cat)
     {
-        if (!player || _players.Count < 2 || _players.Contains(player)) return;
-        _players.Add(player);
+        _cat = cat;
     }
-
-    public List<PlayerCharacter> GetCharacters()
+    public void SetHamsterChar(PlayerCharacterMultiplayer hamster)
     {
-        return players;
+        _hamster = hamster;
     }
-    public CatChar GetCatChar()
-    {
-        return catChar;
-    }
-    public HamsterChar GetHamsterChar()
-    {
-        return hamsterChar;
-    }
-
     
 }

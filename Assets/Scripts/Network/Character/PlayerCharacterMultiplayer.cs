@@ -224,19 +224,18 @@ public void GetStun(float intensity)
             _data._interactObj.ShowInteract(true);
             if (onPress)
             {
-                Debug.Log("Tubo");
                 _data._interactObj.Interact(gameObject);
             }
             return;
         }
-        var item = interact.GetComponent<Item>();
+        var item = interact.GetComponent<ItemNetwork>();
         if (item != null)
         {
             _data.canvas.InteractEvent(true);
             if (onPress)
             {
-                _data._onHand = item;
-                //_data._onHand.PickUp(this, true);
+                _data._onHandNetwork = item;
+                _data._onHandNetwork.PickUp(this, true);
             }
         }
     }
@@ -259,37 +258,46 @@ public void GetStun(float intensity)
         _rb.velocity = new Vector2(_rb.velocity.x, pushForce);
     }
 
-    public Item GiveItem(ItemType type)
+    public NetworkObject GetNetworkObject()
     {
-        if (_data._onHand == null) return default;
-        if (_data._onHand.Type() == type)
+        return NetworkObject;
+    }
+
+    public ItemNetwork GiveItem(ItemTypeNetwork type)
+    {
+        if (_data._onHandNetwork == null) return default;
+        if (_data._onHandNetwork.Type() == type)
         {
-            var item = _data._onHand;
+            var item = _data._onHandNetwork;
             item.transform.parent = null;
-            _data._onHand = null;
+            _data._onHandNetwork = null;
             return item;
         }
         return null;
     }
-    public void PickUp(Item item)
+    public void PickUp(ItemNetwork item)
     {
         if (item == null) return;
-        _data._onHand = item;
-        item.transform.parent = _data._inventoryPos.transform;
-        item.transform.position = _data._inventoryPos.transform.position;
+        _data._onHandNetwork = item;
+        item.NetworkObject.TrySetParent(_data._inventoryPos.transform);
+        //item.transform.position = _data._inventoryPos.transform.position;
     }
 
     public void DropItem()
     {
-        if (_data._onHand == null) return;
-        _data._onHand.transform.parent = null;
-        _data._onHand.Drop(new Vector2(GetFaceDirection(), _data._dropOffset.y), _data.dropForce);
-        _data._onHand = null;
+        if (_data._onHandNetwork == null) return;
+        _data._onHandNetwork.transform.parent = null;
+        _data._onHandNetwork.Drop(new Vector2(GetFaceDirection(), _data._dropOffset.y), _data.dropForce);
+        _data._onHandNetwork = null;
     }
 
 #endregion
 #region OTHER
 
+    public Transform GetInventoryTransform()
+    {
+        return _data._inventoryPos;
+    }
     public void ArtificialGravity()
     {
         if (_data.onKnockback) return;
@@ -343,7 +351,7 @@ public void GetStun(float intensity)
             yield return null;
         }
         Freeze(false);
-        transform.position = GameManager.Instance.GetRespawnPoint();
+        transform.position = GameManagerNetwork.Instance.GetRespawnPoint();
         Revive();
     }
     IEnumerator Appear()
@@ -365,7 +373,7 @@ public void GetStun(float intensity)
     {
         _data.canMove = false;
         _data.canJump = false;
-        StartCoroutine(Vanish());
+        StartCoroutine(Vanish()); //RPC seguramente...
     }
 
     void Revive()

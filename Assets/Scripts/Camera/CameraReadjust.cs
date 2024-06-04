@@ -85,15 +85,17 @@ public class CameraReadjust : NetworkBehaviour
         _movementAction += Zoom;
     }
     [Rpc(SendTo.Everyone)]
-    public void SetCatCharRpc(PlayerCharacterMultiplayer player)
+    public void SetCatCharRpc()
     {
-        if (characters.Contains(player)) return;
+        var player = FindObjectOfType<CatCharMultiplayer>();
+        //if (characters.Contains(player)) return;
         characters.Add(player);
     }
     [Rpc(SendTo.Everyone)]
-    public void SetHamsterCharRpc(PlayerCharacterMultiplayer player)
+    public void SetHamsterCharRpc()
     {
-        if (characters.Contains(player)) return;
+        var player = FindObjectOfType<HamsterCharMultiplayer>();
+        //if (characters.Contains(player)) return;
         characters.Add(player);
     }
 } 
