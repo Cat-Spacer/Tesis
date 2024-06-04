@@ -18,7 +18,6 @@ public class CharacterSelectionMenu : NetworkBehaviour
     [SerializeField] private Transform _catStartingPos, _hamsterStartingPos;
     public static CharacterSelectionMenu Instance;
     public CameraReadjust _camera;
-    private Respawn _respawnManager;
 
     [SerializeField] private GameObject _charaSelection;
     [SerializeField] private TextMeshProUGUI _player1SelectedText, _player2SelectedText;
@@ -30,14 +29,7 @@ public class CharacterSelectionMenu : NetworkBehaviour
     {
         if (Instance == null) Instance = this;
     }
-    public void SetRespawnPoint(Vector3 pos)
-    {
-        _respawnManager.SetRespawnPoint(pos);
-    }
-    public Vector3 GetRespawnPoint()
-    {
-        return _respawnManager.GetRespawnPoint();
-    }
+
 
     // public PlayerCharacterMultiplayer GetCatChar()
     // {
@@ -58,10 +50,14 @@ public class CharacterSelectionMenu : NetworkBehaviour
             //ConfirmCharactersRpc();
             SpawnCat();
             SpawnHamster();
+            ConfirmCharactersRpc();
+            _camera.SetCatCharRpc();
+            _camera.SetHamsterCharRpc();
+            GameManagerNetwork.Instance.StartGame();
         }
-        ConfirmCharactersRpc();
     }
-
+    
+    #region Selection
     [Rpc(SendTo.Everyone)]
     void ConfirmCharactersRpc()
     {
@@ -113,73 +109,48 @@ public class CharacterSelectionMenu : NetworkBehaviour
         if (!_player1HamsterSelected) _player2SelectedText.rectTransform.localPosition = new Vector3(300, -215);
         else _player2SelectedText.rectTransform.localPosition = new Vector3(300, -280);
     }
+    #endregion Selection
+    
+    #region Spawn
     void SpawnCat()
     {
         if (_player1CatSelected)
         {
-            var player = Instantiate(_catPrefab);
-            _catChar = player.gameObject.GetComponent<PlayerCharacterMultiplayer>();
+            _catChar = Instantiate(_catPrefab).gameObject.GetComponent<PlayerCharacterMultiplayer>();
             _catChar.GetComponent<NetworkObject>().SpawnAsPlayerObject(OwnerClientId);
             _catChar.transform.position = _catStartingPos.position;
-            _camera.SetCatCharRpc(_catChar);
+            //_camera.SetCatCharRpc(_catChar);
         }
         else
         {
-            var player = Instantiate(_catPrefab);
-            _catChar = player.gameObject.GetComponent<PlayerCharacterMultiplayer>();
+            _catChar = Instantiate(_catPrefab).gameObject.GetComponent<PlayerCharacterMultiplayer>();
             _catChar.GetComponent<NetworkObject>().SpawnAsPlayerObject(1);
             _catChar.transform.position = _catStartingPos.position;
-            _camera.SetCatCharRpc(_catChar);
         }
+        //_camera.SetCatCharRpc();
+        //GameManagerNetwork.Instance.SetCatChar(_catChar);
     }
 
     void SpawnHamster()
     {
         if (_player1HamsterSelected)
         {
-            var player = Instantiate(_hamsterPrefab);
-            _hamsterChar = player.gameObject.GetComponent<PlayerCharacterMultiplayer>();
+            _hamsterChar = Instantiate(_hamsterPrefab).gameObject.GetComponent<PlayerCharacterMultiplayer>();
             _hamsterChar.GetComponent<NetworkObject>().SpawnAsPlayerObject(OwnerClientId);
             _hamsterChar.transform.position = _hamsterStartingPos.position;
-            _camera.SetHamsterCharRpc(_hamsterChar);
+            //_camera.SetHamsterCharRpc(_hamsterChar);
         }
         else
         {
-            var player = Instantiate(_hamsterPrefab);
-            _hamsterChar = player.gameObject.GetComponent<PlayerCharacterMultiplayer>();
+            _hamsterChar = Instantiate(_hamsterPrefab).gameObject.GetComponent<PlayerCharacterMultiplayer>();
             _hamsterChar.GetComponent<NetworkObject>().SpawnAsPlayerObject(1);
             _hamsterChar.transform.position = _hamsterStartingPos.position;
-            _camera.SetHamsterCharRpc(_hamsterChar);
+            //_camera.SetHamsterCharRpc(_hamsterChar);
         }
-    }
-    [Rpc(SendTo.Server)]
-    private void SpawnCatRpc(RpcParams rpcParams = default)
-    {
-        var clientId = rpcParams.Receive.SenderClientId;
-        var player = Instantiate(_catPrefab);
-        _catChar = player.gameObject.GetComponent<PlayerCharacterMultiplayer>();
-        _catChar.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId);
-        _catChar.transform.position = _catStartingPos.position;
-        _camera.SetCatCharRpc(_catChar);
-    } 
-    [Rpc(SendTo.Server)]
-    private void SpawnHamsterRpc(RpcParams rpcParams = default)
-    {
-        var clientId = rpcParams.Receive.SenderClientId;
-        var player = Instantiate(_hamsterPrefab);
-        _hamsterChar = player.gameObject.GetComponent<PlayerCharacterMultiplayer>();
-        _hamsterChar.GetComponent<NetworkObject>().SpawnAsPlayerObject(clientId);
-        _hamsterChar.transform.position = _hamsterStartingPos.position;
-        _camera.SetHamsterCharRpc(_hamsterChar);
-    }
 
-    [Rpc(SendTo.Everyone)]
-    public void StartGameRpc()
-    {
-        if ((_player1CatSelected || _player2CatSelected) && (_player1HamsterSelected || _player2HamsterSelected))
-        {
-            Debug.Log("Start");
-        }
+        //GameManagerNetwork.Instance.SetHamsterChar(_hamsterChar);
     }
-    #endregion
+    #endregion Spawn
+    
+    #endregion Network
 }

@@ -10,16 +10,24 @@ public class CatCharMultiplayer : PlayerCharacterMultiplayer
     public override void Punch()
     {
         var obj = Physics2D.OverlapCircle(_data.attackPoint.position, _data.attackRange.x, _data.attackableLayer);
-
         if (obj == null) return;
         var attackable = obj.GetComponent<IPlayerInteract>();
         if (attackable == null) return;
-        attackable.GetKnockback(_data.punchForce, transform.right + transform.up, _data.stunForce);
-        EventManager.Instance.Trigger("OnPunchPlayer", true);
+        var player = attackable.GetNetworkObject();
+        if (player == null) return;
+        PunchRpc(player);
         // if (LiveCamera.instance.IsOnAir())
         // {
         //     LiveCamera.instance.ChangePeace(-1);
         // }
+    }
+    [Rpc(SendTo.Everyone)]
+    void PunchRpc(NetworkObjectReference player)
+    {
+        Debug.Log("Punch");
+        player.TryGet(out NetworkObject playerNetworkObject);
+        playerNetworkObject.GetComponent<IPlayerInteract>().GetKnockback(_data.punchForce, transform.right + transform.up, _data.stunForce);
+        EventManager.Instance.Trigger("OnPunchPlayer", true);
     }
     private void OnDrawGizmos()
     {

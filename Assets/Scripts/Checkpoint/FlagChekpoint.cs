@@ -15,18 +15,18 @@ public class FlagChekpoint : MonoBehaviour
         _anim = GetComponent<Animator>();
     }
     
-    void Update()
-    {
-        if (_isOn) return;
-        var coll = Physics2D.OverlapBox(transform.position, _boxArea, 0, _players);
-        if (coll != null)
-        {
-            Debug.Log("FlagOn");
-            _isOn = true;
-            _anim.SetTrigger("ON");
-            CharacterSelectionMenu.Instance.SetRespawnPoint(transform.position);
-        }
-    }
+    // void Update()
+    // {
+    //     if (_isOn) return;
+    //     var coll = Physics2D.OverlapBox(transform.position, _boxArea, 0, _players);
+    //     if (coll != null)
+    //     {
+    //         Debug.Log("FlagOn");
+    //         _isOn = true;
+    //         _anim.SetTrigger("ON");
+    //         GameManagerNetwork.Instance.SetRespawnPoint(transform.position);
+    //     }
+    // }
 
     private void OnDrawGizmos()
     {

@@ -78,6 +78,7 @@ public class CharacterData : MonoBehaviour
     public Vector3 _dropOffset;
     public bool _hasItem;
     public Item _onHand;
+    public ItemNetwork _onHandNetwork;
     public Transform _inventoryPos;
     
     [Header("Layers")] 
