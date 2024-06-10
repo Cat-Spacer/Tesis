@@ -76,9 +76,10 @@ public class ScreenPause : MonoBehaviour, IScreen
 
     private void SetCamera()
     {
-        _screenCanvas = GetComponent<Canvas>();
-        _screenCanvas.worldCamera = FindObjectOfType<Camera>();
-        _screenCanvas.sortingLayerName = _sortingLayer;
         _buttons = GetComponentsInChildren<Button>();
+        if (!GetComponent<Canvas>()) return;
+        _screenCanvas = GetComponent<Canvas>();
+        _screenCanvas.worldCamera = Camera.main;
+        _screenCanvas.sortingLayerName = _sortingLayer;
     }
 }
