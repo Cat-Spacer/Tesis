@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CatSpecial : MonoBehaviour
 {
-   private CatChar _cat;
+   private CatCharacter _cat;
    private Action _specialAction = delegate {  };
 
    [Header("SPIT")]
@@ -16,7 +16,7 @@ public class CatSpecial : MonoBehaviour
 
    private void Start()
    {
-      _cat = GetComponent<CatChar>();
+      _cat = GetComponent<CatCharacter>();
    }
 
    private void Update()

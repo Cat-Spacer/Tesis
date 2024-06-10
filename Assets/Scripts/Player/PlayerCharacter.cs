@@ -261,7 +261,7 @@ public void GetStun(float intensity)
 
     public NetworkObject GetNetworkObject()
     {
-        throw new NotImplementedException();
+        return default;
     }
 
     public Item GiveItem(ItemType type)

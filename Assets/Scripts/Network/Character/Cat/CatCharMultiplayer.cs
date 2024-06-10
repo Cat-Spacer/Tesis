@@ -16,10 +16,10 @@ public class CatCharMultiplayer : PlayerCharacterMultiplayer
         var player = attackable.GetNetworkObject();
         if (player == null) return;
         PunchRpc(player);
-        // if (LiveCamera.instance.IsOnAir())
-        // {
-        //     LiveCamera.instance.ChangePeace(-1);
-        // }
+        if (LiveCameraNetwork.Instance.IsOnAir())
+        {
+            LiveCameraNetwork.Instance.ChangePeace(-1);
+        }
     }
     [Rpc(SendTo.Everyone)]
     void PunchRpc(NetworkObjectReference player)

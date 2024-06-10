@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Threading;
+using Unity.Netcode;
 
-public class PressurePlate : MonoBehaviour
+public class PressurePlateNetwork : NetworkBehaviour
 {
     [SerializeField] Transform _topPoint, _downPoint;
     [SerializeField] private GameObject _plate;
@@ -21,24 +22,44 @@ public class PressurePlate : MonoBehaviour
     }
     void Activate()
     {
+        //_plate.transform.position = _downPoint.position;
+        //foreach (var connection in _connection)
+        //{
+        //    connection.Activate();
+        //}
+        ActivateRpc();
+    }
+
+    [Rpc(SendTo.Everyone)]
+    void ActivateRpc()
+    {
         _plate.transform.position = _downPoint.position;
         foreach (var connection in _connection)
         {
             connection.Activate();
         }
     }
-
     void Desactivate()
     {
-        _plate.transform.position = _topPoint.position;
+        //_plate.transform.position = _topPoint.position;
+        //foreach (var connection in _connection)
+        //{
+        //    connection.Desactivate();
+        //}
+        DesactivateRpc();
+    }
+    [Rpc(SendTo.Everyone)]
+    void DesactivateRpc()
+    {
+        _plate.transform.position = _downPoint.position;
         foreach (var connection in _connection)
         {
-            connection.Desactivate();
+            connection.Activate();
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        var player = collision.gameObject.GetComponent<CatCharacter>();
+        var player = collision.gameObject.GetComponent<CatCharMultiplayer>();
         if (player != null)
         {
             Activate();
@@ -46,7 +67,7 @@ public class PressurePlate : MonoBehaviour
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        var player = collision.gameObject.GetComponent<CatCharacter>();
+        var player = collision.gameObject.GetComponent<CatCharMultiplayer>();
         if (player != null)
         {
             Desactivate();

@@ -246,13 +246,20 @@ public void GetStun(float intensity)
         if (otherPlayer)
         {
              var playerInteract = otherPlayer.gameObject.GetComponent<IPlayerInteract>();
-             if (playerInteract != null)
-             {
-                 playerInteract.GetJumpImpulse(_data.jumpImpulse);
-             }
+             if (playerInteract == null) return;
+             var player = playerInteract.GetNetworkObject();
+             if (player == null) return;
+             JumpImpulseRpc(player);
         }
     }
 
+    [Rpc(SendTo.Everyone)]
+    void JumpImpulseRpc(NetworkObjectReference player)
+    {
+        player.TryGet(out NetworkObject playerNetworkObject);
+        playerNetworkObject.GetComponent<IPlayerInteract>().GetJumpImpulse(_data.jumpImpulse);
+        //playerInteract.GetJumpImpulse(_data.jumpImpulse);
+    }
     public void GetJumpImpulse(float pushForce)
     {
         _rb.velocity = new Vector2(_rb.velocity.x, pushForce);

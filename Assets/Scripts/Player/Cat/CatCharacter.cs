@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CatChar : PlayerCharacter
+public class CatCharacter : PlayerCharacter
 {
     public override void Special()
     {
