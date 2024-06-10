@@ -578,7 +578,7 @@ GameObject:
   - component: {fileID: 5858839573534263027}
   - component: {fileID: 7704333488289968854}
   m_Layer: 5
-  m_Name: Button
+  m_Name: BTN_Backs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -687,8 +687,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 9004280155154559752}
-        m_TargetAssemblyTypeName: ScreenPause, Assembly-CSharp
+      - m_Target: {fileID: 217627592610861014}
+        m_TargetAssemblyTypeName: ScreenSettings, Assembly-CSharp
         m_MethodName: BTN_Back
         m_Mode: 1
         m_Arguments:
@@ -1714,7 +1714,7 @@ GameObject:
   - component: {fileID: 5668462929287526730}
   - component: {fileID: 6717616782380424678}
   - component: {fileID: 5183934274391902343}
-  - component: {fileID: 9004280155154559752}
+  - component: {fileID: 217627592610861014}
   m_Layer: 5
   m_Name: Levels_Menu
   m_TagString: Untagged
@@ -1765,7 +1765,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &6717616782380424678
 MonoBehaviour:
@@ -1807,7 +1807,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &9004280155154559752
+--- !u!114 &217627592610861014
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1816,13 +1816,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2328410528346906549}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a0db885485ec9e4aa991a462913ab27, type: 3}
+  m_Script: {fileID: 11500000, guid: 3957334a08f599d4b93f9c30cccec069, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _buttons: []
-  _settingsScreenName: Levels_Menu
   _sortingLayer: Canvas
-  _settingsPauseScreenName: Settings_MenuPause
 --- !u!1 &2355727208686882552
 GameObject:
   m_ObjectHideFlags: 0

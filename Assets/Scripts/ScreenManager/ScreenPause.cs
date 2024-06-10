@@ -33,22 +33,22 @@ public class ScreenPause : MonoBehaviour, IScreen
     {
         _result = "Settings";
 
-        ScreenManager.Instance.Pop();
-        ScreenManager.Instance.PushInstance(_settingsScreenName);
+        ScreenManager.instance.Pop();
+        ScreenManager.instance.PushInstance(_settingsScreenName);
     }
     public void BTN_SettingsPause()
     {
         _result = "Settings";
 
-        ScreenManager.Instance.Pop();
-        ScreenManager.Instance.PushInstance(_settingsPauseScreenName);
+        ScreenManager.instance.Pop();
+        ScreenManager.instance.PushInstance(_settingsPauseScreenName);
     }
 
     public void BTN_Back()
     {
         _result = "Back";
 
-        ScreenManager.Instance.Pop();
+        ScreenManager.instance.Pop();
     }
 
     public void Activate()

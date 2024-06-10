@@ -7,7 +7,7 @@ public class Config : MonoBehaviour
 
     private void Start()
     {
-        ScreenManager.Instance.Push(new ScreenGO(mainGame));
+        ScreenManager.instance.Push(new ScreenGO(mainGame));
     }
 
     void Update()
@@ -15,14 +15,14 @@ public class Config : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
         {
             if (ScreenPause.instance)
-                ScreenManager.Instance.Pop();
+                ScreenManager.instance.Pop();
             else
             {
                 if (ScreenSettings.instance)
-                    ScreenManager.Instance.Pop();
+                    ScreenManager.instance.Pop();
 
                 var screenPause = Instantiate(Resources.Load<ScreenPause>(_pauseScreenName));
-                ScreenManager.Instance.Push(screenPause);
+                ScreenManager.instance.Push(screenPause);
             }
         }
     }
