@@ -48,12 +48,12 @@ public class SecurityCamera : MonoBehaviour
                 if (InSight(_camera.transform.position, item.transform.position))
                 {
                     Debug.DrawLine(_camera.transform.position, item.transform.position, Color.blue);
-                    if (item.gameObject.GetComponent<CatChar>())_onCatDetect = true;
+                    if (item.gameObject.GetComponent<CatCharacter>())_onCatDetect = true;
                     else if(item.gameObject.GetComponent<HamsterChar>()) _onHamsterDetect = true;
                 }
                 else
                 {
-                    if (item.gameObject.GetComponent<CatChar>())_onCatDetect = false;
+                    if (item.gameObject.GetComponent<CatCharacter>())_onCatDetect = false;
                     else if(item.gameObject.GetComponent<HamsterChar>()) _onHamsterDetect = false;
                 }
             }
