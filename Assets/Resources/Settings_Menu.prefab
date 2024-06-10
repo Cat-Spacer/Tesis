@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5042614824332976846}
   - component: {fileID: 9142594217991718253}
-  - component: {fileID: 4285711224392992164}
+  - component: {fileID: 8768904527931899492}
   - component: {fileID: 5522459005382761169}
   - component: {fileID: 8972593352433052656}
   m_Layer: 5
@@ -55,7 +55,7 @@ Canvas:
   m_GameObject: {fileID: 1122216874576580752}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 2
+  m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 1
   m_PixelPerfect: 0
@@ -69,7 +69,7 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 1
   m_TargetDisplay: 0
---- !u!114 &4285711224392992164
+--- !u!114 &8768904527931899492
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -86,7 +86,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -122,6 +122,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sortingLayer: Canvas
+  _scaleMode: 1
+  _resolution: {x: 1920, y: 1080}
+  _matchMode: 0
+  _match: 0.5
+  _pixelPerUnit: 100
 --- !u!1 &1277319640528834765
 GameObject:
   m_ObjectHideFlags: 0

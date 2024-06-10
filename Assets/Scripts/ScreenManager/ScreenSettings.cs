@@ -1,17 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Canvas))]
 public class ScreenSettings : MonoBehaviour, IScreen
 {
     public static ScreenSettings instance = default;
-    Button[] _buttons;
     [SerializeField] private string _sortingLayer = "Canvas";
-    Canvas _screenCanvas;
+    private Button[] _buttons = default;
+
     private void Awake()
     {
-        if (!instance)        
+        if (!instance)
             instance = this;
         else
             Destroy(gameObject);
@@ -59,9 +58,11 @@ public class ScreenSettings : MonoBehaviour, IScreen
 
     private void SetCamera()
     {
-        _screenCanvas = GetComponent<Canvas>();
-        _screenCanvas.worldCamera = FindObjectOfType<Camera>();
-        _screenCanvas.sortingLayerName = _sortingLayer;
+        Canvas screenCanvas = GetComponent<Canvas>();
+        screenCanvas.renderMode = RenderMode.ScreenSpaceCamera;
+        screenCanvas.worldCamera = Camera.main;
+        screenCanvas.sortingLayerName = _sortingLayer;
+
         _buttons = GetComponentsInChildren<Button>();
     }
 
