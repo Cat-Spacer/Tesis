@@ -19,11 +19,6 @@ public class DelayActiveButtons : MonoBehaviour
 
     public void BTN_Start(int scene = -1)
     {
-
-        foreach (var item in _desactive)
-        {
-            item.SetActive(false);
-        }
         _activeThis.SetActive(true);
 
         StartCoroutine(DelayActivation(_menuName, scene));
@@ -33,6 +28,11 @@ public class DelayActiveButtons : MonoBehaviour
     {
         yield return new WaitForSeconds(_delay);
         _activeThis.SetActive(false);
+
+        foreach (var item in _desactive)
+        {
+            item.SetActive(false);
+        }
 
         if (MenuButton.instance)
             if (scene >= 0) MenuButton.instance.SceneToLoad(scene);

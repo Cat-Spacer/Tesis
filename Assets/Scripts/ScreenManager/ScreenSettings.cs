@@ -25,7 +25,7 @@ public class ScreenSettings : MonoBehaviour, IScreen
 
     public void BTN_Back()
     {
-        ScreenManager.Instance.Pop(false);
+        ScreenManager.instance.Pop(false);
     }
 
     public void BTN_Exit()

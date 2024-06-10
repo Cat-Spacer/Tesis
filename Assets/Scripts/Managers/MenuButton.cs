@@ -27,17 +27,17 @@ public class MenuButton : MonoBehaviour
 
     public void BTN_Settings()
     {
-        ScreenManager.Instance.PushInstance(_settingsScreenName);
+        ScreenManager.instance.PushInstance(_settingsScreenName);
     }
 
     public void BTN_Controls()
     {
-        ScreenManager.Instance.PushInstance(_controlsScreenName);
+        ScreenManager.instance.PushInstance(_controlsScreenName);
     }
     
     public void BTN_General(string screenName)
     {
-        ScreenManager.Instance.PushInstance(screenName);
+        ScreenManager.instance.PushInstance(screenName);
     }
 
 

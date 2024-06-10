@@ -1,18 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class ScreenManager : MonoBehaviour
 {
-    Stack<IScreen> _stack;
+    private Stack<IScreen> _stack = default;
 
-    public string lastResult;
+    public string lastResult = default;
 
-    static public ScreenManager Instance;
+    static public ScreenManager instance = default;
+
+    [SerializeField] private GameObject[] _objToActivateDesactivate = default;
     
     void Awake()
     {
-        Instance = this;
+        instance = this;
 
         _stack = new Stack<IScreen>();
     }
@@ -26,6 +27,11 @@ public class ScreenManager : MonoBehaviour
         if (_stack.Count > 0)
         {
             _stack.Peek().Activate();
+        }
+
+        foreach (var obj in _objToActivateDesactivate)
+        {
+            obj.SetActive(true);
         }
     }
 
@@ -45,5 +51,10 @@ public class ScreenManager : MonoBehaviour
     {
         var go = Instantiate(Resources.Load<GameObject>(resource));
         Push(go.GetComponent<IScreen>());
+
+        foreach (var obj in _objToActivateDesactivate)
+        {
+            obj.SetActive(false);
+        }
     }  
 }
