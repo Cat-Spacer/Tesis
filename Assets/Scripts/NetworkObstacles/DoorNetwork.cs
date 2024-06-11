@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -9,7 +8,6 @@ public class DoorNetwork : NetworkBehaviour, IActivate
 {
     private BoxCollider2D _coll;
     [SerializeField] private bool _open;
-    private NetworkVariable<bool> _OnOpen = new NetworkVariable<bool>();
 
     private void Awake()
     {
@@ -20,7 +18,6 @@ public class DoorNetwork : NetworkBehaviour, IActivate
     {
         if (_open)
         {
-            _OnOpen.Value = false;
             gameObject.SetActive(false);
             _coll.gameObject.SetActive(false);
             _open = true;
@@ -32,9 +29,9 @@ public class DoorNetwork : NetworkBehaviour, IActivate
             _open = false;
         }
     }
+
     void OpenClose()
     {
-        if (!IsOwner) return;
         if (!_open)
         {
             //gameObject.SetActive(false);
@@ -58,7 +55,6 @@ public class DoorNetwork : NetworkBehaviour, IActivate
     [Rpc(SendTo.Everyone)]
     void ActivateRpc()
     {
-        Debug.Log("Open");
         gameObject.SetActive(false);
         _coll.gameObject.SetActive(false);
         _open = true;
@@ -70,7 +66,6 @@ public class DoorNetwork : NetworkBehaviour, IActivate
     [Rpc(SendTo.Everyone)]
     void DesactivateRpc()
     {
-        Debug.Log("Close");
         gameObject.SetActive(true);
         _coll.gameObject.SetActive(true);
         _open = false;

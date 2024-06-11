@@ -22,7 +22,11 @@ public class PressurePlateNetwork : NetworkBehaviour
     }
     void Activate()
     {
-        if (!IsOwner) return;
+        //_plate.transform.position = _downPoint.position;
+        //foreach (var connection in _connection)
+        //{
+        //    connection.Activate();
+        //}
         ActivateRpc();
     }
 
@@ -37,13 +41,17 @@ public class PressurePlateNetwork : NetworkBehaviour
     }
     void Desactivate()
     {
-        if (!IsOwner) return;
+        //_plate.transform.position = _topPoint.position;
+        //foreach (var connection in _connection)
+        //{
+        //    connection.Desactivate();
+        //}
         DesactivateRpc();
     }
     [Rpc(SendTo.Everyone)]
     void DesactivateRpc()
     {
-        _plate.transform.position = _topPoint.position;
+        _plate.transform.position = _downPoint.position;
         foreach (var connection in _connection)
         {
             connection.Activate();
@@ -54,7 +62,6 @@ public class PressurePlateNetwork : NetworkBehaviour
         var player = collision.gameObject.GetComponent<CatCharMultiplayer>();
         if (player != null)
         {
-            _plate.transform.position = _downPoint.position;
             Activate();
         }
     }
@@ -63,7 +70,6 @@ public class PressurePlateNetwork : NetworkBehaviour
         var player = collision.gameObject.GetComponent<CatCharMultiplayer>();
         if (player != null)
         {
-            _plate.transform.position = _topPoint.position;
             Desactivate();
         }
     }

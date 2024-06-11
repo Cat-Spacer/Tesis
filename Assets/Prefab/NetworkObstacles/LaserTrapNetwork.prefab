@@ -41,7 +41,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 685514683137835099}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 55791acdb7f0b4f48a117a2f944162be, type: 3}
   m_Name: 
@@ -1698,7 +1698,7 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+    - sprite: {fileID: 21300000, guid: 8620bcf7fa769e94fa548c2fc0325ef4, type: 3}
     flipU: 0
     flipV: 0
   VelocityModule:
@@ -6526,7 +6526,7 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+    - sprite: {fileID: 21300000, guid: 8620bcf7fa769e94fa548c2fc0325ef4, type: 3}
     flipU: 0
     flipV: 0
   VelocityModule:
@@ -9879,7 +9879,6 @@ GameObject:
   - component: {fileID: 8695273532194152730}
   - component: {fileID: 8621305023229289139}
   - component: {fileID: 7819308601839203412}
-  - component: {fileID: 2262360630522412571}
   m_Layer: 0
   m_Name: LaserTrapNetwork
   m_TagString: Untagged
@@ -9919,8 +9918,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2928637151
-  InScenePlacedSourceGlobalObjectIdHash: 48173787
+  GlobalObjectIdHash: 48173787
+  InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -9940,19 +9939,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d29c7d352d3fc9b459d3a97ca7b50050, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _line: {fileID: 1678849945479482339}
+  _line: {fileID: 0}
   _hitLayerMask:
     serializedVersion: 2
-    m_Bits: 64
-  _particles:
-  - {fileID: 166902448835418605}
-  - {fileID: 435434247965744088}
-  _particles2:
-  - {fileID: 8775823904292836971}
-  - {fileID: 4552555524391123794}
+    m_Bits: 0
+  _particles: []
+  _particles2: []
   _loopTime: 0
   _loop: 0
-  _on: 1
+  _on: 0
+  _connectionSource: {fileID: 0}
 --- !u!212 &7819308601839203412
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -10005,51 +10001,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &2262360630522412571
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3032280847000662137}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.184, y: 0.528}
-    newSize: {x: 2.96, y: 1.32}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.184, y: 0.528}
-  m_EdgeRadius: 0
 --- !u!1 &6641609119221638801
 GameObject:
   m_ObjectHideFlags: 0
