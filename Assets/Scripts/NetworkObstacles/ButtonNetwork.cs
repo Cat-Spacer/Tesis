@@ -18,13 +18,6 @@ public class ButtonNetwork : NetworkBehaviour, IInteract
             _connection.Add(obj);
         }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     void PressButton()
     {
         if (!_activated)
@@ -48,7 +41,6 @@ public class ButtonNetwork : NetworkBehaviour, IInteract
             DesactivateRpc();
         }
     }
-
     [Rpc(SendTo.Everyone)]
     void ActivateRpc()
     {
