@@ -1,9 +1,10 @@
 ﻿using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Weapons
 {
-    public class Gun : MonoBehaviour
+    public class Gun : NetworkBehaviour
     {
         private Animator _anim = default;
         [Header("Stats")]
@@ -15,21 +16,12 @@ namespace Weapons
         public Transform firePoint = default;
         public AudioSource audioSource = default;
         public ParticleSystem muzzleFlash = default;
-        [SerializeField] ParticleSystem _explotionParticle1 = default, _explotionParticle2 = default;
 
         private string _currentState = default;
 
 
         private void Awake()
         {
-            #region Sound Setting
-            /*if (GetComponent<AudioSource>() != null)
-            {
-                audioSource = GetComponent<AudioSource>();
-                //  if (FindObjectOfType<SoundManager>() != null)
-                // audioSource.clip = FindObjectOfType<SoundManager>().GetSound(shootSound).clip;
-            }*/
-            #endregion
             fireTimer = fireRate;
         }
 
@@ -67,10 +59,7 @@ namespace Weapons
         {
             Bullet bullet = BulletManager.instance.objectPool.GetObject();
             if (bullet!) return;
-            _explotionParticle1.Play();
-            _explotionParticle2.Play();
             Shoot.Fire(bullet, firePoint, gameObject);
-            _currentState = "";
         }
 
         IEnumerator WaitForAnim()

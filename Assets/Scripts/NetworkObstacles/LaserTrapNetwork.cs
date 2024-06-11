@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class LaserTrapNetwork : NetworkBehaviour
+public class LaserTrapNetwork : NetworkBehaviour, IActivate
 {
     [SerializeField] LineRenderer _line;
     [SerializeField] LayerMask _hitLayerMask;
@@ -14,7 +14,6 @@ public class LaserTrapNetwork : NetworkBehaviour
     bool _firstStart;
     [SerializeField] bool _on;
     BoxCollider2D coll;
-    [SerializeField] GameObject _connectionSource;
     private LineRenderer _myLineConnection;
     void Start()
     {
@@ -30,7 +29,7 @@ public class LaserTrapNetwork : NetworkBehaviour
         }
     }
 
-    public void TurnOn()
+    void TurnOn()
     {
         if (!_firstStart)
         {
@@ -101,7 +100,7 @@ public class LaserTrapNetwork : NetworkBehaviour
 
         }
     }
-    public void TurnOff()
+    void TurnOff()
     {
         if (!_firstStart)
         {
@@ -148,11 +147,6 @@ public class LaserTrapNetwork : NetworkBehaviour
         }
 
     }
-
-    public Transform ConnectionSource()
-    {
-        return _connectionSource.transform;
-    }
     IEnumerator LoopTurnOn()
     {
         yield return new WaitForSeconds(_loopTime);
@@ -175,5 +169,22 @@ public class LaserTrapNetwork : NetworkBehaviour
     public void Interact()
     {
 
+    }
+
+    public void Activate()
+    {
+        if (!IsOwner) return;
+        ActivateOrDesactivateRpc();
+    }
+    public void Desactivate()
+    {
+        if (!IsOwner) return;
+        ActivateOrDesactivateRpc();
+    }
+    [Rpc(SendTo.Everyone)]
+    void ActivateOrDesactivateRpc()
+    {
+        if(!_on) TurnOn();
+        else TurnOff();
     }
 }
