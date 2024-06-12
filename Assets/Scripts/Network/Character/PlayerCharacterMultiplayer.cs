@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using Unity.Netcode;
 
-public class PlayerCharacterMultiplayer : NetworkBehaviour,IPlayerInteract, IDamageable, IEquatable<PlayerCharacterMultiplayer>, INetworkSerializable
+public class PlayerCharacterMultiplayer : NetworkBehaviour,IPlayerInteract, IDamageable//, IEquatable<PlayerCharacterMultiplayer>, INetworkSerializable
 {
     [SerializeField] protected CharacterData _data;
     private CharacterModel _model;
