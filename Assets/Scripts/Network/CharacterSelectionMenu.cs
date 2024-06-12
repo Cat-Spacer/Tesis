@@ -28,6 +28,7 @@ public class CharacterSelectionMenu : NetworkBehaviour
     private void Awake()
     {
         if (Instance == null) Instance = this;
+        _camera = Camera.main.GetComponent<CameraReadjust>();
     }
 
 
