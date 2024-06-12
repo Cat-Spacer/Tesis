@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Netcode.Extensions;
 using Unity.Netcode;
 
 public class GameManagerNetwork : NetworkBehaviour
@@ -188,7 +189,7 @@ public class GameManagerNetwork : NetworkBehaviour
     {
         StartGameRpc();
     }
-
+    
     [Rpc(SendTo.Everyone)]
     void StartGameRpc()
     {

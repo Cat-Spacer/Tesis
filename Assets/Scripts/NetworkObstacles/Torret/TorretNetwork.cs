@@ -1,23 +1,26 @@
 using System;
 using System.Collections;
+using Netcode.Extensions;
 using Unity.Netcode;
 using UnityEngine;
 
-public class Torret : NetworkBehaviour, IActivate
+public class TorretNetwork : NetworkBehaviour, IActivate
 {
     private Action _shootAction = delegate { };
     [Header("Stats")]
     public int damage = 10;
-    public float fireRate = 1.0f, fireTimer = 1.0f, bulletLifeTime = 1.0f, _waitUntilShoot = 1.0f, distance = 150f;
+
+    public float fireRate = 1.0f, fireTimer = 1.0f, bulletLifeTime = 1.0f, _waitUntilShoot = 1.0f, _bulletSpeed;
 
     [Header("Objects")]
-    [SerializeField] private  Transform _firePoint = default;
+    [SerializeField] private  Transform _firePoint;
     [SerializeField] private GameObject _bulletPrefab;
-    private bool _isActive = false;
+    [SerializeField] bool _isActive;
     
     private void Awake()
     {
         fireTimer = fireRate;
+        if(IsServer) NetworkObjectPool.Singleton.InitializePool();
     }
     
     private void Start()
@@ -28,7 +31,7 @@ public class Torret : NetworkBehaviour, IActivate
     private void Update()
     {
         _shootAction();
-        FireCooldown();
+        //FireCooldown();
     }
     
     private void FireCooldown()
@@ -40,7 +43,8 @@ public class Torret : NetworkBehaviour, IActivate
         else
         {
             fireTimer = fireRate;
-            StartCoroutine(WaitForAnim());
+            Fire();
+            //StartCoroutine(WaitForAnim());
         }
     }
     IEnumerator WaitForAnim()
@@ -51,22 +55,13 @@ public class Torret : NetworkBehaviour, IActivate
 
     private void Fire()
     {
-        if (IsServer)
-        {
-            var bullet = Instantiate(_bulletPrefab, _firePoint.position, _firePoint.rotation);
-            bullet.GetComponent<NetworkObject>().Spawn();
-            bullet.transform.position = _firePoint.position;
-            bullet.transform.rotation = _firePoint.rotation;
-        }
-        else FireRpc();
-    }
-    [Rpc(SendTo.Server)]
-    private void FireRpc()
-    {
-        var bullet = Instantiate(_bulletPrefab, _firePoint.position, _firePoint.rotation);
-        bullet.GetComponent<NetworkObject>().Spawn();
+        var bullet = NetworkObjectPool.Singleton.GetNetworkObject(_bulletPrefab);
+        bullet.GetComponent<BulletNetwork>().SetBullet(transform, _bulletSpeed, 5, _bulletPrefab);
         bullet.transform.position = _firePoint.position;
         bullet.transform.rotation = _firePoint.rotation;
+        if (!IsServer) return;
+        bullet.GetComponent<NetworkObject>().Spawn();
+
     }
     public void Activate()
     {
