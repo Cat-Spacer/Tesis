@@ -30,8 +30,11 @@ public class NetworkManagerUI : NetworkBehaviour
     [SerializeField] private TMP_InputField _clientCodeText;
     [SerializeField] private Button _pasteCode;
 
-    [SerializeField] private GameObject _levelSelectionMenu; 
+    [SerializeField] private GameObject _levelSelectionMenu;
 
+    [SerializeField] private GameObject _mainMenu;
+    [SerializeField] private GameObject _connectionMenu;
+    [SerializeField] private GameObject _backMainMenu;
     private Action _StartGameAction;
     private void Awake()
     {
@@ -109,6 +112,13 @@ public class NetworkManagerUI : NetworkBehaviour
             OpenLevelSelectionRpc();
         }
     }
+
+    public void OpenConnectionModeMenu()
+    {
+        _mainMenu.gameObject.SetActive(false);
+        _connectionMenu.gameObject.SetActive(true);
+        _backMainMenu.gameObject.SetActive(true);
+    }
     void HostMenu()
     {
         //_server.gameObject.SetActive(false);
@@ -154,6 +164,12 @@ public class NetworkManagerUI : NetworkBehaviour
         }
     }
 
+    public void BackToMenu()
+    {
+        _mainMenu.gameObject.SetActive(true);
+        _connectionMenu.gameObject.SetActive(false);
+        _backMainMenu.gameObject.SetActive(false);
+    }
     void CopyCodeBtn()
     {
         if (String.IsNullOrEmpty(_hostCodeText.text)) return;
