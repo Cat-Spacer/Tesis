@@ -10,7 +10,7 @@ public class BulletNetwork : NetworkBehaviour
     [Header("Stats")]
     [SerializeField] private float _speed = 1.0f, _lifeTime;
     Transform _myFahter = default;
-    [SerializeField] private GameObject _prefab;
+    public GameObject _prefab;
 
     private void Start()
     {
@@ -38,11 +38,10 @@ public class BulletNetwork : NetworkBehaviour
         }
     }
 
-    public BulletNetwork SetBullet(Transform father, float speed, float lifeTime, GameObject prefab)
+    public void SetBullet(Transform father, float speed, float lifeTime, GameObject prefab)
     {
         _myFahter = father;
         _speed = speed;
         _prefab = prefab;
-        return default;
     }
 }
