@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using TMPro;
@@ -13,49 +14,50 @@ using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine.SceneManagement;
 
+[Serializable]
+public enum MenuType
+{
+    MainMenu,
+    ConnectionTypeMenu,
+    HostWaitingMenu,
+    ClientCodeMenu,
+    LevelSelectionMenu
+}
 public class NetworkManagerUI : NetworkBehaviour
 {
-    [SerializeField] private GameObject _server;
-    [SerializeField] private GameObject _host;
-    [SerializeField] private GameObject _client;
     [SerializeField] private Button _serverButton;
     [SerializeField] private Button _hostButton;
-    [SerializeField] private Button _clientButton;
-    [SerializeField] private Button _backButton;
     
-    [SerializeField] private TMP_Text _waitingPartner;
-    [SerializeField] private Button _connectClient;
     [SerializeField] private TMP_InputField _hostCodeText;
     [SerializeField] private Button _copyCode;
     [SerializeField] private TMP_InputField _clientCodeText;
     [SerializeField] private Button _pasteCode;
 
-    [SerializeField] private GameObject _levelSelectionMenu;
 
-    [SerializeField] private GameObject _mainMenu;
-    [SerializeField] private GameObject _connectionMenu;
-    [SerializeField] private GameObject _backMainMenu;
+    // [SerializeField] private GameObject _mainMenu;
+    // [SerializeField] private GameObject _connectionMenu;
+
+
+    [SerializeField] private GameObject mainMenu;
+    [SerializeField] private GameObject connectionTypeMenu;
+    [SerializeField] private GameObject hostWaitingMenu;
+    [SerializeField] private GameObject clientCodeMenu;
+    [SerializeField] private GameObject levelSelectionMenu;
+
+    private Dictionary<MenuType, GameObject> _allMenu = new Dictionary<MenuType, GameObject>();
+
     private Action _StartGameAction;
     private void Awake()
     {
-        _serverButton.onClick.AddListener(() =>
-        {
-            // _hostButton.gameObject.SetActive(false);
-            // _clientButton.gameObject.SetActive(false);
-            // NetworkManager.Singleton.StartServer();
-        });
-        _hostButton.onClick.AddListener(() =>
-        {
-            CreateRelay();
-            HostMenu();
-            _StartGameAction = CheckPlayers;
-        });
-        _clientButton.onClick.AddListener(ClientMenu);
-        _connectClient.onClick.AddListener(ConnectClient);
-        _backButton.onClick.AddListener(BackButton);
+        _hostButton.onClick.AddListener(CreateRelay);
+
         _copyCode.onClick.AddListener(CopyCodeBtn);
         _pasteCode.onClick.AddListener(PasteCodeBtn);
         _StartGameAction = delegate {  };
+        if (NetworkManager.Singleton != null)
+        {
+            
+        }
     }
 
     private async void Start()
@@ -70,14 +72,31 @@ public class NetworkManagerUI : NetworkBehaviour
         {
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
         }
+        
+        NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallBack;
+        
+        _allMenu.Add(MenuType.MainMenu,mainMenu);
+        _allMenu.Add(MenuType.ConnectionTypeMenu,connectionTypeMenu);
+        _allMenu.Add(MenuType.HostWaitingMenu,hostWaitingMenu);
+        _allMenu.Add(MenuType.ClientCodeMenu,clientCodeMenu);
+        _allMenu.Add(MenuType.LevelSelectionMenu,levelSelectionMenu);
     }
-
+    
+    private void NetworkManager_OnClientDisconnectCallBack(ulong clientId)
+    {
+        //OpenMenu(MenuType.MainMenu);
+        // if (clientId == NetworkManager.ServerClientId)
+        // {
+        //     MainMenu();
+        // }
+    }
     private void Update()
     {
         _StartGameAction();
     }
     private async void CreateRelay()
     {
+        if (NetworkManager.ServerIsHost) return;
         try
         {
             Allocation allocation = await RelayService.Instance.CreateAllocationAsync(1);
@@ -95,6 +114,7 @@ public class NetworkManagerUI : NetworkBehaviour
     }
     private async void JoinRelay(string joinCode)
     {
+        if(joinCode.Length == 0) return;
         try
         {
             Debug.Log($"Joining Relay with {joinCode}");
@@ -107,6 +127,20 @@ public class NetworkManagerUI : NetworkBehaviour
         }
         catch(RelayServiceException e){Debug.Log(e);}
     }
+    
+
+    public void OpenMenu(MenuEnum key)
+    {
+        foreach (var menu in _allMenu)
+        {
+            menu.Value.SetActive(menu.Key == key.type);
+        }   
+    }
+
+    public void WaitingClient()
+    {
+        _StartGameAction = CheckPlayers;
+    }
     void CheckPlayers()
     {
         if (!NetworkManager.Singleton.ServerIsHost) return;
@@ -115,64 +149,7 @@ public class NetworkManagerUI : NetworkBehaviour
             OpenLevelSelectionRpc();
         }
     }
-
-    public void OpenConnectionModeMenu()
-    {
-        _mainMenu.gameObject.SetActive(false);
-        _connectionMenu.gameObject.SetActive(true);
-        _backMainMenu.gameObject.SetActive(true);
-    }
-    void HostMenu()
-    {
-        //_server.gameObject.SetActive(false);
-        _client.gameObject.SetActive(false);
-        _hostButton.gameObject.SetActive(false);
-        _backButton.gameObject.SetActive(true);
-        _waitingPartner.gameObject.SetActive(true);
-    } 
-    void ClientMenu()
-    {
-        //_server.gameObject.SetActive(false);
-        _host.gameObject.SetActive(false);
-        _clientButton.gameObject.SetActive(false);
-        _connectClient.gameObject.SetActive(true);
-        _backButton.gameObject.SetActive(true);
-    }
-
-    void MainMenu()
-    {
-        //_server.gameObject.SetActive(true);
-        _host.gameObject.SetActive(true);
-        _client.gameObject.SetActive(true);
-        _serverButton.gameObject.SetActive(true);
-        _hostButton.gameObject.SetActive(true);
-        _clientButton.gameObject.SetActive(true);
-        _waitingPartner.gameObject.SetActive(false);
-        _connectClient.gameObject.SetActive(false);
-        _backButton.gameObject.SetActive(false);
-    }
-    void BackButton()
-    {
-        if (ServerIsHost)
-        {
-            Debug.Log("shutdown");
-            _StartGameAction = delegate {  };
-            NetworkManager.Singleton.Shutdown();
-            MainMenu();
-        }
-        else
-        {
-            Debug.Log("to menu");
-            MainMenu();
-        }
-    }
-
-    public void BackToMenu()
-    {
-        _mainMenu.gameObject.SetActive(true);
-        _connectionMenu.gameObject.SetActive(false);
-        _backMainMenu.gameObject.SetActive(false);
-    }
+    
     void CopyCodeBtn()
     {
         if (String.IsNullOrEmpty(_hostCodeText.text)) return;
@@ -188,23 +165,20 @@ public class NetworkManagerUI : NetworkBehaviour
         textEditor.Paste();
         _clientCodeText.text = textEditor.text;
     }
-    void ConnectClient()
+    public void ConnectClient()
     {
         JoinRelay(_clientCodeText.text);
     }
     [Rpc(SendTo.Everyone)]
-    void OpenLevelSelectionRpc()
+     void OpenLevelSelectionRpc()
+     {
+         foreach (var menu in _allMenu)
+         {
+             menu.Value.SetActive(menu.Key == MenuType.LevelSelectionMenu);
+         }   
+     }
+    public void ShutDownHost()
     {
-        //_server.gameObject.SetActive(false);
-        _host.gameObject.SetActive(false);
-        _client.gameObject.SetActive(false);
-        _serverButton.gameObject.SetActive(false);
-        _hostButton.gameObject.SetActive(false);
-        _clientButton.gameObject.SetActive(false);
-        _waitingPartner.gameObject.SetActive(false);
-        _connectClient.gameObject.SetActive(false);
-        _backButton.gameObject.SetActive(true);
-        _levelSelectionMenu.gameObject.SetActive(true);
-        //NetworkManager.SceneManager.LoadScene("MultiplayerTesting", LoadSceneMode.Single);
+        NetworkManager.Shutdown();
     }
 }
