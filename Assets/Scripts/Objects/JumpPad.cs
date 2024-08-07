@@ -41,7 +41,7 @@ public class JumpPad : MonoBehaviour
         {
             var player = collision.gameObject.GetComponent<PlayerCharacter>();
             player.StopMovement();
-            SoundManager.instance.Play(SoundManager.Types.Mushroom, false);
+            SoundManager.instance.Play(SoundsTypes.Mushroom, false);
             var entityRb = collision.gameObject.GetComponent<Rigidbody2D>();
             entityRb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
         }
