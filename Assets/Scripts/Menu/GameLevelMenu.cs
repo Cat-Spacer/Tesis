@@ -15,7 +15,6 @@ public class GameLevelMenu : NetworkBehaviour
     
     [SerializeField] private GameObject _pauseMenu;
 
-    private bool _onPause = false;
     
     private void Awake()
     {
@@ -32,24 +31,29 @@ public class GameLevelMenu : NetworkBehaviour
 
     private void NetworkManager_OnClientDisconnectCallBack(ulong clientId)
     {
-        ShutDownRpc();
-        MainMenuRpc();
+        if (clientId == NetworkManager.ServerClientId)
+        {
+            NetworkManager.Singleton.DisconnectClient(clientId);
+            SceneManager.LoadScene("MenuMultiplayer", LoadSceneMode.Single);
+        }
+        else
+        {
+            MainMenuRpc();
+        }
     }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (!_onPause)
-            {
-                PauseMenu();
-                PauseMenuRpc();
-            }
-            else
-            {
-                Resume();
-                ResumeRpc();
-            }
+            Debug.Log("Pause");
+            PauseMenu();
         }
+    }
+
+    void Resume()
+    {
+        _pauseMenu.SetActive(false);
+        ResetMenu();
     }
     void Options()
     {
@@ -69,53 +73,18 @@ public class GameLevelMenu : NetworkBehaviour
     {
         
     }
-    
     void MainMenu()
     {
-        EventManager.Instance.Trigger("OnDisconnectedPlayer");
-        ShutDownRpc();
+        MainMenuRpc();
     }
-    
-    
-    [Rpc(SendTo.Everyone)]
+    [Rpc(SendTo.Server)]
     void MainMenuRpc()
     {
-        Time.timeScale = 1;
-        //Destroy(NetworkManager.Singleton);
+        NetworkManager.Singleton.Shutdown();
         SceneManager.LoadScene("MenuMultiplayer", LoadSceneMode.Single);
-    }
-
-    [Rpc(SendTo.Server)]
-    void ShutDownRpc()
-    {
-        NetworkManager.Shutdown();
-    }
-    [Rpc(SendTo.NotMe)]                           
-    void ResumeRpc()                              
-    {                                             
-        Time.timeScale = 1;                       
-        _onPause = false;                         
-        _pauseMenu.SetActive(false);              
-        ResetMenu();                              
-    }                                             
-    void Resume()                                 
-    {                                             
-        Time.timeScale = 1;                       
-        _onPause = false;                         
-        _pauseMenu.SetActive(false);              
-        ResetMenu();                              
-    }                                             
-    [Rpc(SendTo.NotMe)]
-    void PauseMenuRpc()
-    {
-        Time.timeScale = 0;    
-        _onPause = true;
-        _pauseMenu.SetActive(true);
     }
     void PauseMenu()
     {
-        Time.timeScale = 0;
-        _onPause = true;
         _pauseMenu.SetActive(true);
     }
     void ResetMenu()

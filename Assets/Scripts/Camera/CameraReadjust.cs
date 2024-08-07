@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Netcode;
-using Unity.Properties;
 using UnityEngine;
 
 [RequireComponent(typeof(Camera))]
@@ -10,7 +9,7 @@ public class CameraReadjust : NetworkBehaviour
 {
     private Action _movementAction;
     [SerializeField] private Camera _camera;
-    [SerializeField] private List<Transform> characters = new List<Transform>();
+    [SerializeField] private List<PlayerCharacterMultiplayer> characters = new List<PlayerCharacterMultiplayer>();
     [SerializeField] private float _minZoom = 5, _maxZoom = 10f;
 
     public Vector3 offset;
@@ -25,10 +24,8 @@ public class CameraReadjust : NetworkBehaviour
 
     void Start()
     {
-        EventManager.Instance.Subscribe("OnDisconnectedPlayer", DisconnectPlayer);
         characters.Clear();
     }
-
     void LateUpdate()
     {
         _movementAction();
@@ -50,7 +47,6 @@ public class CameraReadjust : NetworkBehaviour
 
     float GetGreatesDistance()
     {
-        if (characters.Count == 0) return default;
         var bounds = new Bounds(characters[0].transform.position, Vector3.zero);
         for (int i = 0; i < characters.Count; i++)
         {
@@ -60,17 +56,18 @@ public class CameraReadjust : NetworkBehaviour
     }
     Vector3 GetCenterPoint()
     {
-        if (characters.Count > 0)
+        if (characters.Count == 1)
         {
-            var bounds = new Bounds(characters[0].transform.position, Vector3.zero);
-            for (int i = 0; i < characters.Count; i++)
-            {
-                bounds.Encapsulate(characters[i].transform.position);
-            }
-
-            return bounds.center;
+            return characters[0].transform.position;
         }
-        return default;
+
+        var bounds = new Bounds(characters[0].transform.position, Vector3.zero);
+        for (int i = 0; i < characters.Count; i++)
+        {
+            bounds.Encapsulate(characters[i].transform.position);   
+        }
+
+        return bounds.center;
     }
 
     void CheckPlayers()
@@ -92,19 +89,13 @@ public class CameraReadjust : NetworkBehaviour
     {
         var player = FindObjectOfType<CatCharMultiplayer>();
         //if (characters.Contains(player)) return;
-        characters.Add(player.transform);
+        characters.Add(player);
     }
     [Rpc(SendTo.Everyone)]
     public void SetHamsterCharRpc()
     {
         var player = FindObjectOfType<HamsterCharMultiplayer>();
         //if (characters.Contains(player)) return;
-        characters.Add(player.transform);
-    }
-
-    void DisconnectPlayer(object[] parms)
-    {
-        _movementAction = delegate {  };
-        //gameObject.SetActive(false);
+        characters.Add(player);
     }
 } 

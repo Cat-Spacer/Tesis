@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Netcode.Extensions;
-using Unity.Multiplayer.Samples.Utilities.ClientAuthority;
 using Unity.Netcode;
 
 public class GameManagerNetwork : NetworkBehaviour
@@ -189,8 +188,8 @@ public class GameManagerNetwork : NetworkBehaviour
     public void StartGame()
     {
         StartGameRpc();
-        
     }
+    
     [Rpc(SendTo.Everyone)]
     void StartGameRpc()
     {
