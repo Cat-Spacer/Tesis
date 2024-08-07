@@ -4,17 +4,17 @@ using UnityEngine;
 public class SoundList : MonoBehaviour
 {
     [SerializeField] private Sound[] sounds;
-    private LookUpTable<SoundManager.Types, Sound> _usedSounds = default;
+    private LookUpTable<SoundsTypes, Sound> _usedSounds = default;
     private LookUpTable<string, Sound> _usedSoundsByName = default;
 
     void Start()
     {
         if (SoundManager.instance) sounds = SoundManager.instance.sounds;
-        _usedSounds = new LookUpTable<SoundManager.Types, Sound>(SearchSound);
+        _usedSounds = new LookUpTable<SoundsTypes, Sound>(SearchSound);
         _usedSoundsByName = new LookUpTable<string, Sound>(SearchSound);
     }
 
-    private Sound SearchSound(SoundManager.Types name)
+    private Sound SearchSound(SoundsTypes name)
     {
         return Array.Find(sounds, sound => sound.nameType == name);
     }
@@ -34,7 +34,7 @@ public class SoundList : MonoBehaviour
         s.source.Play();
     }
 
-    public void Play(SoundManager.Types name, bool loop = false)
+    public void Play(SoundsTypes name, bool loop = false)
     {
         Sound s = _usedSounds.ReturnValue(name);
         if (s == null)

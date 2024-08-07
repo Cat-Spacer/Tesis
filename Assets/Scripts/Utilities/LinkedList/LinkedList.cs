@@ -1,22 +1,18 @@
-using UnityEngine;
+using System.Collections;
 
-public class LinkedList<T>
+public class LinkedList<T> : IEnumerable
 {
+    ListNode<T> _first = null, _last = null;
 
-    ListNode<T> _first = default, _last = default;
     int _count = 0;
 
-    public int Count
-    {
-        get { return _count; }
-    }
+    public int Count { get { return _count; } }
 
     public T this[int index]
     {
         get
         {
             if (index < 0 || index >= _count) throw new System.Exception("Index out");
-
             var current = _first;
 
             for (int i = 0; i < index; current = current.next, i++);
@@ -26,7 +22,7 @@ public class LinkedList<T>
 
         set
         {
-            if (index < 0 || index >= _count) if (index < 0 || index >= _count) throw new System.Exception("Index out");
+            if (index < 0 || index >= _count) throw new System.Exception("Index out");
 
             var current = _first;
 
@@ -36,41 +32,25 @@ public class LinkedList<T>
         }
     }
 
-    public void Add(T element)
+    public void Add(T value)
     {
-        ListNode<T> node = new ListNode<T>();
+        var node = new ListNode<T>();
+        node.element = value;
 
-        node.element = element;
-
-        if (_last != null)
-        {
-            _last.prev = _last;
-            node.next = node;
-            _last = node;
-        }
-        else
-        {
-            _first = node;
-            _last = node;
-        }
+        if (_first == null) _first = _last = node;
+        else _last.next = _last = node;
 
         _count++;
     }
 
     public void Remove(int index)
     {
-        if (index < 0 || index >= _count)
-        {
-            Debug.LogWarning("Index out");
-            return;
-        }
+        if (index < 0 || index >= _count) throw new System.Exception("Index out");
 
         if (index == 0)
         {
             _first = _first.next;
-
-            if (_first == null)
-                _last = null;
+            if (_first == null) _last = null;
         }
         else
         {
@@ -85,16 +65,16 @@ public class LinkedList<T>
 
         _count--;
     }
-    public bool Contains(T element)
+
+    public IEnumerator GetEnumerator()
     {
-        var current = _first;
+        var node = _first;
 
-        for (int i = 0; i < _count - 1; i++)
+        while (node != null)
         {
-            if (element.Equals(current)) return true;
-            current = current.next;
-        }
+            yield return node.element;
 
-        return false;
+            node = node.next;
+        }
     }
 }
