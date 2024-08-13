@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
@@ -56,18 +53,17 @@ public class GameLevelMenu : NetworkBehaviour
         
     }
 
-    void LevelMenu()
+    public void LevelMenu()
     {
-        if (IsServer)
-        {
-            
-        }
+        Resume();
+        ResumeRpc();
+        LevelMenuRpc();
     }
 
     [Rpc(SendTo.Server)]
     void LevelMenuRpc()
     {
-        
+        NetworkManager.SceneManager.LoadScene("LevelSelector", LoadSceneMode.Single);
     }
     
     void MainMenu()
