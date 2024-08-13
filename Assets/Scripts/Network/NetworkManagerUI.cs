@@ -21,7 +21,9 @@ public enum MenuType
     ConnectionTypeMenu,
     HostWaitingMenu,
     ClientCodeMenu,
-    LevelSelectionMenu
+    LevelSelectionMenu, 
+    CreatingLobby,
+    JoiningLobby
 }
 public class NetworkManagerUI : NetworkBehaviour
 {
@@ -43,6 +45,8 @@ public class NetworkManagerUI : NetworkBehaviour
     [SerializeField] private GameObject hostWaitingMenu;
     [SerializeField] private GameObject clientCodeMenu;
     [SerializeField] private GameObject levelSelectionMenu;
+    [SerializeField] private GameObject creatingLobby;
+    [SerializeField] private GameObject joiningLobby;
 
     private Dictionary<MenuType, GameObject> _allMenu = new Dictionary<MenuType, GameObject>();
 
@@ -54,10 +58,6 @@ public class NetworkManagerUI : NetworkBehaviour
         _copyCode.onClick.AddListener(CopyCodeBtn);
         _pasteCode.onClick.AddListener(PasteCodeBtn);
         _StartGameAction = delegate {  };
-        if (NetworkManager.Singleton != null)
-        {
-            
-        }
     }
 
     private async void Start()
@@ -72,23 +72,16 @@ public class NetworkManagerUI : NetworkBehaviour
         {
             await AuthenticationService.Instance.SignInAnonymouslyAsync();
         }
-        
-        NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallBack;
-        
+
+        NetworkManager.Singleton.OnServerStarted += OnCreatedLobby;
+ 
         _allMenu.Add(MenuType.MainMenu,mainMenu);
         _allMenu.Add(MenuType.ConnectionTypeMenu,connectionTypeMenu);
         _allMenu.Add(MenuType.HostWaitingMenu,hostWaitingMenu);
         _allMenu.Add(MenuType.ClientCodeMenu,clientCodeMenu);
         _allMenu.Add(MenuType.LevelSelectionMenu,levelSelectionMenu);
-    }
-    
-    private void NetworkManager_OnClientDisconnectCallBack(ulong clientId)
-    {
-        //OpenMenu(MenuType.MainMenu);
-        // if (clientId == NetworkManager.ServerClientId)
-        // {
-        //     MainMenu();
-        // }
+        _allMenu.Add(MenuType.CreatingLobby,creatingLobby);
+        _allMenu.Add(MenuType.JoiningLobby,joiningLobby);
     }
     private void Update()
     {
@@ -97,6 +90,7 @@ public class NetworkManagerUI : NetworkBehaviour
     private async void CreateRelay()
     {
         if (NetworkManager.ServerIsHost) return;
+        OpenMenu(MenuType.CreatingLobby);
         try
         {
             Allocation allocation = await RelayService.Instance.CreateAllocationAsync(1);
@@ -104,12 +98,13 @@ public class NetworkManagerUI : NetworkBehaviour
             _hostCodeText.text = joinCode;
             RelayServerData relayServerData = new RelayServerData(allocation, "dtls");
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
-
+            
             NetworkManager.Singleton.StartHost();
         }
         catch (RelayServiceException e)
         {
             Debug.Log(e);
+            OpenMenu(MenuType.MainMenu);
         }
     }
     private async void JoinRelay(string joinCode)
@@ -123,12 +118,16 @@ public class NetworkManagerUI : NetworkBehaviour
             RelayServerData relayServerData = new RelayServerData(joinAllocation, "dtls");
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
+            OpenMenu(MenuType.JoiningLobby);
             NetworkManager.Singleton.StartClient();
         }
         catch(RelayServiceException e){Debug.Log(e);}
     }
-    
 
+    private void OnCreatedLobby()
+    {
+        OpenMenu(MenuType.HostWaitingMenu);
+    }
     public void OpenMenu(MenuEnum key)
     {
         foreach (var menu in _allMenu)
@@ -137,6 +136,13 @@ public class NetworkManagerUI : NetworkBehaviour
         }   
     }
 
+    void OpenMenu(MenuType key)
+    {
+        foreach (var menu in _allMenu)
+        {
+            menu.Value.SetActive(menu.Key == key);
+        }   
+    }
     public void WaitingClient()
     {
         _StartGameAction = CheckPlayers;
@@ -169,13 +175,14 @@ public class NetworkManagerUI : NetworkBehaviour
     {
         JoinRelay(_clientCodeText.text);
     }
-    [Rpc(SendTo.Everyone)]
+    [Rpc(SendTo.Server)]
      void OpenLevelSelectionRpc()
      {
-         foreach (var menu in _allMenu)
-         {
-             menu.Value.SetActive(menu.Key == MenuType.LevelSelectionMenu);
-         }   
+         // foreach (var menu in _allMenu)
+         // {
+         //     menu.Value.SetActive(menu.Key == MenuType.LevelSelectionMenu);
+         // }   
+         NetworkManager.SceneManager.LoadScene("LevelSelector", LoadSceneMode.Single);
      }
     public void ShutDownHost()
     {
