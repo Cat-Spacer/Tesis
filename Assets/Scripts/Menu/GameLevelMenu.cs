@@ -1,3 +1,4 @@
+using Unity.Multiplayer.Tools.NetStatsMonitor.Implementation;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,6 +12,9 @@ public class GameLevelMenu : NetworkBehaviour
     [SerializeField] private Button _menuBtn;
     
     [SerializeField] private GameObject _pauseMenu;
+    [SerializeField] private GameObject _disconnectedMenu;
+    
+    
 
     private bool _onPause = false;
     
@@ -29,8 +33,20 @@ public class GameLevelMenu : NetworkBehaviour
 
     private void NetworkManager_OnClientDisconnectCallBack(ulong clientId)
     {
-        ShutDownRpc();
-        MainMenuRpc();
+        DisconnectedMenu();
+    }
+
+    void DisconnectedMenu()
+    {
+        _disconnectedMenu.SetActive(true);
+    }
+
+    public void ReturnToMenu()
+    {
+        if(IsServer) ShutDownRpc();
+        Time.timeScale = 1;
+        Destroy(NetworkManager.Singleton.gameObject);
+        SceneManager.LoadScene("MenuMultiplayer", LoadSceneMode.Single);
     }
     private void Update()
     {
@@ -77,7 +93,7 @@ public class GameLevelMenu : NetworkBehaviour
     void MainMenuRpc()
     {
         Time.timeScale = 1;
-        //Destroy(NetworkManager.Singleton);
+        Destroy(NetworkManager.Singleton);
         SceneManager.LoadScene("MenuMultiplayer", LoadSceneMode.Single);
     }
 
