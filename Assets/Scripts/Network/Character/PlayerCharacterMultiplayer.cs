@@ -24,6 +24,7 @@ public class PlayerCharacterMultiplayer : NetworkBehaviour,IPlayerInteract, IDam
         _material = GetComponentInChildren<SpriteRenderer>().material;
         //_data.characterPhysicsMat = _rb.sharedMaterial;
         _data.gravity = new Vector2(0, -Physics2D.gravity.y);
+        _rb.isKinematic = false;
     }
 
     protected virtual void Update()

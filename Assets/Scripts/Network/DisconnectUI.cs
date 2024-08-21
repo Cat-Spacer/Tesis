@@ -15,8 +15,6 @@ public class DisconnectUI : NetworkBehaviour
     void Start()
     {
         NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallBack;
-        //NetworkManager.Singleton.OnClientStopped += OnServerStopped;
-        //NetworkManager.Singleton.OnServerStopped 
         Hide();
         hostText.SetActive(false);
         clientText.SetActive(false);
@@ -24,15 +22,7 @@ public class DisconnectUI : NetworkBehaviour
     private void NetworkManager_OnClientDisconnectCallBack(ulong clientId)
     {
         Show("host");
-    }
-    void OnServerStopped(bool stopped)
-    {
-        Debug.Log("Stopped");
-        if (stopped)
-        {
-            OnHostDisconnectRpc();
-        }
-        
+        if(clientId == NetworkObject.OwnerClientId) NetworkManager.Singleton.OnClientDisconnectCallback -= NetworkManager_OnClientDisconnectCallBack;
     }
 
     [Rpc(SendTo.Everyone)]
@@ -52,5 +42,10 @@ public class DisconnectUI : NetworkBehaviour
         menu.SetActive(false);
         hostText.SetActive(false);
         clientText.SetActive(false);
+    }
+
+    public void Unsubscribe()
+    {
+        NetworkManager.Singleton.OnClientDisconnectCallback -= NetworkManager_OnClientDisconnectCallBack;
     }
 }

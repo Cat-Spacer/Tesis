@@ -23,18 +23,6 @@ public class LevelMenu : NetworkBehaviour
         {
             _allLevelsBtn.Add(button.name, button);
         }
-        //if(IsOwner) NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallBack;
-        
-        //if(IsOwner) NetworkManager.Singleton.OnServerStopped += OnServerStopped;
-    }
-
-    void OnServerStopped(bool stopped)
-    {
-        // Debug.Log("Stoped");
-        // if (stopped)
-        // {
-        //     disconnectedUI.Show("host");
-        // }
     }
     public void SelectLevel(string lvl)
     {
@@ -47,15 +35,23 @@ public class LevelMenu : NetworkBehaviour
     [Rpc(SendTo.NotMe)]
     void ButtonSelectRpc(string lvl)
     {
+        Debug.Log("Select level");
         if (_allLevelsBtn.ContainsKey(lvl)) _allLevelsBtn[lvl].Select();
     }
 
     public void PlayLevel()
     {
         if (!ServerIsHost) return;
+        
+        UnsubscribeAllRpc();
         OpenLevelRpc();
     }
 
+    [Rpc(SendTo.Everyone)]
+    void UnsubscribeAllRpc()
+    {
+        disconnectedUI.Unsubscribe();
+    }
     public void PlayAndSelectLevel(string lvl)
     {
         SelectLevel(lvl);
@@ -68,11 +64,11 @@ public class LevelMenu : NetworkBehaviour
         NetworkManager.SceneManager.LoadScene(_selectedLevel, LoadSceneMode.Single);
     }
 
-    public void Disconnect()
-    {
-        if(IsServer) ShutDownRpc();
-        MainMenuRpc();
-    }
+    // public void Disconnect()
+    // {
+    //     ReturnToMenu();
+    //     //MainMenuRpc();
+    // }
 
     [Rpc(SendTo.Everyone)]
     void MainMenuRpc()
@@ -90,6 +86,7 @@ public class LevelMenu : NetworkBehaviour
     public void ReturnToMenu()
     {
         if(IsServer) ShutDownRpc();
+        Destroy(NetworkManager.Singleton.gameObject);
         SceneManager.LoadScene("MenuMultiplayer", LoadSceneMode.Single);
     }
 }

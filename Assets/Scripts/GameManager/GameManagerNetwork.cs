@@ -176,20 +176,19 @@ public class GameManagerNetwork : NetworkBehaviour
     // }
     #endregion
     public static GameManagerNetwork Instance;
-    [SerializeField] private PlayerCharacterMultiplayer _cat, _hamster;
-    [SerializeField] private List<PlayerCharacter> players;
     private Respawn _respawnManager;
+
+    [SerializeField] private GameObject disconnectedMenu;
     private void Awake()
     {
         if (Instance == null) Instance = this;
         _respawnManager = GetComponentInChildren<Respawn>();
         Debug.Log("Awake");
     }
-
     public void StartGame()
     {
         StartGameRpc();
-        
+        //NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallBack;
     }
     [Rpc(SendTo.Everyone)]
     void StartGameRpc()
@@ -205,13 +204,25 @@ public class GameManagerNetwork : NetworkBehaviour
     {
         return _respawnManager.GetRespawnPoint();
     }
-    public void SetCatChar(PlayerCharacterMultiplayer cat)
-    {
-        _cat = cat;
-    }
-    public void SetHamsterChar(PlayerCharacterMultiplayer hamster)
-    {
-        _hamster = hamster;
-    }
     
+    #region Network
+
+    #endregion
+    
+    #region Disconnection
+    // private void NetworkManager_OnClientDisconnectCallBack(ulong clientId)
+    // {
+    //     Show("host");
+    // }
+    // public void Show(string key)
+    // {
+    //     disconnectedMenu.SetActive(true);
+    // }
+    //
+    // public void Hide()
+    // {
+    //     disconnectedMenu.SetActive(false);
+    // }
+    #endregion
 }
+
