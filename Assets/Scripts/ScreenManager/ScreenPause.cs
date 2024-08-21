@@ -1,16 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
-public class ScreenPause : MonoBehaviour, IScreen
+public class ScreenPause : ScreenBase, IScreen
 {
     public static ScreenPause instance = default;
-    [SerializeField] private Button[] _buttons;
     [SerializeField] private string _settingsScreenName = "Settings_Menu";
-    [SerializeField] private string _sortingLayer = "Canvas";
-    [SerializeField]
-    private string _settingsPauseScreenName = "Settings_MenuPause";
+    [SerializeField] private string _settingsPauseScreenName = "Settings_MenuPause";
     Canvas _screenCanvas;
 
     private string _result;
@@ -20,13 +14,11 @@ public class ScreenPause : MonoBehaviour, IScreen
         if (!instance)
             instance = this;
         else
-            Destroy(gameObject);
-
-        SetCamera();
-        foreach (var button in _buttons)
         {
-            button.interactable = false;
+            Destroy(gameObject);
+            return;
         }
+        OnAwake();
     }
 
     public void BTN_Settings()
@@ -53,7 +45,7 @@ public class ScreenPause : MonoBehaviour, IScreen
 
     public void Activate()
     {
-        foreach (var button in _buttons)
+        foreach (var button in buttons)
         {
             button.interactable = true;
         }
@@ -61,25 +53,18 @@ public class ScreenPause : MonoBehaviour, IScreen
 
     public void Deactivate()
     {
-        foreach (var button in _buttons)
+        foreach (var button in buttons)
         {
             button.interactable = false;
         }
     }
-
-    public string Free()
+/*
+    public override void SetCamera()
     {
-        Destroy(gameObject);
-
-        return _result;
-    }
-
-    private void SetCamera()
-    {
-        _buttons = GetComponentsInChildren<Button>();
+        buttons = GetComponentsInChildren<Button>();
         if (!GetComponent<Canvas>()) return;
         _screenCanvas = GetComponent<Canvas>();
         _screenCanvas.worldCamera = Camera.main;
         _screenCanvas.sortingLayerName = _sortingLayer;
-    }
+    }*/
 }

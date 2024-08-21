@@ -39,6 +39,10 @@ public class MenuButton : MonoBehaviour
     {
         ScreenManager.instance.PushInstance(screenName);
     }
+    public void BTN_Back()
+    {
+        ScreenManager.instance.Pop(false);
+    }
 
 
 

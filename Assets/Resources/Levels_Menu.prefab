@@ -197,7 +197,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 217627592610861014}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ScreenSettings, Assembly-CSharp
         m_MethodName: BTN_Back
         m_Mode: 1
@@ -411,7 +411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1800929436
+  GlobalObjectIdHash: 3739266721
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -434,6 +434,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _selectedLevel: 
   _playButton: {fileID: 0}
+  disconnectedUI: {fileID: 0}
+  allLevels: []
 --- !u!1 &2328410528346906549
 GameObject:
   m_ObjectHideFlags: 0
@@ -446,7 +448,7 @@ GameObject:
   - component: {fileID: 5668462929287526730}
   - component: {fileID: 6717616782380424678}
   - component: {fileID: 5183934274391902343}
-  - component: {fileID: 217627592610861014}
+  - component: {fileID: -4213173785073954630}
   m_Layer: 5
   m_Name: Levels_Menu
   m_TagString: Untagged
@@ -540,7 +542,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &217627592610861014
+--- !u!114 &-4213173785073954630
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -549,10 +551,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2328410528346906549}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3957334a08f599d4b93f9c30cccec069, type: 3}
+  m_Script: {fileID: 11500000, guid: e968fbe267ab4c74888c84dd42eebf10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _sortingLayer: Canvas
+  _canvasLayer: 1
+  buttons: []
 --- !u!1 &2845896630646167722
 GameObject:
   m_ObjectHideFlags: 0

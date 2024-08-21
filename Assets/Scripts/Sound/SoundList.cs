@@ -31,7 +31,8 @@ public class SoundList : MonoBehaviour
             Debug.LogWarning("Sound: " + name + " not found!");
             return;
         }
-        s.source.Play();
+        //s.source.Play();
+        //SoundManager.instance.Play(name);
     }
 
     public void Play(SoundsTypes name, bool loop = false)

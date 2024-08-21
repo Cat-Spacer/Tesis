@@ -9,33 +9,68 @@ public class DelayActiveButtons : MonoBehaviour
     [SerializeField] private string _menuName = default;
     //[SerializeField] private int loadingScreenIndex = 0;
 
-
     void Start()
     {
-        if (!_activeThis) Destroy(this);
+        if (!_activeThis || _activeThis.GetComponent<IDelayer>() == null)
+        {
+            _activeThis = GameManager.instance.StaticScreens()[Random.Range(0, GameManager.instance.StaticScreens().Count)].gameObject;
+
+            if (!_activeThis)
+            {
+                Destroy(this);
+                return;
+            }
+        }
         if (_menuByGO) _menuName = _menuByGO.name;
     }
 
     /// <summary>
-    /// Activate/Desactive game objects, push menus & load scenes
+    /// Start DelayActivation Corrutine by scene number
     /// </summary>
     public void BTN_Start(int scene = -1)
     {
+        //Check();
         _activeThis.SetActive(true);
 
         StartCoroutine(DelayActivation(_menuName, scene));
     }
 
     /// <summary>
-    /// Activate/Desactive game objects
+    /// Start DelayActivation Corrutine by screen name
+    /// </summary>
+    public void BTN_Start(string screen = " ")
+    {
+        //Check();
+        if (_activeThis) _activeThis.SetActive(true);
+
+        StartCoroutine(DelayActivation(screen, -1));
+    }
+
+    /// <summary>
+    /// Start DelayActivation Corrutine by default
     /// </summary>
     public void BTN_Start()
     {
+        //Check();
         _activeThis.SetActive(true);
 
         StartCoroutine(DelayActivation());
     }
 
+    /// <summary>
+    /// Start DelayActivation Corrutine by default
+    /// </summary>
+    public void BTN_Back()
+    {
+        //Check();
+        _activeThis.SetActive(true);
+
+        StartCoroutine(DelayActivation());
+    }
+
+    /// <summary>
+    /// Active/Desactive game object with a delay then opens a scene or screen
+    /// </summary>
     private IEnumerator DelayActivation(string menuName, int scene = -1)
     {
         yield return new WaitForSeconds(_delay);
@@ -50,6 +85,7 @@ public class DelayActiveButtons : MonoBehaviour
             item.SetActive(false);
         }
     }
+
     private IEnumerator DelayActivation()
     {
         yield return new WaitForSeconds(_delay);
@@ -64,5 +100,6 @@ public class DelayActiveButtons : MonoBehaviour
         {
             item.SetActive(false);
         }
+        if (MenuButton.instance) MenuButton.instance.BTN_Back();
     }
 }
