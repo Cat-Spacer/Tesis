@@ -31,7 +31,7 @@ public class CameraReadjust : NetworkBehaviour
 
     void LateUpdate()
     {
-        _movementAction();
+        //_movementAction();
     }
 
     void Move()
