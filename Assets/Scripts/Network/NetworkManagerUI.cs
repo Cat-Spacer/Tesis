@@ -50,7 +50,7 @@ public class NetworkManagerUI : NetworkBehaviour
 
     private Dictionary<MenuType, GameObject> _allMenu = new Dictionary<MenuType, GameObject>();
 
-    private Action _StartGameAction;
+    private Action _StartGameAction = delegate { };
     private void Awake()
     {
         _hostButton.onClick.AddListener(CreateRelay);

@@ -70,7 +70,7 @@ public class SoundManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(gameObject);
-        //InitialSet();
+        InitialSet();
     }
 
     private void InitialSet()
@@ -195,6 +195,7 @@ public class SoundManager : MonoBehaviour
     public void OnClickSound(string name)
     {
         Sound s = _usedSoundsByName.ReturnValue(name);
+        SoundSet(s);
         if (s == null)
         {
             Debug.LogWarning("Sound: " + name + " not found!");
@@ -207,6 +208,7 @@ public class SoundManager : MonoBehaviour
     public void OnClickSound(SoundsTypes name)
     {
         Sound s = _usedSounds.ReturnValue(name);
+        SoundSet(s);
         if (s == null)
         {
             Debug.LogWarning("Sound: " + name + " not found!");

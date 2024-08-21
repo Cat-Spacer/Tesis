@@ -12,7 +12,7 @@ public class Config : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape) && ScreenManager.instance)
         {
             if (ScreenPause.instance)
                 ScreenManager.instance.Pop();

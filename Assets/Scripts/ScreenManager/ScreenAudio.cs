@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(Canvas))]
-public class ScreenSettings : ScreenBase, IScreen
+public class ScreenAudio : ScreenBase, IScreen
 {
-    public static ScreenSettings instance;
+    public static ScreenAudio instance;
 
     private void Awake()
     {
