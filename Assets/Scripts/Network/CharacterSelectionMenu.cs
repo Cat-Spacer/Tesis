@@ -18,6 +18,7 @@ public class CharacterSelectionMenu : NetworkBehaviour
     [SerializeField] private Transform _catStartingPos, _hamsterStartingPos;
     public static CharacterSelectionMenu Instance;
     public CameraReadjust _camera;
+    public CameraFollow _twoCamera;
 
     [SerializeField] private GameObject _charaSelection;
     [SerializeField] private TextMeshProUGUI _player1SelectedText, _player2SelectedText;
@@ -28,7 +29,8 @@ public class CharacterSelectionMenu : NetworkBehaviour
     private void Awake()
     {
         if (Instance == null) Instance = this;
-        _camera = Camera.main.GetComponent<CameraReadjust>();
+        //_camera = Camera.main.GetComponent<CameraReadjust>();
+        _twoCamera = Camera.main.GetComponent<CameraFollow>();
     }
 
 
@@ -52,8 +54,8 @@ public class CharacterSelectionMenu : NetworkBehaviour
             SpawnCat();
             SpawnHamster();
             ConfirmCharactersRpc();
-            _camera.SetCatCharRpc();
-            _camera.SetHamsterCharRpc();
+            _twoCamera.StartFollowRpc();
+            //_camera.SetHamsterCharRpc();
             GameManagerNetwork.Instance.StartGame();
         }
     }
@@ -120,16 +122,15 @@ public class CharacterSelectionMenu : NetworkBehaviour
             _catChar = Instantiate(_catPrefab).gameObject.GetComponent<PlayerCharacterMultiplayer>();
             _catChar.GetComponent<NetworkObject>().SpawnAsPlayerObject(OwnerClientId);
             _catChar.transform.position = _catStartingPos.position;
-            //_camera.SetCatCharRpc(_catChar);
+            _twoCamera.SetCatTransform();
         }
         else
         {
             _catChar = Instantiate(_catPrefab).gameObject.GetComponent<PlayerCharacterMultiplayer>();
             _catChar.GetComponent<NetworkObject>().SpawnAsPlayerObject(1);
             _catChar.transform.position = _catStartingPos.position;
+            _twoCamera.SetCatTransformRpc();
         }
-        //_camera.SetCatCharRpc();
-        //GameManagerNetwork.Instance.SetCatChar(_catChar);
     }
 
     void SpawnHamster()
@@ -139,14 +140,14 @@ public class CharacterSelectionMenu : NetworkBehaviour
             _hamsterChar = Instantiate(_hamsterPrefab).gameObject.GetComponent<PlayerCharacterMultiplayer>();
             _hamsterChar.GetComponent<NetworkObject>().SpawnAsPlayerObject(OwnerClientId);
             _hamsterChar.transform.position = _hamsterStartingPos.position;
-            //_camera.SetHamsterCharRpc(_hamsterChar);
+            _twoCamera.SetHamsterTransform();
         }
         else
         {
             _hamsterChar = Instantiate(_hamsterPrefab).gameObject.GetComponent<PlayerCharacterMultiplayer>();
             _hamsterChar.GetComponent<NetworkObject>().SpawnAsPlayerObject(1);
             _hamsterChar.transform.position = _hamsterStartingPos.position;
-            //_camera.SetHamsterCharRpc(_hamsterChar);
+            _twoCamera.SetHamsterTransformRpc();
         }
 
         //GameManagerNetwork.Instance.SetHamsterChar(_hamsterChar);

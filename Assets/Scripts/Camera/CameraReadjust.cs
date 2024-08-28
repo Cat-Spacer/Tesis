@@ -101,7 +101,6 @@ public class CameraReadjust : NetworkBehaviour
         //if (characters.Contains(player)) return;
         characters.Add(player.transform);
     }
-
     void DisconnectPlayer(object[] parms)
     {
         _movementAction = delegate {  };
