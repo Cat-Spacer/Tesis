@@ -25,7 +25,7 @@ public class TorretNetwork : NetworkBehaviour, IActivate
     
     private void Start()
     {
-        if (_isActive) _shootAction = FireCooldown;
+        if (_isActive && IsServer) _shootAction = FireCooldown;
     }
     
     private void Update()
@@ -38,7 +38,7 @@ public class TorretNetwork : NetworkBehaviour, IActivate
     {
         if (fireTimer > 0)
         {
-            fireTimer -= Time.deltaTime;               
+            fireTimer -= Time.deltaTime;
         }
         else
         {

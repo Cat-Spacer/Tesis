@@ -12,10 +12,10 @@ public class CharacterModel : MonoBehaviour
     
     public void ChangeAnimationState(string newState)
     {
-        // if (_currentState == newState) return;
-        // _anim.Play(newState);
-        //
-        // _currentState = newState;
+        if (_currentState == newState) return;
+        _anim.Play(newState);
+        
+        _currentState = newState;
     }
 
     public void GetStun(bool isStun)

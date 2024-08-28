@@ -320,7 +320,7 @@ public void GetStun(float intensity)
     {
         if (_rb.velocity.y < 0 && !OnGround())
         {
-            _model.ChangeAnimationState("OnAir");
+            //_model.ChangeAnimationState("OnAir");
             _data.isFalling = true;
         }
         else _data.isFalling = false;

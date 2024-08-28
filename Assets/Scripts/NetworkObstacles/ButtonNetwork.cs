@@ -9,6 +9,7 @@ public class ButtonNetwork : NetworkBehaviour, IInteract
     [SerializeField] private List<GameObject> _connectionObj;
     private List<IActivate> _connection = new List<IActivate>();
     private bool _activated;
+    
 
     void Start()
     {
