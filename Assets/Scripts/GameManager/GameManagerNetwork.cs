@@ -184,6 +184,7 @@ public class GameManagerNetwork : NetworkBehaviour
         if (Instance == null) Instance = this;
         _respawnManager = GetComponentInChildren<Respawn>();
         Debug.Log("Awake");
+        Time.timeScale = 0f;
     }
     public void StartGame()
     {
@@ -195,6 +196,7 @@ public class GameManagerNetwork : NetworkBehaviour
     {
         Debug.Log("StartGameRpc");
         LiveCameraNetwork.Instance.StartLiveCamera(true);
+        Time.timeScale = 1f;
     }
     public void SetRespawnPoint(Vector3 pos)
     {

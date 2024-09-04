@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Xml.Serialization;
 using UnityEngine;
 using Unity.Netcode;
 
@@ -8,6 +9,7 @@ public class PlayerCharacterMultiplayer : NetworkBehaviour,IPlayerInteract, IDam
     [SerializeField] protected CharacterData _data;
     private CharacterModel _model;
     protected Rigidbody2D _rb;
+    private BoxCollider2D coll;
     protected Action _HitAction = delegate {  };
     protected Action _DebuffAction = delegate {  };
 
@@ -19,6 +21,7 @@ public class PlayerCharacterMultiplayer : NetworkBehaviour,IPlayerInteract, IDam
     public virtual void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
+        coll = GetComponent<BoxCollider2D>();
         _data = GetComponent<CharacterData>();
         _model = GetComponent<CharacterModel>();
         _material = GetComponentInChildren<SpriteRenderer>().material;
@@ -42,9 +45,9 @@ public class PlayerCharacterMultiplayer : NetworkBehaviour,IPlayerInteract, IDam
         
     }
 #region MOVEMENT
-    public void Movement(bool onInput ,int direction)
+    public void Movement(bool onInput ,float direction)
     {
-        if (!onInput || _data.isStun || !_data.canMove)
+        if (direction == 0 || _data.isStun || !_data.canMove)
         {
             _data.isRunning = false;
             if (!_data.isJumping && OnGround())
@@ -53,30 +56,46 @@ public class PlayerCharacterMultiplayer : NetworkBehaviour,IPlayerInteract, IDam
             }
             return;
         }
-        FaceDirection(direction);
+
+        _model.FaceDirection(direction);
         _data.isRunning = true;
         _data.isAirRunning = false;
 
+        // if (OnGround() && !_data.isJumping)
+        // {
+        //     var xMove =  _rb.velocity.x + (_data.faceDirection * _data.runAcel * Time.fixedDeltaTime);
+        //
+        //     if(_data.faceDirection == 1 && _data.maxSpeed > Mathf.Abs(_rb.velocity.x)) xMove = Mathf.Clamp(_rb.velocity.x + xMove, 0, _data.maxSpeed);
+        //     else if (_data.faceDirection == -1 && _data.maxSpeed > Mathf.Abs(_rb.velocity.x)) xMove = Mathf.Clamp(_rb.velocity.x + xMove, -_data.maxSpeed, 0);
+        //
+        //     _rb.velocity = new Vector2(xMove, _rb.velocity.y);
+        //     _model.ChangeAnimationState("Run");
+        // }
+        // else
+        // {
+        //     var xMove = _rb.velocity.x + (_data.faceDirection * _data.airRunAcel * Time.fixedDeltaTime);
+        //
+        //     if(_data.faceDirection == 1 && _data.maxSpeed > Mathf.Abs(_rb.velocity.x)) xMove = Mathf.Clamp(_rb.velocity.x + xMove, 0, _data.maxSpeed);
+        //     else if (_data.faceDirection == -1 && _data.maxSpeed > Mathf.Abs(_rb.velocity.x)) xMove = Mathf.Clamp(_rb.velocity.x + xMove, -_data.maxSpeed, 0);
+        //     
+        //     _rb.velocity = new Vector2(xMove, _rb.velocity.y);
+        // }
+        
         if (OnGround() && !_data.isJumping)
         {
-            var xMove =  _rb.velocity.x + (_data.faceDirection * _data.runAcel * Time.fixedDeltaTime);
-        
-            if(_data.faceDirection == 1 && _data.maxSpeed > Mathf.Abs(_rb.velocity.x)) xMove = Mathf.Clamp(_rb.velocity.x + xMove, 0, _data.maxSpeed);
-            else if (_data.faceDirection == -1 && _data.maxSpeed > Mathf.Abs(_rb.velocity.x)) xMove = Mathf.Clamp(_rb.velocity.x + xMove, -_data.maxSpeed, 0);
-      
-            _rb.velocity = new Vector2(xMove, _rb.velocity.y);
             _model.ChangeAnimationState("Run");
-            //Debug.Log("Ground run");
+            var xMove = direction * _data.runAcel * Time.fixedDeltaTime;
+            // if(_data.faceDirection > 1 && _data.maxSpeed > Mathf.Abs(_rb.velocity.x)) xMove = Mathf.Clamp(_rb.velocity.x + xMove, 0, _data.maxSpeed);
+            // else if(_data.faceDirection < 1 && _data.maxSpeed > Mathf.Abs(_rb.velocity.x)) xMove = Mathf.Clamp(_rb.velocity.x + xMove, -_data.maxSpeed, 0);
+            _rb.velocity = new Vector2(xMove, _rb.velocity.y);
         }
         else
         {
-            var xMove = _rb.velocity.x + (_data.faceDirection * _data.airRunAcel * Time.fixedDeltaTime);
-        
-            if(_data.faceDirection == 1 && _data.maxSpeed > Mathf.Abs(_rb.velocity.x)) xMove = Mathf.Clamp(_rb.velocity.x + xMove, 0, _data.maxSpeed);
-            else if (_data.faceDirection == -1 && _data.maxSpeed > Mathf.Abs(_rb.velocity.x)) xMove = Mathf.Clamp(_rb.velocity.x + xMove, -_data.maxSpeed, 0);
-            
+            _model.ChangeAnimationState("Run");
+            var xMove = direction * _data.airRunAcel * Time.fixedDeltaTime;
+            // if(_data.faceDirection > 1 && _data.maxSpeed > Mathf.Abs(_rb.velocity.x)) xMove = Mathf.Clamp(_rb.velocity.x + xMove, 0, _data.maxSpeed);
+            // else if(_data.faceDirection < 1 && _data.maxSpeed > Mathf.Abs(_rb.velocity.x)) xMove = Mathf.Clamp(_rb.velocity.x + xMove, -_data.maxSpeed, 0);
             _rb.velocity = new Vector2(xMove, _rb.velocity.y);
-            //Debug.Log("Air run");
         }
     }
     public void GroundFriction()
@@ -87,26 +106,13 @@ public class PlayerCharacterMultiplayer : NetworkBehaviour,IPlayerInteract, IDam
             _rb.velocity = new Vector2( decelerate, _rb.velocity.y);
         }
     }
-    public void FaceDirection(int direction)
-    {
-        if (_data.isStun) return;
-        _data.faceDirection = direction;
-        if (_data.faceDirection == 1) transform.rotation = Quaternion.Euler(transform.rotation.x, 0, transform.rotation.z);
-        else transform.rotation = Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z);
-    }
-
-    public float GetFaceDirection()
-    {
-        return _data.faceDirection;
-    }
-#endregion
+    #endregion
 #region JUMP
 
     public void JumpUp(bool jump)
     {
-        Debug.Log("Try Jump");
+        //Debug.Log("Try Jump");
         if (_data.isStun || _data.isJumping || !_data.canJump) return;
-        Debug.Log("Jump");
         if (jump && OnGround())
         {
             _rb.velocity = new Vector2(_rb.velocity.x, _data.jumpForce);
@@ -116,7 +122,7 @@ public class PlayerCharacterMultiplayer : NetworkBehaviour,IPlayerInteract, IDam
 
         if (_rb.velocity.y > 0 && _data.isJumping)
         {
-            Debug.Log("Jump");
+            //Debug.Log("Jump");
             _model.ChangeAnimationState("Jump");
             _data.jumpCounter += Time.deltaTime;
             if (_data.jumpCounter > _data.jumpTime)
@@ -295,7 +301,7 @@ public void GetStun(float intensity)
     {
         if (_data._onHandNetwork == null) return;
         _data._onHandNetwork.transform.parent = null;
-        _data._onHandNetwork.Drop(new Vector2(GetFaceDirection(), _data._dropOffset.y), _data.dropForce);
+        _data._onHandNetwork.Drop(new Vector2(_model.GetFaceDirection(), _data._dropOffset.y), _data.dropForce);
         _data._onHandNetwork = null;
     }
 
@@ -309,7 +315,7 @@ public void GetStun(float intensity)
     public void ArtificialGravity()
     {
         if (_data.onKnockback) return;
-        if (_rb.velocity.y < 0) _rb.velocity -= _data.gravity * _data.fallMultiplier * Time.fixedDeltaTime;
+        if (_rb.velocity.y < 0) _rb.velocity -= _data.gravity * (_data.fallMultiplier * Time.fixedDeltaTime);
     }
     bool OnGround()
     {
@@ -330,8 +336,7 @@ public void GetStun(float intensity)
     {
         _rb.velocity = Vector3.zero;
     }
-
-    public void Freeze(bool freeze)
+    void Freeze(bool freeze)
     {
         if(freeze) _rb.constraints = RigidbodyConstraints2D.FreezeAll;
         else
@@ -340,7 +345,21 @@ public void GetStun(float intensity)
             _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         }
     }
+
+    void CollidersSwitch(bool switcher)
+    {
+        coll.enabled = switcher;
+    }
     public void GetDamage()
+    {
+        DieRpc();
+        Freeze(true);
+        CollidersSwitch(false);
+        Die();
+    }
+
+    [Rpc(SendTo.NotMe)]
+    void DieRpc()
     {
         Freeze(true);
         Die();
@@ -358,7 +377,6 @@ public void GetStun(float intensity)
             _material.SetFloat(_dissolveAmount, lerpedDissolve);
             yield return null;
         }
-        Freeze(false);
         transform.position = GameManagerNetwork.Instance.GetRespawnPoint();
         Revive();
     }
@@ -376,6 +394,8 @@ public void GetStun(float intensity)
         }
         _data.canMove = true;
         _data.canJump = true;
+        CollidersSwitch(true);
+        Freeze(false);
     }
     void Die()
     {
