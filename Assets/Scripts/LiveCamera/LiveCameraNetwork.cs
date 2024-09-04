@@ -43,7 +43,7 @@ public class LiveCameraNetwork : NetworkBehaviour
     }
     public void GoOnAir()
     {
-        Debug.Log("On Air");
+        //Debug.Log("On Air");
         _onAir = true;
         SetLiveTime();
         _OnLiveAction = TimeOnAir;

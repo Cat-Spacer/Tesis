@@ -59,11 +59,12 @@ public class TorretNetwork : NetworkBehaviour, IActivate
         var bullet = NetworkObjectPool.Singleton.GetNetworkObject(_bulletPrefab);
         bullet.transform.position = _firePoint.position;
         bullet.transform.rotation = _firePoint.rotation;
-        if(!bullet.IsSpawned) bullet.GetComponent<NetworkObject>().Spawn(true);
+        if(!bullet.IsSpawned) bullet.Spawn(true);
+        bullet.GetComponent<BulletNetwork>().SetBullet(transform, _bulletSpeed, 5, _bulletPrefab);
         FireRpc(bullet);
     }
 
-    [Rpc(SendTo.Everyone)]
+    [Rpc(SendTo.NotMe)]
     private void FireRpc(NetworkObjectReference bulletRef)
     {
         bulletRef.TryGet(out NetworkObject bullet);

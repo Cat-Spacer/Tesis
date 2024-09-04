@@ -49,7 +49,7 @@ namespace Netcode.Extensions
             ClearPool();
         }
 
-                public override void OnDestroy()
+        public override void OnDestroy()
         {
             if (_instance == this)
             {
@@ -117,6 +117,7 @@ namespace Netcode.Extensions
             var go = networkObject.gameObject;
             go.SetActive(false);
             pooledObjects[prefab].Enqueue(networkObject);
+            
         }
 
         /// <summary>

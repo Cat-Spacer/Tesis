@@ -1063,6 +1063,7 @@ GameObject:
   - component: {fileID: 5712821374564025554}
   - component: {fileID: 4399457739622710783}
   - component: {fileID: 8285204374673127258}
+  - component: {fileID: 5748514625071082483}
   m_Layer: 26
   m_Name: HamsterCharacter
   m_TagString: Hamster
@@ -1083,12 +1084,12 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 9093543884728483489}
   - {fileID: 4487937511739410670}
   - {fileID: 2993557493192714798}
   - {fileID: 1205589541530278135}
   - {fileID: 5015383175119974042}
   - {fileID: 2572231556643456097}
-  - {fileID: 9093543884728483489}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6952922226570866096
@@ -1106,14 +1107,14 @@ MonoBehaviour:
   punchForce: 10
   maxSpeed: 6
   defaultMaxSpeed: 0
-  runAcel: 40
+  runAcel: 180
   groundFriction: 0.25
   turnPower: 5
   faceDirection: -1
   isRunning: 0
   canMove: 1
   airMaxSpeed: 6
-  airRunAcel: 25
+  airRunAcel: 160
   airFriction: 0
   isAirRunning: 1
   jumpForce: 10
@@ -1176,7 +1177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 4104229035
+  GlobalObjectIdHash: 4205632036
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
@@ -1211,6 +1212,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50f149f4c81ca4a4da4f9328ac1771c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveInput: {fileID: 8149272931783655771, guid: a226ac62016d46043984f92b0060928a,
+    type: 3}
+  jumpInput: {fileID: 8178648878617549865, guid: a226ac62016d46043984f92b0060928a,
+    type: 3}
+  attackInput: {fileID: -7729539778910272617, guid: a226ac62016d46043984f92b0060928a,
+    type: 3}
+  specialInput: {fileID: 3707009050277753080, guid: a226ac62016d46043984f92b0060928a,
+    type: 3}
+  interactInput: {fileID: 3152592842176985942, guid: a226ac62016d46043984f92b0060928a,
+    type: 3}
 --- !u!114 &1452123233175955786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1224,6 +1235,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _anim: {fileID: 5586532351358971123}
+  spRenderer: {fileID: 450029629621763454}
   stunIcon: {fileID: 5098197461723633478}
 --- !u!114 &7718413382062235048
 MonoBehaviour:
@@ -1247,7 +1259,7 @@ MonoBehaviour:
   SyncScaleX: 0
   SyncScaleY: 0
   SyncScaleZ: 0
-  PositionThreshold: 0.001
+  PositionThreshold: 0.01
   RotAngleThreshold: 0.01
   ScaleThreshold: 0.01
   UseQuaternionSynchronization: 0
@@ -1340,6 +1352,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80d7c879794dfda4687da0e400131852, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5748514625071082483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6357827629047354081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: a226ac62016d46043984f92b0060928a,
+    type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: Keyboard
+  m_DefaultActionMap: Gameplay
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &6406531737426798341
 GameObject:
   m_ObjectHideFlags: 0

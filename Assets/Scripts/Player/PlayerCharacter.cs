@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
+using System.ComponentModel.Design;
 using Unity.Netcode;
 using UnityEngine;
 
-public class PlayerCharacter : MonoBehaviour,IPlayerInteract, IDamageable 
+public class PlayerCharacter : NetworkBehaviour,IPlayerInteract, IDamageable 
 {
     [SerializeField] protected CharacterData _data;
     private CharacterModel _model;
@@ -331,10 +332,17 @@ public void GetStun(float intensity)
     }
     public void GetDamage()
     {
+        DieRpc();
         Freeze(true);
         Die();
     }
 
+    [Rpc(SendTo.NotMe)]
+    void DieRpc()
+    {
+        Freeze(true);
+        Die();
+    }
     IEnumerator Vanish()
     {
         float elapsedTime = 0f;
