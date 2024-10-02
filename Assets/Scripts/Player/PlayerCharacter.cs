@@ -1,37 +1,91 @@
 using System;
 using System.Collections;
-using System.ComponentModel.Design;
-using Unity.Netcode;
+using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
+using Unity.Netcode;
+using UnityEngine.InputSystem;
+using UnityEngine.PlayerLoop;
 
-public class PlayerCharacter : NetworkBehaviour,IPlayerInteract, IDamageable 
+public class PlayerCharacter : MonoBehaviour,IPlayerInteract, IDamageable//, IEquatable<PlayerCharacterMultiplayer>, INetworkSerializable
 {
+    protected Inputs input;
     [SerializeField] protected CharacterData _data;
-    private CharacterModel _model;
+    protected CharacterModel _model;
     protected Rigidbody2D _rb;
+    private BoxCollider2D coll;
     protected Action _HitAction = delegate {  };
     protected Action _DebuffAction = delegate {  };
+
+    public State state;
+    public State idleState;
+    public State groundState;
+    public State airState;
+    public State runState;
+    public State stunState;
+    
 
     private Material _material;
     private int _dissolveAmount = Shader.PropertyToID("_DissolveAmount");
     private float _dissolveTime = 2f;
 
+    [SerializeField] private CharacterType charType;
 
+    private bool doorInteracting;
     public virtual void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
+        coll = GetComponent<BoxCollider2D>();
         _data = GetComponent<CharacterData>();
         _model = GetComponent<CharacterModel>();
         _material = GetComponentInChildren<SpriteRenderer>().material;
+        input = GetComponent<Inputs>();
         //_data.characterPhysicsMat = _rb.sharedMaterial;
         _data.gravity = new Vector2(0, -Physics2D.gravity.y);
-    }
+        _rb.isKinematic = false;
 
-    protected virtual void Update()
+        idleState.SetUp(_rb, _model, input, _data);
+        groundState.SetUp(_rb, _model, input, _data);
+        airState.SetUp(_rb, _model, input, _data);
+        runState.SetUp(_rb, _model, input, _data);
+        stunState.SetUp(_rb, _model, input, _data);
+
+        state = idleState;
+    }
+    
+    private void Update()
     {
-
+        if (!doorInteracting) return;
+        if (state.isComplete)
+        {
+            SelectState();   
+        }
+        state.Do();
     }
 
+    void SelectState()
+    {
+        if (!_data.isStun) 
+        {
+            if (OnGround())
+            {
+                if (!input.left_Input && !input.right_Input)
+                {
+                    state = idleState;
+                }
+                else if(_data.canMove)
+                {
+                    state = runState;
+                }
+            }
+            else
+            {
+                state = airState;
+            }
+        }
+        state.Enter(); 
+    }
+    
     protected virtual void FixedUpdate()
     {
         ArtificialGravity();
@@ -41,45 +95,28 @@ public class PlayerCharacter : NetworkBehaviour,IPlayerInteract, IDamageable
         IsFalling();
         
     }
-#region MOVEMENT
-    public void Movement(bool onInput ,int direction)
+    #region MOVEMENT
+    public void Movement(bool run, int direction)
     {
-        if (!onInput || _data.isStun || !_data.canMove)
+        if (!run || !_data.canMove)
         {
             _data.isRunning = false;
-            if (!_data.isJumping && OnGround())
-            {
-                _model.ChangeAnimationState("Idle");
-            }
             return;
         }
-        FaceDirection(direction);
-        _data.isRunning = true;
-        _data.isAirRunning = false;
-
-        if (OnGround() && !_data.isJumping)
+        float xMove = direction;
+        if (OnGround())
         {
-            var xMove =  _rb.velocity.x + (_data.faceDirection * _data.runAcel * Time.fixedDeltaTime);
-        
-            if(_data.faceDirection == 1 && _data.maxSpeed > Mathf.Abs(_rb.velocity.x)) xMove = Mathf.Clamp(_rb.velocity.x + xMove, 0, _data.maxSpeed);
-            else if (_data.faceDirection == -1 && _data.maxSpeed > Mathf.Abs(_rb.velocity.x)) xMove = Mathf.Clamp(_rb.velocity.x + xMove, -_data.maxSpeed, 0);
-      
-            _rb.velocity = new Vector2(xMove, _rb.velocity.y);
-            _model.ChangeAnimationState("Run");
-            //Debug.Log("Ground run");
+            xMove *= _data.runAcel;
         }
         else
         {
-            var xMove = _rb.velocity.x + (_data.faceDirection * _data.airRunAcel * Time.fixedDeltaTime);
-        
-            if(_data.faceDirection == 1 && _data.maxSpeed > Mathf.Abs(_rb.velocity.x)) xMove = Mathf.Clamp(_rb.velocity.x + xMove, 0, _data.maxSpeed);
-            else if (_data.faceDirection == -1 && _data.maxSpeed > Mathf.Abs(_rb.velocity.x)) xMove = Mathf.Clamp(_rb.velocity.x + xMove, -_data.maxSpeed, 0);
-            
-            _rb.velocity = new Vector2(xMove, _rb.velocity.y);
-            //Debug.Log("Air run");
+            xMove *= _data.airRunAcel;
         }
+        _data.isRunning = true;
+        _rb.velocity = new Vector2(xMove, _rb.velocity.y);
+        _model.FaceDirection(direction);
     }
-    public void GroundFriction()
+    void GroundFriction()
     {
         if (OnGround() && !_data.isRunning)
         {
@@ -87,26 +124,13 @@ public class PlayerCharacter : NetworkBehaviour,IPlayerInteract, IDamageable
             _rb.velocity = new Vector2( decelerate, _rb.velocity.y);
         }
     }
-    public void FaceDirection(int direction)
-    {
-        if (_data.isStun) return;
-        _data.faceDirection = direction;
-        if (_data.faceDirection == 1) transform.rotation = Quaternion.Euler(transform.rotation.x, 0, transform.rotation.z);
-        else transform.rotation = Quaternion.Euler(transform.rotation.x, 180, transform.rotation.z);
-    }
-
-    public float GetFaceDirection()
-    {
-        return _data.faceDirection;
-    }
-#endregion
+    #endregion
 #region JUMP
 
     public void JumpUp(bool jump)
     {
-        Debug.Log("Try Jump");
+        //Debug.Log("Try Jump");
         if (_data.isStun || _data.isJumping || !_data.canJump) return;
-        Debug.Log("Jump");
         if (jump && OnGround())
         {
             _rb.velocity = new Vector2(_rb.velocity.x, _data.jumpForce);
@@ -116,7 +140,7 @@ public class PlayerCharacter : NetworkBehaviour,IPlayerInteract, IDamageable
 
         if (_rb.velocity.y > 0 && _data.isJumping)
         {
-            Debug.Log("Jump");
+            //Debug.Log("Jump");
             _model.ChangeAnimationState("Jump");
             _data.jumpCounter += Time.deltaTime;
             if (_data.jumpCounter > _data.jumpTime)
@@ -146,65 +170,88 @@ public class PlayerCharacter : NetworkBehaviour,IPlayerInteract, IDamageable
 #endregion
 #region KNOCKBACK
 
-public void GetKnockback(float pushForce,Vector2 dir,float stunForce)
-{
-    _data.knockbackDir = new Vector2(dir.x,  _data.knockbackDir.y);
-    _data.knockbackForce = pushForce;
-    _data.onKnockback = true;
-    _DebuffAction += KnockbackEffect;
-    GetStun(stunForce);
-}
-
-
-
-void KnockbackEffect()
-{
-    _data.knockbackCounter += Time.fixedDeltaTime;
-    if (_data.knockbackCounter < _data.knockbackTime)
+    public void GetKnockback(float pushForce,Vector2 dir,float stunForce)
     {
-        _rb.velocity = _data.knockbackDir * _data.knockbackForce;
-        _data.knockbackForce -= Time.fixedDeltaTime * _data.knockbackSpeedDecel;
+        _data.knockbackDir = new Vector2(dir.x,  _data.knockbackDir.y);
+        _data.knockbackForce = pushForce;
+        _data.onKnockback = true;
+        _DebuffAction += KnockbackEffect;
+        GetStun(stunForce);
     }
-    else
+    
+    
+    
+    void KnockbackEffect()
     {
-        _DebuffAction -= KnockbackEffect;
-        _data.knockbackCounter = 0;
-        _data.onKnockback = false;
+        _data.knockbackCounter += Time.fixedDeltaTime;
+        if (_data.knockbackCounter < _data.knockbackTime)
+        {
+            _rb.velocity = _data.knockbackDir * _data.knockbackForce;
+            _data.knockbackForce -= Time.fixedDeltaTime * _data.knockbackSpeedDecel;
+        }
+        else
+        {
+            _DebuffAction -= KnockbackEffect;
+            _data.knockbackCounter = 0;
+            _data.onKnockback = false;
+        }
     }
-}
 
 #endregion
 #region STUN
 
-public void Stun()
-{
-    _data.stunCounter -= Time.deltaTime;
-    if (_data.stunCounter <= 0)
+    public void Stun()
     {
-        _DebuffAction -= Stun;
-        _data.isStun = false;
-        _model.GetStun(_data.isStun);
-        _data.stunCounter = 0;
+        _data.stunCounter -= Time.deltaTime;
+        if (_data.stunCounter <= 0)
+        {
+            _DebuffAction -= Stun;
+            _data.isStun = false;
+            _model.GetStun(_data.isStun);
+            _data.stunCounter = 0;
+        }
     }
-}
-
-public void GetStun(float intensity)
-{
-    if (!_data.isStun)
+    
+    public void GetStun(float intensity)
     {
-        _data.isStun = true;
-        _model.GetStun(_data.isStun);
-        _DebuffAction += Stun;
+        if (!_data.isStun)
+        {
+            _data.isStun = true;
+            _model.GetStun(_data.isStun);
+            _DebuffAction += Stun;
+        }
+        _data.stunCounter += intensity;
     }
-    _data.stunCounter += intensity;
-}
 
 #endregion
-
+    public void Teletransport()
+    {
+        _model.Teletransport();
+    }
 #region CHAR_ACTIONS
 
     public virtual void Special(){}
-    public virtual void Punch(){}
+
+    public virtual void Punch()
+    {
+        if (!_data.canPunch) return;
+        var obj = Physics2D.OverlapCircle(_data.attackPoint.position, _data.attackRange.x, _data.attackableLayer);
+        if (obj)
+        {
+            var body = obj.gameObject.GetComponent<Rigidbody2D>();
+            if (body == null) return;
+            Vector2 direction =  new Vector2(_model.GetFaceDirection(), .8f);
+            body.AddForce(direction * _data.punchForce);
+            _data.canPunch = false;
+            StartCoroutine(PunchCd());
+        }
+    }
+
+    IEnumerator PunchCd()
+    {
+        yield return new WaitForSecondsRealtime(_data.punchCd);
+        _data.canPunch = true;
+    }
     public void Interact(bool onPress)
     {
         var interact = Physics2D.OverlapBox(transform.position, _data.interactSize, 0, _data.interactMask);
@@ -225,36 +272,42 @@ public void GetStun(float intensity)
             _data._interactObj.ShowInteract(true);
             if (onPress)
             {
-                Debug.Log("Tubo");
                 _data._interactObj.Interact(gameObject);
             }
             return;
         }
-        var item = interact.GetComponent<Item>();
+        var item = interact.GetComponent<ItemNetwork>();
         if (item != null)
         {
             _data.canvas.InteractEvent(true);
             if (onPress)
             {
-                _data._onHand = item;
-                _data._onHand.PickUp(this, true);
+                //_data._onHandNetwork = item;
+                //_data._onHandNetwork.PickUp(this, true);
             }
         }
     }
     
-    public virtual void JumpImpulse()
-    {
-        var otherPlayer = Physics2D.OverlapBox(transform.position, _data.jumpInpulseArea, 0, _data.playerMask);
-        if (otherPlayer)
-        {
-             var playerInteract = otherPlayer.gameObject.GetComponent<IPlayerInteract>();
-             if (playerInteract != null)
-             {
-                 playerInteract.GetJumpImpulse(_data.jumpImpulse);
-             }
-        }
-    }
+    // public virtual void JumpImpulse()
+    // {
+    //     var otherPlayer = Physics2D.OverlapBox(transform.position, _data.jumpInpulseArea, 0, _data.playerMask);
+    //     if (otherPlayer)
+    //     {
+    //          var playerInteract = otherPlayer.gameObject.GetComponent<IPlayerInteract>();
+    //          if (playerInteract == null) return;
+    //          var player = playerInteract.GetNetworkObject();
+    //          if (player == null) return;
+    //          JumpImpulseRpc(player);
+    //     }
+    // }
 
+    [Rpc(SendTo.Everyone)]
+    void JumpImpulseRpc(NetworkObjectReference player)
+    {
+        player.TryGet(out NetworkObject playerNetworkObject);
+        playerNetworkObject.GetComponent<IPlayerInteract>().GetJumpImpulse(_data.jumpImpulse);
+        //playerInteract.GetJumpImpulse(_data.jumpImpulse);
+    }
     public void GetJumpImpulse(float pushForce)
     {
         _rb.velocity = new Vector2(_rb.velocity.x, pushForce);
@@ -265,47 +318,51 @@ public void GetStun(float intensity)
         return default;
     }
 
-    public Item GiveItem(ItemType type)
+    public ItemNetwork GiveItem(ItemTypeNetwork type)
     {
-        if (_data._onHand == null) return default;
-        if (_data._onHand.Type() == type)
+        if (_data._onHandNetwork == null) return default;
+        if (_data._onHandNetwork.Type() == type)
         {
-            var item = _data._onHand;
+            var item = _data._onHandNetwork;
             item.transform.parent = null;
-            _data._onHand = null;
+            _data._onHandNetwork = null;
             return item;
         }
         return null;
     }
-    public void PickUp(Item item)
+    public void PickUp(ItemNetwork item)
     {
         if (item == null) return;
-        _data._onHand = item;
-        item.transform.parent = _data._inventoryPos.transform;
-        item.transform.position = _data._inventoryPos.transform.position;
+        _data._onHandNetwork = item;
+        item.NetworkObject.TrySetParent(_data._inventoryPos.transform);
+        //item.transform.position = _data._inventoryPos.transform.position;
     }
 
     public void DropItem()
     {
-        if (_data._onHand == null) return;
-        _data._onHand.transform.parent = null;
-        _data._onHand.Drop(new Vector2(GetFaceDirection(), _data._dropOffset.y), _data.dropForce);
-        _data._onHand = null;
+        if (_data._onHandNetwork == null) return;
+        _data._onHandNetwork.transform.parent = null;
+        _data._onHandNetwork.Drop(new Vector2(_model.GetFaceDirection(), _data._dropOffset.y), _data.dropForce);
+        _data._onHandNetwork = null;
     }
 
 #endregion
 #region OTHER
 
-    public void ArtificialGravity()
+    public Transform GetInventoryTransform()
+    {
+        return _data._inventoryPos;
+    } 
+    void ArtificialGravity()
     {
         if (_data.onKnockback) return;
-        if (_rb.velocity.y < 0) _rb.velocity -= _data.gravity * _data.fallMultiplier * Time.fixedDeltaTime;
+        if (_rb.velocity.y < 0) _rb.velocity -= _data.gravity * (_data.fallMultiplier * Time.fixedDeltaTime);
     }
     bool OnGround()
     {
         return _data.onGround = Physics2D.OverlapBox(_data.groundPos.position, _data.groundCheckArea, 0, _data.groundLayer);
     }
-
+    
     void IsFalling()
     {
         if (_rb.velocity.y < 0 && !OnGround())
@@ -320,8 +377,7 @@ public void GetStun(float intensity)
     {
         _rb.velocity = Vector3.zero;
     }
-
-    public void Freeze(bool freeze)
+    void Freeze(bool freeze)
     {
         if(freeze) _rb.constraints = RigidbodyConstraints2D.FreezeAll;
         else
@@ -330,10 +386,16 @@ public void GetStun(float intensity)
             _rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         }
     }
+
+    void CollidersSwitch(bool switcher)
+    {
+        coll.enabled = switcher;
+    }
     public void GetDamage()
     {
         DieRpc();
         Freeze(true);
+        CollidersSwitch(false);
         Die();
     }
 
@@ -343,6 +405,7 @@ public void GetStun(float intensity)
         Freeze(true);
         Die();
     }
+
     IEnumerator Vanish()
     {
         float elapsedTime = 0f;
@@ -355,8 +418,7 @@ public void GetStun(float intensity)
             _material.SetFloat(_dissolveAmount, lerpedDissolve);
             yield return null;
         }
-        Freeze(false);
-        transform.position = GameManagerNetwork.Instance.GetRespawnPoint();
+        transform.position = GameManager.Instance.GetRespawnPoint();
         Revive();
     }
     IEnumerator Appear()
@@ -373,18 +435,40 @@ public void GetStun(float intensity)
         }
         _data.canMove = true;
         _data.canJump = true;
+        CollidersSwitch(true);
+        Freeze(false);
     }
     void Die()
     {
         _data.canMove = false;
         _data.canJump = false;
-        StartCoroutine(Vanish());
+        StartCoroutine(Vanish()); //RPC seguramente...
     }
 
     void Revive()
     {
         StartCoroutine(Appear());
     }
+    public void ReceiveInputs(SO_Inputs newInput)
+    {
+        _model.ChangeAnimationState("ExitDoor");
+        input.SetInput(newInput);
+        _data.canMove = false;
+    }
+
+    public void EnterDoor()
+    {
+        _data.canMove = false;
+        doorInteracting = false;
+    }
+    public void ExitDoor()
+    {
+        _data.canMove = true;
+        doorInteracting = true;
+    }
+    public CharacterType GetCharType(){ return charType;} 
+
 #endregion
+
 }
 

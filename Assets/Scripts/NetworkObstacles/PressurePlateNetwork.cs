@@ -16,7 +16,6 @@ public class PressurePlateNetwork : NetworkBehaviour
         foreach (var connection in _connectionObj)
         {
             var obj = connection.GetComponent<IActivate>();
-            Debug.Log(obj);
             _connection.Add(obj);
         }
     }

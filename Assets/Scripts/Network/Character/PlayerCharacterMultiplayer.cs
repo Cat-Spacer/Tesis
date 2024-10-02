@@ -4,6 +4,13 @@ using System.Xml.Serialization;
 using UnityEngine;
 using Unity.Netcode;
 
+public enum CharacterType
+{
+    Cat,
+    Hamster,
+    Null
+}
+
 public class PlayerCharacterMultiplayer : NetworkBehaviour,IPlayerInteract, IDamageable//, IEquatable<PlayerCharacterMultiplayer>, INetworkSerializable
 {
     [SerializeField] protected CharacterData _data;
@@ -17,7 +24,7 @@ public class PlayerCharacterMultiplayer : NetworkBehaviour,IPlayerInteract, IDam
     private int _dissolveAmount = Shader.PropertyToID("_DissolveAmount");
     private float _dissolveTime = 2f;
 
-
+    [SerializeField] private CharacterType charType;
     public virtual void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
@@ -28,11 +35,23 @@ public class PlayerCharacterMultiplayer : NetworkBehaviour,IPlayerInteract, IDam
         //_data.characterPhysicsMat = _rb.sharedMaterial;
         _data.gravity = new Vector2(0, -Physics2D.gravity.y);
         _rb.isKinematic = false;
+        _data._fallSpeedYDampingChangeTreshold = MyCameraManager.instance._fallSpeedYDampingChangeThreshold;
     }
 
     protected virtual void Update()
     {
+        if (_rb.velocity.y < _data._fallSpeedYDampingChangeTreshold && !MyCameraManager.instance.IsLerpingYDamping &&
+            !MyCameraManager.instance.LerpedFromPlayerFalling)
+        {
+            MyCameraManager.instance.LerpYDamping(true);
+        }
 
+        if (_rb.velocity.y >= 0f && !MyCameraManager.instance.IsLerpingYDamping &&
+            MyCameraManager.instance.LerpedFromPlayerFalling)
+        {
+            MyCameraManager.instance.LerpedFromPlayerFalling = false;
+            MyCameraManager.instance.LerpYDamping(false);
+        }
     }
 
     protected virtual void FixedUpdate()
@@ -57,9 +76,8 @@ public class PlayerCharacterMultiplayer : NetworkBehaviour,IPlayerInteract, IDam
             return;
         }
 
-        _model.FaceDirection(direction);
+        _model.FaceDirection((int)direction);
         _data.isRunning = true;
-        _data.isAirRunning = false;
 
         // if (OnGround() && !_data.isJumping)
         // {
@@ -206,7 +224,10 @@ public void GetStun(float intensity)
 }
 
 #endregion
-
+public void Teletransport()
+{
+    _model.Teletransport();
+}
 #region CHAR_ACTIONS
 
     public virtual void Special(){}
@@ -377,7 +398,7 @@ public void GetStun(float intensity)
             _material.SetFloat(_dissolveAmount, lerpedDissolve);
             yield return null;
         }
-        transform.position = GameManagerNetwork.Instance.GetRespawnPoint();
+        transform.position = GameManager.Instance.GetRespawnPoint();
         Revive();
     }
     IEnumerator Appear()
@@ -408,6 +429,9 @@ public void GetStun(float intensity)
     {
         StartCoroutine(Appear());
     }
+
+    public CharacterType GetCharType(){ return charType;} 
+
 #endregion
 
     public bool Equals(PlayerCharacterMultiplayer other)

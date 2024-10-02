@@ -32,11 +32,11 @@ public class CatSpecial : MonoBehaviour
    }
    void SpitSpecial()
    {
-      if (!_canShoot) return;
-      var bullet = Instantiate(_hairballBullet).Set(gameObject,_cat.GetFaceDirection());
-      bullet.transform.position = transform.position + _spitPos;
-      _canShoot = false;
-      StartCoroutine(SpitCD());
+      // if (!_canShoot) return;
+      // var bullet = Instantiate(_hairballBullet).Set(gameObject,_cat.GetFaceDirection());
+      // bullet.transform.position = transform.position + _spitPos;
+      // _canShoot = false;
+      // StartCoroutine(SpitCD());
    }
 
    IEnumerator SpitCD()

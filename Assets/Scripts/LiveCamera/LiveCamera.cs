@@ -33,7 +33,10 @@ public class LiveCamera : MonoBehaviour
         _anim = GetComponent<Animator>();
         _anim.SetTrigger("GoOffAir");
     }
-    
+    public void StartLiveCamera(bool status)
+    {
+        _anim.SetTrigger("GoOffAir");
+    }
     public void GoOnAir()
     {
         Debug.Log("On Air");
