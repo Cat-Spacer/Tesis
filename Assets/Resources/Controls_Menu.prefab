@@ -1434,9 +1434,9 @@ GameObject:
   - component: {fileID: 9142594217991718253}
   - component: {fileID: 4285711224392992164}
   - component: {fileID: 5522459005382761169}
-  - component: {fileID: 8972593352433052656}
+  - component: {fileID: 2082785091494371792}
   m_Layer: 5
-  m_Name: Control_Menu
+  m_Name: Controls_Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1451,8 +1451,8 @@ RectTransform:
   m_GameObject: {fileID: 1122216874576580752}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.0037, y: 0.0037, z: 0}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1, y: 1, z: 0}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4937907609713755513}
   - {fileID: 5678992426443614894}
@@ -1491,7 +1491,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!114 &4285711224392992164
 MonoBehaviour:
@@ -1533,7 +1533,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &8972593352433052656
+--- !u!114 &2082785091494371792
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1542,10 +1542,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1122216874576580752}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3957334a08f599d4b93f9c30cccec069, type: 3}
+  m_Script: {fileID: 11500000, guid: e832eeb878c4f9c41afa887f5464f480, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _sortingLayer: Canvas
+  _canvasLayer: 2
+  buttons: []
 --- !u!1 &1131154632081346274
 GameObject:
   m_ObjectHideFlags: 0
@@ -1957,8 +1959,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8972593352433052656}
-        m_TargetAssemblyTypeName: ScreenSettings, Assembly-CSharp
+      - m_Target: {fileID: 2082785091494371792}
+        m_TargetAssemblyTypeName: ScreenControls, Assembly-CSharp
         m_MethodName: BTN_Back
         m_Mode: 1
         m_Arguments:
@@ -2836,7 +2838,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6862745, g: 0.4509804, b: 0.4509804, a: 0.39215687}
+  m_Color: {r: 0.6862745, g: 0.4509804, b: 0.4509804, a: 0.98039216}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -11038,7 +11040,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7749203478802719360}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -11712,7 +11714,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8972593352433052656}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ScreenSettings, Assembly-CSharp
         m_MethodName: BTN_Back
         m_Mode: 1

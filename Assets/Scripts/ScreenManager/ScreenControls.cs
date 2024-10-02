@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(Canvas))]
-public class ScreenSettings : ScreenBase, IScreen
+public class ScreenControls : ScreenBase, IScreen
 {
-    public static ScreenSettings instance;
+    public static ScreenControls instance;
 
     private void Awake()
     {
@@ -15,6 +15,7 @@ public class ScreenSettings : ScreenBase, IScreen
             return;
         }
         OnAwake();
+
     }
 
     public void BTN_Back()
