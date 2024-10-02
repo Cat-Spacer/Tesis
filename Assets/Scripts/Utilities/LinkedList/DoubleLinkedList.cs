@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class DoubleLinkedList<T> : IEnumerable
 {
-    ListNode<T> _first = default, _last = default;
+    DoubleListNode<T> _first = default, _last = default;
     int _count = 0;
 
     public int Count { get { return _count; } }
@@ -12,9 +12,9 @@ public class DoubleLinkedList<T> : IEnumerable
     {
         get
         {
-            if (index < 0 || index >= _count) throw new System.Exception("Index out");
+            if (index < 0 || index >= _count) throw new System.ArgumentOutOfRangeException("Index out");
 
-            var current = _first;
+            DoubleListNode<T> current = _first;
 
             if (index > _count * 0.5f)
             {
@@ -27,14 +27,14 @@ public class DoubleLinkedList<T> : IEnumerable
                 for (int i = 0; i < index; current = current.next, i++);
             } 
 
-            return current.element;
+            return current.value;
         }
 
         set
         {
-            if (index < 0 || index >= _count) throw new System.Exception("Index out");
+            if (index < 0 || index >= _count) throw new System.ArgumentOutOfRangeException("Index out");
 
-            var current = _first;
+            DoubleListNode<T> current = _first;
 
             if (index > _count * 0.5f)
             {
@@ -47,15 +47,15 @@ public class DoubleLinkedList<T> : IEnumerable
                 for (int i = 0; i < index; current = current.next, i++);
             }
 
-            current.element = value;
+            current.value = value;
         }
     }
 
     public void Add(T element)
     {
-        ListNode<T> node = new ListNode<T>();
+        DoubleListNode<T> node = new ();
 
-        node.element = element;
+        node.value = element;
 
         if(_last != null)
         {
@@ -72,13 +72,10 @@ public class DoubleLinkedList<T> : IEnumerable
         _count++;
     }
 
-    public void Remove(int index)
+    public void RemoveAt(int index)
     {
-        if (index < 0 || index >= _count)
-        {
-            Debug.LogWarning("Index out");
-            return;
-        }
+        if (index < 0 || index >= _count) throw new System.ArgumentOutOfRangeException("Index Out");
+
 
         if(index == 0)
         {
@@ -88,7 +85,7 @@ public class DoubleLinkedList<T> : IEnumerable
         }
         else
         {
-            var current = _first;
+            DoubleListNode<T> current = _first;
 
             for (int i = 0; i < index - 1; current = current.next, i++);
 
@@ -100,9 +97,45 @@ public class DoubleLinkedList<T> : IEnumerable
         _count--;
     }
 
+    public void Remove(T element)
+    {
+        if (element == null) throw new System.ArgumentNullException();
+
+        DoubleListNode<T> current = _first;
+
+        while (current != null)
+        {
+            if (current.value.Equals(element))
+            {
+                if (current == _first)
+                {
+                    _first = current.next;
+
+                    if (_first != null) _first.prev = null;
+                    else _last = null;
+                } 
+                else if (current == _last)
+                {
+                    _last = current.prev;
+                    _last.next = null;
+                }
+                else
+                {
+                    current.prev.next = current.next;
+                    current.next.prev = current.prev;
+                }
+
+                _count--;
+                return;
+            }
+
+            current = current.next;
+        }
+    }
+
     public bool Contains(T element)
     {
-        var current = _first;
+        DoubleListNode<T> current = _first;
 
         for (int i = 0; i < _count - 1; current = current.next, i++) 
             if (element.Equals(current)) return true;
@@ -116,7 +149,7 @@ public class DoubleLinkedList<T> : IEnumerable
 
         while (current != null)
         {
-            yield return current.element;
+            yield return current.value;
             current = current.next;
         }
     }
