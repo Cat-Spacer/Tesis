@@ -1,19 +1,25 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Netcode;
 using UnityEngine;
 
-public class CharacterModel : NetworkBehaviour
+public class CharacterModel : MonoBehaviour
 {
     public Animator _anim;
+    private CharacterData _data;
     private string _currentState;
     public SpriteRenderer spRenderer;
-
-    private float currentDirection;
-
+    private Material _mat;
+    
     [Header("Imgs")]
     public GameObject stunIcon;
-    
+
+    private void Start()
+    {
+        _data = GetComponent<CharacterData>();
+        _mat = spRenderer.material;
+    }
+
     public void ChangeAnimationState(string newState)
     {
         if (_currentState == newState) return;
@@ -21,25 +27,27 @@ public class CharacterModel : NetworkBehaviour
         
         _currentState = newState;
     }
-    public void FaceDirection(float direction)
+    public void FaceDirection(int direction)
     {
-        currentDirection = direction;
-        if (direction > 0)
+        //if (_data.faceDirection == direction) return;
+        _data.faceDirection = direction;
+        if (_data.faceDirection > 0)
         {
-            spRenderer.flipX = false;
-            FaceDirectionRpc(false);
+            transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
         }
-        else if (direction < 0)
+        else if (_data.faceDirection < 0)
         {
-            spRenderer.flipX = true;
-            FaceDirectionRpc(true);
+            transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
         }
     }
-
-    [Rpc(SendTo.NotMe)]
-    void FaceDirectionRpc(bool boolean)
+    public void Teletransport()
     {
-        spRenderer.flipX = boolean;
+        _mat.SetInteger("Tp_Bool", 1);
+    }
+
+    public void GetSmash()
+    {
+        ChangeAnimationState("GetSmash");
     }
     public void GetStun(bool isStun)
     {
@@ -47,6 +55,6 @@ public class CharacterModel : NetworkBehaviour
     }
     public float GetFaceDirection()
     {
-        return currentDirection;
+        return _data.faceDirection;
     }
 }

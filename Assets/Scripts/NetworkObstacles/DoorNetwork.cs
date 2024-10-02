@@ -8,9 +8,13 @@ using UnityEngine;
 public class DoorNetwork : NetworkBehaviour, IActivate
 {
     private BoxCollider2D _coll;
-    [SerializeField] private bool _open;
+    [SerializeField] private bool _activated;
     private NetworkVariable<bool> _OnOpen = new NetworkVariable<bool>();
+    private SpriteRenderer _sp;
+    [SerializeField] private Color activatedColor, desactivatedColor;
 
+    [SerializeField] private float speedChange;
+    
     private void Awake()
     {
         _coll = GetComponent<BoxCollider2D>();
@@ -18,37 +22,25 @@ public class DoorNetwork : NetworkBehaviour, IActivate
     
     private void Start()
     {
-        if (_open)
+        _sp = GetComponent<SpriteRenderer>();
+        if (!_activated)
         {
-            _OnOpen.Value = false;
-            gameObject.SetActive(false);
-            _coll.gameObject.SetActive(false);
-            _open = true;
+            _sp.color = desactivatedColor;
+            _coll.enabled = false;
+            _activated = false;
         }
         else
         {
-            gameObject.SetActive(true);
-            _coll.gameObject.SetActive(true);
-            _open = false;
+            _sp.color = activatedColor;
+            _coll.enabled = true;
+            _activated = true;
         }
     }
     void OpenClose()
     {
         if (!IsOwner) return;
-        if (!_open)
-        {
-            //gameObject.SetActive(false);
-            //_coll.gameObject.SetActive(false);
-            //_open = true;
-            ActivateRpc();
-        }
-        else
-        {
-            //gameObject.SetActive(true);
-            //_coll.gameObject.SetActive(true);
-            //_open = false;
-            DesactivateRpc();
-        }
+        if (!_activated) ActivateRpc();
+        else DesactivateRpc();
     }
     public void Activate()
     {
@@ -58,10 +50,9 @@ public class DoorNetwork : NetworkBehaviour, IActivate
     [Rpc(SendTo.Everyone)]
     void ActivateRpc()
     {
-        Debug.Log("Open");
-        gameObject.SetActive(false);
-        _coll.gameObject.SetActive(false);
-        _open = true;
+        _sp.color = activatedColor;
+        _coll.enabled = true;
+        _activated = true;
     }
     public void Desactivate()
     {
@@ -70,10 +61,9 @@ public class DoorNetwork : NetworkBehaviour, IActivate
     [Rpc(SendTo.Everyone)]
     void DesactivateRpc()
     {
-        Debug.Log("Close");
-        gameObject.SetActive(true);
-        _coll.gameObject.SetActive(true);
-        _open = false;
+        _sp.color = desactivatedColor;
+        _coll.enabled = false;
+        _activated = false;
     }
     
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+
 public class GameLevelMenu : NetworkBehaviour
 {
     [SerializeField] private Button _resumeBtn;
@@ -13,8 +14,7 @@ public class GameLevelMenu : NetworkBehaviour
     
     [SerializeField] private GameObject _pauseMenu;
     [SerializeField] private GameObject _disconnectedMenu;
-    
-    
+    [SerializeField] private GameObject _winMenu;
 
     private bool _onPause = false;
     
@@ -28,7 +28,7 @@ public class GameLevelMenu : NetworkBehaviour
 
     private void Start()
     {
-        NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallBack;
+        if(NetworkManager.Singleton != null) NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallBack;
     }
 
     private void NetworkManager_OnClientDisconnectCallBack(ulong clientId)
@@ -76,6 +76,25 @@ public class GameLevelMenu : NetworkBehaviour
         LevelMenuRpc();
     }
 
+    public void WinMenu()
+    {
+        _winMenu.SetActive(true);
+        WinMenuRpc();
+    }
+    [Rpc(SendTo.NotMe)]
+    void WinMenuRpc()
+    {
+        _winMenu.SetActive(true);
+    }
+    public void NextLevel()
+    {
+        NextLevelRpc();
+    }
+    [Rpc(SendTo.Server)]
+    void NextLevelRpc()
+    {
+        NetworkManager.SceneManager.LoadScene(GameManager.Instance.GetNextLevelName(), LoadSceneMode.Single);
+    }
     [Rpc(SendTo.Server)]
     void LevelMenuRpc()
     {

@@ -24,7 +24,7 @@ public class Item : MonoBehaviour
         if (pickUp)
         {
             HasPhysics(false);
-            player.PickUp(this);
+            //player.PickUp(this);
         }
     }
     public virtual void Drop(Vector2 dir, float dropForce)

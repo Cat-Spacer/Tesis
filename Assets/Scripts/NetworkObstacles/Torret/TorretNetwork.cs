@@ -49,12 +49,12 @@ public class TorretNetwork : NetworkBehaviour, IActivate
     }
     IEnumerator WaitForAnim()
     {
-        yield return new WaitForSeconds(_waitUntilShoot);
+        yield return new WaitForSeconds(_waitUntilShoot); 
         Fire();
     }
-
+ 
     private void Fire()
-    {
+    {  
         if (!IsServer) return;
         var bullet = NetworkObjectPool.Singleton.GetNetworkObject(_bulletPrefab);
         bullet.transform.position = _firePoint.position;

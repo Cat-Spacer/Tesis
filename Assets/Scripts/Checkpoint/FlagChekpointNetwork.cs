@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class FlagChekpointNetwork : MonoBehaviour
 {
-    [SerializeField] private GameObject _onFlag, _offFlag;
     [SerializeField] private Vector2 _boxArea;    
     [SerializeField] private LayerMask _players;
     private Animator _anim;
@@ -33,7 +32,7 @@ public class FlagChekpointNetwork : MonoBehaviour
         Debug.Log("FlagOn");
         _isOn = true;
         _anim.SetTrigger("ON");
-        GameManagerNetwork.Instance.SetRespawnPoint(flagNetworkObject.transform.position);
+        GameManager.Instance.SetRespawnPoint(flagNetworkObject.transform.position);
     }
     private void OnDrawGizmos()
     {

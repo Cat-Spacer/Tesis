@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class FlagChekpoint : MonoBehaviour
 {
-    [SerializeField] private GameObject _onFlag, _offFlag;
     [SerializeField] private Vector2 _boxArea;    
     [SerializeField] private LayerMask _players;
     private Animator _anim;
@@ -15,18 +14,18 @@ public class FlagChekpoint : MonoBehaviour
         _anim = GetComponent<Animator>();
     }
     
-    // void Update()
-    // {
-    //     if (_isOn) return;
-    //     var coll = Physics2D.OverlapBox(transform.position, _boxArea, 0, _players);
-    //     if (coll != null)
-    //     {
-    //         Debug.Log("FlagOn");
-    //         _isOn = true;
-    //         _anim.SetTrigger("ON");
-    //         GameManagerNetwork.Instance.SetRespawnPoint(transform.position);
-    //     }
-    // }
+    void Update()
+    {
+        if (_isOn) return;
+        var coll = Physics2D.OverlapBox(transform.position, _boxArea, 0, _players);
+        if (coll != null)
+        {
+            Debug.Log("FlagOn");
+            _isOn = true;
+            _anim.SetTrigger("ON");
+            GameManager.Instance.SetRespawnPoint(transform.position);
+        }
+    }
 
     private void OnDrawGizmos()
     {

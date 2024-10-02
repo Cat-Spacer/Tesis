@@ -6,22 +6,16 @@ public class CharacterData : MonoBehaviour
 {
     [Header("Punch")] public float punchForce;
     
-    [Header("Ground Movement")] 
-    public float maxSpeed;
-    [HideInInspector] public float defaultMaxSpeed; 
+    [Header("Ground Movement")]
     public float runAcel; 
     public float groundFriction;
-    public float turnPower;
     public int faceDirection = 1;
     public bool isRunning;
     public bool canMove = true;
     
-    [Header("Air Movement")] 
-    public float airMaxSpeed;
+    [Header("Air Movement")]
     public float airRunAcel;
-    public float airFriction;
-    public bool isAirRunning;
-    
+
     [Header("Jump")] 
     public float jumpForce;
     public bool isJumping;
@@ -35,6 +29,8 @@ public class CharacterData : MonoBehaviour
     public float stunForce;
     public Transform attackPoint;
     public Vector2 attackRange;
+    public float punchCd;
+    public bool canPunch = true;
 
     [Header("JumpImpulse")]
     public float jumpImpulse;
@@ -61,15 +57,11 @@ public class CharacterData : MonoBehaviour
     public float fallMultiplier;
     [HideInInspector] public Vector2 gravity;
     public bool isFalling;
-    [HideInInspector] public bool running = false;
 
     [Header("Interact")] 
     public Vector2 interactSize;
     public IInteract _interactObj;
 
-    [Header("CatSpecial")] 
-    public float specialTimmer;
-    
     [Header("Canvas")] 
     public PlayerCanvas canvas;
 
@@ -86,4 +78,10 @@ public class CharacterData : MonoBehaviour
     public LayerMask attackableLayer;
     public LayerMask playerMask;
     public LayerMask interactMask;
+
+    [Header("Animation")]
+    public bool onAnimation;
+    
+    [Header("Camera")] 
+    public float _fallSpeedYDampingChangeTreshold;
 }
