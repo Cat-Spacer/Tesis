@@ -32,7 +32,7 @@ public class IconFollower : MonoBehaviour
         {
             foreach (GameObject child in _childrens) child.SetActive(true);
 
-            Vector2 iconPosition = new(Mathf.Clamp(targetViewportPosition.x, -1 + _edgeBuffer, 1 - _edgeBuffer) * _bounds.x, Mathf.Clamp(targetViewportPosition.y, -1 + _edgeBuffer, 1 - +_edgeBuffer) * _bounds.y);
+            Vector2 iconPosition = new(Mathf.Clamp(targetViewportPosition.x,  _edgeBuffer - 1, 1 - _edgeBuffer) * _bounds.x, Mathf.Clamp(targetViewportPosition.y, _edgeBuffer - 1, 1 - _edgeBuffer) * _bounds.y);
 
             _rectTransform.anchoredPosition = Vector2.SmoothDamp(_rectTransform.anchoredPosition, iconPosition, ref _velocity, _smoothTime);
         }
