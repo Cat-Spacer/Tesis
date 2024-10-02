@@ -17,7 +17,7 @@ public class LinkedList<T> : IEnumerable
 
             for (int i = 0; i < index; current = current.next, i++);
 
-            return current.element;
+            return current.value;
         }
 
         set
@@ -28,14 +28,14 @@ public class LinkedList<T> : IEnumerable
 
             for (int i = 0; i < index; current = current.next, i++);
 
-            current.element = value;
+            current.value = value;
         }
     }
 
     public void Add(T value)
     {
         var node = new ListNode<T>();
-        node.element = value;
+        node.value = value;
 
         if (_first == null) _first = _last = node;
         else _last.next = _last = node;
@@ -72,7 +72,7 @@ public class LinkedList<T> : IEnumerable
 
         while (node != null)
         {
-            yield return node.element;
+            yield return node.value;
 
             node = node.next;
         }

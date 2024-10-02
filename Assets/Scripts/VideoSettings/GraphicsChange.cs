@@ -1,8 +1,9 @@
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using System.Linq;
+using System.Security.Cryptography;
 
 
 public class GraphicsChange : MonoBehaviour
@@ -11,7 +12,7 @@ public class GraphicsChange : MonoBehaviour
     [SerializeField] private int _resIndex = 0, _aaIndex = 0;
     [SerializeField] private TMP_Dropdown _qualityDropdown = default, _resolutionDropdown = default;
 
-    private Resolution[] _resolutions = default;
+    private List<Resolution> _resolutions = default;
 
     private void Awake()
     {
@@ -26,28 +27,31 @@ public class GraphicsChange : MonoBehaviour
         else
             _vsync.isOn = true;
 
-        _resolutions = Screen.resolutions;
+
+
+        _fullscreen.isOn = Screen.fullScreen;
+
+        #region Resolution Dropdown
+        _resolutions = Screen.resolutions.ToList<Resolution>();
+
         foreach (var res in _resolutions)
         {
             Debug.Log(res.width + "x" + res.height + " : " + res.refreshRateRatio);
         }
-
-        #region Resolution Dropdown
-
         _resolutionDropdown = GetComponentInChildren<TMP_Dropdown>();
         _resolutionDropdown.ClearOptions();
 
         List<string> options = new List<string>();
-        for (int i = 0; i < _resolutions.Length; i++)
+        for (int i = 0; i < _resolutions.Count; i++)
         {
-            options.Add($"{_resolutions[i].width} x {_resolutions[i].height}");
-            if (_resolutions[i].width == Screen.width && _resolutions[i].height == Screen.height)                
+            options.Add($"{_resolutions[i].width} x {_resolutions[i].height} - {_resolutions[i].refreshRateRatio.value} Hz");
+            if (_resolutions[i].width == Screen.width && _resolutions[i].height == Screen.height)
                 _resIndex = i;
         }
 
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         _resIndex = 1;
-        #endif
+#endif
 
         options.Reverse();
         _resolutionDropdown.AddOptions(options);

@@ -5,8 +5,7 @@ public class MenuButton : MonoBehaviour
 {
     public static MenuButton instance = default;
     [SerializeField] private int loadingScreenIndex = 0;
-    [SerializeField] private string _settingsScreenName = "Settings_Menu";
-    [SerializeField] private string _controlsScreenName = "Control_Menu";
+    [SerializeField] private string _settingsScreenName = "Settings_Menu", _controlsScreenName = "Control_Menu";
     private IScreen _activeScreen;
 
     private void Awake()
@@ -43,8 +42,6 @@ public class MenuButton : MonoBehaviour
     {
         ScreenManager.instance.Pop(false);
     }
-
-
 
     public void ExitButton() 
     {
