@@ -13,7 +13,7 @@ public class DelayActiveButtons : MonoBehaviour
     {
         if (!_activeThis || _activeThis.GetComponent<IDelayer>() == null)
         {
-            _activeThis = GameManager.instance.StaticScreens()[Random.Range(0, GameManager.instance.StaticScreens().Count)].gameObject;
+            //_activeThis = GameManager.Instance.StaticScreens()[Random.Range(0, GameManager.instance.StaticScreens().Count)].gameObject;
 
             if (!_activeThis)
             {

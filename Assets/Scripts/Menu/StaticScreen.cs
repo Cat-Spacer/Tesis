@@ -11,6 +11,6 @@ public class StaticScreen : MonoBehaviour, IDelayer
 
     public void SetToManager(GameManager parent = default)
     {
-        if (!parent && GameManager.instance) GameManager.instance.StaticScreens(this);
+        //if (!parent && GameManager.instance) GameManager.instance.StaticScreens(this);
     }
 }
