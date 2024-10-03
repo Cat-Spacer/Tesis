@@ -11,7 +11,7 @@ public class RunState : State
 
     public override void Do()
     {
-        if (!input.left_Input && !input.right_Input)
+        if (!input.left_Input && !input.right_Input || data.isStun)
         {
             isComplete = true;
         }
