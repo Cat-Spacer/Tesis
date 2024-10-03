@@ -8,41 +8,52 @@ public class CrushinTrap : MonoBehaviour, IActivate
 {
     private Animator _anim;
 
-    [SerializeField] private bool _startingState;
-    [SerializeField] private float _speed;
-    [SerializeField] private float _startDelay;
-    [SerializeField] private float _finishDelay;
-    private static readonly int Smash1 = Animator.StringToHash("Smash");
+    [SerializeField] private bool startingState;
+    [SerializeField] private float smashSpeed;
+    [SerializeField] private float recoverSpeed;
+    [SerializeField] private float startDelay;
+    [SerializeField] private float stayDelay;
+    [SerializeField] private float finishDelay;
+    private static readonly int SmashState = Animator.StringToHash("Smash");
+    private static readonly int ReturnState = Animator.StringToHash("Return");
 
     private bool isOn;
     private void Start()
     {
         _anim = GetComponent<Animator>();
-        _anim.speed = _speed;
-        if(_startingState)
+        if(startingState)
         {
             isOn = true;
-            StartCoroutine(Smash());
-        };
+            Activate();
+        }
     }
     
 
     IEnumerator Smash()
     {
-        yield return new WaitForSecondsRealtime(_startDelay);
+        yield return new WaitForSecondsRealtime(startDelay);
         if (isOn)
         {
-            _anim.SetTrigger(Smash1);
+            _anim.speed = smashSpeed;
+            _anim.SetTrigger(SmashState);
         }
+    }
+
+    public IEnumerator SmashStay()
+    {
+        yield return new WaitForSecondsRealtime(stayDelay);
+        _anim.speed = recoverSpeed;
+        _anim.SetTrigger(ReturnState);
     }
     public IEnumerator Return()
     {
-        yield return new WaitForSecondsRealtime(_finishDelay);
+        yield return new WaitForSecondsRealtime(finishDelay);
         StartCoroutine(Smash());
     }
     public void Activate()
     {
-        isOn = true; 
+        isOn = true;
+        _anim.speed = smashSpeed;
         StartCoroutine(Smash());
     }
 

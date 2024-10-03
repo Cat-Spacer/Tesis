@@ -12,7 +12,7 @@ public class IdleState : State
 
     public override void Do()
     {
-        if (!data.onGround || input.left_Input || input.right_Input)
+        if (!data.onGround || input.left_Input || input.right_Input || data.isStun)
         {
             isComplete = true;
         }
