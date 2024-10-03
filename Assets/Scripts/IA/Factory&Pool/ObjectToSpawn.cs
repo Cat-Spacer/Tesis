@@ -1,16 +1,15 @@
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class ObjectToSpawn : MonoBehaviour
 {
     public ObjectPool<ObjectToSpawn> objectPool = default;
 
-    private void Reset(){}
+    public virtual void Reset() { }
 
     public static void TurnOn(ObjectToSpawn b)
     {
-        b.Reset();
         b.gameObject.SetActive(true);
+        b.Reset();
     }
 
     public static void TurnOff(ObjectToSpawn b)
@@ -18,7 +17,7 @@ public class ObjectToSpawn : MonoBehaviour
         b.gameObject.SetActive(false);
     }
 
-    public void AddReference(ObjectPool<ObjectToSpawn> op)
+    public virtual void AddReference(ObjectPool<ObjectToSpawn> op)
     {
         objectPool = op;
     }

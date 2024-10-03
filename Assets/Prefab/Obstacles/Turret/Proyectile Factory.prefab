@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5710409634508122180}
-  - component: {fileID: 5710409634508122181}
+  - component: {fileID: 5652529477622550960}
   m_Layer: 0
   m_Name: Proyectile Factory
   m_TagString: Untagged
@@ -24,14 +24,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5710409634508122178}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5710409634508122181
+--- !u!114 &5652529477622550960
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,9 +41,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5710409634508122178}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6aaca14e87dff447b7e61741732efd4, type: 3}
+  m_Script: {fileID: 11500000, guid: bc67bf0a1afed1a449e2b042369df55a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectPrefab: {fileID: -556355810594252484, guid: e83dcce4dd5d20845a513c53a8b78efd,
+  _bulletPrefab: {fileID: 4433206153768271428, guid: 86c5abbaea363d645a1881fda5a66130,
     type: 3}
-  objectStock: 20
+  _initialCount: 5
+  _dynamic: 1
