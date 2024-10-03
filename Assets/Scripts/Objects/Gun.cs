@@ -1,76 +1,84 @@
 ﻿using System.Collections;
-using Unity.Netcode;
 using UnityEngine;
 
 namespace Weapons
 {
-    public class Gun : NetworkBehaviour
+    public class Gun : MonoBehaviour
     {
         private Animator _anim = default;
         [Header("Stats")]
-        public int damage = 10;
-        public float fireRate = 1.0f, fireTimer = 1.0f, bulletLifeTime = 1.0f, wait = 1.0f, distance = 150f;
-        public string shootSound = "gun_shoot", animState = "OwlPreShoot";
+        [SerializeField] private float _fireRate = 1.0f, _fireTimer = 1.0f, _wait = 1.0f;
+        [SerializeField] private string _shootSound = "gun_shoot", _animState = "OwlPreShoot";
 
         [Header("Objects")]
-        public Transform firePoint = default;
-        public AudioSource audioSource = default;
-        public ParticleSystem muzzleFlash = default;
+        [SerializeField] private Transform _firePoint = default;
+        [SerializeField] private AudioSource _audioSource = default;
+        [SerializeField] private ParticleSystem _muzzleFlash = default;
+        /// <summary>
+        /// Only use if there is no PoolManager
+        /// </summary>
+        [Header("No Pool Manager")]
+        [SerializeField] private ObjectToSpawn _objPrefab = default;
+        [SerializeField] private int _initialCount = 5;
+        [SerializeField] private bool _dynamic = true;
+        private OwnFactory _myFactory = default;
 
-        private string _currentState = default;
+        [SerializeField] private string _currentState = default;
 
+        public float FireRate { get { return _fireRate; } set { _fireRate = value; } }
 
-        private void Awake()
+        public void Start()
         {
-            fireTimer = fireRate;
-        }
-
-        private void Start()
-        {
-            _anim = GetComponentInChildren<Animator>();
-        }
-
-        protected virtual void Update()
-        {
-            FireCooldown();
+            if (!_anim) _anim = GetComponentInChildren<Animator>();
+            _fireTimer = _fireRate;
+            if (!BulletManager.instance)
+            {
+                _myFactory = new OwnFactory(_objPrefab, transform, _initialCount, _dynamic);
+            }
         }
 
         public virtual void FireCooldown()
         {
-            /* if (Time.time >= fireRate)
+            if (_fireTimer > 0)
             {
-                FireBullet();
-                 fireRate = Time.time + 1.0f / fireRate;
-            }*/
-
-            if (fireTimer > 0)
-            {
-                fireTimer -= Time.deltaTime;               
+                _fireTimer -= Time.deltaTime;
             }
             else
             {
-                fireTimer = fireRate;
+                _fireTimer = _fireRate;
                 StartCoroutine(WaitForAnim());
-                ChangeAnimationState(animState);
+                ChangeAnimationState(_animState);
             }
         }
 
         public virtual void FireBullet()
         {
-            Bullet bullet = BulletManager.instance.objectPool.GetObject();
-            if (bullet!) return;
-            Shoot.Fire(bullet, firePoint, gameObject);
+            Bullet bullet = default;
+            if (BulletManager.instance)
+            {
+                bullet = BulletManager.instance.objectPool.GetObject().GetComponent<Bullet>();
+                bullet.AddReference(BulletManager.instance.objectPool);
+            }
+            else
+            {
+                bullet = _myFactory.objectPool.GetObject().GetComponent<Bullet>();
+                bullet.AddReference(_myFactory.objectPool);
+            }
+
+            if (!bullet) return;
+            Shoot.Fire(bullet, _firePoint, gameObject);
         }
 
         IEnumerator WaitForAnim()
         {
-            yield return new WaitForSeconds(wait);
+            yield return new WaitForSeconds(_wait);
             FireBullet();
         }
+
         public void ChangeAnimationState(string newState)
         {
             if (_currentState == newState) return;
-            _anim.Play(newState);
+            if (_anim) _anim.Play(newState);
 
             _currentState = newState;
         }

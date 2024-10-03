@@ -4,17 +4,19 @@ public class BulletManager : MonoBehaviour
 {
     public static BulletManager instance = default;
 
-    public Bullet bulletPrefab = default;
-    private BulletFactory factory = default;
-    public ObjectPool<Bullet> objectPool = default;
+    [SerializeField] private Bullet _bulletPrefab = default;
+    private BulletFactory _factory = default;
+    public ObjectPool<ObjectToSpawn> objectPool = default;
+    [SerializeField] private int _initialCount = 5;
+    [SerializeField] private bool _dynamic = true;
 
     private void Awake()
     {
-        if (instance!)
+        if (!instance)
         {
             instance = this;
-            factory = new BulletFactory(bulletPrefab);
-            objectPool = new ObjectPool<Bullet>(factory.GetObj, ObjectToSpawn.TurnOff, ObjectToSpawn.TurnOn, 4);
+            _factory = new BulletFactory(_bulletPrefab, transform);
+            objectPool = new ObjectPool<ObjectToSpawn>(_factory.GetObj, ObjectToSpawn.TurnOff, ObjectToSpawn.TurnOn, _initialCount, _dynamic);
         }
         else Destroy(gameObject);
     }
