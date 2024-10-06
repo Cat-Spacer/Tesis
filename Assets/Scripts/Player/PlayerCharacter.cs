@@ -7,7 +7,7 @@ using Unity.Netcode;
 using UnityEngine.InputSystem;
 using UnityEngine.PlayerLoop;
 
-public class PlayerCharacter : MonoBehaviour,IPlayerInteract, IDamageable//, IEquatable<PlayerCharacterMultiplayer>, INetworkSerializable
+public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
 {
     protected Inputs input;
     [SerializeField] protected CharacterData _data;
@@ -65,7 +65,11 @@ public class PlayerCharacter : MonoBehaviour,IPlayerInteract, IDamageable//, IEq
 
     void SelectState()
     {
-        if (!_data.isStun) 
+        if (_data.isStun)
+        {
+            state = stunState;
+        }
+        else
         {
             if (OnGround())
             {
@@ -91,14 +95,13 @@ public class PlayerCharacter : MonoBehaviour,IPlayerInteract, IDamageable//, IEq
         ArtificialGravity();
         GroundFriction();
         _HitAction();
-        _DebuffAction();
         IsFalling();
         
     }
-    #region MOVEMENT
+#region MOVEMENT
     public void Movement(bool run, int direction)
     {
-        if (!run || !_data.canMove)
+        if (!run || !_data.canMove || _data.isStun)
         {
             _data.isRunning = false;
             return;
@@ -124,7 +127,7 @@ public class PlayerCharacter : MonoBehaviour,IPlayerInteract, IDamageable//, IEq
             _rb.velocity = new Vector2( decelerate, _rb.velocity.y);
         }
     }
-    #endregion
+#endregion
 #region JUMP
 
     public void JumpUp(bool jump)
@@ -168,59 +171,18 @@ public class PlayerCharacter : MonoBehaviour,IPlayerInteract, IDamageable//, IEq
         // }
     }
 #endregion
-#region KNOCKBACK
 
-    public void GetKnockback(float pushForce,Vector2 dir,float stunForce)
-    {
-        _data.knockbackDir = new Vector2(dir.x,  _data.knockbackDir.y);
-        _data.knockbackForce = pushForce;
-        _data.onKnockback = true;
-        _DebuffAction += KnockbackEffect;
-        GetStun(stunForce);
-    }
-    
-    
-    
-    void KnockbackEffect()
-    {
-        _data.knockbackCounter += Time.fixedDeltaTime;
-        if (_data.knockbackCounter < _data.knockbackTime)
-        {
-            _rb.velocity = _data.knockbackDir * _data.knockbackForce;
-            _data.knockbackForce -= Time.fixedDeltaTime * _data.knockbackSpeedDecel;
-        }
-        else
-        {
-            _DebuffAction -= KnockbackEffect;
-            _data.knockbackCounter = 0;
-            _data.onKnockback = false;
-        }
-    }
-
-#endregion
 #region STUN
 
-    public void Stun()
+    public void Stun(float stunForce)
     {
-        _data.stunCounter -= Time.deltaTime;
-        if (_data.stunCounter <= 0)
-        {
-            _DebuffAction -= Stun;
-            _data.isStun = false;
-            _model.GetStun(_data.isStun);
-            _data.stunCounter = 0;
-        }
+        _data.isStun = true;
+        StartCoroutine(StunTimer(stunForce));
     }
-    
-    public void GetStun(float intensity)
+    IEnumerator StunTimer(float stunForce)
     {
-        if (!_data.isStun)
-        {
-            _data.isStun = true;
-            _model.GetStun(_data.isStun);
-            _DebuffAction += Stun;
-        }
-        _data.stunCounter += intensity;
+        yield return new WaitForSecondsRealtime(stunForce);
+        _data.isStun = false;
     }
 
 #endregion
@@ -239,11 +201,18 @@ public class PlayerCharacter : MonoBehaviour,IPlayerInteract, IDamageable//, IEq
         if (obj)
         {
             var body = obj.gameObject.GetComponent<Rigidbody2D>();
-            if (body == null) return;
-            Vector2 direction =  new Vector2(_model.GetFaceDirection(), .8f);
-            body.AddForce(direction * _data.punchForce);
-            _data.canPunch = false;
-            StartCoroutine(PunchCd());
+            if (body != null)
+            {
+                Vector2 direction =  new Vector2(_model.GetFaceDirection(), .8f);
+                body.AddForce(direction * _data.punchForce);
+                _data.canPunch = false;
+                StartCoroutine(PunchCd());
+            }
+            var player = obj.gameObject.GetComponent<IStun>();
+            if (player != null)
+            {
+                player.Stun(_data.stunForce);
+            }
         }
     }
 
@@ -469,6 +438,7 @@ public class PlayerCharacter : MonoBehaviour,IPlayerInteract, IDamageable//, IEq
     public CharacterType GetCharType(){ return charType;} 
 
 #endregion
+
 
 }
 

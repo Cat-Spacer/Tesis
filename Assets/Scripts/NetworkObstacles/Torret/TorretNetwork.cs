@@ -1,10 +1,10 @@
 using System;
 using System.Collections;
 using Netcode.Extensions;
-using Unity.Netcode;
 using UnityEngine;
+using Weapons;
 
-public class TorretNetwork : NetworkBehaviour, IActivate
+public class TorretNetwork : Gun, IActivate
 {
     private Action _shootAction = delegate { };
     [Header("Stats")]
@@ -20,12 +20,11 @@ public class TorretNetwork : NetworkBehaviour, IActivate
     private void Awake()
     {
         fireTimer = fireRate;
-        if(IsServer) NetworkObjectPool.Singleton.InitializePool();
     }
     
     private void Start()
     {
-        if (_isActive && IsServer) _shootAction = FireCooldown;
+        
     }
     
     private void Update()
@@ -54,22 +53,14 @@ public class TorretNetwork : NetworkBehaviour, IActivate
     }
  
     private void Fire()
-    {  
-        if (!IsServer) return;
+    {
         var bullet = NetworkObjectPool.Singleton.GetNetworkObject(_bulletPrefab);
         bullet.transform.position = _firePoint.position;
         bullet.transform.rotation = _firePoint.rotation;
         if(!bullet.IsSpawned) bullet.Spawn(true);
         bullet.GetComponent<BulletNetwork>().SetBullet(transform, _bulletSpeed, 5, _bulletPrefab);
-        FireRpc(bullet);
     }
 
-    [Rpc(SendTo.NotMe)]
-    private void FireRpc(NetworkObjectReference bulletRef)
-    {
-        bulletRef.TryGet(out NetworkObject bullet);
-        bullet.GetComponent<BulletNetwork>().SetBullet(transform, _bulletSpeed, 5, _bulletPrefab);
-    }
     public void Activate()
     {
         if(!_isActive) _shootAction = FireCooldown;

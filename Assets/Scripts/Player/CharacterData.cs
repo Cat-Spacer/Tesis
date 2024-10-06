@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class CharacterData : MonoBehaviour
 {
-    [Header("Punch")] public float punchForce;
-    
     [Header("Ground Movement")]
     public float runAcel; 
     public float groundFriction;
@@ -26,6 +24,7 @@ public class CharacterData : MonoBehaviour
     public bool canJump = true;
 
     [Header("Attack")] 
+    public float punchForce;
     public float stunForce;
     public Transform attackPoint;
     public Vector2 attackRange;
@@ -38,7 +37,7 @@ public class CharacterData : MonoBehaviour
     
     [Header("Stun")]
     public float stunCounter;
-    public bool isStun;
+    public bool isStun = false;
 
     [Header("Knockback")] 
     public float knockbackTime;
