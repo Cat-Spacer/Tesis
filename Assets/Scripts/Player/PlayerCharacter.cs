@@ -243,20 +243,24 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
             {
                 _data._interactObj.Interact(gameObject);
             }
-            return;
-        }
-        var item = interact.GetComponent<ItemNetwork>();
-        if (item != null)
-        {
-            _data.canvas.InteractEvent(true);
-            if (onPress)
-            {
-                //_data._onHandNetwork = item;
-                //_data._onHandNetwork.PickUp(this, true);
-            }
         }
     }
-    
+
+    void InteractObject(InteractEnum type)
+    {
+        switch (type)
+        {
+            case InteractEnum.Button:
+                
+                break;
+            case InteractEnum.Door:
+                
+                break;
+            case InteractEnum.Tp:
+                
+                break;
+        }
+    }
     // public virtual void JumpImpulse()
     // {
     //     var otherPlayer = Physics2D.OverlapBox(transform.position, _data.jumpInpulseArea, 0, _data.playerMask);
@@ -269,14 +273,6 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
     //          JumpImpulseRpc(player);
     //     }
     // }
-
-    [Rpc(SendTo.Everyone)]
-    void JumpImpulseRpc(NetworkObjectReference player)
-    {
-        player.TryGet(out NetworkObject playerNetworkObject);
-        playerNetworkObject.GetComponent<IPlayerInteract>().GetJumpImpulse(_data.jumpImpulse);
-        //playerInteract.GetJumpImpulse(_data.jumpImpulse);
-    }
     public void GetJumpImpulse(float pushForce)
     {
         _rb.velocity = new Vector2(_rb.velocity.x, pushForce);
@@ -285,19 +281,6 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
     public NetworkObject GetNetworkObject()
     {
         return default;
-    }
-
-    public ItemNetwork GiveItem(ItemTypeNetwork type)
-    {
-        if (_data._onHandNetwork == null) return default;
-        if (_data._onHandNetwork.Type() == type)
-        {
-            var item = _data._onHandNetwork;
-            item.transform.parent = null;
-            _data._onHandNetwork = null;
-            return item;
-        }
-        return null;
     }
     public void PickUp(ItemNetwork item)
     {
@@ -362,16 +345,8 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
     }
     public void GetDamage()
     {
-        DieRpc();
         Freeze(true);
         CollidersSwitch(false);
-        Die();
-    }
-
-    [Rpc(SendTo.NotMe)]
-    void DieRpc()
-    {
-        Freeze(true);
         Die();
     }
 
@@ -430,8 +405,20 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
         _data.canMove = false;
         doorInteracting = false;
     }
+
+    public void EnterDoorAnimation()
+    {
+        _model.ChangeAnimationState("EnterDoor");
+    }
     public void ExitDoor()
     {
+        _model.ChangeAnimationState("ExitDoor");
+        StartCoroutine(ExitDoorWaitMovement());
+    }
+
+    IEnumerator ExitDoorWaitMovement()
+    {
+        yield return new WaitForSecondsRealtime(1);
         _data.canMove = true;
         doorInteracting = true;
     }

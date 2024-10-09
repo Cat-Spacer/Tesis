@@ -55,4 +55,9 @@ public class ElectricityButton : MonoBehaviour, IInteract
     {
 
     }
+
+    public InteractEnum GetInteractType()
+    {
+        return default;
+    }
 }

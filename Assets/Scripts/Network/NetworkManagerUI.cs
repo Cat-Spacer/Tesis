@@ -15,7 +15,7 @@ using Unity.Services.Relay.Models;
 using UnityEngine.SceneManagement;
 
 [Serializable]
-public enum MenuType
+public enum MenuTypeNetwork
 {
     MainMenu,
     ConnectionTypeMenu,
@@ -48,7 +48,7 @@ public class NetworkManagerUI : NetworkBehaviour
     [SerializeField] private GameObject creatingLobby;
     [SerializeField] private GameObject joiningLobby;
 
-    private Dictionary<MenuType, GameObject> _allMenu = new Dictionary<MenuType, GameObject>();
+    private Dictionary<MenuTypeNetwork, GameObject> _allMenu = new Dictionary<MenuTypeNetwork, GameObject>();
 
     private Action _StartGameAction = delegate {  };
     private void Awake()
@@ -76,13 +76,13 @@ public class NetworkManagerUI : NetworkBehaviour
 
         NetworkManager.Singleton.OnServerStarted += OnCreatedLobby;
  
-        _allMenu.Add(MenuType.MainMenu,mainMenu);
-        _allMenu.Add(MenuType.ConnectionTypeMenu,connectionTypeMenu);
-        _allMenu.Add(MenuType.HostWaitingMenu,hostWaitingMenu);
-        _allMenu.Add(MenuType.ClientCodeMenu,clientCodeMenu);
-        _allMenu.Add(MenuType.LevelSelectionMenu,levelSelectionMenu);
-        _allMenu.Add(MenuType.CreatingLobby,creatingLobby);
-        _allMenu.Add(MenuType.JoiningLobby,joiningLobby);
+        _allMenu.Add(MenuTypeNetwork.MainMenu,mainMenu);
+        _allMenu.Add(MenuTypeNetwork.ConnectionTypeMenu,connectionTypeMenu);
+        _allMenu.Add(MenuTypeNetwork.HostWaitingMenu,hostWaitingMenu);
+        _allMenu.Add(MenuTypeNetwork.ClientCodeMenu,clientCodeMenu);
+        _allMenu.Add(MenuTypeNetwork.LevelSelectionMenu,levelSelectionMenu);
+        _allMenu.Add(MenuTypeNetwork.CreatingLobby,creatingLobby);
+        _allMenu.Add(MenuTypeNetwork.JoiningLobby,joiningLobby);
     }
     private void Update()
     {
@@ -91,7 +91,7 @@ public class NetworkManagerUI : NetworkBehaviour
     private async void CreateRelay()
     {
         if (NetworkManager.ServerIsHost) return;
-        OpenMenu(MenuType.CreatingLobby);
+        OpenMenu(MenuTypeNetwork.CreatingLobby);
         try
         {
             Allocation allocation = await RelayService.Instance.CreateAllocationAsync(1);
@@ -105,7 +105,7 @@ public class NetworkManagerUI : NetworkBehaviour
         catch (RelayServiceException e)
         {
             Debug.Log(e);
-            OpenMenu(MenuType.MainMenu);
+            OpenMenu(MenuTypeNetwork.MainMenu);
         }
     }
     private async void JoinRelay(string joinCode)
@@ -119,7 +119,7 @@ public class NetworkManagerUI : NetworkBehaviour
             RelayServerData relayServerData = new RelayServerData(joinAllocation, "dtls");
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
 
-            OpenMenu(MenuType.JoiningLobby);
+            OpenMenu(MenuTypeNetwork.JoiningLobby);
             NetworkManager.Singleton.StartClient();
         }
         catch(RelayServiceException e){Debug.Log(e);}
@@ -127,17 +127,17 @@ public class NetworkManagerUI : NetworkBehaviour
 
     private void OnCreatedLobby()
     {
-        OpenMenu(MenuType.HostWaitingMenu);
+        OpenMenu(MenuTypeNetwork.HostWaitingMenu);
     }
     public void OpenMenu(MenuEnum key)
     {
         foreach (var menu in _allMenu)
         {
-            menu.Value.SetActive(menu.Key == key.type);
+            menu.Value.SetActive(menu.Key == key.typeNetwork);
         }   
     }
 
-    void OpenMenu(MenuType key)
+    void OpenMenu(MenuTypeNetwork key)
     {
         foreach (var menu in _allMenu)
         {

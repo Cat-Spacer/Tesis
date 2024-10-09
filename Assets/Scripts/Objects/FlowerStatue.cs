@@ -35,4 +35,9 @@ public class FlowerStatue : MonoBehaviour, IInteract
     {
 
     }
+
+    public InteractEnum GetInteractType()
+    {
+        return default;
+    }
 }

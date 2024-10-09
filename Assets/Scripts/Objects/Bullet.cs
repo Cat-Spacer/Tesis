@@ -59,8 +59,8 @@ public class Bullet : ObjectToSpawn
             }
 
             //Destroy(gameObject);
-            objectPool.ReturnObject(this);
             Reset();
+            objectPool.ReturnObject(this);
         }
     }
 

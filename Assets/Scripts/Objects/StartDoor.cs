@@ -5,7 +5,6 @@ using UnityEngine;
 public class StartDoor : MonoBehaviour
 {
     [SerializeField] private CharacterType playerType;
-    private BoxCollider2D _coll;
     private Animator _anim;
     [SerializeField] private Transform playerPosition;
     private void Start()
@@ -15,14 +14,24 @@ public class StartDoor : MonoBehaviour
 
     public void Open()
     {
-        _anim.Play("Open_Door");
+        _anim.Play("Start_Open_Door");
     }
 
+    public void CloseDoor()
+    {
+        StartCoroutine(WaitCloseDoor());
+    }
+
+    IEnumerator WaitCloseDoor()
+    {
+        yield return new WaitForSecondsRealtime(1.5f);
+        Close();
+    }
     public void Close()
     {
-        _anim.Play("Close_Door");
+        _anim.Play("Start_Close_Door");
     }
-
+    public void None(){}
     public Transform GetPlayerPosition()
     {
         return playerPosition;

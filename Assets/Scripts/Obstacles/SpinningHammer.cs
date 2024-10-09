@@ -18,7 +18,7 @@ public class SpinningHammer : MonoBehaviour
 
     private void Update()
     {
-        transform.Rotate(0, 0, rotationSpeed * Time.deltaTime);
+        
     }
 
     private void FixedUpdate()

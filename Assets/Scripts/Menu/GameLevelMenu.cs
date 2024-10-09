@@ -1,11 +1,9 @@
-using Unity.Multiplayer.Tools.NetStatsMonitor.Implementation;
-using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 
-public class GameLevelMenu : NetworkBehaviour
+public class GameLevelMenu : MonoBehaviour
 {
     [SerializeField] private Button _resumeBtn;
     [SerializeField] private Button _optionsBtn;
@@ -13,7 +11,6 @@ public class GameLevelMenu : NetworkBehaviour
     [SerializeField] private Button _menuBtn;
     
     [SerializeField] private GameObject _pauseMenu;
-    [SerializeField] private GameObject _disconnectedMenu;
     [SerializeField] private GameObject _winMenu;
 
     private bool _onPause = false;
@@ -23,31 +20,15 @@ public class GameLevelMenu : NetworkBehaviour
         _resumeBtn.onClick.AddListener(Resume);
         _optionsBtn.onClick.AddListener(Options);
         _levelMenuBtn.onClick.AddListener(LevelMenu);
-        _menuBtn.onClick.AddListener(MainMenu);
+        //_menuBtn.onClick.AddListener(MainMenu);
     }
 
     private void Start()
     {
-        if(NetworkManager.Singleton != null) NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallBack;
+        
     }
 
-    private void NetworkManager_OnClientDisconnectCallBack(ulong clientId)
-    {
-        DisconnectedMenu();
-    }
 
-    void DisconnectedMenu()
-    {
-        _disconnectedMenu.SetActive(true);
-    }
-
-    public void ReturnToMenu()
-    {
-        if(IsServer) ShutDownRpc();
-        Time.timeScale = 1;
-        Destroy(NetworkManager.Singleton.gameObject);
-        SceneManager.LoadScene("MenuMultiplayer", LoadSceneMode.Single);
-    }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -55,12 +36,10 @@ public class GameLevelMenu : NetworkBehaviour
             if (!_onPause)
             {
                 PauseMenu();
-                PauseMenuRpc();
             }
             else
             {
                 Resume();
-                ResumeRpc();
             }
         }
     }
@@ -72,76 +51,28 @@ public class GameLevelMenu : NetworkBehaviour
     public void LevelMenu()
     {
         Resume();
-        ResumeRpc();
-        LevelMenuRpc();
     }
 
     public void WinMenu()
     {
         _winMenu.SetActive(true);
-        WinMenuRpc();
-    }
-    [Rpc(SendTo.NotMe)]
-    void WinMenuRpc()
-    {
-        _winMenu.SetActive(true);
+
     }
     public void NextLevel()
     {
-        NextLevelRpc();
-    }
-    [Rpc(SendTo.Server)]
-    void NextLevelRpc()
-    {
-        NetworkManager.SceneManager.LoadScene(GameManager.Instance.GetNextLevelName(), LoadSceneMode.Single);
-    }
-    [Rpc(SendTo.Server)]
-    void LevelMenuRpc()
-    {
-        NetworkManager.SceneManager.LoadScene("LevelSelector", LoadSceneMode.Single);
-    }
-    
-    void MainMenu()
-    {
-        EventManager.Instance.Trigger("OnDisconnectedPlayer");
-        ShutDownRpc();
-    }
-    
-    
-    [Rpc(SendTo.Everyone)]
-    void MainMenuRpc()
-    {
-        Time.timeScale = 1;
-        Destroy(NetworkManager.Singleton);
-        SceneManager.LoadScene("MenuMultiplayer", LoadSceneMode.Single);
+        SceneManager.LoadScene(GameManager.Instance.GetNextLevelName(), LoadSceneMode.Single);
     }
 
-    [Rpc(SendTo.Server)]
-    void ShutDownRpc()
+    public void LevelSelectorMenu()
     {
-        NetworkManager.Shutdown();
+        SceneManager.LoadScene("LevelSelector", LoadSceneMode.Single);
     }
-    [Rpc(SendTo.NotMe)]                           
-    void ResumeRpc()                              
-    {                                             
-        Time.timeScale = 1;                       
-        _onPause = false;                         
-        _pauseMenu.SetActive(false);              
-        ResetMenu();                              
-    }                                             
     void Resume()                                 
     {                                             
         Time.timeScale = 1;                       
         _onPause = false;                         
         _pauseMenu.SetActive(false);              
         ResetMenu();                              
-    }                                             
-    [Rpc(SendTo.NotMe)]
-    void PauseMenuRpc()
-    {
-        Time.timeScale = 0;    
-        _onPause = true;
-        _pauseMenu.SetActive(true);
     }
     void PauseMenu()
     {
@@ -152,5 +83,10 @@ public class GameLevelMenu : NetworkBehaviour
     void ResetMenu()
     {
         
+    }
+    public void ReturnToMenu()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene("MenuCoop", LoadSceneMode.Single);
     }
 }
