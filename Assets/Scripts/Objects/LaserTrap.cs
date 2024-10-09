@@ -19,133 +19,63 @@ public class LaserTrap : MonoBehaviour
     {
         _firstStart = true;
         coll = GetComponent<BoxCollider2D>();
-        if (_on)
-        {
-            TurnOn();
-        }
-        else
-        {
-            TurnOff();
-        }
+        TurnOn();
+        // if (_on)
+        // {
+        //     TurnOn();
+        // }
+        // else
+        // {
+        //     TurnOff();
+        // }
     }
 
-    public void TurnOn()
+    void TurnOn()
     {
-        if (!_firstStart)
+        _on = true;
+        _line.enabled = true;
+        _firstStart = false;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.forward, 10, _hitLayerMask);
+        if (hit)
         {
-            if (_on) //si ya esta prendido
-            {
-                Debug.Log("turnOff");
-                //TurnOff();
-            }
-            else
-            {
-                _on = true;
-                _line.enabled = true;
-                _firstStart = false;
-                RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, 10, _hitLayerMask);
-                if (hit)
-                {
-                    foreach (var particle2 in _particles2)
-                    {
-                        particle2.Play();
-                    }
-                    _line.SetPosition(0, transform.position);
-                    _line.SetPosition(1, hit.point);
-                    float dist = Vector2.Distance(transform.position, hit.point);
-                    var center = dist / 2;
-                    coll.offset = new Vector2(0, center);
-                    coll.size = new Vector2(0.1f, dist);
-                    foreach (var particle in _particles)
-                    {
-                        particle.transform.position = hit.point;
-                        particle.Play();
-                    }
-                    if (_loop)
-                    {
-                        StartCoroutine(LoopTurnOff());
-                    }
-                }
-            }
-        }
-        else
-        {
-            _on = true;
-            _line.enabled = true;
-            _firstStart = false;
-            RaycastHit2D hit2 = Physics2D.Raycast(transform.position, transform.up, 10, _hitLayerMask);
-            if (hit2)
-            {
-                foreach (var particle2 in _particles2)
-                {
-                    particle2.Play();
-                }
-                _line.SetPosition(0, transform.position);
-                _line.SetPosition(1, hit2.point);
-                float dist = Vector2.Distance(transform.position, hit2.point);
-                var center = dist / 2;
-                coll.offset = new Vector2(0, center);
-                coll.size = new Vector2(0.1f, dist);
-                foreach (var particle in _particles)
-                {
-                    particle.transform.position = hit2.point;
-                    particle.Play();
-                }
-
-                if (_loop)
-                {
-                    StartCoroutine(LoopTurnOff());
-                }
-            }
-
-        }
-    }
-    public void TurnOff()
-    {
-        if (!_firstStart)
-        {
-            if (!_on) //si ya esta apagado
-            {
-                //TurnOn();
-            }
-            else
-            {
-                _firstStart = false;
-                _on = false;
-                _line.enabled = false;
-                foreach (var particle in _particles)
-                {
-                    particle.Stop();
-                }
-                foreach (var particle2 in _particles2)
-                {
-                    particle2.Stop();
-                }
-                if (_loop)
-                {
-                    StartCoroutine(LoopTurnOn());
-                }
-            }
-        }
-        else
-        {
-            _firstStart = false;
-            _on = false;
-            _line.enabled = false;
-            foreach (var particle in _particles)
-            {
-                particle.Stop();
-            }
             foreach (var particle2 in _particles2)
             {
-                particle2.Stop();
+                particle2.Play();
+            }
+            _line.SetPosition(0, transform.position);
+            _line.SetPosition(1, hit.point);
+            float dist = Vector2.Distance(transform.position, hit.point);
+            var center = dist / 2;
+            coll.offset = new Vector2(0, center);
+            coll.size = new Vector2(0.1f, dist);
+            foreach (var particle in _particles)
+            {
+                particle.transform.position = hit.point;
+                particle.Play();
             }
             if (_loop)
             {
-                StartCoroutine(LoopTurnOn());
+                StartCoroutine(LoopTurnOff());
             }
         }
-
+    }
+    void TurnOff()
+    {
+        _firstStart = false;
+        _on = false;
+        _line.enabled = false;
+        foreach (var particle in _particles)
+        {
+            particle.Stop();
+        }
+        foreach (var particle2 in _particles2)
+        {
+            particle2.Stop();
+        }
+        if (_loop)
+        {
+            StartCoroutine(LoopTurnOn());
+        }
     }
 
     public Transform ConnectionSource()

@@ -4,5 +4,6 @@ using UnityEngine;
 
 public class MenuEnum : MonoBehaviour
 {
+    public MenuTypeNetwork typeNetwork;
     public MenuType type;
 }
