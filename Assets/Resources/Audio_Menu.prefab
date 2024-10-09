@@ -122,8 +122,20 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7930099589175581710}
-        m_TargetAssemblyTypeName: DelayActiveButtons, Assembly-CSharp
+      - m_Target: {fileID: 2918714899557081083}
+        m_TargetAssemblyTypeName: SoundList, Assembly-CSharp
+        m_MethodName: PlayClip
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1975870465824431713}
+        m_TargetAssemblyTypeName: ScreenAudio, Assembly-CSharp
         m_MethodName: BTN_Back
         m_Mode: 1
         m_Arguments:
@@ -132,18 +144,6 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2918714899557081083}
-        m_TargetAssemblyTypeName: SoundList, Assembly-CSharp
-        m_MethodName: Play
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Button
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!1 &96769659648546677
@@ -234,7 +234,6 @@ GameObject:
   - component: {fileID: 8768904527931899492}
   - component: {fileID: 5522459005382761169}
   - component: {fileID: 1975870465824431713}
-  - component: {fileID: 7930099589175581710}
   m_Layer: 5
   m_Name: Audio_Menu
   m_TagString: Untagged
@@ -345,24 +344,6 @@ MonoBehaviour:
   _sortingLayer: Canvas
   _canvasLayer: 2
   buttons: []
---- !u!114 &7930099589175581710
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1122216874576580752}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80b869645fc19044990eceb5f5589a2b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _menuByGO: {fileID: 0}
-  _activeThis: {fileID: 0}
-  _desactive: []
-  _active: []
-  _delay: 1
-  _menuName: 
 --- !u!1 &1845046442788635807
 GameObject:
   m_ObjectHideFlags: 0
