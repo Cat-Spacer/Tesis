@@ -76,7 +76,6 @@ GameObject:
   - component: {fileID: 8768904527931899492}
   - component: {fileID: 5522459005382761169}
   - component: {fileID: 8972593352433052656}
-  - component: {fileID: 3276245861012327049}
   m_Layer: 5
   m_Name: Settings_Menu
   m_TagString: Untagged
@@ -186,24 +185,9 @@ MonoBehaviour:
   _sortingLayer: Canvas
   _canvasLayer: 1
   buttons: []
---- !u!114 &3276245861012327049
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1122216874576580752}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80b869645fc19044990eceb5f5589a2b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _menuByGO: {fileID: 0}
-  _activeThis: {fileID: 0}
-  _desactive: []
-  _active: []
-  _delay: 1
-  _menuName: 
+  _audioScreenName: Audio_Menu
+  _controlsScreenName: Controls_Menu
+  _videoScreenName: Video_Menu
 --- !u!1 &1277319640528834765
 GameObject:
   m_ObjectHideFlags: 0
@@ -326,8 +310,20 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3276245861012327049}
-        m_TargetAssemblyTypeName: DelayActiveButtons, Assembly-CSharp
+      - m_Target: {fileID: 2918714899557081083}
+        m_TargetAssemblyTypeName: SoundList, Assembly-CSharp
+        m_MethodName: PlayClip
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Button
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8972593352433052656}
+        m_TargetAssemblyTypeName: ScreenSettings, Assembly-CSharp
         m_MethodName: BTN_Back
         m_Mode: 1
         m_Arguments:
@@ -336,18 +332,6 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2918714899557081083}
-        m_TargetAssemblyTypeName: SoundList, Assembly-CSharp
-        m_MethodName: Play
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Button
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!1 &1315849616491327707
@@ -1028,7 +1012,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2918714899557081083}
         m_TargetAssemblyTypeName: SoundList, Assembly-CSharp
-        m_MethodName: Play
+        m_MethodName: PlayClip
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1038,10 +1022,10 @@ MonoBehaviour:
           m_StringArgument: Button
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 3276245861012327049}
-        m_TargetAssemblyTypeName: DelayActiveButtons, Assembly-CSharp
-        m_MethodName: BTN_Start
-        m_Mode: 5
+      - m_Target: {fileID: 8972593352433052656}
+        m_TargetAssemblyTypeName: ScreenSettings, Assembly-CSharp
+        m_MethodName: BTN_Controls
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1249,7 +1233,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2918714899557081083}
         m_TargetAssemblyTypeName: SoundList, Assembly-CSharp
-        m_MethodName: Play
+        m_MethodName: PlayClip
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1259,10 +1243,10 @@ MonoBehaviour:
           m_StringArgument: Button
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 3276245861012327049}
-        m_TargetAssemblyTypeName: DelayActiveButtons, Assembly-CSharp
-        m_MethodName: BTN_Start
-        m_Mode: 5
+      - m_Target: {fileID: 8972593352433052656}
+        m_TargetAssemblyTypeName: ScreenSettings, Assembly-CSharp
+        m_MethodName: BTN_Audio
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1395,7 +1379,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2918714899557081083}
         m_TargetAssemblyTypeName: SoundList, Assembly-CSharp
-        m_MethodName: Play
+        m_MethodName: PlayClip
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1405,10 +1389,10 @@ MonoBehaviour:
           m_StringArgument: Button
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 3276245861012327049}
-        m_TargetAssemblyTypeName: DelayActiveButtons, Assembly-CSharp
-        m_MethodName: BTN_Start
-        m_Mode: 5
+      - m_Target: {fileID: 8972593352433052656}
+        m_TargetAssemblyTypeName: ScreenSettings, Assembly-CSharp
+        m_MethodName: BTN_Video
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

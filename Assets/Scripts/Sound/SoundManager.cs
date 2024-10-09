@@ -84,8 +84,8 @@ public class SoundManager : MonoBehaviour
         //    s.source.pitch = s.pitch;
         //    s.source.loop = s.loop;
         //}
-        _usedSounds = new (SearchSound);
-        _usedSoundsByName = new (SearchSound);
+        _usedSounds = new(SearchSound);
+        _usedSoundsByName = new(SearchSound);
     }
 
     private void SoundSet(Sound s)
@@ -111,8 +111,8 @@ public class SoundManager : MonoBehaviour
     {
         Sound s = default;
 
-        LinkedList<Sound> repeats = new ();
-        foreach (var item in sounds)        
+        LinkedList<Sound> repeats = new();
+        foreach (var item in sounds)
             if (nameType == item.nameType) repeats.Add(item);
 
         if (repeats.Count > 1)
@@ -174,7 +174,7 @@ public class SoundManager : MonoBehaviour
 
     public void PauseAll()
     {
-        foreach (var s in sounds) if(s.source) s.source.Pause();
+        foreach (var s in sounds) if (s.source) s.source.Pause();
     }
 
     public IEnumerator FadeOut(AudioSource s, float FadeTime)
