@@ -7,16 +7,15 @@ namespace Weapons
     {
         private Animator _anim = default;
         [Header("Stats")]
-        [SerializeField] private float _fireRate = 1.0f, _fireTimer = 1.0f, _wait = 1.0f;
+        [SerializeField] private float _fireRate = 1.0f;
+        [SerializeField] private float _fireTimer = 1.0f, _wait = 1.0f;
         [SerializeField] private string _shootSound = "gun_shoot", _animState = "OwlPreShoot";
 
         [Header("Objects")]
         [SerializeField] private Transform _firePoint = default;
         [SerializeField] private AudioSource _audioSource = default;
         [SerializeField] private ParticleSystem _muzzleFlash = default;
-        /// <summary>
-        /// Only use if there is no PoolManager
-        /// </summary>
+
         [Header("No Pool Manager")]
         [SerializeField] private ObjectToSpawn _objPrefab = default;
         [SerializeField] private int _initialCount = 5;
@@ -56,13 +55,13 @@ namespace Weapons
             Bullet bullet = default;
             if (BulletManager.instance)
             {
-                bullet = BulletManager.instance.objectPool.GetObject().GetComponent<Bullet>();
-                bullet.AddReference(BulletManager.instance.objectPool);
+                bullet = BulletManager.instance.ObjectPool.GetObject().GetComponent<Bullet>();
+                bullet.AddReference(BulletManager.instance.ObjectPool);
             }
             else
             {
-                bullet = _myFactory.objectPool.GetObject().GetComponent<Bullet>();
-                bullet.AddReference(_myFactory.objectPool);
+                bullet = _myFactory.ObjectPool.GetObject().GetComponent<Bullet>();
+                bullet.AddReference(_myFactory.ObjectPool);
             }
 
             if (!bullet) return;

@@ -10,7 +10,7 @@ public class ScreenManager : MonoBehaviour
     static public ScreenManager instance = default;
 
     [SerializeField] private GameObject[] _objToActivateDesactivate = default;
-    
+
     void Awake()
     {
         instance = this;
@@ -22,17 +22,18 @@ public class ScreenManager : MonoBehaviour
     {
         if (_stack.Count <= 1 && pause) return;
 
-        lastResult =_stack.Pop().Free();
+        lastResult = _stack.Pop().Free();
 
         if (_stack.Count > 0)
         {
             _stack.Peek().Activate();
         }
 
-        foreach (var obj in _objToActivateDesactivate)
-        {
-            obj.SetActive(true);
-        }
+        if (lastResult == "Settings_Menu(Clone)" || lastResult == "SettingsPause_Menu(Clone)")
+            foreach (var obj in _objToActivateDesactivate)
+            {
+                obj.SetActive(true);
+            }
     }
 
     public void Push(IScreen screen)
@@ -52,9 +53,10 @@ public class ScreenManager : MonoBehaviour
         var go = Instantiate(Resources.Load<GameObject>(resource));
         Push(go.GetComponent<IScreen>());
 
+        //if (lastResult == "Settings_Menu(Clone)" || lastResult == "SettingsPause_Menu(Clone)")
         foreach (var obj in _objToActivateDesactivate)
         {
             obj.SetActive(false);
         }
-    }  
+    }
 }

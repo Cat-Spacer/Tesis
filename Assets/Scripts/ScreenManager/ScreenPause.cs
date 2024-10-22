@@ -7,8 +7,6 @@ public class ScreenPause : ScreenBase, IScreen
     [SerializeField] private string _settingsPauseScreenName = "Settings_MenuPause";
     Canvas _screenCanvas;
 
-    private string _result;
-
     private void Awake()
     {
         if (!instance)
@@ -23,23 +21,18 @@ public class ScreenPause : ScreenBase, IScreen
 
     public void BTN_Settings()
     {
-        _result = "Settings";
 
         ScreenManager.instance.Pop();
         ScreenManager.instance.PushInstance(_settingsScreenName);
     }
     public void BTN_SettingsPause()
     {
-        _result = "Settings";
-
         ScreenManager.instance.Pop();
         ScreenManager.instance.PushInstance(_settingsPauseScreenName);
     }
 
     public void BTN_Back()
     {
-        _result = "Back";
-
         ScreenManager.instance.Pop();
     }
 
@@ -58,13 +51,4 @@ public class ScreenPause : ScreenBase, IScreen
             button.interactable = false;
         }
     }
-/*
-    public override void SetCamera()
-    {
-        buttons = GetComponentsInChildren<Button>();
-        if (!GetComponent<Canvas>()) return;
-        _screenCanvas = GetComponent<Canvas>();
-        _screenCanvas.worldCamera = Camera.main;
-        _screenCanvas.sortingLayerName = _sortingLayer;
-    }*/
 }

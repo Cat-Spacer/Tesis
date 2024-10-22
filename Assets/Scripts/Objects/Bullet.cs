@@ -1,16 +1,12 @@
 using System.Collections;
 using UnityEngine;
-/// <summary>
-/// Has ObjectToSpawn on it
-/// </summary>
+
 public class Bullet : ObjectToSpawn
 {
-    [Header("Has ObjectToSpawn on it")]
     [Header("Stats")]
+    [SerializeField] private GameObject _myFather = default;
+    [SerializeField] private ParticleSystem _particles = default, _particlesExplotion = default;
     [SerializeField] private float _speed = 1.0f, _lifeTime = 3.0f;
-    [SerializeField] ParticleSystem particles = default;
-    [SerializeField] ParticleSystem particlesExplotion = default;
-    [SerializeField] GameObject _myFather = default;
 
     private void Start()
     {
@@ -33,6 +29,36 @@ public class Bullet : ObjectToSpawn
         transform.position += transform.right * _speed * Time.deltaTime;
     }
 
+    public Bullet SetSpeed(float newSpeed = 1.0f)
+    {
+        _speed = newSpeed;
+        return this;
+    }
+
+    public Bullet SetLifeTime(float newlifeTime = 1.0f)
+    {
+        _lifeTime = newlifeTime;
+        return this;
+    }
+
+    public Bullet SetParticles(ParticleSystem newParticles)
+    {
+        _particles = newParticles;
+        return this;
+    }
+    
+    public Bullet SetParticlesExplosion(ParticleSystem newParticlesExplosion)
+    {
+        _particlesExplotion = newParticlesExplosion;
+        return this;
+    }
+
+    public Bullet SetFather(GameObject father)
+    {
+        _myFather = father;
+        return this;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject != _myFather)
@@ -41,20 +67,20 @@ public class Bullet : ObjectToSpawn
             if (obj != null) obj.GetDamage();
 
             //Debug.LogWarning($"{gameObject.name} collided with {collision.gameObject.name}");
-            if (particles && particlesExplotion)
+            if (_particles && _particlesExplotion)
             {
                 if (transform.rotation.y == 0)
                 {
-                    var particleLeft = Instantiate(particles);
+                    var particleLeft = Instantiate(_particles);
                     particleLeft.transform.rotation = Quaternion.Euler(0, 180, 0);
                     particleLeft.transform.position = gameObject.transform.position;
                 }
                 else
                 {
-                    var particleRight = Instantiate(particles);
+                    var particleRight = Instantiate(_particles);
                     particleRight.transform.position = gameObject.transform.position;
                 }
-                var particle = Instantiate(particlesExplotion);
+                var particle = Instantiate(_particlesExplotion);
                 particle.transform.position = gameObject.transform.position;
             }
 
@@ -68,11 +94,5 @@ public class Bullet : ObjectToSpawn
     {
         StopAllCoroutines();
         StartCoroutine(ReturnToPool());
-    }
-
-    public Bullet SetBullet(GameObject father)
-    {
-        _myFather = father;
-        return this;
     }
 }

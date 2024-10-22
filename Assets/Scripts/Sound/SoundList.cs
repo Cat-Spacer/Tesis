@@ -31,8 +31,29 @@ public class SoundList : MonoBehaviour
             Debug.LogWarning("Sound: " + name + " not found!");
             return;
         }
-        //s.source.Play();
-        //SoundManager.instance.Play(name);
+        if (SoundManager.instance) SoundManager.instance.Play(name);
+        else
+        {
+            SoundSet(s);
+            s.source.Play();
+        }
+    }
+
+    public void PlayClip(string name)
+    {
+        Sound s = _usedSoundsByName.ReturnValue(name);
+        if (s == null)
+        {
+            Debug.LogWarning("Sound: " + name + " not found!");
+            return;
+        }
+
+        if (SoundManager.instance) SoundManager.instance.Play(name, false);
+        else
+        {
+            SoundSet(s);
+            s.source.Play();
+        }
     }
 
     public void Play(SoundsTypes name, bool loop = false)
@@ -43,8 +64,24 @@ public class SoundList : MonoBehaviour
             Debug.LogWarning("Sound: " + name + " not found!");
             return;
         }
-        s.source.loop = loop;
-        s.source.Play();
+        if (SoundManager.instance) SoundManager.instance.Play(name, loop);
+        else
+        {
+            SoundSet(s);
+            s.source.loop = loop;
+            s.source.Play();
+        }
     }
+
     public void StopAll() { SoundManager.instance.PauseAll(); }
+
+    private void SoundSet(Sound s)
+    {
+        s.source = gameObject.AddComponent<AudioSource>();
+        s.source.clip = s.clip;
+        s.source.outputAudioMixerGroup = s.audioMixerGroup;
+        s.source.volume = s.volume;
+        s.source.pitch = s.pitch;
+        s.source.loop = s.loop;
+    }
 }

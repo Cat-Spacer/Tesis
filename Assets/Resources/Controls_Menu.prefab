@@ -1460,8 +1460,8 @@ RectTransform:
   - {fileID: 4120374070732456709}
   - {fileID: 4120374070475309446}
   - {fileID: 2784761836374640698}
-  - {fileID: 6667470260288008673}
   - {fileID: 943418343731346314}
+  - {fileID: 6667470260288008673}
   - {fileID: 6146508503681589532}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1973,7 +1973,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 2451233857334605247}
         m_TargetAssemblyTypeName: SoundList, Assembly-CSharp
-        m_MethodName: Play
+        m_MethodName: PlayClip
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11081,7 +11081,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8594849237079044909
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11097,10 +11097,10 @@ RectTransform:
   - {fileID: 240027177474971167}
   m_Father: {fileID: 8646999148740246732}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 50, y: -15}
+  m_SizeDelta: {x: 100, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1243952165744014277
 CanvasRenderer:
@@ -11605,7 +11605,7 @@ GameObject:
   - component: {fileID: 6007281718275692836}
   - component: {fileID: 962314465160474929}
   m_Layer: 5
-  m_Name: SAVE
+  m_Name: SAVE_BTN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11728,7 +11728,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 2451233857334605247}
         m_TargetAssemblyTypeName: SoundList, Assembly-CSharp
-        m_MethodName: Play
+        m_MethodName: PlayClip
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
