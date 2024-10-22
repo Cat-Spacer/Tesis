@@ -2,17 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EventType
-{
-    OnPunchPlayer,
-    OnSwitchCameraType,
-    OnChangePeace
-}
 public class EventManager : MonoBehaviour
 {
     public static EventManager Instance { get; private set; }
 
-    private Dictionary<EventType, Action<object[]>> _callbackDictionary = new Dictionary<EventType, Action<object[]>>();
+    private Dictionary<string, Action<object[]>> _callbackDictionary = new Dictionary<string, Action<object[]>>();
 
 
     private void Awake()
@@ -26,7 +20,7 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    public void Subscribe(EventType eventId, Action<object[]> callback)
+    public void Subscribe(string eventId, Action<object[]> callback)
     {
         if (!_callbackDictionary.ContainsKey(eventId))
             _callbackDictionary.Add(eventId, callback);
@@ -36,14 +30,14 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    public void Unsubscribe(EventType eventId, Action<object[]> callback)
+    public void Unsubscribe(string eventId, Action<object[]> callback)
     {
         if (!_callbackDictionary.ContainsKey(eventId)) return;
 
         _callbackDictionary[eventId] -= callback;
     }
 
-    public void Trigger(EventType eventId, params object[] parameters)
+    public void Trigger(string eventId, params object[] parameters)
     {
         if (!_callbackDictionary.ContainsKey(eventId)) return;
 

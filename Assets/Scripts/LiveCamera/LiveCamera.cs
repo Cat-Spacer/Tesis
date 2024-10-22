@@ -6,103 +6,82 @@ using UnityEngine;
 public class LiveCamera : MonoBehaviour
 {
     public static LiveCamera instance;
+    [SerializeField] private PeaceSystem _peace;
+    private Animator _anim;
 
     [SerializeField] private float _timeOnAir;
-    [SerializeField] private float _timeUntilOnAir;
+    [SerializeField] private float _currentTime;
     
     [SerializeField] private bool _onAir;
     private bool _isOnAir;
+    [SerializeField] private GameObject _camera;
 
-    [SerializeField] private bool isGroupedCamera;
-    [SerializeField] private GameObject _groupCamera;
-    [SerializeField] private GameObject[] _splitCamera;
-    
+    private Action _OnLiveAction = delegate {  };
     private void Awake()
     {
         if (instance == null) 
             instance = this;
-
-        ActivateCamera();
-        GoOnAir();
     }
+
     private void Update()
     {
-
+        _OnLiveAction();
     }
 
     private void Start()
     {
-        EventManager.Instance.Subscribe(EventType.OnSwitchCameraType, ChangeCameraType);
+        _anim = GetComponent<Animator>();
+        _anim.SetTrigger("GoOffAir");
     }
-
-    private void ChangeCameraType(object[] obj)
-    {
-        var state = (bool) obj[0];
-        isGroupedCamera = state;
-        ActivateCamera();
-    }
-
     public void StartLiveCamera(bool status)
     {
-
+        _anim.SetTrigger("GoOffAir");
     }
-    void GoOnAir()
+    public void GoOnAir()
     {
+        Debug.Log("On Air");
         _onAir = true;
-        ActivateCamera();
-        StartCoroutine(OnAirTimer());
-    }
-    IEnumerator OnAirTimer()
-    {
-        yield return new WaitForSecondsRealtime(_timeOnAir);
-        GoOffAir();
+        SetLiveTime();
+        _OnLiveAction = TimeOnAir;
     }
     public void GoOffAir()
     {
         //Debug.Log("Off Air");
         _onAir = false;
-        DesactivateAllCameras();
-        StartCoroutine(TimeUntilGoOnAir());
+        _camera.SetActive(false);
+        SetCheckLive();
+        _OnLiveAction = TimeUntilGoOnAir;
     }
-    
-    IEnumerator TimeUntilGoOnAir()
+    void TimeUntilGoOnAir()
     {
-        yield return new WaitForSecondsRealtime(_timeUntilOnAir);
-        GoOnAir();
-    }
-
-    void ActivateCamera()
-    {
-        if (!_onAir) return;
-        if (isGroupedCamera)
+        _currentTime -= Time.deltaTime;
+        if (_currentTime <= 0)
         {
-            foreach (var cam in _splitCamera)
-            {
-                cam.SetActive(false);
-            }
-            _groupCamera.SetActive(true);
-        }
-        else
-        {
-            foreach (var cam in _splitCamera)
-            {
-                cam.SetActive(true);
-            }
-            _groupCamera.SetActive(false);
+            _camera.SetActive(true);
+            _anim.SetTrigger("GoOnAir");
+            _OnLiveAction = delegate {  };
         }
     }
-
-    private void DesactivateAllCameras()
+    void TimeOnAir()
     {
-        foreach (var cam in _splitCamera)
+        _currentTime -= Time.deltaTime;
+        if (_currentTime <= 0)
         {
-            cam.SetActive(false);
+            _anim.SetTrigger("GoOffAir");
+            _OnLiveAction = delegate {  };
         }
-        _groupCamera.SetActive(false);
+    }
+    public void SetCheckLive()
+    {
+        _currentTime = _peace.GetNewTime();
+    }
+    public void SetLiveTime()
+    {
+        _currentTime = _timeOnAir;
     }
     public void ChangePeace(int value)
     {
-        //_peace.UpdatePeace(value);
+        _peace.UpdatePeace(value);
     }
     public bool IsOnAir()
     {

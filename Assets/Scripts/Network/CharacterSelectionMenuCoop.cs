@@ -1,7 +1,11 @@
+using System;
 using System.Collections.Generic;
+using TMPro;
+using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
-public class CharacterSelectionMenuCoop : MonoBehaviour
+public class CharacterSelectionMenuCoop : NetworkBehaviour
 {
     public static CharacterSelectionMenuCoop Instance;
 

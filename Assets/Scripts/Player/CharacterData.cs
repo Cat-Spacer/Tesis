@@ -16,14 +16,12 @@ public class CharacterData : MonoBehaviour
 
     [Header("Jump")] 
     public float jumpForce;
-    public float doubleJumpForce;
     public bool isJumping;
     public float jumpTime;
     public float jumpCounter = 0;
     public float jumpMultiplier = 0;
     public float jumpStopForce;
     public bool canJump = true;
-    public bool canDoubleJump = true;
 
     [Header("Attack")] 
     public float punchForce;

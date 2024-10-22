@@ -20,7 +20,7 @@ public class SecurityCamera : MonoBehaviour
 
     void Start()
     {
-        EventManager.Instance.Subscribe(EventType.OnPunchPlayer, OnCatchPlayer);
+        EventManager.Instance.Subscribe("OnPunchPlayer", OnCatchPlayer);
         _fieldOfView = Instantiate(_fovObj, null).GetComponent<FieldOfView>();
 
         _fieldOfView.SetFoV(_fov);
@@ -76,7 +76,7 @@ public class SecurityCamera : MonoBehaviour
         var _onHit = (bool) obj[0];
         if (_onPlayerDetect && _onHit)
         {
-            //LiveCamera.instance.ChangePeace(-1);
+            LiveCamera.instance.ChangePeace(-1);
         }
     }
     bool InSight(Vector3 start, Vector3 end)

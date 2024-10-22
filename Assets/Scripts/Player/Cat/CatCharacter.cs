@@ -13,7 +13,6 @@ public class CatCharacter : PlayerCharacter
             body.AddForce(Vector3.up * _data.jumpImpulse);
         }
     }
-    
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(_data.attackPoint.position, _data.attackRange.x);
