@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UnityEngine.Playables;
 
 public class JumpPad : MonoBehaviour
 {
+    private Animator _anim;
     [SerializeField] private float jumpForce;
     [SerializeField] private LayerMask _mask;
     [SerializeField] private ParticleSystem _particle;
@@ -12,6 +14,7 @@ public class JumpPad : MonoBehaviour
     private LineRenderer _myLineConnection;
     private void Start()
     {
+        _anim = GetComponent<Animator>();
         if (_isOn)
         {
             TurnOn();
@@ -34,16 +37,17 @@ public class JumpPad : MonoBehaviour
         _isOn = true;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D col)
     {
         if (!_isOn) return;
-        if ((_mask.value & (1 << collision.transform.gameObject.layer)) > 0)
+        if ((_mask.value & (1 << col.transform.gameObject.layer)) > 0)
         {
-            var player = collision.gameObject.GetComponent<PlayerCharacter>();
-            player.StopMovement();
-            SoundManager.instance.Play(SoundsTypes.Mushroom, false);
-            var entityRb = collision.gameObject.GetComponent<Rigidbody2D>();
+            var player = col.gameObject.GetComponent<PlayerCharacter>();
+            //player.StopMovement();
+            var entityRb = col.gameObject.GetComponent<Rigidbody2D>();
             entityRb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
+            _anim.SetTrigger("Activate");
         }
     }
+
 }
