@@ -14,7 +14,7 @@ public class CameraFollow : NetworkBehaviour
     [SerializeField] private CinemachineVirtualCamera _virtualCamera;
     private void Start()
     {
-        EventManager.Instance.Subscribe("OnDisconnectedPlayer", DisconnectPlayer);
+        //EventManager.Instance.Subscribe("OnDisconnectedPlayer", DisconnectPlayer);
         _target = default;
     }
 

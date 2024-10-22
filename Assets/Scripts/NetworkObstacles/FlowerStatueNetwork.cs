@@ -24,7 +24,7 @@ public class FlowerStatueNetwork : NetworkBehaviour, IInteract
         flowerObj.PutFlower();
         _flower.transform.position = _flowerPos.position;
         coll.enabled = false;
-        PeaceSystem.instance.UpdatePeace(2);
+        //PeaceSystem.instance.UpdatePeace(2);
     }
 
     public void Interact(params object[] param)
