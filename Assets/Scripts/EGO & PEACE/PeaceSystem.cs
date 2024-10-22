@@ -16,25 +16,41 @@ public class PeaceSystem : MonoBehaviour
     [SerializeField] private int _timeMultiplier; //Diferencia de tiempo entre cada nivel
     [SerializeField] private int _extraTime; //Alargar el tiempo base
     
-    
-    public Slider slider;
+    [SerializeField] Slider redSlider;
+    [SerializeField] Slider greenSlider;
 
     private void Start()
     {
         if (instance == null) instance = this;
         
+        EventManager.Instance.Subscribe(EventType.OnChangePeace, UpdatePeace);
+
+        _midPeace = Mathf.RoundToInt(_maxPeace * .5f);
         _currentPeace = _midPeace;
-        slider.minValue = _minPeace;
-        slider.maxValue = _maxPeace;
+        redSlider.minValue = _minPeace;
+        redSlider.maxValue = _midPeace;
+        greenSlider.minValue = _minPeace;
+        greenSlider.maxValue = _midPeace;
+        redSlider.value = 0;
+        greenSlider.value = 0;
     }
 
-    public void UpdatePeace(int peace)
+    private void UpdatePeace(object[] obj)
     {
-        if (_currentPeace == _maxPeace || _currentPeace == _minPeace) return;
+        int peace = (int) obj[0];
+        if (_currentPeace <= _minPeace || _currentPeace >= _maxPeace) return;
         _currentPeace += peace;
-        slider.value = _currentPeace;
+        if (_currentPeace <= 5)
+        {
+            Debug.Log("Red");
+            redSlider.value -= peace;
+        }
+        else
+        {
+            Debug.Log("Green");
+            greenSlider.value += peace;
+        }
     }
-
     public int GetCurrentPeace()
     {
         return _currentPeace;

@@ -27,7 +27,7 @@ public class CatCharMultiplayer : PlayerCharacterMultiplayer
         Debug.Log("Punch");
         player.TryGet(out NetworkObject playerNetworkObject);
         playerNetworkObject.GetComponent<IPlayerInteract>().GetKnockback(_data.punchForce, transform.right + transform.up, _data.stunForce);
-        EventManager.Instance.Trigger("OnPunchPlayer", true);
+        EventManager.Instance.Trigger(EventType.OnPunchPlayer, true);
     }
     private void OnDrawGizmos()
     {

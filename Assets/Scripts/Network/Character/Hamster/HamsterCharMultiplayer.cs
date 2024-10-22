@@ -38,7 +38,7 @@ public class HamsterCharMultiplayer : PlayerCharacterMultiplayer
         Debug.Log("Punch");
         player.TryGet(out NetworkObject playerNetworkObject);
         playerNetworkObject.GetComponent<IPlayerInteract>().GetKnockback(_data.punchForce, transform.right + transform.up, _data.stunForce);
-        EventManager.Instance.Trigger("OnPunchPlayer", true);
+        //EventManager.Instance.Trigger("OnPunchPlayer", true);
     }
     #region TUBES
     private bool _inTube;
