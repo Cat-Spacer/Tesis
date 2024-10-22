@@ -25,7 +25,7 @@ public class CameraReadjust : NetworkBehaviour
 
     void Start()
     {
-        //EventManager.Instance.Subscribe("OnDisconnectedPlayer", DisconnectPlayer);
+        EventManager.Instance.Subscribe("OnDisconnectedPlayer", DisconnectPlayer);
         characters.Clear();
     }
 

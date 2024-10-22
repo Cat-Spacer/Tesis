@@ -134,16 +134,9 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
     {
         //Debug.Log("Try Jump");
         if (_data.isStun || _data.isJumping || !_data.canJump) return;
-        if (OnGround())
+        if (jump && OnGround())
         {
             _rb.velocity = new Vector2(_rb.velocity.x, _data.jumpForce);
-            _data.isJumping = true;
-            _data.jumpCounter = 0;
-        }
-        else if(_data.canDoubleJump && charType == CharacterType.Cat)
-        {
-            _data.canDoubleJump = false;
-            _rb.velocity = new Vector2(_rb.velocity.x, _data.doubleJumpForce);
             _data.isJumping = true;
             _data.jumpCounter = 0;
         }
@@ -213,7 +206,6 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
                 Vector2 direction =  new Vector2(_model.GetFaceDirection(), .8f);
                 body.AddForce(direction * _data.punchForce);
                 _data.canPunch = false;
-                EventManager.Instance.Trigger(EventType.OnChangePeace, -1);
                 StartCoroutine(PunchCd());
             }
             var player = obj.gameObject.GetComponent<IStun>();
@@ -231,12 +223,6 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
     }
     public void Interact(bool onPress)
     {
-        if (onPress && _data._onHand != null)
-        {
-            _data._onHand.Drop(new Vector2(_data.faceDirection, 1), 5);
-            DropItem();
-            return;
-        }
         var interact = Physics2D.OverlapBox(transform.position, _data.interactSize, 0, _data.interactMask);
         if (interact == null)
         {
@@ -259,6 +245,22 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
             }
         }
     }
+
+    void InteractObject(InteractEnum type)
+    {
+        switch (type)
+        {
+            case InteractEnum.Button:
+                
+                break;
+            case InteractEnum.Door:
+                
+                break;
+            case InteractEnum.Tp:
+                
+                break;
+        }
+    }
     // public virtual void JumpImpulse()
     // {
     //     var otherPlayer = Physics2D.OverlapBox(transform.position, _data.jumpInpulseArea, 0, _data.playerMask);
@@ -276,23 +278,24 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
         _rb.velocity = new Vector2(_rb.velocity.x, pushForce);
     }
 
-    public void PickUp(Item item)
+    public NetworkObject GetNetworkObject()
+    {
+        return default;
+    }
+    public void PickUp(ItemNetwork item)
     {
         if (item == null) return;
-        _data._onHand = item;
+        _data._onHandNetwork = item;
+        item.NetworkObject.TrySetParent(_data._inventoryPos.transform);
+        //item.transform.position = _data._inventoryPos.transform.position;
     }
 
-    public Item GiveItem()
-    {
-        var itemToReturn = _data._onHand;
-        _data._onHand = null;
-        return itemToReturn;
-    }
     public void DropItem()
     {
-        if (_data._onHand == null) return;
-        _data._onHand.Drop(new Vector2(_model.GetFaceDirection(), _data._dropOffset.y), _data.dropForce);
-        _data._onHand = null;
+        if (_data._onHandNetwork == null) return;
+        _data._onHandNetwork.transform.parent = null;
+        _data._onHandNetwork.Drop(new Vector2(_model.GetFaceDirection(), _data._dropOffset.y), _data.dropForce);
+        _data._onHandNetwork = null;
     }
 
 #endregion
@@ -309,13 +312,7 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
     }
     bool OnGround()
     {
-        _data.onGround = Physics2D.OverlapBox(_data.groundPos.position, _data.groundCheckArea, 0, _data.groundLayer);
-        if (_data.onGround)
-        {
-            _data.canDoubleJump = true;
-            return true;
-        }
-        return false;
+        return _data.onGround = Physics2D.OverlapBox(_data.groundPos.position, _data.groundCheckArea, 0, _data.groundLayer);
     }
     
     void IsFalling()

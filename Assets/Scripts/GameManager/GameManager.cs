@@ -96,14 +96,4 @@ public class GameManager : MonoBehaviour
         if (value) _staticScreens.Add(value);
         return _staticScreens;
     }
-
-    public Transform GetCat()
-    {
-        return catPlayer.transform;
-    }
-
-    public Transform GetHamster()
-    {
-        return hamsterPlayer.transform;
-    }
 }

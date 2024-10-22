@@ -14,7 +14,7 @@ public class FallingFloor : MonoBehaviour
     [SerializeField] private Vector3 offset, size;
     private void Start()
     {
-        _sp = GetComponentInChildren<SpriteRenderer>();
+        _sp = GetComponent<SpriteRenderer>();
         _coll = GetComponent<BoxCollider2D>();
         _isActive = true;
     }

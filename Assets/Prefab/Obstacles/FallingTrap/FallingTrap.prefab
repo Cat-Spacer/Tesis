@@ -78,8 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92482e08b58d59d499d41ede998b58bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPref: {fileID: 4366472740167850009, guid: aee873cd7aabc0c479faf25a819e394e,
-    type: 3}
+  trap: {fileID: 4366472740167850009, guid: aee873cd7aabc0c479faf25a819e394e, type: 3}
   rayPlayerMask:
     serializedVersion: 2
     m_Bits: 67108992
@@ -87,7 +86,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   activated: 1
-  readyToShoot: 0
+  startState: 0
   cdTime: 5
   raysPos:
   - {fileID: 1783281626284898740}
@@ -133,7 +132,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
     type: 3}
   m_Color: {r: 0.5849056, g: 0.5849056, b: 0.5849056, a: 1}
