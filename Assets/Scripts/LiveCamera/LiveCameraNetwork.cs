@@ -91,7 +91,7 @@ public class LiveCameraNetwork : NetworkBehaviour
     [Rpc(SendTo.Everyone)]
     void ChangePeaceRpc(int value)
     {
-        _peace.UpdatePeace(value);
+        //_peace.UpdatePeace(value);
     }
     public bool IsOnAir()
     {

@@ -6,7 +6,8 @@ using UnityEngine.SceneManagement;
 
 public enum ItemType
 {
-    Flower
+    Flower,
+    Statue
 }
 public class Item : MonoBehaviour
 {
@@ -21,15 +22,16 @@ public class Item : MonoBehaviour
     
     public virtual void PickUp(PlayerCharacter player, bool pickUp)
     {
-        if (pickUp)
-        {
-            HasPhysics(false);
-            //player.PickUp(this);
-        }
+        player.PickUp(this);
+        var parent = player.GetInventoryTransform();
+        transform.position = parent.position;
+        transform.parent = parent;
+        HasPhysics(false);
     }
     public virtual void Drop(Vector2 dir, float dropForce)
     {
         Debug.Log("Drop");
+        transform.parent = null;
         HasPhysics(true);
         _rb.AddForce(dir * dropForce);
     }

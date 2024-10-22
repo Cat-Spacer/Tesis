@@ -5,12 +5,14 @@ using UnityEngine;
 
 public class ElectricityButton : MonoBehaviour, IInteract
 {
+    private Animator _anim;
     [SerializeField] private List<GameObject> _connectionObj;
     private List<IActivate> _connection = new List<IActivate>();
     private bool _activated;
 
     void Start()
     {
+        _anim = GetComponent<Animator>();
         foreach (var connection in _connectionObj)
         {
             var obj = connection.GetComponent<IActivate>();
@@ -32,7 +34,6 @@ public class ElectricityButton : MonoBehaviour, IInteract
             {
                 connection.Activate();
             }
-            transform.localScale = new Vector3(0.25f, .7f, 1);
             _activated = true;
         }
         else
@@ -41,9 +42,9 @@ public class ElectricityButton : MonoBehaviour, IInteract
             {
                 connection.Desactivate();
             }
-            transform.localScale = new Vector3(0.5f, .7f, 1);
             _activated = false;
         }
+        _anim.SetTrigger("Press");
     }
 
     public void Interact(params object[] param)
