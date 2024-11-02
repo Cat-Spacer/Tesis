@@ -55,7 +55,10 @@ public class CharacterSelectionMenuCoop : MonoBehaviour
 
     public void SelectCharacters()
     {
-        if (player1 == CharacterType.Cat) GameManager.Instance.StartGame(player1Inputs, player2Inputs);
+        if (player1 == CharacterType.Cat)
+        {
+            GameManager.Instance.StartGame(player1Inputs, player2Inputs);
+        }
         else GameManager.Instance.StartGame(player2Inputs, player1Inputs);
         gameObject.SetActive(false);
     }

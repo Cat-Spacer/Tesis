@@ -6,7 +6,9 @@ public enum EventType
 {
     OnPunchPlayer,
     OnSwitchCameraType,
-    OnChangePeace
+    OnChangePeace,
+    OnUpdateEgoPoints,
+    OnLoseGame
 }
 public class EventManager : MonoBehaviour
 {

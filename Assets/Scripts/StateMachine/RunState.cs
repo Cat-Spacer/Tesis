@@ -11,7 +11,7 @@ public class RunState : State
 
     public override void Do()
     {
-        if (!input.left_Input && !input.right_Input || data.isStun)
+        if (!input.left_Input || !input.right_Input || data.isStun || data.isPunching || data.isInteracting)
         {
             isComplete = true;
         }
@@ -19,6 +19,6 @@ public class RunState : State
 
     public override void Exit()
     {
-
+        isComplete = false;
     }
 }

@@ -1,138 +1,98 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public class Tube : MonoBehaviour
+public class Tube : MonoBehaviour, IInteract
 {
-    private HamsterChar _hamster;
-    [SerializeField] private GameObject _arrows;
-    [SerializeField] private Tube _UpTube, _RightTube, _DownTube, _LeftTube;
-    [SerializeField] private List<Tube> _possiblePaths = new List<Tube>();
-    [SerializeField] private bool _UpConnection, _RightConnection, _DownConnection, _LeftConnection;
-    [SerializeField] private Tube _nextTube, _lastTube;
-    [SerializeField] private Vector2 center;
-    [SerializeField] private LayerMask _tubeMask;
-    [SerializeField] private float _searchRad = 0.25f;
-    [SerializeField] private bool _checkpoint, _entry, _exit, _gizmos = true;
-    private List<string> _connections = new List<string>();
+    [SerializeField] TubeSystem tubeSystem;
+    [SerializeField] private bool playerInTube = false;
+    private Action moveAction;
+    List<Tube> tubes = new List<Tube>();
+    [SerializeField] private bool isCheckpoint;
+    [SerializeField] private bool isEntry;
+    [SerializeField] Tube rightTube;
+    [SerializeField] Tube leftTube;
+    [SerializeField] Tube upTube;
+    [SerializeField] Tube downTube;
+    InteractEnum _interactEnum;
+    public bool IsCheckpoint(){return isCheckpoint;}
 
     private void Start()
     {
-        center = transform.position;
-        CheckNeighborTubes();
+        moveAction = delegate { };
+        tubes.Add(rightTube);
+        tubes.Add(leftTube);
+        tubes.Add(upTube);
+        tubes.Add(downTube);
+    }
+
+    private void Update()
+    {
+        moveAction();
+    }
+
+    public Tube MoveRight()
+    {
+        return rightTube;
+    }
+    public Tube MoveLeft()
+    {
+        return leftTube;
+    }
+    public Tube MoveUp()
+    {
+        return upTube;
+    }
+    public Tube MoveDown()
+    {
+        return downTube;
+    }
+    public void Interact(params object[] param)
+    {
+        var obj = (GameObject)param[0];
+        var player = obj.GetComponent<HamsterChar>();
+        if(!tubeSystem.IsPlayerOnTube())
+        {
+            Debug.Log("Player Enter Tube");
+            tubeSystem.EnterTubeSystem(true);
+            player.GetInTube(transform.position, this);
+        }
+        else
+        {
+            Debug.Log("Player Exit Tube");
+            tubeSystem.EnterTubeSystem(false);
+            player.GetOutOfTube(transform.position);
+        }
+    }
+
+    public void ShowInteract(bool showInteractState)
+    {
         
     }
 
-    // public void GetPossiblePaths(HamsterChar ham)
-    // {
-    //     _hamster = ham;
-    //     //if(_arrows) if (!_arrows.activeInHierarchy) _arrows.SetActive(true);
-    // }
-
-    public Tube GoUp()
+    public InteractEnum GetInteractType()
     {
-        // ham.MoveToNextTube(_UpTube);
-        // if (_arrows) _arrows.SetActive(false);
-        return _UpTube;
+        return _interactEnum;
     }
 
-    public Tube GoRight()
+    public Vector2 GetCenter()
     {
-        // _hamster.MoveToNextTube(_RightTube);
-        // if (_arrows) _arrows.SetActive(false);
-        return _RightTube;
+        return transform.position;
     }
 
-    public Tube GoDown()
-    {
-        // _hamster.MoveToNextTube(_DownTube);
-        // if (_arrows) _arrows.SetActive(false);
-        return _DownTube;
-    }
-
-    public Tube GoLeft()
-    {
-        // _hamster.MoveToNextTube(_LeftTube);
-        // if (_arrows) _arrows.SetActive(false);
-        return _LeftTube;
-    }
     public Tube GetNextPath(Tube lastTube)
     {
-        _lastTube = lastTube;
-        foreach (var tube in _possiblePaths)
-        {
-            if (tube != lastTube)
-            {
-                _nextTube = tube;
-                break;
-            }
-        }
-
-        if (_nextTube != null) return _nextTube;
-        else return _lastTube;
+        return tubes.FirstOrDefault(x => x != lastTube && x != null);
     }
 
-    public void CheckNeighborTubes()
+    public void OnTube(bool state)
     {
-        var counter = 0;
-
-        RaycastHit2D hitUp = Physics2D.Raycast(transform.position, Vector2.up, 1, _tubeMask);
-        if (hitUp && _UpConnection)
-        {
-            _UpTube = hitUp.transform.gameObject.GetComponent<Tube>();
-            _possiblePaths.Add(_UpTube);
-            _connections.Add("Up");
-            counter++;
-        }
-
-        RaycastHit2D hitRight = Physics2D.Raycast(transform.position, Vector2.right, 1, _tubeMask);
-        if (hitRight && _RightConnection)
-        {
-            _RightTube = hitRight.transform.gameObject.GetComponent<Tube>();
-            _possiblePaths.Add(_RightTube);
-            _connections.Add("Right");
-            counter++;
-        }
-
-        RaycastHit2D hitDown = Physics2D.Raycast(transform.position, Vector2.down, 1, _tubeMask);
-        if (hitDown && _DownConnection)
-        {
-            _DownTube = hitDown.transform.gameObject.GetComponent<Tube>();
-            _possiblePaths.Add(_DownTube);
-            _connections.Add("Down");
-            counter++;
-        }
-
-        RaycastHit2D hitLeft = Physics2D.Raycast(transform.position, Vector2.left, 1, _tubeMask);
-        if (hitLeft && _LeftConnection)
-        {
-            _LeftTube = hitLeft.transform.gameObject.GetComponent<Tube>();
-            _possiblePaths.Add(_LeftTube);
-            _connections.Add("Left");
-            counter++;
-        }
+        playerInTube = state;
     }
-
-    public void ArrowsActDes(bool set = false) { if (_arrows) _arrows.SetActive(set); }
-
-    public List<string> Connections()
-    {
-        return _connections;
-    }
-    public Vector2 GetCenter() { return center; }
-
-    public bool IsEntry() { return _entry; }
-    public bool IsExit() { return _exit; }
-    public bool IsCheckpoint() { return _checkpoint; }
-
-    public Tube GetUp() { return _UpTube; }
-    public Tube GetDown() { return _DownTube; }
-    public Tube GetLeft() { return _LeftTube; }
-    public Tube GetRight() { return _RightTube; }
-
-    private void OnDrawGizmos()
-    {
-        if (!_gizmos) return;
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, _searchRad);
-    }
+    public bool HasRightPath() { return rightTube != null;}
+    public bool HasLeftPath() { return leftTube != null;}
+    public bool HasUpPath() { return upTube != null;}
+    public bool HasDownPath() { return downTube != null;}
 }

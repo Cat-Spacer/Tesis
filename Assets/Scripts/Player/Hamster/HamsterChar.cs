@@ -5,10 +5,13 @@ public class HamsterChar : PlayerCharacter
 {
     private BoxCollider2D _coll;
     public HamsterCanvas canvas;
+    private bool _ifShrink = false;
+    private float jumpDefault;
     public override void Start()
     {
         base.Start();
         _coll = GetComponent<BoxCollider2D>();
+        jumpDefault = _data.jumpForce;
     }
 
     protected override void FixedUpdate()
@@ -21,16 +24,15 @@ public class HamsterChar : PlayerCharacter
     private float _speed = 8f;
     private Vector2 _currentTubePos;
     Action _TubesMovementAction = delegate { };
-    Vector2 _tubeEntry;
+    Vector3 _tubeEntry;
     Tube _currentTube, _lastTube;
 
-    public void GetInTube(Vector2 targetPosition, Tube tube)
+    public void GetInTube(Vector3 targetPosition, Tube tube)
     {
         if (_inTube) return;
         _inTube = true;
         _coll.enabled = false;
         _rb.simulated = false;
-        //_inputs.ChangeToTubesInputs(true);
         _tubeEntry = targetPosition;
         _currentTube = tube;
         GoToPosition(_tubeEntry);
@@ -39,6 +41,7 @@ public class HamsterChar : PlayerCharacter
 
     public void GetOutOfTube(Vector2 targetPosition)
     {
+        Debug.Log("GetOutOfTube");
         _tubeEntry = targetPosition;
         GoToPosition(_tubeEntry);
         _TubesMovementAction += GetInWorld;
@@ -64,7 +67,7 @@ public class HamsterChar : PlayerCharacter
         }
     }
 
-    public void MoveInTubes()
+    void MoveInTubes()
     {
         if (Vector3.Distance(transform.position, _currentTubePos) < .01f)
             CheckNextTube();
@@ -73,32 +76,32 @@ public class HamsterChar : PlayerCharacter
     void MoveToPosition(Vector2 pos)
     { transform.position = Vector3.MoveTowards(transform.position, pos, _speed * Time.deltaTime); }
 
-    public void GoToPosition(Vector2 pos) { _TubesMovementAction = () => MoveToPosition(pos); }
+    void GoToPosition(Vector2 pos) { _TubesMovementAction = () => MoveToPosition(pos); }
 
     public void TubeDirection(Vector2 dir)
     {
         if (!_currentTube.IsCheckpoint()) return;
         if(dir == new Vector2(1, 0))
         {
-            MoveToNextTube(_currentTube.GoRight());
+            MoveToNextTube(_currentTube.MoveRight());
         }
         if (dir == new Vector2(-1, 0))
         {
-            MoveToNextTube(_currentTube.GoLeft());
+            MoveToNextTube(_currentTube.MoveLeft());
         }
         if (dir == new Vector2(0, 1))
         {
-            MoveToNextTube(_currentTube.GoUp());
+            MoveToNextTube(_currentTube.MoveUp());
         }
         if (dir == new Vector2(0, -1))
         {
-            MoveToNextTube(_currentTube.GoDown());
+            MoveToNextTube(_currentTube.MoveDown());
         }
     }
-
+    
     void CheckNextTube()
     {
-        if (_currentTube.IsCheckpoint() || _currentTube.IsEntry() || _currentTube.IsExit())
+        if (_currentTube.IsCheckpoint())
         {
             canvas.gameObject.SetActive(true);
             canvas.CheckTubeDirections(_currentTube);
@@ -114,8 +117,8 @@ public class HamsterChar : PlayerCharacter
             MoveToNextTube(_currentTube.GetNextPath(_lastTube));
         }
     }
-
-    public void MoveToNextTube(Tube tube)
+    
+    void MoveToNextTube(Tube tube)
     {
         if (tube != null) //Se mueve al siguiente tubo
         {
@@ -127,14 +130,29 @@ public class HamsterChar : PlayerCharacter
             _TubesMovementAction += MoveInTubes;
             _inTube = true;
         } 
-        else return; //Si no hay siguiente tubo sale del tubo
     }
     public bool InTube()
     {
         return _inTube;
     }
     #endregion
-
+    public override void Special()
+    {
+        if (!_ifShrink)
+        {
+            _ifShrink = true;
+            _coll.edgeRadius = .16f;
+            transform.localScale = new Vector3(.5f, .5f, 1);
+            _data.jumpForce = jumpDefault * .75f;
+        }
+        else
+        {
+            _ifShrink = false;
+            _coll.edgeRadius = .33f;
+            transform.localScale = new Vector3(1f, 1f, 1);
+            _data.jumpForce = jumpDefault;
+        }
+    }
     private void OnDrawGizmos()
     {
         //Gizmos.DrawWireSphere(_data.attackPoint.position, _data.attackRange.x);

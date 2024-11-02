@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LaserTrap : MonoBehaviour
+public class LaserTrap : MonoBehaviour, IActivate
 {
     [SerializeField] LineRenderer _line;
+    [SerializeField] private Transform linePoint;
     [SerializeField] LayerMask _hitLayerMask;
     [SerializeField] ParticleSystem[] _particles;
     [SerializeField] ParticleSystem[] _particles2;
@@ -12,14 +13,15 @@ public class LaserTrap : MonoBehaviour
     [SerializeField] bool _loop;
     bool _firstStart;
     [SerializeField] bool _on;
+    [SerializeField] bool start;
     BoxCollider2D coll;
-    [SerializeField] GameObject _connectionSource;
     private LineRenderer _myLineConnection;
     void Start()
     {
         _firstStart = true;
         coll = GetComponent<BoxCollider2D>();
-        TurnOn();
+        if(start) TurnOn();
+        else TurnOff();
         // if (_on)
         // {
         //     TurnOn();
@@ -35,14 +37,14 @@ public class LaserTrap : MonoBehaviour
         _on = true;
         _line.enabled = true;
         _firstStart = false;
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.forward, 10, _hitLayerMask);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, -transform.right, 10, _hitLayerMask);
         if (hit)
         {
             foreach (var particle2 in _particles2)
             {
                 particle2.Play();
             }
-            _line.SetPosition(0, transform.position);
+            _line.SetPosition(0, linePoint.position);
             _line.SetPosition(1, hit.point);
             float dist = Vector2.Distance(transform.position, hit.point);
             var center = dist / 2;
@@ -77,11 +79,6 @@ public class LaserTrap : MonoBehaviour
             StartCoroutine(LoopTurnOn());
         }
     }
-
-    public Transform ConnectionSource()
-    {
-        return _connectionSource.transform;
-    }
     IEnumerator LoopTurnOn()
     {
         yield return new WaitForSeconds(_loopTime);
@@ -100,9 +97,15 @@ public class LaserTrap : MonoBehaviour
             player.GetDamage();
         }
     }
-
-    public void Interact()
+    public void Activate()
     {
+        Debug.Log("Activate");
+        TurnOn();
+    }
 
+    public void Desactivate()
+    {
+        Debug.Log("Desactivate");
+        TurnOff();
     }
 }

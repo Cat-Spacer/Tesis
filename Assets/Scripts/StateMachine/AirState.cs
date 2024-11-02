@@ -22,6 +22,6 @@ public class AirState : State
 
     public override void Exit()
     {
-
+        isComplete = false;
     }
 }

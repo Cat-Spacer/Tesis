@@ -18,6 +18,7 @@ public class PeaceSystem : MonoBehaviour
     
     [SerializeField] Slider redSlider;
     [SerializeField] Slider greenSlider;
+    [SerializeField] private Slider iconSlider;
 
     private void Start()
     {
@@ -31,24 +32,30 @@ public class PeaceSystem : MonoBehaviour
         redSlider.maxValue = _midPeace;
         greenSlider.minValue = _minPeace;
         greenSlider.maxValue = _midPeace;
+        iconSlider.value = _currentPeace;
         redSlider.value = 0;
         greenSlider.value = 0;
     }
 
     private void UpdatePeace(object[] obj)
     {
+        
         int peace = (int) obj[0];
         if (_currentPeace <= _minPeace || _currentPeace >= _maxPeace) return;
         _currentPeace += peace;
+        iconSlider.value = _currentPeace;
         if (_currentPeace <= 5)
         {
-            Debug.Log("Red");
             redSlider.value -= peace;
         }
         else
         {
-            Debug.Log("Green");
             greenSlider.value += peace;
+        }
+
+        if (_currentPeace == 0)
+        {
+            EventManager.Instance.Trigger(EventType.OnLoseGame);
         }
     }
     public int GetCurrentPeace()

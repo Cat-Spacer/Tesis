@@ -32,6 +32,7 @@ public class CharacterData : MonoBehaviour
     public Vector2 attackRange;
     public float punchCd;
     public bool canPunch = true;
+    public bool isPunching = false;
 
     [Header("JumpImpulse")]
     public float jumpImpulse;
@@ -62,6 +63,7 @@ public class CharacterData : MonoBehaviour
     [Header("Interact")] 
     public Vector2 interactSize;
     public IInteract _interactObj;
+    public bool isInteracting;
 
     [Header("Canvas")] 
     public PlayerCanvas canvas;

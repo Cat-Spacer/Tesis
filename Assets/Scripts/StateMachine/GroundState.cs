@@ -16,6 +16,6 @@ public class GroundState : State
 
     public override void Exit()
     {
-
+        isComplete = false;
     }
 }
