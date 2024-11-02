@@ -11,11 +11,8 @@ public class PunchState : State
 
     public override void Do()
     {
-        Debug.Log("Do");
-        Debug.Log(data.isPunching);
         if (!data.isPunching)
         {
-            Debug.Log("Entre");
             isComplete = true;
         }
     }

@@ -11,6 +11,7 @@ public class CatCharacter : PlayerCharacter
             var body = otherPlayer.gameObject.GetComponent<Rigidbody2D>();
             if (body == null) return;
             body.AddForce(Vector3.up * _data.jumpImpulse);
+            Debug.Log("Impulse");
         }
     }
     
