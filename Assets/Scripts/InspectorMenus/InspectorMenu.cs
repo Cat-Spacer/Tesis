@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+#if UNITY_EDITOR
 public class InspectorMenu : EditorWindow
 {
     private GameObjectData gameObjectData;
@@ -121,3 +122,4 @@ public class InspectorMenu : EditorWindow
     }
 
 }
+#endif

@@ -63,7 +63,11 @@ public class GameLevelMenu : MonoBehaviour
     {
         _winMenu.SetActive(true);
         var points = EgoSystem.instance.GetEgoPoints();
-        _winMenu.GetComponent<WinMenu>().SetText(points.Item1.ToString(), points.Item2.ToString());
+        var winMenu = _winMenu.GetComponent<WinMenu>();
+        if (winMenu != null)
+        {
+            winMenu.SetText(points.Item1.ToString(), points.Item2.ToString());
+        }
     }
     public void NextLevel()
     {

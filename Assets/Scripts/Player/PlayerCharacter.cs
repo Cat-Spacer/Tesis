@@ -96,10 +96,10 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
                 {
                     state = interactState;
                 }
-                if (input.special_Input)
-                {
-                    state = specialState;
-                }
+                // if (input.special_Input)
+                // {
+                //     state = specialState;
+                // }
             }
             else
             {
@@ -236,8 +236,12 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
             {
                 Vector2 direction =  new Vector2(_model.GetFaceDirection(), .8f);
                 body.AddForce(direction * _data.punchForce);
-                if (LiveCamera.instance.IsOnAir()) EventManager.Instance.Trigger(EventType.OnChangePeace, -1);
-                EventManager.Instance.Trigger(EventType.OnUpdateEgoPoints, charType, 1);
+                Debug.Log("Attack player");
+                if (LiveCamera.instance != null && LiveCamera.instance.IsOnAir())
+                {
+                    if(EventManager.Instance != null)EventManager.Instance.Trigger(EventType.OnChangePeace, -1);
+                }
+                if(EventManager.Instance != null)EventManager.Instance.Trigger(EventType.OnUpdateEgoPoints, charType, 1);
             }
             var player = obj.gameObject.GetComponent<IStun>();
             if (player != null)

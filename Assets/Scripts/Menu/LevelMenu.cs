@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Unity.Tutorials.Core.Editor;
+//using Unity.Tutorials.Core.Editor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -31,7 +31,8 @@ public class LevelMenu : MonoBehaviour
 
     public void PlayLevel()
     {
-        if (_selectedLevel.IsNullOrEmpty()) return;
+        //if (_selectedLevel.IsNullOrEmpty()) return;
+        if (_selectedLevel.Length == 0) return;
         SceneManager.LoadScene(_selectedLevel, LoadSceneMode.Single);
     }
     public void PlayAndSelectLevel(string lvl)

@@ -12,7 +12,7 @@ namespace Weapons
         [SerializeField] private string _shootSound = "gun_shoot", _animState = "OwlPreShoot";
 
         [Header("Objects")]
-        [SerializeField] private Transform _firePoint = default;
+        private Transform _firePoint = default;
         [SerializeField] private AudioSource _audioSource = default;
         [SerializeField] private ParticleSystem _muzzleFlash = default;
 

@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class HamsterChar : PlayerCharacter
 {
+    [SerializeField] private Transform headTransform;
+    [SerializeField] private Vector2 headSize; 
     private BoxCollider2D _coll;
     public HamsterCanvas canvas;
     private bool _ifShrink = false;
@@ -147,6 +149,11 @@ public class HamsterChar : PlayerCharacter
         }
         else
         {
+            // RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, 1.5f, 6);
+            // Debug.Log(hit.collider);
+            var hit = Physics2D.OverlapBox(headTransform.position, headSize, 0, _data.groundLayer);
+            Debug.Log(hit);
+            if (hit != null) return;
             _ifShrink = false;
             _coll.edgeRadius = .33f;
             transform.localScale = new Vector3(1f, 1f, 1);
@@ -155,8 +162,9 @@ public class HamsterChar : PlayerCharacter
     }
     private void OnDrawGizmos()
     {
-        //Gizmos.DrawWireSphere(_data.attackPoint.position, _data.attackRange.x);
+        Gizmos.DrawWireSphere(_data.attackPoint.position, _data.attackRange.x);
         Gizmos.DrawWireCube(_data.groundPos.position, _data.groundCheckArea);
+        Gizmos.DrawWireCube(headTransform.position, headSize);
         //Gizmos.DrawWireCube(transform.position, _data.jumpInpulseArea);
         //Gizmos.DrawWireCube(transform.position, _data.interactSize);
         //Gizmos.DrawWireCube(_data.bounceDetectionRight.position, _data.bounceSize);
