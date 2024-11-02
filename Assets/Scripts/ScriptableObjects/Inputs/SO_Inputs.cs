@@ -13,6 +13,8 @@ public class SO_Inputs : ScriptableObject
     public Type inputType;
     public KeyCode left;
     public KeyCode right;
+    public KeyCode up;
+    public KeyCode down;
     public KeyCode jump;
     public KeyCode attack;
     public KeyCode interact;

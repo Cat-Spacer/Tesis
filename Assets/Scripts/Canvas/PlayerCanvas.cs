@@ -5,8 +5,28 @@ using UnityEngine;
 
 public class PlayerCanvas : MonoBehaviour
 {
-    [SerializeField] GameObject interactButton;
+    [SerializeField] PlayerCharacter playerCharacter;
+    [SerializeField] protected GameObject p1InteractButton;
+    [SerializeField] protected GameObject p2InteractButton;
 
+    protected GameObject interactButton;
+
+    protected virtual void Start()
+    {
+        interactButton = p1InteractButton;
+    }
+
+    public virtual void SetPlayerInteractKeys(SO_Inputs inputs)
+    {
+        if (inputs.inputType == Type.WASD)
+        {
+            interactButton = p1InteractButton;
+        }
+        else
+        {
+            interactButton = p2InteractButton;
+        }
+    }
     private void Update()
     {
         transform.rotation = Quaternion.Euler(0, 0, 0);

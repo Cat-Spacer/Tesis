@@ -2,15 +2,20 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class FallingTrapBullet : MonoBehaviour
 {
     private Rigidbody2D _rb;
     [SerializeField] private float fallSpeed;
     public bool ready;
+    [SerializeField] private Sprite[] trash;
+    private SpriteRenderer sp;
     private void Start()
     {
+        sp = GetComponent<SpriteRenderer>();
         _rb = GetComponent<Rigidbody2D>();
+        sp.sprite = trash[Random.Range(0, trash.Length - 1)];
         _rb.gravityScale = 0;
     }
     public void Activate()

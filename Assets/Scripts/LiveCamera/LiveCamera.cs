@@ -2,43 +2,41 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class LiveCamera : MonoBehaviour
 {
     public static LiveCamera instance;
 
+    [SerializeField] private float _currentLiveTime = 0f;
+    [SerializeField] private float _currentOffLiveTime = 0f;
+    [SerializeField] private float _maxTimeOnAir;
+    [SerializeField] private float _minTimeOnAir;
     [SerializeField] private float _timeOnAir;
     [SerializeField] private float _timeUntilOnAir;
+    [SerializeField] private float _timeVariation ;
     
     [SerializeField] private bool _onAir;
     private bool _isOnAir;
-
-    [SerializeField] private bool isGroupedCamera;
+    
     [SerializeField] private GameObject _groupCamera;
-    [SerializeField] private GameObject[] _splitCamera;
+    [SerializeField] private GameObject[] _tvShader;
     
     private void Awake()
     {
         if (instance == null) 
             instance = this;
-
-        ActivateCamera();
-        GoOnAir();
-    }
-    private void Update()
-    {
-
     }
 
     private void Start()
     {
-        EventManager.Instance.Subscribe(EventType.OnSwitchCameraType, ChangeCameraType);
+        ActivateCamera();
+        GoOnAir();
     }
 
     private void ChangeCameraType(object[] obj)
     {
         var state = (bool) obj[0];
-        isGroupedCamera = state;
         ActivateCamera();
     }
 
@@ -46,15 +44,37 @@ public class LiveCamera : MonoBehaviour
     {
 
     }
+
+    float CalculateTimeOnAir()
+    {
+        int peace = PeaceSystem.instance.GetCurrentPeace();
+        float newTime = Mathf.Lerp(_minTimeOnAir, _maxTimeOnAir, 1 - peace / 10f);
+        float variation = newTime * _timeVariation;
+        float liveTime = Random.Range(newTime - variation, newTime + variation);
+        liveTime = Mathf.Clamp(liveTime, _minTimeOnAir, _maxTimeOnAir);
+        _currentLiveTime = liveTime;
+        return liveTime;
+    }
+
+    float CalculateTimeUntilAir()
+    {
+        int peace = PeaceSystem.instance.GetCurrentPeace();
+        float newTime = Mathf.Lerp(_maxTimeOnAir, _minTimeOnAir, 1 - peace / 10f);
+        float variation = newTime * _timeVariation;
+        float liveTime = Random.Range(newTime - variation, newTime + variation);
+        liveTime = Mathf.Clamp(liveTime, _minTimeOnAir, _maxTimeOnAir);
+        _currentOffLiveTime = liveTime;
+        return liveTime;
+    }
     void GoOnAir()
     {
         _onAir = true;
         ActivateCamera();
-        StartCoroutine(OnAirTimer());
+        StartCoroutine(OnAirTimer(CalculateTimeOnAir()));
     }
-    IEnumerator OnAirTimer()
+    IEnumerator OnAirTimer(float time)
     {
-        yield return new WaitForSecondsRealtime(_timeOnAir);
+        yield return new WaitForSecondsRealtime(time);
         GoOffAir();
     }
     public void GoOffAir()
@@ -62,43 +82,26 @@ public class LiveCamera : MonoBehaviour
         //Debug.Log("Off Air");
         _onAir = false;
         DesactivateAllCameras();
-        StartCoroutine(TimeUntilGoOnAir());
+        StartCoroutine(TimeUntilGoOnAir(CalculateTimeUntilAir()));
     }
     
-    IEnumerator TimeUntilGoOnAir()
+    IEnumerator TimeUntilGoOnAir(float time)
     {
-        yield return new WaitForSecondsRealtime(_timeUntilOnAir);
+        yield return new WaitForSecondsRealtime(time);
         GoOnAir();
     }
 
     void ActivateCamera()
     {
         if (!_onAir) return;
-        if (isGroupedCamera)
-        {
-            foreach (var cam in _splitCamera)
-            {
-                cam.SetActive(false);
-            }
-            _groupCamera.SetActive(true);
-        }
-        else
-        {
-            foreach (var cam in _splitCamera)
-            {
-                cam.SetActive(true);
-            }
-            _groupCamera.SetActive(false);
-        }
+        _groupCamera.SetActive(true);
+        foreach (var shader in _tvShader) shader.SetActive(true);
     }
 
     private void DesactivateAllCameras()
     {
-        foreach (var cam in _splitCamera)
-        {
-            cam.SetActive(false);
-        }
         _groupCamera.SetActive(false);
+        foreach (var shader in _tvShader) shader.SetActive(false);
     }
     public void ChangePeace(int value)
     {

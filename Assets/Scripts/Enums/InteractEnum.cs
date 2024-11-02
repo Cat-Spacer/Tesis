@@ -6,5 +6,6 @@ public enum InteractEnum
 {
     Door,
     Button,
-    Tp
+    Tp,
+    Tube
 }

@@ -1,45 +1,79 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class HamsterCanvas : PlayerCanvas
 {
-    [SerializeField] private GameObject leftArrow, rightArrow, upArrow, downArrow;
+    [SerializeField] private GameObject p1LeftKey;
+    [SerializeField] private GameObject p1RightKey;
+    [SerializeField] private GameObject p1UpKey;
+    [SerializeField] private GameObject p1DownKey;
+    
+    [SerializeField] private GameObject p2LeftKey;
+    [SerializeField] private GameObject p2RightKey;
+    [SerializeField] private GameObject p2UpKey;
+    [SerializeField] private GameObject p2DownKey;
+    
+    private GameObject leftKey;
+    private GameObject rightKey;
+    private GameObject upKey;
+    private GameObject downKey;
 
-    private void Start()
+    protected override void Start()
     {
-        upArrow.SetActive(false);
-        downArrow.SetActive(false);
-        rightArrow.SetActive(false);
-        leftArrow.SetActive(false);
+        interactButton = p1InteractButton;
+        leftKey = p1LeftKey;
+        rightKey = p1RightKey;
+        upKey = p1UpKey;
+        downKey = p1DownKey;
     }
 
     public void HideArrows()
     {
-        upArrow.SetActive(false);
-        downArrow.SetActive(false);
-        rightArrow.SetActive(false);
-        leftArrow.SetActive(false);
+        upKey.SetActive(false);
+        downKey.SetActive(false);
+        rightKey.SetActive(false);
+        leftKey.SetActive(false);
     }
     public void CheckTubeDirections(Tube tube)
     {
-        var connections = tube.Connections();
-        if (connections.Contains("Up"))
+        if (tube.HasUpPath())
         {
-            upArrow.SetActive(true);
+            upKey.SetActive(true);
         }
-        if (connections.Contains("Down"))
+        if (tube.HasDownPath())
         {
-            downArrow.SetActive(true);
+            downKey.SetActive(true);
         }
-        if (connections.Contains("Right"))
+        if (tube.HasRightPath())
         {
-            rightArrow.SetActive(true);
+            rightKey.SetActive(true);
         }
-        if (connections.Contains("Left"))
+        if (tube.HasLeftPath())
         {
-            leftArrow.SetActive(true);
+            leftKey.SetActive(true);
         }
     }
 
+    public override void SetPlayerInteractKeys(SO_Inputs inputs)
+    {
+        if (inputs.inputType == Type.WASD)
+        {
+            interactButton = p1InteractButton;
+            leftKey = p1LeftKey;
+            rightKey = p1RightKey;
+            upKey = p1UpKey;
+            downKey = p1DownKey;
+        }
+        else
+        {
+            interactButton = p2InteractButton;
+            leftKey = p2LeftKey;
+            rightKey = p2RightKey;
+            upKey = p2UpKey;
+            downKey = p2DownKey;
+        }
+        
+    }
 }

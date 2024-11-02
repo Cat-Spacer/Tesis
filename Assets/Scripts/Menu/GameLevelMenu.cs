@@ -12,6 +12,7 @@ public class GameLevelMenu : MonoBehaviour
     
     [SerializeField] private GameObject _pauseMenu;
     [SerializeField] private GameObject _winMenu;
+    [SerializeField] private GameObject _loseMenu;
 
     private bool _onPause = false;
     
@@ -20,12 +21,17 @@ public class GameLevelMenu : MonoBehaviour
         _resumeBtn.onClick.AddListener(Resume);
         _optionsBtn.onClick.AddListener(Options);
         _levelMenuBtn.onClick.AddListener(LevelMenu);
-        //_menuBtn.onClick.AddListener(MainMenu);
     }
 
     private void Start()
     {
-        
+        EventManager.Instance.Subscribe(EventType.OnLoseGame, OnLoseGame);
+    }
+
+    private void OnLoseGame(object[] obj)
+    {
+        Time.timeScale = 0; 
+        _loseMenu.SetActive(true);
     }
 
 
@@ -56,13 +62,18 @@ public class GameLevelMenu : MonoBehaviour
     public void WinMenu()
     {
         _winMenu.SetActive(true);
-
+        var points = EgoSystem.instance.GetEgoPoints();
+        _winMenu.GetComponent<WinMenu>().SetText(points.Item1.ToString(), points.Item2.ToString());
     }
     public void NextLevel()
     {
         SceneManager.LoadScene(GameManager.Instance.GetNextLevelName(), LoadSceneMode.Single);
     }
 
+    public void RestartLevel()
+    {
+        SceneManager.LoadScene(GameManager.Instance.GetCurrentLevelName(), LoadSceneMode.Single);
+    }
     public void LevelSelectorMenu()
     {
         SceneManager.LoadScene("LevelSelector", LoadSceneMode.Single);

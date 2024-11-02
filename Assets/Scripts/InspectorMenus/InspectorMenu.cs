@@ -10,7 +10,6 @@ public class InspectorMenu : EditorWindow
     private GameObject pressurePlate;
     private GameObject fallingTrap;
     private GameObject turret;
-    private GameObject electricButton;
     private GameObject fallingFloor;
     private GameObject floorSwitch;
     private GameObject flower;
@@ -21,6 +20,8 @@ public class InspectorMenu : EditorWindow
     private GameObject spike;
     private GameObject tpOneSided;
     private GameObject tpTwoSided;
+    private GameObject catLever;
+    private GameObject hamsterLever;
 
     private Transform parent;
     private Vector2 scrollPosition;
@@ -81,7 +82,7 @@ public class InspectorMenu : EditorWindow
         obj = (GameObject)EditorGUILayout.ObjectField(obj, typeof(GameObject), true, GUILayout.Width(width), GUILayout.Height(height));
         if (GUILayout.Button("Create", GUILayout.Width(width)))
         {
-            var newObstacle = Instantiate(obj);
+            GameObject newObstacle = (GameObject)PrefabUtility.InstantiatePrefab(obj);
             newObstacle.transform.position = new Vector3(SceneView.lastActiveSceneView.camera.transform.position.x, SceneView.lastActiveSceneView.camera.transform.position.y, 0);
             newObstacle.transform.parent = parent;
             Selection.activeObject = newObstacle;

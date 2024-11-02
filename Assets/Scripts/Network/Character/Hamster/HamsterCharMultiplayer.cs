@@ -46,9 +46,9 @@ public class HamsterCharMultiplayer : PlayerCharacterMultiplayer
     private Vector2 _currentTubePos;
     Action _TubesMovementAction = delegate { };
     Vector2 _tubeEntry;
-    Tube _currentTube, _lastTube;
+    TubeSystem _currentTubeSystem, _lastTubeSystem;
 
-    public void GetInTube(Vector2 targetPosition, Tube tube)
+    public void GetInTube(Vector2 targetPosition, TubeSystem tubeSystem)
     {
         if (_inTube) return;
         _inTube = true;
@@ -56,15 +56,15 @@ public class HamsterCharMultiplayer : PlayerCharacterMultiplayer
         _rb.simulated = false;
         //_inputs.ChangeToTubesInputs(true);
         _tubeEntry = targetPosition;
-        _currentTube = tube;
-        GoToPosition(_tubeEntry);
-        _TubesMovementAction += EnterTube;
+        _currentTubeSystem = tubeSystem;
+        //GoToPosition(_tubeEntry);
+        //TubesMovementAction += EnterTube;
     }
 
     public void GetOutOfTube(Vector2 targetPosition)
     {
         _tubeEntry = targetPosition;
-        GoToPosition(_tubeEntry);
+        //GoToPosition(_tubeEntry);
         _TubesMovementAction += GetInWorld;
     }
 
@@ -80,79 +80,79 @@ public class HamsterCharMultiplayer : PlayerCharacterMultiplayer
             _TubesMovementAction = delegate {  };
         }
     }
-    void EnterTube()
-    {
-        if (Vector2.Distance(transform.position, _tubeEntry) < .1f)
-        {
-            MoveToNextTube(_currentTube);
-        }
-    }
-
-    public void MoveInTubes()
-    {
-        if (Vector3.Distance(transform.position, _currentTubePos) < .01f)
-            CheckNextTube();
-    }
-
-    void MoveToPosition(Vector2 pos)
-    { transform.position = Vector3.MoveTowards(transform.position, pos, _speed * Time.deltaTime); }
-
-    public void GoToPosition(Vector2 pos) { _TubesMovementAction = () => MoveToPosition(pos); }
-
-    public void TubeDirection(Vector2 dir)
-    {
-        if (!_currentTube.IsCheckpoint()) return;
-        if(dir == new Vector2(1, 0))
-        {
-            MoveToNextTube(_currentTube.GoRight());
-        }
-        if (dir == new Vector2(-1, 0))
-        {
-            MoveToNextTube(_currentTube.GoLeft());
-        }
-        if (dir == new Vector2(0, 1))
-        {
-            MoveToNextTube(_currentTube.GoUp());
-        }
-        if (dir == new Vector2(0, -1))
-        {
-            MoveToNextTube(_currentTube.GoDown());
-        }
-    }
-
-    void CheckNextTube()
-    {
-        if (_currentTube.IsCheckpoint() || _currentTube.IsEntry() || _currentTube.IsExit())
-        {
-            canvas.gameObject.SetActive(true);
-            canvas.CheckTubeDirections(_currentTube);
-            //_currentTube.GetPossiblePaths(this);
-            _TubesMovementAction = delegate { };
-        }
-        else
-        {
-            // var nextTube = _currentTube.GetNextPath(_lastTube);
-            // _lastTube = _currentTube;
-            // _currentTube = nextTube;
-            // _currentTubePos = _currentTube.GetCenter();
-            MoveToNextTube(_currentTube.GetNextPath(_lastTube));
-        }
-    }
-
-    public void MoveToNextTube(Tube tube)
-    {
-        if (tube != null) //Se mueve al siguiente tubo
-        {
-            canvas.HideArrows();
-            _lastTube = _currentTube;
-            _currentTube = tube;
-            _currentTubePos = tube.GetCenter();
-            GoToPosition(_currentTubePos);
-            _TubesMovementAction += MoveInTubes;
-            _inTube = true;
-        } 
-        else return; //Si no hay siguiente tubo sale del tubo
-    }
+    // void EnterTube()
+    // {
+    //     if (Vector2.Distance(transform.position, _tubeEntry) < .1f)
+    //     {
+    //         MoveToNextTube(_currentTubeSystem);
+    //     }
+    // }
+    //
+    // public void MoveInTubes()
+    // {
+    //     if (Vector3.Distance(transform.position, _currentTubePos) < .01f)
+    //         CheckNextTube();
+    // }
+    //
+    // void MoveToPosition(Vector2 pos)
+    // { transform.position = Vector3.MoveTowards(transform.position, pos, _speed * Time.deltaTime); }
+    //
+    // public void GoToPosition(Vector2 pos) { _TubesMovementAction = () => MoveToPosition(pos); }
+    //
+    // public void TubeDirection(Vector2 dir)
+    // {
+    //     if (!_currentTubeSystem.IsCheckpoint()) return;
+    //     if(dir == new Vector2(1, 0))
+    //     {
+    //         MoveToNextTube(_currentTubeSystem.GoRight());
+    //     }
+    //     if (dir == new Vector2(-1, 0))
+    //     {
+    //         MoveToNextTube(_currentTubeSystem.GoLeft());
+    //     }
+    //     if (dir == new Vector2(0, 1))
+    //     {
+    //         MoveToNextTube(_currentTubeSystem.GoUp());
+    //     }
+    //     if (dir == new Vector2(0, -1))
+    //     {
+    //         MoveToNextTube(_currentTubeSystem.GoDown());
+    //     }
+    // }
+    //
+    // void CheckNextTube()
+    // {
+    //     if (_currentTubeSystem.IsCheckpoint() || _currentTubeSystem.IsEntry() || _currentTubeSystem.IsExit())
+    //     {
+    //         canvas.gameObject.SetActive(true);
+    //         canvas.CheckTubeDirections(_currentTubeSystem);
+    //         //_currentTube.GetPossiblePaths(this);
+    //         _TubesMovementAction = delegate { };
+    //     }
+    //     else
+    //     {
+    //         // var nextTube = _currentTube.GetNextPath(_lastTube);
+    //         // _lastTube = _currentTube;
+    //         // _currentTube = nextTube;
+    //         // _currentTubePos = _currentTube.GetCenter();
+    //         MoveToNextTube(_currentTubeSystem.GetNextPath(_lastTubeSystem));
+    //     }
+    // }
+    //
+    // public void MoveToNextTube(TubeSystem tubeSystem)
+    // {
+    //     if (tubeSystem != null) //Se mueve al siguiente tubo
+    //     {
+    //         canvas.HideArrows();
+    //         _lastTubeSystem = _currentTubeSystem;
+    //         _currentTubeSystem = tubeSystem;
+    //         _currentTubePos = tubeSystem.GetCenter();
+    //         GoToPosition(_currentTubePos);
+    //         _TubesMovementAction += MoveInTubes;
+    //         _inTube = true;
+    //     } 
+    //     else return; //Si no hay siguiente tubo sale del tubo
+    // }
     public bool InTube()
     {
         return _inTube;

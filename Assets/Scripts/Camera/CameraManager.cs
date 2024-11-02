@@ -8,7 +8,7 @@ using UnityEngine.PlayerLoop;
 public class CameraManager : MonoBehaviour
 {
     private Transform catPos, hamsterPos;
-    private bool isGrouped;
+    [SerializeField] private bool isGrouped;
     [SerializeField] float cameraGroupLimit;
     [SerializeField] private GameObject groupCamera;
     [SerializeField] private GameObject[] splitCamera;
@@ -29,31 +29,25 @@ public class CameraManager : MonoBehaviour
     private void Update()
     {
         var distance = catPos.position - hamsterPos.position;
-        if (distance.magnitude > cameraGroupLimit && !isGrouped)
+        if (distance.magnitude >= cameraGroupLimit && !isGrouped)
         {
             isGrouped = true;
-            //virtualGroupCamera.enabled = false;
-            groupCamera.gameObject.SetActive(false);
             foreach (var virtualCamera in splitCamera)
             {
-                virtualCamera.transform.position = virtualGroupCamera.transform.position;
-                //virtualCamera.enabled = true;
+                //virtualCamera.transform.position = virtualGroupCamera.transform.position;
                 virtualCamera.gameObject.SetActive(true);
             }
-            EventManager.Instance.Trigger(EventType.OnSwitchCameraType, false);
+            groupCamera.gameObject.SetActive(false);
         }
         else if(distance.magnitude < cameraGroupLimit && isGrouped)
         {
             isGrouped = false;
-            //virtualGroupCamera.enabled = true;
             groupCamera.gameObject.SetActive(true);
             foreach (var virtualCamera in splitCamera)
             {
                 virtualCamera.transform.position = virtualGroupCamera.transform.position;
-                //virtualCamera.enabled = false;
                 virtualCamera.gameObject.SetActive(false);
             }
-            EventManager.Instance.Trigger(EventType.OnSwitchCameraType, true);
         }
     }
 }

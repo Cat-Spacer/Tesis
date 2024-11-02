@@ -23,6 +23,9 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
     public State airState;
     public State runState;
     public State stunState;
+    public State punchState;
+    public State specialState;
+    public State interactState;
     
 
     private Material _material;
@@ -49,6 +52,9 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
         airState.SetUp(_rb, _model, input, _data);
         runState.SetUp(_rb, _model, input, _data);
         stunState.SetUp(_rb, _model, input, _data);
+        interactState.SetUp(_rb, _model, input, _data);
+        punchState.SetUp(_rb, _model, input, _data);
+        specialState.SetUp(_rb, _model, input, _data);
 
         state = idleState;
     }
@@ -58,6 +64,7 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
         if (!doorInteracting) return;
         if (state.isComplete)
         {
+            state.Exit();
             SelectState();   
         }
         state.Do();
@@ -77,9 +84,21 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
                 {
                     state = idleState;
                 }
-                else if(_data.canMove)
+                if(_data.canMove && input.left_Input || input.right_Input)
                 {
                     state = runState;
+                }
+                if (input.attack_Input)
+                {
+                    state = punchState;
+                }
+                if (input.interact_Input)
+                {
+                    state = interactState;
+                }
+                if (input.special_Input)
+                {
+                    state = specialState;
                 }
             }
             else
@@ -101,7 +120,7 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
 #region MOVEMENT
     public void Movement(bool run, int direction)
     {
-        if (!run || !_data.canMove || _data.isStun)
+        if (!run || !_data.canMove || _data.isStun || _data.isPunching)
         {
             _data.isRunning = false;
             return;
@@ -203,8 +222,13 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
 
     public virtual void Punch()
     {
-        if (!_data.canPunch) return;
+        if (!_data.canPunch && !OnGround()) return;
+        
         var obj = Physics2D.OverlapCircle(_data.attackPoint.position, _data.attackRange.x, _data.attackableLayer);
+        _data.isPunching = true;
+        _data.canPunch = false;
+        _data.canMove = false;
+        StartCoroutine(PunchCd());
         if (obj)
         {
             var body = obj.gameObject.GetComponent<Rigidbody2D>();
@@ -212,9 +236,8 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
             {
                 Vector2 direction =  new Vector2(_model.GetFaceDirection(), .8f);
                 body.AddForce(direction * _data.punchForce);
-                _data.canPunch = false;
-                EventManager.Instance.Trigger(EventType.OnChangePeace, -1);
-                StartCoroutine(PunchCd());
+                if (LiveCamera.instance.IsOnAir()) EventManager.Instance.Trigger(EventType.OnChangePeace, -1);
+                EventManager.Instance.Trigger(EventType.OnUpdateEgoPoints, charType, 1);
             }
             var player = obj.gameObject.GetComponent<IStun>();
             if (player != null)
@@ -227,10 +250,14 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
     IEnumerator PunchCd()
     {
         yield return new WaitForSecondsRealtime(_data.punchCd);
+        _data.isPunching = false;
         _data.canPunch = true;
+        _data.canMove = true;
     }
     public void Interact(bool onPress)
     {
+        StartCoroutine(InteractCd());
+        _data.isInteracting = true;
         if (onPress && _data._onHand != null)
         {
             _data._onHand.Drop(new Vector2(_data.faceDirection, 1), 5);
@@ -258,6 +285,12 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
                 _data._interactObj.Interact(gameObject);
             }
         }
+    }
+
+    IEnumerator InteractCd()
+    {
+        yield return new WaitForSecondsRealtime(1f);
+        _data.isInteracting = false;
     }
     // public virtual void JumpImpulse()
     // {
@@ -389,7 +422,8 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
     {
         _data.canMove = false;
         _data.canJump = false;
-        StartCoroutine(Vanish()); //RPC seguramente...
+        StartCoroutine(Vanish());
+        EventManager.Instance.Trigger(EventType.OnUpdateEgoPoints, charType, -5);
     }
 
     void Revive()
@@ -399,10 +433,11 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
     public void ReceiveInputs(SO_Inputs newInput)
     {
         _model.ChangeAnimationState("ExitDoor");
+        _data.canvas.SetPlayerInteractKeys(newInput);
         input.SetInput(newInput);
         _data.canMove = false;
     }
-
+    
     public void EnterDoor()
     {
         _data.canMove = false;
