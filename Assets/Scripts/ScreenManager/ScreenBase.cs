@@ -5,12 +5,13 @@ public abstract class ScreenBase : MonoBehaviour
 {
     [SerializeField] private string _sortingLayer = "Canvas";
     [SerializeField] private int _canvasLayer = 0;
-    [HideInInspector] public Button[] buttons = default;
+    [SerializeField] public Button[] buttons = default;
 
     public virtual void OnAwake()
     {
         SetCamera(_canvasLayer);
         buttons = GetComponentsInChildren<Button>();
+        if (buttons != null || buttons.Length <= 0) return;
         foreach (var button in buttons)
         {
             button.interactable = false;

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 //using Unity.Tutorials.Core.Editor;
 using UnityEngine;
@@ -27,17 +26,36 @@ public class LevelMenu : MonoBehaviour
         if (lvl == null || lvl.Length <= 0) return;
         if (string.IsNullOrEmpty(lvl)) _selectedLevel = _defaultLevel;
         _selectedLevel = lvl;
+        Debug.Log($"Decoded string {DecodeString(_selectedLevel)}");
     }
 
     public void PlayLevel()
     {
         //if (_selectedLevel.IsNullOrEmpty()) return;
         if (_selectedLevel.Length == 0) return;
-        SceneManager.LoadScene(_selectedLevel, LoadSceneMode.Single);
+        SceneToLoad(DecodeString(_selectedLevel));
+        //SceneManager.LoadScene(_selectedLevel, LoadSceneMode.Single);
+    }
+    private void SceneToLoad(int scene)
+    {
+        AsyncLoadScenes.sceneToLoad = scene + 2;
+        SceneManager.LoadScene(1);
     }
     public void PlayAndSelectLevel(string lvl)
     {
         SelectLevel(lvl);
         PlayLevel();
+    }
+
+    private int DecodeString(string textToSplit)
+    {
+        string[] stringArray= textToSplit.Split(" "[0]);//Split myString wherever there's a _ and make a String array out of it.
+        int [] myNumbers = new int[stringArray.Length];
+        for (int num = 0; num < stringArray.Length; num++){
+            int.TryParse(stringArray[num], out int res);
+            myNumbers[num] = res;
+        }
+
+        return myNumbers[myNumbers.Length - 1];
     }
 }
