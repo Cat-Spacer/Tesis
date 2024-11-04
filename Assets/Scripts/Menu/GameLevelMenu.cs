@@ -102,6 +102,6 @@ public class GameLevelMenu : MonoBehaviour
     public void ReturnToMenu()
     {
         Time.timeScale = 1;
-        SceneManager.LoadScene("MenuCoop", LoadSceneMode.Single);
+        SceneManager.LoadScene(0, LoadSceneMode.Single);
     }
 }

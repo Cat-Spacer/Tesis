@@ -76,9 +76,9 @@ public class DelayActiveButtons : MonoBehaviour
         yield return new WaitForSeconds(_delay);
         _activeThis.SetActive(false);        
 
-        if (MenuButton.instance)
-            if (scene >= 0) MenuButton.instance.SceneToLoad(scene);
-            else MenuButton.instance.BTN_General(menuName);
+        //if (MenuButton.instance)
+        //    if (scene >= 0) MenuButton.instance.SceneToLoad(scene);
+        //    else MenuButton.instance.BTN_General(menuName);
 
         foreach (var item in _desactive)
         {
@@ -100,6 +100,6 @@ public class DelayActiveButtons : MonoBehaviour
         {
             item.SetActive(false);
         }
-        if (MenuButton.instance) MenuButton.instance.BTN_Back();
+        //if (MenuButton.instance) MenuButton.instance.BTN_Back();
     }
 }

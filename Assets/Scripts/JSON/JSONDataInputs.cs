@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class JSONDataInputs : MonoBehaviour
 {
-    public void SaveData() { KeybindManager.Instance.saveManager.SaveJSON(); }
+    public void SaveData() { KeybindManager.instance.saveManager.SaveJSON(); }
 
-    public void LoadData() { KeybindManager.Instance.saveManager.LoadJSON(); }
+    public void LoadData() { KeybindManager.instance.saveManager.LoadJSON(); }
 
-    public bool CheckData() { return KeybindManager.Instance.saveManager.CheckFile(); }
+    public bool CheckData() { return KeybindManager.instance.saveManager.CheckFile(); }
 }
