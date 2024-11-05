@@ -39,9 +39,4 @@ public class FlowerStatueNetwork : NetworkBehaviour, IInteract
     {
 
     }
-
-    public InteractEnum GetInteractType()
-    {
-        throw new NotImplementedException();
-    }
 }

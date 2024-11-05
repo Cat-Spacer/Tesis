@@ -12,7 +12,6 @@ public class ExitDoor : MonoBehaviour, IInteract
     private LevelObjective lvlObjective;
     private Animator anim;
     [SerializeField] private CharacterType type;
-    private InteractEnum interactType;
     private bool state;
     private BoxCollider2D _coll;
     private PlayerCharacter _player;
@@ -120,10 +119,5 @@ public class ExitDoor : MonoBehaviour, IInteract
     public void ShowInteract(bool showInteractState)
     {
         
-    }
-
-    public InteractEnum GetInteractType()
-    {
-        return interactType;
     }
 }

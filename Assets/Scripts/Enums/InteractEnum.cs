@@ -2,10 +2,3 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum InteractEnum 
-{
-    Door,
-    Button,
-    Tp,
-    Tube
-}

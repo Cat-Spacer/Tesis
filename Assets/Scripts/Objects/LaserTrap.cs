@@ -37,7 +37,7 @@ public class LaserTrap : MonoBehaviour, IActivate
         _on = true;
         _line.enabled = true;
         _firstStart = false;
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, -transform.right, 10, _hitLayerMask);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, -transform.up, 30, _hitLayerMask);
         if (hit)
         {
             foreach (var particle2 in _particles2)
@@ -47,8 +47,8 @@ public class LaserTrap : MonoBehaviour, IActivate
             _line.SetPosition(0, linePoint.position);
             _line.SetPosition(1, hit.point);
             float dist = Vector2.Distance(transform.position, hit.point);
-            var center = dist / 2;
-            coll.offset = new Vector2(0, center);
+            var center = dist *.5f;
+            coll.offset = new Vector2(0, -center);
             coll.size = new Vector2(0.1f, dist);
             foreach (var particle in _particles)
             {
@@ -100,12 +100,14 @@ public class LaserTrap : MonoBehaviour, IActivate
     public void Activate()
     {
         Debug.Log("Activate");
-        TurnOn();
+        if(!_on) TurnOn();
+        else TurnOff();
     }
 
     public void Desactivate()
     {
         Debug.Log("Desactivate");
-        TurnOff();
+        if(_on) TurnOff();
+        else TurnOn();
     }
 }

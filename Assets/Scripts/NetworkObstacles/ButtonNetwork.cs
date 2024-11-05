@@ -71,9 +71,4 @@ public class ButtonNetwork : NetworkBehaviour, IInteract
     {
 
     }
-
-    public InteractEnum GetInteractType()
-    {
-        throw new System.NotImplementedException();
-    }
 }

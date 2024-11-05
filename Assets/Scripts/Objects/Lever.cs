@@ -15,7 +15,7 @@ public class Lever : MonoBehaviour, IInteract
         foreach (var connection in _connectionObj)
         {
             var obj = connection.GetComponent<IActivate>();
-            _connection.Add(obj);
+            if(connection != null) _connection.Add(obj);
             if(_activated) obj.Activate();
             else obj.Desactivate();
         }
@@ -33,7 +33,7 @@ public class Lever : MonoBehaviour, IInteract
         {
             foreach (var connection in _connection)
             {
-                connection.Activate();
+                if(connection != null) connection.Activate();
             }
             _activated = true;
         }
@@ -41,7 +41,7 @@ public class Lever : MonoBehaviour, IInteract
         {
             foreach (var connection in _connection)
             {
-                connection.Desactivate();
+                if(connection != null) connection.Desactivate();
             }
             _activated = false;
         }
@@ -58,8 +58,4 @@ public class Lever : MonoBehaviour, IInteract
 
     }
 
-    public InteractEnum GetInteractType()
-    {
-        return default;
-    }
 }

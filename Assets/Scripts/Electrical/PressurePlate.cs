@@ -6,48 +6,50 @@ using System.Threading;
 
 public class PressurePlate : MonoBehaviour
 {
-    [SerializeField] Transform _topPoint, _downPoint;
-    [SerializeField] private GameObject _plate;
+    [SerializeField] private CharacterType type;
     [SerializeField] private List<GameObject> _connectionObj;
     private List<IActivate> _connection  = new List<IActivate>();
+    private Animator _anim;
+    private string activateAnimation;
+    private string desactivateAnimation;
     void Start()
     {
+        _anim = GetComponent<Animator>();
         foreach (var connection in _connectionObj)
         {
             var obj = connection.GetComponent<IActivate>();
-            Debug.Log(obj);
-            _connection.Add(obj);
+            if(obj != null) _connection.Add(obj);
         }
     }
     void Activate()
     {
-        _plate.transform.position = _downPoint.position;
+        _anim.Play("Activate");
         foreach (var connection in _connection)
         {
-            connection.Activate();
+            if(connection != null) connection.Activate();
         }
     }
 
     void Desactivate()
     {
-        _plate.transform.position = _topPoint.position;
+        _anim.Play("Desactivate");
         foreach (var connection in _connection)
         {
-            connection.Desactivate();
+            if(connection != null) connection.Desactivate();
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        var player = collision.gameObject.GetComponent<CatCharacter>();
-        if (player != null)
+        var player = collision.gameObject.GetComponent<PlayerCharacter>();
+        if (player != null && player.GetCharType() == type)
         {
             Activate();
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        var player = collision.gameObject.GetComponent<CatCharacter>();
-        if (player != null)
+        var player = collision.gameObject.GetComponent<PlayerCharacter>();
+        if (player != null && player.GetCharType() == type)
         {
             Desactivate();
         }

@@ -7,5 +7,4 @@ public interface IInteract
     void Interact(params object[] param);
     void ShowInteract(bool showInteractState);
 
-    InteractEnum GetInteractType();
 }
