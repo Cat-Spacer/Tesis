@@ -3,19 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class MenuButton : MonoBehaviour
 {
-    public static MenuButton instance = default;
     [SerializeField] private int loadingScreenIndex = 0;
-    [SerializeField] private string _settingsScreenName = "Settings_Menu", _controlsScreenName = "Control_Menu", _creditsScreenName = "Credits_Menu", _levelsScreenMenu = "Levels_Menu";
-
-    private void Awake()
-    {
-        if (!instance)
-            instance = this;
-        else
-            Destroy(gameObject);
-
-        DontDestroyOnLoad(gameObject);
-    }
+    [SerializeField] private string _settingsScreenName = "Settings_Menu", _controlsScreenName = "Control_Menu", _creditsScreenName = "Credits_Menu", _levelsScreenName = "Levels_Menu";
 
     public void BTN_Back()
     {
@@ -39,7 +28,7 @@ public class MenuButton : MonoBehaviour
 
     public void BTN_Levels()
     {
-        ScreenManager.instance.PushInstance(_levelsScreenMenu);
+        ScreenManager.instance.PushInstance(_levelsScreenName);
     }
 
     public void SceneToLoad(int scene)

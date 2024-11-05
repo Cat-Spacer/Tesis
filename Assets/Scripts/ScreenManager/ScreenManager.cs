@@ -13,7 +13,13 @@ public class ScreenManager : MonoBehaviour
 
     void Awake()
     {
-        instance = this;
+        if (!instance)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else Destroy(this);
+
 
         _stack = new Stack<IScreen>();
     }
@@ -29,11 +35,11 @@ public class ScreenManager : MonoBehaviour
             _stack.Peek().Activate();
         }
 
-        if (lastResult == "Settings_Menu(Clone)" || lastResult == "SettingsPause_Menu(Clone)")
-            foreach (var obj in _objToActivateDesactivate)
-            {
-                obj.SetActive(true);
-            }
+        if (_objToActivateDesactivate != null || _objToActivateDesactivate.Length <= 0) return;
+        foreach (var obj in _objToActivateDesactivate)
+        {
+            obj.SetActive(true);
+        }
     }
 
     public void Push(IScreen screen)
@@ -54,6 +60,7 @@ public class ScreenManager : MonoBehaviour
         Push(go.GetComponent<IScreen>());
 
         //if (lastResult == "Settings_Menu(Clone)" || lastResult == "SettingsPause_Menu(Clone)")
+        if (_objToActivateDesactivate != null || _objToActivateDesactivate.Length <= 0) return;
         foreach (var obj in _objToActivateDesactivate)
         {
             obj.SetActive(false);

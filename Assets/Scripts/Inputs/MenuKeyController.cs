@@ -13,15 +13,15 @@ public class MenuKeyController : MonoBehaviour
 
     private void Start()
     {
-        if (KeybindManager.Instance.inputDictionary != null)
-            _inputDictionary = KeybindManager.Instance.inputDictionary;
+        if (KeybindManager.instance.inputDictionary != null)
+            _inputDictionary = KeybindManager.instance.inputDictionary;
         else
             _inputDictionary = new InputDictionary();
 
-        if (KeybindManager.Instance.saveManager.LoadData().buttonKeys == null || KeybindManager.Instance.saveManager.LoadData().buttonValues == null)
+        if (KeybindManager.instance.saveManager.LoadData().buttonKeys == null || KeybindManager.instance.saveManager.LoadData().buttonValues == null)
             _inputDictionary.OnStartIfNotSave();
         else
-            _inputDictionary.LoadDictionary(KeybindManager.Instance.saveManager.LoadData().buttonKeys, KeybindManager.Instance.saveManager.LoadData().buttonValues);
+            _inputDictionary.LoadDictionary(KeybindManager.instance.saveManager.LoadData().buttonKeys, KeybindManager.instance.saveManager.LoadData().buttonValues);
 
         if (_keyType != InputDictionary.TypeOfKeys.None)
             _keyTypeText.text = _keyType.ToString();
@@ -81,7 +81,7 @@ public class MenuKeyController : MonoBehaviour
                 if (!_inputDictionary.SetButtonForKey(_keyType, vKey))
                 {
                     Debug.Log($"<color=yellow>Queres intercambiar las teclas?</color>");
-                    KeybindManager.Instance.popUPScreen();
+                    KeybindManager.instance.popUPScreen();
                 }
 
                 //else input field dejar tecla antigua
