@@ -1,23 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 [RequireComponent(typeof(Canvas))]
-public class ScreenControls : ScreenBase, IScreen
+public class ScreenCredits : ScreenBase, IScreen
 {
-    //public static ScreenControls instance;
-
-    //private void Awake()
-    //{
-    //    if (!instance)
-    //        instance = this;
-    //    else
-    //    {
-    //        Destroy(gameObject);
-    //        return;
-    //    }
-    //    OnAwake();
-
-    //}
-
     public void BTN_Back()
     {
         ScreenManager.instance.Pop(false);
@@ -30,8 +15,7 @@ public class ScreenControls : ScreenBase, IScreen
 
     public void Activate()
     {
-        if (buttons == null || buttons.Length <= 0) return;
-
+        if(buttons == null || buttons.Length <= 0) return;
         foreach (var button in buttons)
         {
             button.interactable = true;
@@ -41,7 +25,6 @@ public class ScreenControls : ScreenBase, IScreen
     public void Deactivate()
     {
         if (buttons == null || buttons.Length <= 0) return;
-
         foreach (var button in buttons)
         {
             button.interactable = false;
