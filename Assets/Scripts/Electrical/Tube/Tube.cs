@@ -16,7 +16,6 @@ public class Tube : MonoBehaviour, IInteract
     [SerializeField] Tube leftTube;
     [SerializeField] Tube upTube;
     [SerializeField] Tube downTube;
-    InteractEnum _interactEnum;
     public bool IsCheckpoint(){return isCheckpoint;}
 
     private void Start()
@@ -70,11 +69,6 @@ public class Tube : MonoBehaviour, IInteract
     public void ShowInteract(bool showInteractState)
     {
         
-    }
-
-    public InteractEnum GetInteractType()
-    {
-        return _interactEnum;
     }
 
     public Vector2 GetCenter()

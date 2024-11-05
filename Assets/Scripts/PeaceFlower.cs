@@ -60,8 +60,4 @@ public class PeaceFlower : Item, IInteract
 
         }
     }
-    public InteractEnum GetInteractType()
-    {
-        return default;
-    }
 }

@@ -70,9 +70,4 @@ public class SpecialMushroom : MonoBehaviour, IInteract
         //     _isOutline = false;
         // }
     }
-
-    public InteractEnum GetInteractType()
-    {
-        throw new System.NotImplementedException();
-    }
 }
