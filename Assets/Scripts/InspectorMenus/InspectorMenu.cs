@@ -7,22 +7,6 @@ public class InspectorMenu : EditorWindow
 {
     private GameObjectData gameObjectData;
     List<GameObject> myGameObjects = new List<GameObject>();
-    
-    private GameObject pressurePlate;
-    private GameObject fallingTrap;
-    private GameObject turret;
-    private GameObject fallingFloor;
-    private GameObject floorSwitch;
-    private GameObject flower;
-    private GameObject jumpPad;
-    private GameObject laser;
-    private GameObject sawTrap;
-    private GameObject smashTrap;
-    private GameObject spike;
-    private GameObject tpOneSided;
-    private GameObject tpTwoSided;
-    private GameObject catLever;
-    private GameObject hamsterLever;
 
     private Transform parent;
     private Vector2 scrollPosition;
@@ -43,21 +27,6 @@ public class InspectorMenu : EditorWindow
         {
             parent = GameObject.FindGameObjectWithTag("Levels").transform;
         }
-
-        // pressurePlate = DrawObjectField("Pressure Plate", pressurePlate, 200);
-        // fallingTrap = DrawObjectField("Falling Trap", fallingTrap, 200);
-        // turret = DrawObjectField("Turret", turret, 200);
-        // electricButton = DrawObjectField("Electric Button", electricButton, 200);
-        // fallingFloor = DrawObjectField("Falling Floor", fallingFloor, 200);
-        // floorSwitch = DrawObjectField("Floor Switch", floorSwitch, 200);
-        // flower = DrawObjectField("Flower", flower, 200);
-        // jumpPad = DrawObjectField("Jump Pad", jumpPad, 200);
-        // laser = DrawObjectField("Laser", laser, 200);
-        // sawTrap = DrawObjectField("Saw Trap", sawTrap, 200);
-        // smashTrap = DrawObjectField("Smash Trap", smashTrap, 200);
-        // spike = DrawObjectField("Spike", spike, 200);
-        // tpOneSided = DrawObjectField("Tp One Sided", tpOneSided, 200);
-        // tpTwoSided = DrawObjectField("Tp Two Sided", tpTwoSided, 200);
 
         EditorGUILayout.Space(2);
         parent = (Transform)EditorGUILayout.ObjectField("Parent", parent, typeof(Transform), true);

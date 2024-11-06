@@ -28,12 +28,6 @@ public class LiveCamera : MonoBehaviour
             instance = this;
     }
 
-    private void Start()
-    {
-        ActivateCamera();
-        GoOnAir();
-    }
-
     private void ChangeCameraType(object[] obj)
     {
         var state = (bool) obj[0];
@@ -42,7 +36,8 @@ public class LiveCamera : MonoBehaviour
 
     public void StartLiveCamera(bool status)
     {
-
+        ActivateCamera();
+        GoOnAir();
     }
 
     float CalculateTimeOnAir()

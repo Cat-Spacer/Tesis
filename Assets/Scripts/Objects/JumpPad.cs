@@ -43,7 +43,7 @@ public class JumpPad : MonoBehaviour
         if ((_mask.value & (1 << col.transform.gameObject.layer)) > 0)
         {
             var player = col.gameObject.GetComponent<PlayerCharacter>();
-            //player.StopMovement();
+            player.StopMovement();
             var entityRb = col.gameObject.GetComponent<Rigidbody2D>();
             entityRb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
             _anim.SetTrigger("Activate");

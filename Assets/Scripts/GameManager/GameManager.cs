@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviour
             }
             door.Open();
         }
-        //LiveCamera.instance.StartLiveCamera(true);
+        LiveCamera.instance.StartLiveCamera(true);
         Time.timeScale = 1f;
     }
     public void SetRespawnPoint(Vector3 pos)
