@@ -2,25 +2,28 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class Sign : MonoBehaviour,IInteract
 {
     [SerializeField] SpriteRenderer spriteRenderer;
-    [SerializeField] Sprite signSprite;
-    [SerializeField] Sprite happySignSprite;
 
+    private SignSprites sign;
+    [FormerlySerializedAs("sings")] [SerializeField] private SignSprites[] signs = new SignSprites[6];
     private bool _wasDrawed = false;
     private void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = signSprite;
+        sign = signs[Random.Range(0, signs.Length)];
+        spriteRenderer.sprite = sign.signSprite;
     }
 
     void Draw()
     {
         GetComponent<BoxCollider2D>().enabled = false;
         _wasDrawed = true;
-        spriteRenderer.sprite = happySignSprite;
+        spriteRenderer.sprite = sign.happySignSprite;
         if(EventManager.Instance != null)EventManager.Instance.Trigger(EventType.OnChangePeace, 1);
     }
     
@@ -36,7 +39,14 @@ public class Sign : MonoBehaviour,IInteract
     }
     private void OnValidate()
     {
-        if (signSprite == null || spriteRenderer == null) return;
-        spriteRenderer.sprite = signSprite;
+        // if (signSprite == null || spriteRenderer == null) return;
+        // spriteRenderer.sprite = signSprite;
     }
+}
+
+[Serializable]
+class SignSprites
+{
+    [SerializeField] public Sprite signSprite;
+    [SerializeField] public Sprite happySignSprite;
 }

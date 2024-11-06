@@ -20,6 +20,18 @@ public class PeaceSystem : MonoBehaviour
     [SerializeField] Slider greenSlider;
     [SerializeField] private Slider iconSlider;
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            EventManager.Instance.Trigger(EventType.OnChangePeace, 1);
+        }
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            EventManager.Instance.Trigger(EventType.OnChangePeace, -1);
+        }
+    }
+
     private void Start()
     {
         if (instance == null) instance = this;
@@ -39,18 +51,25 @@ public class PeaceSystem : MonoBehaviour
 
     private void UpdatePeace(object[] obj)
     {
-        
         int peace = (int) obj[0];
-        if (_currentPeace <= _minPeace || _currentPeace >= _maxPeace) return;
+
+        if (_currentPeace + peace > _maxPeace || _currentPeace + peace < _minPeace) return;
         _currentPeace += peace;
         iconSlider.value = _currentPeace;
-        if (_currentPeace <= 5)
+        if (_currentPeace == 5)
+        {
+            redSlider.value = 0;
+            greenSlider.value = 0;
+        }
+        else if (_currentPeace < 5)
         {
             redSlider.value -= peace;
+            greenSlider.value = 0;
         }
         else
         {
             greenSlider.value += peace;
+            redSlider.value = 0;
         }
 
         if (_currentPeace == 0)
