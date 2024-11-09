@@ -8,7 +8,8 @@ public enum EventType
     OnSwitchCameraType,
     OnChangePeace,
     OnUpdateEgoPoints,
-    OnLoseGame
+    OnLoseGame,
+    ViewPlayerIndicator
 }
 public class EventManager : MonoBehaviour
 {

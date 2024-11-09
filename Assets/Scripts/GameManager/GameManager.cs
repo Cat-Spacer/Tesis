@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -36,6 +38,13 @@ public class GameManager : MonoBehaviour
         }
         GetLevels();
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab)) if(EventManager.Instance != null) EventManager.Instance.Trigger(EventType.ViewPlayerIndicator, true);
+        if(Input.GetKeyUp(KeyCode.Tab))  if(EventManager.Instance != null) EventManager.Instance.Trigger(EventType.ViewPlayerIndicator, false);
+    }
+
     void GetLevels()
     {
         var currentLevel = SceneManager.GetActiveScene();
@@ -80,16 +89,24 @@ public class GameManager : MonoBehaviour
             }
             door.Open();
         }
-        LiveCamera.instance.StartLiveCamera(true);
+        if(LiveCamera.instance != null) LiveCamera.instance.StartLiveCamera(true);
         Time.timeScale = 1f;
     }
-    public void SetRespawnPoint(Vector3 pos)
+    public void SetCatRespawnPoint(Vector3 pos)
     {
-        _respawnManager.SetRespawnPoint(pos);
+        _respawnManager.SetCatRespawnPoint(pos);
     }
-    public Vector3 GetRespawnPoint()
+    public void SetHamsterRespawnPoint(Vector3 pos)
     {
-        return _respawnManager.GetRespawnPoint();
+        _respawnManager.SetHamsterRespawnPoint(pos);
+    }
+    public Vector3 GetCatRespawnPoint()
+    {
+        return _respawnManager.GetCatRespawnPoint();
+    }
+    public Vector3 GetHamsterRespawnPoint()
+    {
+        return _respawnManager.GetHamsterRespawnPoint();
     }
     public List<StaticScreen> StaticScreens(StaticScreen value = default)
     {

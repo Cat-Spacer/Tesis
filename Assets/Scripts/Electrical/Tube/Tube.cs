@@ -55,17 +55,19 @@ public class Tube : MonoBehaviour, IInteract
         if(!tubeSystem.IsPlayerOnTube())
         {
             Debug.Log("Player Enter Tube");
-            tubeSystem.EnterTubeSystem(true);
             player.GetInTube(transform.position, this);
         }
         else
         {
             Debug.Log("Player Exit Tube");
-            tubeSystem.EnterTubeSystem(false);
-            player.GetOutOfTube(transform.position);
+            player.GetOutOfTube(transform.position, this);
         }
     }
 
+    public void OnPlayerEnter(bool playerInTube)
+    {
+        tubeSystem.EnterTubeSystem(playerInTube);
+    }
     public void ShowInteract(bool showInteractState)
     {
         

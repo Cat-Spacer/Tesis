@@ -32,7 +32,7 @@ public class FlagChekpointNetwork : MonoBehaviour
         Debug.Log("FlagOn");
         _isOn = true;
         _anim.SetTrigger("ON");
-        GameManager.Instance.SetRespawnPoint(flagNetworkObject.transform.position);
+        GameManager.Instance.SetCatRespawnPoint(flagNetworkObject.transform.position);
     }
     private void OnDrawGizmos()
     {

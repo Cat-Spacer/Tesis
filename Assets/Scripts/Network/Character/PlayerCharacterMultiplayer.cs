@@ -398,7 +398,7 @@ public void Teletransport()
             _material.SetFloat(_dissolveAmount, lerpedDissolve);
             yield return null;
         }
-        transform.position = GameManager.Instance.GetRespawnPoint();
+        transform.position = GameManager.Instance.GetCatRespawnPoint();
         Revive();
     }
     IEnumerator Appear()

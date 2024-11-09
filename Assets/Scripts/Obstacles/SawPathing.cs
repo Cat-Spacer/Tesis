@@ -23,19 +23,18 @@ public class SawPathing : MonoBehaviour, IActivate
     }
     void Update()
     {
-        if (isOn) Activate();
-        else Desactivate();
         ActivatedAction();
     }
-
     public void Activate()
     {
+        isOn = true;
         _saw.StartSpinning();
         ActivatedAction = Movement;
     }
 
     public void Desactivate()
     {
+        isOn = false;
         _saw.StopSpinning();
         ActivatedAction = delegate {  };
     }

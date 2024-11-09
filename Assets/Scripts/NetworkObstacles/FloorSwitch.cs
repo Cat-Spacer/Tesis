@@ -12,12 +12,13 @@ public class FloorSwitch : MonoBehaviour, IActivate
     
     private void Awake()
     {
+        _sp = GetComponent<SpriteRenderer>();
         _coll = GetComponent<BoxCollider2D>();
     }
     
     private void Start()
     {
-        _sp = GetComponent<SpriteRenderer>();
+
         if (_activated)
         {
             _sp.color = desactivatedColor;

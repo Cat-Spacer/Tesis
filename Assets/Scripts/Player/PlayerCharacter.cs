@@ -402,7 +402,8 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
             _material.SetFloat(_dissolveAmount, lerpedDissolve);
             yield return null;
         }
-        transform.position = GameManager.Instance.GetRespawnPoint();
+        if(charType == CharacterType.Cat) transform.position = GameManager.Instance.GetCatRespawnPoint();
+        else transform.position = GameManager.Instance.GetHamsterRespawnPoint();
         Revive();
     }
     IEnumerator Appear()
