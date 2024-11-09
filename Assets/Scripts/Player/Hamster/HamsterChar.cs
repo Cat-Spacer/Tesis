@@ -22,6 +22,7 @@ public class HamsterChar : PlayerCharacter
         _TubesMovementAction();
     }
     #region TUBES
+    private bool isMoving = false;
     private bool _inTube;
     private float _speed = 8f;
     private Vector2 _currentTubePos;
@@ -31,7 +32,8 @@ public class HamsterChar : PlayerCharacter
 
     public void GetInTube(Vector3 targetPosition, Tube tube)
     {
-        if (_inTube) return;
+        if (_inTube || !_ifShrink) return;
+        tube.OnPlayerEnter(true);
         _inTube = true;
         _coll.enabled = false;
         _rb.simulated = false;
@@ -41,9 +43,9 @@ public class HamsterChar : PlayerCharacter
         _TubesMovementAction += EnterTube;
     }
 
-    public void GetOutOfTube(Vector2 targetPosition)
+    public void GetOutOfTube(Vector2 targetPosition, Tube tube)
     {
-        Debug.Log("GetOutOfTube");
+        tube.OnPlayerEnter(false);
         _tubeEntry = targetPosition;
         GoToPosition(_tubeEntry);
         _TubesMovementAction += GetInWorld;
@@ -82,7 +84,7 @@ public class HamsterChar : PlayerCharacter
 
     public void TubeDirection(Vector2 dir)
     {
-        if (!_currentTube.IsCheckpoint()) return;
+        if (!_currentTube.IsCheckpoint() || isMoving) return;
         if(dir == new Vector2(1, 0))
         {
             MoveToNextTube(_currentTube.MoveRight());
@@ -105,6 +107,7 @@ public class HamsterChar : PlayerCharacter
     {
         if (_currentTube.IsCheckpoint())
         {
+            isMoving = false;
             canvas.gameObject.SetActive(true);
             canvas.CheckTubeDirections(_currentTube);
             //_currentTube.GetPossiblePaths(this);
@@ -124,6 +127,7 @@ public class HamsterChar : PlayerCharacter
     {
         if (tube != null) //Se mueve al siguiente tubo
         {
+            isMoving = true;
             canvas.HideArrows();
             _lastTube = _currentTube;
             _currentTube = tube;

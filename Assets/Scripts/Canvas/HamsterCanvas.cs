@@ -22,7 +22,9 @@ public class HamsterCanvas : PlayerCanvas
 
     protected override void Start()
     {
+        EventManager.Instance.Subscribe(EventType.ViewPlayerIndicator, OnViewPlayerIndicator);
         interactButton = p1InteractButton;
+        playerIndicator = p1Indicator;
         leftKey = p1LeftKey;
         rightKey = p1RightKey;
         upKey = p1UpKey;
@@ -61,6 +63,7 @@ public class HamsterCanvas : PlayerCanvas
         if (inputs.inputType == Type.WASD)
         {
             interactButton = p1InteractButton;
+            playerIndicator = p1Indicator;
             leftKey = p1LeftKey;
             rightKey = p1RightKey;
             upKey = p1UpKey;
@@ -69,6 +72,7 @@ public class HamsterCanvas : PlayerCanvas
         else
         {
             interactButton = p2InteractButton;
+            playerIndicator = p2Indicator;
             leftKey = p2LeftKey;
             rightKey = p2RightKey;
             upKey = p2UpKey;

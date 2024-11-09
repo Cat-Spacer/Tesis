@@ -9,6 +9,7 @@ public class FlagChekpoint : MonoBehaviour
     [SerializeField] private LayerMask _players;
     private Animator _anim;
     private bool _isOn = false;
+    [SerializeField] bool sharedCheckpoint = false;
     void Start()
     {
         _anim = GetComponent<Animator>();
@@ -20,10 +21,22 @@ public class FlagChekpoint : MonoBehaviour
         var coll = Physics2D.OverlapBox(transform.position, _boxArea, 0, _players);
         if (coll != null)
         {
-            Debug.Log("FlagOn");
-            _isOn = true;
-            _anim.SetTrigger("ON");
-            GameManager.Instance.SetRespawnPoint(transform.position);
+            if (sharedCheckpoint)
+            {
+                GameManager.Instance.SetCatRespawnPoint(transform.position);
+                GameManager.Instance.SetHamsterRespawnPoint(transform.position);
+                _isOn = true;
+                _anim.SetTrigger("ON");
+            }
+            else
+            {
+                var player = coll.gameObject.GetComponent<PlayerCharacter>();
+                if (player.gameObject== null) return;
+                if (player.GetCharType() == CharacterType.Cat) GameManager.Instance.SetCatRespawnPoint(transform.position);
+                else GameManager.Instance.SetHamsterRespawnPoint(transform.position);
+                _isOn = true;
+                _anim.SetTrigger("ON");
+            }
         }
     }
 
