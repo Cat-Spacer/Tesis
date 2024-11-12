@@ -11,11 +11,17 @@ public class SawPathing : MonoBehaviour, IActivate
     [SerializeField] private int _maxWaypoints;
     [SerializeField] private Saw _saw;
     [SerializeField] private float _speed;
-    
+    [SerializeField] LineRenderer _lineRenderer;
     [SerializeField] private bool isOn;
     void Start()
     {
         _maxWaypoints = _waypoints.Count - 1;
+        _lineRenderer.positionCount = _waypoints.Count;
+        for (int i = 0; i < _waypoints.Count; i++)
+        {
+            _lineRenderer.SetPosition(i, _waypoints[i].localPosition);
+        }
+        
         if (isOn)
         {
             Activate();

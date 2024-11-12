@@ -8,7 +8,8 @@ public class Lever : MonoBehaviour, IInteract
     private Animator _anim;
     [SerializeField] private List<GameObject> _connectionObj;
     private List<IActivate> _connection = new List<IActivate>();
-    private bool _activated;
+    [SerializeField] private bool _activated = false;
+    
     void Start()
     {
         _anim = GetComponent<Animator>();
@@ -16,15 +17,8 @@ public class Lever : MonoBehaviour, IInteract
         {
             var obj = connection.GetComponent<IActivate>();
             if(connection != null) _connection.Add(obj);
-            if(_activated) obj.Activate();
-            else obj.Desactivate();
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        _anim.SetBool("Activate", _activated);
     }
 
     void PressLever()

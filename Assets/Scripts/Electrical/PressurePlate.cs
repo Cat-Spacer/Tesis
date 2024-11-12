@@ -12,6 +12,8 @@ public class PressurePlate : MonoBehaviour
     private Animator _anim;
     private string activateAnimation;
     private string desactivateAnimation;
+    [SerializeField] private bool inverse;
+    
     void Start()
     {
         _anim = GetComponent<Animator>();
@@ -26,7 +28,11 @@ public class PressurePlate : MonoBehaviour
         _anim.Play("Activate");
         foreach (var connection in _connection)
         {
-            if(connection != null) connection.Activate();
+            if(connection != null)
+            {
+                if(!inverse) connection.Desactivate();
+                else connection.Activate();
+            }
         }
     }
 
@@ -35,7 +41,11 @@ public class PressurePlate : MonoBehaviour
         _anim.Play("Desactivate");
         foreach (var connection in _connection)
         {
-            if(connection != null) connection.Desactivate();
+            if(connection != null)
+            {
+                if(!inverse) connection.Activate();
+                else connection.Desactivate();
+            }
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
