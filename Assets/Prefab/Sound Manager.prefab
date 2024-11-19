@@ -45,44 +45,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
-  - name: WindForest
-    nameType: 0
-    clip: {fileID: 8300000, guid: 9bd1fb477f6c526409400dfdd0bd3cdb, type: 3}
-    audioMixerGroup: {fileID: 4101229154234308651, guid: e07322b82f3368c4694feb4b7f3f2a9f,
-      type: 2}
-    volume: 0.3
-    pitch: 1
-    loop: 1
-    source: {fileID: 0}
   - name: Steps
-    nameType: 1
+    nameType: 0
     clip: {fileID: 8300000, guid: 49228b8c922765240bb3d2d35a0a3a55, type: 3}
     audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
       type: 2}
     volume: 1
     pitch: 1
-    loop: 1
-    source: {fileID: 0}
-  - name: Forest
-    nameType: 3
-    clip: {fileID: 8300000, guid: ff11042a7f1fd264192e117fa010bcc2, type: 3}
-    audioMixerGroup: {fileID: 4101229154234308651, guid: e07322b82f3368c4694feb4b7f3f2a9f,
-      type: 2}
-    volume: 0.5
-    pitch: 1
-    loop: 1
+    loop: 0
     source: {fileID: 0}
   - name: Climb
-    nameType: 10
+    nameType: 8
     clip: {fileID: 8300000, guid: 7fb7da106000d304abcb18af367d2128, type: 3}
     audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
       type: 2}
     volume: 0.2
     pitch: 1.48
-    loop: 1
+    loop: 0
     source: {fileID: 0}
   - name: Item
-    nameType: 9
+    nameType: 7
     clip: {fileID: 8300000, guid: 1e02b8e7557530847aa2d21e58d89a36, type: 3}
     audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
       type: 2}
@@ -91,8 +73,17 @@ MonoBehaviour:
     loop: 0
     source: {fileID: 0}
   - name: Cat Attack
-    nameType: 5
-    clip: {fileID: 8300000, guid: 39af15a08ade5f444bcafb9709e72809, type: 3}
+    nameType: 1
+    clip: {fileID: 8300000, guid: d2e5ad98bd3c5e54ca61996f8be3ca99, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Cat AttackV2
+    nameType: 1
+    clip: {fileID: 8300000, guid: 0fa43e9a6bf390c4c9cacfb7dccebb0a, type: 3}
     audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
       type: 2}
     volume: 0.5
@@ -100,17 +91,44 @@ MonoBehaviour:
     loop: 0
     source: {fileID: 0}
   - name: Cat Damage
-    nameType: 4
-    clip: {fileID: 8300000, guid: 2b9aa5908777eb845b0f6a139ff4cd76, type: 3}
+    nameType: 2
+    clip: {fileID: 8300000, guid: 3443499f88bc5de4481d7f9561e04758, type: 3}
     audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
       type: 2}
     volume: 0.5
     pitch: 1
     loop: 0
     source: {fileID: 0}
-  - name: CatJump
-    nameType: 7
-    clip: {fileID: 8300000, guid: 9433866ca24eb714e8c2964bdb6e88d7, type: 3}
+  - name: Cat DamageV2
+    nameType: 2
+    clip: {fileID: 8300000, guid: 04d281e33766e0b4bbdec7f56e5b41f3, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Cat DamageV3
+    nameType: 2
+    clip: {fileID: 8300000, guid: 9ad088c31fa0b124ea968631aa04f08b, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Cat Jump
+    nameType: 5
+    clip: {fileID: 8300000, guid: b99c4bd91bb3cb448935d518ad84bd8e, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.12
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Cat JumpV2
+    nameType: 5
+    clip: {fileID: 8300000, guid: 680241575cb348545a60ea535e2b718f, type: 3}
     audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
       type: 2}
     volume: 0.12
@@ -118,7 +136,7 @@ MonoBehaviour:
     loop: 0
     source: {fileID: 0}
   - name: Cat Dash
-    nameType: 6
+    nameType: 3
     clip: {fileID: 8300000, guid: fd4c805c72bd8e447a711051f1f1d2ac, type: 3}
     audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
       type: 2}
@@ -127,88 +145,34 @@ MonoBehaviour:
     loop: 0
     source: {fileID: 0}
   - name: FallingDebris
-    nameType: 11
+    nameType: 12
     clip: {fileID: 8300000, guid: b461e8b9af96d904ca24bc98f7479374, type: 3}
-    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+    audioMixerGroup: {fileID: 4101229154234308651, guid: e07322b82f3368c4694feb4b7f3f2a9f,
       type: 2}
     volume: 0.5
     pitch: 1
     loop: 0
     source: {fileID: 0}
-  - name: WoodAmbientSound
-    nameType: 12
-    clip: {fileID: 8300000, guid: 9c998cc478326d840a4760b09d34890d, type: 3}
-    audioMixerGroup: {fileID: 4101229154234308651, guid: e07322b82f3368c4694feb4b7f3f2a9f,
-      type: 2}
-    volume: 0.08
-    pitch: 1.81
-    loop: 1
-    source: {fileID: 0}
   - name: FlowerWind
-    nameType: 13
+    nameType: 15
     clip: {fileID: 8300000, guid: a5365076fb3dd5c48bb46e5582b1ac4d, type: 3}
-    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+    audioMixerGroup: {fileID: 4101229154234308651, guid: e07322b82f3368c4694feb4b7f3f2a9f,
       type: 2}
     volume: 0.05
     pitch: 2.33
     loop: 1
     source: {fileID: 0}
-  - name: Rain
-    nameType: 14
-    clip: {fileID: 8300000, guid: db0f075e49b62bb49b3f4dbfc8211313, type: 3}
-    audioMixerGroup: {fileID: 4101229154234308651, guid: e07322b82f3368c4694feb4b7f3f2a9f,
-      type: 2}
-    volume: 0.05
-    pitch: 1
-    loop: 1
-    source: {fileID: 0}
-  - name: CarnivorousPlant
-    nameType: 15
-    clip: {fileID: 8300000, guid: 5f4df11412f067348b3f57f43b29e067, type: 3}
-    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
-      type: 2}
-    volume: 1
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - name: PlayerDeath
-    nameType: 16
-    clip: {fileID: 8300000, guid: bd1b3b4b3f623cb44890e1e5e436b0f2, type: 3}
+  - name: Death
+    nameType: 10
+    clip: {fileID: 8300000, guid: 18153dfea2df2b34dafbcccc7672422d, type: 3}
     audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
       type: 2}
     volume: 0.4
     pitch: 1
     loop: 0
     source: {fileID: 0}
-  - name: Mushroom
-    nameType: 17
-    clip: {fileID: 8300000, guid: 5f2865b96ef93eb4d8539377badf6d5e, type: 3}
-    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
-      type: 2}
-    volume: 0.5
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - name: VineCrunch
-    nameType: 18
-    clip: {fileID: 8300000, guid: adb849bed08e36b41b7d708cfe472a0f, type: 3}
-    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
-      type: 2}
-    volume: 1
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
-  - name: Magic Cat
-    nameType: 19
-    clip: {fileID: 8300000, guid: d9e044f50d08be747bc98ba3403ed455, type: 3}
-    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
-      type: 2}
-    volume: 0.5
-    pitch: 1
-    loop: 0
-    source: {fileID: 0}
   - name: Menu
-    nameType: 24
+    nameType: 15
     clip: {fileID: 8300000, guid: 80c7cf45f4a3e0b43b39061afb78de3e, type: 3}
     audioMixerGroup: {fileID: 4101229154234308651, guid: e07322b82f3368c4694feb4b7f3f2a9f,
       type: 2}
@@ -217,7 +181,7 @@ MonoBehaviour:
     loop: 1
     source: {fileID: 0}
   - name: MenuV2
-    nameType: 24
+    nameType: 15
     clip: {fileID: 8300000, guid: 9eda9f67971ec9e4088bd86c128b6a8e, type: 3}
     audioMixerGroup: {fileID: 4101229154234308651, guid: e07322b82f3368c4694feb4b7f3f2a9f,
       type: 2}
@@ -226,7 +190,7 @@ MonoBehaviour:
     loop: 1
     source: {fileID: 0}
   - name: MenuV3
-    nameType: 24
+    nameType: 15
     clip: {fileID: 8300000, guid: ff6b42d0ea6d0f64284ad23a71e816c8, type: 3}
     audioMixerGroup: {fileID: 4101229154234308651, guid: e07322b82f3368c4694feb4b7f3f2a9f,
       type: 2}
@@ -235,20 +199,245 @@ MonoBehaviour:
     loop: 1
     source: {fileID: 0}
   - name: Button
-    nameType: 23
+    nameType: 13
     clip: {fileID: 8300000, guid: f6e358bddd98ea44a843d08f33c0d8a9, type: 3}
-    audioMixerGroup: {fileID: 4101229154234308651, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
       type: 2}
     volume: 0.5
     pitch: 1
-    loop: 1
+    loop: 0
     source: {fileID: 0}
   - name: Click
-    nameType: 23
-    clip: {fileID: 8300000, guid: f6e358bddd98ea44a843d08f33c0d8a9, type: 3}
-    audioMixerGroup: {fileID: 4101229154234308651, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+    nameType: 14
+    clip: {fileID: 8300000, guid: 3c0bdc36bac6ef3478151309fee25e1b, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
       type: 2}
     volume: 0.5
     pitch: 1
-    loop: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: ClickV2
+    nameType: 14
+    clip: {fileID: 8300000, guid: 25a5cce309352a84881fed79e5a31b40, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: ClickV3
+    nameType: 14
+    clip: {fileID: 8300000, guid: 8548b1eed8ccc73499b8d10bae99610f, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Hamster Steps
+    nameType: 34
+    clip: {fileID: 8300000, guid: ba7c8a2c20ab28f45bd0d6eca3da1fef, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Hamster Steps On Tube
+    nameType: 38
+    clip: {fileID: 8300000, guid: 23e34c2d361aeed42a2df00a34508743, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Hamster Attack
+    nameType: 35
+    clip: {fileID: 8300000, guid: 9daab1afe8a27b24aa4f4e611f85f242, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Hamster AttackV2
+    nameType: 35
+    clip: {fileID: 8300000, guid: 8d2769680d7409349a516dd4e237e0b6, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Hamster Jump
+    nameType: 36
+    clip: {fileID: 8300000, guid: feb61eff1ccb5a14ea8e8294faedb548, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Hamster Damage
+    nameType: 37
+    clip: {fileID: 8300000, guid: ab3a10ae3b24c704ba4d1d1b1f9273c6, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Hamster DamageV2
+    nameType: 37
+    clip: {fileID: 8300000, guid: 9dbbdd4aa2c24d145aab6fadce30c301, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Hamster DamageV3
+    nameType: 37
+    clip: {fileID: 8300000, guid: 9ad088c31fa0b124ea968631aa04f08b, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Block Off
+    nameType: 39
+    clip: {fileID: 8300000, guid: 2d1c574c58d8c9a4ea393f9a58a35dba, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Circular Saw
+    nameType: 40
+    clip: {fileID: 8300000, guid: d3ca361569e32564f88e44a69bb5444e, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Laser
+    nameType: 41
+    clip: {fileID: 8300000, guid: f22dfa7c7c185a04aa3fa349d191d8d6, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Dumping Trash
+    nameType: 43
+    clip: {fileID: 8300000, guid: 6f0264941252b2d4181a88745787c25d, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Laser Shoot
+    nameType: 42
+    clip: {fileID: 8300000, guid: e3716c1ba5f60f647b9beff3e5f3d479, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Laser ShootV2
+    nameType: 42
+    clip: {fileID: 8300000, guid: 23f469620260ad3478d849e616e9b140, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Button Push
+    nameType: 44
+    clip: {fileID: 8300000, guid: 9475fd56828ea364893c6f5b32ab8c2d, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Checkpoint
+    nameType: 45
+    clip: {fileID: 8300000, guid: 37aec7c7d9bd60341b2044f0b99e41d0, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Collect Coin
+    nameType: 46
+    clip: {fileID: 8300000, guid: 60ba18e4487f0aa488af177ef1282ff0, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Interact
+    nameType: 47
+    clip: {fileID: 8300000, guid: 02ac02ab0b5af964fa8cff1ea4bdfcec, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: InteractV2
+    nameType: 47
+    clip: {fileID: 8300000, guid: 89e448c718aa73247bf7f77841538f76, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Item Drop
+    nameType: 48
+    clip: {fileID: 8300000, guid: 507d583370133ba42ad9af414a90edaa, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Lever UpDown
+    nameType: 49
+    clip: {fileID: 8300000, guid: 6981ce25c8ba36248af4801b46941f31, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Pressure Lever
+    nameType: 50
+    clip: {fileID: 8300000, guid: 7e1c91bfaa94919469cb97c815a8feaa, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: Spray
+    nameType: 51
+    clip: {fileID: 8300000, guid: 906895073c7378542abf888bfce8eb25, type: 3}
+    audioMixerGroup: {fileID: -3817626144481255577, guid: e07322b82f3368c4694feb4b7f3f2a9f,
+      type: 2}
+    volume: 0.5
+    pitch: 1
+    loop: 0
     source: {fileID: 0}
