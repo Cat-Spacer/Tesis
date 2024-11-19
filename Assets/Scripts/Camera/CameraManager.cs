@@ -12,8 +12,9 @@ public class CameraManager : MonoBehaviour
     [SerializeField] float cameraGroupLimit;
     [SerializeField] float cameraWarningLimit;
     [SerializeField] private GameObject groupCamera;
+    [SerializeField] private CinemachineTargetGroup targetGroup;
     [SerializeField] private GameObject[] splitCamera;
-
+    [SerializeField] private GameObject[] tvShader;
     private CinemachineVirtualCamera virtualGroupCamera;
     private CinemachineVirtualCamera[] virtualSplitCamera = new CinemachineVirtualCamera[2];
 
@@ -29,6 +30,11 @@ public class CameraManager : MonoBehaviour
         virtualGroupCamera = groupCamera.GetComponentInChildren<CinemachineVirtualCamera>();
         virtualSplitCamera[0] = splitCamera[0].GetComponentInChildren<CinemachineVirtualCamera>();
         virtualSplitCamera[1] = splitCamera[1].GetComponentInChildren<CinemachineVirtualCamera>();
+        targetGroup.AddMember(catPos, 1, 2);
+        targetGroup.AddMember(hamsterPos, 1, 2);
+        virtualSplitCamera[0].Follow = catPos;
+        virtualSplitCamera[1].Follow = hamsterPos;
+        LiveCamera.instance.GetTVShaders(tvShader);
     }
 
     private void Update()
@@ -39,17 +45,18 @@ public class CameraManager : MonoBehaviour
             float normalizedValue = Normalize(distance.magnitude, cameraWarningLimit, cameraGroupLimit);
             warningMat.SetFloat(Alpha, normalizedValue);
         }
-        if (distance.magnitude >= cameraGroupLimit && !isGrouped)
+        else warningMat.SetFloat(Alpha, 0);
+        if (distance.magnitude >= cameraGroupLimit && !isGrouped) //IsGrouped
         {
             isGrouped = true;
             foreach (var virtualCamera in splitCamera)
             {
-                //virtualCamera.transform.position = virtualGroupCamera.transform.position;
                 virtualCamera.gameObject.SetActive(true);
             }
             groupCamera.gameObject.SetActive(false);
+
         }
-        else if(distance.magnitude < cameraGroupLimit && isGrouped)
+        else if(distance.magnitude < cameraGroupLimit && isGrouped) //NotGrouped
         {
             isGrouped = false;
             groupCamera.gameObject.SetActive(true);

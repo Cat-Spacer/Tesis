@@ -9,11 +9,13 @@ public class HamsterChar : PlayerCharacter
     public HamsterCanvas canvas;
     private bool _ifShrink = false;
     private float jumpDefault;
+    private Vector2 defaultGroundCheckArea;
     public override void Start()
     {
         base.Start();
         _coll = GetComponent<BoxCollider2D>();
         jumpDefault = _data.jumpForce;
+        defaultGroundCheckArea = _data.groundCheckArea;
     }
 
     protected override void FixedUpdate()
@@ -147,8 +149,8 @@ public class HamsterChar : PlayerCharacter
         if (!_ifShrink)
         {
             _ifShrink = true;
-            _coll.edgeRadius = .16f;
             transform.localScale = new Vector3(.5f, .5f, 1);
+            _data.groundCheckArea = new Vector2(0.24f, 0.08f);
             _data.jumpForce = jumpDefault * .75f;
         }
         else
@@ -159,8 +161,8 @@ public class HamsterChar : PlayerCharacter
             Debug.Log(hit);
             if (hit != null) return;
             _ifShrink = false;
-            _coll.edgeRadius = .33f;
             transform.localScale = new Vector3(1f, 1f, 1);
+            _data.groundCheckArea = defaultGroundCheckArea;
             _data.jumpForce = jumpDefault;
         }
     }
