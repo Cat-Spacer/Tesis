@@ -34,12 +34,12 @@ public class LevelMenu : MonoBehaviour
         //if (_selectedLevel.IsNullOrEmpty()) return;
         if (_selectedLevel.Length == 0) return;
         SceneToLoad(DecodeString(_selectedLevel));
-        //SceneManager.LoadScene(_selectedLevel, LoadSceneMode.Single);
+        SceneManager.LoadScene(_selectedLevel, LoadSceneMode.Single);
     }
     private void SceneToLoad(int scene)
     {
-        AsyncLoadScenes.sceneToLoad = scene + 2;
-        SceneManager.LoadScene(1);
+        //AsyncLoadScenes.sceneToLoad = scene + 2;
+        //SceneManager.LoadScene(1);
     }
     public void PlayAndSelectLevel(string lvl)
     {

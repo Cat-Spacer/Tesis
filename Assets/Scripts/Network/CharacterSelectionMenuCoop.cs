@@ -1,11 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class CharacterSelectionMenuCoop : MonoBehaviour
 {
     public static CharacterSelectionMenuCoop Instance;
 
-    [SerializeField] private Transform _player1SelectedText, _player2SelectedText;
+    [SerializeField] private Transform _p1SelectedPlayer;
+    [SerializeField] private Transform _p2SelectedPlayer;
     [SerializeField] Transform _catTextPos, _hamsterTextPos;
     
     
@@ -23,8 +26,8 @@ public class CharacterSelectionMenuCoop : MonoBehaviour
     
     private void Start()
     {
-        _catTextPos.transform.position = _player1SelectedText.transform.position;
-        _hamsterTextPos.transform.position = _player2SelectedText.transform.position;
+        _catTextPos.transform.position = _p1SelectedPlayer.transform.position;
+        _hamsterTextPos.transform.position = _p2SelectedPlayer.transform.position;
     }
 
     private void Update()
@@ -41,15 +44,15 @@ public class CharacterSelectionMenuCoop : MonoBehaviour
         {
             player1 = CharacterType.Hamster;
             player2 = CharacterType.Cat;
-            _player1SelectedText.transform.position = _hamsterTextPos.transform.position;
-            _player2SelectedText.transform.position = _catTextPos.transform.position;
+            _p1SelectedPlayer.transform.position = _hamsterTextPos.transform.position;
+            _p2SelectedPlayer.transform.position = _catTextPos.transform.position;
         }
         else
         {
             player1 = CharacterType.Cat;
             player2 = CharacterType.Hamster;
-            _player1SelectedText.transform.position = _catTextPos.transform.position;
-            _player2SelectedText.transform.position = _hamsterTextPos.transform.position;
+            _p1SelectedPlayer.transform.position = _catTextPos.transform.position;
+            _p2SelectedPlayer.transform.position = _hamsterTextPos.transform.position;
         }
     }
 
@@ -63,6 +66,11 @@ public class CharacterSelectionMenuCoop : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    public void ReturnToMenu()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(0, LoadSceneMode.Single);
+    }
     private void OnEnable()
     {
         inputState = true;

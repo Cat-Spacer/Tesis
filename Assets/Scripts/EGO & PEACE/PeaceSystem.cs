@@ -18,7 +18,7 @@ public class PeaceSystem : MonoBehaviour
     
     [SerializeField] Slider redSlider;
     [SerializeField] Slider greenSlider;
-    [SerializeField] private Slider iconSlider;
+    [SerializeField] Slider iconSlider;
 
     private void Update()
     {
@@ -35,6 +35,11 @@ public class PeaceSystem : MonoBehaviour
     private void Start()
     {
         if (instance == null) instance = this;
+
+        var sliders = LiveCamera.instance.GetSliders();
+        redSlider  = sliders[0];
+        greenSlider  = sliders[1];
+        iconSlider  = sliders[2];
         
         EventManager.Instance.Subscribe(EventType.OnChangePeace, UpdatePeace);
 

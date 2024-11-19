@@ -222,7 +222,7 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
 
     public virtual void Punch()
     {
-        if (!_data.canPunch && !OnGround()) return;
+        if (!_data.canPunch || !OnGround()) return;
         
         var obj = Physics2D.OverlapCircle(_data.attackPoint.position, _data.attackRange.x, _data.attackableLayer);
         _data.isPunching = true;
@@ -328,6 +328,7 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
     public void DropItem()
     {
         if (_data._onHand == null) return;
+        _data._onHand.transform.position = transform.position;
         _data._onHand.Drop(new Vector2(_model.GetFaceDirection(), _data._dropOffset.y), _data.dropForce);
         _data._onHand = null;
     }
