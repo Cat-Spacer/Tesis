@@ -33,8 +33,8 @@ public class HideShowIcon : MonoBehaviour
 
     private void CheckForPlayer()
     {
-        if ((!_playerToFollow || _playerToFollow == this) && GameManager.Instance)
-            foreach (var player in GameManager.Instance.AddPlayer)
-                if (player != _myPlayer) _playerToFollow = player;
+        // if ((!_playerToFollow || _playerToFollow == this) && GameManager.Instance)
+        //     foreach (var player in GameManager.Instance.AddPlayer)
+        //         if (player != _myPlayer) _playerToFollow = player;
     }
 }

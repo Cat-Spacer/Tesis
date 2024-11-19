@@ -1,15 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class LiveCamera : MonoBehaviour
 {
     public static LiveCamera instance;
-
-    [SerializeField] private float _currentLiveTime = 0f;
-    [SerializeField] private float _currentOffLiveTime = 0f;
     [SerializeField] private float _maxTimeOnAir;
     [SerializeField] private float _minTimeOnAir;
     [SerializeField] private float _timeOnAir;
@@ -21,19 +20,19 @@ public class LiveCamera : MonoBehaviour
     
     [SerializeField] private GameObject _groupCamera;
     [SerializeField] private GameObject[] _tvShader;
-    
+    [SerializeField] private TextMeshProUGUI[] _pointsText; 
+    [SerializeField] private Slider[] sliders;
     private void Awake()
     {
         if (instance == null) 
             instance = this;
     }
-
     private void ChangeCameraType(object[] obj)
     {
         var state = (bool) obj[0];
         ActivateCamera();
     }
-
+    
     public void StartLiveCamera(bool status)
     {
         ActivateCamera();
@@ -47,7 +46,6 @@ public class LiveCamera : MonoBehaviour
         float variation = newTime * _timeVariation;
         float liveTime = Random.Range(newTime - variation, newTime + variation);
         liveTime = Mathf.Clamp(liveTime, _minTimeOnAir, _maxTimeOnAir);
-        _currentLiveTime = liveTime;
         return liveTime;
     }
 
@@ -58,7 +56,6 @@ public class LiveCamera : MonoBehaviour
         float variation = newTime * _timeVariation;
         float liveTime = Random.Range(newTime - variation, newTime + variation);
         liveTime = Mathf.Clamp(liveTime, _minTimeOnAir, _maxTimeOnAir);
-        _currentOffLiveTime = liveTime;
         return liveTime;
     }
     void GoOnAir()
@@ -74,7 +71,6 @@ public class LiveCamera : MonoBehaviour
     }
     public void GoOffAir()
     {
-        //Debug.Log("Off Air");
         _onAir = false;
         DesactivateAllCameras();
         StartCoroutine(TimeUntilGoOnAir(CalculateTimeUntilAir()));
@@ -98,12 +94,21 @@ public class LiveCamera : MonoBehaviour
         _groupCamera.SetActive(false);
         foreach (var shader in _tvShader) shader.SetActive(false);
     }
-    public void ChangePeace(int value)
-    {
-        //_peace.UpdatePeace(value);
-    }
     public bool IsOnAir()
     {
         return _onAir;
+    }
+    public void GetTVShaders(GameObject[] tvShaders)
+    {
+        _tvShader = tvShaders;
+    }
+
+    public TextMeshProUGUI[] GetPointsText()
+    {
+        return _pointsText;
+    }    
+    public Slider[] GetSliders()
+    {
+        return sliders;
     }
 }

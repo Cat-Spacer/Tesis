@@ -8,34 +8,32 @@ public class FallingFloor : MonoBehaviour
     [SerializeField] LayerMask mask;
     [SerializeField] float _desactivateDelay, _activateDelay;
     private SpriteRenderer _sp;
-    private BoxCollider2D _coll;
     [SerializeField] private Color activatedColor, desactivatedColor;
     private bool _isActive;
-    [SerializeField] private Vector3 offset, size;
+    [SerializeField] private BoxCollider2D _coll;
+    [SerializeField] private BoxCollider2D _killZone;
     private void Start()
     {
         _sp = GetComponentInChildren<SpriteRenderer>();
-        _coll = GetComponent<BoxCollider2D>();
+        //_killZone = GetComponentInChildren<BoxCollider2D>();
+        //_coll = GetComponent<BoxCollider2D>();
         _isActive = true;
-    }
-
-    private void Update()
-    {
-        var coll = Physics2D.OverlapBox(transform.position + offset, size,0, mask);
     }
     private void Activate(bool activated)
     {
-        //gameObject.SetActive(activated);
         if (activated)
         {
             _sp.color = activatedColor;
             _coll.enabled = true;
+            _killZone.enabled = true;
             _isActive = true;
         }
         else
         {
+            Debug.Log("Desactivate");
             _sp.color = desactivatedColor;
             _coll.enabled = false;
+            _killZone.enabled = false;
             _isActive = false;
             StartCoroutine(ActivateFloor());
         }
@@ -58,10 +56,4 @@ public class FallingFloor : MonoBehaviour
             StartCoroutine(DesactivateFloor());
         }
     }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawWireCube(transform.position + offset, size);
-    }
-
 }

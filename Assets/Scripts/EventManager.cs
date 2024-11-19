@@ -9,7 +9,8 @@ public enum EventType
     OnChangePeace,
     OnUpdateEgoPoints,
     OnLoseGame,
-    ViewPlayerIndicator
+    ViewPlayerIndicator,
+    GetTVShader
 }
 public class EventManager : MonoBehaviour
 {
