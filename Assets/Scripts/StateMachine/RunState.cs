@@ -21,7 +21,8 @@ public class RunState : State
 
     public override void Exit()
     {
-        SoundManager.instance.Pause(SoundsTypes.Steps);
+        if(character.GetCharType() == CharacterType.Cat) SoundManager.instance.Pause(SoundsTypes.Steps);
+        else SoundManager.instance.Pause(SoundsTypes.HamsterOnTubes);
         isComplete = false;
     }
 }
