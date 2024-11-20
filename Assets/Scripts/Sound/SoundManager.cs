@@ -69,7 +69,7 @@ public class SoundManager : MonoBehaviour
 
     public Dictionary<string, float> mixerValue = new();
 
-    void Awake()
+    private void Awake()
     {
         if (instance == null)
             instance = this;
@@ -143,6 +143,14 @@ public class SoundManager : MonoBehaviour
     public void Play(string name, bool loop = true)
     {
         Sound s = _usedSoundsByName.ReturnValue(name);
+        LinkedList<Sound> repeats = new();
+        foreach (var item in sounds)
+            if (name == item.name) repeats.Add(item);
+
+        if (repeats.Count > 1)
+            s = repeats[UnityEngine.Random.Range(0, repeats.Count)];
+        else
+            s = _usedSoundsByName.ReturnValue(name);
 
         SoundSet(s);
         if (s == null)
