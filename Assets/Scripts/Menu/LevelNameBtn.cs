@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,8 +11,11 @@ public class LevelNameBtn : MonoBehaviour
     private void Awake()
     {
         if (!_useAutomatic) return;
-        _text = GetComponentInChildren<TextMeshProUGUI>();
-        _text.text = gameObject.name;
+        //if (_text)
+        //{
+        //    _text = GetComponentInChildren<TextMeshProUGUI>();
+        //    _text.text = gameObject.name;
+        //}
     }
 
     private void Start()
