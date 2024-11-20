@@ -35,6 +35,7 @@ public class SoundList : MonoBehaviour
         else
         {
             SoundSet(s);
+            s.source.loop = true;
             s.source.Play();
         }
     }
@@ -52,6 +53,7 @@ public class SoundList : MonoBehaviour
         else
         {
             SoundSet(s);
+            s.source.loop = false;
             s.source.Play();
         }
     }
@@ -72,6 +74,25 @@ public class SoundList : MonoBehaviour
             s.source.Play();
         }
     }
+
+    public void PlayOneShot(SoundsTypes name)
+    {
+        Sound s = _usedSounds.ReturnValue(name);
+        if (s == null)
+        {
+            Debug.LogWarning("Sound: " + name + " not found!");
+            return;
+        }
+        if (SoundManager.instance) SoundManager.instance.Play(name, false);
+        else
+        {
+            SoundSet(s);
+            s.source.loop = false;
+            s.source.Play();
+        }
+    }
+
+
 
     public void StopAll() { SoundManager.instance.PauseAll(); }
 
