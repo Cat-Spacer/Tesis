@@ -85,21 +85,32 @@ public class SoundManager : MonoBehaviour
 
     private void InitialSet()
     {
-        //foreach (Sound s in sounds)
-        //{
-        //    s.source = gameObject.AddComponent<AudioSource>();
-        //    s.source.clip = s.clip;
-        //    s.source.outputAudioMixerGroup = s.audioMixerGroup;
-        //    s.source.volume = s.volume;
-        //    s.source.pitch = s.pitch;
-        //    s.source.loop = s.loop;
-        //}
         _usedSounds = new(SearchSound);
         _usedSoundsByName = new(SearchSound);
     }
 
     private void SoundSet(Sound s)
     {
+        AudioSource[] allSourcess = GetComponents<AudioSource>();
+        int limit = 5, count = 0;
+        foreach (AudioSource source in allSourcess)
+        {
+            if (source.clip == s.clip) return;
+            if (source.outputAudioMixerGroup == s.audioMixerGroup)
+            {
+                count++;
+                if (count == limit)
+                {
+                    source.clip = s.clip;
+                    source.outputAudioMixerGroup = s.audioMixerGroup;
+                    source.volume = s.volume;
+                    source.pitch = s.pitch;
+                    source.loop = s.loop;
+                    return;
+                }
+            }
+        }
+
         s.source = gameObject.AddComponent<AudioSource>();
         s.source.clip = s.clip;
         s.source.outputAudioMixerGroup = s.audioMixerGroup;
@@ -138,11 +149,21 @@ public class SoundManager : MonoBehaviour
         }
         s.source.loop = loop;
         s.source.Play();
+        if (!loop) StartCoroutine(AutoStop(s));
     }
 
     public void Play(string name, bool loop = true)
     {
         Sound s = _usedSoundsByName.ReturnValue(name);
+        LinkedList<Sound> repeats = new();
+        foreach (var item in sounds)
+            if (name == item.name) repeats.Add(item);
+
+        if (repeats.Count > 1)
+            s = repeats[UnityEngine.Random.Range(0, repeats.Count)];
+        else
+            s = _usedSoundsByName.ReturnValue(name);
+
         LinkedList<Sound> repeats = new();
         foreach (var item in sounds)
             if (name == item.name) repeats.Add(item);
@@ -160,6 +181,7 @@ public class SoundManager : MonoBehaviour
         }
         s.source.loop = loop;
         s.source.Play();
+        if (!loop) StartCoroutine(AutoStop(s));
     }
 
     public void Pause(SoundsTypes name)
@@ -195,19 +217,26 @@ public class SoundManager : MonoBehaviour
         foreach (var s in sounds) if (s.source) s.source.Pause();
     }
 
-    public IEnumerator FadeOut(AudioSource s, float FadeTime)
+    public IEnumerator AutoStop(Sound s)
     {
-        float startVolume = s.volume;
+        yield return new WaitForSeconds(s.clip.length);
+        Pause(s.name);
+    }
 
-        while (s.volume > 0)
+    public IEnumerator FadeOut(AudioSource source, float FadeTime)
+    {
+        float startVolume = source.volume;
+
+        while (source.volume > 0)
         {
-            s.volume -= startVolume * Time.deltaTime / FadeTime;
+            source.volume -= startVolume * Time.deltaTime / FadeTime;
 
             yield return null;
         }
 
-        s.Pause();
-        s.volume = startVolume;
+        source.volume = startVolume;
+        source.Pause();
+        Destroy(source);
     }
 
     public void OnClickSound(string name)
@@ -221,6 +250,7 @@ public class SoundManager : MonoBehaviour
         }
         s.source.loop = false;
         s.source.Play();
+        StartCoroutine(AutoStop(s));
     }
 
     public void OnClickSound(SoundsTypes name)
@@ -234,5 +264,6 @@ public class SoundManager : MonoBehaviour
         }
         s.source.loop = false;
         s.source.Play();
+        StartCoroutine(AutoStop(s));
     }
 }
