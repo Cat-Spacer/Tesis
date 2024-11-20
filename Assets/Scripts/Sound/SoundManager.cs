@@ -66,6 +66,7 @@ public class SoundManager : MonoBehaviour
     private float _baseVolume = default;
     private LookUpTable<SoundsTypes, Sound> _usedSounds = default;
     private LookUpTable<string, Sound> _usedSoundsByName = default;
+    [SerializeField] private int _limit = 10;
 
     public Dictionary<string, float> mixerValue = new();
 
@@ -93,14 +94,14 @@ public class SoundManager : MonoBehaviour
     {
         if(s == null) return;
         AudioSource[] allSourcess = GetComponents<AudioSource>();
-        int limit = 5, count = 0;
+        int count = 0;
         foreach (AudioSource source in allSourcess)
         {
             if (source.clip == s.clip) return;
             if (source.outputAudioMixerGroup == s.audioMixerGroup)
             {
                 count++;
-                if (count == limit)
+                if (count == _limit)
                 {
                     source.clip = s.clip;
                     source.outputAudioMixerGroup = s.audioMixerGroup;
@@ -131,6 +132,7 @@ public class SoundManager : MonoBehaviour
 
     public void Play(SoundsTypes nameType, bool loop = false)
     {
+
         Sound s = default;
 
         LinkedList<Sound> repeats = new();
@@ -187,7 +189,7 @@ public class SoundManager : MonoBehaviour
         }
         SoundSet(s);
         s.source.Pause();
-        Destroy(s.source);
+        //Destroy(s.source);
     }
 
     public void Pause(string name)
@@ -201,7 +203,7 @@ public class SoundManager : MonoBehaviour
         }
         SoundSet(s);
         s.source.Pause();
-        Destroy(s.source);
+        //Destroy(s.source);
     }
 
     public void PauseAll()
@@ -228,7 +230,7 @@ public class SoundManager : MonoBehaviour
 
         source.volume = startVolume;
         source.Pause();
-        Destroy(source);
+        //Destroy(source);
     }
 
     public void OnClickSound(string name)
