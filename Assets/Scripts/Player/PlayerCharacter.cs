@@ -272,7 +272,6 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
     {
         if (onPress)
         {
-            Debug.Log("StartInteract");
             StartCoroutine(InteractCd());
             _data.isInteracting = true;
         }

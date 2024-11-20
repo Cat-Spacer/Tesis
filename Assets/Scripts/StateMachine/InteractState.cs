@@ -6,7 +6,7 @@ public class InteractState : State
 {
     public override void Enter()
     {
-        Debug.Log("Interact State");
+
         model.ChangeAnimationState("Interact");
         SoundManager.instance.Play(SoundsTypes.Interact);
         StartCoroutine(Delay());

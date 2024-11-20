@@ -54,12 +54,10 @@ public class Tube : MonoBehaviour, IInteract
         var player = obj.GetComponent<HamsterChar>();
         if(!tubeSystem.IsPlayerOnTube())
         {
-            Debug.Log("Player Enter Tube");
             player.GetInTube(transform.position, this);
         }
         else
         {
-            Debug.Log("Player Exit Tube");
             player.GetOutOfTube(transform.position, this);
         }
     }

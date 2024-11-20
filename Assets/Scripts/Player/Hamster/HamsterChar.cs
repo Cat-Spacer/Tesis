@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class HamsterChar : PlayerCharacter
@@ -114,6 +115,8 @@ public class HamsterChar : PlayerCharacter
             canvas.CheckTubeDirections(_currentTube);
             //_currentTube.GetPossiblePaths(this);
             _TubesMovementAction = delegate { };
+            Debug.Log("StopMovingInTubes");
+            SoundManager.instance.Pause(SoundsTypes.HamsterOnTubes);
         }
         else
         {
@@ -136,6 +139,7 @@ public class HamsterChar : PlayerCharacter
             _currentTubePos = tube.GetCenter();
             GoToPosition(_currentTubePos);
             _TubesMovementAction += MoveInTubes;
+            SoundManager.instance.Play(SoundsTypes.HamsterOnTubes, true);
             _inTube = true;
         } 
     }
@@ -144,27 +148,38 @@ public class HamsterChar : PlayerCharacter
         return _inTube;
     }
     #endregion
+    bool canShrink = true;
     public override void Special()
     {
+        if (!canShrink) return;
         if (!_ifShrink)
         {
+            canShrink = false;
+            SoundManager.instance.Play(SoundsTypes.HamsterJump);
             _ifShrink = true;
             transform.localScale = new Vector3(.5f, .5f, 1);
             _data.groundCheckArea = new Vector2(0.24f, 0.08f);
             _data.jumpForce = jumpDefault * .75f;
+            StartCoroutine(ShrinkCooldown());
         }
         else
         {
-            // RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, 1.5f, 6);
-            // Debug.Log(hit.collider);
             var hit = Physics2D.OverlapBox(headTransform.position, headSize, 0, _data.groundLayer);
-            Debug.Log(hit);
             if (hit != null) return;
+            canShrink = false;
+            SoundManager.instance.Play(SoundsTypes.HamsterJump);
             _ifShrink = false;
             transform.localScale = new Vector3(1f, 1f, 1);
             _data.groundCheckArea = defaultGroundCheckArea;
             _data.jumpForce = jumpDefault;
+            StartCoroutine(ShrinkCooldown());
         }
+    }
+
+    IEnumerator ShrinkCooldown()
+    {
+        yield return new WaitForSeconds(1f);
+        canShrink = true;
     }
     private void OnDrawGizmos()
     {

@@ -37,6 +37,7 @@ public class FlagChekpoint : MonoBehaviour
                 _isOn = true;
                 _anim.SetTrigger("ON");
             }
+            SoundManager.instance.Play(SoundsTypes.Checpoint);
         }
     }
 
