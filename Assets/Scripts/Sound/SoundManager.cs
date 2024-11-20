@@ -164,15 +164,6 @@ public class SoundManager : MonoBehaviour
         else
             s = _usedSoundsByName.ReturnValue(name);
 
-        LinkedList<Sound> repeats = new();
-        foreach (var item in sounds)
-            if (name == item.name) repeats.Add(item);
-
-        if (repeats.Count > 1)
-            s = repeats[UnityEngine.Random.Range(0, repeats.Count)];
-        else
-            s = _usedSoundsByName.ReturnValue(name);
-
         SoundSet(s);
         if (s == null)
         {
