@@ -21,6 +21,7 @@ public class Sign : MonoBehaviour,IInteract
 
     void Draw()
     {
+        SoundManager.instance.Play(SoundsTypes.Spray);
         GetComponent<BoxCollider2D>().enabled = false;
         _wasDrawed = true;
         spriteRenderer.sprite = sign.happySignSprite;

@@ -39,6 +39,7 @@ public class Lever : MonoBehaviour, IInteract
             }
             _activated = false;
         }
+        SoundManager.instance.Play(SoundsTypes.Lever);
         _anim.SetBool("Activate", _activated);
     }
 

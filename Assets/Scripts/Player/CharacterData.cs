@@ -35,6 +35,7 @@ public class CharacterData : MonoBehaviour
     public bool isPunching = false;
 
     [Header("JumpImpulse")]
+    public bool onJumpImpulse;
     public float jumpImpulse;
     public Vector2 jumpInpulseArea;
     

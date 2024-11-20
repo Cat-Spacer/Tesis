@@ -28,14 +28,14 @@ RectTransform:
   m_GameObject: {fileID: 489824368603078706}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4888604148435893875}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 45.06562, y: 50.10499}
+  m_AnchoredPosition: {x: 3.0288773, y: 74.125984}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2052292627393461432
@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0934684c3fe545f4c96150174940086c, type: 3}
+  m_Sprite: {fileID: -202619139, guid: 2fa03e8a887b82d42a0ae443d6c3994b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -816,7 +816,7 @@ MonoBehaviour:
   groundState: {fileID: 4236257315165219778}
   airState: {fileID: 2392353738022834224}
   runState: {fileID: 8695875088734420200}
-  stunState: {fileID: 804658473335777485}
+  stunState: {fileID: 4491296911905608580}
   punchState: {fileID: 533416798576029362}
   specialState: {fileID: 5448491177376962395}
   interactState: {fileID: 1419527476264151894}
@@ -855,6 +855,7 @@ MonoBehaviour:
   punchCd: 0.5
   canPunch: 1
   isPunching: 0
+  onJumpImpulse: 0
   jumpImpulse: 3700
   jumpInpulseArea: {x: 1, y: 1}
   stunCounter: 1
@@ -1706,7 +1707,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7271908423764830231}
-  - component: {fileID: 804658473335777485}
+  - component: {fileID: 4491296911905608580}
   m_Layer: 7
   m_Name: Stun
   m_TagString: Untagged
@@ -1729,7 +1730,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7697860208935549685}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &804658473335777485
+--- !u!114 &4491296911905608580
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1738,7 +1739,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7055920847563663304}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 863be7d22a435dd4982fcc71734977c7, type: 3}
+  m_Script: {fileID: 11500000, guid: aded17c48f3da8b40b40d0290da6a95f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8536946109354187182

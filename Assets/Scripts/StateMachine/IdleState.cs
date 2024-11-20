@@ -8,7 +8,7 @@ public class IdleState : State
 
     public override void Do()
     {
-        if (!data.onGround || input.left_Input || input.right_Input || data.isStun || data.isPunching || data.isInteracting)
+        if (!data.onGround || input.left_Input || input.right_Input || data.isStun || data.isPunching || data.isInteracting || data.onJumpImpulse)
         {
             isComplete = true;
         }
