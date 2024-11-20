@@ -91,6 +91,7 @@ public class SoundManager : MonoBehaviour
 
     private void SoundSet(Sound s)
     {
+        if(s == null) return;
         AudioSource[] allSourcess = GetComponents<AudioSource>();
         int limit = 5, count = 0;
         foreach (AudioSource source in allSourcess)
@@ -141,12 +142,12 @@ public class SoundManager : MonoBehaviour
         else
             s = _usedSounds.ReturnValue(nameType);
 
-        SoundSet(s);
         if (s == null)
         {
             Debug.LogWarning("Sound: " + nameType + " not found!");
             return;
         }
+        SoundSet(s);
         s.source.loop = loop;
         s.source.Play();
         if (!loop) StartCoroutine(AutoStop(s));
@@ -164,21 +165,12 @@ public class SoundManager : MonoBehaviour
         else
             s = _usedSoundsByName.ReturnValue(name);
 
-        LinkedList<Sound> repeats = new();
-        foreach (var item in sounds)
-            if (name == item.name) repeats.Add(item);
-
-        if (repeats.Count > 1)
-            s = repeats[UnityEngine.Random.Range(0, repeats.Count)];
-        else
-            s = _usedSoundsByName.ReturnValue(name);
-
-        SoundSet(s);
         if (s == null)
         {
             Debug.LogWarning("Sound: " + name + " not found!");
             return;
         }
+        SoundSet(s);
         s.source.loop = loop;
         s.source.Play();
         if (!loop) StartCoroutine(AutoStop(s));
@@ -188,12 +180,12 @@ public class SoundManager : MonoBehaviour
     {
         Sound s = _usedSounds.ReturnValue(name);
 
-        SoundSet(s);
         if (s == null)
         {
             Debug.LogWarning("Sound: " + name + " not found!");
             return;
         }
+        SoundSet(s);
         s.source.Pause();
         Destroy(s.source);
     }
@@ -202,12 +194,12 @@ public class SoundManager : MonoBehaviour
     {
         Sound s = _usedSoundsByName.ReturnValue(name);
 
-        SoundSet(s);
         if (s == null)
         {
             Debug.LogWarning("Sound: " + name + " not found!");
             return;
         }
+        SoundSet(s);
         s.source.Pause();
         Destroy(s.source);
     }
@@ -242,12 +234,12 @@ public class SoundManager : MonoBehaviour
     public void OnClickSound(string name)
     {
         Sound s = _usedSoundsByName.ReturnValue(name);
-        SoundSet(s);
         if (s == null)
         {
             Debug.LogWarning("Sound: " + name + " not found!");
             return;
         }
+        SoundSet(s);
         s.source.loop = false;
         s.source.Play();
         StartCoroutine(AutoStop(s));
@@ -256,12 +248,12 @@ public class SoundManager : MonoBehaviour
     public void OnClickSound(SoundsTypes name)
     {
         Sound s = _usedSounds.ReturnValue(name);
-        SoundSet(s);
         if (s == null)
         {
             Debug.LogWarning("Sound: " + name + " not found!");
             return;
         }
+        SoundSet(s);
         s.source.loop = false;
         s.source.Play();
         StartCoroutine(AutoStop(s));
