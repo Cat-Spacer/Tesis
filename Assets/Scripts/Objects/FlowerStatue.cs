@@ -22,5 +22,6 @@ public class FlowerStatue : MonoBehaviour
         _flower.transform.position = _flowerPos.position;
         coll.enabled = false;
         EventManager.Instance.Trigger(EventType.OnChangePeace, 1);
+        SoundManager.instance.Play(SoundsTypes.Collect);
     }
 }
