@@ -19,7 +19,6 @@ public class FloorSwitch : MonoBehaviour, IActivate
     
     private void Start()
     {
-
         if (_activated)
         {
             _sp.color = desactivatedColor;
@@ -39,6 +38,7 @@ public class FloorSwitch : MonoBehaviour, IActivate
     {
         if (_activated)
         {
+            SoundManager.instance.Play(SoundsTypes.Drop);
             _sp.color = desactivatedColor;
             _coll.enabled = false;
             killZone.enabled = false;
@@ -46,6 +46,7 @@ public class FloorSwitch : MonoBehaviour, IActivate
         }
         else
         {
+            SoundManager.instance.Play(SoundsTypes.Drop);
             _sp.color = activatedColor;
             _coll.enabled = true;
             killZone.enabled = true;

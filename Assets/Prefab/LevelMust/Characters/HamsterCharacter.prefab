@@ -200,14 +200,14 @@ RectTransform:
   m_GameObject: {fileID: 1190195200112775924}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7098374517565061091}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 15.035589, y: 20.074957}
+  m_AnchoredPosition: {x: 3.0235748, y: 56.110996}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3769066474933269609
@@ -238,7 +238,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0934684c3fe545f4c96150174940086c, type: 3}
+  m_Sprite: {fileID: -202619139, guid: 2fa03e8a887b82d42a0ae443d6c3994b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1272,9 +1272,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1436223795
-  m_SortingLayer: 9
-  m_SortingOrder: 5
+  m_SortingLayerID: -31741267
+  m_SortingLayer: 11
+  m_SortingOrder: 1
   m_Sprite: {fileID: 1866073580, guid: a76d63b4a6c83324db1498c51f2ff015, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2261,7 +2261,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4266121272353264725}
-  - component: {fileID: 4918880675924029198}
+  - component: {fileID: 1010341702334858582}
   m_Layer: 7
   m_Name: Stun
   m_TagString: Untagged
@@ -2284,7 +2284,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1496557192555138283}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4918880675924029198
+--- !u!114 &1010341702334858582
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2293,7 +2293,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8555400401844652414}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 863be7d22a435dd4982fcc71734977c7, type: 3}
+  m_Script: {fileID: 11500000, guid: aded17c48f3da8b40b40d0290da6a95f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8790517731394285587
@@ -2359,7 +2359,7 @@ MonoBehaviour:
   groundState: {fileID: 8170418082197927622}
   airState: {fileID: 8141273585111440679}
   runState: {fileID: 4340192465922589312}
-  stunState: {fileID: 4918880675924029198}
+  stunState: {fileID: 1010341702334858582}
   punchState: {fileID: 8330338831177929981}
   specialState: {fileID: 3537136986938467002}
   interactState: {fileID: 6297855559228588272}
@@ -2401,6 +2401,7 @@ MonoBehaviour:
   punchCd: 0.5
   canPunch: 1
   isPunching: 0
+  onJumpImpulse: 0
   jumpImpulse: 0
   jumpInpulseArea: {x: 1, y: 1}
   stunCounter: 1

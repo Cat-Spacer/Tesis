@@ -7,7 +7,8 @@ public class StunState : State
     public override void Enter()
     {
         model.GetStun(true);
-        Debug.Log("GetStun");
+        if(character.GetCharType() == CharacterType.Cat) SoundManager.instance.Play(SoundsTypes.CatDamage);
+        else SoundManager.instance.Play(SoundsTypes.HamsterDamage);
     }
 
     public override void Do()
@@ -20,6 +21,7 @@ public class StunState : State
 
     public override void Exit()
     {
+        isComplete = false;
         model.GetStun(false);
     }
 }

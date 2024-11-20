@@ -17,6 +17,7 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
     protected Action _HitAction = delegate {  };
     protected Action _DebuffAction = delegate {  };
 
+    private State _oldState;
     public State state;
     public State idleState;
     public State groundState;
@@ -47,15 +48,15 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
         _data.gravity = new Vector2(0, -Physics2D.gravity.y);
         _rb.isKinematic = false;
 
-        idleState.SetUp(_rb, _model, input, _data);
-        groundState.SetUp(_rb, _model, input, _data);
-        airState.SetUp(_rb, _model, input, _data);
-        runState.SetUp(_rb, _model, input, _data);
-        stunState.SetUp(_rb, _model, input, _data);
-        interactState.SetUp(_rb, _model, input, _data);
-        punchState.SetUp(_rb, _model, input, _data);
-        specialState.SetUp(_rb, _model, input, _data);
-
+        idleState.SetUp(_rb, _model, input, _data, this);
+        groundState.SetUp(_rb, _model, input, _data, this);
+        airState.SetUp(_rb, _model, input, _data, this);
+        runState.SetUp(_rb, _model, input, _data, this);
+        stunState.SetUp(_rb, _model, input, _data, this);
+        interactState.SetUp(_rb, _model, input, _data, this);
+        punchState.SetUp(_rb, _model, input, _data, this);
+        specialState.SetUp(_rb, _model, input, _data, this);
+        _oldState = idleState;
         state = idleState;
     }
     
@@ -80,33 +81,37 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
         {
             if (OnGround())
             {
-                if (!input.left_Input && !input.right_Input)
-                {
-                    state = idleState;
-                }
-                if(_data.canMove && input.left_Input || input.right_Input)
-                {
-                    state = runState;
-                }
-                if (input.attack_Input)
+                if (_data.isPunching)
                 {
                     state = punchState;
                 }
-                if (input.interact_Input)
+                if (_data.isInteracting)
                 {
                     state = interactState;
                 }
-                // if (input.special_Input)
-                // {
-                //     state = specialState;
-                // }
+                if (_data.onJumpImpulse)
+                {
+                    state = specialState;
+                }
+                if(_data.canMove && (input.left_Input || input.right_Input) && !_data.isPunching && !_data.isInteracting && !_data.onJumpImpulse)
+                {
+                    state = runState;
+                }
+                else if (!input.left_Input && !input.right_Input && !_data.isInteracting && !_data.isPunching && !_data.onJumpImpulse) 
+                {
+                    state = idleState;
+                }
             }
             else
             {
                 state = airState;
             }
         }
-        state.Enter(); 
+        if(state != _oldState)
+        {
+            _oldState = state;
+            state.Enter();
+        }
     }
     
     protected virtual void FixedUpdate()
@@ -155,12 +160,15 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
         if (_data.isStun || _data.isJumping || !_data.canJump) return;
         if (OnGround())
         {
+            if(charType == CharacterType.Cat) SoundManager.instance.Play(SoundsTypes.CatJump);
+            else SoundManager.instance.Play(SoundsTypes.HamsterJump);
             _rb.velocity = new Vector2(_rb.velocity.x, _data.jumpForce);
             _data.isJumping = true;
             _data.jumpCounter = 0;
         }
         else if(_data.canDoubleJump && charType == CharacterType.Cat)
         {
+            SoundManager.instance.Play(SoundsTypes.CatJump);
             _data.canDoubleJump = false;
             _rb.velocity = new Vector2(_rb.velocity.x, _data.doubleJumpForce);
             _data.isJumping = true;
@@ -229,6 +237,8 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
         _data.canPunch = false;
         _data.canMove = false;
         StartCoroutine(PunchCd());
+        if(charType == CharacterType.Cat) SoundManager.instance.Play(SoundsTypes.CatAttack);
+        else SoundManager.instance.Play(SoundsTypes.HamsterAttack);
         if (obj)
         {
             var body = obj.gameObject.GetComponent<Rigidbody2D>();
@@ -260,16 +270,20 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
     }
     public void Interact(bool onPress)
     {
-        StartCoroutine(InteractCd());
-        _data.isInteracting = true;
-        if (onPress && _data._onHand != null)
+        if (onPress)
+        {
+            Debug.Log("StartInteract");
+            StartCoroutine(InteractCd());
+            _data.isInteracting = true;
+        }
+        if (onPress &&_data._onHand != null)
         {
             _data._onHand.Drop(new Vector2(_data.faceDirection, 1), 5);
             DropItem();
             return;
         }
         var interact = Physics2D.OverlapBox(transform.position, _data.interactSize, 0, _data.interactMask);
-        if (interact == null)
+        if (interact == null) //ShowInteract
         {
             _data.canvas.InteractEvent(false);
             if (_data._interactObj != null)
@@ -280,7 +294,7 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
             return;
         }
         _data._interactObj = interact.GetComponent<IInteract>();
-        if (_data._interactObj != null)
+        if (_data._interactObj != null) //Interact
         {
             _data.canvas.InteractEvent(true);
             _data._interactObj.ShowInteract(true);
@@ -426,6 +440,7 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
     }
     void Die()
     {
+        SoundManager.instance.Play(SoundsTypes.Death);
         _data.canMove = false;
         _data.canJump = false;
         StartCoroutine(Vanish());
@@ -434,6 +449,7 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
 
     void Revive()
     {
+        SoundManager.instance.Play(SoundsTypes.Death);
         StartCoroutine(Appear());
     }
     public void ReceiveInputs(SO_Inputs newInput)

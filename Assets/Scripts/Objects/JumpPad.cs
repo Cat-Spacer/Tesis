@@ -47,6 +47,7 @@ public class JumpPad : MonoBehaviour
             var entityRb = col.gameObject.GetComponent<Rigidbody2D>();
             entityRb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
             _anim.SetTrigger("Activate");
+            SoundManager.instance.Play("Mushroom");
         }
     }
 
