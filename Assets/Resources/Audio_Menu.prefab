@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 682779930512620746}
   - component: {fileID: 3685158025662645685}
   - component: {fileID: 5779688416507177758}
+  - component: {fileID: 2350813514303992223}
   m_Layer: 5
   m_Name: Back_BTN
   m_TagString: Untagged
@@ -120,18 +121,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1975870465824431713}
-        m_TargetAssemblyTypeName: ScreenAudio, Assembly-CSharp
-        m_MethodName: BTN_Back
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 2918714899557081083}
         m_TargetAssemblyTypeName: SoundList, Assembly-CSharp
         m_MethodName: PlayClip
@@ -144,6 +133,31 @@ MonoBehaviour:
           m_StringArgument: Click
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1975870465824431713}
+        m_TargetAssemblyTypeName: ScreenAudio, Assembly-CSharp
+        m_MethodName: BTN_Back
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &2350813514303992223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 66999389563450419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d9cc44cbda230e4c91a3a4a30e8040e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _amount: 1.25
 --- !u!1 &713018953348469788
 GameObject:
   m_ObjectHideFlags: 0
@@ -269,6 +283,7 @@ GameObject:
   - component: {fileID: 8768904527931899492}
   - component: {fileID: 5522459005382761169}
   - component: {fileID: 1975870465824431713}
+  - component: {fileID: 4119718873770012178}
   m_Layer: 5
   m_Name: Audio_Menu
   m_TagString: Untagged
@@ -382,6 +397,23 @@ MonoBehaviour:
   _sortingLayer: Canvas
   _canvasLayer: 2
   buttons: []
+--- !u!114 &4119718873770012178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122216874576580752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdf06cb83ebd6824e8cbc22950d77f28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadingScreenIndex: 1
+  _settingsScreenName: Settings_Menu
+  _controlsScreenName: Controls_Menu
+  _creditsScreenName: Credits_Menu
+  _levelsScreenName: Levels_V2_Menu
 --- !u!1 &1183476483140034253
 GameObject:
   m_ObjectHideFlags: 0
@@ -2157,6 +2189,7 @@ GameObject:
   - component: {fileID: 7957377587300346729}
   - component: {fileID: 2484572895566772194}
   - component: {fileID: 7378673245730883071}
+  - component: {fileID: 7282440097665329485}
   m_Layer: 5
   m_Name: Menu_BTN
   m_TagString: Untagged
@@ -2266,18 +2299,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1975870465824431713}
-        m_TargetAssemblyTypeName: ScreenAudio, Assembly-CSharp
-        m_MethodName: BTN_Exit
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 2918714899557081083}
         m_TargetAssemblyTypeName: SoundList, Assembly-CSharp
         m_MethodName: PlayClip
@@ -2290,6 +2311,31 @@ MonoBehaviour:
           m_StringArgument: Click
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 4119718873770012178}
+        m_TargetAssemblyTypeName: MenuButton, Assembly-CSharp
+        m_MethodName: SceneToLoad
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &7282440097665329485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4777506999810784600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d9cc44cbda230e4c91a3a4a30e8040e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _amount: 1.25
 --- !u!1 &5704929143024038596
 GameObject:
   m_ObjectHideFlags: 0

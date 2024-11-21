@@ -287,6 +287,7 @@ GameObject:
   - component: {fileID: 4285711224392992164}
   - component: {fileID: 5522459005382761169}
   - component: {fileID: 2082785091494371792}
+  - component: {fileID: 7176273474082881330}
   m_Layer: 5
   m_Name: Controls_Menu
   m_TagString: Untagged
@@ -400,6 +401,23 @@ MonoBehaviour:
   _sortingLayer: Canvas
   _canvasLayer: 2
   buttons: []
+--- !u!114 &7176273474082881330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122216874576580752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdf06cb83ebd6824e8cbc22950d77f28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadingScreenIndex: 1
+  _settingsScreenName: Settings_Menu
+  _controlsScreenName: Controls_Menu
+  _creditsScreenName: Credits_Menu
+  _levelsScreenName: Levels_V2_Menu
 --- !u!1 &1187335547301507484
 GameObject:
   m_ObjectHideFlags: 0
@@ -546,6 +564,7 @@ GameObject:
   - component: {fileID: 4128628508274616365}
   - component: {fileID: 4938101434484238446}
   - component: {fileID: 6161126588562502609}
+  - component: {fileID: 9016192402736679170}
   m_Layer: 5
   m_Name: Back_BTN
   m_TagString: Untagged
@@ -567,8 +586,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 5042614824332976846}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.040000003, y: 0.836}
-  m_AnchorMax: {x: 0.113125004, y: 0.924}
+  m_AnchorMin: {x: 0.021479169, y: 0.8144444}
+  m_AnchorMax: {x: 0.13052085, y: 0.9462964}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -654,18 +673,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2082785091494371792}
-        m_TargetAssemblyTypeName: ScreenControls, Assembly-CSharp
-        m_MethodName: BTN_Back
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 2451233857334605247}
         m_TargetAssemblyTypeName: SoundList, Assembly-CSharp
         m_MethodName: PlayClip
@@ -678,6 +685,31 @@ MonoBehaviour:
           m_StringArgument: Click
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 2082785091494371792}
+        m_TargetAssemblyTypeName: ScreenControls, Assembly-CSharp
+        m_MethodName: BTN_Back
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &9016192402736679170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1277319640528834765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d9cc44cbda230e4c91a3a4a30e8040e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _amount: 1.25
 --- !u!1 &1437812455762943030
 GameObject:
   m_ObjectHideFlags: 0
@@ -690,6 +722,7 @@ GameObject:
   - component: {fileID: 4934268130574986861}
   - component: {fileID: 4394088312723523089}
   - component: {fileID: 805898669113849631}
+  - component: {fileID: 2512120718050883502}
   m_Layer: 5
   m_Name: Menu_BTN
   m_TagString: Untagged
@@ -712,8 +745,8 @@ RectTransform:
   - {fileID: 4174110971713329738}
   m_Father: {fileID: 5042614824332976846}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.036347162, y: 0.07783184}
-  m_AnchorMax: {x: 0.10947216, y: 0.16583183}
+  m_AnchorMin: {x: 0.017479168, y: 0.061000004}
+  m_AnchorMax: {x: 0.128, y: 0.185}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -799,18 +832,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2082785091494371792}
-        m_TargetAssemblyTypeName: ScreenControls, Assembly-CSharp
-        m_MethodName: BTN_Exit
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 2451233857334605247}
         m_TargetAssemblyTypeName: SoundList, Assembly-CSharp
         m_MethodName: PlayClip
@@ -823,6 +844,31 @@ MonoBehaviour:
           m_StringArgument: Click
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 7176273474082881330}
+        m_TargetAssemblyTypeName: MenuButton, Assembly-CSharp
+        m_MethodName: SceneToLoad
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &2512120718050883502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1437812455762943030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d9cc44cbda230e4c91a3a4a30e8040e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _amount: 1.25
 --- !u!1 &1588023107718054957
 GameObject:
   m_ObjectHideFlags: 0

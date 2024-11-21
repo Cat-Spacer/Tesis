@@ -6,23 +6,24 @@ public class ObjectPool<T>
     public delegate T FactoryMethod();
     private FactoryMethod _factory = default;
 
-    private Action<T> _turnOff = default, _turnOn = default;
+    private Action<T, bool> _turnOnOff = default;
 
     private List<T> _stock = new();
     private bool _dynamic = true;
 
-    public ObjectPool(FactoryMethod factory, Action<T> TurnOff, Action<T> TurnOn, int initialCount = 5, bool dynamic = true)
+    public List<T> GetStock {  get { return _stock; } }
+
+    public ObjectPool(FactoryMethod factory, Action<T, bool> TurnOnOff, int initialCount = 5, bool dynamic = true)
     {
         _factory = factory;
-        _turnOff = TurnOff;
-        _turnOn = TurnOn;
+        _turnOnOff = TurnOnOff;
         _dynamic = dynamic;
 
         for (int i = 0; i < initialCount; i++)
         {
             var obj = _factory();
 
-            _turnOff(obj);
+            _turnOnOff(obj, false);
 
             _stock.Add(obj);
         }
@@ -48,7 +49,7 @@ public class ObjectPool<T>
             obj = _factory();
         }
 
-        if(obj != null) _turnOn(obj);
+        if(obj != null) _turnOnOff(obj, true);
 
         return obj;
     }
@@ -58,7 +59,7 @@ public class ObjectPool<T>
     /// <param name="obj"></param>
     public void ReturnObject(T obj)
     {
-        _turnOff(obj);
+        _turnOnOff(obj, false);
 
         _stock.Add(obj);
     }

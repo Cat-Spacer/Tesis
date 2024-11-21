@@ -14,7 +14,7 @@ public abstract class ScreenBase : MonoBehaviour
         if (buttons != null || buttons.Length <= 0) return;
         foreach (var button in buttons)
         {
-            button.interactable = false;
+            button.interactable = true;
         }
     }
 
@@ -25,8 +25,6 @@ public abstract class ScreenBase : MonoBehaviour
         screenCanvas.worldCamera = Camera.main;
         screenCanvas.sortingLayerName = _sortingLayer;
         screenCanvas.sortingOrder = canvasLayer;
-
-        buttons = GetComponentsInChildren<Button>();
     }
 
     public virtual string Free()

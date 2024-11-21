@@ -52,7 +52,7 @@ public class LaserTrap : MonoBehaviour, IActivate
     }
     void TurnOn()
     {
-        SoundManager.instance.Play(SoundsTypes.Laser);
+        SoundManager.instance.Play(SoundsTypes.Laser, gameObject);
         _on = true;
         _line.enabled = true;
         _firstStart = false;

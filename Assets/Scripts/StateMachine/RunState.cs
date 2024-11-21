@@ -7,8 +7,8 @@ public class RunState : State
     public override void Enter()
     {
         model.ChangeAnimationState("Run");
-        if(character.GetCharType() == CharacterType.Cat) SoundManager.instance.Play(SoundsTypes.Steps, true);
-        else SoundManager.instance.Play(SoundsTypes.HamsterOnTubes, true);
+        if(character.GetCharType() == CharacterType.Cat) SoundManager.instance.Play(SoundsTypes.Steps, true, gameObject);
+        else SoundManager.instance.Play(SoundsTypes.HamsterOnTubes, true, gameObject);
     }
 
     public override void Do()
