@@ -13,8 +13,8 @@ public class PeaceSystem : MonoBehaviour
     [SerializeField] private int _maxPeace;
     
     [SerializeField] private int _neutralTime;
-    [SerializeField] private int _timeMultiplier; //Diferencia de tiempo entre cada nivel
-    [SerializeField] private int _extraTime; //Alargar el tiempo base
+    [SerializeField] private int _timeMultiplier;
+    [SerializeField] private int _extraTime; 
     
     [SerializeField] Slider redSlider;
     [SerializeField] Slider greenSlider;

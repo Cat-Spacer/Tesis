@@ -15,6 +15,7 @@ public class CameraManager : MonoBehaviour
     [SerializeField] private CinemachineTargetGroup targetGroup;
     [SerializeField] private GameObject[] splitCamera;
     [SerializeField] private GameObject[] tvShader;
+    [SerializeField] private GameObject[] tvHackedShader;
     private CinemachineVirtualCamera virtualGroupCamera;
     private CinemachineVirtualCamera[] virtualSplitCamera = new CinemachineVirtualCamera[2];
 
@@ -35,6 +36,7 @@ public class CameraManager : MonoBehaviour
         virtualSplitCamera[0].Follow = catPos;
         virtualSplitCamera[1].Follow = hamsterPos;
         LiveCamera.instance.GetTVShaders(tvShader);
+        LiveCamera.instance.GetTVHackedShaders(tvHackedShader);
     }
 
     private void Update()

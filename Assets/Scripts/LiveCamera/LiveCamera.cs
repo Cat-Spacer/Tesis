@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -20,8 +21,11 @@ public class LiveCamera : MonoBehaviour
     
     [SerializeField] private GameObject _groupCamera;
     [SerializeField] private GameObject[] _tvShader;
+    [SerializeField] private GameObject[] _tvHackedShader;
     [SerializeField] private TextMeshProUGUI[] _pointsText; 
     [SerializeField] private Slider[] sliders;
+    [SerializeField] private GameObject onLiveMenu;
+    [SerializeField] private GameObject offLiveMenu;
     private void Awake()
     {
         if (instance == null) 
@@ -62,6 +66,7 @@ public class LiveCamera : MonoBehaviour
     {
         _onAir = true;
         ActivateCamera();
+        EventManager.Instance.Trigger(EventType.OnLive);
         StartCoroutine(OnAirTimer(CalculateTimeOnAir()));
     }
     IEnumerator OnAirTimer(float time)
@@ -73,6 +78,7 @@ public class LiveCamera : MonoBehaviour
     {
         _onAir = false;
         DesactivateAllCameras();
+        EventManager.Instance.Trigger(EventType.OffLive);
         StartCoroutine(TimeUntilGoOnAir(CalculateTimeUntilAir()));
     }
     
@@ -85,14 +91,20 @@ public class LiveCamera : MonoBehaviour
     void ActivateCamera()
     {
         if (!_onAir) return;
+        onLiveMenu.SetActive(true);
+        offLiveMenu.SetActive(false);
         _groupCamera.SetActive(true);
         foreach (var shader in _tvShader) shader.SetActive(true);
+        foreach (var shader in _tvHackedShader) shader.SetActive(false);
     }
 
     private void DesactivateAllCameras()
     {
+        onLiveMenu.SetActive(false);
+        offLiveMenu.SetActive(true);
         _groupCamera.SetActive(false);
         foreach (var shader in _tvShader) shader.SetActive(false);
+        foreach (var shader in _tvHackedShader) shader.SetActive(true);
     }
     public bool IsOnAir()
     {
@@ -102,7 +114,10 @@ public class LiveCamera : MonoBehaviour
     {
         _tvShader = tvShaders;
     }
-
+    public void GetTVHackedShaders(GameObject[] tvHackedShaders)
+    {
+        _tvHackedShader = tvHackedShaders;
+    }
     public TextMeshProUGUI[] GetPointsText()
     {
         return _pointsText;
