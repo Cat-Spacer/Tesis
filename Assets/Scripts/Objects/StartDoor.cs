@@ -15,7 +15,7 @@ public class StartDoor : MonoBehaviour
     public void Open()
     {
         _anim.Play("Start_Open_Door");
-        SoundManager.instance.Play(SoundsTypes.Block);
+        SoundManager.instance.Play(SoundsTypes.Block, gameObject);
     }
 
     public void CloseDoor()
@@ -31,7 +31,7 @@ public class StartDoor : MonoBehaviour
     public void Close()
     {
         _anim.Play("Start_Close_Door");
-        SoundManager.instance.Play(SoundsTypes.Block);
+        SoundManager.instance.Play(SoundsTypes.Block, gameObject);
     }
     public void None(){}
     public Transform GetPlayerPosition()

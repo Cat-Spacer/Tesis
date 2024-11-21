@@ -5,7 +5,7 @@ using UnityEngine;
 public class HamsterChar : PlayerCharacter
 {
     [SerializeField] private Transform headTransform;
-    [SerializeField] private Vector2 headSize; 
+    [SerializeField] private Vector2 headSize;
     private BoxCollider2D _coll;
     public HamsterCanvas canvas;
     private bool _ifShrink = false;
@@ -63,7 +63,7 @@ public class HamsterChar : PlayerCharacter
             _inTube = false;
             canvas.HideArrows();
             //_inputs.ChangeToTubesInputs(false);
-            _TubesMovementAction = delegate {  };
+            _TubesMovementAction = delegate { };
         }
     }
     void EnterTube()
@@ -88,7 +88,7 @@ public class HamsterChar : PlayerCharacter
     public void TubeDirection(Vector2 dir)
     {
         if (!_currentTube.IsCheckpoint() || isMoving) return;
-        if(dir == new Vector2(1, 0))
+        if (dir == new Vector2(1, 0))
         {
             MoveToNextTube(_currentTube.MoveRight());
         }
@@ -105,7 +105,7 @@ public class HamsterChar : PlayerCharacter
             MoveToNextTube(_currentTube.MoveDown());
         }
     }
-    
+
     void CheckNextTube()
     {
         if (_currentTube.IsCheckpoint())
@@ -127,7 +127,7 @@ public class HamsterChar : PlayerCharacter
             MoveToNextTube(_currentTube.GetNextPath(_lastTube));
         }
     }
-    
+
     void MoveToNextTube(Tube tube)
     {
         if (tube != null) //Se mueve al siguiente tubo
@@ -141,7 +141,7 @@ public class HamsterChar : PlayerCharacter
             _TubesMovementAction += MoveInTubes;
             SoundManager.instance.Play(SoundsTypes.HamsterOnTubes, true);
             _inTube = true;
-        } 
+        }
     }
     public bool InTube()
     {
@@ -190,6 +190,6 @@ public class HamsterChar : PlayerCharacter
         //Gizmos.DrawWireCube(transform.position, _data.interactSize);
         //Gizmos.DrawWireCube(_data.bounceDetectionRight.position, _data.bounceSize);
         //Gizmos.DrawWireCube(_data.bounceDetectionLeft.position, _data.bounceSize);
-        
+
     }
 }

@@ -99,9 +99,8 @@ RectTransform:
   - {fileID: 5678992426443614894}
   - {fileID: 7247102047598985155}
   - {fileID: 2899916799087723659}
-  - {fileID: 6667470260288008673}
   - {fileID: 9080057301370437077}
-  - {fileID: 257844851343857004}
+  - {fileID: 6667470260288008673}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -202,6 +201,7 @@ GameObject:
   - component: {fileID: 4128628508274616365}
   - component: {fileID: 4938101434484238446}
   - component: {fileID: 6161126588562502609}
+  - component: {fileID: 5663007044967976988}
   m_Layer: 5
   m_Name: Menu_BTN
   m_TagString: Untagged
@@ -224,8 +224,8 @@ RectTransform:
   - {fileID: 3456704434694445073}
   m_Father: {fileID: 5042614824332976846}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.027860112, y: 0.8933928}
-  m_AnchorMax: {x: 0.101172574, y: 0.9813928}
+  m_AnchorMin: {x: 0.015000001, y: 0.851}
+  m_AnchorMax: {x: 0.12452084, y: 0.97400004}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -311,18 +311,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8972593352433052656}
-        m_TargetAssemblyTypeName: ScreenSettings, Assembly-CSharp
-        m_MethodName: BTN_Back
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 2918714899557081083}
         m_TargetAssemblyTypeName: SoundList, Assembly-CSharp
         m_MethodName: PlayClip
@@ -335,6 +323,31 @@ MonoBehaviour:
           m_StringArgument: Click
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 8972593352433052656}
+        m_TargetAssemblyTypeName: ScreenSettings, Assembly-CSharp
+        m_MethodName: BTN_Back
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &5663007044967976988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1277319640528834765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d9cc44cbda230e4c91a3a4a30e8040e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _amount: 1.25
 --- !u!1 &1794820086400648936
 GameObject:
   m_ObjectHideFlags: 0
@@ -517,10 +530,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 6667470260288008673}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.13037425, y: 0.22660601}
+  m_AnchorMax: {x: 0.86973, y: 0.77347815}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 103.5, y: 52.5}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3168448107740998955
 CanvasRenderer:
@@ -647,6 +660,7 @@ GameObject:
   - component: {fileID: 8299607990665145524}
   - component: {fileID: 8384840678082452353}
   - component: {fileID: 107645784265117842}
+  - component: {fileID: 4616534314241884193}
   m_Layer: 5
   m_Name: Controls_BTN
   m_TagString: Untagged
@@ -756,18 +770,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8972593352433052656}
-        m_TargetAssemblyTypeName: ScreenSettings, Assembly-CSharp
-        m_MethodName: BTN_Controls
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 2918714899557081083}
         m_TargetAssemblyTypeName: SoundList, Assembly-CSharp
         m_MethodName: PlayClip
@@ -780,6 +782,31 @@ MonoBehaviour:
           m_StringArgument: Click
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 8972593352433052656}
+        m_TargetAssemblyTypeName: ScreenSettings, Assembly-CSharp
+        m_MethodName: BTN_Controls
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &4616534314241884193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3228665834940459565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d9cc44cbda230e4c91a3a4a30e8040e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _amount: 1.25
 --- !u!1 &4097058000014562450
 GameObject:
   m_ObjectHideFlags: 0
@@ -867,6 +894,7 @@ GameObject:
   - component: {fileID: 8291706785146418501}
   - component: {fileID: 9104584671487971848}
   - component: {fileID: 2309119608356298325}
+  - component: {fileID: 5444196157546809936}
   m_Layer: 5
   m_Name: Audio_BTN
   m_TagString: Untagged
@@ -976,18 +1004,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8972593352433052656}
-        m_TargetAssemblyTypeName: ScreenSettings, Assembly-CSharp
-        m_MethodName: BTN_Audio
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 2918714899557081083}
         m_TargetAssemblyTypeName: SoundList, Assembly-CSharp
         m_MethodName: PlayClip
@@ -1000,6 +1016,31 @@ MonoBehaviour:
           m_StringArgument: Click
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 8972593352433052656}
+        m_TargetAssemblyTypeName: ScreenSettings, Assembly-CSharp
+        m_MethodName: BTN_Audio
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &5444196157546809936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5065696711421901454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d9cc44cbda230e4c91a3a4a30e8040e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _amount: 1.25
 --- !u!1 &5938697256769128574
 GameObject:
   m_ObjectHideFlags: 0
@@ -1012,6 +1053,7 @@ GameObject:
   - component: {fileID: 5488206983386917551}
   - component: {fileID: 5993373097670539622}
   - component: {fileID: 7027746877034152193}
+  - component: {fileID: 8303820520298906041}
   m_Layer: 5
   m_Name: Video_BTN
   m_TagString: Untagged
@@ -1121,18 +1163,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8972593352433052656}
-        m_TargetAssemblyTypeName: ScreenSettings, Assembly-CSharp
-        m_MethodName: BTN_Video
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 2918714899557081083}
         m_TargetAssemblyTypeName: SoundList, Assembly-CSharp
         m_MethodName: PlayClip
@@ -1145,6 +1175,31 @@ MonoBehaviour:
           m_StringArgument: Click
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 8972593352433052656}
+        m_TargetAssemblyTypeName: ScreenSettings, Assembly-CSharp
+        m_MethodName: BTN_Video
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &8303820520298906041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5938697256769128574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d9cc44cbda230e4c91a3a4a30e8040e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _amount: 1.25
 --- !u!1 &7250995344826876835
 GameObject:
   m_ObjectHideFlags: 0
@@ -1344,82 +1399,3 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1 &8068188144965639934
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 257844851343857004}
-  - component: {fileID: 7176134456778405094}
-  - component: {fileID: 2838508882092073407}
-  m_Layer: 5
-  m_Name: Text (Legacy)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &257844851343857004
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8068188144965639934}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5042614824332976846}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 878.2, y: 260.9}
-  m_SizeDelta: {x: 320, y: 60}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &7176134456778405094
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8068188144965639934}
-  m_CullTransparentMesh: 1
---- !u!114 &2838508882092073407
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8068188144965639934}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_FontData:
-    m_Font: {fileID: 12800000, guid: 3a3ffa7bb53f59b41a768333949de26d, type: 3}
-    m_FontSize: 40
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 1
-    m_MaxSize: 90
-    m_Alignment: 0
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: New Text

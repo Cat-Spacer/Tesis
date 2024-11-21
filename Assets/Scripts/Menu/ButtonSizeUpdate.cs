@@ -1,27 +1,25 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class ButtonSizeUpdate : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    Button _button;
-    [SerializeField] float amount;
-    Vector3 originalScale;
+    [SerializeField] private float _amount = 1.25f;
+    private Button _button = default;
+    private Vector3 _originalScale = default;
+
     private void Start()
     {
         _button = GetComponent<Button>();
-        originalScale = transform.localScale;
+        _originalScale = transform.localScale;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        _button.transform.localScale = _button.transform.localScale * amount;
+        _button.transform.localScale = _button.transform.localScale * _amount;
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-        _button.transform.localScale = originalScale;
+        _button.transform.localScale = _originalScale;
     }
 }

@@ -8,7 +8,7 @@ public class InteractState : State
     {
 
         model.ChangeAnimationState("Interact");
-        SoundManager.instance.Play(SoundsTypes.Interact);
+        SoundManager.instance.Play(SoundsTypes.Interact, false, gameObject);
         StartCoroutine(Delay());
     }
     IEnumerator Delay()

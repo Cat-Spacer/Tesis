@@ -6,15 +6,10 @@ public class ObjectToSpawn : MonoBehaviour
 
     public virtual void Reset() { }
 
-    public static void TurnOn(ObjectToSpawn b)
+    public static void TurnOnOff(ObjectToSpawn b, bool On = true)
     {
-        b.gameObject.SetActive(true);
-        b.Reset();
-    }
-
-    public static void TurnOff(ObjectToSpawn b)
-    {
-        b.gameObject.SetActive(false);
+        b.gameObject.SetActive(On);
+        if (On) b.Reset();
     }
 
     public virtual void AddReference(ObjectPool<ObjectToSpawn> op)

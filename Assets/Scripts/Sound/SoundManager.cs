@@ -66,7 +66,12 @@ public class SoundManager : MonoBehaviour
     private float _baseVolume = default;
     private LookUpTable<SoundsTypes, Sound> _usedSounds = default;
     private LookUpTable<string, Sound> _usedSoundsByName = default;
-    [SerializeField] private int _limit = 10;
+    private LookUpTable<GameObject, SoundSpawn> _usedSoundsByRequest = default;
+    [SerializeField] private int _limit = 15;
+    [SerializeField] private SoundSpawn _prefab = default;
+    private ObjectFactory _objectFactory = default;
+    private ObjectPool<ObjectToSpawn> _pool = default;
+    private bool _found = false;
 
     public Dictionary<string, float> mixerValue = new();
 
@@ -88,11 +93,14 @@ public class SoundManager : MonoBehaviour
     {
         _usedSounds = new(SearchSound);
         _usedSoundsByName = new(SearchSound);
+        _usedSoundsByRequest = new(SearchSoundSpawn);
+        _objectFactory = new ObjectFactory(_prefab, transform);
+        _pool = new ObjectPool<ObjectToSpawn>(_objectFactory.GetObj, ObjectToSpawn.TurnOnOff, 0);
     }
 
-    private void SoundSet(Sound s)
+    private void SoundSet(Sound s, GameObject request = default)
     {
-        if(s == null) return;
+        if (s == null) return;
         AudioSource[] allSourcess = GetComponents<AudioSource>();
         int count = 0;
         foreach (AudioSource source in allSourcess)
@@ -112,8 +120,17 @@ public class SoundManager : MonoBehaviour
                 }
             }
         }
-
-        s.source = gameObject.AddComponent<AudioSource>();
+        SoundSpawn soundObject = null;
+        if (request && request != gameObject) soundObject = _usedSoundsByRequest.ReturnValue(request);
+        if (soundObject)
+        {
+            if (!_found)
+            {
+                soundObject.SetFather(request);
+                s.source = soundObject.gameObject.AddComponent<AudioSource>();
+            }
+        }
+        else s.source = gameObject.AddComponent<AudioSource>();
         s.source.clip = s.clip;
         s.source.outputAudioMixerGroup = s.audioMixerGroup;
         s.source.volume = s.volume;
@@ -129,10 +146,16 @@ public class SoundManager : MonoBehaviour
     {
         return Array.Find(sounds, sound => sound.name == name);
     }
-
-    public void Play(SoundsTypes nameType, bool loop = false)
+    private SoundSpawn SearchSoundSpawn(GameObject requester)
     {
+        if (!requester) return null;
+        SoundSpawn spawn = Array.Find(_pool.GetStock.ToArray(), stock => stock.GetComponent<SoundSpawn>().Father == requester).GetComponent<SoundSpawn>();
+        _found = spawn ? true :  false;
+        return spawn ? spawn : _pool.GetObject().GetComponent<SoundSpawn>();
+    }
 
+    public void Play(SoundsTypes nameType, bool loop = false, GameObject request = default)
+    {
         Sound s = default;
 
         LinkedList<Sound> repeats = new();
@@ -149,13 +172,13 @@ public class SoundManager : MonoBehaviour
             Debug.LogWarning("Sound: " + nameType + " not found!");
             return;
         }
-        SoundSet(s);
+        SoundSet(s, request);
         s.source.loop = loop;
         s.source.Play();
         if (!loop) StartCoroutine(AutoStop(s));
     }
 
-    public void Play(string name, bool loop = true)
+    public void Play(string name, bool loop = true, GameObject request = default)
     {
         Sound s = _usedSoundsByName.ReturnValue(name);
         LinkedList<Sound> repeats = new();
@@ -172,7 +195,7 @@ public class SoundManager : MonoBehaviour
             Debug.LogWarning("Sound: " + name + " not found!");
             return;
         }
-        SoundSet(s);
+        SoundSet(s, request);
         s.source.loop = loop;
         s.source.Play();
         if (!loop) StartCoroutine(AutoStop(s));

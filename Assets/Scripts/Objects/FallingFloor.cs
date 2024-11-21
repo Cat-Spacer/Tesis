@@ -23,7 +23,7 @@ public class FallingFloor : MonoBehaviour
     {
         if (activated)
         {
-            SoundManager.instance.Play(SoundsTypes.Drop);
+            SoundManager.instance.Play(SoundsTypes.Drop, gameObject);
             _sp.color = activatedColor;
             _coll.enabled = true;
             _killZone.enabled = true;
@@ -31,7 +31,7 @@ public class FallingFloor : MonoBehaviour
         }
         else
         {
-            SoundManager.instance.Play(SoundsTypes.Drop);
+            SoundManager.instance.Play(SoundsTypes.Drop, gameObject);
             _sp.color = desactivatedColor;
             _coll.enabled = false;
             _killZone.enabled = false;

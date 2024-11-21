@@ -17,7 +17,7 @@ public class BulletManager : MonoBehaviour
         {
             instance = this;
             _factory = new BulletFactory(_bulletPrefab, transform);
-            _objectPool = new ObjectPool<ObjectToSpawn>(_factory.GetObj, ObjectToSpawn.TurnOff, ObjectToSpawn.TurnOn, _initialCount, _dynamic);
+            _objectPool = new ObjectPool<ObjectToSpawn>(_factory.GetObj, ObjectToSpawn.TurnOnOff, _initialCount, _dynamic);
         }
         else Destroy(gameObject);
     }

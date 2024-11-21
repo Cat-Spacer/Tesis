@@ -1,4 +1,3 @@
-using UnityEditor;
 using UnityEngine;
 
 public class OwnFactory
@@ -14,6 +13,6 @@ public class OwnFactory
         Debug.Log("Set Pool");
         _objPrefab = obj;
         _factory = new ObjectFactory(_objPrefab, parent);
-        _objectPool = new ObjectPool<ObjectToSpawn>(_factory.GetObj, ObjectToSpawn.TurnOff, ObjectToSpawn.TurnOn, initialCount, dynamic);
+        _objectPool = new ObjectPool<ObjectToSpawn>(_factory.GetObj, ObjectToSpawn.TurnOnOff, initialCount, dynamic);
     }
 }
