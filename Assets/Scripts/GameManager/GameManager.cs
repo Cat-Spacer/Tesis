@@ -77,6 +77,7 @@ public class GameManager : MonoBehaviour
             door.Open();
         }
         if(LiveCamera.instance != null) LiveCamera.instance.StartLiveCamera(true);
+        EventManager.Instance.Trigger(EventType.OnStartGame);
         Time.timeScale = 1f;
     }
     public void SetCatRespawnPoint(Vector3 pos)
