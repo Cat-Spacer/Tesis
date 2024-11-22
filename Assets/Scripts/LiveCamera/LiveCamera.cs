@@ -17,6 +17,7 @@ public class LiveCamera : MonoBehaviour
     [SerializeField] private List<int> _hackTimes = new List<int>();
     [SerializeField] private int current;
     [SerializeField] private int currentLiveTime = 0;
+    [SerializeField] private int timeOnLive = 0;
     [SerializeField] private bool _onAir;
     private bool _isOnAir;
     
@@ -74,18 +75,25 @@ public class LiveCamera : MonoBehaviour
         _currentHackTime = adjustedHackTime;
     }
     void GoOnAir()
-    {
+    { 
         _onAir = true;
         ActivateCamera();
         EventManager.Instance.Trigger(EventType.OnLive);
-        currentLiveTime = _levelTime - currentLiveTime - _hackTimes[current];
-        StartCoroutine(OnAirTimer(currentLiveTime));
+        if (current < 0) return;
+        timeOnLive = currentLiveTime - _hackTimes[current];
+        currentLiveTime = _hackTimes[current];
+        //currentLiveTime = _levelTime - currentLiveTime - _hackTimes[current];
+        StartCoroutine(OnAirTimer(timeOnLive));
     }
     IEnumerator OnAirTimer(float time)
     {
-        yield return new WaitForSecondsRealtime(time);
-        if (current > 0) current--;
-        GoOffAir();
+        yield return new WaitForSeconds(time);
+        if (current >= 0)
+        {
+            current--;
+            Debug.Log("OnAir Entre");
+            GoOffAir();
+        }
     }
     public void GoOffAir()
     {
@@ -98,13 +106,12 @@ public class LiveCamera : MonoBehaviour
     
     IEnumerator TimeUntilGoOnAir(float time)
     {
-        yield return new WaitForSecondsRealtime(time);
+        yield return new WaitForSeconds(time);
         GoOnAir();
     }
 
     void ActivateCamera()
     {
-        if (!_onAir) return;
         onLiveMenu.SetActive(true);
         offLiveMenu.SetActive(false);
         _groupCamera.SetActive(true);
@@ -144,6 +151,7 @@ public class LiveCamera : MonoBehaviour
     public void SetLevelTime(int time, LevelTimer levelTimer)
     {
         _levelTime = time;
+        currentLiveTime = time;
         _levelTimer = _levelTimer;
     }
 }

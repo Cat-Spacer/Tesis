@@ -75,17 +75,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c2a6da3e7be4d54a9c4e375c362ea5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxTimeOnAir: 10
-  _minTimeOnAir: 2
-  _timeOnAir: 5
-  _timeUntilOnAir: 5
-  _timeVariation: 0.2
+  _levelTime: 0
+  _hackCount: 2
+  _hackTime: 10
+  _currentHackTime: 0
+  _hackTimes: 
+  current: 0
+  currentLiveTime: 0
+  timeOnLive: 0
   _onAir: 0
+  _levelTimer: {fileID: 0}
   _groupCamera: {fileID: 4256578828859253826}
   _tvShader:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  _tvHackedShader: []
   _pointsText:
   - {fileID: 3088896204155696927}
   - {fileID: 4147615009132428707}
