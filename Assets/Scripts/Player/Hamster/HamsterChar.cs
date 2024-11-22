@@ -116,7 +116,7 @@ public class HamsterChar : PlayerCharacter
             //_currentTube.GetPossiblePaths(this);
             _TubesMovementAction = delegate { };
             Debug.Log("StopMovingInTubes");
-            SoundManager.instance.Pause(SoundsTypes.HamsterOnTubes);
+            SoundManager.instance.Pause(SoundsTypes.HamsterOnTubes, gameObject);
         }
         else
         {
@@ -139,7 +139,7 @@ public class HamsterChar : PlayerCharacter
             _currentTubePos = tube.GetCenter();
             GoToPosition(_currentTubePos);
             _TubesMovementAction += MoveInTubes;
-            SoundManager.instance.Play(SoundsTypes.HamsterOnTubes, true);
+            SoundManager.instance.Play(SoundsTypes.HamsterOnTubes, gameObject, true);
             _inTube = true;
         }
     }
@@ -155,7 +155,7 @@ public class HamsterChar : PlayerCharacter
         if (!_ifShrink)
         {
             canShrink = false;
-            SoundManager.instance.Play(SoundsTypes.HamsterJump);
+            SoundManager.instance.Play(SoundsTypes.HamsterJump, gameObject);
             _ifShrink = true;
             transform.localScale = new Vector3(.5f, .5f, 1);
             _data.groundCheckArea = new Vector2(0.24f, 0.08f);
@@ -167,7 +167,7 @@ public class HamsterChar : PlayerCharacter
             var hit = Physics2D.OverlapBox(headTransform.position, headSize, 0, _data.groundLayer);
             if (hit != null) return;
             canShrink = false;
-            SoundManager.instance.Play(SoundsTypes.HamsterJump);
+            SoundManager.instance.Play(SoundsTypes.HamsterJump, gameObject);
             _ifShrink = false;
             transform.localScale = new Vector3(1f, 1f, 1);
             _data.groundCheckArea = defaultGroundCheckArea;

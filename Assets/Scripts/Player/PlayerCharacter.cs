@@ -14,8 +14,8 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
     protected CharacterModel _model;
     protected Rigidbody2D _rb;
     private BoxCollider2D coll;
-    protected Action _HitAction = delegate {  };
-    protected Action _DebuffAction = delegate {  };
+    protected Action _HitAction = delegate { };
+    protected Action _DebuffAction = delegate { };
 
     private State _oldState;
     public State state;
@@ -27,7 +27,7 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
     public State punchState;
     public State specialState;
     public State interactState;
-    
+
 
     private Material _material;
     private int _dissolveAmount = Shader.PropertyToID("_DissolveAmount");
@@ -59,14 +59,14 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
         _oldState = idleState;
         state = idleState;
     }
-    
+
     private void Update()
     {
         if (!doorInteracting) return;
         if (state.isComplete)
         {
             state.Exit();
-            SelectState();   
+            SelectState();
         }
         state.Do();
     }
@@ -93,11 +93,11 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
                 {
                     state = specialState;
                 }
-                if(_data.canMove && (input.left_Input || input.right_Input) && !_data.isPunching && !_data.isInteracting && !_data.onJumpImpulse)
+                if (_data.canMove && (input.left_Input || input.right_Input) && !_data.isPunching && !_data.isInteracting && !_data.onJumpImpulse)
                 {
                     state = runState;
                 }
-                else if (!input.left_Input && !input.right_Input && !_data.isInteracting && !_data.isPunching && !_data.onJumpImpulse) 
+                else if (!input.left_Input && !input.right_Input && !_data.isInteracting && !_data.isPunching && !_data.onJumpImpulse)
                 {
                     state = idleState;
                 }
@@ -107,22 +107,22 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
                 state = airState;
             }
         }
-        if(state != _oldState)
+        if (state != _oldState)
         {
             _oldState = state;
             state.Enter();
         }
     }
-    
+
     protected virtual void FixedUpdate()
     {
         ArtificialGravity();
         GroundFriction();
         _HitAction();
         IsFalling();
-        
+
     }
-#region MOVEMENT
+    #region MOVEMENT
     public void Movement(bool run, int direction)
     {
         if (!run || !_data.canMove || _data.isStun || _data.isPunching)
@@ -148,11 +148,11 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
         if (OnGround() && !_data.isRunning)
         {
             var decelerate = Mathf.Lerp(_rb.velocity.x, 0, _data.groundFriction);
-            _rb.velocity = new Vector2( decelerate, _rb.velocity.y);
+            _rb.velocity = new Vector2(decelerate, _rb.velocity.y);
         }
     }
-#endregion
-#region JUMP
+    #endregion
+    #region JUMP
 
     public void JumpUp(bool jump)
     {
@@ -160,15 +160,15 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
         if (_data.isStun || _data.isJumping || !_data.canJump) return;
         if (OnGround())
         {
-            if(charType == CharacterType.Cat) SoundManager.instance.Play(SoundsTypes.CatJump);
-            else SoundManager.instance.Play(SoundsTypes.HamsterJump);
+            if (charType == CharacterType.Cat) SoundManager.instance.Play(SoundsTypes.CatJump, gameObject);
+            else SoundManager.instance.Play(SoundsTypes.HamsterJump, gameObject);
             _rb.velocity = new Vector2(_rb.velocity.x, _data.jumpForce);
             _data.isJumping = true;
             _data.jumpCounter = 0;
         }
-        else if(_data.canDoubleJump && charType == CharacterType.Cat)
+        else if (_data.canDoubleJump && charType == CharacterType.Cat)
         {
-            SoundManager.instance.Play(SoundsTypes.CatJump);
+            SoundManager.instance.Play(SoundsTypes.CatJump, gameObject);
             _data.canDoubleJump = false;
             _rb.velocity = new Vector2(_rb.velocity.x, _data.doubleJumpForce);
             _data.isJumping = true;
@@ -196,17 +196,17 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
     {
         if (_data.isStun) return;
         _data.isJumping = false;
-        float stopForce = Mathf.Lerp(_rb.velocity.y, 0,  _data.jumpStopForce);
+        float stopForce = Mathf.Lerp(_rb.velocity.y, 0, _data.jumpStopForce);
         _rb.velocity = new Vector2(_rb.velocity.x, stopForce);
-        
+
         // if (!OnGround())
         // {
         //     _data.isJumping = false;
         // }
     }
-#endregion
+    #endregion
 
-#region STUN
+    #region STUN
 
     public void Stun(float stunForce)
     {
@@ -219,39 +219,39 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
         _data.isStun = false;
     }
 
-#endregion
+    #endregion
     public void Teletransport()
     {
         _model.Teletransport();
     }
-#region CHAR_ACTIONS
+    #region CHAR_ACTIONS
 
-    public virtual void Special(){}
+    public virtual void Special() { }
 
     public virtual void Punch()
     {
         if (!_data.canPunch || !OnGround()) return;
-        
+
         var obj = Physics2D.OverlapCircle(_data.attackPoint.position, _data.attackRange.x, _data.attackableLayer);
         _data.isPunching = true;
         _data.canPunch = false;
         _data.canMove = false;
         StartCoroutine(PunchCd());
-        if(charType == CharacterType.Cat) SoundManager.instance.Play(SoundsTypes.CatAttack);
-        else SoundManager.instance.Play(SoundsTypes.HamsterAttack);
+        if (charType == CharacterType.Cat) SoundManager.instance.Play(SoundsTypes.CatAttack, gameObject);
+        else SoundManager.instance.Play(SoundsTypes.HamsterAttack, gameObject);
         if (obj)
         {
             var body = obj.gameObject.GetComponent<Rigidbody2D>();
             if (body != null)
             {
-                Vector2 direction =  new Vector2(_model.GetFaceDirection(), .8f);
+                Vector2 direction = new Vector2(_model.GetFaceDirection(), .8f);
                 body.AddForce(direction * _data.punchForce);
                 Debug.Log("Attack player");
                 if (LiveCamera.instance != null && LiveCamera.instance.IsOnAir())
                 {
-                    if(EventManager.Instance != null)EventManager.Instance.Trigger(EventType.OnChangePeace, -1);
+                    if (EventManager.Instance != null) EventManager.Instance.Trigger(EventType.OnChangePeace, -1);
                 }
-                if(EventManager.Instance != null)EventManager.Instance.Trigger(EventType.OnUpdateEgoPoints, charType, 1);
+                if (EventManager.Instance != null) EventManager.Instance.Trigger(EventType.OnUpdateEgoPoints, charType, 1);
             }
             var player = obj.gameObject.GetComponent<IStun>();
             if (player != null)
@@ -275,7 +275,7 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
             StartCoroutine(InteractCd());
             _data.isInteracting = true;
         }
-        if (onPress &&_data._onHand != null)
+        if (onPress && _data._onHand != null)
         {
             _data._onHand.Drop(new Vector2(_data.faceDirection, 1), 5);
             DropItem();
@@ -346,13 +346,13 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
         _data._onHand = null;
     }
 
-#endregion
-#region OTHER
+    #endregion
+    #region OTHER
 
     public Transform GetInventoryTransform()
     {
         return _data._inventoryPos;
-    } 
+    }
     void ArtificialGravity()
     {
         if (_data.onKnockback) return;
@@ -368,7 +368,7 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
         }
         return false;
     }
-    
+
     void IsFalling()
     {
         if (_rb.velocity.y < 0 && !OnGround())
@@ -385,7 +385,7 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
     }
     void Freeze(bool freeze)
     {
-        if(freeze) _rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        if (freeze) _rb.constraints = RigidbodyConstraints2D.FreezeAll;
         else
         {
             _rb.constraints = RigidbodyConstraints2D.None;
@@ -416,7 +416,7 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
             _material.SetFloat(_dissolveAmount, lerpedDissolve);
             yield return null;
         }
-        if(charType == CharacterType.Cat) transform.position = GameManager.Instance.GetCatRespawnPoint();
+        if (charType == CharacterType.Cat) transform.position = GameManager.Instance.GetCatRespawnPoint();
         else transform.position = GameManager.Instance.GetHamsterRespawnPoint();
         Revive();
     }
@@ -439,7 +439,7 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
     }
     void Die()
     {
-        SoundManager.instance.Play(SoundsTypes.Death);
+        SoundManager.instance.Play(SoundsTypes.Death, gameObject);
         _data.canMove = false;
         _data.canJump = false;
         StartCoroutine(Vanish());
@@ -448,7 +448,7 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
 
     void Revive()
     {
-        SoundManager.instance.Play(SoundsTypes.Death);
+        SoundManager.instance.Play(SoundsTypes.Death, gameObject);
         StartCoroutine(Appear());
     }
     public void ReceiveInputs(SO_Inputs newInput)
@@ -458,7 +458,7 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
         input.SetInput(newInput);
         _data.canMove = false;
     }
-    
+
     public void EnterDoor()
     {
         _data.canMove = false;
@@ -481,9 +481,9 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
         _data.canMove = true;
         doorInteracting = true;
     }
-    public CharacterType GetCharType(){ return charType;} 
+    public CharacterType GetCharType() { return charType; }
 
-#endregion
+    #endregion
 
 
 }

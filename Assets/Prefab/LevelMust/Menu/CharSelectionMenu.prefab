@@ -321,7 +321,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -528,6 +528,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1398967334256466990}
   - component: {fileID: 4624181153629318879}
+  - component: {fileID: 6188421102023613065}
+  - component: {fileID: 4916211031103155179}
   m_Layer: 5
   m_Name: CharSelectionMenu
   m_TagString: Untagged
@@ -575,6 +577,36 @@ MonoBehaviour:
   player2: 1
   player1Inputs: {fileID: 11400000, guid: 2413c09e53362bf4886290719fdd183b, type: 2}
   player2Inputs: {fileID: 11400000, guid: 6ef9c0c22c34c1448bfc964b0dcaaa94, type: 2}
+--- !u!114 &6188421102023613065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2767800900567773942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad867fd8027180e4bb5c54ba16551970, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds: []
+--- !u!114 &4916211031103155179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2767800900567773942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdf06cb83ebd6824e8cbc22950d77f28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadingScreenIndex: 0
+  _settingsScreenName: Settings_Menu
+  _controlsScreenName: Control_Menu
+  _creditsScreenName: Credits_Menu
+  _levelsScreenName: Levels_Menu
 --- !u!1 &4391140117396121815
 GameObject:
   m_ObjectHideFlags: 0
@@ -1070,7 +1102,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3620146346420600416}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6188421102023613065}
+        m_TargetAssemblyTypeName: SoundList, Assembly-CSharp
+        m_MethodName: PlayClip
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Click
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4916211031103155179}
+        m_TargetAssemblyTypeName: MenuButton, Assembly-CSharp
+        m_MethodName: SceneToLoad
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &3667503976039829421
 MonoBehaviour:
   m_ObjectHideFlags: 0
