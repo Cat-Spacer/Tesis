@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class LevelTimer : MonoBehaviour
 {
-    [SerializeField] private float levelTimer;
+    [SerializeField] private int levelTimer;
     [SerializeField] private float currentTime;
     [SerializeField] private TextMeshProUGUI text;
     [SerializeField] private GameObject menu;
@@ -16,6 +16,7 @@ public class LevelTimer : MonoBehaviour
         EventManager.Instance.Subscribe(EventType.OnStartGame, OnStartGame);
         EventManager.Instance.Subscribe(EventType.OffLive, OnOffLive);
         EventManager.Instance.Subscribe(EventType.OnLive, OnOnLive);
+        if(LiveCamera.instance != null) LiveCamera.instance.SetLevelTime(levelTimer, this);
         text.text = levelTimer.ToString();
         currentTime = levelTimer;
     }
@@ -56,4 +57,5 @@ public class LevelTimer : MonoBehaviour
             text.text = Mathf.FloorToInt(currentTime).ToString();
         }
     }
+    float GetLevelCurrentTime(){return currentTime;}
 }
