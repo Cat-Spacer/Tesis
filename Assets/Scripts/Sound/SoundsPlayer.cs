@@ -13,6 +13,6 @@ public class SoundsPlayer : MonoBehaviour
 
         if (_pauseAll) SoundManager.instance.PauseAll();
 
-        foreach (var sound in _soundPlayName) SoundManager.instance.Play(sound, _loop);
+        foreach (var sound in _soundPlayName) SoundManager.instance.Play(sound, null, _loop);
     }
 }

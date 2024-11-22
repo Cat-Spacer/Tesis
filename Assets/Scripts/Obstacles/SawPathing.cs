@@ -33,7 +33,7 @@ public class SawPathing : MonoBehaviour, IActivate
     }
     public void Activate()
     {
-        SoundManager.instance.Play(SoundsTypes.CircularSaw, true, gameObject);
+        SoundManager.instance.Play(SoundsTypes.CircularSaw, gameObject, true);
         isOn = true;
         _saw.StartSpinning();
         ActivatedAction = Movement;
@@ -41,7 +41,7 @@ public class SawPathing : MonoBehaviour, IActivate
 
     public void Desactivate()
     {
-        SoundManager.instance.Pause(SoundsTypes.CircularSaw);
+        SoundManager.instance.Pause(SoundsTypes.CircularSaw, gameObject);
         isOn = false;
         _saw.StopSpinning();
         ActivatedAction = delegate {  };

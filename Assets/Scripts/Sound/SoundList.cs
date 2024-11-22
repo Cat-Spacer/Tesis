@@ -28,7 +28,7 @@ public class SoundList : MonoBehaviour
         Sound s = _usedSoundsByName.ReturnValue(name);
         if (s == null)
         {
-            Debug.LogWarning("Sound: " + name + " not found!");
+            Debug.LogWarning($"<color=yellow>Sound: {name} not found!</color>");
             return;
         }
         if (SoundManager.instance) SoundManager.instance.Play(name);
@@ -45,13 +45,14 @@ public class SoundList : MonoBehaviour
         Sound s = _usedSoundsByName.ReturnValue(name);
         if (s == null)
         {
-            Debug.LogWarning("Sound: " + name + " not found!");
+            Debug.LogWarning($"<color=yellow>Sound: {name} not found!</color>");
             return;
         }
 
-        if (SoundManager.instance) SoundManager.instance.Play(name, false);
+        if (SoundManager.instance) SoundManager.instance.Play(s.nameType, null, false);
         else
         {
+            Debug.Log($"<color=orange>No SoundManage</color>");
             SoundSet(s);
             s.source.loop = false;
             s.source.Play();
@@ -63,10 +64,10 @@ public class SoundList : MonoBehaviour
         Sound s = _usedSounds.ReturnValue(name);
         if (s == null)
         {
-            Debug.LogWarning("Sound: " + name + " not found!");
+            Debug.LogWarning($"<color=yellow>Sound: {name} not found!</color>");
             return;
         }
-        if (SoundManager.instance) SoundManager.instance.Play(name, loop);
+        if (SoundManager.instance) SoundManager.instance.Play(name, null, loop);
         else
         {
             SoundSet(s);
@@ -80,10 +81,10 @@ public class SoundList : MonoBehaviour
         Sound s = _usedSounds.ReturnValue(name);
         if (s == null)
         {
-            Debug.LogWarning("Sound: " + name + " not found!");
+            Debug.LogWarning($"<color=yellow>Sound: {name} not found!</color>");
             return;
         }
-        if (SoundManager.instance) SoundManager.instance.Play(name, false);
+        if (SoundManager.instance) SoundManager.instance.Play(name, null, false);
         else
         {
             SoundSet(s);

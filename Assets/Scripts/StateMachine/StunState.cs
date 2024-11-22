@@ -7,8 +7,8 @@ public class StunState : State
     public override void Enter()
     {
         model.GetStun(true);
-        if(character.GetCharType() == CharacterType.Cat) SoundManager.instance.Play(SoundsTypes.CatDamage, false, gameObject);
-        else SoundManager.instance.Play(SoundsTypes.HamsterDamage, false, gameObject);
+        if(character.GetCharType() == CharacterType.Cat) SoundManager.instance.Play(SoundsTypes.CatDamage, gameObject);
+        else SoundManager.instance.Play(SoundsTypes.HamsterDamage, gameObject);
     }
 
     public override void Do()
