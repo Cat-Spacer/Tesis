@@ -9,8 +9,9 @@ public class LevelTimer : MonoBehaviour
     [SerializeField] private float currentTime;
     [SerializeField] private TextMeshProUGUI text;
     [SerializeField] private GameObject menu;
-    bool _startGame;
+    private bool _startGame;
     private bool _onLive;
+    private bool _onLose;
     void Start()
     {
         EventManager.Instance.Subscribe(EventType.OnStartGame, OnStartGame);
@@ -40,7 +41,7 @@ public class LevelTimer : MonoBehaviour
 
     void Update()
     {
-        if (!_startGame || !_onLive) return;
+        if (!_startGame || !_onLive || _onLose) return;
         Countdown();
     }
 
@@ -48,6 +49,7 @@ public class LevelTimer : MonoBehaviour
     {
         if (currentTime <= 0)
         {
+            _onLose = true;
             currentTime = 0;
             EventManager.Instance.Trigger(EventType.OnLoseGame);
         }
