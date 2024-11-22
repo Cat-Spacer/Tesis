@@ -195,8 +195,8 @@ public class SoundManager : MonoBehaviour
             if (request.GetComponentInChildren<AudioSource>()) if (FoundEqualSound(s.clip, request)) return s;
 
             Debug.Log($"<color=lightblue>No equal song on Set</color>");
-            if (!FoundEqualSound(s.source.clip, request)) soundObject.sounds.Add(s);
             s.source = soundObject.gameObject.AddComponent<AudioSource>();
+            if (!FoundEqualSound(s.source.clip, request)) soundObject.sounds.Add(s);
         }
         else s.source = gameObject.AddComponent<AudioSource>();
 
