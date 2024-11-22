@@ -10,15 +10,17 @@ using Random = UnityEngine.Random;
 public class LiveCamera : MonoBehaviour
 {
     public static LiveCamera instance;
-    [SerializeField] private float _maxTimeOnAir;
-    [SerializeField] private float _minTimeOnAir;
-    [SerializeField] private float _timeOnAir;
-    [SerializeField] private float _timeUntilOnAir;
-    [SerializeField] private float _timeVariation ;
-    
+    [SerializeField] private int _levelTime;
+    [SerializeField] private int _hackCount;
+    [SerializeField] private int _hackTime;
+    [SerializeField] private float _currentHackTime;
+    [SerializeField] private List<int> _hackTimes = new List<int>();
+    [SerializeField] private int current;
+    [SerializeField] private int currentLiveTime = 0;
     [SerializeField] private bool _onAir;
     private bool _isOnAir;
     
+    [SerializeField] LevelTimer _levelTimer;
     [SerializeField] private GameObject _groupCamera;
     [SerializeField] private GameObject[] _tvShader;
     [SerializeField] private GameObject[] _tvHackedShader;
@@ -31,6 +33,12 @@ public class LiveCamera : MonoBehaviour
         if (instance == null) 
             instance = this;
     }
+
+    private void Start()
+    {
+        current = _hackCount - 1;
+    }
+
     private void ChangeCameraType(object[] obj)
     {
         var state = (bool) obj[0];
@@ -39,39 +47,44 @@ public class LiveCamera : MonoBehaviour
     
     public void StartLiveCamera(bool status)
     {
+        CalculateTimeOnAir();
         ActivateCamera();
         GoOnAir();
     }
 
-    float CalculateTimeOnAir()
+    void CalculateTimeOnAir()
     {
-        int peace = PeaceSystem.instance.GetCurrentPeace();
-        float newTime = Mathf.Lerp(_minTimeOnAir, _maxTimeOnAir, 1 - peace / 10f);
-        float variation = newTime * _timeVariation;
-        float liveTime = Random.Range(newTime - variation, newTime + variation);
-        liveTime = Mathf.Clamp(liveTime, _minTimeOnAir, _maxTimeOnAir);
-        return liveTime;
+        float liveTime = _levelTime - (_hackCount * _hackTime);
+        float interval = liveTime / (_hackCount + 1);
+
+        float timeAccumulated = 0;
+        for (int i = 0; i < _hackCount; i++)
+        {
+            timeAccumulated += interval;
+            _hackTimes.Add(Mathf.FloorToInt(timeAccumulated));
+            timeAccumulated += _hackTime;
+        }
     }
 
-    float CalculateTimeUntilAir()
+    void CalculateHackTime()
     {
-        int peace = PeaceSystem.instance.GetCurrentPeace();
-        float newTime = Mathf.Lerp(_maxTimeOnAir, _minTimeOnAir, 1 - peace / 10f);
-        float variation = newTime * _timeVariation;
-        float liveTime = Random.Range(newTime - variation, newTime + variation);
-        liveTime = Mathf.Clamp(liveTime, _minTimeOnAir, _maxTimeOnAir);
-        return liveTime;
+        var currentPeace = PeaceSystem.instance.GetCurrentPeace();
+        float adjustedHackTime = _hackTime * (1f + (currentPeace - 5f) / 10);
+        adjustedHackTime = Mathf.Clamp(adjustedHackTime, 1f, _hackTime * 2);
+        _currentHackTime = adjustedHackTime;
     }
     void GoOnAir()
     {
         _onAir = true;
         ActivateCamera();
         EventManager.Instance.Trigger(EventType.OnLive);
-        StartCoroutine(OnAirTimer(CalculateTimeOnAir()));
+        currentLiveTime = _levelTime - currentLiveTime - _hackTimes[current];
+        StartCoroutine(OnAirTimer(currentLiveTime));
     }
     IEnumerator OnAirTimer(float time)
     {
         yield return new WaitForSecondsRealtime(time);
+        if (current > 0) current--;
         GoOffAir();
     }
     public void GoOffAir()
@@ -79,7 +92,8 @@ public class LiveCamera : MonoBehaviour
         _onAir = false;
         DesactivateAllCameras();
         EventManager.Instance.Trigger(EventType.OffLive);
-        StartCoroutine(TimeUntilGoOnAir(CalculateTimeUntilAir()));
+        CalculateHackTime();
+        StartCoroutine(TimeUntilGoOnAir(_currentHackTime));
     }
     
     IEnumerator TimeUntilGoOnAir(float time)
@@ -125,5 +139,11 @@ public class LiveCamera : MonoBehaviour
     public Slider[] GetSliders()
     {
         return sliders;
+    }
+
+    public void SetLevelTime(int time, LevelTimer levelTimer)
+    {
+        _levelTime = time;
+        _levelTimer = _levelTimer;
     }
 }
