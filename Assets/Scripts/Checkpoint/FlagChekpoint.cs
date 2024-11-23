@@ -10,6 +10,7 @@ public class FlagChekpoint : MonoBehaviour
     private Animator _anim;
     private bool _isOn = false;
     [SerializeField] bool sharedCheckpoint = false;
+    [SerializeField] ParticleSystem _particle;
     void Start()
     {
         _anim = GetComponent<Animator>();
@@ -27,6 +28,7 @@ public class FlagChekpoint : MonoBehaviour
                 GameManager.Instance.SetHamsterRespawnPoint(transform.position);
                 _isOn = true;
                 _anim.SetTrigger("ON");
+                _particle.Play();
             }
             else
             {
@@ -36,6 +38,7 @@ public class FlagChekpoint : MonoBehaviour
                 else GameManager.Instance.SetHamsterRespawnPoint(transform.position);
                 _isOn = true;
                 _anim.SetTrigger("ON");
+                _particle.Play();
             }
             SoundManager.instance.Play(SoundsTypes.Checpoint, gameObject);
         }

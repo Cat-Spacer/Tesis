@@ -10,6 +10,8 @@ public class StartDoor : MonoBehaviour
     private void Start()
     {
         _anim = GetComponent<Animator>();
+        if (playerType == CharacterType.Cat) GameManager.Instance.SetCatRespawnPoint(transform.position);
+        else GameManager.Instance.SetHamsterRespawnPoint(transform.position);
     }
 
     public void Open()

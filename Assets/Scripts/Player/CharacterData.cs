@@ -55,6 +55,7 @@ public class CharacterData : MonoBehaviour
     public Vector2 groundCheckArea;
     public Transform groundPos;
     public bool onGround;
+    public bool lastOnGroundCheck;
     
     [Header("Gravity")]
     public float fallMultiplier;

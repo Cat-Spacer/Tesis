@@ -128,16 +128,19 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
         if (!run || !_data.canMove || _data.isStun || _data.isPunching)
         {
             _data.isRunning = false;
+            _model.StopParticle(ParticleType.Run);
             return;
         }
         float xMove = direction;
         if (OnGround())
         {
             xMove *= _data.runAcel;
+            _model.PlayParticle(ParticleType.Run);
         }
         else
         {
             xMove *= _data.airRunAcel;
+            _model.StopParticle(ParticleType.Run);
         }
         _data.isRunning = true;
         _rb.velocity = new Vector2(xMove, _rb.velocity.y);
@@ -156,8 +159,8 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
 
     public void JumpUp(bool jump)
     {
-        //Debug.Log("Try Jump");
-        if (_data.isStun || _data.isJumping || !_data.canJump) return;
+        Debug.Log("Try Jump");
+        if (!jump || _data.isStun || _data.isJumping || !_data.canJump) return;
         if (OnGround())
         {
             if (charType == CharacterType.Cat) SoundManager.instance.Play(SoundsTypes.CatJump, gameObject);
@@ -165,6 +168,7 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
             _rb.velocity = new Vector2(_rb.velocity.x, _data.jumpForce);
             _data.isJumping = true;
             _data.jumpCounter = 0;
+            _model.PlayParticle(ParticleType.Jump);
         }
         else if (_data.canDoubleJump && charType == CharacterType.Cat)
         {
@@ -173,6 +177,7 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
             _rb.velocity = new Vector2(_rb.velocity.x, _data.doubleJumpForce);
             _data.isJumping = true;
             _data.jumpCounter = 0;
+            _model.PlayParticle(ParticleType.Jump);
         }
 
         if (_rb.velocity.y > 0 && _data.isJumping)
@@ -361,11 +366,15 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
     bool OnGround()
     {
         _data.onGround = Physics2D.OverlapBox(_data.groundPos.position, _data.groundCheckArea, 0, _data.groundLayer);
-        if (_data.onGround)
+        if (_data.onGround && !_data.lastOnGroundCheck)
         {
+            _data.lastOnGroundCheck = _data.lastOnGroundCheck;
+            _model.PlayParticle(ParticleType.Land);
             _data.canDoubleJump = true;
             return true;
         }
+        _model.StopParticle(ParticleType.Land);
+        _data.lastOnGroundCheck = false;
         return false;
     }
 
