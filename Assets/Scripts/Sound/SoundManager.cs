@@ -56,7 +56,8 @@ public enum SoundsTypes
     Drop,
     Lever,
     PressureLever,
-    Spray
+    Spray,
+    ButtonHover
 }
 
 public class SoundManager : MonoBehaviour

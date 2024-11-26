@@ -9,17 +9,45 @@ public class LevelTimer : MonoBehaviour
     [SerializeField] private float currentTime;
     [SerializeField] private TextMeshProUGUI text;
     [SerializeField] private GameObject menu;
-    private bool _startGame;
     private bool _onLive;
     private bool _onLose;
+    private bool _stopTimer = true;
     void Start()
     {
-        EventManager.Instance.Subscribe(EventType.OnStartGame, OnStartGame);
         EventManager.Instance.Subscribe(EventType.OffLive, OnOffLive);
         EventManager.Instance.Subscribe(EventType.OnLive, OnOnLive);
+        EventManager.Instance.Subscribe(EventType.OnResumeGame, OnResumeGame);
+        EventManager.Instance.Subscribe(EventType.OnPauseGame, OnPauseGame);
+        EventManager.Instance.Subscribe(EventType.StartTimer, OnStartTimer);
+        EventManager.Instance.Subscribe(EventType.StopTimer, OnStopTimer);
+        EventManager.Instance.Subscribe(EventType.OnFinishGame, OnFinishGame);
+        
         if(LiveCamera.instance != null) LiveCamera.instance.SetLevelTime(levelTimer, this);
         text.text = levelTimer.ToString();
         currentTime = levelTimer;
+    }
+
+    private void OnFinishGame(object[] obj)
+    {
+        _stopTimer = true;
+        menu.SetActive(false);
+    }
+
+    private void OnStopTimer(object[] obj)
+    {
+        _stopTimer = true;
+    }
+    private void OnStartTimer(object[] obj)
+    {
+        _stopTimer = false;
+    }
+    private void OnResumeGame(object[] obj)
+    {
+        menu.SetActive(true);
+    }
+    private void OnPauseGame(object[] obj)
+    {
+        menu.SetActive(false);
     }
 
     private void OnOnLive(object[] obj)
@@ -33,18 +61,11 @@ public class LevelTimer : MonoBehaviour
         _onLive = false;
         menu.SetActive(false);
     }
-
-    private void OnStartGame(object[] obj)
-    {
-        _startGame = true;
-    }
-
     void Update()
     {
-        if (!_startGame || !_onLive || _onLose) return;
+        if (_stopTimer || !_onLive || _onLose) return;
         Countdown();
     }
-
     void Countdown()
     {
         if (currentTime <= 0)
@@ -59,5 +80,4 @@ public class LevelTimer : MonoBehaviour
             text.text = Mathf.FloorToInt(currentTime).ToString();
         }
     }
-    float GetLevelCurrentTime(){return currentTime;}
 }

@@ -7,6 +7,7 @@ public class CatCharacter : PlayerCharacter
     {
         if (!_data.onGround && !_data.isPunching && !_data.isStun) return;
         _data.onJumpImpulse = true;
+        SoundManager.instance.Play(SoundsTypes.CatDash);
         var otherPlayer = Physics2D.OverlapBox(transform.position, _data.jumpInpulseArea, 0, _data.playerMask);
         if (otherPlayer)
         {

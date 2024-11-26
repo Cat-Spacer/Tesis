@@ -1,7 +1,10 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -14,33 +17,76 @@ public class GameManager : MonoBehaviour
     [SerializeField] string  _nextLevel;
     [SerializeField] private bool testing;
     [SerializeField] private StartDoor[] _startDoors;
+    [SerializeField] private float mouseIdleTimer;
+    [SerializeField] private float checkInterval;
+    private Vector3 lastMousePosition;
+    private bool isMouseVisible = true;
     private void Awake()
     {
+        Time.timeScale = 0;
         if (Instance == null) Instance = this;
         _respawnManager = GetComponentInChildren<Respawn>();
         if (catPlayer == null) catPlayer = FindObjectOfType<CatCharacter>();
         if (hamsterPlayer == null) hamsterPlayer = FindObjectOfType<HamsterChar>();
+        lastMousePosition = Input.mousePosition;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     private void Start()
     {
-        if (testing)
-        {
-            Time.timeScale = 1;
-        }
-        else
-        {
-            Time.timeScale = 0;
-        }
         GetLevels();
+        StartCoroutine(CheckMouseMovement());
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Tab)) if(EventManager.Instance != null) EventManager.Instance.Trigger(EventType.ViewPlayerIndicator, true);
-        if(Input.GetKeyUp(KeyCode.Tab))  if(EventManager.Instance != null) EventManager.Instance.Trigger(EventType.ViewPlayerIndicator, false);
+        if (Input.GetKeyUp(KeyCode.Tab))  if(EventManager.Instance != null) EventManager.Instance.Trigger(EventType.ViewPlayerIndicator, false);
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            if (Input.GetKeyDown(KeyCode.R)) EventManager.Instance.Trigger(EventType.OnLoseGame);
+            if (Input.GetKeyDown(KeyCode.C)) KillPlayer(CharacterType.Cat);
+            if (Input.GetKeyDown(KeyCode.H)) KillPlayer(CharacterType.Hamster);
+        }
     }
+    IEnumerator CheckMouseMovement()
+    {
+        float idleTimer = 0f;
+        while (true)
+        {
+            if (Input.mousePosition != lastMousePosition)
+            {
+                idleTimer = 0f;
 
+                if (!isMouseVisible)
+                {
+                    Cursor.visible = true;
+                    isMouseVisible = true;
+                }
+            }
+            else
+            {
+                idleTimer += checkInterval;
+                if (idleTimer >= mouseIdleTimer && isMouseVisible)
+                {
+                    Cursor.visible = false;
+                    isMouseVisible = false;
+                }
+            }
+
+            // Actualiza la última posición del mouse.
+            lastMousePosition = Input.mousePosition;
+
+            // Espera el intervalo antes del siguiente chequeo.
+            yield return new WaitForSeconds(checkInterval);
+        }
+    }
+    void KillPlayer(CharacterType type)
+    {
+        if(type == CharacterType.Cat) catPlayer.GetDamage();
+        else hamsterPlayer.GetDamage();
+    }
     void GetLevels()
     {
         var currentLevel = SceneManager.GetActiveScene();
@@ -56,6 +102,8 @@ public class GameManager : MonoBehaviour
     public void WinLevel()
     {
         Time.timeScale = 0f;
+        EventManager.Instance.Trigger(EventType.OnFinishGame);
+        Cursor.visible = true;
         menu.WinMenu();
     }
     public void StartGame(SO_Inputs catInputs, SO_Inputs hamsterInputs)
@@ -77,8 +125,9 @@ public class GameManager : MonoBehaviour
             door.Open();
         }
         if(LiveCamera.instance != null) LiveCamera.instance.StartLiveCamera(true);
-        EventManager.Instance.Trigger(EventType.OnStartGame);
+        EventManager.Instance.Trigger(EventType.OnStartGame, true);
         Time.timeScale = 1f;
+        SoundManager.instance.Play(SoundsTypes.Music);
     }
     public void SetCatRespawnPoint(Vector3 pos)
     {

@@ -21,7 +21,6 @@ public class LevelObjective : MonoBehaviour
         }
         if(catState && hamsterState) Finish();
     }
-
     public void PlayerExit(CharacterType type)
     {
         if (type == CharacterType.Cat)
@@ -33,15 +32,15 @@ public class LevelObjective : MonoBehaviour
             hamsterState = false;
         }
     }
-
     void Finish()
     {
+        EventManager.Instance.Trigger(EventType.OnFinishGame);
         StartCoroutine(FinishDelay());
     }
 
     IEnumerator FinishDelay()
     {
-        yield return new WaitForSecondsRealtime(2.4f);
+        yield return new WaitForSecondsRealtime(4f);
         GameManager.Instance.WinLevel();
     }
 }

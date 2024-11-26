@@ -21,7 +21,6 @@ public class SawPathing : MonoBehaviour, IActivate
         {
             _lineRenderer.SetPosition(i, _waypoints[i].localPosition);
         }
-        
         if (isOn)
         {
             Activate();
