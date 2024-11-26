@@ -77,36 +77,30 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
         {
             state = stunState;
         }
-        else
+        else if(_data.isPunching) state = punchState;
+        else if (OnGround())
         {
-            if (OnGround())
+            if (_data.isInteracting)
             {
-                if (_data.isPunching)
-                {
-                    state = punchState;
-                }
-                if (_data.isInteracting)
-                {
-                    state = interactState;
-                }
-                if (_data.onJumpImpulse)
-                {
-                    state = specialState;
-                }
-                if (_data.canMove && (input.left_Input || input.right_Input) && !_data.isPunching && !_data.isInteracting && !_data.onJumpImpulse)
-                {
-                    state = runState;
-                }
-                else if (!input.left_Input && !input.right_Input && !_data.isInteracting && !_data.isPunching && !_data.onJumpImpulse)
-                {
-                    state = idleState;
-                }
+                Debug.Log("Interact State");
+                state = interactState;
             }
-            else
+            else if (_data.onJumpImpulse)
             {
-                state = airState;
+                Debug.Log("Special State");
+                state = specialState;
+            }
+            if (_data.canMove && (input.left_Input || input.right_Input) && !_data.isPunching && !_data.isInteracting && !_data.onJumpImpulse && _data.onGround)
+            {
+                state = runState;
+            }
+            else if (!input.left_Input && !input.right_Input && !_data.isInteracting && !_data.isPunching && !_data.onJumpImpulse && _data.onGround)
+            {
+                state = idleState;
             }
         }
+        else state = airState;
+        
         if (state != _oldState)
         {
             _oldState = state;
@@ -235,15 +229,16 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
 
     public virtual void Punch()
     {
-        if (!_data.canPunch || !OnGround()) return;
+        if (!_data.canPunch) return;
 
-        var obj = Physics2D.OverlapCircle(_data.attackPoint.position, _data.attackRange.x, _data.attackableLayer);
         _data.isPunching = true;
         _data.canPunch = false;
         _data.canMove = false;
         StartCoroutine(PunchCd());
         if (charType == CharacterType.Cat) SoundManager.instance.Play(SoundsTypes.CatAttack, gameObject);
         else SoundManager.instance.Play(SoundsTypes.HamsterAttack, gameObject);
+        
+        var obj = Physics2D.OverlapCircle(_data.attackPoint.position, _data.attackRange.x, _data.attackableLayer);
         if (obj)
         {
             var body = obj.gameObject.GetComponent<Rigidbody2D>();
@@ -363,20 +358,37 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
         if (_data.onKnockback) return;
         if (_rb.velocity.y < 0) _rb.velocity -= _data.gravity * (_data.fallMultiplier * Time.fixedDeltaTime);
     }
+
+    private bool wasOnGround;
     bool OnGround()
     {
-        _data.onGround = Physics2D.OverlapBox(_data.groundPos.position, _data.groundCheckArea, 0, _data.groundLayer);
-        if (_data.onGround && !_data.lastOnGroundCheck)
+        _data.onGround = Physics2D.OverlapBox(
+            _data.groundPos.position,
+            _data.groundCheckArea,
+            0,
+            _data.groundLayer
+        );
+
+        // Si no está en el suelo, actualiza el estado y retorna false.
+        if (!_data.onGround)
         {
-            _data.lastOnGroundCheck = _data.lastOnGroundCheck;
+            wasOnGround = false; // Marca que no está en el suelo.
+            return false;
+        }
+
+        // Si está en el suelo pero no lo estaba en el cuadro anterior, activa las partículas.
+        if (!wasOnGround)
+        {
+            Debug.Log("One Call OnGround");
             _model.PlayParticle(ParticleType.Land);
             _data.canDoubleJump = true;
-            return true;
         }
-        _model.StopParticle(ParticleType.Land);
-        _data.lastOnGroundCheck = false;
-        return false;
-    }
+
+        // Marca que ahora está en el suelo.
+        wasOnGround = true;
+
+        return true;
+        }
 
     void IsFalling()
     {
@@ -448,6 +460,7 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
     }
     void Die()
     {
+        _model.PlayParticle(ParticleType.Die);
         SoundManager.instance.Play(SoundsTypes.Death, gameObject);
         _data.canMove = false;
         _data.canJump = false;
@@ -457,6 +470,7 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
 
     void Revive()
     {
+        _model.PlayParticle(ParticleType.Revive);
         SoundManager.instance.Play(SoundsTypes.Death, gameObject);
         StartCoroutine(Appear());
     }

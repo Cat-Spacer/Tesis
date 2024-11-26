@@ -9,7 +9,9 @@ public enum ParticleType
     Jump,
     Run,
     Hit,
-    Special
+    Special,
+    Die,
+    Revive
 }
 public class CharacterModel : MonoBehaviour
 {
@@ -24,6 +26,8 @@ public class CharacterModel : MonoBehaviour
     [SerializeField] private ParticleSystem _runParticle;
     [SerializeField] private ParticleSystem _hitParticle;
     [SerializeField] private ParticleSystem _specialParticle;
+    [SerializeField] private ParticleSystem _dieParticle;
+    [SerializeField] private ParticleSystem _reviveParticle;
     [Header("Imgs")]
     public GameObject stunIcon;
 
@@ -32,7 +36,7 @@ public class CharacterModel : MonoBehaviour
         switch (type)
         {
             case ParticleType.Land:
-                if(!_landParticle.isPlaying) _landParticle.Play();
+                _landParticle.Play();
                 break;
             case ParticleType.Jump:
                 _jumpParticle.Play();
@@ -45,6 +49,12 @@ public class CharacterModel : MonoBehaviour
                 break;
             case ParticleType.Special:
                 if(!_specialParticle.isPlaying) _specialParticle.Play();
+                break;
+            case ParticleType.Die:
+                if(!_dieParticle.isPlaying) _dieParticle.Play();
+                break;
+            case ParticleType.Revive:
+                if(!_reviveParticle.isPlaying) _reviveParticle.Play();
                 break;
         }
     }
@@ -67,6 +77,12 @@ public class CharacterModel : MonoBehaviour
             case ParticleType.Special:
                 _specialParticle.Stop();
                 break;
+            case ParticleType.Die:
+                if(!_dieParticle.isPlaying) _dieParticle.Stop();
+                break;
+            case ParticleType.Revive:
+                if(!_reviveParticle.isPlaying) _reviveParticle.Stop();
+                break;
         }
     }
     public void StopAllParticles()
@@ -85,6 +101,8 @@ public class CharacterModel : MonoBehaviour
         _particles.Add(_runParticle);
         _particles.Add(_hitParticle);
         _particles.Add(_specialParticle);
+        _particles.Add(_dieParticle);
+        _particles.Add(_reviveParticle);
     }
 
     public void ChangeAnimationState(string newState)

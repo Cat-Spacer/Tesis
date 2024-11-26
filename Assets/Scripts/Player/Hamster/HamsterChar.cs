@@ -178,7 +178,7 @@ public class HamsterChar : PlayerCharacter
 
     IEnumerator ShrinkCooldown()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.5f);
         canShrink = true;
     }
     private void OnDrawGizmos()
