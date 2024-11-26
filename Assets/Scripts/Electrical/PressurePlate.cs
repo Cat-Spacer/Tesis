@@ -14,6 +14,9 @@ public class PressurePlate : MonoBehaviour
     private string desactivateAnimation;
     [SerializeField] private bool inverse;
     
+    private Transform _target;
+    [SerializeField] private GameObject arrow;
+    
     void Start()
     {
         _anim = GetComponent<Animator>();
@@ -22,7 +25,25 @@ public class PressurePlate : MonoBehaviour
             var obj = connection.GetComponent<IActivate>();
             if(obj != null) _connection.Add(obj);
         }
+        if (type == CharacterType.Cat) _target = GameManager.Instance.GetCat();
+        else _target = GameManager.Instance.GetHamster();
     }
+
+    private void Update()
+    {
+        if (_target == null) return;
+        var dir = _target.position - transform.position;
+        if (dir.magnitude < 2)
+        {
+            arrow.SetActive(false);
+        }
+        else
+        {
+            arrow.SetActive(true);
+            arrow.transform.up = _target.position - transform.position;
+        }
+    }
+
     void Activate()
     {
         _anim.Play("Activate");

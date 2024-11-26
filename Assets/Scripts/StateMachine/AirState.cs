@@ -6,12 +6,12 @@ public class AirState : State
 {
     public override void Enter()
     {
-
+        model.ChangeAnimationState("Jump");
     }
 
     public override void Do()
     {
-        if (data.onGround || data.isStun)
+        if (data.onGround || data.isStun || data.isPunching)
         {
             isComplete = true;
             return;
