@@ -23,23 +23,14 @@ public class CharacterSelectionMenuCoop : MonoBehaviour
     {
         if (Instance == null) Instance = this;
     }
-    
     private void Start()
     {
         _catTextPos.transform.position = _p1SelectedPlayer.transform.position;
         _hamsterTextPos.transform.position = _p2SelectedPlayer.transform.position;
     }
-
-    private void Update()
-    {
-        if (inputState && Input.GetKeyDown(KeyCode.Space))
-        {
-            SwitchCharacter();
-        }
-    }
-
     public void SwitchCharacter()
     {
+        SoundManager.instance.Play(SoundsTypes.Button);
         if (player1 == CharacterType.Cat)
         {
             player1 = CharacterType.Hamster;
@@ -55,9 +46,9 @@ public class CharacterSelectionMenuCoop : MonoBehaviour
             _p2SelectedPlayer.transform.position = _hamsterTextPos.transform.position;
         }
     }
-
     public void SelectCharacters()
     {
+        SoundManager.instance.Play(SoundsTypes.Button);
         if (player1 == CharacterType.Cat)
         {
             GameManager.Instance.StartGame(player1Inputs, player2Inputs);
@@ -65,10 +56,11 @@ public class CharacterSelectionMenuCoop : MonoBehaviour
         else GameManager.Instance.StartGame(player2Inputs, player1Inputs);
         gameObject.SetActive(false);
     }
-
     public void ReturnToMenu()
     {
+        SoundManager.instance.Play(SoundsTypes.Button);
         Time.timeScale = 1;
+        SoundManager.instance.Play(SoundsTypes.Button);
         SceneManager.LoadScene(0, LoadSceneMode.Single);
     }
     private void OnEnable()

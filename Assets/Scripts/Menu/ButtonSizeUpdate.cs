@@ -16,7 +16,8 @@ public class ButtonSizeUpdate : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        _button.transform.localScale = _button.transform.localScale * _amount;
+        _button.transform.localScale *= _amount;
+        if (SoundManager.instance != null) SoundManager.instance.Play(SoundsTypes.ButtonHover);
     }
     public void OnPointerExit(PointerEventData eventData)
     {

@@ -52,6 +52,7 @@ public class ExitDoor : MonoBehaviour, IInteract
     {
         SoundManager.instance.Play(SoundsTypes.Block, gameObject);
         anim.Play("Close_Open_Door");
+        lvlObjective.PlayerEnter(type);
         _player.EnterDoor();
         if(type == CharacterType.Cat) DoorAction += LerpCatToDoorPos;
         else DoorAction += LerpHamsterToDoorPos;
@@ -81,7 +82,6 @@ public class ExitDoor : MonoBehaviour, IInteract
     void PlayerCanEnter()
     {
         if (!doorIsOpen) return;
-        lvlObjective.PlayerEnter(type);
         _player.EnterDoorAnimation();
         state = true;
         StartCoroutine(WaitToClose());

@@ -29,6 +29,7 @@ public class LiveCamera : MonoBehaviour
     [SerializeField] private Slider[] sliders;
     [SerializeField] private GameObject onLiveMenu;
     [SerializeField] private GameObject offLiveMenu;
+    [SerializeField] private GameObject menu;
     private void Awake()
     {
         if (instance == null) 
@@ -37,8 +38,26 @@ public class LiveCamera : MonoBehaviour
 
     private void Start()
     {
+        EventManager.Instance.Subscribe(EventType.OnResumeGame, OnResumeGame);
+        EventManager.Instance.Subscribe(EventType.OnPauseGame, OnPauseGame);
+        EventManager.Instance.Subscribe(EventType.OnFinishGame, OnFinishGame);
         current = _hackCount - 1;
     }
+
+    private void OnFinishGame(object[] obj)
+    {
+        menu.SetActive(false);
+    }
+
+    private void OnResumeGame(object[] obj)
+    {
+        menu.SetActive(true);
+    }
+    private void OnPauseGame(object[] obj)
+    {
+        menu.SetActive(false);
+    }
+
 
     private void ChangeCameraType(object[] obj)
     {

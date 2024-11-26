@@ -7,6 +7,7 @@ public class PauseMenu : MenuButtons
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            if (onFinishGame) return;
             if (!_onPause) Pause();
             else Resume();
         }

@@ -82,12 +82,10 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
         {
             if (_data.isInteracting)
             {
-                Debug.Log("Interact State");
                 state = interactState;
             }
             else if (_data.onJumpImpulse)
             {
-                Debug.Log("Special State");
                 state = specialState;
             }
             if (_data.canMove && (input.left_Input || input.right_Input) && !_data.isPunching && !_data.isInteracting && !_data.onJumpImpulse && _data.onGround)
@@ -503,6 +501,7 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
         yield return new WaitForSecondsRealtime(1);
         _data.canMove = true;
         doorInteracting = true;
+        if(charType == CharacterType.Cat) EventManager.Instance.Trigger(EventType.StartTimer);
     }
     public CharacterType GetCharType() { return charType; }
 

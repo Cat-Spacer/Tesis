@@ -13,7 +13,12 @@ public enum EventType
     GetTVShader,
     OnStartGame,
     OffLive,
-    OnLive
+    OnLive,
+    OnPauseGame,
+    OnResumeGame,
+    StartTimer,
+    StopTimer,
+    OnFinishGame
 }
 public class EventManager : MonoBehaviour
 {

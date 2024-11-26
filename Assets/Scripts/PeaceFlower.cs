@@ -40,6 +40,7 @@ public class PeaceFlower : Item, IInteract
     public override void Drop(Vector2 dir, float dropForce)
     {
         base.Drop(dir, dropForce);
+        transform.localScale = Vector3.one;
         DetectAction = DetectSurroundings;
     }
 
