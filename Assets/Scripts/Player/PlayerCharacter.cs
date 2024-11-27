@@ -151,7 +151,6 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
 
     public void JumpUp(bool jump)
     {
-        Debug.Log("Try Jump");
         if (!jump || _data.isStun || _data.isJumping || !_data.canJump) return;
         if (OnGround())
         {
@@ -377,7 +376,6 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
         // Si está en el suelo pero no lo estaba en el cuadro anterior, activa las partículas.
         if (!wasOnGround)
         {
-            Debug.Log("One Call OnGround");
             _model.PlayParticle(ParticleType.Land);
             _data.canDoubleJump = true;
         }
@@ -463,12 +461,13 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
         _data.canMove = false;
         _data.canJump = false;
         StartCoroutine(Vanish());
-        EventManager.Instance.Trigger(EventType.OnUpdateEgoPoints, charType, -5);
+        EventManager.Instance.Trigger(EventType.OnUpdateEgoPoints, charType, -1);
     }
 
     void Revive()
     {
         _model.PlayParticle(ParticleType.Revive);
+        state = idleState;
         SoundManager.instance.Play(SoundsTypes.Death, gameObject);
         StartCoroutine(Appear());
     }

@@ -25,6 +25,7 @@ public class LevelTimer : MonoBehaviour
         if(LiveCamera.instance != null) LiveCamera.instance.SetLevelTime(levelTimer, this);
         text.text = levelTimer.ToString();
         currentTime = levelTimer;
+        menu.SetActive(true);
     }
 
     private void OnFinishGame(object[] obj)
@@ -40,6 +41,7 @@ public class LevelTimer : MonoBehaviour
     private void OnStartTimer(object[] obj)
     {
         _stopTimer = false;
+        menu.SetActive(true);
     }
     private void OnResumeGame(object[] obj)
     {
@@ -53,13 +55,11 @@ public class LevelTimer : MonoBehaviour
     private void OnOnLive(object[] obj)
     {
         _onLive = true;
-        menu.SetActive(true);
     }
 
     private void OnOffLive(object[] obj)
     {
         _onLive = false;
-        menu.SetActive(false);
     }
     void Update()
     {

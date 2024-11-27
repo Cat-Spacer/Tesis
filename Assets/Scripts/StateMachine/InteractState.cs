@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class InteractState : State
 {
+    Coroutine coroutine;
     public override void Enter()
     {
-
         model.ChangeAnimationState("Interact");
         SoundManager.instance.Play(SoundsTypes.Interact, gameObject);
-        StartCoroutine(Delay());
+        coroutine = StartCoroutine(Delay());
     }
     IEnumerator Delay()
     {

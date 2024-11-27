@@ -18,7 +18,9 @@ public enum EventType
     OnResumeGame,
     StartTimer,
     StopTimer,
-    OnFinishGame
+    OnFinishGame,
+    OnSplitCamera,
+    OnGroupCamera
 }
 public class EventManager : MonoBehaviour
 {

@@ -8,10 +8,17 @@ public class MenuButtons : MonoBehaviour
     [SerializeField] protected GameObject _menu;
     protected bool _onPause;
     protected bool onFinishGame;
+    protected bool onStartGame;
     void Start()
     {
         _menu.SetActive(false);
         EventManager.Instance.Subscribe(EventType.OnFinishGame, OnFinishGame);
+        EventManager.Instance.Subscribe(EventType.OnStartGame, OnStartGame);
+    }
+
+    private void OnStartGame(object[] obj)
+    {
+        onStartGame = true;
     }
 
     private void OnFinishGame(object[] obj)

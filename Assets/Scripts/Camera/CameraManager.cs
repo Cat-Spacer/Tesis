@@ -56,7 +56,8 @@ public class CameraManager : MonoBehaviour
                 virtualCamera.gameObject.SetActive(true);
             }
             groupCamera.gameObject.SetActive(false);
-
+            Debug.Log("SplitCamera");
+            EventManager.Instance.Trigger(EventType.OnSplitCamera);
         }
         else if(distance.magnitude < cameraGroupLimit && isGrouped) //NotGrouped
         {
@@ -67,6 +68,8 @@ public class CameraManager : MonoBehaviour
                 virtualCamera.transform.position = virtualGroupCamera.transform.position;
                 virtualCamera.gameObject.SetActive(false);
             }
+            Debug.Log("GroupCamera");
+            EventManager.Instance.Trigger(EventType.OnGroupCamera);
         }
     }
     float Normalize(float value, float min, float max)

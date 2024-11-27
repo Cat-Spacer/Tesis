@@ -64,6 +64,7 @@ public class HamsterChar : PlayerCharacter
             canvas.HideArrows();
             //_inputs.ChangeToTubesInputs(false);
             _TubesMovementAction = delegate { };
+            _rb.velocity = Vector2.zero;
         }
     }
     void EnterTube()
@@ -115,7 +116,6 @@ public class HamsterChar : PlayerCharacter
             canvas.CheckTubeDirections(_currentTube);
             //_currentTube.GetPossiblePaths(this);
             _TubesMovementAction = delegate { };
-            Debug.Log("StopMovingInTubes");
             SoundManager.instance.Pause(SoundsTypes.HamsterOnTubes, gameObject);
         }
         else

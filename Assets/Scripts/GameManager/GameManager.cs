@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float checkInterval;
     private Vector3 lastMousePosition;
     private bool isMouseVisible = true;
+    private bool onStopCursor;
     private void Awake()
     {
         Time.timeScale = 0;
@@ -37,6 +38,30 @@ public class GameManager : MonoBehaviour
     {
         GetLevels();
         StartCoroutine(CheckMouseMovement());
+        EventManager.Instance.Subscribe(EventType.OnLoseGame, OnLoseGame);
+        EventManager.Instance.Subscribe(EventType.OnFinishGame, OnFinishGame);
+        EventManager.Instance.Subscribe(EventType.OnResumeGame, OnResumeGame);
+        EventManager.Instance.Subscribe(EventType.OnPauseGame, OnPauseGame);
+    }
+    private void OnPauseGame(object[] obj)
+    {
+        Cursor.visible = true;
+        onStopCursor = true;
+    }
+    private void OnResumeGame(object[] obj)
+    {
+        onStopCursor = false;
+        StartCoroutine(CheckMouseMovement());
+    }
+    private void OnFinishGame(object[] obj)
+    {
+        Cursor.visible = true;
+        onStopCursor = true;
+    }
+    private void OnLoseGame(object[] obj)
+    {
+        Cursor.visible = true;
+        onStopCursor = true;
     }
 
     private void Update()
@@ -53,7 +78,7 @@ public class GameManager : MonoBehaviour
     IEnumerator CheckMouseMovement()
     {
         float idleTimer = 0f;
-        while (true)
+        while (!onStopCursor)
         {
             if (Input.mousePosition != lastMousePosition)
             {
@@ -127,7 +152,7 @@ public class GameManager : MonoBehaviour
         if(LiveCamera.instance != null) LiveCamera.instance.StartLiveCamera(true);
         EventManager.Instance.Trigger(EventType.OnStartGame, true);
         Time.timeScale = 1f;
-        SoundManager.instance.Play(SoundsTypes.Music);
+        SoundManager.instance.Play(SoundsTypes.Music, gameObject,true);
     }
     public void SetCatRespawnPoint(Vector3 pos)
     {
