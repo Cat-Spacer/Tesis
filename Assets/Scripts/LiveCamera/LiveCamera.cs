@@ -110,7 +110,6 @@ public class LiveCamera : MonoBehaviour
         if (current >= 0)
         {
             current--;
-            Debug.Log("OnAir Entre");
             GoOffAir();
         }
     }

@@ -6,7 +6,6 @@ public class ElevateState : State
 {
     public override void Enter()
     {
-        Debug.Log("Elevate");
         model.ChangeAnimationState("Elevate");
         StartCoroutine(Delay());
     }

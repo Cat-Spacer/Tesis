@@ -11,7 +11,7 @@ public class AirState : State
 
     public override void Do()
     {
-        if (data.onGround || data.isStun || data.isPunching)
+        if (data.onGround || data.isStun || data.isPunching || data.isInteracting)
         {
             isComplete = true;
             return;

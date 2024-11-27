@@ -30,7 +30,6 @@ public class Item : MonoBehaviour
     }
     public virtual void Drop(Vector2 dir, float dropForce)
     {
-        Debug.Log("Drop");
         transform.parent = null;
         HasPhysics(true);
         _rb.AddForce(dir * dropForce);
