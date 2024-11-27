@@ -97,7 +97,7 @@ public class SoundManager : MonoBehaviour
         _searchRequest = new(SearchSoundSpawn);
         _objectFactory = new ObjectFactory(_prefab, transform);
         _pool = new ObjectPool<ObjectToSpawn>(_objectFactory.GetObj, ObjectToSpawn.TurnOnOff, 0);
-    }   
+    }
 
     public void Play(SoundsTypes nameType, GameObject request = default, bool loop = false)
     {
@@ -113,7 +113,7 @@ public class SoundManager : MonoBehaviour
         s.source.Play();
     }
 
-    public void Play(string name, bool loop = true, GameObject request = default)
+    public void Play(string name, GameObject request = default, bool loop = true)
     {
         Sound s = SearchForRandomSound(_usedSoundsByName.ReturnValue(name).nameType);
         if (s == null)
@@ -129,12 +129,7 @@ public class SoundManager : MonoBehaviour
 
     public void Pause(SoundsTypes name, GameObject request = default)
     {
-        Sound s = null;
-        if (request) 
-        {
-
-        }else
-        s = _usedSounds.ReturnValue(name);
+        Sound s = _usedSounds.ReturnValue(name);
         if (s == null)
         {
             Debug.LogWarning($"<color=yellow>Sound: {name} not found!</color>");
@@ -175,6 +170,7 @@ public class SoundManager : MonoBehaviour
         s.source.loop = false;
         s.source.Play();
     }
+
     private Sound SoundSet(Sound s, GameObject request = default)
     {
         if (s == null) return null;
@@ -184,7 +180,7 @@ public class SoundManager : MonoBehaviour
         if (request && request != gameObject) soundObject = _searchRequest.ReturnValue(request);
         if (soundObject)
         {
-            if (!_found)                soundObject.SetFather(request);
+            if (!_found) soundObject.SetFather(request);
 
             if (request.GetComponentInChildren<AudioSource>()) if (FoundEqualSound(s.clip, request)) return s;
 
@@ -245,8 +241,8 @@ public class SoundManager : MonoBehaviour
     {
         AudioSource[] audioSources = target.GetComponentsInChildren<AudioSource>();
         AudioClip[] audioClips = new AudioClip[audioSources.Length];
-        for (int i = 0; i < audioSources.Length; audioClips[i] = audioSources[i].clip ,i++)            
-        if (audioSources.Length <= 0) return false;
+        for (int i = 0; i < audioSources.Length; audioClips[i] = audioSources[i].clip, i++)
+            if (audioSources.Length <= 0) return false;
         return Array.Find(audioClips, audioClip => audioClip == clip);
     }
 

@@ -1,3 +1,4 @@
+using Cinemachine;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -8,16 +9,19 @@ public class ZoomManager : MonoBehaviour
     [SerializeField] private Button _interact = default;
     [SerializeField] private Button[] _buttons = default;
     [SerializeField] private GameObject _zoomed = default;
-    [SerializeField] private float _zoomMultiplayer = 1f, _smothTime = 0.25f, _zoomTimer = 2.5f, _minZoom = 2f, _maxZoom = 5f, _zoomSpeed = 1f;
+    [SerializeField] private float _zoomMultiplayer = 1f, _smothTime = 0.25f, _minZoom = 2f, _maxZoom = 5f, _zoomSpeed = 1f;
     private float _zoom = default, _smothSpeed = default;
     private Camera _mainCamera = default;
+    [SerializeField] private CinemachineVirtualCamera _virtualCamera = null;
     private Vector3 _initialPos = default;
     private ButtonSizeUpdate _sizeUpdate;
     private void Awake()
     {
-        _mainCamera = Camera.main;
+        if(!_mainCamera) _mainCamera = Camera.main;
+        if(!_virtualCamera) _virtualCamera = FindAnyObjectByType<CinemachineVirtualCamera>();
         _zoom = _mainCamera.orthographicSize;
         if (_mainCamera.orthographic) _maxZoom = _mainCamera.orthographicSize;
+
         foreach (var button in _buttons)
         {
             button.interactable = false;
@@ -75,6 +79,7 @@ public class ZoomManager : MonoBehaviour
             if (MathF.Abs(MathF.Round(_mainCamera.orthographicSize, 2) - _minZoom) < 0.02) _mainCamera.orthographicSize = _minZoom;
             if (MathF.Abs(MathF.Round(_mainCamera.orthographicSize, 2) - _maxZoom) < 0.02) _mainCamera.orthographicSize = _maxZoom;
 
+            //_virtualCamera.m_Lens.OrthographicSize = _mainCamera.orthographicSize;
             _mainCamera.orthographicSize = Mathf.SmoothDamp(_mainCamera.orthographicSize, _zoom, ref _smothSpeed, _smothTime);
             yield return new WaitForEndOfFrame();
             Debug.Log($"{Vector3.Distance(_mainCamera.transform.position, target)} dist to target");
