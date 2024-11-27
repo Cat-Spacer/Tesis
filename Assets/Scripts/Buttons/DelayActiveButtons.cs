@@ -25,7 +25,7 @@ public class DelayActiveButtons : MonoBehaviour
     }
 
     /// <summary>
-    /// Start DelayActivation Corrutine by scene number
+    /// Start DelayActivation Coroutine by scene number
     /// </summary>
     public void BTN_Start(int scene = -1)
     {
@@ -36,7 +36,7 @@ public class DelayActiveButtons : MonoBehaviour
     }
 
     /// <summary>
-    /// Start DelayActivation Corrutine by screen name
+    /// Start DelayActivation Coroutine by screen name
     /// </summary>
     public void BTN_Start(string screen = " ")
     {
@@ -47,7 +47,7 @@ public class DelayActiveButtons : MonoBehaviour
     }
 
     /// <summary>
-    /// Start DelayActivation Corrutine by default
+    /// Start DelayActivation Coroutine by default
     /// </summary>
     public void BTN_Start()
     {
@@ -58,7 +58,7 @@ public class DelayActiveButtons : MonoBehaviour
     }
 
     /// <summary>
-    /// Start DelayActivation Corrutine by default
+    /// Start DelayActivation Coroutine by default
     /// </summary>
     public void BTN_Back()
     {
