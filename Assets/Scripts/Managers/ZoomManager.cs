@@ -12,6 +12,7 @@ public class ZoomManager : MonoBehaviour
     private float _zoom = default, _smothSpeed = default;
     private Camera _mainCamera = default;
     private Vector3 _initialPos = default;
+    private ButtonSizeUpdate _sizeUpdate;
     private void Awake()
     {
         _mainCamera = Camera.main;
@@ -23,6 +24,8 @@ public class ZoomManager : MonoBehaviour
             if (button.GetComponent<ButtonSizeUpdate>()) button.GetComponent<ButtonSizeUpdate>().enabled = false;
         }
         _initialPos = _mainCamera.transform.position;
+        if (_interact) if (_interact.GetComponent<ButtonSizeUpdate>()) _sizeUpdate = _interact.GetComponent<ButtonSizeUpdate>();
+
     }
 
     public void ClickForZoom(float newZoomSpeed = 0)
@@ -40,7 +43,6 @@ public class ZoomManager : MonoBehaviour
         if (newZoomSpeed > 0) _smothSpeed = newZoomSpeed;
 
         StartCoroutine(SmothZoom(-_zoomMultiplayer, false, _initialPos));
-        _interact.enabled = true;
     }
 
     private IEnumerator SmothZoom(float zoomTo, bool interactable, Vector3 target)
@@ -49,11 +51,14 @@ public class ZoomManager : MonoBehaviour
         //Debug.Log($"target pos {target}");
 
         if (target == _initialPos)
+        {
             foreach (Button button in _buttons)
             {
                 button.interactable = interactable;
                 if (button.GetComponent<ButtonSizeUpdate>()) button.GetComponent<ButtonSizeUpdate>().enabled = interactable;
             }
+            //_sizeUpdate.enabled = !interactable;
+        }
 
         while (_mainCamera.transform.position != target || (_mainCamera.orthographicSize > _minZoom && _mainCamera.orthographicSize < _maxZoom))
         {
@@ -68,18 +73,24 @@ public class ZoomManager : MonoBehaviour
             _zoom = Mathf.Clamp(_zoom, _minZoom, _maxZoom);
 
             if (MathF.Abs(MathF.Round(_mainCamera.orthographicSize, 2) - _minZoom) < 0.02) _mainCamera.orthographicSize = _minZoom;
-            else if (MathF.Abs(MathF.Round(_mainCamera.orthographicSize, 2) - _maxZoom) < 0.02) _mainCamera.orthographicSize = _maxZoom;
+            if (MathF.Abs(MathF.Round(_mainCamera.orthographicSize, 2) - _maxZoom) < 0.02) _mainCamera.orthographicSize = _maxZoom;
 
             _mainCamera.orthographicSize = Mathf.SmoothDamp(_mainCamera.orthographicSize, _zoom, ref _smothSpeed, _smothTime);
             yield return new WaitForEndOfFrame();
             Debug.Log($"{Vector3.Distance(_mainCamera.transform.position, target)} dist to target");
         }
 
+        Debug.Log($"Target: {target}");
         if (target != _initialPos)
+        {
             foreach (Button button in _buttons)
             {
                 button.interactable = interactable;
                 if (button.GetComponent<ButtonSizeUpdate>()) button.GetComponent<ButtonSizeUpdate>().enabled = interactable;
             }
+
+            _interact.enabled = interactable;
+        }
+            _sizeUpdate.enabled = !interactable;
     }
 }
