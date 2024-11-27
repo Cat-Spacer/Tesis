@@ -107,7 +107,6 @@ public class SoundManager : MonoBehaviour
             Debug.LogWarning($"<color=yellow>Sound: {nameType} not found!</color>");
             return;
         }
-        if (request) Debug.Log($"<color=green>requester: {request.name}</color>");
 
         s = SoundSet(s, request);
         s.source.loop = loop;
@@ -179,29 +178,21 @@ public class SoundManager : MonoBehaviour
     private Sound SoundSet(Sound s, GameObject request = default)
     {
         if (s == null) return null;
-        Debug.Log($"SoundSet Enter");
         if (ManagerAudioSourceConfig(s)) return s;
 
         SoundSpawn soundObject = null;
         if (request && request != gameObject) soundObject = _searchRequest.ReturnValue(request);
         if (soundObject)
         {
-            if (!_found)
-            {
-                Debug.Log($"SoundSet coincidence found");
-                soundObject.SetFather(request);
-            }
+            if (!_found)                soundObject.SetFather(request);
 
-            Debug.Log($"SoundSet soundObject config");
             if (request.GetComponentInChildren<AudioSource>()) if (FoundEqualSound(s.clip, request)) return s;
 
-            Debug.Log($"<color=lightblue>No equal song on Set</color>");
             s.source = soundObject.gameObject.AddComponent<AudioSource>();
             if (!FoundEqualSound(s.source.clip, request)) soundObject.sounds.Add(s);
         }
         else s.source = gameObject.AddComponent<AudioSource>();
 
-        Debug.Log($"SoundSet Set No Config");
         s.source.clip = s.clip;
         s.source.outputAudioMixerGroup = s.audioMixerGroup;
         s.source.volume = s.volume;
@@ -247,7 +238,6 @@ public class SoundManager : MonoBehaviour
         SoundSpawn spawn = default;
         if (_pool.GetStock.Count > 0) spawn = Array.Find(_pool.GetStock.ToArray(), stock => stock.GetComponent<SoundSpawn>().Father == requester).GetComponent<SoundSpawn>();
         _found = spawn ? true : false;
-        Debug.Log($"Spawned requester: {requester.name} father: {_found}");
         return spawn ? spawn : _pool.GetObject().GetComponent<SoundSpawn>();
     }
 
@@ -256,9 +246,7 @@ public class SoundManager : MonoBehaviour
         AudioSource[] audioSources = target.GetComponentsInChildren<AudioSource>();
         AudioClip[] audioClips = new AudioClip[audioSources.Length];
         for (int i = 0; i < audioSources.Length; audioClips[i] = audioSources[i].clip ,i++)            
-        Debug.Log($"<color=grey>Target: {target.name} AudioSources: {audioSources.Length}</color>");
         if (audioSources.Length <= 0) return false;
-        if(Array.Find(audioClips, audioClip => audioClip == clip)) Debug.Log($"<color=green>match? {Array.Find(audioClips, audioClip => audioClip == clip).name}</color>");
         return Array.Find(audioClips, audioClip => audioClip == clip);
     }
 

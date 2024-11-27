@@ -4,13 +4,20 @@ using UnityEngine.UI;
 
 public class LevelNameBtn : MonoBehaviour
 {
-    [SerializeField] private LevelMenu lvlMenu;
-    private Button _btn;
-    [SerializeField] private TextMeshProUGUI _text;
-    [SerializeField] private bool _useAutomatic;   
+    [SerializeField] private LevelMenu lvlMenu = default;
+    private Button _btn = default;
+    [SerializeField] private TextMeshProUGUI _text = default;
+    [SerializeField] private GameObject _selectedBorder = default;
+    [SerializeField] private bool _useAutomatic = default;
+    private bool _selected = default;
+
+    public bool selected { get { return _selected; } }
+
+
     private void Awake()
     {
         if (!_useAutomatic) return;
+        if (_selectedBorder) if (_selectedBorder.activeInHierarchy) SetSelected(false);
         //if (_text)
         //{
         //    _text = GetComponentInChildren<TextMeshProUGUI>();
@@ -27,5 +34,12 @@ public class LevelNameBtn : MonoBehaviour
     void SelectLevel()
     {
         lvlMenu.SelectLevel(_btn.gameObject.name);
+        lvlMenu.StaySelected(this);
+    }
+
+    public void SetSelected(bool selected)
+    {
+        _selected = selected;
+        if (_selectedBorder) _selectedBorder.SetActive(selected);
     }
 }
