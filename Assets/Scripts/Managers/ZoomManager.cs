@@ -12,13 +12,11 @@ public class ZoomManager : MonoBehaviour
     [SerializeField] private float _zoomMultiplayer = 1f, _smothTime = 0.25f, _minZoom = 2f, _maxZoom = 5f, _zoomSpeed = 1f;
     private float _zoom = default, _smothSpeed = default;
     private Camera _mainCamera = default;
-    [SerializeField] private CinemachineVirtualCamera _virtualCamera = null;
-    private Vector3 _initialPos = default;
+    private Vector3 _initialPos = default, _zoomedPos = default;
     private ButtonSizeUpdate _sizeUpdate;
     private void Awake()
     {
-        if(!_mainCamera) _mainCamera = Camera.main;
-        if(!_virtualCamera) _virtualCamera = FindAnyObjectByType<CinemachineVirtualCamera>();
+        if (!_mainCamera) _mainCamera = Camera.main;
         _zoom = _mainCamera.orthographicSize;
         if (_mainCamera.orthographic) _maxZoom = _mainCamera.orthographicSize;
 
@@ -28,6 +26,7 @@ public class ZoomManager : MonoBehaviour
             if (button.GetComponent<ButtonSizeUpdate>()) button.GetComponent<ButtonSizeUpdate>().enabled = false;
         }
         _initialPos = _mainCamera.transform.position;
+        _zoomedPos = new Vector3(_zoomed.transform.position.x, _zoomed.transform.position.y, _mainCamera.transform.position.z);
         if (_interact) if (_interact.GetComponent<ButtonSizeUpdate>()) _sizeUpdate = _interact.GetComponent<ButtonSizeUpdate>();
 
     }
@@ -36,9 +35,8 @@ public class ZoomManager : MonoBehaviour
     {
         if (!_zoomed || !_interact || _buttons.Length < 1) return;
         if (newZoomSpeed > 0) _smothSpeed = newZoomSpeed;
-        _interact.enabled = false;
 
-        StartCoroutine(SmothZoom(_zoomMultiplayer, true, new Vector3(_zoomed.transform.position.x, _zoomed.transform.position.y, _mainCamera.transform.position.z)));
+        StartCoroutine(SmothZoom(_zoomMultiplayer, true, _zoomedPos));
     }
 
     public void ClickForBack(float newZoomSpeed = 0)
@@ -53,16 +51,13 @@ public class ZoomManager : MonoBehaviour
     {
         Vector3 dir = target - _mainCamera.transform.position;
         //Debug.Log($"target pos {target}");
-
-        if (target == _initialPos)
+        foreach (Button button in _buttons)
         {
-            foreach (Button button in _buttons)
-            {
-                button.interactable = interactable;
-                if (button.GetComponent<ButtonSizeUpdate>()) button.GetComponent<ButtonSizeUpdate>().enabled = interactable;
-            }
-            //_sizeUpdate.enabled = !interactable;
+            button.interactable = false;
+            if (button.GetComponent<ButtonSizeUpdate>()) button.GetComponent<ButtonSizeUpdate>().enabled = false;
         }
+        _interact.enabled = false;
+        _sizeUpdate.enabled = false;
 
         while (_mainCamera.transform.position != target || (_mainCamera.orthographicSize > _minZoom && _mainCamera.orthographicSize < _maxZoom))
         {
@@ -79,7 +74,6 @@ public class ZoomManager : MonoBehaviour
             if (MathF.Abs(MathF.Round(_mainCamera.orthographicSize, 2) - _minZoom) < 0.02) _mainCamera.orthographicSize = _minZoom;
             if (MathF.Abs(MathF.Round(_mainCamera.orthographicSize, 2) - _maxZoom) < 0.02) _mainCamera.orthographicSize = _maxZoom;
 
-            //_virtualCamera.m_Lens.OrthographicSize = _mainCamera.orthographicSize;
             _mainCamera.orthographicSize = Mathf.SmoothDamp(_mainCamera.orthographicSize, _zoom, ref _smothSpeed, _smothTime);
             yield return new WaitForEndOfFrame();
             Debug.Log($"{Vector3.Distance(_mainCamera.transform.position, target)} dist to target");
@@ -96,6 +90,6 @@ public class ZoomManager : MonoBehaviour
 
             _interact.enabled = interactable;
         }
-            _sizeUpdate.enabled = !interactable;
+        _sizeUpdate.enabled = !interactable;
     }
 }
