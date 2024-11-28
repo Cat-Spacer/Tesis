@@ -8,6 +8,8 @@ public class LevelNameBtn : MonoBehaviour
     private Button _btn = default;
     [SerializeField] private TextMeshProUGUI _text = default;
     [SerializeField] private GameObject _selectedBorder = default;
+    [SerializeField] private ButtonSizeUpdate _buttonSizeUpdate;
+    // [SerializeField] private Animator _animator = default;
     [SerializeField] private bool _useAutomatic = default;
     private bool _selected = default;
 
@@ -41,5 +43,8 @@ public class LevelNameBtn : MonoBehaviour
     {
         _selected = selected;
         if (_selectedBorder) _selectedBorder.SetActive(selected);
+        if (_buttonSizeUpdate && selected) _buttonSizeUpdate.CallSizeUpdate();
+        else if (_buttonSizeUpdate && !selected) _buttonSizeUpdate.UncallSizeUpdate();
     }
+
 }
