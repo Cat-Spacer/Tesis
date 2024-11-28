@@ -32,6 +32,7 @@ public class TutorialBot : MonoBehaviour
 
     public void P1ChangeAnimation(TutorialBoxType type)
     {
+        if (animator == null) return;
         switch (type)
         {
             case TutorialBoxType.None:
@@ -62,6 +63,7 @@ public class TutorialBot : MonoBehaviour
     }
     public void P2ChangeAnimation(TutorialBoxType type)
     {
+        if (animator == null) return;
         switch (type)
         {
             case TutorialBoxType.None:
