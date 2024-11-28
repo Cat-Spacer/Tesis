@@ -6,14 +6,15 @@ using UnityEngine.UI;
 
 public class ZoomManager : MonoBehaviour
 {
-    [SerializeField] private Button _interact = default;
+    //[SerializeField] private Button _interact = default;
     [SerializeField] private Button[] _buttons = default;
     [SerializeField] private GameObject _zoomed = default;
     [SerializeField] private float _zoomMultiplayer = 1f, _smothTime = 0.25f, _minZoom = 2f, _maxZoom = 5f, _zoomSpeed = 1f;
+    [SerializeField, Range(0.1f, 30f)] private float _delayTime = 1f;
     private float _zoom = default, _smothSpeed = default;
     private Camera _mainCamera = default;
     private Vector3 _initialPos = default, _zoomedPos = default;
-    private ButtonSizeUpdate _sizeUpdate;
+    //private ButtonSizeUpdate _sizeUpdate;
     private void Awake()
     {
         if (!_mainCamera) _mainCamera = Camera.main;
@@ -27,13 +28,13 @@ public class ZoomManager : MonoBehaviour
         }
         _initialPos = _mainCamera.transform.position;
         _zoomedPos = new Vector3(_zoomed.transform.position.x, _zoomed.transform.position.y, _mainCamera.transform.position.z);
-        if (_interact) if (_interact.GetComponent<ButtonSizeUpdate>()) _sizeUpdate = _interact.GetComponent<ButtonSizeUpdate>();
-
+        //if (_interact) if (_interact.GetComponent<ButtonSizeUpdate>()) _sizeUpdate = _interact.GetComponent<ButtonSizeUpdate>();
+        StartCoroutine(Delay(_delayTime));
     }
 
     public void ClickForZoom(float newZoomSpeed = 0)
     {
-        if (!_zoomed || !_interact || _buttons.Length < 1) return;
+        if (!_zoomed || _buttons.Length < 1) return;
         if (newZoomSpeed > 0) _smothSpeed = newZoomSpeed;
 
         StartCoroutine(SmothZoom(_zoomMultiplayer, true, _zoomedPos));
@@ -41,7 +42,7 @@ public class ZoomManager : MonoBehaviour
 
     public void ClickForBack(float newZoomSpeed = 0)
     {
-        if (!_zoomed || !_interact || _buttons.Length < 1) return;
+        if (!_zoomed || _buttons.Length < 1) return;
         if (newZoomSpeed > 0) _smothSpeed = newZoomSpeed;
 
         StartCoroutine(SmothZoom(-_zoomMultiplayer, false, _initialPos));
@@ -56,8 +57,8 @@ public class ZoomManager : MonoBehaviour
             button.interactable = false;
             if (button.GetComponent<ButtonSizeUpdate>()) button.GetComponent<ButtonSizeUpdate>().enabled = false;
         }
-        _interact.enabled = false;
-        _sizeUpdate.enabled = false;
+        //_interact.enabled = false;
+        //_sizeUpdate.enabled = false;
 
         while (_mainCamera.transform.position != target || (_mainCamera.orthographicSize > _minZoom && _mainCamera.orthographicSize < _maxZoom))
         {
@@ -88,7 +89,14 @@ public class ZoomManager : MonoBehaviour
                 if (button.GetComponent<ButtonSizeUpdate>()) button.GetComponent<ButtonSizeUpdate>().enabled = interactable;
             }
         }
-        _interact.enabled = !interactable;
-        _sizeUpdate.enabled = !interactable;
+        //_interact.enabled = !interactable;
+        //_sizeUpdate.enabled = !interactable;
+    }
+
+    private IEnumerator Delay(float whaitTime = 1f)
+    {
+        yield return new WaitForSeconds(whaitTime);
+
+        ClickForZoom();
     }
 }
