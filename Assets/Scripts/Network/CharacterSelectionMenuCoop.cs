@@ -17,6 +17,7 @@ public class CharacterSelectionMenuCoop : MonoBehaviour
     [SerializeField] private SO_Inputs player1Inputs;
     [SerializeField] private SO_Inputs player2Inputs;
     private Dictionary<CharacterType, SO_Inputs> playerInputDictionary = new Dictionary<CharacterType, SO_Inputs>();
+    [SerializeField] private GameObject menu;
 
     private bool inputState;
     private void Awake()
@@ -27,6 +28,7 @@ public class CharacterSelectionMenuCoop : MonoBehaviour
     {
         _catTextPos.transform.position = _p1SelectedPlayer.transform.position;
         _hamsterTextPos.transform.position = _p2SelectedPlayer.transform.position;
+        menu.SetActive(true);
     }
     public void SwitchCharacter()
     {

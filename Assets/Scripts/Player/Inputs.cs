@@ -6,8 +6,8 @@ using UnityEngine;
 public class Inputs : MonoBehaviour
 {
     private Action InputAction = delegate { };
-    private SO_Inputs _input;
-    
+    public SO_Inputs _input;
+
     private PlayerCharacter _character;
     private CatCharacter _catCharacter;
     private HamsterChar _hamsterCharacter;
@@ -47,6 +47,7 @@ public class Inputs : MonoBehaviour
 
     public void SetInput(SO_Inputs inputs)
     {
+        _input = inputs;
         leftKeycode = inputs.left;
         rightKeycode = inputs.right;
         upKeycode = inputs.up;

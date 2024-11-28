@@ -9,7 +9,7 @@ using UnityEngine.PlayerLoop;
 
 public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
 {
-    protected Inputs input;
+    public Inputs input { get; private set; }
     [SerializeField] protected CharacterData _data;
     protected CharacterModel _model;
     protected Rigidbody2D _rb;
