@@ -80,16 +80,15 @@ public class ZoomManager : MonoBehaviour
         }
 
         Debug.Log($"Target: {target}");
-        if (target != _initialPos)
+        if (target == _zoomedPos)
         {
             foreach (Button button in _buttons)
             {
                 button.interactable = interactable;
                 if (button.GetComponent<ButtonSizeUpdate>()) button.GetComponent<ButtonSizeUpdate>().enabled = interactable;
             }
-
-            _interact.enabled = interactable;
         }
+        _interact.enabled = !interactable;
         _sizeUpdate.enabled = !interactable;
     }
 }
