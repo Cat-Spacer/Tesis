@@ -46,6 +46,14 @@ public class ButtonSizeUpdate : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
             yield return new WaitForSeconds(0.2f);
 
+            while (onPointer)
+            {
+                if (_button.transform.localScale == _originalScale)
+                    _button.transform.localScale *= _amount;
+
+                yield return null;
+            }
+
             _button.transform.localScale = _originalScale;
 
             yield return new WaitForSeconds(0.2f);
