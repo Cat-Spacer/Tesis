@@ -20,6 +20,8 @@ public class TutorialBox : MonoBehaviour
     [SerializeField] private TutorialBot hamsterBot;
     [SerializeField] TutorialBoxType type;
     BoxCollider2D boxCollider;
+    [SerializeField] private bool sharedTutorial = true;
+    [SerializeField] CharacterType singleTutorialCharacterType;
     private void Start()
     {
         boxCollider = GetComponent<BoxCollider2D>();
@@ -39,15 +41,32 @@ public class TutorialBox : MonoBehaviour
         var inputType = player.input._input;
         if (inputType == null) return;
         var playerType = player.GetCharType();
-        if (playerType == CharacterType.Cat) //Es Gato
+
+        if (sharedTutorial)
         {
-            if (inputType.inputType == Type.WASD) catBot.P1ChangeAnimation(type); //Es P1
-            else catBot.P2ChangeAnimation(type); //Es P2
+            if (playerType == CharacterType.Cat) //Es Gato
+            {
+                if (inputType.inputType == Type.WASD) catBot.P1ChangeAnimation(type); //Es P1
+                else catBot.P2ChangeAnimation(type); //Es P2
+            }
+            else if(playerType == CharacterType.Hamster)//Es Hamster
+            {
+                if (inputType.inputType == Type.WASD) hamsterBot.P1ChangeAnimation(type); //Es P1
+                else hamsterBot.P2ChangeAnimation(type); //Es P2
+            }
         }
-        else //Es Hamster
+        else if (playerType == singleTutorialCharacterType)
         {
-            if (inputType.inputType == Type.WASD) hamsterBot.P1ChangeAnimation(type); //Es P1
-            else hamsterBot.P2ChangeAnimation(type); //Es P2
+            if (playerType == CharacterType.Cat) //Es Gato
+            {
+                if (inputType.inputType == Type.WASD) catBot.P1ChangeAnimation(type); //Es P1
+                else catBot.P2ChangeAnimation(type); //Es P2
+            }
+            else if(playerType == CharacterType.Hamster)//Es Hamster
+            {
+                if (inputType.inputType == Type.WASD) hamsterBot.P1ChangeAnimation(type); //Es P1
+                else hamsterBot.P2ChangeAnimation(type); //Es P2
+            }
         }
     }
     private void OnTriggerExit2D(Collider2D other)
@@ -55,7 +74,16 @@ public class TutorialBox : MonoBehaviour
         var player = other.GetComponent<PlayerCharacter>();
         if (player == null) return;
         var playerType = player.GetCharType();
-        if (playerType == CharacterType.Cat) catBot.P1ChangeAnimation(TutorialBoxType.None); //Es Gato
-        else hamsterBot.P1ChangeAnimation(TutorialBoxType.None); //Es Hamster
+        if (sharedTutorial)
+        {
+            if (playerType == CharacterType.Cat) catBot.P1ChangeAnimation(TutorialBoxType.None); //Es Gato
+            else if (playerType == CharacterType.Hamster) hamsterBot.P1ChangeAnimation(TutorialBoxType.None); //Es Hamster
+        }
+        else if(playerType == singleTutorialCharacterType)
+        {
+            if (playerType == CharacterType.Cat) catBot.P1ChangeAnimation(TutorialBoxType.None); //Es Gato
+            else if (playerType == CharacterType.Hamster) hamsterBot.P1ChangeAnimation(TutorialBoxType.None); //Es Hamster
+        }
+
     }
 }

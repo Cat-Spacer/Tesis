@@ -30,6 +30,8 @@ public class LiveCamera : MonoBehaviour
     [SerializeField] private GameObject onLiveMenu;
     [SerializeField] private GameObject offLiveMenu;
     [SerializeField] private GameObject menu;
+
+    [SerializeField] private bool onTutorial = false;
     private void Awake()
     {
         if (instance == null) 
@@ -42,6 +44,12 @@ public class LiveCamera : MonoBehaviour
         EventManager.Instance.Subscribe(EventType.OnPauseGame, OnPauseGame);
         EventManager.Instance.Subscribe(EventType.OnFinishGame, OnFinishGame);
         current = _hackCount - 1;
+        if (onTutorial)
+        {
+            _onAir = true;
+            ActivateCamera();
+            EventManager.Instance.Trigger(EventType.OnLive);
+        }
     }
 
     private void OnFinishGame(object[] obj)
@@ -67,11 +75,11 @@ public class LiveCamera : MonoBehaviour
     
     public void StartLiveCamera(bool status)
     {
+        if (onTutorial == false) return;
         CalculateTimeOnAir();
         ActivateCamera();
         GoOnAir();
     }
-
     void CalculateTimeOnAir()
     {
         float liveTime = _levelTime - (_hackCount * _hackTime);
@@ -171,5 +179,21 @@ public class LiveCamera : MonoBehaviour
         _levelTime = time;
         currentLiveTime = time;
         _levelTimer = _levelTimer;
+    }
+
+    public void StartTutorialHackCamera()
+    {
+        _onAir = false;
+        DesactivateAllCameras();
+        EventManager.Instance.Trigger(EventType.OffLive);
+        // _currentHackTime = 10;
+        // StartCoroutine(TimeUntilGoOnAir(_currentHackTime));
+    }
+
+    public void StopTutorialHackCamera()
+    {
+        _onAir = true;
+        ActivateCamera();
+        EventManager.Instance.Trigger(EventType.OnLive);
     }
 }

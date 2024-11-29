@@ -12,6 +12,7 @@ public class LevelTimer : MonoBehaviour
     private bool _onLive;
     private bool _onLose;
     private bool _stopTimer = true;
+    [SerializeField] private bool onTutorial = false;
     void Start()
     {
         EventManager.Instance.Subscribe(EventType.OffLive, OnOffLive);
@@ -26,6 +27,7 @@ public class LevelTimer : MonoBehaviour
         text.text = levelTimer.ToString();
         currentTime = levelTimer;
         menu.SetActive(true);
+        if (onTutorial) text.text = "-";
     }
 
     private void OnFinishGame(object[] obj)
@@ -63,7 +65,7 @@ public class LevelTimer : MonoBehaviour
     }
     void Update()
     {
-        if (_stopTimer || !_onLive || _onLose) return;
+        if (_stopTimer || !_onLive || _onLose || onTutorial) return;
         Countdown();
     }
     void Countdown()
