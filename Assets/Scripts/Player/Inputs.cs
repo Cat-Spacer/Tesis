@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Inputs : MonoBehaviour
+public class Inputs : MonoBehaviour 
 {
     private Action InputAction = delegate { };
     public SO_Inputs _input;
@@ -110,5 +110,15 @@ public class Inputs : MonoBehaviour
         else if (left_Input)
             _character.Movement(true,-1);
         else _character.Movement(false,0);
+    }
+
+    public void GivePunchButton()
+    {
+        attackKeycode = _input.attack;
+    }
+
+    public void TakeAwayPunchButton()
+    {
+        attackKeycode = KeyCode.None;
     }
 }
