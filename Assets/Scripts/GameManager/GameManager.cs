@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     private Vector3 lastMousePosition;
     private bool isMouseVisible = true;
     private bool onStopCursor;
+    Coroutine _mouseCoroutine;
     private void Awake()
     {
         Time.timeScale = 0;
@@ -37,7 +38,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         GetLevels();
-        StartCoroutine(CheckMouseMovement());
+        _mouseCoroutine = StartCoroutine(CheckMouseMovement());
         EventManager.Instance.Subscribe(EventType.OnLoseGame, OnLoseGame);
         EventManager.Instance.Subscribe(EventType.OnFinishGame, OnFinishGame);
         EventManager.Instance.Subscribe(EventType.OnResumeGame, OnResumeGame);
@@ -45,13 +46,18 @@ public class GameManager : MonoBehaviour
     }
     private void OnPauseGame(object[] obj)
     {
+        StopCoroutine(_mouseCoroutine);
+        _mouseCoroutine = null;
         Cursor.visible = true;
         onStopCursor = true;
+        _mouseCoroutine = null;
     }
     private void OnResumeGame(object[] obj)
     {
+        Cursor.visible = false;
         onStopCursor = false;
-        StartCoroutine(CheckMouseMovement());
+        lastMousePosition = Input.mousePosition;
+        _mouseCoroutine = StartCoroutine(CheckMouseMovement());
     }
     private void OnFinishGame(object[] obj)
     {
@@ -78,7 +84,7 @@ public class GameManager : MonoBehaviour
     IEnumerator CheckMouseMovement()
     {
         float idleTimer = 0f;
-        while (!onStopCursor)
+        while (true)
         {
             if (Input.mousePosition != lastMousePosition)
             {
@@ -99,11 +105,7 @@ public class GameManager : MonoBehaviour
                     isMouseVisible = false;
                 }
             }
-
-            // Actualiza la última posición del mouse.
             lastMousePosition = Input.mousePosition;
-
-            // Espera el intervalo antes del siguiente chequeo.
             yield return new WaitForSeconds(checkInterval);
         }
     }
