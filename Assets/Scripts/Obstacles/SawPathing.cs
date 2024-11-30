@@ -48,7 +48,7 @@ public class SawPathing : MonoBehaviour, IActivate
     void Movement()
     {
         float dist = Vector3.Distance(_saw.transform.position, _waypoints[_currentWaypoint].position);
-        if (dist < 0.01f)
+        if (dist < 0.15f)
         {
             if (_currentWaypoint == _maxWaypoints)
             {

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Cinemachine;
 using UnityEngine.PlayerLoop;
@@ -31,8 +32,8 @@ public class CameraManager : MonoBehaviour
         virtualGroupCamera = groupCamera.GetComponentInChildren<CinemachineVirtualCamera>();
         virtualSplitCamera[0] = splitCamera[0].GetComponentInChildren<CinemachineVirtualCamera>();
         virtualSplitCamera[1] = splitCamera[1].GetComponentInChildren<CinemachineVirtualCamera>();
-        targetGroup.AddMember(catPos, 1, 2);
-        targetGroup.AddMember(hamsterPos, 1, 2);
+        //targetGroup.AddMember(catPos, 1, 2);
+        //targetGroup.AddMember(hamsterPos, 1, 2);
         virtualSplitCamera[0].Follow = catPos;
         virtualSplitCamera[1].Follow = hamsterPos;
         LiveCamera.instance.GetTVShaders(tvShader);

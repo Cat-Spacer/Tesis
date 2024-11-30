@@ -75,7 +75,7 @@ public class LiveCamera : MonoBehaviour
     
     public void StartLiveCamera(bool status)
     {
-        if (onTutorial == false) return;
+        if (onTutorial) return;
         CalculateTimeOnAir();
         ActivateCamera();
         GoOnAir();

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class LevelTimer : MonoBehaviour
 {
@@ -9,6 +11,8 @@ public class LevelTimer : MonoBehaviour
     [SerializeField] private float currentTime;
     [SerializeField] private TextMeshProUGUI text;
     [SerializeField] private GameObject menu;
+    [SerializeField] private Image outOfTime;
+    [SerializeField] private Animation anim;
     private bool _onLive;
     private bool _onLose;
     private bool _stopTimer = true;
@@ -81,5 +85,21 @@ public class LevelTimer : MonoBehaviour
             currentTime -= Time.deltaTime;
             text.text = Mathf.FloorToInt(currentTime).ToString();
         }
+
+        if (currentTime < 10)
+        {
+            outOfTime.gameObject.SetActive(true);
+            if(!anim.isPlaying) anim.Play();
+        }
+    }
+
+    public void TutorialShowTime(string time)
+    {
+        text.text = time;
+    }
+
+    public void TutorialDontShowTime()
+    {
+        text.text = "-";
     }
 }
