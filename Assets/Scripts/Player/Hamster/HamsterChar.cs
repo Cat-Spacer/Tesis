@@ -11,6 +11,11 @@ public class HamsterChar : PlayerCharacter
     private bool _ifShrink = false;
     private float jumpDefault;
     private Vector2 defaultGroundCheckArea;
+
+    private void Awake()
+    {
+        if (GameManager.Instance) GameManager.Instance.SetHamsterChar = this;
+    }
     public override void Start()
     {
         base.Start();

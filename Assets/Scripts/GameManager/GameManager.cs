@@ -1,10 +1,5 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -12,9 +7,9 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     [SerializeField] private GameLevelMenu menu;
     private Respawn _respawnManager;
-    [SerializeField] private PlayerCharacter catPlayer, hamsterPlayer;
-    [SerializeField] string  _level;
-    [SerializeField] string  _nextLevel;
+    [SerializeField] private PlayerCharacter _catPlayer, _hamsterPlayer;
+    [SerializeField] string _level;
+    [SerializeField] string _nextLevel;
     [SerializeField] private bool testing;
     [SerializeField] private StartDoor[] _startDoors;
     [SerializeField] private float mouseIdleTimer;
@@ -23,13 +18,15 @@ public class GameManager : MonoBehaviour
     private bool isMouseVisible = true;
     private bool onStopCursor;
     Coroutine _mouseCoroutine;
+
+    public CatCharacter SetCatCharacter { set { _catPlayer = value; } }
+    public HamsterChar SetHamsterChar { set { _hamsterPlayer = value; } }
+
     private void Awake()
     {
         Time.timeScale = 0;
         if (Instance == null) Instance = this;
         _respawnManager = GetComponentInChildren<Respawn>();
-        if (catPlayer == null) catPlayer = FindObjectOfType<CatCharacter>();
-        if (hamsterPlayer == null) hamsterPlayer = FindObjectOfType<HamsterChar>();
         lastMousePosition = Input.mousePosition;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
@@ -72,8 +69,8 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab)) if(EventManager.Instance != null) EventManager.Instance.Trigger(EventType.ViewPlayerIndicator, true);
-        if (Input.GetKeyUp(KeyCode.Tab))  if(EventManager.Instance != null) EventManager.Instance.Trigger(EventType.ViewPlayerIndicator, false);
+        if (Input.GetKeyDown(KeyCode.Tab)) if (EventManager.Instance != null) EventManager.Instance.Trigger(EventType.ViewPlayerIndicator, true);
+        if (Input.GetKeyUp(KeyCode.Tab)) if (EventManager.Instance != null) EventManager.Instance.Trigger(EventType.ViewPlayerIndicator, false);
         if (Input.GetKey(KeyCode.LeftShift))
         {
             if (Input.GetKeyDown(KeyCode.R)) EventManager.Instance.Trigger(EventType.OnLoseGame);
@@ -111,8 +108,8 @@ public class GameManager : MonoBehaviour
     }
     void KillPlayer(CharacterType type)
     {
-        if(type == CharacterType.Cat) catPlayer.GetDamage();
-        else hamsterPlayer.GetDamage();
+        if (type == CharacterType.Cat) _catPlayer.GetDamage();
+        else _hamsterPlayer.GetDamage();
     }
     void GetLevels()
     {
@@ -135,26 +132,30 @@ public class GameManager : MonoBehaviour
     }
     public void StartGame(SO_Inputs catInputs, SO_Inputs hamsterInputs)
     {
-        catPlayer.gameObject.SetActive(true);
-        hamsterPlayer.gameObject.SetActive(true);
+        _catPlayer.gameObject.SetActive(true);
+        _hamsterPlayer.gameObject.SetActive(true);
         foreach (var door in _startDoors)
         {
             if (door.GetPlayerType() == CharacterType.Cat)
             {
-                catPlayer.transform.position = door.GetPlayerPosition().position;
-                catPlayer.ReceiveInputs(catInputs);
+                _catPlayer.transform.position = door.GetPlayerPosition().position;
+                _catPlayer.ReceiveInputs(catInputs);
             }
             else
             {
-                hamsterPlayer.transform.position = door.GetPlayerPosition().position;
-                hamsterPlayer.ReceiveInputs(hamsterInputs);
+                _hamsterPlayer.transform.position = door.GetPlayerPosition().position;
+                _hamsterPlayer.ReceiveInputs(hamsterInputs);
             }
             door.Open();
         }
-        if(LiveCamera.instance != null) LiveCamera.instance.StartLiveCamera(true);
+        if (LiveCamera.instance != null) LiveCamera.instance.StartLiveCamera(true);
         EventManager.Instance.Trigger(EventType.OnStartGame, true);
         Time.timeScale = 1f;
-        SoundManager.instance.Play(SoundsTypes.Music, gameObject,true);
+        if (SoundManager.instance)
+        {
+            SoundManager.instance.PauseAll();
+            SoundManager.instance.Play(SoundsTypes.Music, gameObject, true);
+        }
     }
     public void SetCatRespawnPoint(Vector3 pos)
     {
@@ -174,11 +175,11 @@ public class GameManager : MonoBehaviour
     }
     public Transform GetCat()
     {
-        return catPlayer.transform;
+        return _catPlayer.transform;
     }
 
     public Transform GetHamster()
     {
-        return hamsterPlayer.transform;
+        return _hamsterPlayer.transform;
     }
 }

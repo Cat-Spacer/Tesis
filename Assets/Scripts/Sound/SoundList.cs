@@ -49,7 +49,7 @@ public class SoundList : MonoBehaviour
             return;
         }
 
-        if (SoundManager.instance) SoundManager.instance.Play(s.nameType, null, false);
+        if (SoundManager.instance) SoundManager.instance.Play(s.nameType);
         else
         {
             Debug.Log($"<color=orange>No SoundManage</color>");
@@ -84,7 +84,7 @@ public class SoundList : MonoBehaviour
             Debug.LogWarning($"<color=yellow>Sound: {name} not found!</color>");
             return;
         }
-        if (SoundManager.instance) SoundManager.instance.Play(name, null, false);
+        if (SoundManager.instance) SoundManager.instance.Play(name);
         else
         {
             SoundSet(s);
