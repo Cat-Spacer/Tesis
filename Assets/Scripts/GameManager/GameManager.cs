@@ -1,10 +1,5 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -32,8 +27,6 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
         if (Instance == null) Instance = this;
         _respawnManager = GetComponentInChildren<Respawn>();
-        //if (_catPlayer == null) _catPlayer = FindObjectOfType<CatCharacter>();
-        if (_hamsterPlayer == null) _hamsterPlayer = FindObjectOfType<HamsterChar>();
         lastMousePosition = Input.mousePosition;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
