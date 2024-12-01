@@ -2,7 +2,6 @@
 
 public class SoundsPlayer : MonoBehaviour
 {
-    //[SerializeField] private string soundPlayName = "Sound";
     [SerializeField] private SoundsTypes[] _soundPlayName;
     [SerializeField] private bool _loop = false;
     [SerializeField] private bool _pauseAll = false;
@@ -13,6 +12,6 @@ public class SoundsPlayer : MonoBehaviour
 
         if (_pauseAll) SoundManager.instance.PauseAll();
 
-        foreach (var sound in _soundPlayName) SoundManager.instance.Play(sound, null, _loop);
+        foreach (var sound in _soundPlayName) SoundManager.instance.Play(sound, gameObject, _loop);
     }
 }

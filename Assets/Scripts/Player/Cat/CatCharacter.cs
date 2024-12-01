@@ -3,6 +3,10 @@ using UnityEngine.InputSystem;
 
 public class CatCharacter : PlayerCharacter
 {
+    private void Awake()
+    {
+        if (GameManager.Instance) GameManager.Instance.SetCatCharacter = this;
+    }
     public override void Special()
     {
         if (!_data.onGround && !_data.isPunching && !_data.isStun) return;

@@ -1,11 +1,6 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Xml.Serialization;
 using UnityEngine;
-using Unity.Netcode;
-using UnityEngine.InputSystem;
-using UnityEngine.PlayerLoop;
 
 public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
 {
