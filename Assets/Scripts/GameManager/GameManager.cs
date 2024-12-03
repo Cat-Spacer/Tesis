@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
     }
     private void OnPauseGame(object[] obj)
     {
-        StopCoroutine(_mouseCoroutine);
+        if (_mouseCoroutine != null) StopCoroutine(_mouseCoroutine);
         _mouseCoroutine = null;
         Cursor.visible = true;
         onStopCursor = true;
