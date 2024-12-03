@@ -17,7 +17,6 @@ public class GameLevelMenu : MonoBehaviour
     private void OnLoseGame(object[] obj)
     {
         _loseMenu.OpenMenu();
-        SoundManager.instance.PauseAll();
     }
     public void WinMenu()
     {

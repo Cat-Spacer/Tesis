@@ -33,6 +33,7 @@ public class MenuButton : MonoBehaviour
 
     public void SceneToLoad(int scene)
     {
+        SoundManager.instance.ResetGOList();
         AsyncLoadScenes.sceneToLoad = scene;
         SceneManager.LoadScene(loadingScreenIndex);
     }
