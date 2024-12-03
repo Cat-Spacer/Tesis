@@ -223,10 +223,10 @@ public class SoundManager : MonoBehaviour
         if (soundObject)
         {
             //if (!FoundEqualSound(s.source.clip, request)) soundObject.sources.Add(s.source);
-            if (!_found) soundObject.SetFather(request);
             if (request.GetComponentInChildren<AudioSource>()) if (FoundEqualSound(s.clip, request)) return s;
 
             s.source = soundObject.gameObject.AddComponent<AudioSource>();
+            if (!_found) soundObject.SetFather(request);
             _externalGOList.Add(s.source);
             soundObject.PauseMyself();
         }
@@ -245,6 +245,7 @@ public class SoundManager : MonoBehaviour
                         s.source = source;
                         break;
                     }
+                if(!s.source) s.source = gameObject.GetComponent<AudioSource>();
             }
         }
         else s.source = gameObject.AddComponent<AudioSource>();
