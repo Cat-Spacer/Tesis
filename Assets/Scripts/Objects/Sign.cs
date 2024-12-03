@@ -25,7 +25,7 @@ public class Sign : MonoBehaviour,IInteract
         GetComponent<BoxCollider2D>().enabled = false;
         _wasDrawed = true;
         spriteRenderer.sprite = sign.happySignSprite;
-        if(EventManager.Instance != null)EventManager.Instance.Trigger(EventType.OnChangePeace, 1);
+        if(EventManager.Instance != null) EventManager.Instance.Trigger(EventType.OnGetShield);
     }
     
     public void Interact(params object[] param)

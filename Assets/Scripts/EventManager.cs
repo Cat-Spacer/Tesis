@@ -20,7 +20,10 @@ public enum EventType
     StopTimer,
     OnFinishGame,
     OnSplitCamera,
-    OnGroupCamera
+    OnGroupCamera,
+    OnGetShield,
+    OnPutFlower,
+    OnOpenDoors
 }
 public class EventManager : MonoBehaviour
 {

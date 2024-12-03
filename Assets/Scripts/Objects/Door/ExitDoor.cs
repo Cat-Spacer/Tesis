@@ -19,11 +19,19 @@ public class ExitDoor : MonoBehaviour, IInteract
     [SerializeField] private Transform hamsterPos;
     [SerializeField] private float lerpPos;
     private bool doorIsOpen;
+    private bool doorIsUnlocked;
     private void Start()
     {
         anim = GetComponent<Animator>();
         _coll = GetComponent<BoxCollider2D>();
         lvlObjective = GetComponentInParent<LevelObjective>();
+        EventManager.Instance.Subscribe(EventType.OnOpenDoors, OnOpenDoors);
+    }
+
+    private void OnOpenDoors(object[] obj)
+    {
+        doorIsUnlocked = true;
+        OpenDoor();
     }
 
     private void Update()
@@ -33,6 +41,7 @@ public class ExitDoor : MonoBehaviour, IInteract
 
     public void Interact(params object[] param)
     {
+        if (!doorIsUnlocked) return;
         if (_player == null)
         {
             var thisObject = (GameObject)param[0];
@@ -47,11 +56,14 @@ public class ExitDoor : MonoBehaviour, IInteract
             _coll.enabled = false;
         }
     }
-
+    void OpenDoor()
+    {
+        if (!doorIsUnlocked) return;
+        anim.Play("Exit_Open_Door");
+    }
     void PlayerEnter(CharacterType type)
     {
         SoundManager.instance.Play(SoundsTypes.Block, gameObject);
-        anim.Play("Close_Open_Door");
         lvlObjective.PlayerEnter(type);
         _player.EnterDoor();
         if(type == CharacterType.Cat) DoorAction += LerpCatToDoorPos;
@@ -91,6 +103,7 @@ public class ExitDoor : MonoBehaviour, IInteract
     public void DoorIsOpen()
     {
         doorIsOpen = true;
+        _coll.enabled = true;
     }
 
     public void DoorIsClosed()
@@ -101,8 +114,8 @@ public class ExitDoor : MonoBehaviour, IInteract
     void PlayerExit()
     {
         SoundManager.instance.Play(SoundsTypes.Block, gameObject);
-        anim.Play("Close_Open_Door");
-        DoorAction += PlayerCanExit;
+        anim.Play("Exit_Open_Door");
+        DoorAction = PlayerCanExit;
     }
     void PlayerCanExit()
     {
@@ -110,13 +123,12 @@ public class ExitDoor : MonoBehaviour, IInteract
         lvlObjective.PlayerExit(type);
         _player.ExitDoor();
         state = false;
-        StartCoroutine(WaitToClose());
-        DoorAction -= PlayerCanExit;
+        DoorAction = delegate { };
     }
     IEnumerator WaitToClose()
     {
         yield return new WaitForSecondsRealtime(1.5f);
-        anim.Play("Close_Close_Door");
+        anim.Play("Exit_Close_Door");
     }
     public void ShowInteract(bool showInteractState)
     {

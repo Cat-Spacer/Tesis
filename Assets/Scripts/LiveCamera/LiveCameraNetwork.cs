@@ -77,7 +77,7 @@ public class LiveCameraNetwork : NetworkBehaviour
     }
     void SetCheckLive()
     {
-        _currentTime = _peace.GetNewTime();
+        //_currentTime = _peace.GetNewTime();
     }
     void SetLiveTime()
     {

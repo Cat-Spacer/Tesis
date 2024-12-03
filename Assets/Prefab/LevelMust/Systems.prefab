@@ -1,5 +1,51 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2504543409197228735
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5630910635196815498}
+  - component: {fileID: 1479593248935614585}
+  m_Layer: 0
+  m_Name: FlowrSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5630910635196815498
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2504543409197228735}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3313140196297898201}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1479593248935614585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2504543409197228735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40498efc9470af0489518f7fe53eb1e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flowerImage: []
+  currentFlowers: 0
 --- !u!1 &6424548501268727597
 GameObject:
   m_ObjectHideFlags: 0
@@ -92,16 +138,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49335f054424be04ab969365d86d8153, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentPeace: 0
-  _minPeace: 0
-  _midPeace: 6
-  _maxPeace: 10
-  _neutralTime: 15
-  _timeMultiplier: 2
-  _extraTime: 3
-  redSlider: {fileID: 0}
-  greenSlider: {fileID: 0}
-  iconSlider: {fileID: 0}
+  _strikes: []
+  _shieldStrikes: []
+  _currentStrike: 3
+  _currentShieldStrike: 0
 --- !u!1 &8893660682626242723
 GameObject:
   m_ObjectHideFlags: 0
@@ -133,5 +173,6 @@ Transform:
   m_Children:
   - {fileID: 3874351961021736120}
   - {fileID: 1164145606668465228}
+  - {fileID: 5630910635196815498}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

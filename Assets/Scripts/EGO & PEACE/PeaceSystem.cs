@@ -7,101 +7,74 @@ using UnityEngine.UI;
 public class PeaceSystem : MonoBehaviour
 {
     public static PeaceSystem instance;
-    [SerializeField] private int _currentPeace;
-    [SerializeField] private int _minPeace;
-    [SerializeField] private int _midPeace;
-    [SerializeField] private int _maxPeace;
+    [SerializeField] private Image[] _strikes;
+    [SerializeField] private Image[] _shieldStrikes;
+    [SerializeField] int _currentStrike = 3;
+    [SerializeField] int _currentShieldStrike = -1;
     
-    [SerializeField] private int _neutralTime;
-    [SerializeField] private int _timeMultiplier;
-    [SerializeField] private int _extraTime; 
-    
-    [SerializeField] Slider redSlider;
-    [SerializeField] Slider greenSlider;
-    [SerializeField] Slider iconSlider;
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            EventManager.Instance.Trigger(EventType.OnChangePeace, 1);
-        }
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            EventManager.Instance.Trigger(EventType.OnChangePeace, -1);
-        }
-    }
-
     private void Start()
     {
         if (instance == null) instance = this;
 
-        var sliders = LiveCamera.instance.GetSliders();
-        redSlider  = sliders[0];
-        greenSlider  = sliders[1];
-        iconSlider  = sliders[2];
+        _strikes = LiveCamera.instance.GetStrikesUI();
+        _shieldStrikes = LiveCamera.instance.GetShieldStrikesUI();
+        
+        foreach (var strikes in _strikes) strikes.gameObject.SetActive(true);
+        foreach (var shield in _shieldStrikes) shield.gameObject.SetActive(false);
         
         EventManager.Instance.Subscribe(EventType.OnChangePeace, UpdatePeace);
-
-        _midPeace = Mathf.RoundToInt(_maxPeace * .5f);
-        _currentPeace = _midPeace;
-        redSlider.minValue = _minPeace;
-        redSlider.maxValue = _midPeace;
-        greenSlider.minValue = _minPeace;
-        greenSlider.maxValue = _midPeace;
-        iconSlider.value = _currentPeace;
-        redSlider.value = 0;
-        greenSlider.value = 0;
+        EventManager.Instance.Subscribe(EventType.OnGetShield, GetShield);
     }
-
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            EventManager.Instance.Trigger(EventType.OnChangePeace);
+        }
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            EventManager.Instance.Trigger(EventType.OnGetShield);
+        }
+    }
     private void UpdatePeace(object[] obj)
     {
-        int peace = (int) obj[0];
-
-        if (_currentPeace + peace > _maxPeace || _currentPeace + peace < _minPeace) return;
-        _currentPeace += peace;
-        iconSlider.value = _currentPeace;
-        if (_currentPeace == 5)
+        if (_currentStrike <= 0) return;
+        if (_currentShieldStrike > 0)
         {
-            redSlider.value = 0;
-            greenSlider.value = 0;
+            if (_currentShieldStrike == 3)
+            {
+                _shieldStrikes[0].gameObject.SetActive(true);
+                _shieldStrikes[1].gameObject.SetActive(true);
+                _shieldStrikes[2].gameObject.SetActive(false);
+            }
+            else if (_currentShieldStrike == 2)
+            {
+                _shieldStrikes[0].gameObject.SetActive(true);
+                _shieldStrikes[1].gameObject.SetActive(false);
+                _shieldStrikes[2].gameObject.SetActive(false);
+            }
+            else if(_currentShieldStrike == 1)
+            {
+                _shieldStrikes[0].gameObject.SetActive(false);
+                _shieldStrikes[1].gameObject.SetActive(false);
+                _shieldStrikes[2].gameObject.SetActive(false);
+            }
+            _currentShieldStrike--;
+            return;
         }
-        else if (_currentPeace < 5)
-        {
-            redSlider.value -= peace;
-            greenSlider.value = 0;
-        }
-        else
-        {
-            greenSlider.value += peace;
-            redSlider.value = 0;
-        }
-
-        if (_currentPeace == 0)
+        _currentStrike--;
+        _strikes[_currentStrike].color = Color.gray;
+        if (_currentStrike == 0)
         {
             EventManager.Instance.Trigger(EventType.OnLoseGame);
         }
     }
-    public int GetCurrentPeace()
+    private void GetShield(object[] obj)
     {
-        return _currentPeace;
-    }
-    
-    public int GetNewTime()
-    {
-        int newTime = _currentPeace * _timeMultiplier + _extraTime;
-        return newTime;
-        // int newTime = _neutralTime;
-        // if (_currentPeace == _midPeace) return newTime;
-        // if (_currentPeace > _midPeace)
-        // {
-        //     newTime = _currentPeace * 2 + 3;
-        //     return newTime;
-        // }
-        // else
-        // {
-        //
-        //     return newTime;
-        // }
+        if (_currentShieldStrike < 3)
+        {
+            _currentShieldStrike++;
+            _shieldStrikes[_currentShieldStrike - 1].gameObject.SetActive(true);
+        }
     }
 }

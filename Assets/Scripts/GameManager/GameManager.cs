@@ -63,6 +63,7 @@ public class GameManager : MonoBehaviour
     }
     private void OnLoseGame(object[] obj)
     {
+        SoundManager.instance.PauseAll();
         Cursor.visible = true;
         onStopCursor = true;
     }
@@ -148,7 +149,6 @@ public class GameManager : MonoBehaviour
             }
             door.Open();
         }
-        if (LiveCamera.instance != null) LiveCamera.instance.StartLiveCamera(true);
         EventManager.Instance.Trigger(EventType.OnStartGame, true);
         Time.timeScale = 1f;
         if (SoundManager.instance)
