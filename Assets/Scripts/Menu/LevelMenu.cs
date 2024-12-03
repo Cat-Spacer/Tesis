@@ -32,7 +32,6 @@ public class LevelMenu : MonoBehaviour
         if (lvl == null || lvl.Length <= 0) return;
         if (string.IsNullOrEmpty(lvl)) _selectedLevel = _defaultLevel;
         _selectedLevel = lvl;
-        Debug.Log($"Decoded string {DecodeString(_selectedLevel)}");
     }
 
     public void PlayLevel()

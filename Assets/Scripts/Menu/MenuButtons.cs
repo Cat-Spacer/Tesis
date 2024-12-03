@@ -1,14 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MenuButtons : MonoBehaviour
 {
     [SerializeField] protected GameObject _menu;
-    protected bool _onPause;
-    protected bool onFinishGame;
-    protected bool onStartGame;
+    protected bool _onPause, _onFinishGame, _onStartGame;
     void Start()
     {
         _menu.SetActive(false);
@@ -18,12 +14,12 @@ public class MenuButtons : MonoBehaviour
 
     private void OnStartGame(object[] obj)
     {
-        onStartGame = true;
+        _onStartGame = true;
     }
 
     private void OnFinishGame(object[] obj)
     {
-        onFinishGame = true;
+        _onFinishGame = true;
     }
 
     public virtual void OpenMenu()
@@ -37,14 +33,14 @@ public class MenuButtons : MonoBehaviour
         SoundManager.instance.Play(SoundsTypes.Button);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
-    
-    public virtual void Resume()                                 
-    {                
-        Time.timeScale = 1;   
-        _onPause = false;                         
+
+    public virtual void Resume()
+    {
+        Time.timeScale = 1;
+        _onPause = false;
         EventManager.Instance.Trigger(EventType.OnResumeGame);
         SoundManager.instance.Play(SoundsTypes.Button);
-        _menu.SetActive(false);              
+        _menu.SetActive(false);
     }
     public virtual void Pause()
     {
@@ -58,18 +54,21 @@ public class MenuButtons : MonoBehaviour
     {
         Time.timeScale = 1;
         SoundManager.instance.Play(SoundsTypes.Button);
+        SoundManager.instance.ResetGOList();
         SceneManager.LoadScene(0, LoadSceneMode.Single);
     }
     public virtual void RestartLevel()
     {
         Time.timeScale = 1;
         SoundManager.instance.Play(SoundsTypes.Button);
+        SoundManager.instance.ResetGOList();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     public virtual void LevelSelector()
     {
         Time.timeScale = 1;
         SoundManager.instance.Play(SoundsTypes.Button);
+        SoundManager.instance.ResetGOList();
         SceneManager.LoadScene("LevelSelector", LoadSceneMode.Single);
     }
 }

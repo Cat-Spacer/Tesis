@@ -10,8 +10,8 @@ public class CharacterSelectionMenuCoop : MonoBehaviour
     [SerializeField] private Transform _p1SelectedPlayer;
     [SerializeField] private Transform _p2SelectedPlayer;
     [SerializeField] Transform _catTextPos, _hamsterTextPos;
-    
-    
+
+
     [SerializeField] private CharacterType player1 = CharacterType.Cat;
     [SerializeField] private CharacterType player2 = CharacterType.Hamster;
     [SerializeField] private SO_Inputs player1Inputs;
@@ -29,10 +29,16 @@ public class CharacterSelectionMenuCoop : MonoBehaviour
         _catTextPos.transform.position = _p1SelectedPlayer.transform.position;
         _hamsterTextPos.transform.position = _p2SelectedPlayer.transform.position;
         menu.SetActive(true);
+        if (SoundManager.instance)
+        {
+            SoundManager.instance.PauseAll();
+            SoundManager.instance.Play(SoundsTypes.Music, null, true);
+        }
+        if (GameManager.Instance) GameManager.Instance.pause = true;
     }
     public void SwitchCharacter()
     {
-        SoundManager.instance.Play(SoundsTypes.Button);
+        if (SoundManager.instance) SoundManager.instance.Play(SoundsTypes.Button);
         if (player1 == CharacterType.Cat)
         {
             player1 = CharacterType.Hamster;
@@ -50,19 +56,23 @@ public class CharacterSelectionMenuCoop : MonoBehaviour
     }
     public void SelectCharacters()
     {
-        SoundManager.instance.Play(SoundsTypes.Button);
+        if (SoundManager.instance) SoundManager.instance.Play(SoundsTypes.Button);
         if (player1 == CharacterType.Cat)
         {
             GameManager.Instance.StartGame(player1Inputs, player2Inputs);
         }
         else GameManager.Instance.StartGame(player2Inputs, player1Inputs);
+        if (GameManager.Instance) GameManager.Instance.pause = false;
         gameObject.SetActive(false);
     }
     public void ReturnToMenu()
     {
-        SoundManager.instance.Play(SoundsTypes.Button);
         Time.timeScale = 1;
-        SoundManager.instance.Play(SoundsTypes.Button);
+        if (SoundManager.instance)
+        {
+            SoundManager.instance.ResetGOList();
+            SoundManager.instance.Play(SoundsTypes.Button);
+        }
         SceneManager.LoadScene(0, LoadSceneMode.Single);
     }
     private void OnEnable()

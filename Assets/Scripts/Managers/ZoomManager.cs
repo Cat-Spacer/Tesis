@@ -1,4 +1,3 @@
-using Cinemachine;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -6,7 +5,6 @@ using UnityEngine.UI;
 
 public class ZoomManager : MonoBehaviour
 {
-    //[SerializeField] private Button _interact = default;
     [SerializeField] private Button[] _buttons = default;
     [SerializeField] private GameObject _zoomed = default;
     [SerializeField] private float _zoomMultiplayer = 1f, _smothTime = 0.25f, _minZoom = 2f, _maxZoom = 5f, _zoomSpeed = 1f;
@@ -14,7 +12,6 @@ public class ZoomManager : MonoBehaviour
     private float _zoom = default, _smothSpeed = default;
     private Camera _mainCamera = default;
     private Vector3 _initialPos = default, _zoomedPos = default;
-    //private ButtonSizeUpdate _sizeUpdate;
     private void Awake()
     {
         if (!_mainCamera) _mainCamera = Camera.main;
@@ -28,7 +25,6 @@ public class ZoomManager : MonoBehaviour
         }
         _initialPos = _mainCamera.transform.position;
         _zoomedPos = new Vector3(_zoomed.transform.position.x, _zoomed.transform.position.y, _mainCamera.transform.position.z);
-        //if (_interact) if (_interact.GetComponent<ButtonSizeUpdate>()) _sizeUpdate = _interact.GetComponent<ButtonSizeUpdate>();
         StartCoroutine(Delay(_delayTime));
     }
 
@@ -57,8 +53,6 @@ public class ZoomManager : MonoBehaviour
             button.interactable = false;
             if (button.GetComponent<ButtonSizeUpdate>()) button.GetComponent<ButtonSizeUpdate>().enabled = false;
         }
-        //_interact.enabled = false;
-        //_sizeUpdate.enabled = false;
 
         while (_mainCamera.transform.position != target || (_mainCamera.orthographicSize > _minZoom && _mainCamera.orthographicSize < _maxZoom))
         {
@@ -77,10 +71,9 @@ public class ZoomManager : MonoBehaviour
 
             _mainCamera.orthographicSize = Mathf.SmoothDamp(_mainCamera.orthographicSize, _zoom, ref _smothSpeed, _smothTime);
             yield return new WaitForEndOfFrame();
-            Debug.Log($"{Vector3.Distance(_mainCamera.transform.position, target)} dist to target");
         }
 
-        Debug.Log($"Target: {target}");
+        //Debug.Log($"Target: {target}");
         if (target == _zoomedPos)
         {
             foreach (Button button in _buttons)
@@ -89,8 +82,6 @@ public class ZoomManager : MonoBehaviour
                 if (button.GetComponent<ButtonSizeUpdate>()) button.GetComponent<ButtonSizeUpdate>().enabled = interactable;
             }
         }
-        //_interact.enabled = !interactable;
-        //_sizeUpdate.enabled = !interactable;
     }
 
     private IEnumerator Delay(float whaitTime = 1f)
