@@ -27,7 +27,7 @@ public class LevelTimer : MonoBehaviour
         EventManager.Instance.Subscribe(EventType.StopTimer, OnStopTimer);
         EventManager.Instance.Subscribe(EventType.OnFinishGame, OnFinishGame);
         
-        if(LiveCamera.instance != null) LiveCamera.instance.SetLevelTime(levelTimer, this);
+        if(LiveCamera.instance != null) LiveCamera.instance.SetLevelTime(levelTimer);
         text.text = levelTimer.ToString();
         currentTime = levelTimer;
         menu.SetActive(true);

@@ -7,39 +7,43 @@ public class FlagChekpoint : MonoBehaviour
 {
     [SerializeField] private Vector2 _boxArea;    
     [SerializeField] private LayerMask _players;
-    private Animator _anim;
-    private bool _isOn = false;
-    [SerializeField] bool sharedCheckpoint = false;
-    [SerializeField] ParticleSystem _particle;
+    private bool _catIsOn = false;
+    private bool _hamsterIsOn = false;
+    [SerializeField] ParticleSystem _catParticle;
+    [SerializeField] ParticleSystem _hamsterParticle;
+    [SerializeField] private Animation _catFlagAnimation;
+    [SerializeField] private Animation _hamsterFlagAnimation;
+    [SerializeField] Animator _catFlagAnimator;
+    [SerializeField] Animator _hamsterFlagAnimator;
     void Start()
     {
-        _anim = GetComponent<Animator>();
+        _catFlagAnimator.Play("CatFlag");
+        _hamsterFlagAnimator.Play("HamsterFlag");
     }
     
     void Update()
     {
-        if (_isOn) return;
         var coll = Physics2D.OverlapBox(transform.position, _boxArea, 0, _players);
-        if (coll != null)
+        if (coll == null) return;
+        
+        var player = coll.gameObject.GetComponent<PlayerCharacter>();
+        if (!player.gameObject) return;
+        if (player.GetCharType() == CharacterType.Cat)
         {
-            if (sharedCheckpoint)
-            {
-                GameManager.Instance.SetCatRespawnPoint(transform.position);
-                GameManager.Instance.SetHamsterRespawnPoint(transform.position);
-                _isOn = true;
-                _anim.SetTrigger("ON");
-                _particle.Play();
-            }
-            else
-            {
-                var player = coll.gameObject.GetComponent<PlayerCharacter>();
-                if (player.gameObject== null) return;
-                if (player.GetCharType() == CharacterType.Cat) GameManager.Instance.SetCatRespawnPoint(transform.position);
-                else GameManager.Instance.SetHamsterRespawnPoint(transform.position);
-                _isOn = true;
-                _anim.SetTrigger("ON");
-                _particle.Play();
-            }
+            if (_catIsOn) return;
+            _catIsOn = true;
+            GameManager.Instance.SetCatRespawnPoint(transform.position);
+            _catFlagAnimation.Play();
+            _catParticle.Play();
+            SoundManager.instance.Play(SoundsTypes.Checpoint, gameObject);
+        }
+        else
+        {
+            if (_hamsterIsOn) return;
+            _hamsterIsOn = true;
+            GameManager.Instance.SetHamsterRespawnPoint(transform.position);
+            _hamsterFlagAnimation.Play();
+            _hamsterParticle.Play();
             SoundManager.instance.Play(SoundsTypes.Checpoint, gameObject);
         }
     }

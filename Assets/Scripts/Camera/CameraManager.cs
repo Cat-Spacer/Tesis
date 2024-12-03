@@ -12,6 +12,7 @@ public class CameraManager : MonoBehaviour
     [SerializeField] private bool isGrouped;
     [SerializeField] float cameraGroupLimit;
     [SerializeField] float cameraWarningLimit;
+    [SerializeField] private float distance;
     [SerializeField] private GameObject groupCamera;
     [SerializeField] private CinemachineTargetGroup targetGroup;
     [SerializeField] private GameObject[] splitCamera;
@@ -42,14 +43,14 @@ public class CameraManager : MonoBehaviour
 
     private void Update()
     {
-        var distance = catPos.position - hamsterPos.position;
-        if (distance.magnitude > cameraWarningLimit && distance.magnitude < cameraGroupLimit)
+        distance = (catPos.position - hamsterPos.position).magnitude;
+        if (distance > cameraWarningLimit && distance < cameraGroupLimit)
         {
-            float normalizedValue = Normalize(distance.magnitude, cameraWarningLimit, cameraGroupLimit);
+            float normalizedValue = Normalize(distance, cameraWarningLimit, cameraGroupLimit);
             warningMat.SetFloat(Alpha, normalizedValue);
         }
         else warningMat.SetFloat(Alpha, 0);
-        if (distance.magnitude >= cameraGroupLimit && !isGrouped) //IsGrouped
+        if (distance >= cameraGroupLimit && !isGrouped) //IsGrouped
         {
             isGrouped = true;
             foreach (var virtualCamera in splitCamera)
@@ -60,7 +61,7 @@ public class CameraManager : MonoBehaviour
             Debug.Log("SplitCamera");
             EventManager.Instance.Trigger(EventType.OnSplitCamera);
         }
-        else if(distance.magnitude < cameraGroupLimit && isGrouped) //NotGrouped
+        else if(distance < cameraGroupLimit && isGrouped) //NotGrouped
         {
             isGrouped = false;
             groupCamera.gameObject.SetActive(true);

@@ -456,7 +456,6 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
         _data.canMove = false;
         _data.canJump = false;
         StartCoroutine(Vanish());
-        EventManager.Instance.Trigger(EventType.OnUpdateEgoPoints, charType, -1);
     }
 
     void Revive()
@@ -493,9 +492,14 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
     IEnumerator ExitDoorWaitMovement()
     {
         yield return new WaitForSecondsRealtime(1);
+        state = idleState;
         _data.canMove = true;
         doorInteracting = true;
-        if(charType == CharacterType.Cat) EventManager.Instance.Trigger(EventType.StartTimer);
+        if(charType == CharacterType.Cat)
+        {
+            if (LiveCamera.instance != null) LiveCamera.instance.StartLiveCamera(true);
+            EventManager.Instance.Trigger(EventType.StartTimer);
+        }
     }
     public CharacterType GetCharType() { return charType; }
 
