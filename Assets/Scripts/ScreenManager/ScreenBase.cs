@@ -5,7 +5,8 @@ public abstract class ScreenBase : MonoBehaviour
 {
     [SerializeField] private string _sortingLayer = "Canvas";
     [SerializeField] private int _canvasLayer = 0;
-    [SerializeField] public Button[] buttons = default;
+    public Button[] buttons = default;
+    [SerializeField] private RenderMode _render = default;
 
     public virtual void OnAwake()
     {
@@ -13,15 +14,13 @@ public abstract class ScreenBase : MonoBehaviour
         buttons = GetComponentsInChildren<Button>();
         if (buttons != null || buttons.Length <= 0) return;
         foreach (var button in buttons)
-        {
             button.interactable = true;
-        }
     }
 
     public virtual void SetCamera(int canvasLayer = 0)
     {
         Canvas screenCanvas = GetComponent<Canvas>();
-        screenCanvas.renderMode = RenderMode.ScreenSpaceCamera;
+        screenCanvas.renderMode = _render;
         screenCanvas.worldCamera = Camera.main;
         screenCanvas.sortingLayerName = _sortingLayer;
         screenCanvas.sortingOrder = canvasLayer;
