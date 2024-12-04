@@ -31,6 +31,27 @@ public class CharacterModel : MonoBehaviour
     [Header("Imgs")]
     public GameObject stunIcon;
 
+    [SerializeField] private GameObject canvas;
+
+    private void Start()
+    {
+        EventManager.Instance.Subscribe(EventType.OnFinishGame, OnFinishGame);
+        _data = GetComponent<CharacterData>();
+        _mat = spRenderer.material;
+        _particles.Add(_landParticle);
+        _particles.Add(_jumpParticle);
+        _particles.Add(_runParticle);
+        _particles.Add(_hitParticle);
+        _particles.Add(_specialParticle);
+        _particles.Add(_dieParticle);
+        _particles.Add(_reviveParticle);
+    }
+
+    private void OnFinishGame(object[] obj)
+    {
+        canvas.SetActive(false);
+    }
+
     public void PlayParticle(ParticleType type)
     {
         switch (type)
@@ -92,18 +113,7 @@ public class CharacterModel : MonoBehaviour
             particle.Stop();
         }
     }
-    private void Start()
-    {
-        _data = GetComponent<CharacterData>();
-        _mat = spRenderer.material;
-        _particles.Add(_landParticle);
-        _particles.Add(_jumpParticle);
-        _particles.Add(_runParticle);
-        _particles.Add(_hitParticle);
-        _particles.Add(_specialParticle);
-        _particles.Add(_dieParticle);
-        _particles.Add(_reviveParticle);
-    }
+
 
     public void ChangeAnimationState(string newState)
     {

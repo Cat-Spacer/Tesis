@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Net.Sockets;
+using UnityEditor;
 using UnityEngine;
 
 public class PeaceFlower : Item, IInteract, IDamageable
@@ -77,7 +78,7 @@ public class PeaceFlower : Item, IInteract, IDamageable
             foreach (var col in collision)
             {
                 var statue = col.gameObject.GetComponent<FlowerStatue>();
-                if (statue != null && !statue.HasFlower())
+                if (statue != null && !statue.HasFlower() && _target == statue.transform)
                 {
                     isPutDown = true;
                     arrow.SetActive(false);
