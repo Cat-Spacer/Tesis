@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent (typeof(AudioSource))]
 public class SoundSpawn : ObjectToSpawn
 {
     private GameObject _father = default;
@@ -10,6 +11,7 @@ public class SoundSpawn : ObjectToSpawn
     {
         _father = father;
         gameObject.transform.parent = _father.transform;
+        transform.position = Vector3.zero;
         _source = GetComponent<AudioSource>();
         //if(GameManager.Instance.pause) foreach(AudioSource aS in sources) aS.Pause();
         return this;
