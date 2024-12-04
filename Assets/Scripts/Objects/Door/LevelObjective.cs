@@ -7,7 +7,16 @@ public class LevelObjective : MonoBehaviour
 {
     private bool catState;
     private bool hamsterState;
-   
+    [SerializeField] private bool _open;
+
+    private void Start()
+    {
+    }
+
+    private void OnOpenDoors(object[] obj)
+    {
+        
+    }
 
     public void PlayerEnter(CharacterType type)
     {

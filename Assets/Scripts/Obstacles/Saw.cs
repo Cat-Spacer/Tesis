@@ -52,6 +52,5 @@ public class Saw : MonoBehaviour
         if (player == null) return;
         
         player.GetDamage();
-        
     }
 }
