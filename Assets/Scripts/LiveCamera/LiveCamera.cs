@@ -52,6 +52,7 @@ public class LiveCamera : MonoBehaviour
             ActivateCamera();
             EventManager.Instance.Trigger(EventType.OnLive);
         }
+        foreach(var cameraShader in _tvHackedShader) cameraShader.gameObject.SetActive(false);
     }
 
     private void OnFinishGame(object[] obj)

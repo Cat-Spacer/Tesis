@@ -43,8 +43,8 @@ public class LevelMenu : MonoBehaviour
     }
     private void SceneToLoad(int scene)
     {
-        AsyncLoadScenes.sceneToLoad = scene + SceneManager.GetActiveScene().buildIndex + 1;
-        SceneManager.LoadScene(1);
+        //AsyncLoadScenes.sceneToLoad = scene + SceneManager.GetActiveScene().buildIndex + 1;
+        SceneManager.LoadScene(scene + SceneManager.GetActiveScene().buildIndex + 1);
     }
     public void PlayAndSelectLevel(string lvl)
     {

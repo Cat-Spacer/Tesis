@@ -55,7 +55,7 @@ public class MenuButtons : MonoBehaviour
         Time.timeScale = 1;
         SoundManager.instance.Play(SoundsTypes.Button);
         SoundManager.instance.ResetGOList();
-        SceneManager.LoadScene(0, LoadSceneMode.Single);
+        SceneManager.LoadScene(1, LoadSceneMode.Single);
     }
     public virtual void RestartLevel()
     {

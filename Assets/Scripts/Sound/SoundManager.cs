@@ -202,7 +202,7 @@ public class SoundManager : MonoBehaviour
     }
     public void PauseAllButNoMusic(object[] obj)
     {
-        PauseAll();
+        //PauseAll();
     }
 
     public void OnClickSound(string name)

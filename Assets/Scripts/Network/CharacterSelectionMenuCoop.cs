@@ -73,7 +73,7 @@ public class CharacterSelectionMenuCoop : MonoBehaviour
             SoundManager.instance.ResetGOList();
             SoundManager.instance.Play(SoundsTypes.Button);
         }
-        SceneManager.LoadScene(0, LoadSceneMode.Single);
+        SceneManager.LoadScene(1, LoadSceneMode.Single);
     }
     private void OnEnable()
     {
