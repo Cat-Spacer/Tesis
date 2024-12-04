@@ -34,13 +34,14 @@ public class EventManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null)
-            Instance = this;
-        else
-        {
-            Destroy(this);
-            Debug.LogWarning($"Found duplicate of 'EventManager' on {gameObject.name}");
-        }
+        // if (Instance == null)
+        //     Instance = this;
+        Instance = this;
+        // else
+        // {
+        //     Destroy(this);
+        //     Debug.LogWarning($"Found duplicate of 'EventManager' on {gameObject.name}");
+        // }
     }
 
     public void Subscribe(EventType eventId, Action<object[]> callback)

@@ -6,7 +6,7 @@ using TMPro;
 
 public class AsyncLoadScenes : MonoBehaviour
 {
-    public static int sceneToLoad = 1;
+    public static int sceneToLoad = 3;
     [SerializeField] private int _sceneToLoad = 0;
     [SerializeField] private Slider _progressBar;
     [SerializeField] private TextMeshProUGUI _textPercentage;
@@ -14,7 +14,7 @@ public class AsyncLoadScenes : MonoBehaviour
     private void Awake()
     {
         _sceneToLoad = sceneToLoad;
-        if (_sceneToLoad < 0) _sceneToLoad = 0;
+        if (_sceneToLoad < 1) _sceneToLoad = 1;
         if (!_progressBar) _progressBar = FindObjectOfType<Slider>();
         if (!_textPercentage) _textPercentage = _progressBar.GetComponentInChildren<TextMeshProUGUI>();
     }
