@@ -93,8 +93,6 @@ public class SoundList : MonoBehaviour
         }
     }
 
-
-
     public void StopAll() { SoundManager.instance.PauseAll(); }
 
     private void SoundSet(Sound s)

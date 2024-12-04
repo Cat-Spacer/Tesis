@@ -59,6 +59,7 @@ public class ObjectPool<T>
     /// <param name="obj"></param>
     public void ReturnObject(T obj)
     {
+        if(obj == null) return;
         _turnOnOff(obj, false);
 
         _stock.Add(obj);
