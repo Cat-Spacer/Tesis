@@ -124,6 +124,11 @@ public class SoundManager : MonoBehaviour
         }
 
         s = SoundSet(s, request);
+        if (s.source == null)
+        {
+            Debug.LogWarning($"<color=orange>Source: {nameType} not found!</color>");
+            return;
+        }
         s.source.loop = loop;
         s.source.Play();
     }
@@ -144,7 +149,7 @@ public class SoundManager : MonoBehaviour
 
     public void PlayAll(SoundsTypes exception = SoundsTypes.Music)
     {
-        Debug.Log($"<color=orange>Sound: {ToString()} PlayAll function enter !</color>");
+        //Debug.Log($"<color=orange>Sound: {ToString()} PlayAll function enter !</color>");
         foreach (Sound s in sounds) if (s.nameType == exception) if (s.source) s.source.Play();
         foreach (AudioSource aS in _externalGOList) aS.gameObject.SetActive(true);
         foreach (AudioSource aS in _externalGOList) aS.Play();
@@ -188,7 +193,7 @@ public class SoundManager : MonoBehaviour
 
     public void PauseAll(SoundsTypes exception = SoundsTypes.Music)
     {
-        Debug.Log($"<color=orange>Sound: {ToString()} PauseAll function enter !</color>");
+        //Debug.Log($"<color=orange>Sound: {ToString()} PauseAll function enter !</color>");
         _pause = true;
 
         foreach (Sound s in sounds) if (s.nameType == exception) if (s.source) s.source.Pause();
@@ -223,10 +228,10 @@ public class SoundManager : MonoBehaviour
         if (soundObject)
         {
             //if (!FoundEqualSound(s.source.clip, request)) soundObject.sources.Add(s.source);
-            if (!_found) soundObject.SetFather(request);
             if (request.GetComponentInChildren<AudioSource>()) if (FoundEqualSound(s.clip, request)) return s;
 
             s.source = soundObject.gameObject.AddComponent<AudioSource>();
+            if (!_found) soundObject.SetFather(request);
             _externalGOList.Add(s.source);
             soundObject.PauseMyself();
         }
@@ -245,6 +250,7 @@ public class SoundManager : MonoBehaviour
                         s.source = source;
                         break;
                     }
+                if(!s.source) s.source = gameObject.GetComponent<AudioSource>();
             }
         }
         else s.source = gameObject.AddComponent<AudioSource>();
