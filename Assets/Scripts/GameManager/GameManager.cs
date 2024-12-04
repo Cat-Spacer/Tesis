@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
 
         if (SoundManager.instance)
         {
-            SoundManager.instance.PauseAll();
+            //SoundManager.instance.PauseAll();
             SoundManager.instance.Play(SoundsTypes.Music, null, true);
         }
     }

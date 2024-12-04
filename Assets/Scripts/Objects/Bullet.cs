@@ -85,7 +85,8 @@ public class Bullet : ObjectToSpawn
             }
 
             //Destroy(gameObject);
-            Reset();
+            //Reset();
+            StopAllCoroutines();
             objectPool.ReturnObject(this);
         }
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 public enum SoundsTypes
 {
@@ -67,17 +68,16 @@ public class SoundManager : MonoBehaviour
     private float _baseVolume = default;
     private LookUpTable<SoundsTypes, Sound> _usedSounds = default;
     private LookUpTable<string, Sound> _usedSoundsByName = default;
-    private LookUpTable<GameObject, SoundSpawn> _searchRequest = default;
+    //private LookUpTable<GameObject, SoundSpawn> _searchRequest = default;
     [SerializeField] private int _limit = 15;
     [SerializeField] private SoundSpawn _prefab = default;
     private ObjectFactory _objectFactory = default;
     private ObjectPool<ObjectToSpawn> _pool = default;
-    private bool _found = false, _pause = true, _flag = true;
-
-    public bool pause { get { return _pause; } }
+    private bool _found = false, _flag = true;
 
     public Dictionary<string, float> mixerValue = new();
-    [SerializeField] private List<AudioSource> _externalGOList = new();
+    public List<SoundSpawn> spawnsList = new();
+    [SerializeField] private List<ObjectToSpawn> _poolList = new();
 
     private void Awake()
     {
@@ -88,7 +88,6 @@ public class SoundManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        _pause = true;
         DontDestroyOnLoad(gameObject);
         InitialSet();
     }
@@ -105,11 +104,16 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        _poolList = _pool.GetStock;
+    }
+
     private void InitialSet()
     {
         _usedSounds = new(SearchSound);
         _usedSoundsByName = new(SearchSound);
-        _searchRequest = new(SearchSoundSpawn);
+        //_searchRequest = new(SearchSoundSpawn);
         _objectFactory = new ObjectFactory(_prefab, transform);
         _pool = new ObjectPool<ObjectToSpawn>(_objectFactory.GetObj, ObjectToSpawn.TurnOnOff, 0);
     }
@@ -151,18 +155,11 @@ public class SoundManager : MonoBehaviour
     {
         //Debug.Log($"<color=orange>Sound: {ToString()} PlayAll function enter !</color>");
         foreach (Sound s in sounds) if (s.nameType == exception) if (s.source) s.source.Play();
-        foreach (AudioSource aS in _externalGOList) aS.gameObject.SetActive(true);
-        foreach (AudioSource aS in _externalGOList) aS.Play();
+        //foreach (ObjectToSpawn aS in _pool.GetStock) _pool.GetObject();
     }
     public void ResumeAllButNoMusic(object[] obj)
     {
         PlayAll();
-        _pause = false;
-        //SoundsTypes exception = SoundsTypes.Music;
-        //if (obj[0] != null && (SoundsTypes)obj[0] != exception) exception = (SoundsTypes)obj[0];
-        //foreach (Sound s in sounds) if (s.nameType == exception) if (s.source) s.source.Pause();
-        //foreach (AudioSource aS in _externalGOList) aS.gameObject.SetActive(true);
-        //foreach (AudioSource aS in _externalGOList) aS.Play();
     }
 
     public void Pause(SoundsTypes name, GameObject request = default)
@@ -194,11 +191,7 @@ public class SoundManager : MonoBehaviour
     public void PauseAll(SoundsTypes exception = SoundsTypes.Music)
     {
         //Debug.Log($"<color=orange>Sound: {ToString()} PauseAll function enter !</color>");
-        _pause = true;
-
-        foreach (Sound s in sounds) if (s.nameType == exception) if (s.source) s.source.Pause();
-        foreach (AudioSource aS in _externalGOList) aS.Pause();
-        foreach (AudioSource aS in _externalGOList) aS.gameObject.SetActive(false);
+        foreach (SoundSpawn aS in spawnsList) aS.ReturnToStack(default);
     }
     public void PauseAllButNoMusic(object[] obj)
     {
@@ -224,16 +217,14 @@ public class SoundManager : MonoBehaviour
         if (ManagerAudioSourceConfig(s)) return s;
 
         SoundSpawn soundObject = null;
-        if (request && request != gameObject) soundObject = _searchRequest.ReturnValue(request);
+        if (request && request != gameObject) soundObject = _pool.GetObject().GetComponent<SoundSpawn>();
         if (soundObject)
         {
-            //if (!FoundEqualSound(s.source.clip, request)) soundObject.sources.Add(s.source);
             if (request.GetComponentInChildren<AudioSource>()) if (FoundEqualSound(s.clip, request)) return s;
+            if (!spawnsList.Contains(soundObject)) spawnsList.Add(soundObject);
+            if (!_found) soundObject.SetFather(request, _pool);
 
-            s.source = soundObject.gameObject.AddComponent<AudioSource>();
-            if (!_found) soundObject.SetFather(request);
-            _externalGOList.Add(s.source);
-            soundObject.PauseMyself();
+            s.source = soundObject.gameObject.GetComponent<AudioSource>();
         }
         else if (s.nameType == SoundsTypes.Music)
         {
@@ -250,7 +241,7 @@ public class SoundManager : MonoBehaviour
                         s.source = source;
                         break;
                     }
-                if(!s.source) s.source = gameObject.GetComponent<AudioSource>();
+                if (!s.source) s.source = gameObject.GetComponent<AudioSource>();
             }
         }
         else s.source = gameObject.AddComponent<AudioSource>();
@@ -275,6 +266,7 @@ public class SoundManager : MonoBehaviour
                 count++;
                 if (count == _limit)
                 {
+                    s.source = source;
                     source.clip = s.clip;
                     source.outputAudioMixerGroup = s.audioMixerGroup;
                     source.volume = s.volume;
@@ -294,14 +286,15 @@ public class SoundManager : MonoBehaviour
     {
         return Array.Find(sounds, sound => sound.name == name);
     }
-    private SoundSpawn SearchSoundSpawn(GameObject requester)
-    {
-        if (!requester) return null;
-        SoundSpawn spawn = default;
-        if (_pool.GetStock.Count > 0) spawn = Array.Find(_pool.GetStock.ToArray(), stock => stock.GetComponent<SoundSpawn>().Father == requester).GetComponent<SoundSpawn>();
-        _found = spawn ? true : false;
-        return spawn ? spawn : _pool.GetObject().GetComponent<SoundSpawn>();
-    }
+    //private SoundSpawn SearchSoundSpawn(GameObject requester)
+    //{
+    //    if (!requester) return null;
+    //    SoundSpawn spawn = default;
+    //    Debug.Log($"<color=orange>Sound: {ToString()} SearchSoundSpawn function enter ! requester: {requester.name}</color>");
+    //    if (_pool.GetStock.Count > 0) spawn = Array.Find(_pool.GetStock.ToArray(), stock => stock.GetComponent<SoundSpawn>().Father == requester).GetComponent<SoundSpawn>();
+    //    _found = spawn ? true : false;
+    //    return spawn ? spawn : _pool.GetObject().GetComponent<SoundSpawn>();
+    //}
 
     private bool FoundEqualSound(AudioClip clip, GameObject target)
     {
@@ -326,14 +319,15 @@ public class SoundManager : MonoBehaviour
         return s;
     }
 
-    public void RemoveFromGOList(AudioSource obj)
+    public void RemoveFromGOList(SoundSpawn obj)
     {
-        _externalGOList.Remove(obj);
+        Debug.Log($"{obj} want to be removed, can? {spawnsList.Remove(obj)}");
+        spawnsList.Remove(obj);
     }
-    
+
     public void ResetGOList()
     {
-        _externalGOList.Clear();
+        spawnsList.Clear();
     }
 
     public IEnumerator FadeOut(AudioSource source, float FadeTime)
