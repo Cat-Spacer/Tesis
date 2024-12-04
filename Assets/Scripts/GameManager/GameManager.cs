@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerCharacter _catPlayer, _hamsterPlayer;
     [SerializeField] string _level;
     [SerializeField] string _nextLevel;
-    [SerializeField] private bool testing;
+    public bool pause = true;
     [SerializeField] private StartDoor[] _startDoors;
     [SerializeField] private float mouseIdleTimer;
     [SerializeField] private float checkInterval;
@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        pause = pause ? true : false;
         Time.timeScale = 0;
         if (Instance == null) Instance = this;
         _respawnManager = GetComponentInChildren<Respawn>();
@@ -40,6 +41,12 @@ public class GameManager : MonoBehaviour
         EventManager.Instance.Subscribe(EventType.OnFinishGame, OnFinishGame);
         EventManager.Instance.Subscribe(EventType.OnResumeGame, OnResumeGame);
         EventManager.Instance.Subscribe(EventType.OnPauseGame, OnPauseGame);
+
+        if (SoundManager.instance)
+        {
+            SoundManager.instance.PauseAll();
+            SoundManager.instance.Play(SoundsTypes.Music, null, true);
+        }
     }
     private void OnPauseGame(object[] obj)
     {
@@ -48,6 +55,7 @@ public class GameManager : MonoBehaviour
         Cursor.visible = true;
         onStopCursor = true;
         _mouseCoroutine = null;
+        pause = true;
     }
     private void OnResumeGame(object[] obj)
     {
@@ -55,6 +63,7 @@ public class GameManager : MonoBehaviour
         onStopCursor = false;
         lastMousePosition = Input.mousePosition;
         _mouseCoroutine = StartCoroutine(CheckMouseMovement());
+        pause = false;
     }
     private void OnFinishGame(object[] obj)
     {
@@ -131,6 +140,7 @@ public class GameManager : MonoBehaviour
         Cursor.visible = true;
         menu.WinMenu();
     }
+
     public void StartGame(SO_Inputs catInputs, SO_Inputs hamsterInputs)
     {
         _catPlayer.gameObject.SetActive(true);
@@ -151,11 +161,6 @@ public class GameManager : MonoBehaviour
         }
         EventManager.Instance.Trigger(EventType.OnStartGame, true);
         Time.timeScale = 1f;
-        if (SoundManager.instance)
-        {
-            SoundManager.instance.PauseAll();
-            SoundManager.instance.Play(SoundsTypes.Music, gameObject, true);
-        }
     }
     public void SetCatRespawnPoint(Vector3 pos)
     {

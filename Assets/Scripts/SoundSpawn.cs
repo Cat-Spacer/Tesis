@@ -1,16 +1,27 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SoundSpawn : ObjectToSpawn
 {
     private GameObject _father = default;
-    public List<Sound> sounds = new ();
+    private AudioSource _source = default;
 
     public GameObject Father { get { return _father; } }
     public SoundSpawn SetFather(GameObject father)
     {
         _father = father;
         gameObject.transform.parent = _father.transform;
+        _source = GetComponent<AudioSource>();
+        //if(GameManager.Instance.pause) foreach(AudioSource aS in sources) aS.Pause();
         return this;
     }
+
+    public void PauseMyself()
+    {
+        if (SoundManager.instance) if (SoundManager.instance.pause) gameObject.SetActive(false);
+    }
+
+    private void OnDestroy()
+    {
+        if (SoundManager.instance) SoundManager.instance.RemoveFromGOList(_source);
+    }    
 }

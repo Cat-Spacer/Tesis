@@ -72,9 +72,12 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private SoundSpawn _prefab = default;
     private ObjectFactory _objectFactory = default;
     private ObjectPool<ObjectToSpawn> _pool = default;
-    private bool _found = false, _match = false;
+    private bool _found = false, _pause = true, _flag = true;
+
+    public bool pause { get { return _pause; } }
 
     public Dictionary<string, float> mixerValue = new();
+    [SerializeField] private List<AudioSource> _externalGOList = new();
 
     private void Awake()
     {
@@ -85,9 +88,21 @@ public class SoundManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
+        _pause = true;
         DontDestroyOnLoad(gameObject);
         InitialSet();
+    }
+
+    private void Start()
+    {
+        if (EventManager.Instance)
+        {
+            EventManager.Instance.Subscribe(EventType.OnStartGame, ResumeAllButNoMusic);
+            EventManager.Instance.Subscribe(EventType.OnResumeGame, ResumeAllButNoMusic);
+            EventManager.Instance.Subscribe(EventType.OnLoseGame, PauseAllButNoMusic);
+            EventManager.Instance.Subscribe(EventType.OnPauseGame, PauseAllButNoMusic);
+            EventManager.Instance.Subscribe(EventType.OnFinishGame, PauseAllButNoMusic);
+        }
     }
 
     private void InitialSet()
@@ -127,6 +142,24 @@ public class SoundManager : MonoBehaviour
         s.source.Play();
     }
 
+    public void PlayAll(SoundsTypes exception = SoundsTypes.Music)
+    {
+        Debug.Log($"<color=orange>Sound: {ToString()} PlayAll function enter !</color>");
+        foreach (Sound s in sounds) if (s.nameType == exception) if (s.source) s.source.Play();
+        foreach (AudioSource aS in _externalGOList) aS.gameObject.SetActive(true);
+        foreach (AudioSource aS in _externalGOList) aS.Play();
+    }
+    public void ResumeAllButNoMusic(object[] obj)
+    {
+        PlayAll();
+        _pause = false;
+        //SoundsTypes exception = SoundsTypes.Music;
+        //if (obj[0] != null && (SoundsTypes)obj[0] != exception) exception = (SoundsTypes)obj[0];
+        //foreach (Sound s in sounds) if (s.nameType == exception) if (s.source) s.source.Pause();
+        //foreach (AudioSource aS in _externalGOList) aS.gameObject.SetActive(true);
+        //foreach (AudioSource aS in _externalGOList) aS.Play();
+    }
+
     public void Pause(SoundsTypes name, GameObject request = default)
     {
         Sound s = _usedSounds.ReturnValue(name);
@@ -153,9 +186,18 @@ public class SoundManager : MonoBehaviour
         s.source.Pause();
     }
 
-    public void PauseAll()
+    public void PauseAll(SoundsTypes exception = SoundsTypes.Music)
     {
-        foreach (var s in sounds) if (s.source) s.source.Pause();
+        Debug.Log($"<color=orange>Sound: {ToString()} PauseAll function enter !</color>");
+        _pause = true;
+
+        foreach (Sound s in sounds) if (s.nameType == exception) if (s.source) s.source.Pause();
+        foreach (AudioSource aS in _externalGOList) aS.Pause();
+        foreach (AudioSource aS in _externalGOList) aS.gameObject.SetActive(false);
+    }
+    public void PauseAllButNoMusic(object[] obj)
+    {
+        PauseAll();
     }
 
     public void OnClickSound(string name)
@@ -180,12 +222,30 @@ public class SoundManager : MonoBehaviour
         if (request && request != gameObject) soundObject = _searchRequest.ReturnValue(request);
         if (soundObject)
         {
+            //if (!FoundEqualSound(s.source.clip, request)) soundObject.sources.Add(s.source);
             if (!_found) soundObject.SetFather(request);
-
             if (request.GetComponentInChildren<AudioSource>()) if (FoundEqualSound(s.clip, request)) return s;
 
             s.source = soundObject.gameObject.AddComponent<AudioSource>();
-            if (!FoundEqualSound(s.source.clip, request)) soundObject.sounds.Add(s);
+            _externalGOList.Add(s.source);
+            soundObject.PauseMyself();
+        }
+        else if (s.nameType == SoundsTypes.Music)
+        {
+            if (_flag)
+            {
+                s.source = gameObject.AddComponent<AudioSource>();
+                _flag = false;
+            }
+            else
+            {
+                foreach (AudioSource source in gameObject.GetComponentsInChildren<AudioSource>())
+                    if (source.outputAudioMixerGroup == s.audioMixerGroup)
+                    {
+                        s.source = source;
+                        break;
+                    }
+            }
         }
         else s.source = gameObject.AddComponent<AudioSource>();
 
@@ -258,6 +318,16 @@ public class SoundManager : MonoBehaviour
         else
             s = _usedSounds.ReturnValue(nameType);
         return s;
+    }
+
+    public void RemoveFromGOList(AudioSource obj)
+    {
+        _externalGOList.Remove(obj);
+    }
+    
+    public void ResetGOList()
+    {
+        _externalGOList.Clear();
     }
 
     public IEnumerator FadeOut(AudioSource source, float FadeTime)

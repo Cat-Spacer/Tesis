@@ -1,13 +1,12 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class PauseMenu : MenuButtons
 {
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
         {
-            if (onFinishGame || !onStartGame) return;
+            if (_onFinishGame || !_onStartGame) return;
             if (!_onPause) Pause();
             else Resume();
         }
