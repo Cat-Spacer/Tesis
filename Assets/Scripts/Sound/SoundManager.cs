@@ -95,7 +95,6 @@ public class SoundManager : MonoBehaviour
         {
             EventManager.Instance.Subscribe(EventType.OnResumeGame, ActiveSounds);
             EventManager.Instance.Subscribe(EventType.OnStartGame, ActiveSounds);
-            Debug.Log($"{name} has Suscribed from event.");
         }
     }
 
@@ -186,20 +185,25 @@ public class SoundManager : MonoBehaviour
     private Sound SoundSet(Sound s, GameObject request = null, bool loop = false)
     {
         if (s == null) return null;
-        if (ManagerAudioSourceConfig(s)) return s;
 
         SoundSpawn soundObject = null;
-        if (request != null && request != gameObject) soundObject = _pool.GetObject().GetComponent<SoundSpawn>();
-        if (soundObject != null)
+        if (request && request != gameObject)
         {
-            soundObject.SetFather(request);
-            Debug.Log($"{soundObject} was created");
             if (request.GetComponentInChildren<AudioSource>()) if (FoundEqualSound(s.clip, request)) return s;
-            s.source = soundObject.gameObject.GetComponent<AudioSource>();
+            soundObject = _pool.GetObject().GetComponent<SoundSpawn>();
+        }
+        else if (ManagerAudioSourceConfig(s, loop)) return s;
+
+        if (soundObject)
+        {
+            AddToSoundList(soundObject);
+            soundObject.SetFather(request);
+            soundObject.AddReferences(_pool);
+            //if (GameManager.Instance.pause) soundObject.ReturnToStack(default);               
+            return soundObject.SetAudioSource(s, loop);
         }
         else if (s.nameType == SoundsTypes.Music)
         {
-            Debug.Log($"Music Type");
             if (_flag)
             {
                 s.source = gameObject.AddComponent<AudioSource>();
@@ -223,19 +227,23 @@ public class SoundManager : MonoBehaviour
             Debug.LogWarning($"<color=orange>Source not found!</color>");
             return s;
         }
+        //if (soundObject)
+        //{
+        //    soundObject.AddReferences(_pool);
+        //}
+        //else
+        //{
+            s.source.clip = s.clip;
+            s.source.outputAudioMixerGroup = s.audioMixerGroup;
+            s.source.volume = s.volume;
+            s.source.pitch = s.pitch;
+            s.source.loop = loop;
+        //}
 
-        s.source.clip = s.clip;
-        s.source.outputAudioMixerGroup = s.audioMixerGroup;
-        s.source.volume = s.volume;
-        s.source.pitch = s.pitch;
-        s.source.loop = loop;
-        if (soundObject) soundObject.AddReferences(_pool);
-
-        Debug.Log($"Finished settings.");
         return s;
     }
 
-    private bool ManagerAudioSourceConfig(Sound s)
+    private bool ManagerAudioSourceConfig(Sound s, bool loop)
     {
         AudioSource[] allSourcess = GetComponents<AudioSource>();
         int count = 0;
@@ -252,6 +260,7 @@ public class SoundManager : MonoBehaviour
                     source.outputAudioMixerGroup = s.audioMixerGroup;
                     source.volume = s.volume;
                     source.pitch = s.pitch;
+                    source.loop = loop;
                     return true;
                 }
             }
@@ -271,10 +280,7 @@ public class SoundManager : MonoBehaviour
     private bool FoundEqualSound(AudioClip clip, GameObject target)
     {
         AudioSource[] audioSources = target.GetComponentsInChildren<AudioSource>();
-        AudioClip[] audioClips = new AudioClip[audioSources.Length];
-        for (int i = 0; i < audioSources.Length; audioClips[i] = audioSources[i].clip, i++)
-            if (audioSources.Length <= 0) return false;
-        return Array.Find(audioClips, audioClip => audioClip == clip);
+        return Array.Find(audioSources, source => source.clip == clip);
     }
 
     public Sound SearchForRandomSound(SoundsTypes nameType)
@@ -300,7 +306,7 @@ public class SoundManager : MonoBehaviour
 
     public void AddToSoundList(SoundSpawn sound)
     {
-        if (_soundsList != null) if (_soundsList.Count > 0) if (!_soundsList.Contains(sound)) _soundsList.Add(sound);
+        if (!_soundsList.Contains(sound)) _soundsList.Add(sound);
     }
 
     private void ActiveSounds(object[] obj)

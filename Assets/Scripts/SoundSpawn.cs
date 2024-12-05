@@ -6,6 +6,18 @@ public class SoundSpawn : ObjectToSpawn
     private GameObject _father = default;
     public GameObject Father { get { return _father; } }
 
+    private AudioSource _source = default;
+
+    private void Awake()
+    {
+        _source = GetComponent<AudioSource>();
+    }
+    private void Start()
+    {
+        SuscribeEventManager();
+        if (GameManager.Instance.pause) ReturnToStack(default);
+    }
+
     public void SetFather(GameObject father)
     {
         _father = father;
@@ -14,23 +26,27 @@ public class SoundSpawn : ObjectToSpawn
         transform.position = _father.transform.position;
     }
 
+    public Sound SetAudioSource(Sound s, bool loop)
+    {
+        if (s == null) return null;
+        if (!_source) _source = GetComponent<AudioSource>();
+        _source.clip = s.clip;
+        _source.outputAudioMixerGroup = s.audioMixerGroup;
+        _source.volume = s.volume;
+        _source.pitch = s.pitch;
+        _source.loop = loop;
+        s.source = _source;
+        return s;
+    }
+
     public void AddReferences(ObjectPool<ObjectToSpawn> op)
     {
         AddReference(op);
-        SuscribeEventManager();
-        if (SoundManager.instance) SoundManager.instance.AddToSoundList(this);
-        if (GameManager.Instance.pause) ReturnToStack(default);
     }
 
     public void ReturnToStack(object[] obj)
     {
-        if (SoundManager.instance) SoundManager.instance.AddToSoundList(this);
         objectPool?.ReturnObject(this);
-    }
-
-    private void ResetEvent(object[] obj)
-    {
-        Reset();
     }
 
     private void SuscribeEventManager()
@@ -53,6 +69,7 @@ public class SoundSpawn : ObjectToSpawn
 
     public override void Reset()
     {
+        if(!gameObject.activeSelf) gameObject.SetActive(true);
         SuscribeEventManager();
     }
 
