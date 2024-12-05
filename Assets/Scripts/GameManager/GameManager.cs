@@ -86,6 +86,7 @@ public class GameManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.C)) KillPlayer(CharacterType.Cat);
             if (Input.GetKeyDown(KeyCode.H)) KillPlayer(CharacterType.Hamster);
         }
+        if(Input.GetKeyDown(KeyCode.Z)) EventManager.Instance.Trigger(EventType.OnFinishGame);
     }
     IEnumerator CheckMouseMovement()
     {

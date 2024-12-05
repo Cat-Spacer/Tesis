@@ -21,6 +21,8 @@ public class WinMenu : MenuButtons
         }
         else
         {
+            Debug.Log("Empate");
+            animator.enabled = false;
             _menu.SetActive(true);
         }
         p1Text.text = catPoints.ToString();
@@ -32,9 +34,5 @@ public class WinMenu : MenuButtons
         animator.enabled = false;
         catWinMenu.SetActive(false);
         hamsterWinMenu.SetActive(false);
-    }
-    public void OpenTvMenu()
-    {
-        _menu.SetActive(true);
     }
 }
