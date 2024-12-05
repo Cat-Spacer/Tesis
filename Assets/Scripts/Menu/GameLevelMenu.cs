@@ -21,6 +21,6 @@ public class GameLevelMenu : MonoBehaviour
     public void WinMenu()
     {
         var points = EgoSystem.instance.GetEgoPoints();
-        if(_winMenu!= null) _winMenu.OpenMenu(points.Item1.ToString(), points.Item2.ToString());
+        if(_winMenu!= null) _winMenu.OpenMenu(points.Item1, points.Item2);
     }
 }

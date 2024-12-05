@@ -5,10 +5,36 @@ public class WinMenu : MenuButtons
 {
     [SerializeField] TextMeshProUGUI p1Text;
     [SerializeField] TextMeshProUGUI p2Text;
-    public void OpenMenu(string p1Txt, string p2Txt)
+    [SerializeField] private GameObject tvMenu;
+    [SerializeField] Animator animator;
+    [SerializeField] private GameObject catWinMenu;
+    [SerializeField] private GameObject hamsterWinMenu;
+    public void OpenMenu(int catPoints, int hamsterPoints)
     {
-        p1Text.text = p1Txt;
-        p2Text.text = p2Txt;
+        if (catPoints > hamsterPoints)
+        {
+            animator.Play("WinMenuAnim");
+        }
+        else if (hamsterPoints > catPoints)
+        {
+            animator.Play("HamsterWinAnim");
+        }
+        else
+        {
+            _menu.SetActive(true);
+        }
+        p1Text.text = catPoints.ToString();
+        p2Text.text = hamsterPoints.ToString();
+        
+    }
+    public void StopAnimation()
+    {
+        animator.enabled = false;
+        catWinMenu.SetActive(false);
+        hamsterWinMenu.SetActive(false);
+    }
+    public void OpenTvMenu()
+    {
         _menu.SetActive(true);
     }
 }
