@@ -134,7 +134,7 @@ public class GameManager : MonoBehaviour
     }
     public void WinLevel()
     {
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
         EventManager.Instance.Trigger(EventType.OnFinishGame);
         Cursor.visible = true;
         menu.WinMenu();

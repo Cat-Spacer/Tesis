@@ -43,6 +43,12 @@ public class Inputs : MonoBehaviour
             _catCharacter = _character.GetComponent<CatCharacter>();
             InputAction = CatInputs;
         }
+        EventManager.Instance.Subscribe(EventType.OnFinishGame, OnFinishGame);
+    }
+
+    private void OnFinishGame(object[] obj)
+    {
+        InputAction = delegate { };
     }
 
     public void SetInput(SO_Inputs inputs)
@@ -121,4 +127,5 @@ public class Inputs : MonoBehaviour
     {
         attackKeycode = KeyCode.None;
     }
+    
 }
