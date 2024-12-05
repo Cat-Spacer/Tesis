@@ -84,8 +84,6 @@ public class Bullet : ObjectToSpawn
                 particle.transform.position = gameObject.transform.position;
             }
 
-            //Destroy(gameObject);
-            //Reset();
             StopAllCoroutines();
             objectPool.ReturnObject(this);
         }

@@ -11,7 +11,7 @@ public class ObjectPool<T>
     private List<T> _stock = new();
     private bool _dynamic = true;
 
-    public List<T> GetStock {  get { return _stock; } }
+    public List<T> GetStock { get { return _stock; } }
 
     public ObjectPool(FactoryMethod factory, Action<T, bool> TurnOnOff, int initialCount = 5, bool dynamic = true)
     {
@@ -44,12 +44,12 @@ public class ObjectPool<T>
 
             _stock.RemoveAt(0);
         }
-        else if(_dynamic)
+        else if (_dynamic)
         {
             obj = _factory();
         }
 
-        if(obj != null) _turnOnOff(obj, true);
+        if (obj != null) _turnOnOff(obj, true);
 
         return obj;
     }
@@ -59,9 +59,9 @@ public class ObjectPool<T>
     /// <param name="obj"></param>
     public void ReturnObject(T obj)
     {
-        if(obj == null) return;
-        _turnOnOff(obj, false);
+        if (obj == null) return;
 
-        _stock.Add(obj);
+        _turnOnOff(obj, false);
+        if (!_stock.Contains(obj)) _stock.Add(obj);
     }
 }

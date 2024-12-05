@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        pause = pause ? true : false;
+        pause = true;
         Time.timeScale = 0;
         if (Instance == null) Instance = this;
         _respawnManager = GetComponentInChildren<Respawn>();
@@ -72,7 +72,6 @@ public class GameManager : MonoBehaviour
     }
     private void OnLoseGame(object[] obj)
     {
-        SoundManager.instance.PauseAll();
         Cursor.visible = true;
         onStopCursor = true;
     }

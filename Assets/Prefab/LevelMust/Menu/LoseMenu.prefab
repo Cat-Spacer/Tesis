@@ -121,6 +121,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 368364314881854958}
+        m_TargetAssemblyTypeName: SoundList, Assembly-CSharp
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Click
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 4177901284567245802}
         m_TargetAssemblyTypeName: MenuButtons, Assembly-CSharp
         m_MethodName: RestartLevel
@@ -267,6 +279,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 368364314881854958}
+        m_TargetAssemblyTypeName: SoundList, Assembly-CSharp
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Click
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 4177901284567245802}
         m_TargetAssemblyTypeName: MenuButtons, Assembly-CSharp
         m_MethodName: LevelSelector
@@ -452,6 +476,7 @@ GameObject:
   m_Component:
   - component: {fileID: 761530450942357697}
   - component: {fileID: 4177901284567245802}
+  - component: {fileID: 368364314881854958}
   m_Layer: 5
   m_Name: LoseMenu
   m_TagString: Untagged
@@ -492,6 +517,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _menu: {fileID: 4977907088446443398}
+--- !u!114 &368364314881854958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3699178482482315144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad867fd8027180e4bb5c54ba16551970, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds: []
 --- !u!1 &4977907088446443398
 GameObject:
   m_ObjectHideFlags: 0
@@ -654,6 +692,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 368364314881854958}
+        m_TargetAssemblyTypeName: SoundList, Assembly-CSharp
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Click
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 4177901284567245802}
         m_TargetAssemblyTypeName: MenuButtons, Assembly-CSharp
         m_MethodName: ReturnToMenu

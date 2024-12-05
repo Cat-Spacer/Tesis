@@ -8,6 +8,8 @@ public class ObjectToSpawn : MonoBehaviour
 
     public static void TurnOnOff(ObjectToSpawn b, bool On = true)
     {
+        if (!b) return; if (!b.gameObject) return;
+
         b.gameObject.SetActive(On);
         if (On) b.Reset();
     }
