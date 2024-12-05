@@ -61,7 +61,7 @@ public class ObjectPool<T>
     {
         if (obj == null) return;
 
-        _turnOnOff(obj, false);
         if (!_stock.Contains(obj)) _stock.Add(obj);
+        _turnOnOff(obj, false);
     }
 }
