@@ -6,31 +6,25 @@ public class SoundSpawn : ObjectToSpawn
     private GameObject _father = default;
     public GameObject Father { get { return _father; } }
 
-    private AudioSource _source = default;
-
-    private void Start()
-    {
-        if (!_source) _source = GetComponent<AudioSource>();
-    }
-
-    public SoundSpawn SetFather(GameObject father, ObjectPool<ObjectToSpawn> op)
+    public void SetFather(GameObject father)
     {
         _father = father;
+        name = $"SoundSpawn {father.name}";
         gameObject.transform.parent = _father.transform;
         transform.position = _father.transform.position;
+    }
+
+    public void AddReferences(ObjectPool<ObjectToSpawn> op)
+    {
         AddReference(op);
-        if (EventManager.Instance)
-        {
-            EventManager.Instance.Subscribe(EventType.OnPauseGame, ReturnToStack);
-            EventManager.Instance.Subscribe(EventType.OnResumeGame, ResetEvent);
-        }
-        return this;
+        SuscribeEventManager();
+        if (SoundManager.instance) SoundManager.instance.AddToSoundList(this);
+        if (GameManager.Instance.pause) ReturnToStack(default);
     }
 
     public void ReturnToStack(object[] obj)
     {
-        //if (_source.clip) _source.Stop();
-        if (SoundManager.instance) SoundManager.instance.RemoveFromGOList(this);
+        if (SoundManager.instance) SoundManager.instance.AddToSoundList(this);
         objectPool?.ReturnObject(this);
     }
 
@@ -39,28 +33,33 @@ public class SoundSpawn : ObjectToSpawn
         Reset();
     }
 
+    private void SuscribeEventManager()
+    {
+        if (EventManager.Instance)
+        {
+            EventManager.Instance.Subscribe(EventType.OnPauseGame, ReturnToStack);
+            EventManager.Instance.Subscribe(EventType.OnFinishGame, ReturnToStack);
+        }
+    }
+
+    public void UnsuscribeEventManager()
+    {
+        if (EventManager.Instance)
+        {
+            EventManager.Instance.Unsubscribe(EventType.OnPauseGame, ReturnToStack);
+            EventManager.Instance.Unsubscribe(EventType.OnFinishGame, ReturnToStack);
+        }
+    }
+
     public override void Reset()
     {
-        //if (_source.clip) _source.Play
-        if (SoundManager.instance) SoundManager.instance.spawnsList.Add(this);
-        gameObject.SetActive(true);
+        SuscribeEventManager();
     }
 
     private void OnDestroy()
     {
-        if (EventManager.Instance)
-        {
-            EventManager.Instance.Unsubscribe(EventType.OnPauseGame, ReturnToStack);
-            EventManager.Instance.Unsubscribe(EventType.OnResumeGame, ResetEvent);
-        }
-    }
-
-    private void OnDisable()
-    {
-        if (EventManager.Instance)
-        {
-            EventManager.Instance.Unsubscribe(EventType.OnPauseGame, ReturnToStack);
-            EventManager.Instance.Unsubscribe(EventType.OnResumeGame, ResetEvent);
-        }
+        if (SoundManager.instance) SoundManager.instance.RemoveFromSoundList(this);
+        UnsuscribeEventManager();
+        Debug.Log($"{name} was destroyed");
     }
 }

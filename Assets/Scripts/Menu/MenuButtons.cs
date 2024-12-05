@@ -25,12 +25,12 @@ public class MenuButtons : MonoBehaviour
     public virtual void OpenMenu()
     {
         Time.timeScale = 0;
-        SoundManager.instance.Play(SoundsTypes.Button);
+        //SoundManager.instance.Play(SoundsTypes.Click);
         _menu.SetActive(true);
     }
     public virtual void NextLevel()
     {
-        SoundManager.instance.Play(SoundsTypes.Button);
+        //SoundManager.instance.Play(SoundsTypes.Click);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
@@ -39,36 +39,33 @@ public class MenuButtons : MonoBehaviour
         Time.timeScale = 1;
         _onPause = false;
         EventManager.Instance.Trigger(EventType.OnResumeGame);
-        SoundManager.instance.Play(SoundsTypes.Button);
+        //SoundManager.instance.Play(SoundsTypes.Click);
         _menu.SetActive(false);
     }
     public virtual void Pause()
     {
         EventManager.Instance.Trigger(EventType.OnPauseGame);
         Time.timeScale = 0;
-        SoundManager.instance.Play(SoundsTypes.Button);
+        SoundManager.instance.Play(SoundsTypes.Click, null);
         _onPause = true;
         _menu.SetActive(true);
     }
     public virtual void ReturnToMenu()
     {
         Time.timeScale = 1;
-        SoundManager.instance.Play(SoundsTypes.Button);
-        SoundManager.instance.ResetGOList();
+        //SoundManager.instance.Play(SoundsTypes.Click);
         SceneManager.LoadScene(1, LoadSceneMode.Single);
     }
     public virtual void RestartLevel()
     {
         Time.timeScale = 1;
-        SoundManager.instance.Play(SoundsTypes.Button);
-        SoundManager.instance.ResetGOList();
+        //SoundManager.instance.Play(SoundsTypes.Click);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     public virtual void LevelSelector()
     {
         Time.timeScale = 1;
-        SoundManager.instance.Play(SoundsTypes.Button);
-        SoundManager.instance.ResetGOList();
+        //SoundManager.instance.Play(SoundsTypes.Click);
         SceneManager.LoadScene("LevelSelector", LoadSceneMode.Single);
     }
 }
