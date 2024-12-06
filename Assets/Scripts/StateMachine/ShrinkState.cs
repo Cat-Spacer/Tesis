@@ -12,7 +12,7 @@ public class ShrinkState : State
 
     public override void Do()
     {
-  
+        Debug.Log("On shrink state");
     }
 
     public override void Exit()

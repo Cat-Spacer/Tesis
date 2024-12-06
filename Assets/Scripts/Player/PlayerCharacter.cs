@@ -57,13 +57,20 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
 
     private void Update()
     {
-        if (!doorInteracting) return;
+        if (!doorInteracting)
+        {
+            return;
+        }
+
         if (state.isComplete)
         {
             state.Exit();
             SelectState();
         }
-        state.Do();
+        else
+        {
+            state.Do();
+        }
     }
 
     void SelectState()

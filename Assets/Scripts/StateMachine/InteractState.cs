@@ -1,23 +1,30 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class InteractState : State
 {
-    Coroutine coroutine;
+    private float _timer = 0.5f;
+    private float _resetTimer = 0.5f;
     public override void Enter()
     {
         model.ChangeAnimationState("Interact");
+        
         SoundManager.instance.Play(SoundsTypes.Interact, gameObject);
-        coroutine = StartCoroutine(Delay());
+   
     }
-    IEnumerator Delay()
+    public override void Do()
     {
-        yield return new WaitForSeconds(1f);
-        isComplete = true;
+        _timer -= Time.deltaTime;
+
+        if (_timer <= 0f)
+        {
+            isComplete = true;
+        }
     }
+
+
     public override void Exit()
     {
         isComplete = false;
+        _timer = _resetTimer;
     }
 }

@@ -11,13 +11,17 @@ public class AirState : State
 
     public override void Do()
     {
-        if (data.onGround || data.isStun || data.isPunching || data.isInteracting)
+        if ((data.onGround || data.isStun || data.isPunching || data.isInteracting || rb.velocity.y == 0) && !isComplete)
         {
             isComplete = true;
             return;
         }
-        if(rb.velocity.y > 0) model.ChangeAnimationState("Jump");
-        else model.ChangeAnimationState("Falling");
+
+        if (rb.velocity.y > 0) 
+            model.ChangeAnimationState("Jump");
+        else
+            model.ChangeAnimationState("Falling");
+        
     }
 
     public override void Exit()

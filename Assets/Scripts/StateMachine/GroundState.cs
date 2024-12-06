@@ -11,7 +11,6 @@ public class GroundState : State
 
     public override void Do()
     {
-
     }
 
     public override void Exit()
