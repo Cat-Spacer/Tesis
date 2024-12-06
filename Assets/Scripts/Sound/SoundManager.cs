@@ -114,7 +114,7 @@ public class SoundManager : MonoBehaviour
     public void Play(SoundsTypes nameType, GameObject request = default, bool loop = false)
     {
         Sound s = SearchForRandomSound(nameType);
-        if (s == null)
+        if (s == null || s == default)
         {
             Debug.LogWarning($"<color=yellow>Sound: {nameType} not found!</color>");
             return;
@@ -184,13 +184,26 @@ public class SoundManager : MonoBehaviour
 
     private Sound SoundSet(Sound s, GameObject request = null, bool loop = false)
     {
-        if (s == null) return null;
+        if (s == null || s == default) return null;
 
         SoundSpawn soundObject = null;
         if (request && request != gameObject)
         {
             if (request.GetComponentInChildren<AudioSource>()) if (FoundEqualSound(s.clip, request)) return s;
-            soundObject = _pool.GetObject().GetComponent<SoundSpawn>();
+
+            var objPool = _pool.GetObject();
+
+            if (objPool != null && objPool != default && objPool.TryGetComponent<SoundSpawn>(out var spaw))
+            {
+                if (spaw != null && spaw != default)
+                    soundObject = spaw;
+                else
+                    Debug.LogWarning($"<color=orange>Sound Spawn not found!</color>");
+            }
+            else
+            {
+                Debug.LogWarning($"<color=orange>Pool not found!</color>");
+            }
         }
         else if (ManagerAudioSourceConfig(s, loop)) return s;
 
@@ -299,7 +312,7 @@ public class SoundManager : MonoBehaviour
 
     public void RemoveFromSoundList(SoundSpawn sound)
     {
-        Debug.Log($"{sound} was removed");
+       // Debug.Log($"{sound} was removed");
 
         if (_soundsList != null) if (_soundsList.Count > 0) if (_soundsList.Contains(sound)) _soundsList.Remove(sound);
     }

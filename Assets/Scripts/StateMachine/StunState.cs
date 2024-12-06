@@ -13,6 +13,7 @@ public class StunState : State
 
     public override void Do()
     {
+        Debug.Log("On Stun state");
         if (!data.isStun)
         {
             isComplete = true;

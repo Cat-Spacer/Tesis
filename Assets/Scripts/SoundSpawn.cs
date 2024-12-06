@@ -77,6 +77,6 @@ public class SoundSpawn : ObjectToSpawn
     {
         if (SoundManager.instance) SoundManager.instance.RemoveFromSoundList(this);
         UnsuscribeEventManager();
-        Debug.Log($"{name} was destroyed");
+       // Debug.Log($"{name} was destroyed");
     }
 }
