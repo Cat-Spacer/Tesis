@@ -31,34 +31,22 @@ public class GraphicsChange : MonoBehaviour
 
         _fullscreen.isOn = Screen.fullScreen;
 
-        #region Resolution Dropdown
         _resolutions = Screen.resolutions;
-
-        foreach (var res in _resolutions)
-        {
-            Debug.Log(res.width + "x" + res.height + " : " + res.refreshRateRatio);
-        }
-        _resolutionDropdown = GetComponentInChildren<TMP_Dropdown>();
         _resolutionDropdown.ClearOptions();
-
         List<string> options = new List<string>();
+        int currentResolutionIndex = 0;
         for (int i = 0; i < _resolutions.Length; i++)
         {
-            options.Add($"{_resolutions[i].width} x {_resolutions[i].height} - {_resolutions[i].refreshRateRatio.value} Hz");
-            if (_resolutions[i].width == Screen.width && _resolutions[i].height == Screen.height)
-                _resIndex = i;
+            string option = _resolutions[i].width + " x " + _resolutions[i].height;
+            options.Add(option);
+            if (_resolutions[i].width == Screen.currentResolution.width && _resolutions[i].height == Screen.currentResolution.height)
+            {
+                currentResolutionIndex = i;
+            }
         }
         _resolutionDropdown.AddOptions(options);
-
-#if UNITY_EDITOR
-        _resIndex = 1;
-#endif
-
-        options.Reverse();
-        _resolutionDropdown.AddOptions(options);
-        _resolutionDropdown.value = _resIndex;
+        _resolutionDropdown.value = currentResolutionIndex;
         _resolutionDropdown.RefreshShownValue();
-        #endregion
     }
 
     public void SetResolution(int resolutionIndex)
