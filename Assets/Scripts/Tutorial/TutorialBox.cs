@@ -12,7 +12,9 @@ public enum TutorialBoxType
     Special,
     Punch,
     DoubleJump,
-    TubesMovement
+    TubesMovement,
+    CatFace,
+    HamsterFace
 }
 public class TutorialBox : MonoBehaviour
 {

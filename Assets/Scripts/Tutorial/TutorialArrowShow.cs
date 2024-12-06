@@ -14,6 +14,13 @@ public class TutorialArrowShow : MonoBehaviour
 
     private void Start()
     {
+        EventManager.Instance.Subscribe(EventType.OnFinishGame, OnFinishGame);
+        if(text != null) text.SetActive(false);
+        if(arrow != null) arrow.SetActive(false);
+    }
+
+    private void OnFinishGame(object[] obj)
+    {
         if(text != null) text.SetActive(false);
         if(arrow != null) arrow.SetActive(false);
     }
