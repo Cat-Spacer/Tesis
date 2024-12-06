@@ -163,6 +163,7 @@ public class HamsterChar : PlayerCharacter
             SoundManager.instance.Play(SoundsTypes.HamsterJump, gameObject);
             _ifShrink = true;
             transform.localScale = new Vector3(.5f, .5f, 1);
+            _data._inventoryPos.localScale = new Vector3(1.5f, 1.5f, 1);
             _data.groundCheckArea = new Vector2(0.24f, 0.08f);
             _data.jumpForce = jumpDefault * .75f;
             StartCoroutine(ShrinkCooldown());
@@ -175,6 +176,7 @@ public class HamsterChar : PlayerCharacter
             SoundManager.instance.Play(SoundsTypes.HamsterJump, gameObject);
             _ifShrink = false;
             transform.localScale = new Vector3(1f, 1f, 1);
+            _data._inventoryPos.localScale = new Vector3(1f, 1f, 1);
             transform.position += new Vector3(0, .5f, 0);
             _data.groundCheckArea = defaultGroundCheckArea;
             _data.jumpForce = jumpDefault;
