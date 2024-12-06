@@ -32,6 +32,7 @@ public class LevelMenu : MonoBehaviour
         if (lvl == null || lvl.Length <= 0) return;
         if (string.IsNullOrEmpty(lvl)) _selectedLevel = _defaultLevel;
         _selectedLevel = lvl;
+        Debug.Log("level selected is: " + _selectedLevel);
     }
 
     public void PlayLevel()
@@ -67,13 +68,14 @@ public class LevelMenu : MonoBehaviour
 
     public void StaySelected(LevelNameBtn button)
     {
-        button.SetSelected(true);
+        if(!button.selected) 
+            button.SetSelected(true);
 
         foreach (LevelNameBtn btn in _levelNameBtns)
             if (btn.selected == true && btn != button)
             {
+                Debug.Log(btn.gameObject.name);
                 btn.SetSelected(false);
-                return;
             }
     }
 }
