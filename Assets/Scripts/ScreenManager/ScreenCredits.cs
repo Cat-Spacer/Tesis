@@ -3,6 +3,10 @@ using UnityEngine;
 [RequireComponent(typeof(Canvas))]
 public class ScreenCredits : ScreenBase, IScreen
 {
+    private void Awake()
+    {
+        OnAwake();
+    }
     public void BTN_Back()
     {
         ScreenManager.instance.Pop(false);
