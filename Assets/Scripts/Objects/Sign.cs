@@ -11,6 +11,7 @@ public class Sign : MonoBehaviour,IInteract
 
     private SignSprites sign;
     [FormerlySerializedAs("sings")] [SerializeField] private SignSprites[] signs = new SignSprites[6];
+    [SerializeField] private ParticleSystem particle;
     private bool _wasDrawed = false;
     private void Start()
     {
@@ -21,6 +22,7 @@ public class Sign : MonoBehaviour,IInteract
 
     void Draw()
     {
+        particle.Play();
         SoundManager.instance.Play(SoundsTypes.Spray, gameObject);
         GetComponent<BoxCollider2D>().enabled = false;
         _wasDrawed = true;

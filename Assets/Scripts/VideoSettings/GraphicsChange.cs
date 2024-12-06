@@ -12,7 +12,7 @@ public class GraphicsChange : MonoBehaviour
     [SerializeField] private int _resIndex = 0, _aaIndex = 0;
     [SerializeField] private TMP_Dropdown _qualityDropdown = default, _resolutionDropdown = default;
 
-    private List<Resolution> _resolutions = default;
+    Resolution[] _resolutions = default;
 
     private void Awake()
     {
@@ -32,7 +32,7 @@ public class GraphicsChange : MonoBehaviour
         _fullscreen.isOn = Screen.fullScreen;
 
         #region Resolution Dropdown
-        _resolutions = Screen.resolutions.ToList<Resolution>();
+        _resolutions = Screen.resolutions;
 
         foreach (var res in _resolutions)
         {
@@ -42,12 +42,13 @@ public class GraphicsChange : MonoBehaviour
         _resolutionDropdown.ClearOptions();
 
         List<string> options = new List<string>();
-        for (int i = 0; i < _resolutions.Count; i++)
+        for (int i = 0; i < _resolutions.Length; i++)
         {
             options.Add($"{_resolutions[i].width} x {_resolutions[i].height} - {_resolutions[i].refreshRateRatio.value} Hz");
             if (_resolutions[i].width == Screen.width && _resolutions[i].height == Screen.height)
                 _resIndex = i;
         }
+        _resolutionDropdown.AddOptions(options);
 
 #if UNITY_EDITOR
         _resIndex = 1;

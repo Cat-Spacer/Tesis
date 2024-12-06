@@ -59,6 +59,12 @@ public class TutorialBot : MonoBehaviour
             case TutorialBoxType.TubesMovement:
                 animator.Play("P1TubesMovement");
                 break;
+            case TutorialBoxType.CatFace:
+                animator.Play("CatFace");
+                break;
+            case TutorialBoxType.HamsterFace:
+                animator.Play("HamsterFace");
+                break;
         }        
     }
     public void P2ChangeAnimation(TutorialBoxType type)
@@ -89,6 +95,12 @@ public class TutorialBot : MonoBehaviour
                 break;
             case TutorialBoxType.TubesMovement:
                 animator.Play("P2TubesMovement");
+                break;
+            case TutorialBoxType.CatFace:
+                animator.Play("CatFace");
+                break;
+            case TutorialBoxType.HamsterFace:
+                animator.Play("HamsterFace");
                 break;
         }        
     }
