@@ -178,4 +178,11 @@ public class LiveCamera : MonoBehaviour
         ActivateCamera();
         EventManager.Instance.Trigger(EventType.OnLive);
     }
+
+    private void OnDisable()
+    {
+        EventManager.Instance.Unsubscribe(EventType.OnResumeGame, OnResumeGame);
+        EventManager.Instance.Unsubscribe(EventType.OnPauseGame, OnPauseGame);
+        EventManager.Instance.Unsubscribe(EventType.OnFinishGame, OnFinishGame);
+    }
 }

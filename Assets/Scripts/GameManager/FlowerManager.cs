@@ -35,4 +35,9 @@ public class FlowerManager : MonoBehaviour
             EventManager.Instance.Trigger(EventType.OnOpenDoors);
         }
     }
+
+    private void OnDisable()
+    {
+        EventManager.Instance.Unsubscribe(EventType.OnPutFlower, OnPutFlower);
+    }
 }

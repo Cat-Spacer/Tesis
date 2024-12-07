@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -67,5 +68,11 @@ public class MenuButtons : MonoBehaviour
         Time.timeScale = 1;
         //SoundManager.instance.Play(SoundsTypes.Click);
         SceneManager.LoadScene("LevelSelector", LoadSceneMode.Single);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.Instance.Unsubscribe(EventType.OnFinishGame, OnFinishGame);
+        EventManager.Instance.Unsubscribe(EventType.OnStartGame, OnStartGame);
     }
 }

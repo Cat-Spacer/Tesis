@@ -66,4 +66,9 @@ public class TutorialArrowShow : MonoBehaviour
             DeactivateTutorial();
         }
     }
+
+    private void OnDisable()
+    {
+        EventManager.Instance.Unsubscribe(EventType.OnFinishGame, OnFinishGame);
+    }
 }

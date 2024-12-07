@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -22,5 +23,10 @@ public class GameLevelMenu : MonoBehaviour
     {
         var points = EgoSystem.instance.GetEgoPoints();
         if(_winMenu!= null) _winMenu.OpenMenu(points.Item1, points.Item2);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.Instance.Unsubscribe(EventType.OnLoseGame, OnLoseGame);
     }
 }

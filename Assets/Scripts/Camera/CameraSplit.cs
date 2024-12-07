@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,5 +23,11 @@ public class CameraSplit : MonoBehaviour
     private void OnSwitchCameraType(object[] obj)
     {
         image.enabled = false;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.Instance.Unsubscribe(EventType.OnGroupCamera, OnSwitchCameraType);
+        EventManager.Instance.Unsubscribe(EventType.OnSplitCamera, OnSplitCamera);
     }
 }
