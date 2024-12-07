@@ -35,7 +35,9 @@ public class ScreenManager : MonoBehaviour
             _stack.Peek().Activate();
         }
 
-        if (_objToActivateDesactivate != null || _objToActivateDesactivate.Length <= 0) return;
+        if (_objToActivateDesactivate != null) return;
+        if (_objToActivateDesactivate.Length <= 0) return;
+
         foreach (var obj in _objToActivateDesactivate)
         {
             obj.SetActive(true);
@@ -59,8 +61,8 @@ public class ScreenManager : MonoBehaviour
         var go = Instantiate(Resources.Load<GameObject>(resource));
         Push(go.GetComponent<IScreen>());
 
-        //if (lastResult == "Settings_Menu(Clone)" || lastResult == "SettingsPause_Menu(Clone)")
-        if (_objToActivateDesactivate != null || _objToActivateDesactivate.Length <= 0) return;
+        if (_objToActivateDesactivate != null) return;
+        if (_objToActivateDesactivate.Length <= 0) return;
         foreach (var obj in _objToActivateDesactivate)
         {
             obj.SetActive(false);

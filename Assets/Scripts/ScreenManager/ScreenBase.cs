@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,9 +13,10 @@ public abstract class ScreenBase : MonoBehaviour
     {
         SetCamera(_canvasLayer);
         buttons = GetComponentsInChildren<Button>();
-        if (buttons != null || buttons.Length <= 0) return;
-        foreach (var button in buttons)
-            button.interactable = true;
+        if (buttons != null) if(buttons.Length <= 0) return;
+        foreach (var button in buttons) button.interactable = true;
+
+        if (EventManager.Instance) EventManager.Instance.Subscribe(EventType.OnResumeGame, FreeEvent);
     }
 
     public virtual void SetCamera(int canvasLayer = 0)
@@ -31,5 +33,15 @@ public abstract class ScreenBase : MonoBehaviour
         Destroy(gameObject);
 
         return gameObject.name;
+    }
+
+    private void FreeEvent(object[] obj)
+    {
+        Free();
+    }
+
+    private void OnDestroy()
+    {
+        if (EventManager.Instance) EventManager.Instance.Unsubscribe(EventType.OnResumeGame, FreeEvent);
     }
 }
