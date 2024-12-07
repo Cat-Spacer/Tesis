@@ -68,11 +68,8 @@ public class SoundManager : MonoBehaviour
     private LookUpTable<string, Sound> _usedSoundsByName = default;
     [SerializeField] private int _limit = 15;
     [SerializeField] private SoundSpawn _prefab = default;
-    private ObjectFactory _objectFactory = default;
-    private ObjectPool<ObjectToSpawn> _pool = default;
     private bool _flag = true;
     [SerializeField] private List<SoundSpawn> _soundsList = new();
-    [SerializeField] private List<ObjectToSpawn> _poolList = new();
 
     public Dictionary<string, float> mixerValue = new();
 
@@ -98,17 +95,10 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        _poolList = _pool.GetStock;
-    }
-
     private void InitialSet()
     {
         _usedSounds = new(SearchSound);
         _usedSoundsByName = new(SearchSound);
-        _objectFactory = new ObjectFactory(_prefab, transform);
-        _pool = new ObjectPool<ObjectToSpawn>(_objectFactory.GetObj, ObjectToSpawn.TurnOnOff, 0);
     }
 
     public void Play(SoundsTypes nameType, GameObject request = default, bool loop = false)
@@ -191,7 +181,7 @@ public class SoundManager : MonoBehaviour
         {
             if (request.GetComponentInChildren<AudioSource>()) if (FoundEqualSound(s.clip, request)) return s;
 
-            ObjectToSpawn objPool = _pool.GetObject();
+            SoundSpawn objPool = Instantiate(_prefab);
 
             if (objPool != null && objPool.TryGetComponent<SoundSpawn>(out var spaw))
             {
@@ -211,7 +201,6 @@ public class SoundManager : MonoBehaviour
         {
             AddToSoundList(soundObject);
             soundObject.SetFather(request);
-            soundObject.AddReferences(_pool);
             return soundObject.SetAudioSource(s, loop);
         }
         else if (s.nameType == SoundsTypes.Music)
@@ -239,6 +228,7 @@ public class SoundManager : MonoBehaviour
             Debug.LogWarning($"<color=orange>Source not found!</color>");
             return s;
         }
+
         s.source.clip = s.clip;
         s.source.outputAudioMixerGroup = s.audioMixerGroup;
         s.source.volume = s.volume;
@@ -304,8 +294,6 @@ public class SoundManager : MonoBehaviour
 
     public void RemoveFromSoundList(SoundSpawn sound)
     {
-        // Debug.Log($"{sound} was removed");
-
         if (_soundsList != null) if (_soundsList.Count > 0) if (_soundsList.Contains(sound)) _soundsList.Remove(sound);
     }
 

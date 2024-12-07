@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
-public class SoundSpawn : ObjectToSpawn
+public class SoundSpawn : MonoBehaviour
 {
     private GameObject _father = default;
     public GameObject Father { get { return _father; } }
@@ -15,7 +15,7 @@ public class SoundSpawn : ObjectToSpawn
     private void Start()
     {
         SuscribeEventManager();
-        if (GameManager.Instance.pause) ReturnToStack(default);
+        if (GameManager.Instance.pause) PauseByDesactivate(default);
     }
 
     public void SetFather(GameObject father)
@@ -39,22 +39,17 @@ public class SoundSpawn : ObjectToSpawn
         return s;
     }
 
-    public void AddReferences(ObjectPool<ObjectToSpawn> op)
+    public void PauseByDesactivate(object[] obj)
     {
-        AddReference(op);
-    }
-
-    public void ReturnToStack(object[] obj)
-    {
-        objectPool?.ReturnObject(this);
+        gameObject.SetActive(false);
     }
 
     private void SuscribeEventManager()
     {
         if (EventManager.Instance)
         {
-            EventManager.Instance.Subscribe(EventType.OnPauseGame, ReturnToStack);
-            EventManager.Instance.Subscribe(EventType.OnFinishGame, ReturnToStack);
+            EventManager.Instance.Subscribe(EventType.OnPauseGame, PauseByDesactivate);
+            EventManager.Instance.Subscribe(EventType.OnFinishGame, PauseByDesactivate);
         }
     }
 
@@ -62,12 +57,12 @@ public class SoundSpawn : ObjectToSpawn
     {
         if (EventManager.Instance)
         {
-            EventManager.Instance.Unsubscribe(EventType.OnPauseGame, ReturnToStack);
-            EventManager.Instance.Unsubscribe(EventType.OnFinishGame, ReturnToStack);
+            EventManager.Instance.Unsubscribe(EventType.OnPauseGame, PauseByDesactivate);
+            EventManager.Instance.Unsubscribe(EventType.OnFinishGame, PauseByDesactivate);
         }
     }
 
-    public override void Reset()
+    public void Reset() 
     {
         if(!gameObject.activeSelf) gameObject.SetActive(true);
         SuscribeEventManager();
