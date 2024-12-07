@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 public class ScreenAudio : ScreenBase, IScreen
 {
     public static ScreenAudio instance;
-    [SerializeField] private GameObject _alternativeBTN = default;
+    [SerializeField] private GameObject _alternativeBTN = default, _currentBTN = default;
 
     private void Awake()
     {
@@ -48,9 +48,9 @@ public class ScreenAudio : ScreenBase, IScreen
 
     private void SetButton()
     {
-        if (SceneManager.GetActiveScene().buildIndex > 2)
+        if (SceneManager.GetActiveScene().buildIndex > 2 && _alternativeBTN && _currentBTN)
         {
-            _alternativeBTN.SetActive(false);
+            _currentBTN.SetActive(false);
             _alternativeBTN.SetActive(true);
         }
     }

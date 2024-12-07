@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(Canvas))]
 public class ScreenControls : ScreenBase, IScreen
 {
-    [SerializeField] private GameObject _alternativeBTN = default;
+    [SerializeField] private GameObject _alternativeBTN = default, _currentBTN = default;
 
     private void Awake()
     {
@@ -43,9 +43,9 @@ public class ScreenControls : ScreenBase, IScreen
 
     private void SetButton()
     {
-        if (SceneManager.GetActiveScene().buildIndex > 2)
+        if (SceneManager.GetActiveScene().buildIndex > 2 && _alternativeBTN && _currentBTN)
         {
-            _alternativeBTN.SetActive(false);
+            _currentBTN.SetActive(false);
             _alternativeBTN.SetActive(true);
         }
     }

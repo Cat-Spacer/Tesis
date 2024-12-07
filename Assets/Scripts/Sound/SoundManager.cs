@@ -211,7 +211,7 @@ public class SoundManager : MonoBehaviour
         {
             AddToSoundList(soundObject);
             soundObject.SetFather(request);
-            soundObject.AddReferences(_pool);             
+            soundObject.AddReferences(_pool);
             return soundObject.SetAudioSource(s, loop);
         }
         else if (s.nameType == SoundsTypes.Music)
@@ -239,18 +239,11 @@ public class SoundManager : MonoBehaviour
             Debug.LogWarning($"<color=orange>Source not found!</color>");
             return s;
         }
-        //if (soundObject)
-        //{
-        //    soundObject.AddReferences(_pool);
-        //}
-        //else
-        //{
-            s.source.clip = s.clip;
-            s.source.outputAudioMixerGroup = s.audioMixerGroup;
-            s.source.volume = s.volume;
-            s.source.pitch = s.pitch;
-            s.source.loop = loop;
-        //}
+        s.source.clip = s.clip;
+        s.source.outputAudioMixerGroup = s.audioMixerGroup;
+        s.source.volume = s.volume;
+        s.source.pitch = s.pitch;
+        s.source.loop = loop;
 
         return s;
     }
@@ -311,7 +304,7 @@ public class SoundManager : MonoBehaviour
 
     public void RemoveFromSoundList(SoundSpawn sound)
     {
-       // Debug.Log($"{sound} was removed");
+        // Debug.Log($"{sound} was removed");
 
         if (_soundsList != null) if (_soundsList.Count > 0) if (_soundsList.Contains(sound)) _soundsList.Remove(sound);
     }

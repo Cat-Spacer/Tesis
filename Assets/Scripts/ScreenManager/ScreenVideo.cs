@@ -40,9 +40,9 @@ public class ScreenVideo : ScreenBase, IScreen
 
     private void SetButton()
     {
-        if (SceneManager.GetActiveScene().buildIndex > 2)
+        if (SceneManager.GetActiveScene().buildIndex > 2 && _alternativeBTN && _currentBTN)
         {
-            _alternativeBTN.SetActive(false);
+            _currentBTN.SetActive(false);
             _alternativeBTN.SetActive(true);
         }
     }
