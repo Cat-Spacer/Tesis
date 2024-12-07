@@ -36,6 +36,7 @@ public class CharacterModel : MonoBehaviour
     private void Start()
     {
         EventManager.Instance.Subscribe(EventType.OnFinishGame, OnFinishGame);
+        EventManager.Instance.Subscribe(EventType.OnLoseGame, OnFinishGame);
         _data = GetComponent<CharacterData>();
         _mat = spRenderer.material;
         _particles.Add(_landParticle);
