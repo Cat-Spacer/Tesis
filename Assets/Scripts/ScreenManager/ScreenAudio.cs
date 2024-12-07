@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Canvas))]
 public class ScreenAudio : ScreenBase, IScreen
 {
     public static ScreenAudio instance;
+    [SerializeField] private GameObject _alternativeBTN = default;
 
     private void Awake()
     {
@@ -15,6 +17,7 @@ public class ScreenAudio : ScreenBase, IScreen
             return;
         }
         OnAwake();
+        SetButton();
     }
 
     public void BTN_Back()
@@ -40,6 +43,15 @@ public class ScreenAudio : ScreenBase, IScreen
         foreach (var button in buttons)
         {
             button.interactable = false;
+        }
+    }
+
+    private void SetButton()
+    {
+        if (SceneManager.GetActiveScene().buildIndex > 2)
+        {
+            _alternativeBTN.SetActive(false);
+            _alternativeBTN.SetActive(true);
         }
     }
 }

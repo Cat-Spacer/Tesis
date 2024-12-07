@@ -36,11 +36,13 @@ public class ZoomManager : MonoBehaviour
         secondCam.Priority = 2;
         StartCoroutine(Wait());
     }
+
     IEnumerator Wait()
     {
         yield return new WaitForSeconds(timeToZoom);
         zoomIn = true;
     }
+
     private void Update()
     {
         if (!zoomIn) return;
@@ -57,92 +59,4 @@ public class ZoomManager : MonoBehaviour
             zoomIn = false;
         }
     }
-
-    #region OLD
-    // [SerializeField] private Button[] _buttons = default;
-    // [SerializeField] private GameObject _zoomed = default;
-    // [SerializeField] private float _zoomMultiplayer = 1f, _smothTime = 0.25f, _minZoom = 2f, _maxZoom = 5f, _zoomSpeed = 1f;
-    // [SerializeField, Range(0.1f, 30f)] private float _delayTime = 1f;
-    // private float _zoom = default, _smothSpeed = default;
-    // private Camera _mainCamera = default;
-    // private Vector3 _initialPos = default, _zoomedPos = default;
-    // private void Awake()
-    // {
-    //     if (!_mainCamera) _mainCamera = Camera.main;
-    //     _zoom = _mainCamera.orthographicSize;
-    //     if (_mainCamera.orthographic) _maxZoom = _mainCamera.orthographicSize;
-    //
-    //     foreach (var button in _buttons)
-    //     {
-    //         button.interactable = false;
-    //         if (button.GetComponent<ButtonSizeUpdate>()) button.GetComponent<ButtonSizeUpdate>().enabled = false;
-    //     }
-    //     _initialPos = _mainCamera.transform.position;
-    //     _zoomedPos = new Vector3(_zoomed.transform.position.x, _zoomed.transform.position.y, _mainCamera.transform.position.z);
-    //     StartCoroutine(Delay(_delayTime));
-    // }
-    //
-    // public void ClickForZoom(float newZoomSpeed = 0)
-    // {
-    //     if (!_zoomed || _buttons.Length < 1) return;
-    //     if (newZoomSpeed > 0) _smothSpeed = newZoomSpeed;
-    //
-    //     StartCoroutine(SmothZoom(_zoomMultiplayer, true, _zoomedPos));
-    // }
-    //
-    // public void ClickForBack(float newZoomSpeed = 0)
-    // {
-    //     if (!_zoomed || _buttons.Length < 1) return;
-    //     if (newZoomSpeed > 0) _smothSpeed = newZoomSpeed;
-    //
-    //     StartCoroutine(SmothZoom(-_zoomMultiplayer, false, _initialPos));
-    // }
-    //
-    // private IEnumerator SmothZoom(float zoomTo, bool interactable, Vector3 target)
-    // {
-    //     Vector3 dir = target - _mainCamera.transform.position;
-    //     //Debug.Log($"target pos {target}");
-    //     foreach (Button button in _buttons)
-    //     {
-    //         button.interactable = false;
-    //         if (button.GetComponent<ButtonSizeUpdate>()) button.GetComponent<ButtonSizeUpdate>().enabled = false;
-    //     }
-    //
-    //     while (_mainCamera.transform.position != target || (_mainCamera.orthographicSize > _minZoom && _mainCamera.orthographicSize < _maxZoom))
-    //     {
-    //         if (Vector3.Distance(_mainCamera.transform.position, target) < 0.05f) _mainCamera.transform.position = target;
-    //         else
-    //         {
-    //             _mainCamera.transform.position += (Mathf.Abs(_smothSpeed) + _zoomSpeed) * Time.deltaTime * dir;
-    //             dir = target - _mainCamera.transform.position;
-    //         }
-    //
-    //         _zoom -= zoomTo;
-    //         _zoom = Mathf.Clamp(_zoom, _minZoom, _maxZoom);
-    //
-    //         if (MathF.Abs(MathF.Round(_mainCamera.orthographicSize, 2) - _minZoom) < 0.02) _mainCamera.orthographicSize = _minZoom;
-    //         if (MathF.Abs(MathF.Round(_mainCamera.orthographicSize, 2) - _maxZoom) < 0.02) _mainCamera.orthographicSize = _maxZoom;
-    //
-    //         _mainCamera.orthographicSize = Mathf.SmoothDamp(_mainCamera.orthographicSize, _zoom, ref _smothSpeed, _smothTime);
-    //         yield return new WaitForEndOfFrame();
-    //     }
-    //
-    //     //Debug.Log($"Target: {target}");
-    //     if (target == _zoomedPos)
-    //     {
-    //         foreach (Button button in _buttons)
-    //         {
-    //             button.interactable = interactable;
-    //             if (button.GetComponent<ButtonSizeUpdate>()) button.GetComponent<ButtonSizeUpdate>().enabled = interactable;
-    //         }
-    //     }
-    // }
-    //
-    // private IEnumerator Delay(float whaitTime = 1f)
-    // {
-    //     yield return new WaitForSeconds(whaitTime);
-    //
-    //     ClickForZoom();
-    // }
-    #endregion
 }
