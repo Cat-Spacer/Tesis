@@ -191,11 +191,11 @@ public class SoundManager : MonoBehaviour
         {
             if (request.GetComponentInChildren<AudioSource>()) if (FoundEqualSound(s.clip, request)) return s;
 
-            var objPool = _pool.GetObject();
+            ObjectToSpawn objPool = _pool.GetObject();
 
-            if (objPool != null && objPool != default && objPool.TryGetComponent<SoundSpawn>(out var spaw))
+            if (objPool != null && objPool.TryGetComponent<SoundSpawn>(out var spaw))
             {
-                if (spaw != null && spaw != default)
+                if (spaw != null)
                     soundObject = spaw;
                 else
                     Debug.LogWarning($"<color=orange>Sound Spawn not found!</color>");
@@ -211,8 +211,7 @@ public class SoundManager : MonoBehaviour
         {
             AddToSoundList(soundObject);
             soundObject.SetFather(request);
-            soundObject.AddReferences(_pool);
-            //if (GameManager.Instance.pause) soundObject.ReturnToStack(default);               
+            soundObject.AddReferences(_pool);             
             return soundObject.SetAudioSource(s, loop);
         }
         else if (s.nameType == SoundsTypes.Music)

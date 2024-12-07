@@ -1,25 +1,15 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Canvas))]
 public class ScreenControls : ScreenBase, IScreen
 {
-    //public static ScreenControls instance;
+    [SerializeField] private GameObject _alternativeBTN = default;
 
-    //private void Awake()
-    //{
-    //    if (!instance)
-    //        instance = this;
-    //    else
-    //    {
-    //        Destroy(gameObject);
-    //        return;
-    //    }
-    //    OnAwake();
-
-    //}
     private void Awake()
     {
         OnAwake();
+        SetButton();
     }
     public void BTN_Back()
     {
@@ -48,6 +38,15 @@ public class ScreenControls : ScreenBase, IScreen
         foreach (var button in buttons)
         {
             button.interactable = false;
+        }
+    }
+
+    private void SetButton()
+    {
+        if (SceneManager.GetActiveScene().buildIndex > 2)
+        {
+            _alternativeBTN.SetActive(false);
+            _alternativeBTN.SetActive(true);
         }
     }
 }
