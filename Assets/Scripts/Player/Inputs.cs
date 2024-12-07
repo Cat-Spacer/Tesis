@@ -127,5 +127,9 @@ public class Inputs : MonoBehaviour
     {
         attackKeycode = KeyCode.None;
     }
-    
+
+    private void OnDisable()
+    {
+        EventManager.Instance.Unsubscribe(EventType.OnFinishGame, OnFinishGame);
+    }
 }

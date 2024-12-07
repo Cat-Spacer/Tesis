@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -186,5 +187,13 @@ public class GameManager : MonoBehaviour
     public Transform GetHamster()
     {
         return _hamsterPlayer.transform;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.Instance.Unsubscribe(EventType.OnLoseGame, OnLoseGame);
+        EventManager.Instance.Unsubscribe(EventType.OnFinishGame, OnFinishGame);
+        EventManager.Instance.Unsubscribe(EventType.OnResumeGame, OnResumeGame);
+        EventManager.Instance.Unsubscribe(EventType.OnPauseGame, OnPauseGame);
     }
 }

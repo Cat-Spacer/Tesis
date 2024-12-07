@@ -50,4 +50,9 @@ public class PlayerCanvas : MonoBehaviour
         if (interactState) interactButton.gameObject.SetActive(true);
         else interactButton.gameObject.SetActive(false);
     }
+
+    private void OnDisable()
+    {
+        EventManager.Instance.Unsubscribe(EventType.ViewPlayerIndicator, OnViewPlayerIndicator);
+    }
 }

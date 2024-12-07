@@ -30,18 +30,16 @@ public class EventManager : MonoBehaviour
     public static EventManager Instance { get; private set; }
 
     private Dictionary<EventType, Action<object[]>> _callbackDictionary = new Dictionary<EventType, Action<object[]>>();
-
-
     private void Awake()
     {
-        Instance = this;
-        // if (Instance == null)
-        //     Instance = this;
-        // else
-        // {
-        //     Debug.LogWarning($"Found duplicate of 'EventManager' on {gameObject.name}");
-        //     Destroy(this);
-        // }
+        //Instance = this;
+        if (Instance == null)
+            Instance = this;
+        else
+        {
+            Debug.LogWarning($"Found duplicate of 'EventManager' on {gameObject.name}");
+            Destroy(this);
+        }
     }
 
     public void Subscribe(EventType eventId, Action<object[]> callback)

@@ -134,4 +134,9 @@ public class ExitDoor : MonoBehaviour, IInteract
     {
         
     }
+
+    private void OnDisable()
+    {
+        EventManager.Instance.Unsubscribe(EventType.OnOpenDoors, OnOpenDoors);
+    }
 }

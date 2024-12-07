@@ -77,4 +77,10 @@ public class PeaceSystem : MonoBehaviour
             _shieldStrikes[_currentShieldStrike - 1].gameObject.SetActive(true);
         }
     }
+
+    private void OnDisable()
+    {
+        EventManager.Instance.Unsubscribe(EventType.OnChangePeace, UpdatePeace);
+        EventManager.Instance.Unsubscribe(EventType.OnGetShield, GetShield);
+    }
 }

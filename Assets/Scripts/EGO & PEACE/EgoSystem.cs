@@ -49,6 +49,11 @@ public class EgoSystem : MonoBehaviour
         }
     }
     public Tuple<int, int> GetEgoPoints(){return Tuple.Create(catPoints, hamsterPoints);}
+
+    private void OnDisable()
+    {
+        EventManager.Instance.Unsubscribe(EventType.OnUpdateEgoPoints, OnUpdatePoints);
+    }
 }
 
 

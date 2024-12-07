@@ -88,4 +88,9 @@ public class TutorialBox : MonoBehaviour
         }
 
     }
+
+    private void OnDisable()
+    {
+        EventManager.Instance.Unsubscribe(EventType.OnStartGame, OnStartGame);
+    }
 }

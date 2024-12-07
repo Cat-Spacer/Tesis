@@ -153,4 +153,10 @@ public class CharacterModel : MonoBehaviour
     {
         return _data.faceDirection;
     }
+
+    private void OnDisable()
+    {
+        EventManager.Instance.Unsubscribe(EventType.OnFinishGame, OnFinishGame);
+        EventManager.Instance.Unsubscribe(EventType.OnLoseGame, OnFinishGame);
+    }
 }
