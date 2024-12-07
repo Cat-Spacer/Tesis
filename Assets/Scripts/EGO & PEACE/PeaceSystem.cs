@@ -9,7 +9,7 @@ public class PeaceSystem : MonoBehaviour
     public static PeaceSystem instance;
     [SerializeField] private Image[] _strikes;
     [SerializeField] private Image[] _shieldStrikes;
-    [SerializeField] int _currentStrike = 3;
+    [SerializeField] int _currentStrike = 0;
     [SerializeField] int _currentShieldStrike = -1;
     
     private void Start()
@@ -38,7 +38,7 @@ public class PeaceSystem : MonoBehaviour
     }
     private void UpdatePeace(object[] obj)
     {
-        if (_currentStrike <= 0) return;
+        if (_currentStrike == 3) return;
         if (_currentShieldStrike > 0)
         {
             if (_currentShieldStrike == 3)
@@ -62,9 +62,9 @@ public class PeaceSystem : MonoBehaviour
             _currentShieldStrike--;
             return;
         }
-        _currentStrike--;
-        _strikes[_currentStrike].color = Color.gray;
-        if (_currentStrike == 0)
+        _currentStrike++;
+        _strikes[_currentStrike - 1].color = Color.white;
+        if (_currentStrike == 3)
         {
             EventManager.Instance.Trigger(EventType.OnLoseGame);
         }
