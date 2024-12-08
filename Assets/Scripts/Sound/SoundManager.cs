@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.IO;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public enum SoundsTypes
 {
@@ -73,8 +75,14 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private SoundSpawn _prefab = default;
     private bool _flag = true;
     [SerializeField] private List<SoundSpawn> _soundsList = new();
+    [SerializeField] private AudioMixer _mixer = default;
 
-    public Dictionary<string, float> mixerValue = new();
+    private Dictionary<string, float> _mixerValue = new();
+
+    public Dictionary<string, float> MixerValue
+    {
+        get => _mixerValue;
+    }
 
     private void Awake()
     {
@@ -85,6 +93,7 @@ public class SoundManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
         DontDestroyOnLoad(gameObject);
         InitialSet();
     }
@@ -95,6 +104,27 @@ public class SoundManager : MonoBehaviour
         {
             EventManager.Instance.Subscribe(EventType.OnResumeGame, ActiveSounds);
             EventManager.Instance.Subscribe(EventType.OnStartGame, ActiveSounds);
+        }
+
+        if (SaveManager.instance || SaveManager.instance.JsonSaves.LoadData().mixerNames != null)
+        {
+            string[] names = SaveManager.instance.JsonSaves.LoadData().mixerNames.ToArray();
+            float[] volumes = SaveManager.instance.JsonSaves.LoadData().volumes.ToArray();
+            for (int i = 0; i < names.Length && names.Length == volumes.Length; i++)
+            {
+                _mixerValue.Add(names[i], volumes[i]);
+            }
+        }
+        else
+        {
+            JsonSaves saves = new();
+            if (saves.LoadData().mixerNames == null) return;
+            string[] names = saves.LoadData().mixerNames.ToArray();
+            float[] volumes = saves.LoadData().volumes.ToArray();
+            for (int i = 0; i < names.Length && names.Length == volumes.Length; i++)
+            {
+                _mixerValue.Add(names[i], volumes[i]);
+            }
         }
     }
 
@@ -115,7 +145,9 @@ public class SoundManager : MonoBehaviour
         }
 
         s = SoundSet(s, request, loop);
-        if (s.source) if (s.source.gameObject.activeSelf) s.source.Play();
+        if (s.source)
+            if (s.source.gameObject.activeSelf)
+                s.source.Play();
     }
 
     public void Play(string name, GameObject request = default, bool loop = false)
@@ -128,7 +160,9 @@ public class SoundManager : MonoBehaviour
         }
 
         s = SoundSet(s, request, loop);
-        if (s.source) if (s.source.gameObject.activeSelf) s.source.Play();
+        if (s.source)
+            if (s.source.gameObject.activeSelf)
+                s.source.Play();
     }
 
     public void OnClickSound(string name)
@@ -139,8 +173,11 @@ public class SoundManager : MonoBehaviour
             Debug.LogWarning($"<color=yellow>Sound: {name} not found!</color>");
             return;
         }
+
         s = SoundSet(s);
-        if (s.source) if (s.source.gameObject.activeSelf) s.source.Play();
+        if (s.source)
+            if (s.source.gameObject.activeSelf)
+                s.source.Play();
     }
 
     public void Pause(SoundsTypes nameType, GameObject request = default)
@@ -153,7 +190,9 @@ public class SoundManager : MonoBehaviour
         }
 
         s = SoundSet(s, request);
-        if (s.source) if (s.source.gameObject.activeSelf) s.source.Pause();
+        if (s.source)
+            if (s.source.gameObject.activeSelf)
+                s.source.Pause();
     }
 
     public void Pause(string name)
@@ -167,7 +206,9 @@ public class SoundManager : MonoBehaviour
         }
 
         s = SoundSet(s);
-        if (s.source) if (s.source.gameObject.activeSelf) s.source.Pause();
+        if (s.source)
+            if (s.source.gameObject.activeSelf)
+                s.source.Pause();
     }
 
     public void PauseAll()
@@ -178,18 +219,20 @@ public class SoundManager : MonoBehaviour
 
     private Sound SoundSet(Sound s, GameObject request = null, bool loop = false)
     {
-        if (s == null || s == default) return null;
+        if (s == null) return null;
 
         SoundSpawn soundObject = null;
         if (request && request != gameObject)
         {
-            if (request.GetComponentInChildren<AudioSource>()) if (FoundEqualSound(s.clip, request)) return s;
+            if (request.GetComponentInChildren<AudioSource>())
+                if (FoundEqualSound(s.clip, request))
+                    return s;
 
             SoundSpawn objPool = Instantiate(_prefab);
 
-            if (objPool != null && objPool.TryGetComponent<SoundSpawn>(out var spaw))
+            if (objPool && objPool.TryGetComponent<SoundSpawn>(out var spaw))
             {
-                if (spaw != null)
+                if (spaw)
                     soundObject = spaw;
                 else
                     Debug.LogWarning($"<color=orange>Sound Spawn not found!</color>");
@@ -222,6 +265,7 @@ public class SoundManager : MonoBehaviour
                         s.source = source;
                         break;
                     }
+
                 if (!s.source) s.source = gameObject.GetComponent<AudioSource>();
             }
         }
@@ -264,6 +308,7 @@ public class SoundManager : MonoBehaviour
                 }
             }
         }
+
         return false;
     }
 
@@ -271,6 +316,7 @@ public class SoundManager : MonoBehaviour
     {
         return Array.Find(sounds, sound => sound.nameType == name);
     }
+
     private Sound SearchSound(string name)
     {
         return Array.Find(sounds, sound => sound.name == name);
@@ -286,7 +332,8 @@ public class SoundManager : MonoBehaviour
     {
         LinkedList<Sound> repeats = new();
         foreach (var item in sounds)
-            if (nameType == item.nameType) repeats.Add(item);
+            if (nameType == item.nameType)
+                repeats.Add(item);
 
         Sound s = default;
         if (repeats.Count > 1)
@@ -298,7 +345,10 @@ public class SoundManager : MonoBehaviour
 
     public void RemoveFromSoundList(SoundSpawn sound)
     {
-        if (_soundsList != null) if (_soundsList.Count > 0) if (_soundsList.Contains(sound)) _soundsList.Remove(sound);
+        if (_soundsList != null)
+            if (_soundsList.Count > 0)
+                if (_soundsList.Contains(sound))
+                    _soundsList.Remove(sound);
     }
 
     public void AddToSoundList(SoundSpawn sound)
@@ -324,5 +374,42 @@ public class SoundManager : MonoBehaviour
 
         source.volume = startVolume;
         source.Pause();
+    }
+
+    public void SetMixerVolume(string mixerName, float volume)
+    {
+        if (mixerName == null && !_mixer) return;
+
+        if (_mixer.FindMatchingGroups(mixerName).Length < 1)
+        {
+            Debug.LogWarning($"<color=orange>Mixer not found!</color>");
+            return;
+        }
+
+        _mixerValue[mixerName] = volume;
+        if (SaveManager.instance)
+        {
+            List<string> mixersNames = SaveManager.instance.JsonSaves.LoadData().mixerNames;
+            List<float> volumes = SaveManager.instance.JsonSaves.LoadData().volumes;
+            if (!mixersNames.Contains(mixerName)) mixersNames.Add(mixerName);
+            if (mixersNames.Count != volumes.Count)
+            {
+                int adds = mixersNames.Count - volumes.Count;
+
+                for (int i = 0; i < adds;volumes.Add(default) ,i++);
+            }
+            for (int i = 0; i < mixersNames.Count; i++)
+            {
+                if(mixersNames[i] == mixerName) volumes[i] = volume;
+            }
+            SaveManager.instance.JsonSaves.SaveJson();
+        }
+        else
+        {
+            JsonSaves save = new();
+            save.LoadData().mixerNames.Add(mixerName);
+            save.LoadData().volumes.Add(volume);
+            save.SaveJson();
+        }
     }
 }

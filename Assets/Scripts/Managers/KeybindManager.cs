@@ -5,7 +5,7 @@ public class KeybindManager : MonoBehaviour
 {
     public static KeybindManager instance = default;
     public InputDictionary inputDictionary = default;
-    public SaveManager saveManager = default;
+    public JsonSaves JsonSaveManager = new ();
     [SerializeField] private GameObject _popUP = default;
 
     private void Awake()
@@ -17,18 +17,19 @@ public class KeybindManager : MonoBehaviour
         }
         else Destroy(this);
 
-        if (!saveManager) saveManager = GetComponent<SaveManager>();
+        if (JsonSaveManager == null) JsonSaveManager = new();
+        JsonSaveManager.OnAwake();
         inputDictionary = new InputDictionary();
     }
 
     void Start()
     {
-        saveManager.LoadJSON();
+        JsonSaveManager.LoadJson();
 
-        if (saveManager.LoadData().buttonKeys == null || saveManager.LoadData().buttonValues == null || !saveManager.CheckFile())
+        if (JsonSaveManager.LoadData().buttonKeys == null || JsonSaveManager.LoadData().buttonValues == null || !JsonSaveManager.CheckFile())
             inputDictionary.OnStartIfNotSave();
         else
-            inputDictionary.LoadDictionary(saveManager.LoadData().buttonKeys, saveManager.LoadData().buttonValues);
+            inputDictionary.LoadDictionary(JsonSaveManager.LoadData().buttonKeys, JsonSaveManager.LoadData().buttonValues);
     }
 
     public void popUPScreen()
@@ -38,6 +39,6 @@ public class KeybindManager : MonoBehaviour
 
     public void Test()
     {
-        Debug.Log($"<color=teal>Testing KeybindManager components: saveManager = {saveManager} | inputDictionary = {inputDictionary}</color>");
+        Debug.Log($"<color=teal>Testing KeybindManager components: saveManager = {JsonSaveManager} | inputDictionary = {inputDictionary}</color>");
     }
 }

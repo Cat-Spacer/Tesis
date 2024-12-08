@@ -10,8 +10,8 @@ public class SoundSettingSlider : MonoBehaviour
         get { return GetComponent<Slider>(); }
     }
 
-    public string mixerName;
-    [SerializeField] private AudioMixerGroup _audioMixerGroup;
+    public string mixerName = default;
+    [SerializeField] private AudioMixerGroup _audioMixerGroup = default;
     private SoundManager _soundManager;
 
     private void Awake()
@@ -22,10 +22,9 @@ public class SoundSettingSlider : MonoBehaviour
         {
             _soundManager = SoundManager.instance;
             mixerName = _audioMixerGroup.name;
-            if (!_soundManager.mixerValue.ContainsKey(mixerName))
-                _soundManager.mixerValue[mixerName] = slider.value;
+            if (!_soundManager.MixerValue.ContainsKey(mixerName))
+                _soundManager.MixerValue[mixerName] = slider.value;
             LoadVolumeValues();
-
         }
     }
 
@@ -43,12 +42,14 @@ public class SoundSettingSlider : MonoBehaviour
     public void SaveVolumeValues()
     {
         if (!CheckSoundManger()) return;
-        _soundManager.mixerValue[mixerName] = slider.value;
+        //_soundManager.mixerValue[mixerName] = slider.value;
+        _soundManager.SetMixerVolume(mixerName, slider.value);
+        
     }
 
     public void LoadVolumeValues()
     {
-        slider.value = _soundManager.mixerValue[mixerName];
+        slider.value = _soundManager.MixerValue[mixerName];
         _audioMixerGroup.audioMixer.SetFloat(mixerName, Mathf.Log10(slider.value) * 20.0f);
     }
 
@@ -63,6 +64,10 @@ public class SoundSettingSlider : MonoBehaviour
     }
 
     private void OnDisable()
+    {
+        SaveVolumeValues();
+    }
+    private void OnDestroy()
     {
         SaveVolumeValues();
     }

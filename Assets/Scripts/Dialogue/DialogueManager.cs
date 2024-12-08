@@ -10,14 +10,14 @@ public class DialogueManager : MonoBehaviour
     [SerializeField, Range(0f, 60f)] private float textSpeed = 0.0f;
     [SerializeField] private Queue<string> sentences = new Queue<string>();
     [SerializeField] private Animator animator;
-    public SaveManager saveManager;
+    public JsonSaves JsonSaves = new JsonSaves();
 
     private void Awake()
     {
         Instance = this;
 
-        if (!saveManager)
-            saveManager = GetComponent<SaveManager>();
+        if (JsonSaves == null) JsonSaves = new ();
+        JsonSaves.OnAwake();
     }
 
     private void Start()
