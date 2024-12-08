@@ -1,62 +1,58 @@
-using System;
 using System.Collections;
-using System.Linq;
 using Cinemachine;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ZoomManager : MonoBehaviour
 {
-    [SerializeField] private float cameraDefaultZoom;
-    [SerializeField] private float time;
-    [SerializeField] private float timeToZoom;
-    [SerializeField] private float speed;
-    [SerializeField] private float desireZoom;
-    private bool zoomIn = false;
-    [SerializeField] private Button[] buttons;
-    [SerializeField] private ButtonSizeUpdate[] buttonsSizeUpdate;
-    [SerializeField] CinemachineVirtualCamera firstCam;
-    [SerializeField] CinemachineVirtualCamera secondCam;
+    [SerializeField]
+    private float _cameraDefaultZoom = 5, _time = 0.5f, _timeToZoom = 0.25f, _speed = 7f, _desireZoom = 2f;
+    
+    private bool _zoomIn = false;
+    [SerializeField] private Button[] _buttons = default;
+    [SerializeField] private ButtonSizeUpdate[] _buttonsSizeUpdate = default;
+    [SerializeField] CinemachineVirtualCamera _firstCam = default, _secondCam = default;
 
     private void Awake()
     {
-        secondCam.m_Lens.OrthographicSize = cameraDefaultZoom;
-        buttonsSizeUpdate = new ButtonSizeUpdate[buttons.Length];
-        for (int i = 0; i < buttons.Length; i++)
+        _secondCam.m_Lens.OrthographicSize = _cameraDefaultZoom;
+        _buttonsSizeUpdate = new ButtonSizeUpdate[_buttons.Length];
+        for (int i = 0; i < _buttons.Length; i++)
         {
-            buttons[i].enabled = false;
-            buttonsSizeUpdate[i] = buttons[i].gameObject.GetComponent<ButtonSizeUpdate>();
-            buttonsSizeUpdate[i].enabled = false;
+            _buttons[i].enabled = false;
+            _buttonsSizeUpdate[i] = _buttons[i].gameObject.GetComponent<ButtonSizeUpdate>();
+            _buttonsSizeUpdate[i].enabled = false;
         }
     }
 
-    IEnumerator Start()
+    private IEnumerator Start()
     {
-        yield return new WaitForSeconds(time);
-        secondCam.Priority = 2;
+        yield return new WaitForSeconds(_time);
+        _secondCam.Priority = 2;
         StartCoroutine(Wait());
     }
 
-    IEnumerator Wait()
+    private IEnumerator Wait()
     {
-        yield return new WaitForSeconds(timeToZoom);
-        zoomIn = true;
+        yield return new WaitForSeconds(_timeToZoom);
+        _zoomIn = true;
     }
 
     private void Update()
     {
-        if (!zoomIn) return;
-
-        var lerp = Mathf.Lerp(secondCam.m_Lens.OrthographicSize, desireZoom, Time.deltaTime * speed);
-        secondCam.m_Lens.OrthographicSize = lerp;
-        if (lerp < desireZoom + 0.25f)
+        if (!_zoomIn) return;
+        var lerp = Mathf.Lerp(_secondCam.m_Lens.OrthographicSize, _desireZoom, Time.deltaTime * _speed);
+        _secondCam.m_Lens.OrthographicSize = lerp;
+        if (lerp < _desireZoom + 0.25f)
         {
-            for (int i = 0; i < buttons.Length; i++)
+            for (int i = 0; i < _buttons.Length; i++)
             {
-                buttons[i].enabled = true;
-                buttonsSizeUpdate[i].enabled = true;
+                _buttons[i].enabled = true;
+                _buttonsSizeUpdate[i].enabled = true;
             }
-            zoomIn = false;
+
+            _zoomIn = false;
+            Destroy(this);
         }
     }
 }
