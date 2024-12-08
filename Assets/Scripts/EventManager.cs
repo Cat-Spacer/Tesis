@@ -29,7 +29,7 @@ public class EventManager : MonoBehaviour
 {
     public static EventManager Instance { get; private set; }
 
-    private Dictionary<EventType, Action<object[]>> _callbackDictionary = new ();
+    private Dictionary<EventType, Action<object[]>> _callbackDictionary = new Dictionary<EventType, Action<object[]>>();
     private void Awake()
     {
         if (Instance == null)
@@ -42,7 +42,10 @@ public class EventManager : MonoBehaviour
 
     public void Subscribe(EventType eventId, Action<object[]> callback)
     {
-        _callbackDictionary.TryAdd(eventId, callback);
+        if (!_callbackDictionary.TryAdd(eventId, callback))
+        {
+            _callbackDictionary[eventId] += callback;
+        }
     }
 
     public void Unsubscribe(EventType eventId, Action<object[]> callback)
