@@ -185,4 +185,11 @@ public class LiveCamera : MonoBehaviour
         EventManager.Instance.Unsubscribe(EventType.OnPauseGame, OnPauseGame);
         EventManager.Instance.Unsubscribe(EventType.OnFinishGame, OnFinishGame);
     }
+    
+    private void OnDestroy()
+    {
+        EventManager.Instance.Unsubscribe(EventType.OnResumeGame, OnResumeGame);
+        EventManager.Instance.Unsubscribe(EventType.OnPauseGame, OnPauseGame);
+        EventManager.Instance.Unsubscribe(EventType.OnFinishGame, OnFinishGame);
+    }
 }

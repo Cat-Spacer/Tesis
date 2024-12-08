@@ -104,10 +104,11 @@ public class SoundManager : MonoBehaviour
         _usedSoundsByName = new(SearchSound);
     }
 
+    // ReSharper disable Unity.PerformanceAnalysis
     public void Play(SoundsTypes nameType, GameObject request = default, bool loop = false)
     {
         Sound s = SearchForRandomSound(nameType);
-        if (s == null || s == default)
+        if (s == null)
         {
             Debug.LogWarning($"<color=yellow>Sound: {nameType} not found!</color>");
             return;
@@ -117,7 +118,7 @@ public class SoundManager : MonoBehaviour
         if (s.source) if (s.source.gameObject.activeSelf) s.source.Play();
     }
 
-    public void Play(string name, GameObject request = default, bool loop = true)
+    public void Play(string name, GameObject request = default, bool loop = false)
     {
         Sound s = SearchForRandomSound(_usedSoundsByName.ReturnValue(name).nameType);
         if (s == null)
