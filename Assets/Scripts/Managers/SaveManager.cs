@@ -19,8 +19,6 @@ public class SaveManager : MonoBehaviour
     {
         string json = JsonUtility.ToJson(_saveData, true);
 
-        //Debug.Log($"<color=green>Succesfuly saved: {_saveDataPath}</color>");
-
         File.WriteAllText(_saveDataPath, json);
     }
 
@@ -30,7 +28,6 @@ public class SaveManager : MonoBehaviour
 
         string json = File.ReadAllText(_saveDataPath);
         JsonUtility.FromJsonOverwrite(json, _saveData);
-        //Debug.Log($"<color=green>Succesfuly data loaded</color>");
     }
 
     public PlayerSaveData LoadData()
@@ -40,7 +37,6 @@ public class SaveManager : MonoBehaviour
 
     public bool CheckFile()
     {
-        //Debug.Log($"<color=yellow>JSON saves exist: {File.Exists(_saveDataPath)}</color>");
         if (!File.Exists(_saveDataPath)) return false;
         return true;
     }

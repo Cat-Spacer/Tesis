@@ -57,7 +57,10 @@ public enum SoundsTypes
     Lever,
     PressureLever,
     Spray,
-    ButtonHover
+    ButtonHover,
+    JumpPad,
+    TimeBeep,
+    TimeEndBeep
 }
 
 public class SoundManager : MonoBehaviour
