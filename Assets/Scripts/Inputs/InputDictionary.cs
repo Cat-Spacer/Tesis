@@ -32,7 +32,7 @@ namespace InputKey
                 foreach (var key in buttonKeys.Keys)
                     Debug.Log($"<color=orange>{key} = {buttonKeys[key]}</color>");*/
 
-            if (KeybindManager.instance.saveManager.CheckFile() && buttonKeys != null) return;
+            if (KeybindManager.instance.JsonSaveManager.CheckFile() && buttonKeys != null) return;
 
             buttonKeys = new Dictionary<TypeOfKeys, KeyCode>();
             buttonKeys[TypeOfKeys.JumpDown] = KeyCode.Space;
@@ -46,12 +46,12 @@ namespace InputKey
             buttonKeys[TypeOfKeys.Dash] = KeyCode.LeftShift;
 
             foreach (var key in buttonKeys.Keys)
-                KeybindManager.instance.saveManager.LoadData().buttonKeys.Add(key);
+                KeybindManager.instance.JsonSaveManager.LoadData().buttonKeys.Add(key);
 
             foreach (var value in buttonKeys.Values)
-                KeybindManager.instance.saveManager.LoadData().buttonValues.Add(value);
+                KeybindManager.instance.JsonSaveManager.LoadData().buttonValues.Add(value);
 
-            KeybindManager.instance.saveManager.SaveJSON();
+            KeybindManager.instance.JsonSaveManager.SaveJson();
             //Debug.Log($"<color=yellow>Button Keys set to default</color>");
         }
 
@@ -126,15 +126,15 @@ namespace InputKey
         {
             buttonKeys[key] = keyCode;
             Debug.Log($"TypeOfKeys value = {(int)key}");
-            KeybindManager.instance.saveManager.LoadData().buttonValues[(int)key] = buttonKeys[key];
+            KeybindManager.instance.JsonSaveManager.LoadData().buttonValues[(int)key] = buttonKeys[key];
             //KeybindManager.Instance.saveManager.SaveJSON();
         }
 
         public void ReplaceKeyValue()
         {
             (buttonKeys[_replaceThisKey], buttonKeys[_oldKey]) = (buttonKeys[_oldKey], buttonKeys[_replaceThisKey]);
-            KeybindManager.instance.saveManager.LoadData().buttonValues[_oldKey.GetHashCode()] = buttonKeys[_oldKey];
-            KeybindManager.instance.saveManager.LoadData().buttonValues[_replaceThisKey.GetHashCode()] = buttonKeys[_replaceThisKey];
+            KeybindManager.instance.JsonSaveManager.LoadData().buttonValues[_oldKey.GetHashCode()] = buttonKeys[_oldKey];
+            KeybindManager.instance.JsonSaveManager.LoadData().buttonValues[_replaceThisKey.GetHashCode()] = buttonKeys[_replaceThisKey];
 
             /*
             KeyCode valueToReplace = buttonKeys[_oldKey];

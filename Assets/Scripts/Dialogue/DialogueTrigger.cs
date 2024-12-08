@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEngine.UI;
@@ -29,15 +30,13 @@ public class DialogueTrigger : MonoBehaviour
     private void LoadDialogue()
     {
         if (_dialogueManager == null) return;
-        //var CharacterNameExpression = new Regex(@"Dialogue\((?<charName>[a-zA-Z0-9_]+)\)");
 
-        foreach (var image in _dialogueManager.saveManager.LoadData().imageNames)
+        foreach (var image in _dialogueManager.JsonSaves.LoadData().imageNames)
             if (image == _dialogue.charName)
                 _image = Resources.Load("Art/Avatars" + image) as Image;
 
-            foreach (var dialogues in _dialogueManager.saveManager.LoadData().dialogues)
-                if (dialogues[0] == _dialogue.charName)
-                    for (int i = 1; i < dialogues.Length; i++)
-                        _dialogue.sentences.Add(dialogues[i]);
+        foreach (var dialogues in _dialogueManager.JsonSaves.LoadData().dialogues.Where(dialogues => dialogues[0] == _dialogue.charName))
+            for (int i = 1; i < dialogues.Length; i++)
+                _dialogue.sentences.Add(dialogues[i]);
     }
 }

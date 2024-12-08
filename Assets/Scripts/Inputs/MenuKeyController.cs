@@ -18,10 +18,10 @@ public class MenuKeyController : MonoBehaviour
         else
             _inputDictionary = new InputDictionary();
 
-        if (KeybindManager.instance.saveManager.LoadData().buttonKeys == null || KeybindManager.instance.saveManager.LoadData().buttonValues == null)
+        if (KeybindManager.instance.JsonSaveManager.LoadData().buttonKeys == null || KeybindManager.instance.JsonSaveManager.LoadData().buttonValues == null)
             _inputDictionary.OnStartIfNotSave();
         else
-            _inputDictionary.LoadDictionary(KeybindManager.instance.saveManager.LoadData().buttonKeys, KeybindManager.instance.saveManager.LoadData().buttonValues);
+            _inputDictionary.LoadDictionary(KeybindManager.instance.JsonSaveManager.LoadData().buttonKeys, KeybindManager.instance.JsonSaveManager.LoadData().buttonValues);
 
         if (_keyType != InputDictionary.TypeOfKeys.None)
             _keyTypeText.text = _keyType.ToString();

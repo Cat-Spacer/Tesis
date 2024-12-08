@@ -11,6 +11,8 @@ public class PlayerSaveData
     public List<KeyCode> buttonValues;
 
     //---------- Player Stats ----------//
+    public List<float> volumes;
+    public List<string> mixerNames;
     public float speed;
     public int lastLevel;
     public string[] myAbilities,mySpritesName;
