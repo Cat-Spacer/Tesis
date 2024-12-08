@@ -31,7 +31,7 @@ public class SoundList : MonoBehaviour
             Debug.LogWarning($"<color=yellow>Sound: {name} not found!</color>");
             return;
         }
-        if (SoundManager.instance) SoundManager.instance.Play(name);
+        if (SoundManager.instance) SoundManager.instance.Play(name, null, true);
         else
         {
             SoundSet(s);
