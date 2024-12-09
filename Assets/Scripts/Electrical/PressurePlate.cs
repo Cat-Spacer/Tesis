@@ -47,7 +47,7 @@ public class PressurePlate : MonoBehaviour
     void Activate()
     {
         _anim.Play("Activate");
-        //SoundManager.instance.Play(SoundsTypes.PressureLever);
+        SoundManager.instance.Play(SoundsTypes.PressureLever, gameObject);
         foreach (var connection in _connection)
         {
             if(connection != null)
@@ -61,7 +61,7 @@ public class PressurePlate : MonoBehaviour
     void Desactivate()
     {
         _anim.Play("Desactivate");
-        //SoundManager.instance.Play(SoundsTypes.PressureLever);
+        SoundManager.instance.Play(SoundsTypes.PressureLever, gameObject);
         foreach (var connection in _connection)
         {
             if(connection != null)

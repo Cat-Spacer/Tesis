@@ -20,8 +20,8 @@ public class LevelTimer : MonoBehaviour
     [SerializeField] private bool onTutorial = false;
     void Start()
     {
-        EventManager.Instance.Subscribe(EventType.OffLive, OnOffLive);
-        EventManager.Instance.Subscribe(EventType.OnLive, OnOnLive);
+        //EventManager.Instance.Subscribe(EventType.OffLive, OnOffLive);
+        //EventManager.Instance.Subscribe(EventType.OnLive, OnOnLive);
         EventManager.Instance.Subscribe(EventType.OnResumeGame, OnResumeGame);
         EventManager.Instance.Subscribe(EventType.OnPauseGame, OnPauseGame);
         EventManager.Instance.Subscribe(EventType.StartTimer, OnStartTimer);
@@ -59,11 +59,20 @@ public class LevelTimer : MonoBehaviour
         menu.SetActive(false);
     }
 
-    private void OnOnLive(object[] obj)
+
+    public void OnLive()
     {
         _onLive = true;
     }
 
+    public void OffLive()
+    {
+        _onLive = false;
+    }
+    private void OnOnLive(object[] obj)
+    {
+        _onLive = true;
+    }
     private void OnOffLive(object[] obj)
     {
         _onLive = false;
@@ -79,6 +88,7 @@ public class LevelTimer : MonoBehaviour
         {
             _onLose = true;
             currentTime = 0;
+            SoundManager.instance.Pause(SoundsTypes.TimeBeep, gameObject);
             EventManager.Instance.Trigger(EventType.OnLoseGame);
         }
         else
@@ -90,7 +100,11 @@ public class LevelTimer : MonoBehaviour
         if (currentTime < 10)
         {
             outOfTime.gameObject.SetActive(true);
-            if(!anim.isPlaying) anim.Play();
+            if(!anim.isPlaying)
+            {
+                anim.Play();
+                SoundManager.instance.Play(SoundsTypes.TimeBeep, gameObject, true);
+            }
         }
     }
 
@@ -106,8 +120,8 @@ public class LevelTimer : MonoBehaviour
 
     private void OnDisable()
     {
-        EventManager.Instance.Unsubscribe(EventType.OffLive, OnOffLive);
-        EventManager.Instance.Unsubscribe(EventType.OnLive, OnOnLive);
+        //EventManager.Instance.Unsubscribe(EventType.OffLive, OnOffLive);
+        //EventManager.Instance.Unsubscribe(EventType.OnLive, OnOnLive);
         EventManager.Instance.Unsubscribe(EventType.OnResumeGame, OnResumeGame);
         EventManager.Instance.Unsubscribe(EventType.OnPauseGame, OnPauseGame);
         EventManager.Instance.Unsubscribe(EventType.StartTimer, OnStartTimer);
@@ -116,8 +130,8 @@ public class LevelTimer : MonoBehaviour
     }
     private void OnDestroy()
     {
-        EventManager.Instance.Unsubscribe(EventType.OffLive, OnOffLive);
-        EventManager.Instance.Unsubscribe(EventType.OnLive, OnOnLive);
+        //EventManager.Instance.Unsubscribe(EventType.OffLive, OnOffLive);
+        //EventManager.Instance.Unsubscribe(EventType.OnLive, OnOnLive);
         EventManager.Instance.Unsubscribe(EventType.OnResumeGame, OnResumeGame);
         EventManager.Instance.Unsubscribe(EventType.OnPauseGame, OnPauseGame);
         EventManager.Instance.Unsubscribe(EventType.StartTimer, OnStartTimer);

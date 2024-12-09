@@ -39,7 +39,6 @@ public class LiveCamera : MonoBehaviour
         if(instance == null) instance = this;
         else Destroy(this);
     }
-
     private void Start()
     {
         EventManager.Instance.Subscribe(EventType.OnResumeGame, OnResumeGame);
@@ -50,7 +49,8 @@ public class LiveCamera : MonoBehaviour
         {
             _onAir = true;
             ActivateCamera();
-            EventManager.Instance.Trigger(EventType.OnLive);
+            //EventManager.Instance.Trigger(EventType.OnLive);
+            _levelTimer.OnLive();
         }
         foreach(var cameraShader in _tvHackedShader) cameraShader.gameObject.SetActive(false);
     }
@@ -79,7 +79,8 @@ public class LiveCamera : MonoBehaviour
     { 
         _onAir = true;
         ActivateCamera();
-        EventManager.Instance.Trigger(EventType.OnLive);
+        //EventManager.Instance.Trigger(EventType.OnLive);
+        _levelTimer.OnLive();
         if (current < 0) return; 
         // currentLiveTime = _levelTime - currentLiveTime - _hackTimes[current];
         // timeOnLive = currentLiveTime - _hackTimes[current];
@@ -102,7 +103,8 @@ public class LiveCamera : MonoBehaviour
     {
         _onAir = false;
         DesactivateAllCameras();
-        EventManager.Instance.Trigger(EventType.OffLive);
+        //EventManager.Instance.Trigger(EventType.OffLive);
+        _levelTimer.OffLive();
         StartCoroutine(TimeUntilGoOnAir(_hackTime));
     }
     
@@ -167,7 +169,8 @@ public class LiveCamera : MonoBehaviour
     {
         _onAir = false;
         DesactivateAllCameras();
-        EventManager.Instance.Trigger(EventType.OffLive);
+        //EventManager.Instance.Trigger(EventType.OffLive);
+        _levelTimer.OffLive();
         // _currentHackTime = 10;
         // StartCoroutine(TimeUntilGoOnAir(_currentHackTime));
     }
@@ -176,7 +179,8 @@ public class LiveCamera : MonoBehaviour
     {
         _onAir = true;
         ActivateCamera();
-        EventManager.Instance.Trigger(EventType.OnLive);
+        //EventManager.Instance.Trigger(EventType.OnLive);
+        _levelTimer.OnLive();
     }
 
     private void OnDisable()

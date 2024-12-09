@@ -44,8 +44,8 @@ public class Inputs : MonoBehaviour
             InputAction = CatInputs;
         }
         EventManager.Instance.Subscribe(EventType.OnFinishGame, OnFinishGame);
+        EventManager.Instance.Subscribe(EventType.OnLoseGame, OnFinishGame);
     }
-
     private void OnFinishGame(object[] obj)
     {
         InputAction = delegate { };
@@ -131,5 +131,6 @@ public class Inputs : MonoBehaviour
     private void OnDisable()
     {
         EventManager.Instance.Unsubscribe(EventType.OnFinishGame, OnFinishGame);
+        EventManager.Instance.Unsubscribe(EventType.OnLoseGame, OnFinishGame);
     }
 }

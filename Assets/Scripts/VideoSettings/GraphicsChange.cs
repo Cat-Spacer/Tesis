@@ -34,37 +34,42 @@ public class GraphicsChange : MonoBehaviour
         _resolutions = Screen.resolutions;
         _resolutionDropdown.ClearOptions();
         List<string> options = new List<string>();
-        int currentResolutionIndex = 0;
+        
+        _resIndex = 0;
+        
         for (int i = 0; i < _resolutions.Length; i++)
         {
-            string option = _resolutions[i].width + " x " + _resolutions[i].height;
+            string option = _resolutions[i].width + " x " + _resolutions[i].height + " " + Mathf.RoundToInt(_resolutions[i].refreshRateRatio.numerator) + "Hz";
             options.Add(option);
             if (_resolutions[i].width == Screen.currentResolution.width && _resolutions[i].height == Screen.currentResolution.height)
             {
-                currentResolutionIndex = i;
+                _resIndex = i;
             }
         }
         _resolutionDropdown.AddOptions(options);
-        _resolutionDropdown.value = currentResolutionIndex;
+        _resolutionDropdown.value = _resIndex;
         _resolutionDropdown.RefreshShownValue();
     }
 
     public void SetResolution(int resolutionIndex)
     {
         Resolution resolution = _resolutions[resolutionIndex];
-        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+        Screen.SetResolution(resolution.width, resolution.height, _fullscreen.isOn);
     }
 
+    public void SetResolutionValue()
+    {
+        _resIndex = _resolutionDropdown.value;
+    }
     public void SetAntiAliasing(int aaIndex)
     {
         QualitySettings.antiAliasing = aaIndex;
         if (_qualityDropdown) _qualityDropdown.value = 6;
     }
-
-    public void ApplyGrapshics()
+    public void ApplyGraphics()
     {
         Screen.fullScreen = _fullscreen.isOn;
-
+        
         if (_vsync.isOn)
             QualitySettings.vSyncCount = 1;
         else

@@ -1002,8 +1002,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3711855359886260282}
         m_TargetAssemblyTypeName: GraphicsChange, Assembly-CSharp
-        m_MethodName: SetResolution
-        m_Mode: 0
+        m_MethodName: SetResolutionValue
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2401,6 +2401,18 @@ MonoBehaviour:
           m_StringArgument: Click
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 3711855359886260282}
+        m_TargetAssemblyTypeName: GraphicsChange, Assembly-CSharp
+        m_MethodName: ApplyGraphics
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &7514212590134409520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2940,7 +2952,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 43.95
+  m_fontSize: 46.65
   m_fontSizeBase: 14
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2976,7 +2988,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 50, y: 5, z: 50, w: 5}
+  m_margin: {x: 16.51712, y: 17.583908, z: 50, w: 19.80458}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -3334,7 +3346,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2294756740373034811}
   m_HandleRect: {fileID: 5115837819849415451}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

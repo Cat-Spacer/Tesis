@@ -11,6 +11,7 @@ public class MenuButtons : MonoBehaviour
         _menu.SetActive(false);
         EventManager.Instance.Subscribe(EventType.OnFinishGame, OnFinishGame);
         EventManager.Instance.Subscribe(EventType.OnStartGame, OnStartGame);
+        EventManager.Instance.Subscribe(EventType.OnLoseGame, OnFinishGame);
     }
 
     private void OnStartGame(object[] obj)
@@ -74,5 +75,6 @@ public class MenuButtons : MonoBehaviour
     {
         EventManager.Instance.Unsubscribe(EventType.OnFinishGame, OnFinishGame);
         EventManager.Instance.Unsubscribe(EventType.OnStartGame, OnStartGame);
+        EventManager.Instance.Unsubscribe(EventType.OnLoseGame, OnFinishGame);
     }
 }

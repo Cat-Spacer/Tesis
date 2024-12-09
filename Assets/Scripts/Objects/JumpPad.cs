@@ -41,7 +41,7 @@ public class JumpPad : MonoBehaviour
         if (!_isOn) return;
         if ((_mask.value & (1 << col.transform.gameObject.layer)) > 0)
         {
-            SoundManager.instance.Play(SoundsTypes.CatDash);
+            SoundManager.instance.Play(SoundsTypes.JumpPad);
             var player = col.gameObject.GetComponent<PlayerCharacter>();
             player.StopMovement();
             var entityRb = col.gameObject.GetComponent<Rigidbody2D>();

@@ -3655,16 +3655,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 416880a153ec5074196742c51a42a0f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _saveData:
-    buttonKeys: 
-    buttonValues: 
-    speed: 0
-    lastLevel: 0
-    myAbilities: []
-    mySpritesName: []
-    charNames: []
-    imageNames: []
-  _saveDataPath: 
+  JsonSaves:
+    _saveData:
+      buttonKeys: 
+      buttonValues: 
+      volumes: []
+      mixerNames: []
+      speed: 0
+      lastLevel: 0
+      myAbilities: []
+      mySpritesName: []
+      charNames: []
+      imageNames: []
+    _saveDataPath: 
 --- !u!114 &1710366554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3677,7 +3680,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0624a47171f98542a7cbe31187541b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveManager: {fileID: 1710366553}
+  JsonSaveManager:
+    _saveData:
+      buttonKeys: 
+      buttonValues: 
+      volumes: []
+      mixerNames: []
+      speed: 0
+      lastLevel: 0
+      myAbilities: []
+      mySpritesName: []
+      charNames: []
+      imageNames: []
+    _saveDataPath: 
   _popUP: {fileID: 0}
 --- !u!114 &1710366555
 MonoBehaviour:
@@ -4229,7 +4244,7 @@ MonoBehaviour:
   m_Follow: {fileID: 0}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 2.25
+    OrthographicSize: 2.244078
     NearClipPlane: 0.3
     FarClipPlane: 1000
     Dutch: 0
