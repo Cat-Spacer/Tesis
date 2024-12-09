@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
@@ -66,6 +67,11 @@ public class SoundSpawn : MonoBehaviour
     {
         if(!gameObject.activeSelf) gameObject.SetActive(true);
         SuscribeEventManager();
+    }
+
+    private void OnDisable()
+    {
+        UnsuscribeEventManager();
     }
 
     private void OnDestroy()
