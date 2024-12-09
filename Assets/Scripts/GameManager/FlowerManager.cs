@@ -22,7 +22,10 @@ public class FlowerManager : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.F)) EventManager.Instance.Trigger(EventType.OnPutFlower);
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            if(Input.GetKeyDown(KeyCode.F)) EventManager.Instance.Trigger(EventType.OnPutFlower);
+        }
     }
 
     private void OnPutFlower(object[] obj)

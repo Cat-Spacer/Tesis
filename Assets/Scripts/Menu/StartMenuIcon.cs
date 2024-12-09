@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.HID;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class StartMenuIcon : MonoBehaviour
 {
@@ -14,7 +16,9 @@ public class StartMenuIcon : MonoBehaviour
     [SerializeField] float decelerationSpeed = 1f;
     [SerializeField] private float maxAnimationSpeed;
     [SerializeField] float currentAnimationSpeed;
+    [SerializeField] Button skipBtn;
     private bool isSkiping = true;
+    private bool usingMouse;
     private void Start()
     {
         LoadSceneAsync("MainMenuCoop");
@@ -22,20 +26,33 @@ public class StartMenuIcon : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.Tab))
+        if (Input.GetKey(KeyCode.Tab) || usingMouse)
         {
             currentAnimationSpeed = Mathf.Lerp(currentAnimationSpeed, maxAnimationSpeed, Time.deltaTime * accelerationSpeed);
+            skipBtnAnimator.Play("SkipButtonPress");
         }
         else
         {
             currentAnimationSpeed = Mathf.Lerp(currentAnimationSpeed, 1f, Time.deltaTime * decelerationSpeed);
+            skipBtnAnimator.Play("SkipButtonIdle");
         }
-        if(Input.GetKeyDown(KeyCode.Tab)) skipBtnAnimator.Play("SkipButtonPress");
-        if(Input.GetKeyUp(KeyCode.Tab)) skipBtnAnimator.Play("SkipButtonIdle");
 
         animator.speed = currentAnimationSpeed;
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ChangeScene();
+        }
     }
 
+    public void Skip()
+    {
+        usingMouse = true;
+    }
+
+    public void StopSkip()
+    {
+        usingMouse = false;
+    }
     public void LoadSceneAsync(string sceneName)
     {
         StartCoroutine(LoadSceneCoroutine(sceneName));
