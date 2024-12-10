@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class LaserTrap : MonoBehaviour, IActivate
 {
@@ -52,7 +48,7 @@ public class LaserTrap : MonoBehaviour, IActivate
     }
     void TurnOn()
     {
-        SoundManager.instance.Play(SoundsTypes.Laser, gameObject);
+        SoundManager.instance.Play(SoundsTypes.Laser, gameObject, true);
         _on = true;
         _line.enabled = true;
         _firstStart = false;
