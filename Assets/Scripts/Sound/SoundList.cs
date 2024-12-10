@@ -49,7 +49,7 @@ public class SoundList : MonoBehaviour
             return;
         }
 
-        if (SoundManager.instance) SoundManager.instance.Play(s.nameType);
+        if (SoundManager.instance) SoundManager.instance.Play(s.nameType, null, false);
         else
         {
             Debug.Log($"<color=orange>No SoundManage</color>");

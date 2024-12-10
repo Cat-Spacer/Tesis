@@ -42,6 +42,7 @@ public class SoundSpawn : MonoBehaviour
 
     public void PauseByDesactivate(object[] obj)
     {
+        _source.Pause();
         gameObject.SetActive(false);
     }
 
@@ -63,8 +64,9 @@ public class SoundSpawn : MonoBehaviour
         }
     }
 
-    public void Reset() 
+    public void Reset()
     {
+        _source.Play();
         if(!gameObject.activeSelf) gameObject.SetActive(true);
         SuscribeEventManager();
     }
