@@ -42,7 +42,6 @@ public class SoundSettingSlider : MonoBehaviour
     public void SaveVolumeValues()
     {
         if (!CheckSoundManger()) return;
-        //_soundManager.mixerValue[mixerName] = slider.value;
         _soundManager.SetMixerVolume(mixerName, slider.value);
         
     }
