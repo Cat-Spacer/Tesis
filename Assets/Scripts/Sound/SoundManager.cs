@@ -246,7 +246,7 @@ public class SoundManager : MonoBehaviour
         if (soundObject)
         {
             AddToSoundList(soundObject);
-            soundObject.SetFather(request);
+            soundObject.SetFather(request, s.nameType);
             return soundObject.SetAudioSource(s, loop);
         }
         else if (s.nameType == SoundsTypes.Music)

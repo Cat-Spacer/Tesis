@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
@@ -9,6 +8,7 @@ public class SoundSpawn : MonoBehaviour
 
     private AudioSource _source = default;
 
+    [SerializeField] SoundsTypes _myType = default;
     private void Awake()
     {
         _source = GetComponent<AudioSource>();
@@ -19,12 +19,13 @@ public class SoundSpawn : MonoBehaviour
         if (GameManager.Instance.pause) PauseByDesactivate(default);
     }
 
-    public void SetFather(GameObject father)
+    public void SetFather(GameObject father, SoundsTypes type)
     {
         _father = father;
         name = $"SoundSpawn {father.name}";
         gameObject.transform.parent = _father.transform;
         transform.position = _father.transform.position;
+        _myType = type;
     }
 
     public Sound SetAudioSource(Sound s, bool loop)
@@ -42,6 +43,7 @@ public class SoundSpawn : MonoBehaviour
 
     public void PauseByDesactivate(object[] obj)
     {
+        _source.Pause();
         gameObject.SetActive(false);
     }
 
@@ -51,6 +53,7 @@ public class SoundSpawn : MonoBehaviour
         {
             EventManager.Instance.Subscribe(EventType.OnPauseGame, PauseByDesactivate);
             EventManager.Instance.Subscribe(EventType.OnFinishGame, PauseByDesactivate);
+            EventManager.Instance.Subscribe(EventType.OnLoseGame, PauseByDesactivate);
         }
     }
 
@@ -60,12 +63,15 @@ public class SoundSpawn : MonoBehaviour
         {
             EventManager.Instance.Unsubscribe(EventType.OnPauseGame, PauseByDesactivate);
             EventManager.Instance.Unsubscribe(EventType.OnFinishGame, PauseByDesactivate);
+            EventManager.Instance.Unsubscribe(EventType.OnLoseGame, PauseByDesactivate);
         }
     }
 
-    public void Reset() 
+    public void Reset()
     {
         if(!gameObject.activeSelf) gameObject.SetActive(true);
+        if(_myType == SoundsTypes.Steps || _myType == SoundsTypes.HamsterSteps || _myType == SoundsTypes.HamsterOnTubes) _source.Pause();
+        else _source.Play();
         SuscribeEventManager();
     }
 
