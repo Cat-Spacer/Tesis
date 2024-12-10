@@ -34,7 +34,8 @@ public class ScreenAudio : ScreenBase, IScreen
     {
         foreach (var button in buttons)
         {
-            button.interactable = true;
+            if (button != null)
+                button.interactable = true;
         }
     }
 
@@ -42,7 +43,8 @@ public class ScreenAudio : ScreenBase, IScreen
     {
         foreach (var button in buttons)
         {
-            button.interactable = false;
+            if (button != null)
+                button.interactable = false;
         }
     }
 

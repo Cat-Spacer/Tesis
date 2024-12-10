@@ -32,7 +32,8 @@ public class ScreenLevels : ScreenBase, IScreen
         if (buttons != null || buttons.Length <= 0) return;
         foreach (var button in buttons)
         {
-            button.interactable = true;
+            if (button != null)
+                button.interactable = true;
         }
     }
 
@@ -41,7 +42,8 @@ public class ScreenLevels : ScreenBase, IScreen
         if(buttons != null || buttons.Length <= 0) return;
         foreach (var button in buttons)
         {
-            button.interactable = false;
+            if (button != null)
+                button.interactable = false;
         }
     }
 }
