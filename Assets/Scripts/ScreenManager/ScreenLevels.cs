@@ -29,21 +29,11 @@ public class ScreenLevels : ScreenBase, IScreen
 
     public void Activate()
     {
-        if (buttons != null || buttons.Length <= 0) return;
-        foreach (var button in buttons)
-        {
-            if (button != null)
-                button.interactable = true;
-        }
+        gameObject.SetActive(true);
     }
 
     public void Deactivate()
     {
-        if(buttons != null || buttons.Length <= 0) return;
-        foreach (var button in buttons)
-        {
-            if (button != null)
-                button.interactable = false;
-        }
+        gameObject.SetActive(false);
     }
 }

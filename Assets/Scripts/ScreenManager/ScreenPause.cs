@@ -38,19 +38,11 @@ public class ScreenPause : ScreenBase, IScreen
 
     public void Activate()
     {
-        foreach (var button in buttons)
-        {
-            if (button != null)
-                button.interactable = true;
-        }
+        gameObject.SetActive(true);
     }
 
     public void Deactivate()
     {
-        foreach (var button in buttons)
-        {
-            if (button != null)
-                button.interactable = false;
-        }
+        gameObject.SetActive(false);
     }
 }
