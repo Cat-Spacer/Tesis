@@ -27,13 +27,16 @@ public class PeaceSystem : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.M))
+        if (Input.GetKey(KeyCode.LeftShift))
         {
-            EventManager.Instance.Trigger(EventType.OnChangePeace);
-        }
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            EventManager.Instance.Trigger(EventType.OnGetShield);
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                EventManager.Instance.Trigger(EventType.OnChangePeace);
+            }
+            if (Input.GetKeyDown(KeyCode.N))
+            {
+                EventManager.Instance.Trigger(EventType.OnGetShield);
+            }
         }
     }
     private void UpdatePeace(object[] obj)
