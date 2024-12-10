@@ -41,7 +41,7 @@ public class MenuButtons : MonoBehaviour
         Time.timeScale = 1;
         _onPause = false;
         EventManager.Instance.Trigger(EventType.OnResumeGame);
-        //SoundManager.instance.Play(SoundsTypes.Click);
+        SoundManager.instance.Play(SoundsTypes.Click);
         _menu.SetActive(false);
     }
     public virtual void Pause()
