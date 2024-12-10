@@ -112,6 +112,7 @@ public class SoundManager : MonoBehaviour
             for (int i = 0; i < names.Length && names.Length == volumes.Length; i++)
             {
                 _mixerValue.Add(names[i], volumes[i]);
+                _mixer.SetFloat(names[i], volumes[i]);
             }
         }
         else
