@@ -9,8 +9,6 @@ public class ScreenManager : MonoBehaviour
 
     static public ScreenManager instance = default;
 
-    [SerializeField] private GameObject[] _objToActivateDesactivate = default;
-
     void Awake()
     {
         if (!instance)
@@ -34,14 +32,6 @@ public class ScreenManager : MonoBehaviour
         {
             _stack.Peek().Activate();
         }
-
-        if (_objToActivateDesactivate != null) return;
-        if (_objToActivateDesactivate.Length <= 0) return;
-
-        foreach (var obj in _objToActivateDesactivate)
-        {
-            obj.SetActive(true);
-        }
     }
 
     public void Push(IScreen screen)
@@ -60,12 +50,5 @@ public class ScreenManager : MonoBehaviour
     {
         var go = Instantiate(Resources.Load<GameObject>(resource));
         Push(go.GetComponent<IScreen>());
-
-        if (_objToActivateDesactivate != null) return;
-        if (_objToActivateDesactivate.Length <= 0) return;
-        foreach (var obj in _objToActivateDesactivate)
-        {
-            obj.SetActive(false);
-        }
     }
 }

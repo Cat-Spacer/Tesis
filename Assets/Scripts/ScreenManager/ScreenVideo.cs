@@ -24,12 +24,12 @@ public class ScreenVideo : ScreenBase, IScreen
 
     public void Activate()
     {
-        gameObject.SetActive(true);
+        
     }
 
     public void Deactivate()
     {
-        gameObject.SetActive(false);
+        
     }
 
     private void SetButton()
