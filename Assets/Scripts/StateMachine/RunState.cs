@@ -18,6 +18,7 @@ public class RunState : State
         {
             isComplete = true;
         }
+        Debug.Log($"Run State Enter: is Complete = {isComplete}");
     }
 
     public override void Exit()
@@ -26,5 +27,6 @@ public class RunState : State
         else SoundManager.instance.Pause(SoundsTypes.HamsterOnTubes, gameObject);
         model.StopParticle(ParticleType.Run);
         isComplete = false;
+        Debug.Log($"Run State Exit: is Complete = {isComplete}");
     }
 }
