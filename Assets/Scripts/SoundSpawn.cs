@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
@@ -8,7 +9,8 @@ public class SoundSpawn : MonoBehaviour
 
     private AudioSource _source = default;
 
-    [SerializeField] SoundsTypes _myType = default;
+    [SerializeField] private SoundsTypes _myType = default;
+    [SerializeField] private List<SoundsTypes> _pauseList = default;
     private void Awake()
     {
         _source = GetComponent<AudioSource>();
@@ -43,7 +45,6 @@ public class SoundSpawn : MonoBehaviour
 
     public void PauseByDesactivate(object[] obj)
     {
-        _source.Pause();
         gameObject.SetActive(false);
     }
 
@@ -70,8 +71,7 @@ public class SoundSpawn : MonoBehaviour
     public void Reset()
     {
         if(!gameObject.activeSelf) gameObject.SetActive(true);
-        if(_myType == SoundsTypes.Steps || _myType == SoundsTypes.HamsterSteps || _myType == SoundsTypes.HamsterOnTubes) _source.Pause();
-        else _source.Play();
+        if(_pauseList.Contains(_myType))_source.Pause();
         SuscribeEventManager();
     }
 

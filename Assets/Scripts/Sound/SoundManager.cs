@@ -105,13 +105,17 @@ public class SoundManager : MonoBehaviour
             EventManager.Instance.Subscribe(EventType.OnStartGame, ActiveSounds);
         }
 
-        if (SaveManager.instance || SaveManager.instance.JsonSaves.LoadData().mixerNames != null)
+        if (SaveManager.instance)
         {
-            string[] names = SaveManager.instance.JsonSaves.LoadData().mixerNames.ToArray();
-            float[] volumes = SaveManager.instance.JsonSaves.LoadData().volumes.ToArray();
-            for (int i = 0; i < names.Length && names.Length == volumes.Length; i++)
+            if (SaveManager.instance.JsonSaves.LoadData().mixerNames != null)
             {
-                _mixerValue.Add(names[i], volumes[i]);
+                string[] names = SaveManager.instance.JsonSaves.LoadData().mixerNames.ToArray();
+                float[] volumes = SaveManager.instance.JsonSaves.LoadData().volumes.ToArray();
+                for (int i = 0; i < names.Length && names.Length == volumes.Length; i++)
+                {
+                    _mixerValue.Add(names[i], volumes[i]);
+                    _mixer.SetFloat(names[i], volumes[i]);
+                }
             }
         }
         else
@@ -395,12 +399,14 @@ public class SoundManager : MonoBehaviour
             {
                 int adds = mixersNames.Count - volumes.Count;
 
-                for (int i = 0; i < adds;volumes.Add(default) ,i++);
+                for (int i = 0; i < adds; volumes.Add(default), i++) ;
             }
+
             for (int i = 0; i < mixersNames.Count; i++)
             {
-                if(mixersNames[i] == mixerName) volumes[i] = volume;
+                if (mixersNames[i] == mixerName) volumes[i] = volume;
             }
+
             SaveManager.instance.JsonSaves.SaveJson();
         }
         else

@@ -40,7 +40,9 @@ public class HamsterChar : PlayerCharacter
 
     public void GetInTube(Vector3 targetPosition, Tube tube)
     {
-        if (_inTube || !_ifShrink) return;
+        Debug.Log("TryGetInOfTube");
+        if (_inTube || !_ifShrink || isMoving) return;
+        Debug.Log("GetInOfTube");
         tube.OnPlayerEnter(true);
         _inTube = true;
         _coll.enabled = false;
@@ -53,6 +55,7 @@ public class HamsterChar : PlayerCharacter
 
     public void GetOutOfTube(Vector2 targetPosition, Tube tube)
     {
+        Debug.Log("TryGetOutOfTube");
         tube.OnPlayerEnter(false);
         _tubeEntry = targetPosition;
         GoToPosition(_tubeEntry);
@@ -63,6 +66,7 @@ public class HamsterChar : PlayerCharacter
     {
         if (Vector2.Distance(transform.position, _tubeEntry) < .1f)
         {
+            isMoving = false;
             _coll.enabled = true;
             _rb.simulated = true;
             _inTube = false;
