@@ -6,6 +6,7 @@ using System.Threading;
 
 public class PressurePlate : MonoBehaviour
 {
+    [SerializeField] InteractionColorsEnum interactionColors;
     [SerializeField] private CharacterType type;
     [SerializeField] private List<GameObject> _connectionObj;
     private List<IActivate> _connection  = new List<IActivate>();
@@ -17,6 +18,7 @@ public class PressurePlate : MonoBehaviour
     private Transform _target;
     [SerializeField] private GameObject arrow;
     
+    
     void Start()
     {
         _anim = GetComponent<Animator>();
@@ -27,6 +29,35 @@ public class PressurePlate : MonoBehaviour
         }
         if (type == CharacterType.Cat) _target = GameManager.Instance.GetCat();
         else _target = GameManager.Instance.GetHamster();
+        SetColor();
+        _anim.Play(desactivateAnimation);
+    }
+
+    void SetColor()
+    {
+        switch (interactionColors)
+        {
+            case InteractionColorsEnum.Orange:
+                activateAnimation = "ActivateOrange";
+                desactivateAnimation = "DeactivateOrange";
+                break;
+            case InteractionColorsEnum.Yellow:
+                activateAnimation = "ActivateYellow";
+                desactivateAnimation = "DeactivateYellow";
+                break;
+            case InteractionColorsEnum.BlackCyan:
+                activateAnimation = "ActivateBlackCyan";
+                desactivateAnimation = "DeactivateBlackCyan";
+                break;
+            case InteractionColorsEnum.Pink:
+                activateAnimation = "ActivatePink";
+                desactivateAnimation = "DeactivatePink";
+                break;
+            case InteractionColorsEnum.Grey:
+                activateAnimation = "ActivateGrey";
+                desactivateAnimation = "DeactivateGrey";
+                break;
+        }
     }
 
     private void Update()
@@ -46,7 +77,7 @@ public class PressurePlate : MonoBehaviour
 
     void Activate()
     {
-        _anim.Play("Activate");
+        _anim.Play(activateAnimation);
         SoundManager.instance.Play(SoundsTypes.PressureLever, gameObject);
         foreach (var connection in _connection)
         {
@@ -60,7 +91,7 @@ public class PressurePlate : MonoBehaviour
 
     void Desactivate()
     {
-        _anim.Play("Desactivate");
+        _anim.Play(desactivateAnimation);
         SoundManager.instance.Play(SoundsTypes.PressureLever, gameObject);
         foreach (var connection in _connection)
         {
