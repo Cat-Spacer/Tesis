@@ -19,7 +19,7 @@ public class MenuButtons : MonoBehaviour
         _onStartGame = true;
     }
 
-    private void OnFinishGame(object[] obj)
+    protected virtual void OnFinishGame(object[] obj)
     {
         _onFinishGame = true;
     }

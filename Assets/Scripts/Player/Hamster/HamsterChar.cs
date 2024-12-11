@@ -40,7 +40,7 @@ public class HamsterChar : PlayerCharacter
 
     public void GetInTube(Vector3 targetPosition, Tube tube)
     {
-        if (_inTube || !_ifShrink) return;
+        if (_inTube || !_ifShrink || isMoving) return;
         tube.OnPlayerEnter(true);
         _inTube = true;
         _coll.enabled = false;

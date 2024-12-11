@@ -66,11 +66,7 @@ public class LaserTrap : MonoBehaviour, IActivate
         {
             particle.Stop();
         }
-        foreach (var particle2 in _particles2)
-        {
-            particle2.Stop();
-        }
-
+        foreach (var particle2 in _particles2) particle2.Stop();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

@@ -24,15 +24,16 @@ public class WinMenu : MenuButtons
             Debug.Log("Empate");
             animator.enabled = false;
             _menu.SetActive(true);
+            animator.Play("WinMenu");
         }
         p1Text.text = catPoints.ToString();
         p2Text.text = hamsterPoints.ToString();
-        
     }
     public void StopAnimation()
     {
-        animator.enabled = false;
+        //animator.enabled = false;
         catWinMenu.SetActive(false);
         hamsterWinMenu.SetActive(false);
+        //animator.Play("WinMenu");
     }
 }
