@@ -22,7 +22,6 @@ public class WinMenu : MenuButtons
         else
         {
             Debug.Log("Empate");
-            animator.enabled = false;
             _menu.SetActive(true);
             animator.Play("WinMenu");
         }
