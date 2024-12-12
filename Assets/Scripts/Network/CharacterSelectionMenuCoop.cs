@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -56,6 +57,7 @@ public class CharacterSelectionMenuCoop : MonoBehaviour
         }
         else GameManager.Instance.StartGame(player2Inputs, player1Inputs);
         if (GameManager.Instance) GameManager.Instance.pause = false;
+        EventManager.Instance.Trigger(EventType.ReturnGameplay);
         gameObject.SetActive(false);
     }
     public void ReturnToMenu()
