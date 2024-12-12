@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -38,18 +39,26 @@ public class MenuButtons : MonoBehaviour
 
     public virtual void Resume()
     {
-        Time.timeScale = 1;
+        //Time.timeScale = 1;
         _onPause = false;
         EventManager.Instance.Trigger(EventType.OnResumeGame);
+        EventManager.Instance.Trigger(EventType.ReturnGameplay);
         SoundManager.instance.Play(SoundsTypes.Click);
         _menu.SetActive(false);
     }
     public virtual void Pause()
     {
         EventManager.Instance.Trigger(EventType.OnPauseGame);
-        Time.timeScale = 0;
+        EventManager.Instance.Trigger(EventType.ShowTv);
+        //Time.timeScale = 0;
         SoundManager.instance.Play(SoundsTypes.Click, null);
         _onPause = true;
+        StartCoroutine(Delay());
+    }
+
+    IEnumerator Delay()
+    {
+        yield return new WaitForSecondsRealtime(0.1f);
         _menu.SetActive(true);
     }
     public virtual void ReturnToMenu()
