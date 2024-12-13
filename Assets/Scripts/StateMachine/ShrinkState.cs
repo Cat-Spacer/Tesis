@@ -6,13 +6,13 @@ public class ShrinkState : State
 {
     public override void Enter()
     {
+        model.PlayParticle(ParticleType.Shrink);
         model.ChangeAnimationState("Shrink");
         isComplete = true;
     }
 
     public override void Do()
     {
-        Debug.Log("On shrink state");
     }
 
     public override void Exit()

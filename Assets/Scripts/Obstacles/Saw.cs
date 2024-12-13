@@ -13,6 +13,20 @@ public class Saw : MonoBehaviour
     [SerializeField] private float maxSpeed;
     [SerializeField] private float _decelerationSpeed;
     [SerializeField] private float currentSpeed;
+    [SerializeField] private ParticleSystem[] _blood;
+    [SerializeField] private SpriteRenderer[] _bloodStun;
+    int dmgTimes = 0;
+    private void Start()
+    {
+        foreach (var item in _blood)
+        {
+            item.Pause();
+        }
+        foreach (var item in _bloodStun)
+        {
+            item.enabled=false;
+        }
+    }
 
     private void Update()
     {
@@ -46,11 +60,17 @@ public class Saw : MonoBehaviour
         }
     }
 
+   
+
     private void OnTriggerEnter2D(Collider2D coll)
     {
         var player = coll.gameObject.GetComponent<PlayerCharacter>();
         if (player == null) return;
-        
         player.GetDamage();
+        if (_blood!= null && _blood.Length>dmgTimes)
+            _blood[dmgTimes].Play();
+        if(_bloodStun != null && _bloodStun.Length > dmgTimes)
+            _bloodStun[dmgTimes].enabled = true;
+        dmgTimes += 1;
     }
 }

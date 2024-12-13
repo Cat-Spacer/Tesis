@@ -44,6 +44,8 @@ public class HamsterChar : PlayerCharacter
         if (_inTube || !_ifShrink || isMoving) return;
         Debug.Log("GetInOfTube");
         tube.OnPlayerEnter(true);
+
+        _model.PlayParticle(ParticleType.Tube);
         _inTube = true;
         _coll.enabled = false;
         _rb.simulated = false;
@@ -58,6 +60,7 @@ public class HamsterChar : PlayerCharacter
         Debug.Log("TryGetOutOfTube");
         tube.OnPlayerEnter(false);
         _tubeEntry = targetPosition;
+        _model.PlayParticle(ParticleType.Tube);
         GoToPosition(_tubeEntry);
         _TubesMovementAction += GetInWorld;
     }
@@ -165,6 +168,7 @@ public class HamsterChar : PlayerCharacter
         {
             canShrink = false;
             SoundManager.instance.Play(SoundsTypes.HamsterJump, gameObject);
+            _model.PlayParticle(ParticleType.Shrink);
             _ifShrink = true;
             transform.localScale = new Vector3(.5f, .5f, 1);
             _data._inventoryPos.localScale = new Vector3(1.5f, 1.5f, 1);
@@ -178,6 +182,7 @@ public class HamsterChar : PlayerCharacter
             if (hit != null) return;
             canShrink = false;
             SoundManager.instance.Play(SoundsTypes.HamsterJump, gameObject);
+            _model.PlayParticle(ParticleType.Grow);
             _ifShrink = false;
             transform.localScale = new Vector3(1f, 1f, 1);
             _data._inventoryPos.localScale = new Vector3(1f, 1f, 1);

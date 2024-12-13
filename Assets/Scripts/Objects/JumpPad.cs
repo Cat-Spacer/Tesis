@@ -11,6 +11,7 @@ public class JumpPad : MonoBehaviour
     [SerializeField] private LayerMask _mask;
     [SerializeField] private bool _isOn;
     private LineRenderer _myLineConnection;
+    [SerializeField] private ParticleSystem _myParticle;
     private void Start()
     {
         _anim = GetComponent<Animator>();
@@ -47,6 +48,7 @@ public class JumpPad : MonoBehaviour
             var entityRb = col.gameObject.GetComponent<Rigidbody2D>();
             entityRb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
             _anim.SetTrigger("Activate");
+            _myParticle.Play();
             //SoundManager.instance.Play("Mushroom");
         }
     }
