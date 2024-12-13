@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class LevelMenu : MonoBehaviour
 {
     private Button buttonSelected;
+    [SerializeField] int _sceneLoaderIndex = 2;
     [SerializeField] string _selectedLevel;
     [SerializeField] private Button _playButton;
     private string _defaultLevel = "MenuCoop";
@@ -25,6 +26,7 @@ public class LevelMenu : MonoBehaviour
             if (button.GetComponent<LevelNameBtn>()) levelNamesAux.Add(button.GetComponent<LevelNameBtn>());
         }
         _levelNameBtns = levelNamesAux.ToArray();
+        if (SoundManager.instance) SoundManager.instance.ClearList();
     }
 
     public void SelectLevel(string lvl)
@@ -43,8 +45,8 @@ public class LevelMenu : MonoBehaviour
     }
     private void SceneToLoad(int scene)
     {
-        //AsyncLoadScenes.sceneToLoad = scene + SceneManager.GetActiveScene().buildIndex + 1;
-        SceneManager.LoadScene(scene + SceneManager.GetActiveScene().buildIndex + 1);
+        AsyncLoadScenes.sceneToLoad = scene + SceneManager.GetActiveScene().buildIndex + 1;
+        SceneManager.LoadScene(_sceneLoaderIndex);
     }
     public void PlayAndSelectLevel(string lvl)
     {

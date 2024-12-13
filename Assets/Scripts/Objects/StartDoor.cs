@@ -40,6 +40,7 @@ public class StartDoor : MonoBehaviour
         //     if(SoundManager.instance) SoundManager.instance.RemoveFromSoundList(soundSpawn);
         //     Destroy(soundSpawn.gameObject, 1.587f);
         // }
+        if(SoundManager.instance) SoundManager.instance.RemoveFromSoundList(GetComponent<AudioSource>());
     }
 
     public void None() { }

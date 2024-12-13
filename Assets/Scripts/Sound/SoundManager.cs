@@ -101,10 +101,15 @@ public class SoundManager : MonoBehaviour
 
     private void Start()
     {
+        EventInstance();
+        SaveInstance();
+    }
+
+    private void EventInstance()
+    {
         if (EventManager.Instance)
         {
             EventManager.Instance.Subscribe(EventType.OnResumeGame, PlaySounds);
-            EventManager.Instance.Subscribe(EventType.OnStartGame, PlaySounds);
             EventManager.Instance.Subscribe(EventType.OnStartGame, PlaySounds);
             EventManager.Instance.Subscribe(EventType.OnPauseGame, PauseSounds);
             EventManager.Instance.Subscribe(EventType.OnFinishGame, PauseSounds);
@@ -112,7 +117,16 @@ public class SoundManager : MonoBehaviour
             EventManager.Instance.Subscribe(EventType.OnFinishGame, (object[] obj) => _soundsList.Clear());
             EventManager.Instance.Subscribe(EventType.OnLoseGame, (object[] obj) => _soundsList.Clear());
         }
+    }
 
+    private void InitialSet()
+    {
+        _usedSounds = new(SearchSound);
+        _usedSoundsByName = new(SearchSound);
+    }
+
+    private void SaveInstance()
+    {
         if (SaveManager.instance)
         {
             if (SaveManager.instance.JsonSaves.LoadData().mixerNames != null)
@@ -139,12 +153,6 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    private void InitialSet()
-    {
-        _usedSounds = new(SearchSound);
-        _usedSoundsByName = new(SearchSound);
-    }
-
     // ReSharper disable Unity.PerformanceAnalysis
     public void Play(SoundsTypes nameType, GameObject request = default, bool loop = false)
     {
@@ -157,8 +165,11 @@ public class SoundManager : MonoBehaviour
 
         s = SoundSet(s, request, loop);
         if (s.source)
+        {
             if (s.source.gameObject.activeSelf)
                 s.source.Play();
+            if(request && GameManager.Instance)if (GameManager.Instance.pause) s.source.Pause();
+        }
     }
 
     public void Play(string name, GameObject request = default, bool loop = false)
@@ -172,8 +183,11 @@ public class SoundManager : MonoBehaviour
 
         s = SoundSet(s, request, loop);
         if (s.source)
+        {
             if (s.source.gameObject.activeSelf)
                 s.source.Play();
+            if (GameManager.Instance.pause) s.source.Pause();
+        }
     }
 
     public void OnClickSound(string name)
@@ -202,7 +216,7 @@ public class SoundManager : MonoBehaviour
 
         s = SoundSet(s, request);
         if (s.source)
-            if (s.source.gameObject.activeSelf)
+            if (s.source.gameObject.activeSelf && s.source.isPlaying)
                 s.source.Pause();
     }
 
@@ -218,7 +232,7 @@ public class SoundManager : MonoBehaviour
 
         s = SoundSet(s);
         if (s.source)
-            if (s.source.gameObject.activeSelf)
+            if (s.source.gameObject.activeSelf && s.source.isPlaying)
                 s.source.Pause();
     }
 
@@ -283,9 +297,9 @@ public class SoundManager : MonoBehaviour
                 if (!s.source) s.source = gameObject.GetComponent<AudioSource>();
             }
         }
-        else s.source = gameObject.AddComponent<AudioSource>();
+        else if(!s.source) s.source = gameObject.AddComponent<AudioSource>();
 
-        if (s.source == null)
+        if (!s.source)
         {
             Debug.LogWarning($"<color=orange>Source not found!</color>");
             return s;
@@ -383,6 +397,11 @@ public class SoundManager : MonoBehaviour
         foreach (var sound in _soundsList)
             if (sound.isPlaying)
                 sound.Pause();
+    }
+
+    public void ClearList()
+    {
+        _soundsList.Clear();
     }
 
     public IEnumerator FadeOut(AudioSource source, float FadeTime)
