@@ -70,10 +70,12 @@ public class SoundManager : MonoBehaviour
     public Sound[] sounds = default;
     private LookUpTable<SoundsTypes, Sound> _usedSounds = default;
     private LookUpTable<string, Sound> _usedSoundsByName = default;
+
     [SerializeField] private int _limit = 15;
-    [SerializeField] private SoundSpawn _prefab = default;
+
+    //[SerializeField] private SoundSpawn _prefab = default;
     private bool _flag = true;
-    [SerializeField] private List<SoundSpawn> _soundsList = new();
+    [SerializeField] private List<AudioSource> _soundsList = new();
     [SerializeField] private AudioMixer _mixer = default;
 
     private Dictionary<string, float> _mixerValue = new();
@@ -101,8 +103,14 @@ public class SoundManager : MonoBehaviour
     {
         if (EventManager.Instance)
         {
-            EventManager.Instance.Subscribe(EventType.OnResumeGame, ActiveSounds);
-            EventManager.Instance.Subscribe(EventType.OnStartGame, ActiveSounds);
+            EventManager.Instance.Subscribe(EventType.OnResumeGame, PlaySounds);
+            EventManager.Instance.Subscribe(EventType.OnStartGame, PlaySounds);
+            EventManager.Instance.Subscribe(EventType.OnStartGame, PlaySounds);
+            EventManager.Instance.Subscribe(EventType.OnPauseGame, PauseSounds);
+            EventManager.Instance.Subscribe(EventType.OnFinishGame, PauseSounds);
+            EventManager.Instance.Subscribe(EventType.OnLoseGame, PauseSounds);
+            EventManager.Instance.Subscribe(EventType.OnFinishGame, (object[] obj) => _soundsList.Clear());
+            EventManager.Instance.Subscribe(EventType.OnLoseGame, (object[] obj) => _soundsList.Clear());
         }
 
         if (SaveManager.instance)
@@ -224,36 +232,39 @@ public class SoundManager : MonoBehaviour
     {
         if (s == null) return null;
 
-        SoundSpawn soundObject = null;
+        // SoundSpawn soundObject = null;
         if (request && request != gameObject)
         {
-            if (request.GetComponentInChildren<AudioSource>())
-                if (FoundEqualSound(s.clip, request))
-                    return s;
+            if (FoundEqualSound(s.clip, request))
+                return s;
 
-            SoundSpawn objPool = Instantiate(_prefab);
+            s.source = request.AddComponent<AudioSource>();
+            AddToSoundList(s.source);
 
-            if (objPool && objPool.TryGetComponent<SoundSpawn>(out var spaw))
-            {
-                if (spaw)
-                    soundObject = spaw;
-                else
-                    Debug.LogWarning($"<color=orange>Sound Spawn not found!</color>");
-            }
-            else
-            {
-                Debug.LogWarning($"<color=orange>Pool not found!</color>");
-            }
+            // SoundSpawn soundSpawn = Instantiate(_prefab);
+            //
+            // if (soundSpawn && soundSpawn.TryGetComponent<SoundSpawn>(out var spaw))
+            // {
+            //     if (spaw)
+            //         soundObject = spaw;
+            //     else
+            //         Debug.LogWarning($"<color=orange>Sound Spawn not found!</color>");
+            // }
+            // else
+            // {
+            //     Debug.LogWarning($"<color=orange>Pool not found!</color>");
+            // }
         }
         else if (ManagerAudioSourceConfig(s, loop)) return s;
 
-        if (soundObject)
-        {
-            AddToSoundList(soundObject);
-            soundObject.SetFather(request, s.nameType);
-            return soundObject.SetAudioSource(s, loop);
-        }
-        else if (s.nameType == SoundsTypes.Music)
+        // if (soundObject)
+        // {
+        //     AddToSoundList(soundObject);
+        //     soundObject.SetFather(request, s.nameType);
+        //     return soundObject.SetAudioSource(s, loop);
+        // }
+        // else
+        if (s.nameType == SoundsTypes.Music)
         {
             if (_flag)
             {
@@ -327,8 +338,9 @@ public class SoundManager : MonoBehaviour
 
     private bool FoundEqualSound(AudioClip clip, GameObject target)
     {
-        AudioSource[] audioSources = target.GetComponentsInChildren<AudioSource>();
-        return Array.Find(audioSources, source => source.clip == clip);
+        if (!target.GetComponent<AudioSource>()) return false;
+        AudioSource audioSource = target.GetComponent<AudioSource>();
+        return audioSource.clip == clip;
     }
 
     public Sound SearchForRandomSound(SoundsTypes nameType)
@@ -346,7 +358,7 @@ public class SoundManager : MonoBehaviour
         return s;
     }
 
-    public void RemoveFromSoundList(SoundSpawn sound)
+    public void RemoveFromSoundList(AudioSource sound)
     {
         if (_soundsList != null)
             if (_soundsList.Count > 0)
@@ -354,14 +366,23 @@ public class SoundManager : MonoBehaviour
                     _soundsList.Remove(sound);
     }
 
-    public void AddToSoundList(SoundSpawn sound)
+    public void AddToSoundList(AudioSource sound)
     {
         if (!_soundsList.Contains(sound)) _soundsList.Add(sound);
     }
 
-    private void ActiveSounds(object[] obj)
+    private void PlaySounds(object[] obj)
     {
-        foreach (var sound in _soundsList) sound.Reset();
+        foreach (var sound in _soundsList)
+            if (!sound.isPlaying)
+                sound.Play();
+    }
+
+    private void PauseSounds(object[] obj)
+    {
+        foreach (var sound in _soundsList)
+            if (sound.isPlaying)
+                sound.Pause();
     }
 
     public IEnumerator FadeOut(AudioSource source, float FadeTime)

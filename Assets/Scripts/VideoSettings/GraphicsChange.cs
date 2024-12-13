@@ -7,14 +7,14 @@ using TMPro;
 public class GraphicsChange : MonoBehaviour
 {
     [SerializeField] private Toggle _fullscreen = default, _vsync = default;
-    [SerializeField] private int _resIndex = 0, _aaIndex = 0;
+    [SerializeField] private int _resIndex = 0;
     [SerializeField] private TMP_Dropdown _qualityDropdown = default, _resolutionDropdown = default;
-    [SerializeField] private Resolution[] _alowedResolutions = default;
 
-    Resolution[] _resolutions = default;
+    private List<Resolution> _resolutions = new ();
 
     private void Awake()
     {
+        
         Setting();
     }
 
@@ -27,28 +27,43 @@ public class GraphicsChange : MonoBehaviour
 
 
         _fullscreen.isOn = Screen.fullScreen;
-
-        _resolutions = Screen.resolutions;
+        
         _resolutionDropdown.ClearOptions();
-        List<string> options = new List<string>();
+        List<string> options = new ();
 
         _resIndex = 0;
-
-        for (int i = 0; i < _resolutions.Length; i++)
+        
+        _resolutions.Add(new Resolution { width = 1920, height = 1080 });
+        _resolutions.Add(new Resolution { width = 1366, height = 768 });
+        _resolutions.Add(new Resolution { width = 1280, height = 720 });
+        _resolutions.Add(new Resolution { width = 1024, height = 576 });
+        
+        // for (int i = 0; i < _resolutions.Count; i++)
+        // {
+        //     if (Mathf.RoundToInt(_resolutions[i].refreshRateRatio.numerator) == 60 && (_resolutions[i].width % 16 == 0 && _resolutions[i].height % 9 == 0))
+        //     {
+        //         string option = $"{_resolutions[i].width} x {_resolutions[i].height}";
+        //         if (!options.Contains(option))
+        //         {
+        //             options.Add(option);
+        //             if (_resolutions[i].width == Screen.currentResolution.width &&
+        //                 _resolutions[i].height == Screen.currentResolution.height)
+        //                 _resIndex = i;
+        //         }
+        //     }
+        // }
+        
+        foreach (Resolution res in _resolutions)
         {
-            if (Mathf.RoundToInt(_resolutions[i].refreshRateRatio.numerator) / 10 == 60 && (_resolutions[i].width % 16 == 0 && _resolutions[i].height % 9 == 0)) continue;
-            string option = $"{_resolutions[i].width} x {_resolutions[i].height}";
+            string option =  $"{res.width} x {res.height}";
             options.Add(option);
-            if (_resolutions[i].width == Screen.currentResolution.width &&
-                _resolutions[i].height == Screen.currentResolution.height)
-                _resIndex = i;
         }
 
         _resolutionDropdown.AddOptions(options);
-        _resolutionDropdown.value = _resIndex;
+        _resolutionDropdown.value = 0;
         _resolutionDropdown.RefreshShownValue();
     }
-
+    
     public void SetResolution(int resolutionIndex)
     {
         Resolution resolution = _resolutions[resolutionIndex];
@@ -58,12 +73,6 @@ public class GraphicsChange : MonoBehaviour
     public void SetResolutionValue()
     {
         _resIndex = _resolutionDropdown.value;
-    }
-
-    public void SetAntiAliasing(int aaIndex)
-    {
-        QualitySettings.antiAliasing = aaIndex;
-        if (_qualityDropdown) _qualityDropdown.value = 6;
     }
 
     public void ApplyGraphics()
@@ -76,6 +85,5 @@ public class GraphicsChange : MonoBehaviour
             QualitySettings.vSyncCount = 0;
 
         SetResolution(_resIndex);
-        SetAntiAliasing(_aaIndex);
     }
 }
