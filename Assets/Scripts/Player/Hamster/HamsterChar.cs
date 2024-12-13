@@ -53,6 +53,7 @@ public class HamsterChar : PlayerCharacter
         _currentTube = tube;
         GoToPosition(_tubeEntry);
         _TubesMovementAction += EnterTube;
+        _model.PlayParticle(ParticleType.InTube);
     }
 
     public void GetOutOfTube(Vector2 targetPosition, Tube tube)
@@ -63,6 +64,7 @@ public class HamsterChar : PlayerCharacter
         _model.PlayParticle(ParticleType.Tube);
         GoToPosition(_tubeEntry);
         _TubesMovementAction += GetInWorld;
+        _model.StopParticle(ParticleType.InTube);
     }
 
     void GetInWorld()
@@ -103,10 +105,14 @@ public class HamsterChar : PlayerCharacter
         if (!_currentTube.IsCheckpoint() || isMoving) return;
         if (dir == new Vector2(1, 0))
         {
+            _model.FaceDirection(1);
+            //_model.spRenderer.flipX = true;
             MoveToNextTube(_currentTube.MoveRight());
         }
         if (dir == new Vector2(-1, 0))
         {
+            _model.FaceDirection(-1);
+            // _model.spRenderer.flipX = false;
             MoveToNextTube(_currentTube.MoveLeft());
         }
         if (dir == new Vector2(0, 1))
