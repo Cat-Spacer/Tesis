@@ -16,7 +16,6 @@ public class PressurePlate : MonoBehaviour
     [SerializeField] private bool inverse;
     
     private Transform _target;
-    [SerializeField] private GameObject arrow;
     
     
     void Start()
@@ -60,20 +59,6 @@ public class PressurePlate : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (_target == null) return;
-        var dir = _target.position - transform.position;
-        if (dir.magnitude < 2)
-        {
-            arrow.SetActive(false);
-        }
-        else
-        {
-            arrow.SetActive(true);
-            arrow.transform.up = _target.position - transform.position;
-        }
-    }
 
     void Activate()
     {

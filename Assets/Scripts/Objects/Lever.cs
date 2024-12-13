@@ -12,8 +12,6 @@ public class Lever : MonoBehaviour, IInteract
     [SerializeField] private List<GameObject> _connectionObj;
     private List<IActivate> _connection = new List<IActivate>();
     [SerializeField] private bool _activated = false;
-    private Transform _target;
-    [SerializeField] private GameObject _arrow;
     [SerializeField] ParticleSystem[] _greenParticles;
     [SerializeField] ParticleSystem[] _loopGreenParticles;
     [SerializeField] ParticleSystem[] _redParticles;
@@ -37,8 +35,7 @@ public class Lever : MonoBehaviour, IInteract
             var obj = connection.GetComponent<IActivate>();
             if(connection != null) _connection.Add(obj);
         }
-        if (_type == CharacterType.Cat) _target = GameManager.Instance.GetCat();
-        else _target = GameManager.Instance.GetHamster();
+      
         SetColor();
         if(_activated)_anim.Play(_activateAnimation);
         else _anim.Play(_desactivateAnimation);
@@ -88,21 +85,6 @@ public class Lever : MonoBehaviour, IInteract
                 break;
         }
     }
-    private void Update()
-    {
-        if (_target == null) return;
-        var dir = _target.position - transform.position;
-        if (dir.magnitude < 2)
-        {
-            _arrow.SetActive(false);
-        }
-        else
-        {
-            _arrow.SetActive(true);
-            _arrow.transform.up = _target.position - transform.position;
-        }
-    }
-
 
     void PressLever()
     {
