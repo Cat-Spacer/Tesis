@@ -3,21 +3,32 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using System.Linq;
 
 public class Lever : MonoBehaviour, IInteract
 {
-    [SerializeField] private CharacterType type;
+    [SerializeField] private CharacterType _type;
     private Animator _anim;
     [SerializeField] private List<GameObject> _connectionObj;
     private List<IActivate> _connection = new List<IActivate>();
     [SerializeField] private bool _activated = false;
     private Transform _target;
-    [SerializeField] private GameObject arrow;
-    [SerializeField] ParticleSystem greenParticles;
-    [SerializeField] ParticleSystem redParticles;
-    private string activateAnimation;
-    private string desactivateAnimation;
-    [SerializeField] InteractionColorsEnum interactionColors;
+    [SerializeField] private GameObject _arrow;
+    [SerializeField] ParticleSystem[] _greenParticles;
+    [SerializeField] ParticleSystem[] _loopGreenParticles;
+    [SerializeField] ParticleSystem[] _redParticles;
+    private string _activateAnimation;
+    private string _desactivateAnimation;
+    [SerializeField] InteractionColorsEnum _interactionColors;
+    [SerializeField]private List<InteractionColorParticle> _colorIDParticle;
+
+    [System.Serializable]
+    public class InteractionColorParticle
+    {
+        public InteractionColorsEnum colorID;
+        public ParticleSystem particleSystem;
+    }
+
     void Start()
     {
         _anim = GetComponent<Animator>();
@@ -26,35 +37,54 @@ public class Lever : MonoBehaviour, IInteract
             var obj = connection.GetComponent<IActivate>();
             if(connection != null) _connection.Add(obj);
         }
-        if (type == CharacterType.Cat) _target = GameManager.Instance.GetCat();
+        if (_type == CharacterType.Cat) _target = GameManager.Instance.GetCat();
         else _target = GameManager.Instance.GetHamster();
         SetColor();
-        if(_activated)_anim.Play(activateAnimation);
-        else _anim.Play(desactivateAnimation);
+        if(_activated)_anim.Play(_activateAnimation);
+        else _anim.Play(_desactivateAnimation);
+    }
+
+    private void FilterOrangeParticles(InteractionColorsEnum colorId)
+    {
+        if (_colorIDParticle == null) return;
+
+        var orangeParticles = _colorIDParticle
+            .Where(p => p.colorID == colorId)
+            .Select(p => p.particleSystem);
+
+        foreach (var particle in orangeParticles)
+        {
+            particle.Play();
+        }
     }
     void SetColor()
     {
-        switch (interactionColors)
+        switch (_interactionColors)
         {
             case InteractionColorsEnum.Orange:
-                activateAnimation = "ActivateOrange";
-                desactivateAnimation = "DeactivateOrange";
+                _activateAnimation = "ActivateOrange";
+                _desactivateAnimation = "DeactivateOrange";
+                FilterOrangeParticles(_interactionColors);
                 break;
             case InteractionColorsEnum.Yellow:
-                activateAnimation = "ActivateYellow";
-                desactivateAnimation = "DeactivateYellow";
+                _activateAnimation = "ActivateYellow";
+                _desactivateAnimation = "DeactivateYellow";
+                FilterOrangeParticles(_interactionColors);
                 break;
             case InteractionColorsEnum.BlackCyan:
-                activateAnimation = "ActivateBlackCyan";
-                desactivateAnimation = "DeactivateBlackCyan";
+                _activateAnimation = "ActivateBlackCyan";
+                _desactivateAnimation = "DeactivateBlackCyan";
+                FilterOrangeParticles(_interactionColors);
                 break;
             case InteractionColorsEnum.Pink:
-                activateAnimation = "ActivatePink";
-                desactivateAnimation = "DeactivatePink";
+                _activateAnimation = "ActivatePink";
+                _desactivateAnimation = "DeactivatePink";
+                FilterOrangeParticles(_interactionColors);
                 break;
             case InteractionColorsEnum.Grey:
-                activateAnimation = "ActivateGrey";
-                desactivateAnimation = "DeactivateGrey";
+                _activateAnimation = "ActivateGrey";
+                _desactivateAnimation = "DeactivateGrey";
+                FilterOrangeParticles(_interactionColors);
                 break;
         }
     }
@@ -64,12 +94,12 @@ public class Lever : MonoBehaviour, IInteract
         var dir = _target.position - transform.position;
         if (dir.magnitude < 2)
         {
-            arrow.SetActive(false);
+            _arrow.SetActive(false);
         }
         else
         {
-            arrow.SetActive(true);
-            arrow.transform.up = _target.position - transform.position;
+            _arrow.SetActive(true);
+            _arrow.transform.up = _target.position - transform.position;
         }
     }
 
@@ -82,19 +112,33 @@ public class Lever : MonoBehaviour, IInteract
             {
                 if(connection != null) connection.Activate();
             }
-            greenParticles.Play();
+            foreach (var item in _greenParticles)
+            {
+                item.Play();
+            }
+            foreach (var item in _loopGreenParticles)
+            {
+                item.Play();
+            }
             _activated = true;
-            _anim.Play(activateAnimation);
+            _anim.Play(_activateAnimation);
         }
         else
         {
+            foreach (var item in _loopGreenParticles)
+            {
+                item.Stop();
+            }
             foreach (var connection in _connection)
             {
                 if(connection != null) connection.Desactivate();
             }
             _activated = false;
-            redParticles.Play();
-            _anim.Play(desactivateAnimation);
+            foreach (var item in _redParticles)
+            {
+                item.Play();
+            }
+            _anim.Play(_desactivateAnimation);
         }
         SoundManager.instance.Play(SoundsTypes.Lever, gameObject);
     }
