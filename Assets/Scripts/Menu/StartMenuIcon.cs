@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem.HID;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -19,6 +20,12 @@ public class StartMenuIcon : MonoBehaviour
     [SerializeField] Button skipBtn;
     private bool isSkiping = true;
     private bool usingMouse;
+    [SerializeField] Book book;
+    [SerializeField] AutoFlip bookAutoFlip;
+    public UnityEvent OnFinishedBook;
+    [SerializeField] private GameObject flipRightButtons;
+    [SerializeField] private GameObject flipLeftButtons;
+    private bool canFlip = true;
     private void Start()
     {
         LoadSceneAsync("MainMenuCoop");
@@ -42,8 +49,9 @@ public class StartMenuIcon : MonoBehaviour
         {
             ChangeScene();
         }
+        if(Input.GetKeyDown(KeyCode.RightArrow) && canFlip) bookAutoFlip.FlipRightPage();
+        if(Input.GetKeyDown(KeyCode.LeftArrow) && canFlip) bookAutoFlip.FlipLeftPage();
     }
-
     public void Skip()
     {
         usingMouse = true;
@@ -80,5 +88,21 @@ public class StartMenuIcon : MonoBehaviour
     public void ChangeScene()
     {
         canChangeScene = true;
+    }
+    public void CheckCurrentPage()
+    {
+        var currentPage = book.currentPage;
+        if (currentPage > book.bookPages.Length - 1)
+        {
+            flipRightButtons.SetActive(false);
+            flipLeftButtons.SetActive(false);
+            animator.enabled = true;
+            canFlip = false;
+            animator.Play("ChangeScene");
+        }
+    }
+    void StopAnimator()
+    {
+        animator.enabled = false;
     }
 }
