@@ -44,6 +44,8 @@ public class HamsterChar : PlayerCharacter
         if (_inTube || !_ifShrink || isMoving) return;
         Debug.Log("GetInOfTube");
         tube.OnPlayerEnter(true);
+
+        _model.PlayParticle(ParticleType.Tube);
         _inTube = true;
         _coll.enabled = false;
         _rb.simulated = false;
@@ -58,6 +60,7 @@ public class HamsterChar : PlayerCharacter
         Debug.Log("TryGetOutOfTube");
         tube.OnPlayerEnter(false);
         _tubeEntry = targetPosition;
+        _model.PlayParticle(ParticleType.Tube);
         GoToPosition(_tubeEntry);
         _TubesMovementAction += GetInWorld;
     }

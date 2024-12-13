@@ -14,7 +14,8 @@ public enum ParticleType
     Revive,
     Damage,
     Grow,
-    Shrink
+    Shrink,
+    Tube
 }
 public class CharacterModel : MonoBehaviour
 {
@@ -34,6 +35,7 @@ public class CharacterModel : MonoBehaviour
     [SerializeField] private ParticleSystem _bloodParticle;
     [SerializeField] private ParticleSystem _growParticle;
     [SerializeField] private ParticleSystem _shrinkParticle;
+    [SerializeField] private ParticleSystem _tubeParticle;
     [Header("Imgs")]
     public GameObject stunIcon;
 
@@ -95,6 +97,9 @@ public class CharacterModel : MonoBehaviour
                 break;
             case ParticleType.Shrink:
                 _shrinkParticle.Play();
+                break;
+            case ParticleType.Tube:
+                _tubeParticle.Play();
                 break;
         }
     }

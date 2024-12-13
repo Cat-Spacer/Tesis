@@ -11,6 +11,7 @@ public class FloorSwitch : MonoBehaviour, IActivate
 
     [SerializeField] private float speedChange;
     [SerializeField] private BoxCollider2D killZone;
+    [SerializeField] private ParticleSystem _myparticle;
     private void Awake()
     {
         _sp = GetComponent<SpriteRenderer>();
@@ -55,11 +56,13 @@ public class FloorSwitch : MonoBehaviour, IActivate
     }
     public void Activate()
     {
+        _myparticle.Play();
         OpenClose();
     }
 
     public void Desactivate()
     {
+        _myparticle.Play();
         OpenClose();
     }
 }
