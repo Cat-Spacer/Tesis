@@ -418,6 +418,7 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
     }
     public void GetDamage()
     {
+        _model.PlayParticle(ParticleType.Damage);
         Freeze(true);
         CollidersSwitch(false);
         Die();

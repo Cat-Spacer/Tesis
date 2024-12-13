@@ -11,6 +11,7 @@ public class FlagChekpoint : MonoBehaviour
     private bool _hamsterIsOn = false;
     [SerializeField] ParticleSystem _catParticle;
     [SerializeField] ParticleSystem _hamsterParticle;
+    [SerializeField] ParticleSystem[] _checkParticles;
     [SerializeField] private Animation _catFlagAnimation;
     [SerializeField] private Animation _hamsterFlagAnimation;
     [SerializeField] Animator _catFlagAnimator;
@@ -33,6 +34,10 @@ public class FlagChekpoint : MonoBehaviour
             if (_catIsOn) return;
             _catIsOn = true;
             GameManager.Instance.SetCatRespawnPoint(transform.position);
+            foreach (var item in _checkParticles)
+            {
+                item.Play();
+            }
             _catFlagAnimation.Play();
             _catParticle.Play();
             SoundManager.instance.Play(SoundsTypes.Checpoint, gameObject);
@@ -42,6 +47,10 @@ public class FlagChekpoint : MonoBehaviour
             if (_hamsterIsOn) return;
             _hamsterIsOn = true;
             GameManager.Instance.SetHamsterRespawnPoint(transform.position);
+            foreach (var item in _checkParticles)
+            {
+                item.Play();
+            }
             _hamsterFlagAnimation.Play();
             _hamsterParticle.Play();
             SoundManager.instance.Play(SoundsTypes.Checpoint, gameObject);

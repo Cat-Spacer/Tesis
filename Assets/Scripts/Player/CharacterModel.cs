@@ -11,7 +11,10 @@ public enum ParticleType
     Hit,
     Special,
     Die,
-    Revive
+    Revive,
+    Damage,
+    Grow,
+    Shrink
 }
 public class CharacterModel : MonoBehaviour
 {
@@ -28,6 +31,9 @@ public class CharacterModel : MonoBehaviour
     [SerializeField] private ParticleSystem _specialParticle;
     [SerializeField] private ParticleSystem _dieParticle;
     [SerializeField] private ParticleSystem _reviveParticle;
+    [SerializeField] private ParticleSystem _bloodParticle;
+    [SerializeField] private ParticleSystem _growParticle;
+    [SerializeField] private ParticleSystem _shrinkParticle;
     [Header("Imgs")]
     public GameObject stunIcon;
 
@@ -46,6 +52,9 @@ public class CharacterModel : MonoBehaviour
         _particles.Add(_specialParticle);
         _particles.Add(_dieParticle);
         _particles.Add(_reviveParticle);
+        _particles.Add(_bloodParticle);
+        _particles.Add(_growParticle);
+        _particles.Add(_shrinkParticle);
     }
 
     private void OnFinishGame(object[] obj)
@@ -77,6 +86,15 @@ public class CharacterModel : MonoBehaviour
                 break;
             case ParticleType.Revive:
                 if(!_reviveParticle.isPlaying) _reviveParticle.Play();
+                break;
+            case ParticleType.Damage:
+                _bloodParticle.Play();
+                break;
+            case ParticleType.Grow:
+                _growParticle.Play();
+                break;
+            case ParticleType.Shrink:
+                _shrinkParticle.Play();
                 break;
         }
     }

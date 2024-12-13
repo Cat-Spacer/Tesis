@@ -12,6 +12,7 @@ public class FallingFloor : MonoBehaviour
     private bool _isActive;
     [SerializeField] private BoxCollider2D _coll;
     [SerializeField] private BoxCollider2D _killZone;
+    [SerializeField] private ParticleSystem _onFall;
     private void Start()
     {
         _sp = GetComponentInChildren<SpriteRenderer>();
@@ -24,6 +25,7 @@ public class FallingFloor : MonoBehaviour
         if (activated)
         {
             SoundManager.instance.Play(SoundsTypes.Drop, gameObject);
+            _onFall.Play();
             _sp.color = activatedColor;
             _coll.enabled = true;
             _killZone.enabled = true;
@@ -32,6 +34,7 @@ public class FallingFloor : MonoBehaviour
         else
         {
             SoundManager.instance.Play(SoundsTypes.Drop, gameObject);
+            _onFall.Play();
             _sp.color = desactivatedColor;
             _coll.enabled = false;
             _killZone.enabled = false;

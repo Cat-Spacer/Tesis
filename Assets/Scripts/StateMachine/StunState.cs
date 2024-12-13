@@ -9,6 +9,8 @@ public class StunState : State
         model.GetStun(true);
         if(character.GetCharType() == CharacterType.Cat) SoundManager.instance.Play(SoundsTypes.CatDamage, gameObject);
         else SoundManager.instance.Play(SoundsTypes.HamsterDamage, gameObject);
+
+        model.PlayParticle(ParticleType.Damage);
     }
 
     public override void Do()
