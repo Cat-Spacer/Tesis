@@ -23,7 +23,9 @@ public enum EventType
     OnGroupCamera,
     OnGetShield,
     OnPutFlower,
-    OnOpenDoors
+    OnOpenDoors, 
+    ShowTv,
+    ReturnGameplay
 }
 public class EventManager : MonoBehaviour
 {
