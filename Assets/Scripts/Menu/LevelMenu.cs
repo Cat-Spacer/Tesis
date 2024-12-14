@@ -1,21 +1,21 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem.Composites;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LevelMenu : MonoBehaviour
 {
-    private Button buttonSelected;
-    [SerializeField] int _sceneLoaderIndex = 2;
-    [SerializeField] string _selectedLevel;
-    [SerializeField] private Button _playButton;
+    private Button buttonSelected = null;
+    [SerializeField] private int _sceneLoaderIndex = 2;
+    [SerializeField] private string _selectedLevel = null;
+    [SerializeField] private Button _playButton = null;
     private string _defaultLevel = "MenuCoop";
 
-    [SerializeField] private List<Button> allLevels = new List<Button>();
-    private Dictionary<string, Button> _allLevelsBtn = new Dictionary<string, Button>();
+    [SerializeField] private List<Button> allLevels = new ();
+    private Dictionary<string, Button> _allLevelsBtn = new ();
 
-    LevelNameBtn[] _levelNameBtns = default;
+    private LevelNameBtn[] _levelNameBtns = null;
 
     private void Start()
     {
@@ -26,6 +26,13 @@ public class LevelMenu : MonoBehaviour
             if (button.GetComponent<LevelNameBtn>()) levelNamesAux.Add(button.GetComponent<LevelNameBtn>());
         }
         _levelNameBtns = levelNamesAux.ToArray();
+        _selectedLevel = EventSystem.current.firstSelectedGameObject.name;
+        if (_selectedLevel != null && EventSystem.current.firstSelectedGameObject.GetComponent<LevelNameBtn>())
+            StaySelected(EventSystem.current.firstSelectedGameObject.GetComponent<LevelNameBtn>());
+        if (_selectedLevel != null || !_playButton) return;
+        _playButton.interactable = false;
+        
+        
     }
 
     public void SelectLevel(string lvl)
@@ -33,14 +40,13 @@ public class LevelMenu : MonoBehaviour
         if (lvl == null || lvl.Length <= 0) return;
         if (string.IsNullOrEmpty(lvl)) _selectedLevel = _defaultLevel;
         _selectedLevel = lvl;
+        if(_playButton) _playButton.interactable = true;
     }
 
     public void PlayLevel()
     {
-        //if (_selectedLevel.IsNullOrEmpty()) return;
         if (_selectedLevel.Length == 0) return;
         SceneToLoad(DecodeString(_selectedLevel));
-        //SceneManager.LoadScene(_selectedLevel, LoadSceneMode.Single);
     }
     private void SceneToLoad(int scene)
     {
@@ -63,17 +69,15 @@ public class LevelMenu : MonoBehaviour
             myNumbers[num] = res;
         }
 
-        return myNumbers[myNumbers.Length - 1];
+        return myNumbers[^1];
     }
 
     public void StaySelected(LevelNameBtn button)
     {
-        if(!button.selected) 
-            button.SetSelected(true);
+        if(!button.selected) button.SetSelected(true);
 
         foreach (LevelNameBtn btn in _levelNameBtns)
-            if (btn.selected == true && btn != button)
+            if (btn.selected && btn != button)
                 btn.SetSelected(false);
-            
     }
 }
