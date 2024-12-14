@@ -7,23 +7,26 @@ using UnityEngine.UI;
 public class PeaceSystem : MonoBehaviour
 {
     public static PeaceSystem instance;
-    [SerializeField] private Image[] _strikes;
-    [SerializeField] private Image[] _shieldStrikes;
-    [SerializeField] int _currentStrike = 0;
-    [SerializeField] int _currentShieldStrike = -1;
-    
+    [SerializeField] private Image _nullFace;
+    [SerializeField] private Image[] _angryFace;
+    [SerializeField] private Image[] _happyFace;
+    [SerializeField] int _currentFaceLevel = 0;
+    int _maxAngryFaceLevel = -3;
+    int _maxHappyFaceLevel = 3;
+
     private void Start()
     {
         if (instance == null) instance = this;
 
-        _strikes = LiveCamera.instance.GetStrikesUI();
-        _shieldStrikes = LiveCamera.instance.GetShieldStrikesUI();
+        _angryFace = LiveCamera.instance.GetStrikesUI();
+        _happyFace = LiveCamera.instance.GetShieldStrikesUI();
+        if (_currentFaceLevel == 0)
+            _nullFace.gameObject.SetActive(true);
+        foreach (var strikes in _angryFace) strikes.gameObject.SetActive(false);
+        foreach (var shield in _happyFace) shield.gameObject.SetActive(false);
         
-        foreach (var strikes in _strikes) strikes.gameObject.SetActive(true);
-        foreach (var shield in _shieldStrikes) shield.gameObject.SetActive(false);
-        
-        EventManager.Instance.Subscribe(EventType.OnChangePeace, UpdatePeace);
-        EventManager.Instance.Subscribe(EventType.OnGetShield, GetShield);
+        EventManager.Instance.Subscribe(EventType.OnChangePeace, LosePeace);
+        EventManager.Instance.Subscribe(EventType.OnGetShield, SumPeace);
     }
     private void Update()
     {
@@ -39,51 +42,74 @@ public class PeaceSystem : MonoBehaviour
             }
         }
     }
-    private void UpdatePeace(object[] obj)
+    private void LosePeace(object[] obj)
     {
-        if (_currentStrike == 3) return;
-        if (_currentShieldStrike > 0)
-        {
-            if (_currentShieldStrike == 3)
-            {
-                _shieldStrikes[0].gameObject.SetActive(true);
-                _shieldStrikes[1].gameObject.SetActive(true);
-                _shieldStrikes[2].gameObject.SetActive(false);
-            }
-            else if (_currentShieldStrike == 2)
-            {
-                _shieldStrikes[0].gameObject.SetActive(true);
-                _shieldStrikes[1].gameObject.SetActive(false);
-                _shieldStrikes[2].gameObject.SetActive(false);
-            }
-            else if(_currentShieldStrike == 1)
-            {
-                _shieldStrikes[0].gameObject.SetActive(false);
-                _shieldStrikes[1].gameObject.SetActive(false);
-                _shieldStrikes[2].gameObject.SetActive(false);
-            }
-            _currentShieldStrike--;
+        //  if (_currentAngryLevel == 3) return;
+        if (_currentFaceLevel == _maxAngryFaceLevel)
             return;
-        }
-        _currentStrike++;
-        _strikes[_currentStrike - 1].color = Color.white;
-        if (_currentStrike == 3)
+
+        _currentFaceLevel--;
+
+        UpdateFace();
+
+        if (_currentFaceLevel == _maxAngryFaceLevel)
         {
             EventManager.Instance.Trigger(EventType.OnLoseGame);
         }
     }
-    private void GetShield(object[] obj)
+    private void SumPeace(object[] obj)
     {
-        if (_currentShieldStrike < 3)
+        if (_currentFaceLevel == _maxHappyFaceLevel)
+            return;
+
+        _currentFaceLevel++;
+        UpdateFace();
+    }
+
+    void UpdateFace()
+    {
+        if (_currentFaceLevel != 0)
+            _nullFace.gameObject.SetActive(false);
+
+        if (_currentFaceLevel == 0)
         {
-            _currentShieldStrike++;
-            _shieldStrikes[_currentShieldStrike - 1].gameObject.SetActive(true);
+            _nullFace.gameObject.SetActive(true);
+            foreach (var item in _angryFace)
+            {
+                item.gameObject.SetActive(false);
+            }
+            foreach (var item in _happyFace)
+            {
+                item.gameObject.SetActive(false);
+            }
         }
+        else if (_currentFaceLevel < 0)
+        {
+            var value = _currentFaceLevel * -1;
+            for (int i = 0; i < _angryFace.Length; i++)
+            {
+                if (i == value-1)
+                    _angryFace[i].gameObject.SetActive(true);
+                else
+                    _angryFace[i].gameObject.SetActive(false);
+            }
+        }
+        else if (_currentFaceLevel > 0)
+        {
+            for (int i = 0; i < _happyFace.Length; i++)
+            {
+                if (i == _currentFaceLevel-1)
+                    _happyFace[i].gameObject.SetActive(true);
+                else
+                    _happyFace[i].gameObject.SetActive(false);
+            }
+        }
+
     }
 
     private void OnDisable()
     {
-        EventManager.Instance.Unsubscribe(EventType.OnChangePeace, UpdatePeace);
-        EventManager.Instance.Unsubscribe(EventType.OnGetShield, GetShield);
+        EventManager.Instance.Unsubscribe(EventType.OnChangePeace, LosePeace);
+        EventManager.Instance.Unsubscribe(EventType.OnGetShield, SumPeace);
     }
 }
