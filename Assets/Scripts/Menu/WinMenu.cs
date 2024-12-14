@@ -27,6 +27,13 @@ public class WinMenu : MenuButtons
         }
         p1Text.text = catPoints.ToString();
         p2Text.text = hamsterPoints.ToString();
+        
+        foreach (var button in tv.tvButtons) button.gameObject.SetActive(false);
+        tv.restartBtn.gameObject.SetActive(true);
+        tv.nextLevelBtn.gameObject.SetActive(true);
+        tv.levelsBtn.gameObject.SetActive(true);
+        tv.optionsBtn.gameObject.SetActive(true);
+        tv.menuBtn.gameObject.SetActive(true);
     }
     public void StopAnimation()
     {

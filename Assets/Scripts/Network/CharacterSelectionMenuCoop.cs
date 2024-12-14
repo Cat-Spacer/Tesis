@@ -10,6 +10,7 @@ public class CharacterSelectionMenuCoop : MonoBehaviour
     [SerializeField] private CharacterType player1 = CharacterType.Cat, player2 = CharacterType.Hamster;
     [SerializeField] private SO_Inputs player1Inputs, player2Inputs;
     [SerializeField] private GameObject menu;
+    [SerializeField] private UICamera uiCamera;
 
     private bool inputState;
 
@@ -28,6 +29,10 @@ public class CharacterSelectionMenuCoop : MonoBehaviour
         }
 
         if (GameManager.Instance) GameManager.Instance.pause = true;
+
+        uiCamera.levelsBtn.gameObject.SetActive(true);
+        uiCamera.optionsBtn.gameObject.SetActive(true);
+        uiCamera.menuBtn.gameObject.SetActive(true);
     }
 
     public void SwitchCharacter()
