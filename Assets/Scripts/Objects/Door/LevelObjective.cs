@@ -49,7 +49,8 @@ public class LevelObjective : MonoBehaviour
 
     IEnumerator FinishDelay()
     {
-        yield return new WaitForSecondsRealtime(4f);
+        yield return new WaitForSecondsRealtime(3f);
+        EventManager.Instance.Trigger(EventType.ShowTv);
         GameManager.Instance.WinLevel();
     }
 }
