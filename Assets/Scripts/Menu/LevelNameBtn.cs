@@ -9,7 +9,6 @@ public class LevelNameBtn : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _text = default;
     [SerializeField] private GameObject _selectedBorder = default;
     [SerializeField] private ButtonSizeUpdate _buttonSizeUpdate;
-    // [SerializeField] private Animator _animator = default;
     [SerializeField] private bool _useAutomatic = default;
     private bool _selected = default;
 
@@ -18,13 +17,9 @@ public class LevelNameBtn : MonoBehaviour
 
     private void Awake()
     {
-        if (!_useAutomatic) return;
-        if (_selectedBorder) if (_selectedBorder.activeInHierarchy) SetSelected(false);
-        //if (_text)
-        //{
-        //    _text = GetComponentInChildren<TextMeshProUGUI>();
-        //    _text.text = gameObject.name;
-        //}
+        if (!_useAutomatic || !_selectedBorder) return;
+        
+        if (_selectedBorder.activeInHierarchy) SetSelected(false);
     }
 
     private void Start()
@@ -33,7 +28,7 @@ public class LevelNameBtn : MonoBehaviour
         _btn.onClick.AddListener(SelectLevel);
     }
 
-    void SelectLevel()
+    private void SelectLevel()
     {
         lvlMenu.SelectLevel(_btn.gameObject.name);
         lvlMenu.StaySelected(this);
