@@ -44,6 +44,8 @@ public class LiveCamera : MonoBehaviour
         EventManager.Instance.Subscribe(EventType.OnResumeGame, OnResumeGame);
         EventManager.Instance.Subscribe(EventType.OnPauseGame, OnPauseGame);
         EventManager.Instance.Subscribe(EventType.OnFinishGame, OnFinishGame);
+        EventManager.Instance.Subscribe(EventType.OnLoseGame, OnFinishGame);
+        menu.SetActive(false);
         current = _hackTimes.Count - 1;
         if (onTutorial)
         {
@@ -62,6 +64,7 @@ public class LiveCamera : MonoBehaviour
 
     private void OnResumeGame(object[] obj)
     {
+        Debug.Log("ResumeGame");
         menu.SetActive(true);
     }
     private void OnPauseGame(object[] obj)
@@ -188,6 +191,7 @@ public class LiveCamera : MonoBehaviour
         EventManager.Instance.Unsubscribe(EventType.OnResumeGame, OnResumeGame);
         EventManager.Instance.Unsubscribe(EventType.OnPauseGame, OnPauseGame);
         EventManager.Instance.Unsubscribe(EventType.OnFinishGame, OnFinishGame);
+        EventManager.Instance.Unsubscribe(EventType.OnLoseGame, OnFinishGame);
     }
     
     private void OnDestroy()
@@ -195,5 +199,6 @@ public class LiveCamera : MonoBehaviour
         EventManager.Instance.Unsubscribe(EventType.OnResumeGame, OnResumeGame);
         EventManager.Instance.Unsubscribe(EventType.OnPauseGame, OnPauseGame);
         EventManager.Instance.Unsubscribe(EventType.OnFinishGame, OnFinishGame);
+        EventManager.Instance.Unsubscribe(EventType.OnLoseGame, OnFinishGame);
     }
 }

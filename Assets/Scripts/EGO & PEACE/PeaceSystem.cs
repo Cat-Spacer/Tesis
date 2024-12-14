@@ -54,8 +54,14 @@ public class PeaceSystem : MonoBehaviour
 
         if (_currentFaceLevel == _maxAngryFaceLevel)
         {
-            EventManager.Instance.Trigger(EventType.OnLoseGame);
+            StartCoroutine(DelayLose());
         }
+    }
+
+    IEnumerator DelayLose()
+    {
+        yield return new WaitForSeconds(0.5f);
+        EventManager.Instance.Trigger(EventType.OnLoseGame);
     }
     private void SumPeace(object[] obj)
     {
