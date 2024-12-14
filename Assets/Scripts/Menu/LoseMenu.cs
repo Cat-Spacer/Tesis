@@ -1,12 +1,27 @@
+using System.Collections;
 using UnityEngine;
 
 public class LoseMenu : MenuButtons
 { 
-    //[SerializeField] Animation anim;
+    [SerializeField] Animator anim;
+    protected override void Start()
+    {
+        base.Start();
+        anim.enabled = false;
+    }
+
     protected override void OnFinishGame(object[] obj)
     {
+        EventManager.Instance.Trigger(EventType.ShowTv);
         _onFinishGame = true;
-        //menu.SetActive(true);
-        //anim.Play();
+        StartCoroutine(OnFinishGame());
+    }
+
+    IEnumerator OnFinishGame()
+    {
+        yield return new WaitForSeconds(1f);
+        if (GameManager.Instance) GameManager.Instance.EnableByBehaviour();
+        _menu.SetActive(true);
+        anim.enabled = true;
     }
 }

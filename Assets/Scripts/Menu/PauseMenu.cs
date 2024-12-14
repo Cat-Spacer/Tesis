@@ -7,8 +7,8 @@ public class PauseMenu : MenuButtons
         if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
         {
             if (_onFinishGame || !_onStartGame) return;
-            if (!_onPause) Pause();
-            else Resume();
+            if (!_onPause && !tv.OnFinishTransition()) Pause();
+            else if(!tv.OnFinishTransition()) Resume();
         }
     }
 }

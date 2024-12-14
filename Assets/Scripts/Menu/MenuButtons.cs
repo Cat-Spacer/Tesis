@@ -4,11 +4,12 @@ using UnityEngine.SceneManagement;
 
 public class MenuButtons : MonoBehaviour
 {
+    [SerializeField] protected UICamera tv;
     [SerializeField] protected GameObject _menu;
     protected bool _onPause, _onFinishGame, _onStartGame;
     private IScreen _pauseScreen = null;
 
-    private void Start()
+    protected virtual void Start()
     {
         _menu.SetActive(false);
         EventManager.Instance.Subscribe(EventType.OnFinishGame, OnFinishGame);
@@ -44,12 +45,8 @@ public class MenuButtons : MonoBehaviour
 
     public virtual void Resume()
     {
-        _onPause = false;
-        if (GameManager.Instance) GameManager.Instance.EnableByBehaviour();
-
-        EventManager.Instance.Trigger(EventType.OnResumeGame);
         EventManager.Instance.Trigger(EventType.ReturnGameplay);
-        SoundManager.instance.Play(SoundsTypes.Click);
+        _onPause = false;
         _menu.SetActive(false);
     }
 

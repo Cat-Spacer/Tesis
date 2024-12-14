@@ -5,29 +5,65 @@ using UnityEngine;
 
 public class TutorialBot : MonoBehaviour
 {
+    [SerializeField] private Transform otherBot;
+    [SerializeField] private float distanceToOtherBot;
     [SerializeField] private float distanceToPlayer;
     [SerializeField] private float speed;
     [SerializeField] private float lerpTime;
     [SerializeField] private Transform target;
     Animator animator;
-
+    Vector3 _velocity;
+    [SerializeField] private float maxForce;
+    [SerializeField] private float maxSpeed;
     private void Start()
     {
         animator = GetComponent<Animator>();
     }
+    Vector3 Seek(Vector3 targetPos)
+    {
+        Vector3 desired = targetPos - transform.position;
+        desired.Normalize();
+        desired *= speed;
+    
+        Vector3 steering = desired - _velocity;
+        steering = Vector3.ClampMagnitude(steering, maxForce);
+    
+        return steering;
+    }  
+    Vector3 Separation()
+    {
+        Vector3 desired = new Vector3();
+        int nearbyBoids = 0;
 
+        Vector3 dist = otherBot.position - transform.position;
+
+        if (dist.magnitude < distanceToOtherBot)
+        {
+            //desired += dist;
+            desired.x += dist.x;
+            desired.z += dist.z;
+            nearbyBoids++;
+        }
+        if (nearbyBoids == 0) return desired;
+        desired /= nearbyBoids;
+        desired.Normalize();
+        desired *= maxSpeed;
+        desired = -desired;
+
+        Vector3 steering = desired - _velocity;
+        steering = Vector3.ClampMagnitude(steering, maxForce);
+        //steering.y = 0;
+        return steering;
+    }
+    void ApplyForce(Vector3 force)
+    {
+        _velocity += force;
+        _velocity = Vector3.ClampMagnitude(_velocity, speed);
+    }
     private void Update()
     {
-        var distance = (transform.position - target.transform.position).magnitude;
-        if (distance > distanceToPlayer)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
-        }
-
-        if (transform.position.y < target.position.y)
-        {
-            transform.position += speed * Time.deltaTime * Vector3.up;
-        }
+        ApplyForce(Seek(target.position));
+        transform.position += _velocity * Time.deltaTime;
     }
 
     public void P1ChangeAnimation(TutorialBoxType type)
