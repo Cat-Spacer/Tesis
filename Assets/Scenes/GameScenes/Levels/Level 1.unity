@@ -68799,6 +68799,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1834370831837221109, guid: 90bef531b86757b43b982a72364bf231,
         type: 3}
+      propertyPath: m_SpriteTilingProperty.drawMode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1834370831837221109, guid: 90bef531b86757b43b982a72364bf231,
+        type: 3}
       propertyPath: m_SpriteTilingProperty.newSize.x
       value: 5.8687363
       objectReference: {fileID: 0}
@@ -69238,6 +69243,7 @@ MonoBehaviour:
   menu: {fileID: 5716892398437121109}
   _catPlayer: {fileID: 0}
   _hamsterPlayer: {fileID: 0}
+  mainGame: {fileID: 4659698152624508052}
   _level: 
   _nextLevel: 
   pause: 1
@@ -70679,6 +70685,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1834370831837221109, guid: 90bef531b86757b43b982a72364bf231,
         type: 3}
+      propertyPath: m_SpriteTilingProperty.drawMode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1834370831837221109, guid: 90bef531b86757b43b982a72364bf231,
+        type: 3}
       propertyPath: m_SpriteTilingProperty.newSize.x
       value: 3.9330983
       objectReference: {fileID: 0}
@@ -70928,6 +70939,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SpriteTilingProperty.pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1834370831837221109, guid: 90bef531b86757b43b982a72364bf231,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.drawMode
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1834370831837221109, guid: 90bef531b86757b43b982a72364bf231,
         type: 3}
@@ -72327,7 +72343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdf06cb83ebd6824e8cbc22950d77f28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadingScreenIndex: 2
+  _loadingScreenIndex: 2
   _settingsScreenName: Settings_Menu
   _controlsScreenName: Control_Menu
   _creditsScreenName: Credits_Menu
@@ -72849,7 +72865,7 @@ Transform:
   m_Children:
   - {fileID: 503073592}
   - {fileID: 252910260}
-  m_Father: {fileID: 7284019568194400704}
+  m_Father: {fileID: 4659698152624508052}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3305697366515435713
 GameObject:
@@ -73502,7 +73518,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdf06cb83ebd6824e8cbc22950d77f28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadingScreenIndex: 1
+  _loadingScreenIndex: 2
   _settingsScreenName: Settings_Menu
   _controlsScreenName: Control_Menu
   _creditsScreenName: Credits_Menu
@@ -74388,6 +74404,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 3290328503931517477}
   - {fileID: 12234185}
   - {fileID: 971949734}
   - {fileID: 2022895683}
@@ -84164,7 +84181,6 @@ Transform:
   - {fileID: 9033166325952653662}
   - {fileID: 1065805403}
   - {fileID: 567759460}
-  - {fileID: 3290328503931517477}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7288235391305834007

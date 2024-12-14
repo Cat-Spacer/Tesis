@@ -9,7 +9,7 @@ public class ScreenCredits : ScreenBase, IScreen
     }
     public void BTN_Back()
     {
-        ScreenManager.instance.Pop(false);
+        ScreenManager.Instance.Pop(false);
     }
 
     public void BTN_Exit()

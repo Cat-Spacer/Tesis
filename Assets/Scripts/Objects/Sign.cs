@@ -7,30 +7,31 @@ using Random = UnityEngine.Random;
 
 public class Sign : MonoBehaviour,IInteract
 {
-    [SerializeField] SpriteRenderer spriteRenderer;
+    [SerializeField] private SpriteRenderer spriteRenderer;
 
-    private SignSprites sign;
+    private SignSprites _sign;
     [FormerlySerializedAs("sings")] [SerializeField] private SignSprites[] signs = new SignSprites[6];
     [SerializeField] private ParticleSystem[] particles;
     private bool _wasDrawed = false;
     private void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        sign = signs[Random.Range(0, signs.Length)];
-        spriteRenderer.sprite = sign.signSprite;
+        _sign = signs[Random.Range(0, signs.Length)];
+        spriteRenderer.sprite = _sign.signSprite;
     }
 
-    void Draw()
+    private void Draw()
     {
         foreach (var item in particles)
         {
             item.Play();
         }
         SoundManager.instance.Play(SoundsTypes.Spray, gameObject);
+        GetComponent<AudioSource>().playOnAwake = false;
         GetComponent<BoxCollider2D>().enabled = false;
         _wasDrawed = true;
-        spriteRenderer.sprite = sign.happySignSprite;
-        if(EventManager.Instance != null) EventManager.Instance.Trigger(EventType.OnGetShield);
+        spriteRenderer.sprite = _sign.happySignSprite;
+        if(EventManager.Instance) EventManager.Instance.Trigger(EventType.OnGetShield);
     }
     
     public void Interact(params object[] param)
@@ -42,11 +43,6 @@ public class Sign : MonoBehaviour,IInteract
     public void ShowInteract(bool showInteractState)
     {
 
-    }
-    private void OnValidate()
-    {
-        // if (signSprite == null || spriteRenderer == null) return;
-        // spriteRenderer.sprite = signSprite;
     }
 }
 

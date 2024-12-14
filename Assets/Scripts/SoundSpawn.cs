@@ -82,7 +82,7 @@ public class SoundSpawn : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (SoundManager.instance) SoundManager.instance.RemoveFromSoundList(_source);
+        //if (SoundManager.instance) SoundManager.instance.RemoveFromSoundList(_source);
         UnsuscribeEventManager();
        // Debug.Log($"{name} was destroyed");
     }

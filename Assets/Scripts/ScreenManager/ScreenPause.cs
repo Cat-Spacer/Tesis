@@ -22,18 +22,18 @@ public class ScreenPause : ScreenBase, IScreen
     public void BTN_Settings()
     {
 
-        ScreenManager.instance.Pop();
-        ScreenManager.instance.PushInstance(_settingsScreenName);
+        ScreenManager.Instance.Pop();
+        ScreenManager.Instance.PushInstance(_settingsScreenName);
     }
     public void BTN_SettingsPause()
     {
-        ScreenManager.instance.Pop();
-        ScreenManager.instance.PushInstance(_settingsPauseScreenName);
+        ScreenManager.Instance.Pop();
+        ScreenManager.Instance.PushInstance(_settingsPauseScreenName);
     }
 
     public void BTN_Back()
     {
-        ScreenManager.instance.Pop();
+        ScreenManager.Instance.Pop();
     }
 
     public void Activate()

@@ -25,7 +25,7 @@ public class FlagChekpoint : MonoBehaviour
     void Update()
     {
         var coll = Physics2D.OverlapBox(transform.position, _boxArea, 0, _players);
-        if (coll == null) return;
+        if (!coll) return;
         
         var player = coll.gameObject.GetComponent<PlayerCharacter>();
         if (!player.gameObject) return;
@@ -41,6 +41,7 @@ public class FlagChekpoint : MonoBehaviour
             _catFlagAnimation.Play();
             _catParticle.Play();
             SoundManager.instance.Play(SoundsTypes.Checpoint, gameObject);
+            GetComponent<AudioSource>().playOnAwake = false;
         }
         else
         {
@@ -54,7 +55,15 @@ public class FlagChekpoint : MonoBehaviour
             _hamsterFlagAnimation.Play();
             _hamsterParticle.Play();
             SoundManager.instance.Play(SoundsTypes.Checpoint, gameObject);
+            GetComponent<AudioSource>().playOnAwake = false;
         }
+    }
+
+    private IEnumerator CleanAudioSources()
+    {
+        yield return new WaitForSeconds(GetComponent<AudioSource>().clip.length);
+        AudioSource[] sources = GetComponents<AudioSource>();
+        foreach (AudioSource s in sources) Destroy(s);
     }
 
     private void OnDrawGizmos()

@@ -1,10 +1,6 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
-using UnityEngine.UIElements;
 
 public class ExitDoor : MonoBehaviour, IInteract
 {
@@ -42,26 +38,26 @@ public class ExitDoor : MonoBehaviour, IInteract
     public void Interact(params object[] param)
     {
         if (!doorIsUnlocked) return;
-        if (_player == null)
+        if (!_player)
         {
             var thisObject = (GameObject)param[0];
             _player = thisObject.GetComponent<PlayerCharacter>();
         }
         
         var playerType = _player.GetComponent<PlayerCharacter>().GetCharType();
-        if (playerType == type)
-        {
-            if (!state) PlayerEnter(playerType);
-            else PlayerExit();
-            _coll.enabled = false;
-        }
+        if (playerType != type) return;
+        if (!state) PlayerEnter(playerType);
+        else PlayerExit();
+        _coll.enabled = false;
     }
-    void OpenDoor()
+
+    private void OpenDoor()
     {
         if (!doorIsUnlocked) return;
         anim.Play("Exit_Open_Door");
     }
-    void PlayerEnter(CharacterType type)
+
+    private void PlayerEnter(CharacterType type)
     {
         SoundManager.instance.Play(SoundsTypes.Block, gameObject);
         lvlObjective.PlayerEnter(type);
@@ -71,7 +67,7 @@ public class ExitDoor : MonoBehaviour, IInteract
         DoorAction += PlayerCanEnter;
     }
 
-    void LerpCatToDoorPos()
+    private void LerpCatToDoorPos()
     {
         var position = _player.transform.position;
         var direction = catPos.transform.position - position;
@@ -91,7 +87,8 @@ public class ExitDoor : MonoBehaviour, IInteract
         }
         _player.transform.position += direction * (lerpPos * Time.deltaTime);
     }
-    void PlayerCanEnter()
+
+    private void PlayerCanEnter()
     {
         if (!doorIsOpen) return;
         _player.EnterDoorAnimation();
@@ -111,13 +108,15 @@ public class ExitDoor : MonoBehaviour, IInteract
         doorIsOpen = false;
         _coll.enabled = true;
     }
-    void PlayerExit()
+
+    private void PlayerExit()
     {
         SoundManager.instance.Play(SoundsTypes.Block, gameObject);
         anim.Play("Exit_Open_Door");
         DoorAction = PlayerCanExit;
     }
-    void PlayerCanExit()
+
+    private void PlayerCanExit()
     {
         if (!doorIsOpen) return;
         lvlObjective.PlayerExit(type);
@@ -125,7 +124,8 @@ public class ExitDoor : MonoBehaviour, IInteract
         state = false;
         DoorAction = delegate { };
     }
-    IEnumerator WaitToClose()
+
+    private IEnumerator WaitToClose()
     {
         yield return new WaitForSecondsRealtime(1.5f);
         anim.Play("Exit_Close_Door");

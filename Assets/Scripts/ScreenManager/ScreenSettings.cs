@@ -23,25 +23,25 @@ public class ScreenSettings : ScreenBase, IScreen
     public void BTN_Audio()
     {
         //ScreenManager.instance.Pop(false);
-        ScreenManager.instance.PushInstance(_audioScreenName);
+        ScreenManager.Instance.PushInstance(_audioScreenName);
     }
     
     public void BTN_Controls()
     {
         //ScreenManager.instance.Pop(false);
-        ScreenManager.instance.PushInstance(_controlsScreenName);
+        ScreenManager.Instance.PushInstance(_controlsScreenName);
     }
     
     public void BTN_Video()
     {
         //ScreenManager.instance.Pop(false);
-        ScreenManager.instance.PushInstance(_videoScreenName);
+        ScreenManager.Instance.PushInstance(_videoScreenName);
     }
 
     public void BTN_Back()
     {
-        ScreenManager.instance.Pop(false);
-        ScreenManager.instance.lastResult = gameObject.name;
+        ScreenManager.Instance.Pop(false);
+        ScreenManager.Instance.lastResult = gameObject.name;
     }
 
     public void BTN_Exit()

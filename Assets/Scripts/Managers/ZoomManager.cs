@@ -19,7 +19,7 @@ public class ZoomManager : MonoBehaviour
         _buttonsSizeUpdate = new ButtonSizeUpdate[_buttons.Length];
         for (int i = 0; i < _buttons.Length; i++)
         {
-            _buttons[i].enabled = false;
+            _buttons[i].interactable = false;
             _buttonsSizeUpdate[i] = _buttons[i].gameObject.GetComponent<ButtonSizeUpdate>();
             _buttonsSizeUpdate[i].enabled = false;
         }
@@ -43,11 +43,11 @@ public class ZoomManager : MonoBehaviour
         if (!_zoomIn) return;
         var lerp = Mathf.Lerp(_secondCam.m_Lens.OrthographicSize, _desireZoom, Time.deltaTime * _speed);
         _secondCam.m_Lens.OrthographicSize = lerp;
-        if (lerp < _desireZoom + 0.25f)
+        if (Camera.main.orthographicSize < _desireZoom + 0.25f)
         {
             for (int i = 0; i < _buttons.Length; i++)
             {
-                _buttons[i].enabled = true;
+                _buttons[i].interactable = true;
                 _buttonsSizeUpdate[i].enabled = true;
             }
 

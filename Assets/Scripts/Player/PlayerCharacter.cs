@@ -8,7 +8,7 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
     [SerializeField] protected CharacterData _data;
     protected CharacterModel _model;
     protected Rigidbody2D _rb;
-    private BoxCollider2D coll;
+    private BoxCollider2D _coll2D;
     protected Action _HitAction = delegate { };
     protected Action _DebuffAction = delegate { };
 
@@ -34,7 +34,7 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
     public virtual void Start()
     {
         _rb = GetComponent<Rigidbody2D>();
-        coll = GetComponent<BoxCollider2D>();
+        _coll2D = GetComponent<BoxCollider2D>();
         _data = GetComponent<CharacterData>();
         _model = GetComponent<CharacterModel>();
         _material = GetComponentInChildren<SpriteRenderer>().material;
@@ -414,7 +414,7 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
 
     void CollidersSwitch(bool switcher)
     {
-        coll.enabled = switcher;
+        _coll2D.enabled = switcher;
     }
     public void GetDamage()
     {

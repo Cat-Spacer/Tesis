@@ -7,13 +7,13 @@ public class ScreenManager : MonoBehaviour
 
     public string lastResult = default;
 
-    static public ScreenManager instance = default;
+    static public ScreenManager Instance = default;
 
     void Awake()
     {
-        if (!instance)
+        if (!Instance)
         {
-            instance = this;
+            Instance = this;
             DontDestroyOnLoad(gameObject);
         }
         else Destroy(this);
@@ -24,22 +24,16 @@ public class ScreenManager : MonoBehaviour
 
     public void Pop(bool pause = true)
     {
-        if (_stack.Count <= 0 && pause) return;
+        if (_stack.Count <= 1 && pause) return;
 
         lastResult = _stack.Pop().Free();
 
-        if (_stack.Count > 0)
-        {
-            _stack.Peek().Activate();
-        }
+        if (_stack.Count > 0) _stack.Peek().Activate();
     }
 
     public void Push(IScreen screen)
     {
-        if (_stack.Count > 0)
-        {
-            _stack.Peek().Deactivate();
-        }
+        if (_stack.Count > 0) _stack.Peek().Deactivate();
 
         _stack.Push(screen);
 

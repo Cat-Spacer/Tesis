@@ -29,4 +29,8 @@ public class GameLevelMenu : MonoBehaviour
     {
         EventManager.Instance.Unsubscribe(EventType.OnLoseGame, OnLoseGame);
     }
+    private void OnDestroy()
+    {
+        EventManager.Instance.Unsubscribe(EventType.OnLoseGame, OnLoseGame);
+    }
 }

@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class ScreenGO : IScreen
 {
-    Dictionary<Behaviour, bool> _before;
+    private Dictionary<Behaviour, bool> _before = new ();
 
-    public Transform root;
+    private Transform _rootGame = null;
+    private readonly Behaviour[] _behaviours = null;
 
     public ScreenGO(Transform root)
     {
-        _before = new Dictionary<Behaviour, bool>();
+        _before ??= new Dictionary<Behaviour, bool>();
 
-        this.root = root;
+        _rootGame = root;
+        _behaviours = _rootGame.GetComponentsInChildren<Behaviour>();
     }
 
     public void Activate()
@@ -21,7 +23,8 @@ public class ScreenGO : IScreen
         {
             keyValue.Key.enabled = keyValue.Value;
 
-            keyValue.Key.gameObject.SetActive(true);
+            //keyValue.Key.gameObject.SetActive(true);
+            if(keyValue.Key.GetComponent<Rigidbody2D>()) keyValue.Key.GetComponent<Rigidbody2D>().isKinematic = false;
         }
 
         _before.Clear();
@@ -29,18 +32,19 @@ public class ScreenGO : IScreen
 
     public void Deactivate()
     {
-        foreach (var b in root.GetComponentsInChildren<Behaviour>())
+        foreach (var b in _behaviours)
         {
+            if (!b) continue;
             _before[b] = b.enabled;
-            b.enabled = false;
+            if(b.enabled) b.enabled = false;
 
-            b.gameObject.SetActive(false);
+            if(b.GetComponent<Rigidbody2D>()) b.GetComponent<Rigidbody2D>().isKinematic = true;
         }
     }
 
     public string Free()
     {
-        GameObject.Destroy(root.gameObject);
-        return "Deletie una pantalla jugable";
+        //GameObject.Destroy(_rootGame.gameObject);
+        return "Playable Game";
     }
 }

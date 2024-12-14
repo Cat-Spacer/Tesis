@@ -7,31 +7,31 @@ public class SoundList : MonoBehaviour
     private LookUpTable<SoundsTypes, Sound> _usedSounds = default;
     private LookUpTable<string, Sound> _usedSoundsByName = default;
 
-    void Start()
+    private void Start()
     {
         if (SoundManager.instance) sounds = SoundManager.instance.sounds;
         _usedSounds = new LookUpTable<SoundsTypes, Sound>(SearchSound);
         _usedSoundsByName = new LookUpTable<string, Sound>(SearchSound);
     }
 
-    private Sound SearchSound(SoundsTypes name)
+    private Sound SearchSound(SoundsTypes nameType)
     {
-        return Array.Find(sounds, sound => sound.nameType == name);
+        return Array.Find(sounds, sound => sound.nameType == nameType);
     }
-    private Sound SearchSound(string name)
+    private Sound SearchSound(string soundName)
     {
-        return Array.Find(sounds, sound => sound.name == name);
+        return Array.Find(sounds, sound => sound.name == soundName);
     }
 
-    public void Play(string name)
+    public void Play(string soundName)
     {
-        Sound s = _usedSoundsByName.ReturnValue(name);
+        Sound s = _usedSoundsByName.ReturnValue(soundName);
         if (s == null)
         {
-            Debug.LogWarning($"<color=yellow>Sound: {name} not found!</color>");
+            Debug.LogWarning($"<color=yellow>Sound: {soundName} not found!</color>");
             return;
         }
-        if (SoundManager.instance) SoundManager.instance.Play(name, null, true);
+        if (SoundManager.instance) SoundManager.instance.Play(soundName, null, true);
         else
         {
             SoundSet(s);
@@ -40,16 +40,16 @@ public class SoundList : MonoBehaviour
         }
     }
 
-    public void PlayClip(string name)
+    public void PlayClip(string soundName)
     {
-        Sound s = _usedSoundsByName.ReturnValue(name);
+        Sound s = _usedSoundsByName.ReturnValue(soundName);
         if (s == null)
         {
-            Debug.LogWarning($"<color=yellow>Sound: {name} not found!</color>");
+            Debug.LogWarning($"<color=yellow>Sound: {soundName} not found!</color>");
             return;
         }
 
-        if (SoundManager.instance) SoundManager.instance.Play(s.nameType, null, false);
+        if (SoundManager.instance) SoundManager.instance.Play(s.nameType);
         else
         {
             Debug.Log($"<color=orange>No SoundManage</color>");
@@ -59,15 +59,15 @@ public class SoundList : MonoBehaviour
         }
     }
 
-    public void Play(SoundsTypes name, bool loop = false)
+    public void Play(SoundsTypes nameType, bool loop = false)
     {
-        Sound s = _usedSounds.ReturnValue(name);
+        Sound s = _usedSounds.ReturnValue(nameType);
         if (s == null)
         {
-            Debug.LogWarning($"<color=yellow>Sound: {name} not found!</color>");
+            Debug.LogWarning($"<color=yellow>Sound: {nameType} not found!</color>");
             return;
         }
-        if (SoundManager.instance) SoundManager.instance.Play(name, null, loop);
+        if (SoundManager.instance) SoundManager.instance.Play(nameType, null, loop);
         else
         {
             SoundSet(s);
@@ -75,25 +75,6 @@ public class SoundList : MonoBehaviour
             s.source.Play();
         }
     }
-
-    public void PlayOneShot(SoundsTypes name)
-    {
-        Sound s = _usedSounds.ReturnValue(name);
-        if (s == null)
-        {
-            Debug.LogWarning($"<color=yellow>Sound: {name} not found!</color>");
-            return;
-        }
-        if (SoundManager.instance) SoundManager.instance.Play(name);
-        else
-        {
-            SoundSet(s);
-            s.source.loop = false;
-            s.source.Play();
-        }
-    }
-
-    public void StopAll() { SoundManager.instance.PauseAll(); }
 
     private void SoundSet(Sound s)
     {
