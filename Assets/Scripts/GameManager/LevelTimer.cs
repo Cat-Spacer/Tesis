@@ -1,4 +1,5 @@
 using TMPro;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,13 +9,15 @@ public class LevelTimer : MonoBehaviour
     [SerializeField] private float currentTime;
     [SerializeField] private TextMeshProUGUI text;
     [SerializeField] private GameObject menu;
-    [SerializeField] private Image outOfTime;
-    [SerializeField] private Animation anim;
     private bool _onLive;
     private bool _onLose;
     private bool _stopTimer = true;
     [SerializeField] private bool onTutorial = false;
-    
+    [SerializeField] Animator animator;
+    bool runningOutOfTime = false;
+
+    [SerializeField] private float[] timeWarnings;
+    [SerializeField] int currentTimeWarning;
     void Start()
     {
         //EventManager.Instance.Subscribe(EventType.OffLive, OnOffLive);
@@ -24,11 +27,12 @@ public class LevelTimer : MonoBehaviour
         EventManager.Instance.Subscribe(EventType.StartTimer, OnStartTimer);
         EventManager.Instance.Subscribe(EventType.StopTimer, OnStopTimer);
         EventManager.Instance.Subscribe(EventType.OnFinishGame, OnFinishGame);
+        EventManager.Instance.Subscribe(EventType.OnLoseGame, OnFinishGame);
         
         if(LiveCamera.instance != null) LiveCamera.instance.SetLevelTime(levelTimer);
         text.text = levelTimer.ToString();
         currentTime = levelTimer;
-        menu.SetActive(true);
+        menu.SetActive(false);
         if (onTutorial) text.text = "-";
     }
 
@@ -93,20 +97,25 @@ public class LevelTimer : MonoBehaviour
             _onLose = true;
             currentTime = 0;
             SoundManager.instance.Pause(SoundsTypes.TimeBeep, gameObject);
-            EventManager.Instance.Trigger(EventType.OnLoseGame);
+            EventManager.Instance.Trigger(EventType.OnLoseGame, true);
         }
         else
         {
             currentTime -= Time.deltaTime;
             text.text = Mathf.FloorToInt(currentTime).ToString();
+            if (currentTimeWarning <= timeWarnings.Length - 1 && currentTime <= timeWarnings[currentTimeWarning])
+            {
+                animator.Play("Appear");
+                currentTimeWarning++;
+            }
         }
 
         if (currentTime < 10)
         {
-            outOfTime.gameObject.SetActive(true);
-            if(!anim.isPlaying)
+            if (!runningOutOfTime)
             {
-                anim.Play();
+                runningOutOfTime = true;
+                animator.Play("OutOfTime");
                 SoundManager.instance.Play(SoundsTypes.TimeBeep, gameObject, true);
             }
         }
@@ -131,6 +140,7 @@ public class LevelTimer : MonoBehaviour
         EventManager.Instance.Unsubscribe(EventType.StartTimer, OnStartTimer);
         EventManager.Instance.Unsubscribe(EventType.StopTimer, OnStopTimer);
         EventManager.Instance.Unsubscribe(EventType.OnFinishGame, OnFinishGame);
+        EventManager.Instance.Unsubscribe(EventType.OnLoseGame, OnFinishGame);
     }
     
     private void OnDestroy()
@@ -142,5 +152,6 @@ public class LevelTimer : MonoBehaviour
         EventManager.Instance.Unsubscribe(EventType.StartTimer, OnStartTimer);
         EventManager.Instance.Unsubscribe(EventType.StopTimer, OnStopTimer);
         EventManager.Instance.Unsubscribe(EventType.OnFinishGame, OnFinishGame);
+        EventManager.Instance.Unsubscribe(EventType.OnLoseGame, OnFinishGame);
     }
 }
