@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,7 +6,9 @@ public class MenuButtons : MonoBehaviour
 {
     [SerializeField] protected GameObject _menu;
     protected bool _onPause, _onFinishGame, _onStartGame;
-    void Start()
+    private IScreen _pauseScreen = null;
+
+    private void Start()
     {
         _menu.SetActive(false);
         EventManager.Instance.Subscribe(EventType.OnFinishGame, OnFinishGame);
@@ -18,65 +19,72 @@ public class MenuButtons : MonoBehaviour
     private void OnStartGame(object[] obj)
     {
         _onStartGame = true;
+        if (GameManager.Instance) GameManager.Instance.EnableByBehaviour();
     }
 
     protected virtual void OnFinishGame(object[] obj)
     {
         _onFinishGame = true;
+        if (GameManager.Instance) StartCoroutine(GameManager.Instance.DisableByBehaviour());
     }
 
     public virtual void OpenMenu()
     {
-        Time.timeScale = 0;
-        //SoundManager.instance.Play(SoundsTypes.Click);
+        //Time.timeScale = 0;
+
+        if (GameManager.Instance) StartCoroutine(GameManager.Instance.DisableByBehaviour());
         _menu.SetActive(true);
     }
+
     public virtual void NextLevel()
     {
-        //SoundManager.instance.Play(SoundsTypes.Click);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        AsyncLoadScenes.sceneToLoad = SceneManager.GetActiveScene().buildIndex + 1;
+        SceneManager.LoadScene("LoadScene");
     }
 
     public virtual void Resume()
     {
-        //Time.timeScale = 1;
         _onPause = false;
+        if (GameManager.Instance) GameManager.Instance.EnableByBehaviour();
+
         EventManager.Instance.Trigger(EventType.OnResumeGame);
         EventManager.Instance.Trigger(EventType.ReturnGameplay);
         SoundManager.instance.Play(SoundsTypes.Click);
         _menu.SetActive(false);
     }
+
     public virtual void Pause()
     {
         EventManager.Instance.Trigger(EventType.OnPauseGame);
         EventManager.Instance.Trigger(EventType.ShowTv);
-        //Time.timeScale = 0;
-        SoundManager.instance.Play(SoundsTypes.Click, null);
+        SoundManager.instance.Play(SoundsTypes.Click);
         _onPause = true;
+        if (GameManager.Instance) StartCoroutine(GameManager.Instance.DisableByBehaviour());
         StartCoroutine(Delay());
     }
 
     IEnumerator Delay()
     {
         yield return new WaitForSecondsRealtime(0.1f);
+
         _menu.SetActive(true);
     }
+
     public virtual void ReturnToMenu()
     {
-        Time.timeScale = 1;
-        //SoundManager.instance.Play(SoundsTypes.Click);
+        //Time.timeScale = 1;
         SceneManager.LoadScene(1, LoadSceneMode.Single);
     }
+
     public virtual void RestartLevel()
     {
-        Time.timeScale = 1;
-        //SoundManager.instance.Play(SoundsTypes.Click);
+        //Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+
     public virtual void LevelSelector()
     {
-        Time.timeScale = 1;
-        //SoundManager.instance.Play(SoundsTypes.Click);
+        //Time.timeScale = 1;
         SceneManager.LoadScene("LevelSelector", LoadSceneMode.Single);
     }
 

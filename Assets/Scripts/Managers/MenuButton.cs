@@ -13,27 +13,27 @@ public class MenuButton : MonoBehaviour
 
     public void BTN_Back()
     {
-        if (ScreenManager.instance) ScreenManager.instance.Pop(false);
+        if (ScreenManager.Instance) ScreenManager.Instance.Pop(false);
     }
 
     public void BTN_Controls()
     {
-        if (ScreenManager.instance) ScreenManager.instance.PushInstance(_controlsScreenName);
+        if (ScreenManager.Instance) ScreenManager.Instance.PushInstance(_controlsScreenName);
     }
 
     public void BTN_Credits()
     {
-        if (ScreenManager.instance) ScreenManager.instance.PushInstance(_creditsScreenName);
+        if (ScreenManager.Instance) ScreenManager.Instance.PushInstance(_creditsScreenName);
     }
 
     public void BTN_General(string screenName)
     {
-        if (ScreenManager.instance) ScreenManager.instance.PushInstance(screenName);
+        if (ScreenManager.Instance) ScreenManager.Instance.PushInstance(screenName);
     }
 
     public void BTN_Levels()
     {
-        if (ScreenManager.instance) ScreenManager.instance.PushInstance(_levelsScreenName);
+        if (ScreenManager.Instance) ScreenManager.Instance.PushInstance(_levelsScreenName);
     }
 
     public void SceneToLoad(int scene)
@@ -44,7 +44,7 @@ public class MenuButton : MonoBehaviour
 
     public void BTN_Settings()
     {
-        if (ScreenManager.instance) ScreenManager.instance.PushInstance(_settingsScreenName);
+        if (ScreenManager.Instance) ScreenManager.Instance.PushInstance(_settingsScreenName);
     }
 
     public void ExitButton()

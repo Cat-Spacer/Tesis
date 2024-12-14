@@ -16,7 +16,7 @@ public class StartDoor : MonoBehaviour
     public void Open()
     {
         _anim.Play("Start_Open_Door");
-        SoundManager.instance.Play(SoundsTypes.Block, gameObject);
+        StartCoroutine(WaitOpenDoor());
     }
 
     public void CloseDoor()
@@ -24,10 +24,15 @@ public class StartDoor : MonoBehaviour
         StartCoroutine(WaitCloseDoor());
     }
 
-    IEnumerator WaitCloseDoor()
+    private IEnumerator WaitCloseDoor()
     {
         yield return new WaitForSecondsRealtime(1.5f);
         Close();
+    }
+    private IEnumerator WaitOpenDoor()
+    {
+        yield return new WaitForEndOfFrame();
+        SoundManager.instance.Play(SoundsTypes.Block, gameObject);
     }
     public void Close()
     {
@@ -40,7 +45,6 @@ public class StartDoor : MonoBehaviour
         //     if(SoundManager.instance) SoundManager.instance.RemoveFromSoundList(soundSpawn);
         //     Destroy(soundSpawn.gameObject, 1.587f);
         // }
-        if(SoundManager.instance) SoundManager.instance.RemoveFromSoundList(GetComponent<AudioSource>());
     }
 
     public void None() { }

@@ -24,7 +24,7 @@ public class UICamera : MonoBehaviour
     }
     private void OnShowTv(object[] obj)
     {
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
         StartCoroutine(Screenshot());
     }
     private void OnResumeGameplay(object[] obj)
@@ -71,7 +71,7 @@ public class UICamera : MonoBehaviour
         cam.gameObject.SetActive(false);
         screen.gameObject.SetActive(false);
         buttons.SetActive(false);
-        Time.timeScale = 1.0f;
+        //Time.timeScale = 1.0f;
     }
     
     private void OnDisable()

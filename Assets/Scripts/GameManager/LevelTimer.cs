@@ -1,9 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class LevelTimer : MonoBehaviour
@@ -18,6 +14,7 @@ public class LevelTimer : MonoBehaviour
     private bool _onLose;
     private bool _stopTimer = true;
     [SerializeField] private bool onTutorial = false;
+    
     void Start()
     {
         //EventManager.Instance.Subscribe(EventType.OffLive, OnOffLive);
@@ -45,20 +42,22 @@ public class LevelTimer : MonoBehaviour
     {
         _stopTimer = true;
     }
+    
     private void OnStartTimer(object[] obj)
     {
         _stopTimer = false;
         menu.SetActive(true);
     }
+    
     private void OnResumeGame(object[] obj)
     {
         menu.SetActive(true);
     }
+    
     private void OnPauseGame(object[] obj)
     {
         menu.SetActive(false);
     }
-
 
     public void OnLive()
     {
@@ -69,21 +68,26 @@ public class LevelTimer : MonoBehaviour
     {
         _onLive = false;
     }
+    
     private void OnOnLive(object[] obj)
     {
         _onLive = true;
     }
+    
     private void OnOffLive(object[] obj)
     {
         _onLive = false;
     }
+    
     void Update()
     {
         if (_stopTimer || !_onLive || _onLose || onTutorial) return;
         Countdown();
     }
-    void Countdown()
+    
+    private void Countdown()
     {
+        if(GameManager.Instance) if(GameManager.Instance.pause) return;
         if (currentTime <= 0)
         {
             _onLose = true;
@@ -128,6 +132,7 @@ public class LevelTimer : MonoBehaviour
         EventManager.Instance.Unsubscribe(EventType.StopTimer, OnStopTimer);
         EventManager.Instance.Unsubscribe(EventType.OnFinishGame, OnFinishGame);
     }
+    
     private void OnDestroy()
     {
         //EventManager.Instance.Unsubscribe(EventType.OffLive, OnOffLive);

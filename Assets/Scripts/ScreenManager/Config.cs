@@ -7,23 +7,22 @@ public class Config : MonoBehaviour
 
     private void Start()
     {
-        ScreenManager.instance.Push(new ScreenGO(mainGame));
+        ScreenManager.Instance.Push(new ScreenGO(mainGame));
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.Escape) && ScreenManager.instance)
+        if (!Input.GetKeyDown(KeyCode.P) && (!Input.GetKeyDown(KeyCode.Escape) || !ScreenManager.Instance)) return;
+        
+        if (ScreenPause.instance)
+            ScreenManager.Instance.Pop();
+        else
         {
-            if (ScreenPause.instance)
-                ScreenManager.instance.Pop();
-            else
-            {
-                if (ScreenSettings.instance)
-                    ScreenManager.instance.Pop();
+            if (ScreenSettings.instance)
+                ScreenManager.Instance.Pop();
 
-                var screenPause = Instantiate(Resources.Load<ScreenPause>(_pauseScreenName));
-                ScreenManager.instance.Push(screenPause);
-            }
+            var screenPause = Instantiate(Resources.Load<ScreenPause>(_pauseScreenName));
+            ScreenManager.Instance.Push(screenPause);
         }
     }
 }

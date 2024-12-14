@@ -1,5 +1,5 @@
-using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,29 +9,38 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameLevelMenu menu;
     private Respawn _respawnManager;
     [SerializeField] private PlayerCharacter _catPlayer, _hamsterPlayer;
-    [SerializeField] string _level;
-    [SerializeField] string _nextLevel;
+    public Transform mainGame = null;
+    [SerializeField] private string _level, _nextLevel;
     public bool pause = true;
     [SerializeField] private StartDoor[] _startDoors;
     [SerializeField] private float mouseIdleTimer;
     [SerializeField] private float checkInterval;
-    private Vector3 lastMousePosition;
-    private bool isMouseVisible = true;
-    private bool onStopCursor;
-    Coroutine _mouseCoroutine;
+    private Vector3 _lastMousePosition;
+    private bool _isMouseVisible = true, _onStopCursor;
+    private Coroutine _mouseCoroutine;
+    private Behaviour[] _behaviours = null;
+    private readonly Dictionary<Behaviour, bool> _before = new();
 
-    public CatCharacter SetCatCharacter { set { _catPlayer = value; } }
-    public HamsterChar SetHamsterChar { set { _hamsterPlayer = value; } }
+    public CatCharacter SetCatCharacter
+    {
+        set { _catPlayer = value; }
+    }
+
+    public HamsterChar SetHamsterChar
+    {
+        set { _hamsterPlayer = value; }
+    }
 
     private void Awake()
     {
         pause = true;
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
         if (Instance == null) Instance = this;
         _respawnManager = GetComponentInChildren<Respawn>();
-        lastMousePosition = Input.mousePosition;
+        _lastMousePosition = Input.mousePosition;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
+        if (mainGame) _behaviours = mainGame.GetComponentsInChildren<Behaviour>();
     }
 
     private void Start()
@@ -45,83 +54,97 @@ public class GameManager : MonoBehaviour
 
         if (SoundManager.instance)
         {
-            //SoundManager.instance.PauseAll();
             SoundManager.instance.Play(SoundsTypes.Music, null, true);
         }
+
+        if (mainGame) StartCoroutine(DisableByBehaviour(0.1f));
     }
+
     private void OnPauseGame(object[] obj)
     {
         if (_mouseCoroutine != null) StopCoroutine(_mouseCoroutine);
         _mouseCoroutine = null;
         Cursor.visible = true;
-        onStopCursor = true;
+        _onStopCursor = true;
         _mouseCoroutine = null;
         pause = true;
     }
+
     private void OnResumeGame(object[] obj)
     {
         Cursor.visible = false;
-        onStopCursor = false;
-        lastMousePosition = Input.mousePosition;
+        _onStopCursor = false;
+        _lastMousePosition = Input.mousePosition;
         _mouseCoroutine = StartCoroutine(CheckMouseMovement());
         pause = false;
     }
+
     private void OnFinishGame(object[] obj)
     {
         Cursor.visible = true;
-        onStopCursor = true;
+        _onStopCursor = true;
     }
+
     private void OnLoseGame(object[] obj)
     {
         Cursor.visible = true;
-        onStopCursor = true;
+        _onStopCursor = true;
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab)) if (EventManager.Instance != null) EventManager.Instance.Trigger(EventType.ViewPlayerIndicator, true);
-        if (Input.GetKeyUp(KeyCode.Tab)) if (EventManager.Instance != null) EventManager.Instance.Trigger(EventType.ViewPlayerIndicator, false);
+        if (Input.GetKeyDown(KeyCode.Tab))
+            if (EventManager.Instance)
+                EventManager.Instance.Trigger(EventType.ViewPlayerIndicator, true);
+        if (Input.GetKeyUp(KeyCode.Tab))
+            if (EventManager.Instance)
+                EventManager.Instance.Trigger(EventType.ViewPlayerIndicator, false);
         if (Input.GetKey(KeyCode.LeftShift))
         {
             if (Input.GetKeyDown(KeyCode.R)) EventManager.Instance.Trigger(EventType.OnLoseGame);
             if (Input.GetKeyDown(KeyCode.C)) KillPlayer(CharacterType.Cat);
             if (Input.GetKeyDown(KeyCode.H)) KillPlayer(CharacterType.Hamster);
         }
-        if(Input.GetKeyDown(KeyCode.Z)) EventManager.Instance.Trigger(EventType.OnFinishGame);
+
+        if (Input.GetKeyDown(KeyCode.Z)) EventManager.Instance.Trigger(EventType.OnFinishGame);
     }
+
     IEnumerator CheckMouseMovement()
     {
         float idleTimer = 0f;
         while (true)
         {
-            if (Input.mousePosition != lastMousePosition)
+            if (Input.mousePosition != _lastMousePosition)
             {
                 idleTimer = 0f;
 
-                if (!isMouseVisible)
+                if (!_isMouseVisible)
                 {
                     Cursor.visible = true;
-                    isMouseVisible = true;
+                    _isMouseVisible = true;
                 }
             }
             else
             {
                 idleTimer += checkInterval;
-                if (idleTimer >= mouseIdleTimer && isMouseVisible)
+                if (idleTimer >= mouseIdleTimer && _isMouseVisible)
                 {
                     Cursor.visible = false;
-                    isMouseVisible = false;
+                    _isMouseVisible = false;
                 }
             }
-            lastMousePosition = Input.mousePosition;
+
+            _lastMousePosition = Input.mousePosition;
             yield return new WaitForSeconds(checkInterval);
         }
     }
+
     void KillPlayer(CharacterType type)
     {
         if (type == CharacterType.Cat) _catPlayer.GetDamage();
         else _hamsterPlayer.GetDamage();
     }
+
     void GetLevels()
     {
         var currentLevel = SceneManager.GetActiveScene();
@@ -134,9 +157,9 @@ public class GameManager : MonoBehaviour
         }
         else _nextLevel = "No hay siguiente nivel"; // O manejar este caso como prefieras
     }
+
     public void WinLevel()
     {
-        //Time.timeScale = 0f;
         EventManager.Instance.Trigger(EventType.OnFinishGame);
         Cursor.visible = true;
         menu.WinMenu();
@@ -144,6 +167,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame(SO_Inputs catInputs, SO_Inputs hamsterInputs)
     {
+        EventManager.Instance.Trigger(EventType.OnStartGame, true);
         _catPlayer.gameObject.SetActive(true);
         _hamsterPlayer.gameObject.SetActive(true);
         foreach (var door in _startDoors)
@@ -158,27 +182,62 @@ public class GameManager : MonoBehaviour
                 _hamsterPlayer.transform.position = door.GetPlayerPosition().position;
                 _hamsterPlayer.ReceiveInputs(hamsterInputs);
             }
+
             door.Open();
         }
-        EventManager.Instance.Trigger(EventType.OnStartGame, true);
-        Time.timeScale = 1f;
+
+        //Time.timeScale = 1f;
     }
+
+    public IEnumerator DisableByBehaviour(float seconds = 0f)
+    {
+        yield return new WaitForSeconds(seconds);
+        if (_behaviours == null) _behaviours = mainGame.GetComponentsInChildren<Behaviour>();
+        foreach (Behaviour b in _behaviours)
+        {
+            if (!b) continue;
+            _before[b] = b.enabled;
+            if (b.enabled) b.enabled = false;
+            if (b.GetComponent<Rigidbody2D>()) b.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+            if(!(b.gameObject.CompareTag("Player") || b.gameObject.CompareTag("Hamster"))) b.gameObject.SetActive(false);
+        }
+    }
+
+    public void EnableByBehaviour()
+    {
+        foreach (var keyValue in _before)
+        {
+            keyValue.Key.enabled = keyValue.Value;
+
+            if (keyValue.Key.GetComponent<Rigidbody2D>())
+                keyValue.Key.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+            if(!(keyValue.Key.gameObject.CompareTag("Player") || keyValue.Key.gameObject.CompareTag("Hamster"))) keyValue.Key.gameObject.SetActive(true);
+        }
+
+        _before.Clear();
+    }
+
+
     public void SetCatRespawnPoint(Vector3 pos)
     {
         _respawnManager.SetCatRespawnPoint(pos);
     }
+
     public void SetHamsterRespawnPoint(Vector3 pos)
     {
         _respawnManager.SetHamsterRespawnPoint(pos);
     }
+
     public Vector3 GetCatRespawnPoint()
     {
         return _respawnManager.GetCatRespawnPoint();
     }
+
     public Vector3 GetHamsterRespawnPoint()
     {
         return _respawnManager.GetHamsterRespawnPoint();
     }
+
     public Transform GetCat()
     {
         return _catPlayer.transform;
@@ -190,6 +249,14 @@ public class GameManager : MonoBehaviour
     }
 
     private void OnDisable()
+    {
+        EventManager.Instance.Unsubscribe(EventType.OnLoseGame, OnLoseGame);
+        EventManager.Instance.Unsubscribe(EventType.OnFinishGame, OnFinishGame);
+        EventManager.Instance.Unsubscribe(EventType.OnResumeGame, OnResumeGame);
+        EventManager.Instance.Unsubscribe(EventType.OnPauseGame, OnPauseGame);
+    }
+
+    private void OnDestroy()
     {
         EventManager.Instance.Unsubscribe(EventType.OnLoseGame, OnLoseGame);
         EventManager.Instance.Unsubscribe(EventType.OnFinishGame, OnFinishGame);

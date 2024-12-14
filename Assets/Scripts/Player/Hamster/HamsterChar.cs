@@ -9,8 +9,8 @@ public class HamsterChar : PlayerCharacter
     private BoxCollider2D _coll;
     public HamsterCanvas canvas;
     private bool _ifShrink = false;
-    private float jumpDefault;
-    private Vector2 defaultGroundCheckArea;
+    private float _jumpDefault;
+    private Vector2 _defaultGroundCheckArea;
 
     private void Awake()
     {
@@ -20,8 +20,8 @@ public class HamsterChar : PlayerCharacter
     {
         base.Start();
         _coll = GetComponent<BoxCollider2D>();
-        jumpDefault = _data.jumpForce;
-        defaultGroundCheckArea = _data.groundCheckArea;
+        _jumpDefault = _data.jumpForce;
+        _defaultGroundCheckArea = _data.groundCheckArea;
     }
 
     protected override void FixedUpdate()
@@ -146,20 +146,18 @@ public class HamsterChar : PlayerCharacter
         }
     }
 
-    void MoveToNextTube(Tube tube)
+    private void MoveToNextTube(Tube tube)
     {
-        if (tube != null) //Se mueve al siguiente tubo
-        {
-            isMoving = true;
-            canvas.HideArrows();
-            _lastTube = _currentTube;
-            _currentTube = tube;
-            _currentTubePos = tube.GetCenter();
-            GoToPosition(_currentTubePos);
-            _TubesMovementAction += MoveInTubes;
-            SoundManager.instance.Play(SoundsTypes.HamsterOnTubes, gameObject, true);
-            _inTube = true;
-        }
+        if (!tube) return; //Se mueve al siguiente tubo
+        isMoving = true;
+        canvas.HideArrows();
+        _lastTube = _currentTube;
+        _currentTube = tube;
+        _currentTubePos = tube.GetCenter();
+        GoToPosition(_currentTubePos);
+        _TubesMovementAction += MoveInTubes;
+        SoundManager.instance.Play(SoundsTypes.HamsterOnTubes, gameObject, true);
+        _inTube = true;
     }
     public bool InTube()
     {
@@ -179,7 +177,7 @@ public class HamsterChar : PlayerCharacter
             transform.localScale = new Vector3(.5f, .5f, 1);
             _data._inventoryPos.localScale = new Vector3(1.5f, 1.5f, 1);
             _data.groundCheckArea = new Vector2(0.24f, 0.08f);
-            _data.jumpForce = jumpDefault * .75f;
+            _data.jumpForce = _jumpDefault * .75f;
             StartCoroutine(ShrinkCooldown());
         }
         else
@@ -193,8 +191,8 @@ public class HamsterChar : PlayerCharacter
             transform.localScale = new Vector3(1f, 1f, 1);
             _data._inventoryPos.localScale = new Vector3(1f, 1f, 1);
             transform.position += new Vector3(0, .5f, 0);
-            _data.groundCheckArea = defaultGroundCheckArea;
-            _data.jumpForce = jumpDefault;
+            _data.groundCheckArea = _defaultGroundCheckArea;
+            _data.jumpForce = _jumpDefault;
             StartCoroutine(ShrinkCooldown());
         }
     }

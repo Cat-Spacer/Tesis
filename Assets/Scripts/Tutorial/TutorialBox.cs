@@ -16,6 +16,7 @@ public enum TutorialBoxType
     CatFace,
     HamsterFace
 }
+
 public class TutorialBox : MonoBehaviour
 {
     [SerializeField] private TutorialBot catBot;
@@ -34,6 +35,7 @@ public class TutorialBox : MonoBehaviour
     private void OnStartGame(object[] obj)
     {
         boxCollider.enabled = true;
+        if (GameManager.Instance) GameManager.Instance.EnableByBehaviour();
     }
 
     private void OnTriggerEnter2D(Collider2D other)

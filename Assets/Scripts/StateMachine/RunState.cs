@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class RunState : State
 {
     public override void Enter()
@@ -14,7 +10,7 @@ public class RunState : State
 
     public override void Do()
     {
-        if ((!input.left_Input && !input.right_Input) || data.isStun || data.isPunching || data.isInteracting || data.onJumpImpulse || !data.onGround)
+        if ((!input.left_Input && !input.right_Input) || data.isStun || data.isPunching || data.isInteracting || data.onJumpImpulse || !data.onGround || GameManager.Instance.pause)
         {
             isComplete = true;
         }

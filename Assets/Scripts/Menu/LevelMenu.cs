@@ -26,7 +26,6 @@ public class LevelMenu : MonoBehaviour
             if (button.GetComponent<LevelNameBtn>()) levelNamesAux.Add(button.GetComponent<LevelNameBtn>());
         }
         _levelNameBtns = levelNamesAux.ToArray();
-        if (SoundManager.instance) SoundManager.instance.ClearList();
     }
 
     public void SelectLevel(string lvl)

@@ -6,6 +6,7 @@ public class SaveManager : MonoBehaviour
 {
     public static SaveManager instance = default;
     public JsonSaves JsonSaves = new ();
+    
     private void Awake()
     {
         if (!instance) instance = this;
