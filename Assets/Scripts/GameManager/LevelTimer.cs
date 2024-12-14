@@ -9,7 +9,6 @@ public class LevelTimer : MonoBehaviour
     [SerializeField] private float currentTime;
     [SerializeField] private TextMeshProUGUI text;
     [SerializeField] private GameObject menu;
-    [SerializeField] private Image outOfTime;
     private bool _onLive;
     private bool _onLose;
     private bool _stopTimer = true;
@@ -98,7 +97,7 @@ public class LevelTimer : MonoBehaviour
             _onLose = true;
             currentTime = 0;
             SoundManager.instance.Pause(SoundsTypes.TimeBeep, gameObject);
-            EventManager.Instance.Trigger(EventType.OnLoseGame);
+            EventManager.Instance.Trigger(EventType.OnLoseGame, true);
         }
         else
         {
@@ -113,7 +112,6 @@ public class LevelTimer : MonoBehaviour
 
         if (currentTime < 10)
         {
-            outOfTime.gameObject.SetActive(true);
             if (!runningOutOfTime)
             {
                 runningOutOfTime = true;

@@ -104,11 +104,21 @@ public class GameManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.R)) EventManager.Instance.Trigger(EventType.OnLoseGame);
             if (Input.GetKeyDown(KeyCode.C)) KillPlayer(CharacterType.Cat);
             if (Input.GetKeyDown(KeyCode.H)) KillPlayer(CharacterType.Hamster);
+            if(Input.GetKeyDown(KeyCode.W))
+            {
+                EventManager.Instance.Trigger(EventType.OnFinishGame);
+                Invoke("CheatWin", 1);
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Z)) EventManager.Instance.Trigger(EventType.OnFinishGame);
     }
 
+    void CheatWin()
+    {
+        EventManager.Instance.Trigger(EventType.ShowTv);
+        WinLevel();
+    }
     IEnumerator CheckMouseMovement()
     {
         float idleTimer = 0f;
@@ -160,7 +170,6 @@ public class GameManager : MonoBehaviour
 
     public void WinLevel()
     {
-        EventManager.Instance.Trigger(EventType.OnFinishGame);
         Cursor.visible = true;
         menu.WinMenu();
     }
