@@ -236,7 +236,7 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
         StartCoroutine(PunchCd());
         if (charType == CharacterType.Cat) SoundManager.instance.Play(SoundsTypes.CatAttack, gameObject);
         else SoundManager.instance.Play(SoundsTypes.HamsterAttack, gameObject);
-        
+        _model.PlayParticle(ParticleType.Attack);
         var obj = Physics2D.OverlapCircle(_data.attackPoint.position, _data.attackRange.x, _data.attackableLayer);
         if (obj)
         {

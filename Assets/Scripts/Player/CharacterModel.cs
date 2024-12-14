@@ -16,7 +16,8 @@ public enum ParticleType
     Grow,
     Shrink,
     Tube,
-    InTube
+    InTube,
+    Attack
 }
 public class CharacterModel : MonoBehaviour
 {
@@ -38,6 +39,7 @@ public class CharacterModel : MonoBehaviour
     [SerializeField] private ParticleSystem _shrinkParticle;
     [SerializeField] private ParticleSystem _tubeParticle;
     [SerializeField] private ParticleSystem _inTubeParticle;
+    [SerializeField] private ParticleSystem[] _attackParticle;
     [Header("Imgs")]
     public GameObject stunIcon;
 
@@ -105,6 +107,12 @@ public class CharacterModel : MonoBehaviour
                 break;
             case ParticleType.InTube:
                 _inTubeParticle.Play();
+                break;
+            case ParticleType.Attack:
+                if (_attackParticle != null)
+                { foreach (var item in _attackParticle)
+                    { item.Play(); }
+                } 
                 break;
         }
     }
