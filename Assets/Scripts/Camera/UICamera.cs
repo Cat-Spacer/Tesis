@@ -15,7 +15,14 @@ public class UICamera : MonoBehaviour
     [SerializeField] private Camera[] otherCameras; 
     [SerializeField] private Transform target;
     [SerializeField] private GameObject buttons;
-    [SerializeField] private Button[] tvButtons;
+    
+    [SerializeField] public Button[] tvButtons;
+    [SerializeField] public Button resumeBtn;
+    [SerializeField] public Button nextLevelBtn;
+    [SerializeField] public Button restartBtn;
+    [SerializeField] public Button levelsBtn;
+    [SerializeField] public Button optionsBtn;
+    [SerializeField] public Button menuBtn;
     private int width, height;
     private bool onTransition = true;
     private void Start()

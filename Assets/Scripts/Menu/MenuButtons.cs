@@ -64,11 +64,11 @@ public class MenuButtons : MonoBehaviour
         StartCoroutine(Delay());
     }
 
-    IEnumerator Delay()
+    IEnumerator Delay() 
     {
         yield return new WaitForSecondsRealtime(0.1f);
-
         _menu.SetActive(true);
+        foreach (var button in tv.tvButtons) button.gameObject.SetActive(true);
     }
 
     public virtual void ReturnToMenu()

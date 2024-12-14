@@ -21,6 +21,13 @@ public class LoseMenu : MenuButtons
             type = (bool) obj[0];
         }
         EventManager.Instance.Trigger(EventType.ShowTv);
+        
+        foreach (var button in tv.tvButtons) button.gameObject.SetActive(false);
+        tv.restartBtn.gameObject.SetActive(true);
+        tv.levelsBtn.gameObject.SetActive(true);
+        tv.optionsBtn.gameObject.SetActive(true);
+        tv.menuBtn.gameObject.SetActive(true);
+        
         _onFinishGame = true;
         StartCoroutine(OnFinishGame(type));
     }

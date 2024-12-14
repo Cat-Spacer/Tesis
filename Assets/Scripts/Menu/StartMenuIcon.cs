@@ -26,6 +26,7 @@ public class StartMenuIcon : MonoBehaviour
     [SerializeField] private GameObject flipRightButtons;
     [SerializeField] private GameObject flipLeftButtons;
     private bool canFlip = true;
+    public  UnityEvent FlipPage;
     private void Start()
     {
         LoadSceneAsync("MainMenuCoop");
@@ -49,8 +50,16 @@ public class StartMenuIcon : MonoBehaviour
         {
             ChangeScene();
         }
-        if(Input.GetKeyDown(KeyCode.RightArrow) && canFlip) bookAutoFlip.FlipRightPage();
-        if(Input.GetKeyDown(KeyCode.LeftArrow) && canFlip) bookAutoFlip.FlipLeftPage();
+        if(Input.GetKeyDown(KeyCode.RightArrow) && canFlip)
+        {
+            if(FlipPage != null) FlipPage.Invoke();
+            bookAutoFlip.FlipRightPage();
+        }
+        if(Input.GetKeyDown(KeyCode.LeftArrow) && canFlip)
+        {
+            if(FlipPage != null) FlipPage.Invoke();
+            bookAutoFlip.FlipLeftPage();
+        }
     }
     public void Skip()
     {

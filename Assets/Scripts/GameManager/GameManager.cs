@@ -66,7 +66,6 @@ public class GameManager : MonoBehaviour
         _mouseCoroutine = null;
         Cursor.visible = true;
         _onStopCursor = true;
-        _mouseCoroutine = null;
         pause = true;
     }
 
@@ -81,12 +80,16 @@ public class GameManager : MonoBehaviour
 
     private void OnFinishGame(object[] obj)
     {
+        if (_mouseCoroutine != null) StopCoroutine(_mouseCoroutine);
+        _mouseCoroutine = null;
         Cursor.visible = true;
         _onStopCursor = true;
     }
 
     private void OnLoseGame(object[] obj)
     {
+        if (_mouseCoroutine != null) StopCoroutine(_mouseCoroutine);
+        _mouseCoroutine = null;
         Cursor.visible = true;
         _onStopCursor = true;
     }
