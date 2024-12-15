@@ -18,6 +18,7 @@ public class LevelTimer : MonoBehaviour
 
     [SerializeField] private float[] timeWarnings;
     [SerializeField] int currentTimeWarning;
+    private AudioSource _audioSource = default;
     void Start()
     {
         //EventManager.Instance.Subscribe(EventType.OffLive, OnOffLive);
@@ -40,6 +41,7 @@ public class LevelTimer : MonoBehaviour
     {
         _stopTimer = true;
         menu.SetActive(false);
+        _audioSource?.Stop();
     }
 
     private void OnStopTimer(object[] obj)
@@ -56,11 +58,13 @@ public class LevelTimer : MonoBehaviour
     private void OnResumeGame(object[] obj)
     {
         menu.SetActive(true);
+        _audioSource?.Play();
     }
     
     private void OnPauseGame(object[] obj)
     {
         menu.SetActive(false);
+        _audioSource?.Stop();
     }
 
     public void OnLive()
@@ -119,6 +123,7 @@ public class LevelTimer : MonoBehaviour
                 SoundManager.instance.Play(SoundsTypes.TimeBeep, gameObject, true);
             }
         }
+        if(GetComponent<AudioSource>()) _audioSource = GetComponent<AudioSource>();
     }
 
     public void TutorialShowTime(string time)
