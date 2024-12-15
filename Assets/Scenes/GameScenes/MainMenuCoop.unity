@@ -8856,6 +8856,7 @@ GameObject:
   - component: {fileID: 1710366558}
   - component: {fileID: 1710366561}
   - component: {fileID: 1710366556}
+  - component: {fileID: 1710366562}
   - component: {fileID: 1710366555}
   - component: {fileID: 1710366554}
   - component: {fileID: 1710366553}
@@ -8980,7 +8981,6 @@ MonoBehaviour:
   _controlsScreenName: Controls_Menu
   _creditsScreenName: Credits_Menu
   _levelsScreenName: Levels_Menu
-  _mainMenuCanvas: {fileID: 585514372}
 --- !u!114 &1710366559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9027,6 +9027,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds: []
+--- !u!114 &1710366562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1710366551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2465a2b1d21aee1419f9249679436a1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mainGame: {fileID: 585514376}
 --- !u!1001 &1730211131
 PrefabInstance:
   m_ObjectHideFlags: 0
