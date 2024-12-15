@@ -9,8 +9,16 @@ public class ButtonSizeUpdate : MonoBehaviour, IPointerEnterHandler, IPointerExi
     private Button _button = default;
     private Vector3 _originalScale = default;
     private Coroutine _scaleCoroutine;
+    [SerializeField]private Color _selectedColor;
+    [SerializeField] private Color _normalColor;
+    [SerializeField] private Color _highlitedColor;
+    [SerializeField] private Image _image;
+    bool _changeColor = false;
     private void Start()
     {
+        if (_image != null)
+            _changeColor = true;
+
         _button = GetComponent<Button>();
         _originalScale = transform.localScale;
     }
@@ -19,7 +27,9 @@ public class ButtonSizeUpdate : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        onPointer = true;
+           onPointer = true;
+        if (_changeColor && !_isCliked)
+            _image.color = _highlitedColor;
         if (_button.transform.localScale == _originalScale)
             _button.transform.localScale *= _amount;
         if (SoundManager.instance != null) SoundManager.instance.Play(SoundsTypes.ButtonHover);
@@ -27,6 +37,8 @@ public class ButtonSizeUpdate : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public void OnPointerExit(PointerEventData eventData)
     {
         onPointer = false;
+        if (_changeColor && !_isCliked)
+            _image.color = _normalColor;
         _button.transform.localScale = _originalScale;
     }
 
@@ -59,13 +71,20 @@ public class ButtonSizeUpdate : MonoBehaviour, IPointerEnterHandler, IPointerExi
             yield return new WaitForSeconds(0.2f);
         }
     }
+    bool _isCliked = false;
     public void CallSizeUpdate()
     {
+         if (_changeColor)
+            _image.color = _selectedColor;
+        _isCliked = true;
         _scaleCoroutine = StartCoroutine(ScaleSizeLoop());
     }
     public void UncallSizeUpdate()
     {
+        if (_changeColor) 
+            _image.color = _normalColor;
         StopCoroutine(_scaleCoroutine);
+        _isCliked = false;
         _button.transform.localScale = _originalScale;
     }
 }
