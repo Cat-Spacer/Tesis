@@ -6,6 +6,6 @@ public class ConfigScreen : MonoBehaviour
 
     private void Start()
     {
-        ScreenManager.Instance.Push(new ScreenGO(_mainGame));
+        if(ScreenManager.Instance) ScreenManager.Instance.Push(new ScreenGO(_mainGame));
     }
 }
