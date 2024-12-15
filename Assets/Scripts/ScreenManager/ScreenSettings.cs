@@ -22,19 +22,16 @@ public class ScreenSettings : ScreenBase, IScreen
 
     public void BTN_Audio()
     {
-        //ScreenManager.instance.Pop(false);
         ScreenManager.Instance.PushInstance(_audioScreenName);
     }
     
     public void BTN_Controls()
     {
-        //ScreenManager.instance.Pop(false);
         ScreenManager.Instance.PushInstance(_controlsScreenName);
     }
     
     public void BTN_Video()
     {
-        //ScreenManager.instance.Pop(false);
         ScreenManager.Instance.PushInstance(_videoScreenName);
     }
 
@@ -51,11 +48,11 @@ public class ScreenSettings : ScreenBase, IScreen
 
     public void Activate()
     {
-        
+        gameObject.SetActive(true);
     }
 
     public void Deactivate()
     {
-        
+        gameObject.SetActive(false);
     }
 }

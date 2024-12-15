@@ -23,20 +23,19 @@ public class ScreenControls : ScreenBase, IScreen
 
     public void Activate()
     {
-        
+        gameObject.SetActive(true);
     }
 
     public void Deactivate()
     {
-        
+        gameObject.SetActive(false);
     }
 
     private void SetButton()
     {
-        if (SceneManager.GetActiveScene().buildIndex > 2 && _alternativeBTN && _currentBTN)
-        {
-            _currentBTN.SetActive(false);
-            _alternativeBTN.SetActive(true);
-        }
+        if (SceneManager.GetActiveScene().buildIndex <= 2 || !_alternativeBTN || !_currentBTN) return;
+        
+        _currentBTN.SetActive(false);
+        _alternativeBTN.SetActive(true);
     }
 }

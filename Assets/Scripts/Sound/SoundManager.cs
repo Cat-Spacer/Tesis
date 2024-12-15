@@ -61,7 +61,9 @@ public enum SoundsTypes
     ButtonHover,
     JumpPad,
     TimeBeep,
-    TimeEndBeep
+    TimeEndBeep,
+    Hacking,
+    Error
 }
 
 public class SoundManager : MonoBehaviour
