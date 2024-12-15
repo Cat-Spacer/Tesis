@@ -38,6 +38,10 @@ public class ScreenGO : IScreen
             if(b.enabled) b.enabled = false;
 
             if(b.GetComponent<Rigidbody2D>()) b.GetComponent<Rigidbody2D>().isKinematic = true;
+            ButtonSizeUpdate hasButton = b.GetComponent<ButtonSizeUpdate>();
+            if (!hasButton) continue;
+            hasButton.StopAllCoroutines();
+            b.transform.localScale = hasButton.GetOriginalScale;
         }
     }
 
