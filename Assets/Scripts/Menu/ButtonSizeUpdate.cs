@@ -13,7 +13,8 @@ public class ButtonSizeUpdate : MonoBehaviour, IPointerEnterHandler, IPointerExi
     [SerializeField] private Color _normalColor;
     [SerializeField] private Color _highlitedColor;
     [SerializeField] private Image _image;
-    bool _changeColor = false;
+    private bool _changeColor = false;
+    public Vector3 GetOriginalScale { get { return _originalScale; } }
     private void Start()
     {
         if (_image != null)
@@ -23,11 +24,11 @@ public class ButtonSizeUpdate : MonoBehaviour, IPointerEnterHandler, IPointerExi
         _originalScale = transform.localScale;
     }
 
-    bool onPointer = false;
+    private bool _onPointer = false;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-           onPointer = true;
+           _onPointer = true;
         if (_changeColor && !_isCliked)
             _image.color = _highlitedColor;
         if (_button.transform.localScale == _originalScale)
@@ -36,7 +37,7 @@ public class ButtonSizeUpdate : MonoBehaviour, IPointerEnterHandler, IPointerExi
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-        onPointer = false;
+        _onPointer = false;
         if (_changeColor && !_isCliked)
             _image.color = _normalColor;
         _button.transform.localScale = _originalScale;
@@ -46,7 +47,7 @@ public class ButtonSizeUpdate : MonoBehaviour, IPointerEnterHandler, IPointerExi
     {
         while (true)
         {
-            while (onPointer)
+            while (_onPointer)
             {
                 if (_button.transform.localScale == _originalScale)
                     _button.transform.localScale *= _amount;
@@ -58,7 +59,7 @@ public class ButtonSizeUpdate : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
             yield return new WaitForSeconds(0.2f);
 
-            while (onPointer)
+            while (_onPointer)
             {
                 if (_button.transform.localScale == _originalScale)
                     _button.transform.localScale *= _amount;
@@ -71,13 +72,14 @@ public class ButtonSizeUpdate : MonoBehaviour, IPointerEnterHandler, IPointerExi
             yield return new WaitForSeconds(0.2f);
         }
     }
-    bool _isCliked = false;
+    
+    private bool _isCliked = false;
     public void CallSizeUpdate()
     {
          if (_changeColor)
             _image.color = _selectedColor;
-        _isCliked = true;
-        _scaleCoroutine = StartCoroutine(ScaleSizeLoop());
+         _isCliked = true;
+         _scaleCoroutine = StartCoroutine(ScaleSizeLoop());
     }
     public void UncallSizeUpdate()
     {
