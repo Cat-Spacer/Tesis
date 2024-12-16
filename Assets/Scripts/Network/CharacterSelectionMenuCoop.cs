@@ -69,6 +69,7 @@ public class CharacterSelectionMenuCoop : MonoBehaviour
 
         EventManager.Instance.Trigger(EventType.ReturnGameplay);
         gameObject.SetActive(false);
+        uiCamera.StartGameplay();
     }
 
     public void ReturnToMenu()

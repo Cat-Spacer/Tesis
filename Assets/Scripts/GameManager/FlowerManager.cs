@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class FlowerManager : MonoBehaviour
 {
-    [FormerlySerializedAs("image")] [SerializeField] Image[] flowerImage;
+    [SerializeField] Image[] flowerImage;
     [SerializeField] private int currentFlowers = 0;
     private void Start()
     {
@@ -15,8 +15,7 @@ public class FlowerManager : MonoBehaviour
         flowerImage = LiveCamera.instance.GetFlowerImagesUI();
         foreach (var flower in flowerImage) 
         {
-            flower.gameObject.SetActive(true);
-            flower.color = Color.gray;
+            flower.gameObject.SetActive(false);
         }
     }
 
@@ -32,7 +31,7 @@ public class FlowerManager : MonoBehaviour
     {
         if (currentFlowers >= 3) return;
         currentFlowers++;
-        flowerImage[currentFlowers - 1].color = Color.white;
+        flowerImage[currentFlowers - 1].gameObject.SetActive(true);
         if (currentFlowers == 3)
         {
             EventManager.Instance.Trigger(EventType.OnOpenDoors);

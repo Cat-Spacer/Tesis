@@ -8,12 +8,13 @@ using UnityEngine.UI;
 
 public class UICamera : MonoBehaviour
 {
+    Animator animator;
     [SerializeField] private Image screen;
     [SerializeField] private Image tv;
     [SerializeField] private CinemachineVirtualCamera normalCam;
     [SerializeField] private CinemachineVirtualCamera zoomOutCam;
     [SerializeField] Camera uiCam;
-    [SerializeField] private GameObject gameplayCam;
+    [SerializeField] private Camera gameplayCam;
     [SerializeField] private Transform target;
     [SerializeField] private GameObject buttons;
     
@@ -29,8 +30,15 @@ public class UICamera : MonoBehaviour
     private void Start()
     {
         //uiCam.gameObject.SetActive(true);
+        animator = GetComponent<Animator>();
         EventManager.Instance.Subscribe(EventType.ShowTv, OnShowTv);
         EventManager.Instance.Subscribe(EventType.ReturnGameplay, OnResumeGameplay);
+        gameplayCam.gameObject.SetActive(false);
+    }
+
+    public void StartGameplay()
+    {
+        animator.Play("StartGameplay");
     }
     private void OnShowTv(object[] obj)
     {
@@ -55,13 +63,13 @@ public class UICamera : MonoBehaviour
         tex.Apply();
             
         screen.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100);
-        gameplayCam.SetActive(false);
+        gameplayCam.gameObject.SetActive(false);
         tv.gameObject.SetActive(true);
         screen.gameObject.SetActive(true);
         uiCam.gameObject.SetActive(true);
         buttons.SetActive(true);
-        normalCam.Priority = 1;
-        zoomOutCam.Priority = 0;
+        normalCam.Priority = 2;
+        zoomOutCam.Priority = 1;
         onTransition = true;
         StartCoroutine(ZoomOut()); 
     }
@@ -69,8 +77,8 @@ public class UICamera : MonoBehaviour
     IEnumerator ZoomOut()
     {
         yield return new WaitForSecondsRealtime(.25f);
-        normalCam.Priority = 0;
-        zoomOutCam.Priority = 1;
+        normalCam.Priority = 1;
+        zoomOutCam.Priority = 2;
         StartCoroutine(FinishZoomOut());
     }
 
@@ -88,7 +96,7 @@ public class UICamera : MonoBehaviour
         screen.gameObject.SetActive(false);
         buttons.SetActive(false);
         uiCam.gameObject.SetActive(false);
-        gameplayCam.SetActive(true);
+        gameplayCam.gameObject.SetActive(true);
         EventManager.Instance.Trigger(EventType.OnResumeGame);
         SoundManager.instance.Play(SoundsTypes.Click);
         if (GameManager.Instance) GameManager.Instance.EnableByBehaviour();
