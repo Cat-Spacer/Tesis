@@ -21,8 +21,8 @@ public class LiveCamera : MonoBehaviour
     
     [SerializeField] LevelTimer _levelTimer;
     [SerializeField] private GameObject _groupCamera;
-    [SerializeField] private GameObject[] _tvShader;
-    [SerializeField] private GameObject[] _tvHackedShader;
+    [SerializeField] private GameObject _tvShader;
+    [SerializeField] private GameObject _tvHackedShader;
     [SerializeField] private TextMeshProUGUI[] _pointsText; 
     [SerializeField] private Image[] strikesImages;
     [SerializeField] private Image[] shieldStrikesImages;
@@ -54,7 +54,6 @@ public class LiveCamera : MonoBehaviour
             //EventManager.Instance.Trigger(EventType.OnLive);
             _levelTimer.OnLive();
         }
-        foreach(var cameraShader in _tvHackedShader) cameraShader.gameObject.SetActive(false);
     }
 
     private void OnFinishGame(object[] obj)
@@ -122,8 +121,8 @@ public class LiveCamera : MonoBehaviour
         onLiveMenu.SetActive(true);
         offLiveMenu.SetActive(false);
         _groupCamera.SetActive(true);
-        foreach (var shader in _tvShader) shader.SetActive(true);
-        foreach (var shader in _tvHackedShader) shader.SetActive(false);
+        _tvShader.SetActive(true);
+        _tvHackedShader.SetActive(false);
     }
 
     private void DesactivateAllCameras()
@@ -131,20 +130,20 @@ public class LiveCamera : MonoBehaviour
         onLiveMenu.SetActive(false);
         offLiveMenu.SetActive(true);
         _groupCamera.SetActive(false);
-        foreach (var shader in _tvShader) shader.SetActive(false);
-        foreach (var shader in _tvHackedShader) shader.SetActive(true);
+        _tvShader.SetActive(false);
+        _tvHackedShader.SetActive(true);
     }
     public bool IsOnAir()
     {
         return _onAir;
     }
-    public void GetTVShaders(GameObject[] tvShaders)
+    public void GetTVShaders(GameObject tvShader)
     {
-        _tvShader = tvShaders;
+        _tvShader = tvShader;
     }
-    public void GetTVHackedShaders(GameObject[] tvHackedShaders)
+    public void GetTVHackedShaders(GameObject tvHackedShader)
     {
-        _tvHackedShader = tvHackedShaders;
+        _tvHackedShader = tvHackedShader;
     }
     public TextMeshProUGUI[] GetPointsText()
     {

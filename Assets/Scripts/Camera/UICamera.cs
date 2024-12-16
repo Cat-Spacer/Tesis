@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class UICamera : MonoBehaviour
@@ -11,8 +12,8 @@ public class UICamera : MonoBehaviour
     [SerializeField] private Image tv;
     [SerializeField] private CinemachineVirtualCamera normalCam;
     [SerializeField] private CinemachineVirtualCamera zoomOutCam;
-    [SerializeField] Camera cam;
-    [SerializeField] private Camera[] otherCameras; 
+    [SerializeField] Camera uiCam;
+    [SerializeField] private GameObject gameplayCam;
     [SerializeField] private Transform target;
     [SerializeField] private GameObject buttons;
     
@@ -27,7 +28,7 @@ public class UICamera : MonoBehaviour
     private bool onTransition = true;
     private void Start()
     {
-        cam.gameObject.SetActive(true);
+        //uiCam.gameObject.SetActive(true);
         EventManager.Instance.Subscribe(EventType.ShowTv, OnShowTv);
         EventManager.Instance.Subscribe(EventType.ReturnGameplay, OnResumeGameplay);
     }
@@ -54,14 +55,11 @@ public class UICamera : MonoBehaviour
         tex.Apply();
             
         screen.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100);
+        gameplayCam.SetActive(false);
         tv.gameObject.SetActive(true);
         screen.gameObject.SetActive(true);
-        cam.gameObject.SetActive(true);
+        uiCam.gameObject.SetActive(true);
         buttons.SetActive(true);
-        foreach (var cam in otherCameras)
-        {
-            cam.gameObject.SetActive(false);
-        }
         normalCam.Priority = 1;
         zoomOutCam.Priority = 0;
         onTransition = true;
@@ -87,22 +85,39 @@ public class UICamera : MonoBehaviour
         yield return new WaitForSecondsRealtime(1f);
         tv.gameObject.SetActive(false);
         screen.gameObject.SetActive(false);
-        cam.gameObject.SetActive(false);
         screen.gameObject.SetActive(false);
         buttons.SetActive(false);
+        uiCam.gameObject.SetActive(false);
+        gameplayCam.SetActive(true);
         EventManager.Instance.Trigger(EventType.OnResumeGame);
         SoundManager.instance.Play(SoundsTypes.Click);
         if (GameManager.Instance) GameManager.Instance.EnableByBehaviour();
         onTransition = false;
     }
-    private void OnDisable()
+
+    public void CloseAllButtons()
     {
-        EventManager.Instance.Unsubscribe(EventType.ShowTv, OnShowTv);
-        EventManager.Instance.Unsubscribe(EventType.ReturnGameplay, OnResumeGameplay);
+        foreach (var button in tvButtons)
+        {
+            button.gameObject.SetActive(false);
+        }
+    }
+
+    public void OpenAllButtons()
+    {
+        foreach (var button in tvButtons)
+        {
+            button.gameObject.SetActive(true);
+        }
     }
 
     public bool OnFinishTransition()
     {
         return onTransition;
+    }
+    private void OnDisable()
+    {
+        EventManager.Instance.Unsubscribe(EventType.ShowTv, OnShowTv);
+        EventManager.Instance.Unsubscribe(EventType.ReturnGameplay, OnResumeGameplay);
     }
 }
