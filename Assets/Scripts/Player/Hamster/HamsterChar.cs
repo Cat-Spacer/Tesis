@@ -183,7 +183,11 @@ public class HamsterChar : PlayerCharacter
         else
         {
             var hit = Physics2D.OverlapBox(headTransform.position, headSize, 0, _data.groundLayer);
-            if (hit != null) return;
+            if (hit != null)
+            {
+                _model.PlayParticle(ParticleType.Error);
+                SoundManager.instance.Play(SoundsTypes.Error, gameObject);
+                return; }
             canShrink = false;
             SoundManager.instance.Play(SoundsTypes.HamsterJump, gameObject);
             _model.PlayParticle(ParticleType.Grow);
