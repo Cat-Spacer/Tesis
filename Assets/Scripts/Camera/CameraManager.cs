@@ -16,8 +16,8 @@ public class CameraManager : MonoBehaviour
     [SerializeField] private GameObject groupCamera;
     [SerializeField] private CinemachineTargetGroup targetGroup;
     [SerializeField] private GameObject[] splitCamera;
-    [SerializeField] private GameObject[] tvShader;
-    [SerializeField] private GameObject[] tvHackedShader;
+    [SerializeField] private GameObject tvShader;
+    [SerializeField] private GameObject tvHackedShader;
     private CinemachineVirtualCamera virtualGroupCamera;
     private CinemachineVirtualCamera[] virtualSplitCamera = new CinemachineVirtualCamera[2];
 
@@ -35,11 +35,6 @@ public class CameraManager : MonoBehaviour
         hamsterPos = GameManager.Instance.GetHamster();
         warningMat = warningSprite.material;
         warningMat.SetFloat(Alpha, 0);
-        virtualGroupCamera = groupCamera.GetComponentInChildren<CinemachineVirtualCamera>();
-        virtualSplitCamera[0] = splitCamera[0].GetComponentInChildren<CinemachineVirtualCamera>();
-        virtualSplitCamera[1] = splitCamera[1].GetComponentInChildren<CinemachineVirtualCamera>();
-        virtualSplitCamera[0].Follow = catPos;
-        virtualSplitCamera[1].Follow = hamsterPos;
         LiveCamera.instance.GetTVShaders(tvShader);
         LiveCamera.instance.GetTVHackedShaders(tvHackedShader);
         EventManager.Instance.Subscribe(EventType.ShowTv, OnShowTv);
@@ -58,55 +53,55 @@ public class CameraManager : MonoBehaviour
     IEnumerator RestartCamera()
     {
         yield return new WaitForSecondsRealtime(1f);
-        if (isGrouped)
-        {
-            foreach (var virtualCamera in splitCamera)
-            {
-                virtualCamera.gameObject.SetActive(true);
-            }
-            groupCamera.gameObject.SetActive(false);
-        }
-        else
-        {
-            groupCamera.gameObject.SetActive(true);
-            foreach (var virtualCamera in splitCamera)
-            {
-                virtualCamera.transform.position = virtualGroupCamera.transform.position;
-                virtualCamera.gameObject.SetActive(false);
-            }
-        }
+        // if (isGrouped)
+        // {
+        //     foreach (var virtualCamera in splitCamera)
+        //     {
+        //         virtualCamera.gameObject.SetActive(true);
+        //     }
+        //     groupCamera.gameObject.SetActive(false);
+        // }
+        // else
+        // {
+        //     groupCamera.gameObject.SetActive(true);
+        //     foreach (var virtualCamera in splitCamera)
+        //     {
+        //         virtualCamera.transform.position = virtualGroupCamera.transform.position;
+        //         virtualCamera.gameObject.SetActive(false);
+        //     }
+        // }
     }
     private void Update()
     {
-        if (!useCamera) return;
-        distance = (catPos.position - hamsterPos.position).magnitude;
-        if (distance > cameraWarningLimit && distance < cameraGroupLimit)
-        {
-            float normalizedValue = Normalize(distance, cameraWarningLimit, cameraGroupLimit);
-            warningMat.SetFloat(Alpha, normalizedValue);
-        }
-        else warningMat.SetFloat(Alpha, 0);
-        if (distance >= cameraGroupLimit && !isGrouped) //IsGrouped
-        {
-            isGrouped = true;
-            foreach (var virtualCamera in splitCamera)
-            {
-                virtualCamera.gameObject.SetActive(true);
-            }
-            groupCamera.gameObject.SetActive(false);
-            EventManager.Instance.Trigger(EventType.OnSplitCamera);
-        }
-        else if(distance < cameraGroupLimit && isGrouped) //NotGrouped
-        {
-            isGrouped = false;
-            groupCamera.gameObject.SetActive(true);
-            foreach (var virtualCamera in splitCamera)
-            {
-                virtualCamera.transform.position = virtualGroupCamera.transform.position;
-                virtualCamera.gameObject.SetActive(false);
-            }
-            EventManager.Instance.Trigger(EventType.OnGroupCamera);
-        }
+        // if (!useCamera) return;
+        // distance = (catPos.position - hamsterPos.position).magnitude;
+        // if (distance > cameraWarningLimit && distance < cameraGroupLimit)
+        // {
+        //     float normalizedValue = Normalize(distance, cameraWarningLimit, cameraGroupLimit);
+        //     warningMat.SetFloat(Alpha, normalizedValue);
+        // }
+        // else warningMat.SetFloat(Alpha, 0);
+        // if (distance >= cameraGroupLimit && !isGrouped) //IsGrouped
+        // {
+        //     isGrouped = true;
+        //     foreach (var virtualCamera in splitCamera)
+        //     {
+        //         virtualCamera.gameObject.SetActive(true);
+        //     }
+        //     groupCamera.gameObject.SetActive(false);
+        //     EventManager.Instance.Trigger(EventType.OnSplitCamera);
+        // }
+        // else if(distance < cameraGroupLimit && isGrouped) //NotGrouped
+        // {
+        //     isGrouped = false;
+        //     groupCamera.gameObject.SetActive(true);
+        //     foreach (var virtualCamera in splitCamera)
+        //     {
+        //         virtualCamera.transform.position = virtualGroupCamera.transform.position;
+        //         virtualCamera.gameObject.SetActive(false);
+        //     }
+        //     EventManager.Instance.Trigger(EventType.OnGroupCamera);
+        // }
     }
     float Normalize(float value, float min, float max)
     {
