@@ -35,7 +35,6 @@ public class LoseMenu : MenuButtons
     IEnumerator OnFinishGame(bool type)
     {
         yield return new WaitForSeconds(1.5f);
-        if (GameManager.Instance) GameManager.Instance.EnableByBehaviour();
         anim.enabled = true;
         if (type)
         {

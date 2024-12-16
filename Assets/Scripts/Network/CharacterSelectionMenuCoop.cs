@@ -29,7 +29,8 @@ public class CharacterSelectionMenuCoop : MonoBehaviour
         }
 
         if (GameManager.Instance) GameManager.Instance.pause = true;
-
+        
+        uiCamera.CloseAllButtons();
         uiCamera.levelsBtn.gameObject.SetActive(true);
         uiCamera.optionsBtn.gameObject.SetActive(true);
         uiCamera.menuBtn.gameObject.SetActive(true);

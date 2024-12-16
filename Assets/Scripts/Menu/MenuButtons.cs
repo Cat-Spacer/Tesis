@@ -35,8 +35,6 @@ public class MenuButtons : MonoBehaviour
     }
     public virtual void OpenMenu()
     {
-        //Time.timeScale = 0;
-
         if (GameManager.Instance) StartCoroutine(GameManager.Instance.DisableByBehaviour());
         _menu.SetActive(true);
     }

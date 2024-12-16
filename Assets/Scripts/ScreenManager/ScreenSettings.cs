@@ -5,7 +5,7 @@ public class ScreenSettings : ScreenBase, IScreen
 {
     public static ScreenSettings instance;
     [SerializeField] private string _audioScreenName = "Audio_Menu", _controlsScreenName = "Controls_Menu", _videoScreenName = "Video_Menu";
-
+    private ButtonSizeUpdate[] _buttonsSizeUpdate = null;
     private void Awake()
     {
         if (!instance)
@@ -18,7 +18,10 @@ public class ScreenSettings : ScreenBase, IScreen
         OnAwake();
     }
 
-
+    private void Start()
+    {
+        _buttonsSizeUpdate ??= GetComponentsInChildren<ButtonSizeUpdate>();
+    }
 
     public void BTN_Audio()
     {
@@ -54,5 +57,7 @@ public class ScreenSettings : ScreenBase, IScreen
     public void Deactivate()
     {
         gameObject.SetActive(false);
+        foreach(ButtonSizeUpdate btn in _buttonsSizeUpdate)
+            btn.transform.localScale = btn.GetOriginalScale;
     }
 }
