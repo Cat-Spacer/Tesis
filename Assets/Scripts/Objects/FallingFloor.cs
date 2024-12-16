@@ -7,7 +7,7 @@ public class FallingFloor : MonoBehaviour
 {
     [SerializeField] LayerMask mask;
     [SerializeField] float _desactivateDelay, _activateDelay;
-    private SpriteRenderer _sp;
+    [SerializeField]private SpriteRenderer[] _sp;
     [SerializeField] private Color activatedColor, desactivatedColor;
     private bool _isActive;
     [SerializeField] private BoxCollider2D _coll;
@@ -15,7 +15,7 @@ public class FallingFloor : MonoBehaviour
     [SerializeField] private ParticleSystem _onFall;
     private void Start()
     {
-        _sp = GetComponentInChildren<SpriteRenderer>();
+        //_sp = GetComponentInChildren<SpriteRenderer>();
         //_killZone = GetComponentInChildren<BoxCollider2D>();
         //_coll = GetComponent<BoxCollider2D>();
         _isActive = true;
@@ -26,7 +26,10 @@ public class FallingFloor : MonoBehaviour
         {
             SoundManager.instance.Play(SoundsTypes.Drop, gameObject);
             _onFall.Play();
-            _sp.color = activatedColor;
+            foreach (var item in _sp)
+            {
+                item.color = activatedColor;
+            }
             _coll.enabled = true;
             _killZone.enabled = true;
             _isActive = true;
@@ -35,7 +38,10 @@ public class FallingFloor : MonoBehaviour
         {
             SoundManager.instance.Play(SoundsTypes.Drop, gameObject);
             _onFall.Play();
-            _sp.color = desactivatedColor;
+            foreach (var item in _sp)
+            {
+                item.color = desactivatedColor;
+            }
             _coll.enabled = false;
             _killZone.enabled = false;
             _isActive = false;
