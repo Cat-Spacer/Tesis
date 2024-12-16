@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class ScreenManager : MonoBehaviour
 {
-    private Stack<IScreen> _stack = default;
+    private Stack<IScreen> _stack = null;
 
-    public string lastResult = default;
+    public string lastResult = null;
 
-    static public ScreenManager Instance = default;
+    static public ScreenManager Instance = null;
 
-    void Awake()
+    private void Awake()
     {
         if (!Instance)
         {

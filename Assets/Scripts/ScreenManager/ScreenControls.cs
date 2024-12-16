@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Canvas))]
 public class ScreenControls : ScreenBase, IScreen

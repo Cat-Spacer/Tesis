@@ -21,9 +21,8 @@ public class ScreenGO : IScreen
         foreach (var keyValue in _before)
         {
             keyValue.Key.enabled = keyValue.Value;
-
-            //keyValue.Key.gameObject.SetActive(true);
-            if(keyValue.Key.GetComponent<Rigidbody2D>()) keyValue.Key.GetComponent<Rigidbody2D>().isKinematic = false;
+            
+            if(keyValue.Key.GetComponent<Rigidbody2D>()) keyValue.Key.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
         }
 
         _before.Clear();
@@ -37,7 +36,7 @@ public class ScreenGO : IScreen
             _before[b] = b.enabled;
             if(b.enabled) b.enabled = false;
 
-            if(b.GetComponent<Rigidbody2D>()) b.GetComponent<Rigidbody2D>().isKinematic = true;
+            if(b.GetComponent<Rigidbody2D>()) b.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
             ButtonSizeUpdate hasButton = b.GetComponent<ButtonSizeUpdate>();
             if (!hasButton) continue;
             hasButton.StopAllCoroutines();
@@ -47,7 +46,6 @@ public class ScreenGO : IScreen
 
     public string Free()
     {
-        //GameObject.Destroy(_rootGame.gameObject);
         return "Playable Game";
     }
 }
