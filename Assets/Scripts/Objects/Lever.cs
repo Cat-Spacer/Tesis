@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,10 +33,17 @@ public class Lever : MonoBehaviour, IInteract
         {
             var obj = connection.GetComponent<IActivate>();
             if (obj != null) _connection.Add(obj);
-        }
+        } 
+        SetColor();
         if (_activated) _anim.Play(_activateAnimation);
         else _anim.Play(_desactivateAnimation);
+    }
+    private void OnEnable()
+    {
+        if (_anim == null) return;
         SetColor();
+        if (_activated) _anim.Play(_activateAnimation);
+        else _anim.Play(_desactivateAnimation);
     }
 
     private void FilterParticles(InteractionColorsEnum colorId)
