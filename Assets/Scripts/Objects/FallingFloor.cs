@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UnityEngine.PlayerLoop;
 
 public class FallingFloor : MonoBehaviour
 {
+    private Action activateAction = delegate { };
     [SerializeField] LayerMask mask;
     [SerializeField] float _desactivateDelay, _activateDelay;
     [SerializeField]private SpriteRenderer[] _sp;
@@ -13,6 +15,7 @@ public class FallingFloor : MonoBehaviour
     [SerializeField] private BoxCollider2D _coll;
     [SerializeField] private BoxCollider2D _killZone;
     [SerializeField] private ParticleSystem _onFall;
+    private float currentTime;
     private void Start()
     {
         //_sp = GetComponentInChildren<SpriteRenderer>();
@@ -20,6 +23,12 @@ public class FallingFloor : MonoBehaviour
         //_coll = GetComponent<BoxCollider2D>();
         _isActive = true;
     }
+
+    private void Update()
+    {
+        activateAction();
+    }
+
     private void Activate(bool activated)
     {
         if (activated)
@@ -45,25 +54,36 @@ public class FallingFloor : MonoBehaviour
             _coll.enabled = false;
             _killZone.enabled = false;
             _isActive = false;
-            StartCoroutine(ActivateFloor());
         }
     }
-    IEnumerator DesactivateFloor()
+
+    void CountdownDeactivateFloor()
     {
-        yield return new WaitForSeconds(_desactivateDelay);
-        Activate(false);
+        currentTime += Time.deltaTime;
+        if (currentTime >= _desactivateDelay)
+        {
+            Activate(false);
+            currentTime = 0;
+            activateAction = CountdownActivateFloor;
+        }
     }
-    IEnumerator ActivateFloor()
+
+    void CountdownActivateFloor()
     {
-        yield return new WaitForSeconds(_activateDelay);
-        Activate(true);
+        currentTime += Time.deltaTime;
+        if (currentTime >= _desactivateDelay)
+        {
+            Activate(true);
+            currentTime = 0;
+            activateAction = delegate { };
+        }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if ((mask.value & (1 << collision.transform.gameObject.layer)) > 0  && _isActive)
         {
             _isActive = false;
-            StartCoroutine(DesactivateFloor());
+            activateAction = CountdownDeactivateFloor;
         }
     }
 }
