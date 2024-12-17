@@ -17,6 +17,7 @@ public class TutorialHackBox : MonoBehaviour
         if (hacked) return;
         if(catEnter && hamsterEnter)
         {
+            EventManager.Instance.Trigger(EventType.OffLive);
             LiveCamera.instance.StartTutorialHackCamera();
             attackBox.CanAttack(true);
             hacked = true;
@@ -26,8 +27,10 @@ public class TutorialHackBox : MonoBehaviour
     void DeactivateHack()
     {
         if(!hacked) return;
+        EventManager.Instance.Trigger(EventType.OnLive);
         LiveCamera.instance.StopTutorialHackCamera();
         attackBox.CanAttack(false);
+        hacked = false;
     }
     private void OnTriggerEnter2D(Collider2D other)
     {

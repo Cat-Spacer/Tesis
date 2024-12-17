@@ -96,12 +96,6 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
-            if (EventManager.Instance)
-                EventManager.Instance.Trigger(EventType.ViewPlayerIndicator, true);
-        if (Input.GetKeyUp(KeyCode.Tab))
-            if (EventManager.Instance)
-                EventManager.Instance.Trigger(EventType.ViewPlayerIndicator, false);
         if (Input.GetKey(KeyCode.LeftShift))
         {
             if (Input.GetKeyDown(KeyCode.R)) EventManager.Instance.Trigger(EventType.OnLoseGame);

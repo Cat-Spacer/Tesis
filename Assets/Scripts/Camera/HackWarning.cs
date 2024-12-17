@@ -6,11 +6,17 @@ using UnityEngine;
 public class HackWarning : MonoBehaviour
 {
     Animator animator;
-    private bool firstTime = true;
-
+    [SerializeField] private bool firstTime = true;
     private void Start()
     {
         animator = GetComponent<Animator>();
+        EventManager.Instance.Subscribe(EventType.OnLive, OnLive);
+        EventManager.Instance.Subscribe(EventType.OffLive, OffLive);
+    }
+
+    private void OnEnable()
+    {
+        if (EventManager.Instance == null) return;
         EventManager.Instance.Subscribe(EventType.OnLive, OnLive);
         EventManager.Instance.Subscribe(EventType.OffLive, OffLive);
     }
@@ -22,10 +28,12 @@ public class HackWarning : MonoBehaviour
             firstTime = false;
             return;
         }
+        Debug.Log("StartHack");
         animator.Play("StopHackWarning");
     }
     private void OffLive(object[] obj)
     {
+        Debug.Log("StopHack");
         animator.Play("StartHackWarning");
     }
 
