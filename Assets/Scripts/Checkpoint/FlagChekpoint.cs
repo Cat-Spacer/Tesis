@@ -16,11 +16,6 @@ public class FlagChekpoint : MonoBehaviour
     [SerializeField] private Animation _hamsterFlagAnimation;
     [SerializeField] Animator _catFlagAnimator;
     [SerializeField] Animator _hamsterFlagAnimator;
-    void Start()
-    {
-        _catFlagAnimator.Play("CatFlag");
-        _hamsterFlagAnimator.Play("HamsterFlag");
-    }
     
     void Update()
     {

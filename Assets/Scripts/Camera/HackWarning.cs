@@ -6,6 +6,7 @@ using UnityEngine;
 public class HackWarning : MonoBehaviour
 {
     Animator animator;
+    private bool firstTime = true;
 
     private void Start()
     {
@@ -16,6 +17,11 @@ public class HackWarning : MonoBehaviour
 
     private void OnLive(object[] obj)
     {
+        if (firstTime)
+        {
+            firstTime = false;
+            return;
+        }
         animator.Play("StopHackWarning");
     }
     private void OffLive(object[] obj)

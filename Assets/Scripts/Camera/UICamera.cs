@@ -33,7 +33,7 @@ public class UICamera : MonoBehaviour
         animator = GetComponent<Animator>();
         EventManager.Instance.Subscribe(EventType.ShowTv, OnShowTv);
         EventManager.Instance.Subscribe(EventType.ReturnGameplay, OnResumeGameplay);
-        gameplayCam.gameObject.SetActive(false);
+        //gameplayCam.gameObject.SetActive(false);
     }
 
     public void StartGameplay()
