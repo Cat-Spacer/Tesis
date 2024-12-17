@@ -1,14 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 
 public class FlagChekpoint : MonoBehaviour
 {
-    [SerializeField] private Vector2 _boxArea;    
     [SerializeField] private LayerMask _players;
-    private bool _catIsOn = false;
-    private bool _hamsterIsOn = false;
+    private bool _checkpointIsOn = false;
     [SerializeField] ParticleSystem _catParticle;
     [SerializeField] ParticleSystem _hamsterParticle;
     [SerializeField] ParticleSystem[] _checkParticles;
@@ -16,54 +12,75 @@ public class FlagChekpoint : MonoBehaviour
     [SerializeField] private Animation _hamsterFlagAnimation;
     [SerializeField] Animator _catFlagAnimator;
     [SerializeField] Animator _hamsterFlagAnimator;
-    
-    void Update()
+    bool _isCat = false;
+    bool _isHamster= false;
+
+    private void OnTriggerEnter2D(Collider2D trigger)
     {
-        var coll = Physics2D.OverlapBox(transform.position, _boxArea, 0, _players);
-        if (!coll) return;
-        
-        var player = coll.gameObject.GetComponent<PlayerCharacter>();
-        if (!player.gameObject) return;
-        if (player.GetCharType() == CharacterType.Cat)
-        {
-            if (_catIsOn) return;
-            _catIsOn = true;
-            GameManager.Instance.SetCatRespawnPoint(transform.position);
-            foreach (var item in _checkParticles)
-            {
-                item.Play();
-            }
-            _catFlagAnimation.Play();
-            _catParticle.Play();
-            SoundManager.instance.Play(SoundsTypes.Checpoint, gameObject);
-            GetComponent<AudioSource>().playOnAwake = false;
-        }
-        else
-        {
-            if (_hamsterIsOn) return;
-            _hamsterIsOn = true;
-            GameManager.Instance.SetHamsterRespawnPoint(transform.position);
-            foreach (var item in _checkParticles)
-            {
-                item.Play();
-            }
-            _hamsterFlagAnimation.Play();
-            _hamsterParticle.Play();
-            SoundManager.instance.Play(SoundsTypes.Checpoint, gameObject);
-            GetComponent<AudioSource>().playOnAwake = false;
-        }
+        var playerCharacter = trigger.GetComponent<PlayerCharacter>();
+        if (playerCharacter == null) return;
+
+        UpdateCharacterState(playerCharacter, true);
+
+        if (_isCat && _isHamster) OnCheckPoint();
     }
+
+    private void UpdateCharacterState(PlayerCharacter character, bool state)
+    {
+        if (character.GetCharType() == CharacterType.Cat) _isCat = state;
+        if (character.GetCharType() == CharacterType.Hamster) _isHamster = state;
+    }
+    private void OnTriggerExit2D(Collider2D trigger)
+    {
+        var playerCharacter = trigger.GetComponent<PlayerCharacter>();
+        if (playerCharacter == null) return;
+
+        UpdateCharacterState(playerCharacter, false);
+    }
+
+
+    private void OnCheckPoint()
+    {
+            if (_checkpointIsOn) return; // Avoid triggering if the checkpoint is already active
+
+            _checkpointIsOn = true;
+
+            // Set respawn points for both characters
+            GameManager.Instance.SetCatRespawnPoint(transform.position);
+            GameManager.Instance.SetHamsterRespawnPoint(transform.position);
+
+            // Play checkpoint particles
+            foreach (var particle in _checkParticles)
+            {
+                particle.Play();
+            }
+
+        // Trigger animations using Animator
+        _hamsterFlagAnimation.Play();
+        _catFlagAnimation.Play();
+
+        // Play the particle effects
+        _catParticle.Play();
+            _hamsterParticle.Play();
+
+            // Play sound for checkpoint
+            SoundManager.instance.Play(SoundsTypes.Checpoint, gameObject);
+
+            // Disable play on awake for the AudioSource
+            var audioSource = GetComponent<AudioSource>();
+            if (audioSource != null)
+            {
+                audioSource.playOnAwake = false;
+            }
+        
+    }
+
 
     private IEnumerator CleanAudioSources()
     {
         yield return new WaitForSeconds(GetComponent<AudioSource>().clip.length);
         AudioSource[] sources = GetComponents<AudioSource>();
         foreach (AudioSource s in sources) Destroy(s);
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.DrawWireCube(transform.position, _boxArea);
     }
 
 }
