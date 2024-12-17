@@ -150,7 +150,7 @@ Transform:
   m_GameObject: {fileID: 86834176321429578}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -2}
+  m_LocalPosition: {x: 14.485867, y: 3.2579598, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -188,10 +188,10 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.01
-  far clip plane: 3
-  field of view: 60
+  far clip plane: 10
+  field of view: 100
   orthographic: 1
-  orthographic size: 15
+  orthographic size: 10
   m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
@@ -347,6 +347,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5994136375805477793}
   - component: {fileID: 1345044223102265595}
+  - component: {fileID: 8979499637727505814}
+  - component: {fileID: 6962645933900054508}
   m_Layer: 0
   m_Name: ---CAMERA---
   m_TagString: Untagged
@@ -401,6 +403,39 @@ MonoBehaviour:
   tvShader: {fileID: 0}
   tvHackedShader: {fileID: 0}
   warningSprite: {fileID: 123298769898967381}
+--- !u!114 &8979499637727505814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 790622688001994744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f9508d0cd2e34c4b9969074ab5f0c78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!95 &6962645933900054508
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 790622688001994744}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b8b2608dd21d33546bcf23f0dce865b3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &860801430875896975
 GameObject:
   m_ObjectHideFlags: 0
@@ -2266,7 +2301,7 @@ Transform:
   m_GameObject: {fileID: 5294490999515820896}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -2}
+  m_LocalPosition: {x: 14.485867, y: 3.2579598, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2308,10 +2343,10 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.01
-  far clip plane: 3
-  field of view: 60
+  far clip plane: 10
+  field of view: 100
   orthographic: 1
-  orthographic size: 15
+  orthographic size: 10
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -2585,7 +2620,7 @@ Transform:
   m_GameObject: {fileID: 6145027963315972908}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.25, y: 0, z: -2}
+  m_LocalPosition: {x: -4, y: 0.7, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2614,7 +2649,7 @@ MonoBehaviour:
   m_Follow: {fileID: 0}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 11
+    OrthographicSize: 10.5
     NearClipPlane: 0.01
     FarClipPlane: 3
     Dutch: 0
@@ -2702,8 +2737,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1343449567
-  m_SortingLayer: 0
+  m_SortingLayerID: -1224447395
+  m_SortingLayer: 6
   m_SortingOrder: 5
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6,
     type: 3}
