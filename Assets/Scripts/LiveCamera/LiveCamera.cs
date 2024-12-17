@@ -74,38 +74,19 @@ public class LiveCamera : MonoBehaviour
     public void StartLiveCamera(bool status)
     {
         if (onTutorial) return;
-        ActivateCamera();
         GoOnAir();
     }
     void GoOnAir()
     { 
+        EventManager.Instance.Trigger(EventType.OnLive);
         _onAir = true;
         ActivateCamera();
-        //EventManager.Instance.Trigger(EventType.OnLive);
         _levelTimer.OnLive();
-        if (current < 0) return; 
-        // currentLiveTime = _levelTime - currentLiveTime - _hackTimes[current];
-        // timeOnLive = currentLiveTime - _hackTimes[current];
-        // _levelTime = _hackTimes[current];
-
-        timeOnLive = currentLiveTime - _hackTimes[current];
-        currentLiveTime = _hackTimes[current];
-        StartCoroutine(OnAirTimer(timeOnLive));
-    }
-    IEnumerator OnAirTimer(float time)
-    {
-        yield return new WaitForSeconds(time);
-        if (current >= 0)
-        {
-            current--;
-            GoOffAir();
-        }
     }
     public void GoOffAir()
     {
         _onAir = false;
         DesactivateAllCameras();
-        //EventManager.Instance.Trigger(EventType.OffLive);
         _levelTimer.OffLive();
         StartCoroutine(TimeUntilGoOnAir(_hackTime));
     }
@@ -121,8 +102,8 @@ public class LiveCamera : MonoBehaviour
         onLiveMenu.SetActive(true);
         offLiveMenu.SetActive(false);
         _groupCamera.SetActive(true);
-        _tvShader.SetActive(true);
-        _tvHackedShader.SetActive(false);
+        //_tvShader.SetActive(true);
+        //_tvHackedShader.SetActive(false);
     }
 
     private void DesactivateAllCameras()
@@ -130,8 +111,8 @@ public class LiveCamera : MonoBehaviour
         onLiveMenu.SetActive(false);
         offLiveMenu.SetActive(true);
         _groupCamera.SetActive(false);
-        _tvShader.SetActive(false);
-        _tvHackedShader.SetActive(true);
+        //_tvShader.SetActive(false);
+        //_tvHackedShader.SetActive(true);
     }
     public bool IsOnAir()
     {
@@ -161,6 +142,8 @@ public class LiveCamera : MonoBehaviour
     {
         return flowerImages;
     }
+
+    public List<int> GetHackTimes() { return _hackTimes;}
     public void SetLevelTime(int time)
     {
         _levelTime = time;

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEditor.Rendering;
 using UnityEngine;
@@ -18,7 +19,10 @@ public class LevelTimer : MonoBehaviour
 
     [SerializeField] private float[] timeWarnings;
     [SerializeField] int currentTimeWarning;
+    private List<int> hackTimes;
+    private int currentHackTime;
     private AudioSource _audioSource = default;
+    private bool startedHackWarning;
     void Start()
     {
         //EventManager.Instance.Subscribe(EventType.OffLive, OnOffLive);
@@ -30,11 +34,17 @@ public class LevelTimer : MonoBehaviour
         EventManager.Instance.Subscribe(EventType.OnFinishGame, OnFinishGame);
         EventManager.Instance.Subscribe(EventType.OnLoseGame, OnFinishGame);
         
-        if(LiveCamera.instance != null) LiveCamera.instance.SetLevelTime(levelTimer);
+        if(LiveCamera.instance != null)
+        {
+            LiveCamera.instance.SetLevelTime(levelTimer);
+            hackTimes = LiveCamera.instance.GetHackTimes();
+            currentHackTime = hackTimes.Count - 1;
+        }
         text.text = levelTimer.ToString();
         currentTime = levelTimer;
         menu.SetActive(false);
         if (onTutorial) text.text = "-";
+        
     }
 
     private void OnFinishGame(object[] obj)
@@ -111,6 +121,21 @@ public class LevelTimer : MonoBehaviour
             {
                 animator.Play("Appear");
                 currentTimeWarning++;
+            }
+
+            if (currentHackTime >= 0)
+            {
+                if (currentTime < hackTimes[currentHackTime] + 3 && !startedHackWarning)
+                {
+                    startedHackWarning = true;
+                    EventManager.Instance.Trigger(EventType.OffLive);
+                }
+                if (currentTime < hackTimes[currentHackTime])
+                {
+                    LiveCamera.instance.GoOffAir();
+                    currentHackTime--;
+                    startedHackWarning = false;
+                }
             }
         }
 
