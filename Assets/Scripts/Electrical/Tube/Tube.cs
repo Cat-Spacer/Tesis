@@ -17,6 +17,7 @@ public class Tube : MonoBehaviour, IInteract
     [SerializeField] Tube upTube;
     [SerializeField] Tube downTube;
     public bool IsCheckpoint(){return isCheckpoint;}
+    public bool IsEntry(){return isEntry;}
 
     private void Start()
     {
@@ -85,6 +86,8 @@ public class Tube : MonoBehaviour, IInteract
     {
         playerInTube = state;
     }
+
+    public bool IsOnTube() { return tubeSystem.IsPlayerOnTube();}
     public bool HasRightPath() { return rightTube != null;}
     public bool HasLeftPath() { return leftTube != null;}
     public bool HasUpPath() { return upTube != null;}
