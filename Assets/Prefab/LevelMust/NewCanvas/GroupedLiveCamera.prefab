@@ -410,7 +410,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7201140310261542454}
-  - {fileID: 1643062508720145243}
   - {fileID: 1201959189997504047}
   - {fileID: 4500147438166521065}
   - {fileID: 7832017373725555547}
@@ -547,7 +546,7 @@ GameObject:
   - component: {fileID: 474177258251790928}
   - component: {fileID: 5765891401258785237}
   m_Layer: 0
-  m_Name: Flower_2
+  m_Name: GreenFlower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -561,16 +560,16 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3716578164227101655}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1.1027954}
+  m_LocalPosition: {x: 0, y: 0, z: 3.9870303}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1643062508720145243}
+  m_Father: {fileID: 7201140310261542454}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1245.83, y: -26.112549}
+  m_SizeDelta: {x: 70, y: 70}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &474177258251790928
 CanvasRenderer:
@@ -884,7 +883,7 @@ GameObject:
   - component: {fileID: 2891497590845305679}
   - component: {fileID: 928388817486930829}
   m_Layer: 0
-  m_Name: Flower_3
+  m_Name: YellowFlower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -898,16 +897,16 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4718035394678622722}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1.1027954}
+  m_LocalPosition: {x: 0, y: 0, z: 3.9870303}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1643062508720145243}
+  m_Father: {fileID: 7201140310261542454}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1335.83, y: -26.112549}
+  m_SizeDelta: {x: 70, y: 70}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &2891497590845305679
 CanvasRenderer:
@@ -1057,6 +1056,9 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 110659043881810749}
+  - {fileID: 7476444394149460800}
+  - {fileID: 8370290233899165531}
+  - {fileID: 8597077592303555074}
   m_Father: {fileID: 8048071593389557783}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1672,69 +1674,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1 &7557694810170924508
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1643062508720145243}
-  - component: {fileID: 6440630948521631192}
-  m_Layer: 0
-  m_Name: Flowers
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1643062508720145243
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7557694810170924508}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 7476444394149460800}
-  - {fileID: 8370290233899165531}
-  - {fileID: 8597077592303555074}
-  m_Father: {fileID: 8048071593389557783}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5837656, y: 0.9059419}
-  m_AnchorMax: {x: 0.75165105, y: 0.9758217}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &6440630948521631192
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7557694810170924508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  m_ChildAlignment: 0
-  m_StartCorner: 0
-  m_StartAxis: 0
-  m_CellSize: {x: 70, y: 70}
-  m_Spacing: {x: 20, y: 0}
-  m_Constraint: 0
-  m_ConstraintCount: 2
 --- !u!1 &7671468153392806005
 GameObject:
   m_ObjectHideFlags: 0
@@ -1971,7 +1910,7 @@ GameObject:
   - component: {fileID: 5201900332963629659}
   - component: {fileID: 2349002491984227141}
   m_Layer: 0
-  m_Name: Flower_1
+  m_Name: PurpleFlower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1985,16 +1924,16 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7891076049598957267}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1.1027954}
+  m_LocalPosition: {x: 0, y: 0, z: 3.9870303}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1643062508720145243}
+  m_Father: {fileID: 7201140310261542454}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 1155.83, y: -26.112549}
+  m_SizeDelta: {x: 70, y: 70}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &5201900332963629659
 CanvasRenderer:
@@ -2385,23 +2324,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4708369728442125894}
     m_Modifications:
-    - target: {fileID: 2911936176458170631, guid: 1b515464d0fb38c4e9935e3daefdc23a,
-        type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: e92d93a0dccc1a04683b13f5bfcb579d,
-        type: 2}
-    - target: {fileID: 2911936176458170631, guid: 1b515464d0fb38c4e9935e3daefdc23a,
-        type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: -4003554819046522904, guid: e92d93a0dccc1a04683b13f5bfcb579d,
-        type: 2}
-    - target: {fileID: 2911936176458170631, guid: 1b515464d0fb38c4e9935e3daefdc23a,
-        type: 3}
-      propertyPath: m_hasFontAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3092460150487590743, guid: 1b515464d0fb38c4e9935e3daefdc23a,
         type: 3}
       propertyPath: m_Pivot.x
@@ -2517,23 +2439,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -30
       objectReference: {fileID: 0}
-    - target: {fileID: 4268279801305631675, guid: 1b515464d0fb38c4e9935e3daefdc23a,
-        type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: e92d93a0dccc1a04683b13f5bfcb579d,
-        type: 2}
-    - target: {fileID: 4268279801305631675, guid: 1b515464d0fb38c4e9935e3daefdc23a,
-        type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: -4003554819046522904, guid: e92d93a0dccc1a04683b13f5bfcb579d,
-        type: 2}
-    - target: {fileID: 4268279801305631675, guid: 1b515464d0fb38c4e9935e3daefdc23a,
-        type: 3}
-      propertyPath: m_hasFontAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4545563651228309610, guid: 1b515464d0fb38c4e9935e3daefdc23a,
         type: 3}
       propertyPath: m_LocalPosition.z
@@ -2558,21 +2463,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6576403625961579479, guid: 1b515464d0fb38c4e9935e3daefdc23a,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 1.5e-44
-      objectReference: {fileID: 0}
-    - target: {fileID: 6576403625961579479, guid: 1b515464d0fb38c4e9935e3daefdc23a,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -56
-      objectReference: {fileID: 0}
-    - target: {fileID: 7861744042136627030, guid: 1b515464d0fb38c4e9935e3daefdc23a,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -56
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
