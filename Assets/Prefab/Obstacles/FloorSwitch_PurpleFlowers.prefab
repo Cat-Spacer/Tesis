@@ -176,11 +176,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3200037343164913534}
-  - component: {fileID: 111021925575530204}
   - component: {fileID: 5337746167785044294}
   - component: {fileID: 3693729501868289380}
   - component: {fileID: 28504184322625022}
   - component: {fileID: 5577808521495238034}
+  - component: {fileID: 4116371418896488998}
   m_Layer: 6
   m_Name: FloorSwitch_PurpleFlowers
   m_TagString: Untagged
@@ -215,24 +215,6 @@ Transform:
   - {fileID: 2769639054987721807}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &111021925575530204
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1831013813352516548}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d109c42bb0982f24a84406f5eab54f38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _activated: 1
-  activatedColor: {r: 1, g: 1, b: 1, a: 1}
-  desactivatedColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5019608}
-  speedChange: 1
-  killZone: {fileID: 98700251348688749}
-  _myparticle: {fileID: 0}
 --- !u!212 &5337746167785044294
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -414,6 +396,34 @@ CompositeCollider2D:
   m_OffsetDistance: 0.00005
   m_UseDelaunayMesh: 0
   m_CompositeGameObject: {fileID: 1831013813352516548}
+--- !u!114 &4116371418896488998
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1831013813352516548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5aad1549b73c7954e897dc96b5f48685, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _wallIsActive: 1
+  _sp:
+  - {fileID: 5337746167785044294}
+  - {fileID: 8088676767097379635}
+  - {fileID: 2197048990459208335}
+  - {fileID: 7688771183374618480}
+  - {fileID: 309249197125658491}
+  - {fileID: 2709271246286788117}
+  - {fileID: 7740518055822097892}
+  - {fileID: 6796880920246795855}
+  - {fileID: 1194241761321463764}
+  activatedColor: {r: 1, g: 1, b: 1, a: 1}
+  desactivatedColor: {r: 1, g: 1, b: 1, a: 0.039215688}
+  speedChange: 0
+  colliderZone: {fileID: 98700251348688749}
+  _myparticle: {fileID: 0}
 --- !u!1 &2775837201082226806
 GameObject:
   m_ObjectHideFlags: 0

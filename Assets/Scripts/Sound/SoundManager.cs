@@ -63,7 +63,8 @@ public enum SoundsTypes
     TimeBeep,
     TimeEndBeep,
     Hacking,
-    Error
+    Error,
+    Magic
 }
 
 public class SoundManager : MonoBehaviour
