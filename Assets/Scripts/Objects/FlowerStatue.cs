@@ -23,6 +23,7 @@ public class FlowerStatue : MonoBehaviour
     [SerializeField] private List<GameObject> _connectionObj;
     private List<IActivate> _connection = new List<IActivate>();
     [SerializeField] private bool _activated = false;
+    [SerializeField] FlowerType _flowerType;
     private void Start()
     {
         _duringFlowerFeedback.gameObject.SetActive(false);
@@ -68,7 +69,24 @@ public class FlowerStatue : MonoBehaviour
         _flower.transform.parent = _flowerPos;
         _flower.transform.position = _flowerPos.position;
         coll.enabled = false;
-        EventManager.Instance.Trigger(EventType.OnPutFlower);
+
+        switch (_flowerType)
+        {
+            case FlowerType.Green:
+                EventManager.Instance.Trigger(EventType.OnPutGreenFlower);
+                break;
+            case FlowerType.Yellow:
+                EventManager.Instance.Trigger(EventType.OnPutYellowFlower);
+                break;
+            case FlowerType.Purple:
+                EventManager.Instance.Trigger(EventType.OnPutPurpleFlower);
+                break;
+            default:
+                EventManager.Instance.Trigger(EventType.OnPutFlower);
+                Debug.LogError("flower type not specified in statue");
+                break;
+        }
+
         SoundManager.instance.Play(SoundsTypes.Collect, gameObject);
         _onPutFlower.Play();
         _duringFlowerFeedback.gameObject.SetActive(true);
