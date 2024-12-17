@@ -113,8 +113,6 @@ public class GameManager : MonoBehaviour
                 Invoke("CheatWin", 1);
             }
         }
-
-        if (Input.GetKeyDown(KeyCode.Z)) EventManager.Instance.Trigger(EventType.OnFinishGame);
     }
 
     void CheatWin()

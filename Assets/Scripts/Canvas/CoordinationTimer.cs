@@ -9,7 +9,7 @@ public class CoordinationTimer : MonoBehaviour
     private TextMeshProUGUI _timerText = null;
     private Image _timerImage = null, _timerSubImage = null;
     [SerializeField] private float _fadeOutTime = 0.25f, _stayTime = 0.5f;
-    [SerializeField] private KeyCode _catKey = KeyCode.Z, _hamsterKey = KeyCode.Keypad0;
+    [SerializeField] private KeyCode _catKey = KeyCode.Z, _hamsterKey = KeyCode.KeypadEnter;
 
     private float _timer = 3f;
     private const float _maxTimer = 3f;
