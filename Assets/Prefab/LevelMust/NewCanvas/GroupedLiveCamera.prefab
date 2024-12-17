@@ -545,6 +545,7 @@ GameObject:
   - component: {fileID: 8370290233899165531}
   - component: {fileID: 474177258251790928}
   - component: {fileID: 5765891401258785237}
+  - component: {fileID: 4271627322973152215}
   m_Layer: 0
   m_Name: GreenFlower
   m_TagString: Untagged
@@ -609,6 +610,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &4271627322973152215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3716578164227101655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e2ca3c228e5ec44af2448273a2a999, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _type: 0
+  _flowerImage: {fileID: 5765891401258785237}
 --- !u!1 &3817994864951220876
 GameObject:
   m_ObjectHideFlags: 0
@@ -882,6 +897,7 @@ GameObject:
   - component: {fileID: 8597077592303555074}
   - component: {fileID: 2891497590845305679}
   - component: {fileID: 928388817486930829}
+  - component: {fileID: 8280805750333556982}
   m_Layer: 0
   m_Name: YellowFlower
   m_TagString: Untagged
@@ -946,6 +962,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8280805750333556982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4718035394678622722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e2ca3c228e5ec44af2448273a2a999, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _type: 1
+  _flowerImage: {fileID: 928388817486930829}
 --- !u!1 &4785119310017327499
 GameObject:
   m_ObjectHideFlags: 0
@@ -1847,9 +1877,9 @@ MonoBehaviour:
   - {fileID: 4101869073834267920}
   - {fileID: 8844208817102543538}
   flowerImages:
-  - {fileID: 2349002491984227141}
-  - {fileID: 5765891401258785237}
-  - {fileID: 928388817486930829}
+  - {fileID: 7756012184915836338}
+  - {fileID: 4271627322973152215}
+  - {fileID: 8280805750333556982}
   onLiveMenu: {fileID: 1617749098723034515}
   offLiveMenu: {fileID: 6583801563307530710}
   menu: {fileID: 4360510297594970126}
@@ -1909,6 +1939,7 @@ GameObject:
   - component: {fileID: 7476444394149460800}
   - component: {fileID: 5201900332963629659}
   - component: {fileID: 2349002491984227141}
+  - component: {fileID: 7756012184915836338}
   m_Layer: 0
   m_Name: PurpleFlower
   m_TagString: Untagged
@@ -1973,6 +2004,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7756012184915836338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7891076049598957267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2e2ca3c228e5ec44af2448273a2a999, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _type: 2
+  _flowerImage: {fileID: 2349002491984227141}
 --- !u!1 &7985145242177050792
 GameObject:
   m_ObjectHideFlags: 0
