@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using System.Linq;
 
@@ -26,32 +24,34 @@ public class Lever : MonoBehaviour, IInteract
         public InteractionColorsEnum colorID;
         public ParticleSystem particleSystem;
     }
-
+ 
     void Start()
     {
         _anim = GetComponent<Animator>();
         foreach (var connection in _connectionObj)
         {
             var obj = connection.GetComponent<IActivate>();
-            if(connection != null) _connection.Add(obj);
+            if (obj != null) _connection.Add(obj);
         }
-      
-        SetColor();
-        if(_activated)_anim.Play(_activateAnimation);
+        if (_activated) _anim.Play(_activateAnimation);
         else _anim.Play(_desactivateAnimation);
+        SetColor();
     }
 
-    private void FilterOrangeParticles(InteractionColorsEnum colorId)
+    private void FilterParticles(InteractionColorsEnum colorId)
     {
-        if (_colorIDParticle == null) return;
+        if (_colorIDParticle == null)
+        { return; }
 
-        var orangeParticles = _colorIDParticle
+        var particleType = _colorIDParticle
             .Where(p => p.colorID == colorId)
-            .Select(p => p.particleSystem);
+            .Select(x=> x.particleSystem);
 
-        foreach (var particle in orangeParticles)
+        foreach (var particle in particleType)
         {
-            particle.Play();
+            if (particle != null)  
+                particle.playOnAwake = true;
+            
         }
     }
     void SetColor()
@@ -61,30 +61,31 @@ public class Lever : MonoBehaviour, IInteract
             case InteractionColorsEnum.Orange:
                 _activateAnimation = "ActivateOrange";
                 _desactivateAnimation = "DeactivateOrange";
-                FilterOrangeParticles(_interactionColors);
+                FilterParticles(_interactionColors);
                 break;
             case InteractionColorsEnum.Yellow:
                 _activateAnimation = "ActivateYellow";
                 _desactivateAnimation = "DeactivateYellow";
-                FilterOrangeParticles(_interactionColors);
+                FilterParticles(_interactionColors);
                 break;
             case InteractionColorsEnum.BlackCyan:
                 _activateAnimation = "ActivateBlackCyan";
                 _desactivateAnimation = "DeactivateBlackCyan";
-                FilterOrangeParticles(_interactionColors);
+                FilterParticles(_interactionColors);
                 break;
             case InteractionColorsEnum.Pink:
                 _activateAnimation = "ActivatePink";
                 _desactivateAnimation = "DeactivatePink";
-                FilterOrangeParticles(_interactionColors);
+                FilterParticles(_interactionColors);
                 break;
             case InteractionColorsEnum.Grey:
                 _activateAnimation = "ActivateGrey";
                 _desactivateAnimation = "DeactivateGrey";
-                FilterOrangeParticles(_interactionColors);
+                FilterParticles(_interactionColors);
                 break;
         }
     }
+
 
     void PressLever()
     {
