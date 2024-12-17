@@ -20749,6 +20749,11 @@ PrefabInstance:
       propertyPath: gameplayCam
       value: 
       objectReference: {fileID: 614398119}
+    - target: {fileID: 1954324373937011444, guid: 8ea81884f47a76043ba8325b26ca5e79,
+        type: 3}
+      propertyPath: pauseButton
+      value: 
+      objectReference: {fileID: 1991301322}
     - target: {fileID: 2825936012345624477, guid: 8ea81884f47a76043ba8325b26ca5e79,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -27963,23 +27968,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2095069958824521877, guid: 3efccbd517c50034aa13e1dcc7ff04ed,
         type: 3}
+      propertyPath: m_Priority
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2095069958824521877, guid: 3efccbd517c50034aa13e1dcc7ff04ed,
+        type: 3}
       propertyPath: m_Lens.FarClipPlane
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3099350648226105374, guid: 3efccbd517c50034aa13e1dcc7ff04ed,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3936381371175046565, guid: 3efccbd517c50034aa13e1dcc7ff04ed,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.4739995
+      value: 0.00000047683716
       objectReference: {fileID: 0}
     - target: {fileID: 3936381371175046565, guid: 3efccbd517c50034aa13e1dcc7ff04ed,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.7835
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3936381371175046565, guid: 3efccbd517c50034aa13e1dcc7ff04ed,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -16
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 4155744519379225797, guid: 3efccbd517c50034aa13e1dcc7ff04ed,
         type: 3}
@@ -27999,22 +28014,22 @@ PrefabInstance:
     - target: {fileID: 4766145617177524174, guid: 3efccbd517c50034aa13e1dcc7ff04ed,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.94
+      value: 2.4739995
       objectReference: {fileID: 0}
     - target: {fileID: 4766145617177524174, guid: 3efccbd517c50034aa13e1dcc7ff04ed,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.36
+      value: 6.7835
       objectReference: {fileID: 0}
     - target: {fileID: 4766145617177524174, guid: 3efccbd517c50034aa13e1dcc7ff04ed,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2
+      value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 5294490999515820896, guid: 3efccbd517c50034aa13e1dcc7ff04ed,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5474880979700123275, guid: 3efccbd517c50034aa13e1dcc7ff04ed,
         type: 3}
@@ -28599,17 +28614,17 @@ PrefabInstance:
     - target: {fileID: 8640369386267574976, guid: 3efccbd517c50034aa13e1dcc7ff04ed,
         type: 3}
       propertyPath: field of view
-      value: 60
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8640369386267574976, guid: 3efccbd517c50034aa13e1dcc7ff04ed,
         type: 3}
       propertyPath: far clip plane
-      value: 3
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8640369386267574976, guid: 3efccbd517c50034aa13e1dcc7ff04ed,
         type: 3}
       propertyPath: orthographic size
-      value: 15
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -30412,6 +30427,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1988208801}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1991301322 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4050661602116014198, guid: 8ea81884f47a76043ba8325b26ca5e79,
+    type: 3}
+  m_PrefabInstance: {fileID: 1537432970}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1997153745
 PrefabInstance:
   m_ObjectHideFlags: 0
