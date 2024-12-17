@@ -20,6 +20,9 @@ public class FlowerStatue : MonoBehaviour
     [SerializeField] private SpriteRenderer _statue;
     [SerializeField] private Color _sadColor;
     [SerializeField] private Color _happyColor;
+    [SerializeField] private List<GameObject> _connectionObj;
+    private List<IActivate> _connection = new List<IActivate>();
+    [SerializeField] private bool _activated = false;
     private void Start()
     {
         _duringFlowerFeedback.gameObject.SetActive(false);
@@ -34,6 +37,11 @@ public class FlowerStatue : MonoBehaviour
         }
         _statue= gameObject.GetComponent<SpriteRenderer>();
         _statue.color = _sadColor;
+        foreach (var connection in _connectionObj)
+        {
+            var obj = connection.GetComponent<IActivate>();
+            if (obj != null) _connection.Add(obj);
+        }
     }
 
     private void Update()
@@ -76,6 +84,10 @@ public class FlowerStatue : MonoBehaviour
         foreach (var item in _withoutFlowerLight)
         {
             item.SetActive(false);
+        }
+        foreach (var item in _connection)
+        {
+            item.Desactivate();
         }
     }
     public bool HasFlower() {return _hasFlower;}
