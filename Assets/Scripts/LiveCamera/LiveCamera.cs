@@ -62,11 +62,14 @@ public class LiveCamera : MonoBehaviour
         EventManager.Instance.Subscribe(EventType.OnLoseGame, OnFinishGame);
     }
 
-    public void HackingWarning()
+    public void PlayHackingWarning()
     {
         _hacker.Play("Appear");
     }
-
+    public void EndHackingWarning()
+    {
+        _hacker.Play("Disappear");
+    }
     private void OnFinishGame(object[] obj)
     {
         menu.SetActive(false);
