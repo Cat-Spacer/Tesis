@@ -30,6 +30,7 @@ public class LiveCamera : MonoBehaviour
     [SerializeField] private GameObject onLiveMenu;
     [SerializeField] private GameObject offLiveMenu;
     [SerializeField] private GameObject menu;
+    [SerializeField] private GameObject dogHacker;
     [SerializeField] private Image[] _padlocksImages;
     [SerializeField] private Animator _hacker;
 
@@ -73,6 +74,7 @@ public class LiveCamera : MonoBehaviour
     private void OnFinishGame(object[] obj)
     {
         menu.SetActive(false);
+        dogHacker.SetActive(false);
     }
 
     private void OnResumeGame(object[] obj)
