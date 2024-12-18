@@ -37,6 +37,10 @@ public class CameraManager : MonoBehaviour
         warningMat.SetFloat(Alpha, 0);
         LiveCamera.instance.GetTVShaders(tvShader);
         LiveCamera.instance.GetTVHackedShaders(tvHackedShader);
+    }   
+    private void OnEnable()
+    {
+        if (EventManager.Instance == null) return;
         EventManager.Instance.Subscribe(EventType.ShowTv, OnShowTv);
         EventManager.Instance.Subscribe(EventType.ReturnGameplay, OnResumeGameplay);
     }

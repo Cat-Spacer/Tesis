@@ -9,9 +9,12 @@ public class Crowd : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
+    }
+    private void OnEnable()
+    {
+        if(GameManager.Instance == null) return;
         EventManager.Instance.Subscribe(EventType.OnChangePeace, OnChangePeace);
     }
-
     private void OnChangePeace(object[] obj)
     {
         Debug.Log("OnChangePeace");

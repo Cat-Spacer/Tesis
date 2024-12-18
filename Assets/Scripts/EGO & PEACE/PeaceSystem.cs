@@ -24,7 +24,10 @@ public class PeaceSystem : MonoBehaviour
             _nullFace.gameObject.SetActive(true);
         foreach (var strikes in _angryFace) strikes.gameObject.SetActive(false);
         foreach (var shield in _happyFace) shield.gameObject.SetActive(false);
-        
+    }
+    private void OnEnable()
+    {
+        if(EventManager.Instance == null) return;
         EventManager.Instance.Subscribe(EventType.OnChangePeace, LosePeace);
         EventManager.Instance.Subscribe(EventType.OnGetShield, SumPeace);
     }

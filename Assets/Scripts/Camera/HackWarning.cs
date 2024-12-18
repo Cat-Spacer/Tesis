@@ -10,8 +10,6 @@ public class HackWarning : MonoBehaviour
     private void Start()
     {
         animator = GetComponent<Animator>();
-        EventManager.Instance.Subscribe(EventType.OnLive, OnLive);
-        EventManager.Instance.Subscribe(EventType.OffLive, OffLive);
     }
 
     private void OnEnable()

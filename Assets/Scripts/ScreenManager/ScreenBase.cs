@@ -9,10 +9,12 @@ public abstract class ScreenBase : MonoBehaviour
     public virtual void OnAwake()
     {
         SetCamera(_canvasLayer);
-
-        if (EventManager.Instance) EventManager.Instance.Subscribe(EventType.OnResumeGame, FreeEvent);
     }
-
+    private void OnEnable()
+    {
+        if(GameManager.Instance == null) return;
+        EventManager.Instance.Subscribe(EventType.OnResumeGame, FreeEvent);
+    }
     public virtual void SetCamera(int canvasLayer = 0)
     {
         Canvas screenCanvas = GetComponent<Canvas>();

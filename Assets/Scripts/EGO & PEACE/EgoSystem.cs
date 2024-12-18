@@ -20,10 +20,15 @@ public class EgoSystem : MonoBehaviour
 
     private void Start()
     {
-        EventManager.Instance.Subscribe(EventType.OnUpdateEgoPoints, OnUpdatePoints);
         var texts = LiveCamera.instance.GetPointsText();
         catText = texts[0];
         hamsterText = texts[1];
+    }
+
+    private void OnEnable()
+    {
+        if(EventManager.Instance == null) return;
+        EventManager.Instance.Subscribe(EventType.OnUpdateEgoPoints, OnUpdatePoints);
     }
 
     private void OnUpdatePoints(object[] obj)

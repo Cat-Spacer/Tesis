@@ -43,6 +43,10 @@ public class Inputs : MonoBehaviour
             _catCharacter = _character.GetComponent<CatCharacter>();
             InputAction = CatInputs;
         }
+    }
+    private void OnEnable()
+    {
+        if(GameManager.Instance == null) return;
         EventManager.Instance.Subscribe(EventType.OnFinishGame, OnFinishGame);
         EventManager.Instance.Subscribe(EventType.OnLoseGame, OnFinishGame);
     }

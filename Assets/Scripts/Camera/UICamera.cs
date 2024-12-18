@@ -31,11 +31,14 @@ public class UICamera : MonoBehaviour
     {
         //uiCam.gameObject.SetActive(true);
         animator = GetComponent<Animator>();
-        EventManager.Instance.Subscribe(EventType.ShowTv, OnShowTv);
-        EventManager.Instance.Subscribe(EventType.ReturnGameplay, OnResumeGameplay);
         //gameplayCam.gameObject.SetActive(false);
     }
-
+    private void OnEnable()
+    {
+        if (EventManager.Instance == null) return;
+        EventManager.Instance.Subscribe(EventType.ShowTv, OnShowTv);
+        EventManager.Instance.Subscribe(EventType.ReturnGameplay, OnResumeGameplay);
+    }
     public void StartGameplay()
     {
         animator.Play("StartGameplay");

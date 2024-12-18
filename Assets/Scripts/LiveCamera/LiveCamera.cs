@@ -43,10 +43,6 @@ public class LiveCamera : MonoBehaviour
     }
     private void Start()
     {
-        EventManager.Instance.Subscribe(EventType.OnResumeGame, OnResumeGame);
-        EventManager.Instance.Subscribe(EventType.OnPauseGame, OnPauseGame);
-        EventManager.Instance.Subscribe(EventType.OnFinishGame, OnFinishGame);
-        EventManager.Instance.Subscribe(EventType.OnLoseGame, OnFinishGame);
         menu.SetActive(false);
         current = _hackTimes.Count - 1;
         if (onTutorial)
@@ -57,12 +53,19 @@ public class LiveCamera : MonoBehaviour
             _levelTimer.OnLive();
         }
     }
+    private void OnEnable()
+    {
+        if(GameManager.Instance == null) return;
+        EventManager.Instance.Subscribe(EventType.OnResumeGame, OnResumeGame);
+        EventManager.Instance.Subscribe(EventType.OnPauseGame, OnPauseGame);
+        EventManager.Instance.Subscribe(EventType.OnFinishGame, OnFinishGame);
+        EventManager.Instance.Subscribe(EventType.OnLoseGame, OnFinishGame);
+    }
 
     public void HackingWarning()
     {
         _hacker.Play("Appear");
     }
-
     private void OnFinishGame(object[] obj)
     {
         menu.SetActive(false);

@@ -22,7 +22,6 @@ public class HamsterCanvas : PlayerCanvas
 
     protected override void Start()
     {
-        EventManager.Instance.Subscribe(EventType.ViewPlayerIndicator, OnViewPlayerIndicator);
         interactButton = p1InteractButton;
         playerIndicator = p1Indicator;
         leftKey = p1LeftKey;
@@ -30,7 +29,6 @@ public class HamsterCanvas : PlayerCanvas
         upKey = p1UpKey;
         downKey = p1DownKey;
     }
-
     public void HideArrows()
     {
         upKey.SetActive(false);

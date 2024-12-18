@@ -12,10 +12,13 @@ public class MenuButtons : MonoBehaviour
     protected virtual void Start()
     {
         _menu.SetActive(false);
+    }
+    private void OnEnable()
+    {
+        if(GameManager.Instance == null) return;
         EventManager.Instance.Subscribe(EventType.OnStartGame, OnStartGame);
         EventManager.Instance.Subscribe(EventType.OnLoseGame, OnLoseGame);
     }
-
     private void OnStartGame(object[] obj)
     {
         _onStartGame = true;

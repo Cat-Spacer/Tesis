@@ -53,8 +53,6 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
         specialState.SetUp(_rb, _model, input, _data, this);
         _oldState = idleState;
         state = idleState;
-
-        EventManager.Instance.Subscribe(EventType.OnUpdateEgoPoints, OnUpdatePoints);
     }
     protected virtual void OnUpdatePoints(object[] obj) {}
     private void OnEnable()

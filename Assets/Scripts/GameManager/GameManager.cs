@@ -47,19 +47,20 @@ public class GameManager : MonoBehaviour
     {
         GetLevels();
         _mouseCoroutine = StartCoroutine(CheckMouseMovement());
-        EventManager.Instance.Subscribe(EventType.OnLoseGame, OnLoseGame);
-        EventManager.Instance.Subscribe(EventType.OnFinishGame, OnFinishGame);
-        EventManager.Instance.Subscribe(EventType.OnResumeGame, OnResumeGame);
-        EventManager.Instance.Subscribe(EventType.OnPauseGame, OnPauseGame);
-
         if (SoundManager.instance)
         {
             SoundManager.instance.Play(SoundsTypes.Music, null, true);
         }
-
         if (mainGame) StartCoroutine(DisableByBehaviour(0.1f));
     }
-
+    private void OnEnable()
+    {
+        if(EventManager.Instance == null) return;
+        EventManager.Instance.Subscribe(EventType.OnLoseGame, OnLoseGame);
+        EventManager.Instance.Subscribe(EventType.OnFinishGame, OnFinishGame);
+        EventManager.Instance.Subscribe(EventType.OnResumeGame, OnResumeGame);
+        EventManager.Instance.Subscribe(EventType.OnPauseGame, OnPauseGame);
+    }
     private void OnPauseGame(object[] obj)
     {
         if (_mouseCoroutine != null) StopCoroutine(_mouseCoroutine);
