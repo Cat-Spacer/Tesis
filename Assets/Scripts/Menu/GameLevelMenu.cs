@@ -11,8 +11,10 @@ public class GameLevelMenu : MonoBehaviour
     [SerializeField] private LoseMenu _loseMenu;
 
     private bool _onPause = false;
-    private void Start()
+
+    private void OnEnable()
     {
+        if(GameManager.Instance == null) return;
         EventManager.Instance.Subscribe(EventType.OnLoseGame, OnLoseGame);
     }
     private void OnLoseGame(object[] obj)

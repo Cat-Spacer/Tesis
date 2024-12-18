@@ -11,10 +11,13 @@ public class CameraSplit : MonoBehaviour
     {
         image = GetComponent<Image>();
         image.enabled = false;
+    }
+    private void OnEnable()
+    {
+        if (EventManager.Instance == null) return;
         EventManager.Instance.Subscribe(EventType.OnGroupCamera, OnSwitchCameraType);
         EventManager.Instance.Subscribe(EventType.OnSplitCamera, OnSplitCamera);
     }
-
     private void OnSplitCamera(object[] obj)
     {
         image.enabled = true;

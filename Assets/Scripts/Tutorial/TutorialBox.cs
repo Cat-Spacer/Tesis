@@ -28,9 +28,12 @@ public class TutorialBox : MonoBehaviour
     private void Start()
     {
         boxCollider = GetComponent<BoxCollider2D>();
+    }
+    private void OnEnable()
+    {
+        if(GameManager.Instance == null) return;
         EventManager.Instance.Subscribe(EventType.OnStartGame, OnStartGame);
     }
-
     private void OnStartGame(object[] obj)
     {
         boxCollider.enabled = true;

@@ -12,14 +12,16 @@ public class FlowerManager : MonoBehaviour
     [SerializeField] private int currentFlowers = 0;
     private void Start()
     {
+        flowerImage = LiveCamera.instance.GetFlowerImagesUI();
+    }
+    private void OnEnable()
+    {
+        if(EventManager.Instance == null) return;
         EventManager.Instance.Subscribe(EventType.OnPutFlower, OnPutFlower);
         EventManager.Instance.Subscribe(EventType.OnPutGreenFlower, OnPutGreenFlower);
         EventManager.Instance.Subscribe(EventType.OnPutPurpleFlower, OnPutPurpleFlower);
         EventManager.Instance.Subscribe(EventType.OnPutYellowFlower, OnPutYellowFlower);
-
-        flowerImage = LiveCamera.instance.GetFlowerImagesUI();
     }
-
     private void Update()
     {
         if (Input.GetKey(KeyCode.LeftShift))

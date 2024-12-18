@@ -16,17 +16,9 @@ public class PlayerCanvas : MonoBehaviour
 
     protected virtual void Start()
     {
-        EventManager.Instance.Subscribe(EventType.ViewPlayerIndicator, OnViewPlayerIndicator);
         interactButton = p1InteractButton;
         playerIndicator = p1Indicator;
     }
-
-    protected void OnViewPlayerIndicator(object[] obj)
-    {
-        var state = (bool)obj[0];
-        playerIndicator.SetActive(state);
-    }
-
     public virtual void SetPlayerInteractKeys(SO_Inputs inputs)
     {
         if (inputs.inputType == Type.WASD)
@@ -49,10 +41,5 @@ public class PlayerCanvas : MonoBehaviour
     {
         if (interactState) interactButton.gameObject.SetActive(true);
         else interactButton.gameObject.SetActive(false);
-    }
-
-    private void OnDisable()
-    {
-        EventManager.Instance.Unsubscribe(EventType.ViewPlayerIndicator, OnViewPlayerIndicator);
     }
 }

@@ -9,12 +9,12 @@ public class CameraZoomOut : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera virtualCamera;
     private bool catEnter;
     private bool hamsterEnter;
-    private void Start()
+    private void OnEnable()
     {
+        if (EventManager.Instance == null) return;
         EventManager.Instance.Subscribe(EventType.OnPauseGame, OnPauseGame);
         EventManager.Instance.Subscribe(EventType.ReturnGameplay, OnReturnGameplay);
     }
-
     private void OnReturnGameplay(object[] obj)
     {
         virtualCamera.enabled = true;

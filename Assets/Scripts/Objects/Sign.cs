@@ -20,10 +20,7 @@ public class Sign : MonoBehaviour,IInteract
         spriteRenderer = GetComponent<SpriteRenderer>();
         _sign = signs[Random.Range(0, signs.Length)];
         spriteRenderer.sprite = _sign.signSprite;
-        EventManager.Instance.Subscribe(EventType.OnLive, OnLive);
-        EventManager.Instance.Subscribe(EventType.OffLive, OffLive);
     }
-
     private void Draw()
     {
         foreach (var item in particles)

@@ -21,9 +21,12 @@ public class ExitDoor : MonoBehaviour, IInteract
         anim = GetComponent<Animator>();
         _coll = GetComponent<BoxCollider2D>();
         lvlObjective = GetComponentInParent<LevelObjective>();
+    }
+    private void OnEnable()
+    {
+        if(GameManager.Instance == null) return;
         EventManager.Instance.Subscribe(EventType.OnOpenDoors, OnOpenDoors);
     }
-
     private void OnOpenDoors(object[] obj)
     {
         doorIsUnlocked = true;

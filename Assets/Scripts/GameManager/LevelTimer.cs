@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.InputSystem.Android;
 using UnityEngine.UI;
 
 public class LevelTimer : MonoBehaviour
@@ -25,15 +27,6 @@ public class LevelTimer : MonoBehaviour
     private bool startedHackWarning;
     void Start()
     {
-        //EventManager.Instance.Subscribe(EventType.OffLive, OnOffLive);
-        //EventManager.Instance.Subscribe(EventType.OnLive, OnOnLive);
-        EventManager.Instance.Subscribe(EventType.OnResumeGame, OnResumeGame);
-        EventManager.Instance.Subscribe(EventType.OnPauseGame, OnPauseGame);
-        EventManager.Instance.Subscribe(EventType.StartTimer, OnStartTimer);
-        EventManager.Instance.Subscribe(EventType.StopTimer, OnStopTimer);
-        EventManager.Instance.Subscribe(EventType.OnFinishGame, OnFinishGame);
-        EventManager.Instance.Subscribe(EventType.OnLoseGame, OnFinishGame);
-        
         if(LiveCamera.instance != null)
         {
             LiveCamera.instance.SetLevelTime(levelTimer);
@@ -45,6 +38,17 @@ public class LevelTimer : MonoBehaviour
         menu.SetActive(false);
         if (onTutorial) text.text = "-";
         
+    }
+
+    private void OnEnable()
+    {
+        if(GameManager.Instance == null) return;
+        EventManager.Instance.Subscribe(EventType.OnResumeGame, OnResumeGame);
+        EventManager.Instance.Subscribe(EventType.OnPauseGame, OnPauseGame);
+        EventManager.Instance.Subscribe(EventType.StartTimer, OnStartTimer);
+        EventManager.Instance.Subscribe(EventType.StopTimer, OnStopTimer);
+        EventManager.Instance.Subscribe(EventType.OnFinishGame, OnFinishGame);
+        EventManager.Instance.Subscribe(EventType.OnLoseGame, OnFinishGame);
     }
 
     private void OnFinishGame(object[] obj)
