@@ -50,7 +50,6 @@ public class Sign : MonoBehaviour,IInteract
     }
     private void OnEnable()
     {
-        if (EventManager.Instance == null) return;
         EventManager.Instance.Subscribe(EventType.OnLive, OnLive);
         EventManager.Instance.Subscribe(EventType.OffLive, OffLive);
     }
