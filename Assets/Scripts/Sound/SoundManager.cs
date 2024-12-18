@@ -247,6 +247,7 @@ public class SoundManager : MonoBehaviour
             s.source = !request.GetComponent<AudioSource>()
                 ? request.AddComponent<AudioSource>()
                 : Array.Find(request.GetComponents<AudioSource>(), source => source.loop == loop);
+            if(!s.source) s.source = request.AddComponent<AudioSource>();
         }
         else
         {
@@ -351,8 +352,9 @@ public class SoundManager : MonoBehaviour
         return s;
     }
 
-    private IEnumerator FadeOut(Sound sound, float fadeTime)
+    private static IEnumerator FadeOut(Sound sound, float fadeTime)
     {
+        if (!sound.source) yield break;
         while (sound.source.volume > 0)
         {
             sound.source.volume -= sound.volume * Time.deltaTime / fadeTime;
