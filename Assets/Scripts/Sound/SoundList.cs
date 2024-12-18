@@ -4,8 +4,8 @@ using UnityEngine;
 public class SoundList : MonoBehaviour
 {
     [SerializeField] private Sound[] sounds;
-    private LookUpTable<SoundsTypes, Sound> _usedSounds = default;
-    private LookUpTable<string, Sound> _usedSoundsByName = default;
+    private LookUpTable<SoundsTypes, Sound> _usedSounds = null;
+    private LookUpTable<string, Sound> _usedSoundsByName = null;
 
     private void Start()
     {

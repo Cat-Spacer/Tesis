@@ -158,6 +158,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _amount: 1.25
+  _selectedColor: {r: 0, g: 0, b: 0, a: 0}
+  _normalColor: {r: 0, g: 0, b: 0, a: 0}
+  _highlitedColor: {r: 0, g: 0, b: 0, a: 0}
+  _image: {fileID: 0}
 --- !u!1 &2869517127920593051
 GameObject:
   m_ObjectHideFlags: 0
@@ -466,6 +470,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _amount: 1.25
+  _selectedColor: {r: 0, g: 0, b: 0, a: 0}
+  _normalColor: {r: 0, g: 0, b: 0, a: 0}
+  _highlitedColor: {r: 0, g: 0, b: 0, a: 0}
+  _image: {fileID: 0}
 --- !u!1 &4439360982138445573
 GameObject:
   m_ObjectHideFlags: 0
@@ -624,6 +632,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _amount: 1.25
+  _selectedColor: {r: 0, g: 0, b: 0, a: 0}
+  _normalColor: {r: 0, g: 0, b: 0, a: 0}
+  _highlitedColor: {r: 0, g: 0, b: 0, a: 0}
+  _image: {fileID: 0}
 --- !u!1 &6225660768226166438
 GameObject:
   m_ObjectHideFlags: 0
@@ -857,6 +869,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _amount: 1.25
+  _selectedColor: {r: 0, g: 0, b: 0, a: 0}
+  _normalColor: {r: 0, g: 0, b: 0, a: 0}
+  _highlitedColor: {r: 0, g: 0, b: 0, a: 0}
+  _image: {fileID: 0}
 --- !u!1 &6560415334761955554
 GameObject:
   m_ObjectHideFlags: 0
@@ -947,7 +963,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6716206528943000784
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1026,6 +1042,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fbb20ac8db8840419bf98d680a3d880, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tv: {fileID: 0}
   _menu: {fileID: 7939767756315991897}
 --- !u!114 &1794781736829133428
 MonoBehaviour:
@@ -1039,7 +1056,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdf06cb83ebd6824e8cbc22950d77f28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadingScreenIndex: 2
+  _loadingScreenIndex: 2
   _settingsScreenName: Settings_Menu
   _controlsScreenName: Control_Menu
   _creditsScreenName: Credits_Menu
