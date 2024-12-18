@@ -68,7 +68,7 @@ public class TutorialBot : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, target.position) <= distanceToPlayer) return;
         ApplyForce(Seek(target.position));
-        if (_hamster.IsInTube) transform.position += _velocity * (1.75f * Time.deltaTime);
+        if (_hamster.IsInTube && target.GetComponent<HamsterChar>()) transform.position += _velocity * (1.75f * Time.deltaTime);
         else  transform.position += _velocity * Time.deltaTime;
     }
 
