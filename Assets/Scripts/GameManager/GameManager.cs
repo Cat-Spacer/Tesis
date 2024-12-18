@@ -197,7 +197,7 @@ public class GameManager : MonoBehaviour
         _behaviours ??= mainGame.GetComponentsInChildren<Behaviour>();
         foreach (Behaviour b in _behaviours)
         {
-            if (!b) continue;
+            if (!b || b.GetComponent<Animator>()) continue;
             _before[b] = b.enabled;
             if (b.enabled) b.enabled = false;
             if (b.GetComponent<Rigidbody2D>()) b.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
