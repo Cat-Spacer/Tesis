@@ -9803,12 +9803,12 @@ Transform:
   m_GameObject: {fileID: 2842698656264351469}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.25, y: -0.45, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3362995997954495678}
-  m_Father: {fileID: 7478979784363685015}
+  m_Father: {fileID: 1066900238485915600}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!111 &6732543673406405386
 Animation:
@@ -9932,38 +9932,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!1 &5728668542297019460
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7478979784363685015}
-  m_Layer: 0
-  m_Name: HamsterFlag
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7478979784363685015
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5728668542297019460}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.25, y: -0.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 4662344416281381421}
-  m_Father: {fileID: 1066900238485915600}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7618422224932501250
 GameObject:
   m_ObjectHideFlags: 0
@@ -9997,7 +9965,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7478979784363685015}
+  - {fileID: 4662344416281381421}
   - {fileID: 888118646166871327}
   - {fileID: 154404572527009976}
   - {fileID: 4246818012901015129}
@@ -10046,7 +10014,7 @@ SpriteRenderer:
   m_SortingLayerID: -1510253325
   m_SortingLayer: 3
   m_SortingOrder: 1
-  m_Sprite: {fileID: -1815935061, guid: 2cd97134d0ca4ec4ea2149e7e4bdf354, type: 3}
+  m_Sprite: {fileID: 924091790, guid: 1ef9b3d3c9b597b4b97949ad08da93ca, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -10137,7 +10105,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.5, y: 1.6660239}
+    oldSize: {x: 0.49428567, y: 1.662857}
     newSize: {x: 7.48, y: 24.748045}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
