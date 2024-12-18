@@ -145,7 +145,7 @@ public class SoundManager : MonoBehaviour
         Sound s = SearchForRandomSound(nameType);
         if (s == null)
         {
-            Debug.LogWarning($"<color=yellow>Sound: {nameType} not found!</color>");
+            Debug.LogWarning($"<color=yellow>Sound: {nameType} not found on Play by type!</color>");
             return;
         }
 
@@ -168,7 +168,7 @@ public class SoundManager : MonoBehaviour
         Sound s = SearchForRandomSound(_usedSoundsByName.ReturnValue(soundName).nameType);
         if (s == null)
         {
-            Debug.LogWarning($"<color=yellow>Sound: {soundName} not found!</color>");
+            Debug.LogWarning($"<color=yellow>Sound: {soundName} not found on Play by name!</color>");
             return;
         }
 
@@ -186,7 +186,7 @@ public class SoundManager : MonoBehaviour
         Sound s = SearchForRandomSound(_usedSoundsByName.ReturnValue(soundName).nameType);
         if (s == null)
         {
-            Debug.LogWarning($"<color=yellow>Sound: {soundName} not found!</color>");
+            Debug.LogWarning($"<color=yellow>Sound: {soundName} not found on SearchForRandomSound!</color>");
             return;
         }
 
