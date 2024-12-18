@@ -2573,7 +2573,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b825e910c6e682c44bc1f6d0eb5f6184, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tubeSystem: {fileID: 0}
+  tubeSystem: {fileID: 1835849930}
   playerInTube: 0
   isCheckpoint: 0
   isEntry: 0
@@ -5206,14 +5206,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b825e910c6e682c44bc1f6d0eb5f6184, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tubeSystem: {fileID: 0}
+  tubeSystem: {fileID: 1835849930}
   playerInTube: 0
   isCheckpoint: 1
   isEntry: 0
   rightTube: {fileID: 0}
   leftTube: {fileID: 0}
   upTube: {fileID: 1913816606}
-  downTube: {fileID: 0}
+  downTube: {fileID: 901738765}
 --- !u!1001 &795610673
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6570,7 +6570,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b825e910c6e682c44bc1f6d0eb5f6184, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tubeSystem: {fileID: 0}
+  tubeSystem: {fileID: 1835849930}
   playerInTube: 0
   isCheckpoint: 0
   isEntry: 0
@@ -6769,6 +6769,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1110371809}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1136176405 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7042327390902667714, guid: 3fd5c71c81faf7b4db5691bae0f9fde8,
+    type: 3}
+  m_PrefabInstance: {fileID: 2191968379677151486}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b825e910c6e682c44bc1f6d0eb5f6184, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1144326605 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4669196205645632594, guid: 0cdca6e5ecf24db44a37e6584407150b,
@@ -7433,7 +7445,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b825e910c6e682c44bc1f6d0eb5f6184, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tubeSystem: {fileID: 0}
+  tubeSystem: {fileID: 1835849930}
   playerInTube: 0
   isCheckpoint: 0
   isEntry: 0
@@ -8332,7 +8344,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b825e910c6e682c44bc1f6d0eb5f6184, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tubeSystem: {fileID: 0}
+  tubeSystem: {fileID: 1835849930}
   playerInTube: 0
   isCheckpoint: 0
   isEntry: 0
@@ -9618,7 +9630,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b825e910c6e682c44bc1f6d0eb5f6184, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tubeSystem: {fileID: 0}
+  tubeSystem: {fileID: 1835849930}
   playerInTube: 0
   isCheckpoint: 0
   isEntry: 0
@@ -74899,9 +74911,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 811791996262991364, guid: 3fd5c71c81faf7b4db5691bae0f9fde8,
         type: 3}
+      propertyPath: leftTube
+      value: 
+      objectReference: {fileID: 1136176405}
+    - target: {fileID: 811791996262991364, guid: 3fd5c71c81faf7b4db5691bae0f9fde8,
+        type: 3}
       propertyPath: rightTube
       value: 
       objectReference: {fileID: 1351584767}
+    - target: {fileID: 811791996262991364, guid: 3fd5c71c81faf7b4db5691bae0f9fde8,
+        type: 3}
+      propertyPath: tubeSystem
+      value: 
+      objectReference: {fileID: 1835849930}
     - target: {fileID: 811791996262991364, guid: 3fd5c71c81faf7b4db5691bae0f9fde8,
         type: 3}
       propertyPath: isCheckpoint
@@ -85222,6 +85244,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 7284019568194400704}
     m_Modifications:
+    - target: {fileID: 522743082088108485, guid: 0cdca6e5ecf24db44a37e6584407150b,
+        type: 3}
+      propertyPath: levelTimer
+      value: 250
+      objectReference: {fileID: 0}
     - target: {fileID: 928388817486930829, guid: 0cdca6e5ecf24db44a37e6584407150b,
         type: 3}
       propertyPath: m_Color.b
@@ -85236,6 +85263,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1112300691474571451, guid: 0cdca6e5ecf24db44a37e6584407150b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 1.6999817
       objectReference: {fileID: 0}
     - target: {fileID: 2003389508361574009, guid: 0cdca6e5ecf24db44a37e6584407150b,
         type: 3}
@@ -85441,6 +85473,11 @@ PrefabInstance:
         type: 3}
       propertyPath: _tvHackedShader.Array.data[2]
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7685825551544269504, guid: 0cdca6e5ecf24db44a37e6584407150b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 1.6999817
       objectReference: {fileID: 0}
     - target: {fileID: 7815114376782265759, guid: 0cdca6e5ecf24db44a37e6584407150b,
         type: 3}

@@ -18,7 +18,15 @@ public class MenuButtons : MonoBehaviour
         if(GameManager.Instance == null) return;
         EventManager.Instance.Subscribe(EventType.OnStartGame, OnStartGame);
         EventManager.Instance.Subscribe(EventType.OnLoseGame, OnLoseGame);
+        EventManager.Instance.Subscribe(EventType.OnFinishGame, OnFinishGame);
     }
+
+    private void OnFinishGame(object[] obj)
+    {
+        _onFinishGame = true;
+        if (GameManager.Instance) StartCoroutine(GameManager.Instance.DisableByBehaviour());
+    }
+
     private void OnStartGame(object[] obj)
     {
         _onStartGame = true;
@@ -85,5 +93,6 @@ public class MenuButtons : MonoBehaviour
     {
         EventManager.Instance.Unsubscribe(EventType.OnStartGame, OnStartGame);
         EventManager.Instance.Unsubscribe(EventType.OnLoseGame, OnLoseGame);
+        EventManager.Instance.Unsubscribe(EventType.OnFinishGame, OnFinishGame);
     }
 }
