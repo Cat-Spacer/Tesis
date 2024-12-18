@@ -12,14 +12,12 @@ public class CatChekpoint : MonoBehaviour
     [SerializeField] ParticleSystem[] _checkParticles;
     [SerializeField] private Animation _catFlagAnimation;
     [SerializeField] Animator _catFlagAnimator;
-    
-    void Update()
+    [SerializeField] ParticleSystem _catCircle;
+
+    private void OnTriggerEnter2D(Collider2D trigger)
     {
-        var coll = Physics2D.OverlapBox(transform.position, _boxArea, 0, _players);
-        if (!coll) return;
-        
-        var player = coll.gameObject.GetComponent<PlayerCharacter>();
-        if (!player.gameObject) return;
+        var player = trigger.GetComponent<PlayerCharacter>();
+        if (player == null) return;
         if (player.GetCharType() == CharacterType.Cat)
         {
             if (_catIsOn) return;
@@ -29,12 +27,15 @@ public class CatChekpoint : MonoBehaviour
             {
                 item.Play();
             }
+            _catCircle.Play();
             _catFlagAnimation.Play();
             _catParticle.Play();
             SoundManager.instance.Play(SoundsTypes.Checpoint, gameObject);
             GetComponent<AudioSource>().playOnAwake = false;
         }
     }
+
+
 
     private IEnumerator CleanAudioSources()
     {
