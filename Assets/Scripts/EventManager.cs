@@ -25,7 +25,10 @@ public enum EventType
     OnPutFlower,
     OnOpenDoors, 
     ShowTv,
-    ReturnGameplay
+    ReturnGameplay,
+    OnPutGreenFlower,
+    OnPutYellowFlower,
+    OnPutPurpleFlower,
 }
 public class EventManager : MonoBehaviour
 {

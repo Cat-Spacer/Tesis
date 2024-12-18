@@ -30,13 +30,13 @@ public class FlagChekpoint : MonoBehaviour
         if (character.GetCharType() == CharacterType.Cat) _isCat = state;
         if (character.GetCharType() == CharacterType.Hamster) _isHamster = state;
     }
-    private void OnTriggerExit2D(Collider2D trigger)
+  /*  private void OnTriggerExit2D(Collider2D trigger)
     {
         var playerCharacter = trigger.GetComponent<PlayerCharacter>();
         if (playerCharacter == null) return;
 
         UpdateCharacterState(playerCharacter, false);
-    }
+    }*/
 
 
     private void OnCheckPoint()

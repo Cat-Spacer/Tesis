@@ -40,9 +40,11 @@ public class HamsterChar : PlayerCharacter
 
     public void GetInTube(Vector3 targetPosition, Tube tube)
     {
-        Debug.Log("TryGetInOfTube");
+        if (!_ifShrink)
+        {
+            Special();
+        }
         if (_inTube || !_ifShrink || isMoving) return;
-        Debug.Log("GetInOfTube");
         tube.OnPlayerEnter(true);
 
         _model.PlayParticle(ParticleType.Tube);
@@ -58,7 +60,6 @@ public class HamsterChar : PlayerCharacter
 
     public void GetOutOfTube(Vector2 targetPosition, Tube tube)
     {
-        Debug.Log("TryGetOutOfTube");
         tube.OnPlayerEnter(false);
         _tubeEntry = targetPosition;
         _model.PlayParticle(ParticleType.Tube);
@@ -69,6 +70,7 @@ public class HamsterChar : PlayerCharacter
 
     void GetInWorld()
     {
+        Debug.Log("TryGetInWorld");
         if (Vector2.Distance(transform.position, _tubeEntry) < .1f)
         {
             isMoving = false;
@@ -76,7 +78,6 @@ public class HamsterChar : PlayerCharacter
             _rb.simulated = true;
             _inTube = false;
             canvas.HideArrows();
-            //_inputs.ChangeToTubesInputs(false);
             _TubesMovementAction = delegate { };
             _rb.velocity = Vector2.zero;
         }
@@ -106,21 +107,43 @@ public class HamsterChar : PlayerCharacter
         if (dir == new Vector2(1, 0))
         {
             _model.FaceDirection(1);
-            //_model.spRenderer.flipX = true;
+            if (_currentTube.MoveRight() != null && _currentTube.MoveRight().IsEntry())
+            {
+                Debug.Log("Exit with Arrows");
+                GetOutOfTube(_currentTube.MoveRight().transform.position, _currentTube.MoveRight());
+                return;
+            }
             MoveToNextTube(_currentTube.MoveRight());
         }
         if (dir == new Vector2(-1, 0))
         {
             _model.FaceDirection(-1);
-            // _model.spRenderer.flipX = false;
+            if (_currentTube.MoveLeft() != null && _currentTube.MoveLeft().IsEntry())
+            {
+                Debug.Log("Exit with Arrows");
+                GetOutOfTube(_currentTube.MoveLeft().transform.position, _currentTube.MoveLeft());
+                return;
+            }
             MoveToNextTube(_currentTube.MoveLeft());
         }
         if (dir == new Vector2(0, 1))
         {
+            if (_currentTube.MoveUp()!= null && _currentTube.MoveUp().IsEntry())
+            {
+                Debug.Log("Exit with Arrows");
+                GetOutOfTube(_currentTube.MoveUp().transform.position, _currentTube.MoveUp());
+                return;
+            }
             MoveToNextTube(_currentTube.MoveUp());
         }
         if (dir == new Vector2(0, -1))
         {
+            if (_currentTube.MoveDown() != null && _currentTube.MoveDown().IsEntry())
+            {
+                Debug.Log("Exit with Arrows");
+                GetOutOfTube(_currentTube.MoveDown().transform.position, _currentTube.MoveDown());
+                return;
+            }
             MoveToNextTube(_currentTube.MoveDown());
         }
     }

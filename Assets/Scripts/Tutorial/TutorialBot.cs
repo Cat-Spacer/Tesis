@@ -62,6 +62,7 @@ public class TutorialBot : MonoBehaviour
     }
     private void Update()
     {
+        if (Vector3.Distance(transform.position, target.position) <= distanceToPlayer) return;
         ApplyForce(Seek(target.position));
         transform.position += _velocity * Time.deltaTime;
     }

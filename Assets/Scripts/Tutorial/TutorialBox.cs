@@ -28,7 +28,6 @@ public class TutorialBox : MonoBehaviour
     private void Start()
     {
         boxCollider = GetComponent<BoxCollider2D>();
-        boxCollider.enabled = false;
         EventManager.Instance.Subscribe(EventType.OnStartGame, OnStartGame);
     }
 
@@ -78,6 +77,7 @@ public class TutorialBox : MonoBehaviour
         var player = other.GetComponent<PlayerCharacter>();
         if (player == null) return;
         var playerType = player.GetCharType();
+        Debug.Log("FoundPlayer");
         if (sharedTutorial)
         {
             if (playerType == CharacterType.Cat) catBot.P1ChangeAnimation(TutorialBoxType.None); //Es Gato

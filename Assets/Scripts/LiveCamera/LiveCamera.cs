@@ -26,7 +26,7 @@ public class LiveCamera : MonoBehaviour
     [SerializeField] private TextMeshProUGUI[] _pointsText; 
     [SerializeField] private Image[] strikesImages;
     [SerializeField] private Image[] shieldStrikesImages;
-    [SerializeField] private Image[] flowerImages;
+    [SerializeField] private FlowerUI[] flowerImages;
     [SerializeField] private GameObject onLiveMenu;
     [SerializeField] private GameObject offLiveMenu;
     [SerializeField] private GameObject menu;
@@ -138,7 +138,7 @@ public class LiveCamera : MonoBehaviour
     {
         return shieldStrikesImages;
     }    
-    public Image[] GetFlowerImagesUI()
+    public FlowerUI[] GetFlowerImagesUI()
     {
         return flowerImages;
     }
