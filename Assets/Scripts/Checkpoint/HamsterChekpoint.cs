@@ -12,29 +12,29 @@ public class HamsterChekpoint : MonoBehaviour
     [SerializeField] ParticleSystem[] _checkParticles;
     [SerializeField] private Animation _hamsterFlagAnimation;
     [SerializeField] Animator _hamsterFlagAnimator;
+    [SerializeField] ParticleSystem _hamsterCircle;
 
-    void Update()
-    {
-        var coll = Physics2D.OverlapBox(transform.position, _boxArea, 0, _players);
-        if (!coll) return;
-
-        var player = coll.gameObject.GetComponent<PlayerCharacter>();
-        if (!player.gameObject) return;
-        if (player.GetCharType() == CharacterType.Hamster)
+    
+        private void OnTriggerEnter2D(Collider2D trigger)
         {
-            if (_hamsterIsOn) return;
-            _hamsterIsOn = true;
-            GameManager.Instance.SetHamsterRespawnPoint(transform.position);
-            foreach (var item in _checkParticles)
+            var player = trigger.GetComponent<PlayerCharacter>();
+            if (player == null) return;
+            if (player.GetCharType() == CharacterType.Hamster)
             {
-                item.Play();
+                if (_hamsterIsOn) return;
+                _hamsterIsOn = true;
+                GameManager.Instance.SetHamsterRespawnPoint(transform.position);
+                foreach (var item in _checkParticles)
+                {
+                    item.Play();
+                }
+                _hamsterCircle.Play();
+                _hamsterFlagAnimation.Play();
+                _hamsterParticle.Play();
+                SoundManager.instance.Play(SoundsTypes.Checpoint, gameObject);
+                GetComponent<AudioSource>().playOnAwake = false;
             }
-            _hamsterFlagAnimation.Play();
-            _hamsterParticle.Play();
-            SoundManager.instance.Play(SoundsTypes.Checpoint, gameObject);
-            GetComponent<AudioSource>().playOnAwake = false;
         }
-    }
 
     private IEnumerator CleanAudioSources()
     {
