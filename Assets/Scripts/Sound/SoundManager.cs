@@ -67,7 +67,10 @@ public enum SoundsTypes
     Error,
     Magic,
     GateOpen,
-    GateClose
+    GateClose,
+    LockOpen,
+    LockClose,
+    CrowdSurprised
 }
 
 public class SoundManager : MonoBehaviour

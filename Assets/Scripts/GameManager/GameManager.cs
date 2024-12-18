@@ -34,7 +34,6 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         pause = true;
-        //Time.timeScale = 0;
         if (Instance == null) Instance = this;
         _respawnManager = GetComponentInChildren<Respawn>();
         _lastMousePosition = Input.mousePosition;
@@ -190,14 +189,12 @@ public class GameManager : MonoBehaviour
 
             door.Open();
         }
-
-        //Time.timeScale = 1f;
     }
 
     public IEnumerator DisableByBehaviour(float seconds = 0f)
     {
         yield return new WaitForSeconds(seconds);
-        if (_behaviours == null) _behaviours = mainGame.GetComponentsInChildren<Behaviour>();
+        _behaviours ??= mainGame.GetComponentsInChildren<Behaviour>();
         foreach (Behaviour b in _behaviours)
         {
             if (!b) continue;

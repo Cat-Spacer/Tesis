@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TutorialBot : MonoBehaviour
@@ -16,7 +13,7 @@ public class TutorialBot : MonoBehaviour
     private void Start()
     {
         animator = GetComponent<Animator>();
-        _hamster = GameManager.Instance.GetHamster().GetComponent<HamsterChar>();
+        if(target.GetComponentInParent<HamsterChar>()) _hamster = GameManager.Instance.GetHamster().GetComponent<HamsterChar>();
     }
 
     Vector3 Seek(Vector3 targetPos)
@@ -68,8 +65,15 @@ public class TutorialBot : MonoBehaviour
     {
         if (Vector3.Distance(transform.position, target.position) <= distanceToPlayer) return;
         ApplyForce(Seek(target.position));
-        if (_hamster.IsInTube && target.GetComponent<HamsterChar>()) transform.position += _velocity * (1.75f * Time.deltaTime);
-        else  transform.position += _velocity * Time.deltaTime;
+        if (_hamster)
+        {
+            float speedMultiplier = _hamster.IsInTube ? 1.75f : 1f;
+            transform.position += _velocity * (speedMultiplier * Time.deltaTime);
+        }
+        else
+        {
+            transform.position += _velocity * Time.deltaTime;
+        }
     }
 
     public void P1ChangeAnimation(TutorialBoxType type)
