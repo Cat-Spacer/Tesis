@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
 public enum SoundsTypes
 {
@@ -77,7 +78,7 @@ public class SoundManager : MonoBehaviour
     private LookUpTable<string, Sound> _usedSoundsByName = null;
 
     [SerializeField] private int _limit = 15;
-    [SerializeField] private float _fadeTimer = 0.25f, _minDistance = 9.0f;
+    [SerializeField] private float _fadeTimer = 0.25f, _spatialBlend = 0.5f, _minDistance = 9.0f;
 
     private bool _flag = true;
     [SerializeField] private AudioMixer _mixer = null;
@@ -152,12 +153,7 @@ public class SoundManager : MonoBehaviour
         if (s.source.gameObject.activeSelf)
         {
             s.source.Play();
-            if (!s.source.loop)
-            {
-                //s.source.PlayOneShot(s.clip, s.volume);
-                if (request) StartCoroutine(FadeOut(s.source, s.clip.length + _fadeTimer));
-            }
-            //else s.source.Play();
+            if (!s.source.loop && request) StartCoroutine(FadeOut(s, s.clip.length + _fadeTimer));
         }
 
         if (!request || !GameManager.Instance) return;
@@ -208,8 +204,9 @@ public class SoundManager : MonoBehaviour
 
         s = SoundSet(s, request);
         if (!s.source) return;
-        if (s.source.gameObject.activeSelf && s.source.isPlaying)
-            StartCoroutine(FadeOut(s.source, _fadeTimer));
+        if (s.source.gameObject.activeSelf && s.source.isPlaying && !s.source.loop)
+            StartCoroutine(FadeOut(s, _fadeTimer));
+        else s.source.Pause();
     }
 
     public void Pause(string soundName)
@@ -237,7 +234,7 @@ public class SoundManager : MonoBehaviour
     private Sound SoundSet(Sound s, GameObject request = null, bool loop = false)
     {
         if (s == null) return null;
-
+        Sound aux = null;
         if (request && request != gameObject)
         {
             AudioSource audioSource = FoundEqualSound(s.clip, request);
@@ -250,9 +247,12 @@ public class SoundManager : MonoBehaviour
             s.source = !request.GetComponent<AudioSource>()
                 ? request.AddComponent<AudioSource>()
                 : Array.Find(request.GetComponents<AudioSource>(), source => source.loop == loop);
-            if(!s.source) s.source = request.AddComponent<AudioSource>();
         }
-        else if (ManagerAudioSourceConfig(s, loop)) return s;
+        else
+        {
+            aux = ManagerAudioSourceConfig(s, loop);
+            if (aux != null) return aux;
+        }
 
         if (s.nameType == SoundsTypes.Music)
         {
@@ -279,12 +279,14 @@ public class SoundManager : MonoBehaviour
         {
             s.source.clip = s.clip;
             s.source.outputAudioMixerGroup = s.audioMixerGroup;
-            s.source.volume = s.volume;
+            if (s.nameType == SoundsTypes.Music && SceneManager.GetActiveScene().buildIndex > 3)
+                s.source.volume = s.volume * 0.5f;
+            else s.source.volume = s.volume;
             s.source.pitch = s.pitch;
             s.source.loop = loop;
             s.source.playOnAwake = s.source.gameObject.CompareTag("Untagged");
             if (!request) return s;
-            s.source.spatialBlend = 1f;
+            s.source.spatialBlend = _spatialBlend;
             s.source.minDistance = _minDistance;
             return s;
         }
@@ -293,7 +295,7 @@ public class SoundManager : MonoBehaviour
         return s;
     }
 
-    private bool ManagerAudioSourceConfig(Sound s, bool loop)
+    private Sound ManagerAudioSourceConfig(Sound s, bool loop, int limit = 0)
     {
         AudioSource[] allSourcess = GetComponents<AudioSource>();
         int count = 0;
@@ -301,7 +303,7 @@ public class SoundManager : MonoBehaviour
         {
             if (source.clip)
                 if (source.clip == s.clip)
-                    return true;
+                    return s;
             if (source.outputAudioMixerGroup != s.audioMixerGroup) continue;
 
             count++;
@@ -314,10 +316,10 @@ public class SoundManager : MonoBehaviour
             source.pitch = s.pitch;
             source.loop = loop;
 
-            return true;
+            return s;
         }
 
-        return false;
+        return null;
     }
 
     private Sound SearchSound(SoundsTypes nameType)
@@ -349,19 +351,17 @@ public class SoundManager : MonoBehaviour
         return s;
     }
 
-    private IEnumerator FadeOut(AudioSource source, float fadeTime)
+    private IEnumerator FadeOut(Sound sound, float fadeTime)
     {
-        float startVolume = source.volume;
-
-        while (source.volume > 0)
+        while (sound.source.volume > 0)
         {
-            source.volume -= startVolume * Time.deltaTime / fadeTime;
+            sound.source.volume -= sound.volume * Time.deltaTime / fadeTime;
 
             yield return null;
         }
 
-        source.volume = startVolume;
-        source.Stop();
+        sound.source.volume = sound.volume;
+        sound.source.Stop();
     }
 
     public void SetMixerVolume(string mixerName, float volume)
