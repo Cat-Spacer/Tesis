@@ -95,7 +95,7 @@ public class LiveCamera : MonoBehaviour
     void GoOnAir()
     { 
         EventManager.Instance.Trigger(EventType.OnLive);
-        if(SoundManager.instance != null) SoundManager.instance.Play(SoundsTypes.LockOpen, gameObject);
+        if(SoundManager.instance) SoundManager.instance.Play(SoundsTypes.LockOpen);
         _onAir = true;
         ActivateCamera();
         _levelTimer.OnLive();
@@ -107,14 +107,14 @@ public class LiveCamera : MonoBehaviour
         _levelTimer.OffLive();
         StartCoroutine(TimeUntilGoOnAir(_hackTime));
     }
-    
-    IEnumerator TimeUntilGoOnAir(float time)
+
+    private IEnumerator TimeUntilGoOnAir(float time)
     {
         yield return new WaitForSeconds(time);
         GoOnAir();
     }
 
-    void ActivateCamera()
+    private void ActivateCamera()
     {
         SetPadLocks(false);
         // onLiveMenu.SetActive(true);
@@ -133,7 +133,8 @@ public class LiveCamera : MonoBehaviour
         //_tvShader.SetActive(false);
         //_tvHackedShader.SetActive(true);
     }
-    void SetPadLocks(bool isActiva)
+
+    private void SetPadLocks(bool isActiva)
     {
         foreach (var item in _padlocksImages)
         {

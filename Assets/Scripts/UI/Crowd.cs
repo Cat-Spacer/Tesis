@@ -12,7 +12,7 @@ public class Crowd : MonoBehaviour
     }
     private void OnEnable()
     {
-        if(GameManager.Instance == null) return;
+        if(!GameManager.Instance) return;
         EventManager.Instance.Subscribe(EventType.OnChangePeace, OnChangePeace);
     }
     private void OnChangePeace(object[] obj)
@@ -20,13 +20,13 @@ public class Crowd : MonoBehaviour
         Debug.Log("OnChangePeace");
         if (isShowing == false)
         {
-            if(SoundManager.instance != null) SoundManager.instance.Play(SoundsTypes.CrowdSurprised, gameObject);
+            if(SoundManager.instance) SoundManager.instance.Play(SoundsTypes.CrowdSurprised);
             isShowing = true;
             animator.Play("ShowCrowd");
         }
     }
 
-    void StopShowing()
+    private void StopShowing()
     {
         isShowing = false;
     }

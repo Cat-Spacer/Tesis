@@ -1,10 +1,6 @@
-using System;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.Rendering;
 using UnityEngine;
-using UnityEngine.InputSystem.Android;
-using UnityEngine.UI;
 
 public class LevelTimer : MonoBehaviour
 {
@@ -25,7 +21,8 @@ public class LevelTimer : MonoBehaviour
     private int currentHackTime;
     private AudioSource _audioSource = default;
     private bool startedHackWarning;
-    void Start()
+
+    private void Start()
     {
         if(LiveCamera.instance != null)
         {
@@ -100,8 +97,8 @@ public class LevelTimer : MonoBehaviour
     {
         _onLive = false;
     }
-    
-    void Update()
+
+    private void Update()
     {
         if (_stopTimer || !_onLive || _onLose || onTutorial) return;
         Countdown();
@@ -114,7 +111,7 @@ public class LevelTimer : MonoBehaviour
         {
             _onLose = true;
             currentTime = 0;
-            SoundManager.instance.Pause(SoundsTypes.TimeBeep, gameObject);
+            SoundManager.instance.Pause(SoundsTypes.TimeBeep);
             EventManager.Instance.Trigger(EventType.OnLoseGame, true);
         }
         else
@@ -139,7 +136,7 @@ public class LevelTimer : MonoBehaviour
                 {
                     LiveCamera.instance.EndHackingWarning();
                     LiveCamera.instance.GoOffAir();
-                    if(SoundManager.instance != null) SoundManager.instance.Play(SoundsTypes.LockClose, gameObject);
+                    if(SoundManager.instance != null) SoundManager.instance.Play(SoundsTypes.LockClose);
                     currentHackTime--;
                     startedHackWarning = false;
                 }
@@ -152,7 +149,7 @@ public class LevelTimer : MonoBehaviour
             {
                 runningOutOfTime = true;
                 animator.Play("OutOfTime");
-                SoundManager.instance.Play(SoundsTypes.TimeBeep, gameObject, true);
+                SoundManager.instance.Play(SoundsTypes.TimeBeep, null, true);
             }
         }
         if(GetComponent<AudioSource>()) _audioSource = GetComponent<AudioSource>();
