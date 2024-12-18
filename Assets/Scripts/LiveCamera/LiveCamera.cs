@@ -95,6 +95,7 @@ public class LiveCamera : MonoBehaviour
     void GoOnAir()
     { 
         EventManager.Instance.Trigger(EventType.OnLive);
+        if(SoundManager.instance != null) SoundManager.instance.Play(SoundsTypes.LockOpen, gameObject);
         _onAir = true;
         ActivateCamera();
         _levelTimer.OnLive();
