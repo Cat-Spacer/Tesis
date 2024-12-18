@@ -13,11 +13,15 @@ public class Sign : MonoBehaviour,IInteract
     [FormerlySerializedAs("sings")] [SerializeField] private SignSprites[] signs = new SignSprites[6];
     [SerializeField] private ParticleSystem[] particles;
     private bool _wasDrawed = false;
+    bool _isLocked = false;
+    [SerializeField] Animator _padlockAnimator;
     private void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         _sign = signs[Random.Range(0, signs.Length)];
         spriteRenderer.sprite = _sign.signSprite;
+        EventManager.Instance.Subscribe(EventType.OnLive, OnLive);
+        EventManager.Instance.Subscribe(EventType.OffLive, OffLive);
     }
 
     private void Draw()
@@ -36,13 +40,37 @@ public class Sign : MonoBehaviour,IInteract
     
     public void Interact(params object[] param)
     {
-        if (_wasDrawed) return;
+        if (_wasDrawed || _isLocked) return;
         Draw();
     }
 
     public void ShowInteract(bool showInteractState)
     {
 
+    }
+    private void OnEnable()
+    {
+        if (EventManager.Instance == null) return;
+        EventManager.Instance.Subscribe(EventType.OnLive, OnLive);
+        EventManager.Instance.Subscribe(EventType.OffLive, OffLive);
+    }
+
+    private void OnLive(object[] obj)
+    {
+        Debug.Log("bro1");
+        _isLocked = false;
+        _padlockAnimator.Play("Unlock");
+    }
+    private void OffLive(object[] obj)
+    {
+        Debug.Log("bro2");
+        _isLocked = true;
+        _padlockAnimator.Play("Locked");
+    }
+    private void OnDisable()
+    {
+        EventManager.Instance.Unsubscribe(EventType.OnLive, OnLive);
+        EventManager.Instance.Unsubscribe(EventType.OffLive, OffLive);
     }
 }
 
