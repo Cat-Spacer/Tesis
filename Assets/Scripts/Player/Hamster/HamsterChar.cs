@@ -43,9 +43,11 @@ public class HamsterChar : PlayerCharacter
     private bool _inTube;
     private float _speed = 8f;
     private Vector2 _currentTubePos;
-    Action _TubesMovementAction = delegate { };
-    Vector3 _tubeEntry;
-    Tube _currentTube, _lastTube;
+    private Action _TubesMovementAction = delegate { };
+    private Vector3 _tubeEntry;
+    private Tube _currentTube, _lastTube;
+    
+    public bool IsInTube => _inTube;
 
     public void GetInTube(Vector3 targetPosition, Tube tube)
     {

@@ -32,12 +32,12 @@ public class StartDoor : MonoBehaviour
     private IEnumerator WaitOpenDoor()
     {
         yield return new WaitForEndOfFrame();
-        SoundManager.instance.Play(SoundsTypes.Block, gameObject);
+        SoundManager.instance.Play(SoundsTypes.GateOpen, gameObject);
     }
     public void Close()
     {
         _anim.Play("Start_Close_Door");
-        SoundManager.instance.Play(SoundsTypes.Block, gameObject);
+        SoundManager.instance.Play(SoundsTypes.GateClose, gameObject);
         // SoundSpawn soundSpawn = gameObject.GetComponentInChildren<SoundSpawn>();
         // if (soundSpawn)
         // {

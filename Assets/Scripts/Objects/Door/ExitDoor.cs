@@ -59,7 +59,7 @@ public class ExitDoor : MonoBehaviour, IInteract
 
     private void PlayerEnter(CharacterType type)
     {
-        SoundManager.instance.Play(SoundsTypes.Block, gameObject);
+        SoundManager.instance.Play(SoundsTypes.GateClose, gameObject);
         lvlObjective.PlayerEnter(type);
         _player.EnterDoor();
         if(type == CharacterType.Cat) DoorAction += LerpCatToDoorPos;
@@ -111,7 +111,7 @@ public class ExitDoor : MonoBehaviour, IInteract
 
     private void PlayerExit()
     {
-        SoundManager.instance.Play(SoundsTypes.Block, gameObject);
+        SoundManager.instance.Play(SoundsTypes.GateOpen, gameObject);
         anim.Play("Exit_Open_Door");
         DoorAction = PlayerCanExit;
     }
@@ -136,6 +136,10 @@ public class ExitDoor : MonoBehaviour, IInteract
     }
 
     private void OnDisable()
+    {
+        EventManager.Instance.Unsubscribe(EventType.OnOpenDoors, OnOpenDoors);
+    }
+    private void OnDestroy()
     {
         EventManager.Instance.Unsubscribe(EventType.OnOpenDoors, OnOpenDoors);
     }

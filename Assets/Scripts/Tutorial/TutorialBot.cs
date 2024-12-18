@@ -6,30 +6,31 @@ using UnityEngine;
 public class TutorialBot : MonoBehaviour
 {
     [SerializeField] private Transform otherBot;
-    [SerializeField] private float distanceToOtherBot;
-    [SerializeField] private float distanceToPlayer;
-    [SerializeField] private float speed;
-    [SerializeField] private float lerpTime;
-    [SerializeField] private Transform target;
-    Animator animator;
-    Vector3 _velocity;
-    [SerializeField] private float maxForce;
-    [SerializeField] private float maxSpeed;
+    [SerializeField] private float distanceToOtherBot = 1f, distanceToPlayer = 0.5f, speed = 4f, lerpTime = 0.5f;
+    [SerializeField] private Transform target = null;
+    private Animator animator = null;
+    private Vector3 _velocity = Vector3.zero;
+    [SerializeField] private float maxForce = 5f, maxSpeed;
+    private HamsterChar _hamster = null;
+
     private void Start()
     {
         animator = GetComponent<Animator>();
+        _hamster = GameManager.Instance.GetHamster().GetComponent<HamsterChar>();
     }
+
     Vector3 Seek(Vector3 targetPos)
     {
         Vector3 desired = targetPos - transform.position;
         desired.Normalize();
         desired *= speed;
-    
+
         Vector3 steering = desired - _velocity;
         steering = Vector3.ClampMagnitude(steering, maxForce);
-    
+
         return steering;
-    }  
+    }
+
     Vector3 Separation()
     {
         Vector3 desired = new Vector3();
@@ -44,6 +45,7 @@ public class TutorialBot : MonoBehaviour
             desired.z += dist.z;
             nearbyBoids++;
         }
+
         if (nearbyBoids == 0) return desired;
         desired /= nearbyBoids;
         desired.Normalize();
@@ -55,16 +57,19 @@ public class TutorialBot : MonoBehaviour
         //steering.y = 0;
         return steering;
     }
+
     void ApplyForce(Vector3 force)
     {
         _velocity += force;
         _velocity = Vector3.ClampMagnitude(_velocity, speed);
     }
+
     private void Update()
     {
         if (Vector3.Distance(transform.position, target.position) <= distanceToPlayer) return;
         ApplyForce(Seek(target.position));
-        transform.position += _velocity * Time.deltaTime;
+        if (_hamster.IsInTube && target.GetComponent<HamsterChar>()) transform.position += _velocity * (1.75f * Time.deltaTime);
+        else  transform.position += _velocity * Time.deltaTime;
     }
 
     public void P1ChangeAnimation(TutorialBoxType type)
@@ -102,8 +107,9 @@ public class TutorialBot : MonoBehaviour
             case TutorialBoxType.HamsterFace:
                 animator.Play("HamsterFace");
                 break;
-        }        
+        }
     }
+
     public void P2ChangeAnimation(TutorialBoxType type)
     {
         if (animator == null) return;
@@ -139,6 +145,6 @@ public class TutorialBot : MonoBehaviour
             case TutorialBoxType.HamsterFace:
                 animator.Play("HamsterFace");
                 break;
-        }        
+        }
     }
 }
