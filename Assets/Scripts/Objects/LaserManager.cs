@@ -6,17 +6,25 @@ using UnityEngine.Serialization;
 
 public class LaserManager : MonoBehaviour
 {
+    private Action activateAction = delegate { };
     [SerializeField] List<Laser> lasers = new List<Laser>();
-    [SerializeField] private float onTime;
-    [SerializeField] private float startDelay;
-    [SerializeField] private float delayLoop;
-    Coroutine loopCoroutine;
+    [SerializeField] private float laserLifeTime;
+    [SerializeField] private float laserDelayTime;
+    private float currentTime;
 
-    private int current; 
+    private int current;
+
     private void Start()
     {
-        loopCoroutine = StartCoroutine(LoopTime());
+        activateAction = DelayTimeCountdown;
+        current = -1;
     }
+
+    private void Update()
+    {
+        activateAction();
+    }
+
     void Open()
     {
         current++;
@@ -26,7 +34,7 @@ public class LaserManager : MonoBehaviour
         {
             laser.Activate();
         }
-        loopCoroutine = StartCoroutine( OnTime());
+
     }
 
     void Close()
@@ -36,21 +44,26 @@ public class LaserManager : MonoBehaviour
             laser.Desactivate();
         }
     }
-    IEnumerator OnTime() //Lasers Lifetime
+    void LifeTimeCountdown()
     {
-        yield return new WaitForSeconds(onTime); 
-        Close();
-        loopCoroutine = StartCoroutine(DelayLoop());
+        currentTime += Time.deltaTime;
+        if (currentTime >= laserLifeTime)
+        {
+            Close();
+            currentTime = 0;
+            activateAction = DelayTimeCountdown;
+        }
     }
-    IEnumerator DelayLoop() //Seconds of grace
+
+    void DelayTimeCountdown()
     {
-        yield return new WaitForSeconds(delayLoop);
-        Open();
-    }
-    IEnumerator LoopTime()
-    {
-        yield return new WaitForSeconds(startDelay);
-        Open();
+        currentTime += Time.deltaTime;
+        if (currentTime >= laserDelayTime)
+        {
+            Open();
+            currentTime = 0;
+            activateAction = LifeTimeCountdown;
+        }
     }
 }
 
