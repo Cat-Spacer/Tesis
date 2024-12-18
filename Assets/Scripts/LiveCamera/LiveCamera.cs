@@ -76,7 +76,6 @@ public class LiveCamera : MonoBehaviour
     {
         if (onTutorial) return;
         GoOnAir();
-        Debug.Log("q");
     }
     void GoOnAir()
     { 
