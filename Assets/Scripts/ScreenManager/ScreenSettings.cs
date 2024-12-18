@@ -12,7 +12,7 @@ public class ScreenSettings : ScreenBase, IScreen
             instance = this;
         else
         {
-            Destroy(gameObject);
+            Destroy(this);
             return;
         }
         OnAwake();

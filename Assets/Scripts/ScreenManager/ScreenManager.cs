@@ -7,16 +7,19 @@ public class ScreenManager : MonoBehaviour
 
     public string lastResult = null;
 
-    static public ScreenManager Instance = null;
+    public static ScreenManager Instance = null;
 
     private void Awake()
     {
         if (!Instance)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
-        else Destroy(this);
+        else
+        {
+            Destroy(this);
+            return;
+        }
 
 
         _stack = new Stack<IScreen>();
@@ -45,4 +48,6 @@ public class ScreenManager : MonoBehaviour
         var go = Instantiate(Resources.Load<GameObject>(resource));
         Push(go.GetComponent<IScreen>());
     }
+    
+    
 }
