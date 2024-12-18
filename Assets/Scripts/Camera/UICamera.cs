@@ -17,6 +17,8 @@ public class UICamera : MonoBehaviour
     [SerializeField] private Camera gameplayCam;
     [SerializeField] private Transform target;
     [SerializeField] private GameObject buttons;
+
+    [SerializeField] GameObject cameraShader;
     
     [SerializeField] public Button[] tvButtons;
     [SerializeField] public Button resumeBtn;
@@ -66,6 +68,7 @@ public class UICamera : MonoBehaviour
         tex.Apply();
             
         screen.sprite = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100);
+        cameraShader.SetActive(true);
         gameplayCam.gameObject.SetActive(false);
         tv.gameObject.SetActive(true);
         screen.gameObject.SetActive(true);
@@ -94,6 +97,7 @@ public class UICamera : MonoBehaviour
     IEnumerator ResumeGameplay()
     {
         yield return new WaitForSecondsRealtime(1f);
+        cameraShader.SetActive(false);
         tv.gameObject.SetActive(false);
         screen.gameObject.SetActive(false);
         screen.gameObject.SetActive(false);
