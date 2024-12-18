@@ -64,7 +64,9 @@ public enum SoundsTypes
     TimeEndBeep,
     Hacking,
     Error,
-    Magic
+    Magic,
+    GateOpen,
+    GateClose
 }
 
 public class SoundManager : MonoBehaviour
@@ -281,7 +283,7 @@ public class SoundManager : MonoBehaviour
             s.source.pitch = s.pitch;
             s.source.loop = loop;
             s.source.playOnAwake = s.source.gameObject.CompareTag("Untagged");
-            if (s.nameType == SoundsTypes.Music && s.nameType != SoundsTypes.Click) return s;
+            if (!request) return s;
             s.source.spatialBlend = 1f;
             s.source.minDistance = _minDistance;
             return s;
