@@ -33,7 +33,7 @@ public class ButtonSizeUpdate : MonoBehaviour, IPointerEnterHandler, IPointerExi
             _image.color = _highlitedColor;
         if (_button.transform.localScale == _originalScale)
             _button.transform.localScale *= _amount;
-        if (SoundManager.instance != null) SoundManager.instance.Play(SoundsTypes.ButtonHover);
+        if (SoundManager.instance) SoundManager.instance.Play(SoundsTypes.ButtonHover);
     }
     public void OnPointerExit(PointerEventData eventData)
     {

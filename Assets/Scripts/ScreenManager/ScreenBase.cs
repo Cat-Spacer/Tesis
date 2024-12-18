@@ -13,7 +13,6 @@ public abstract class ScreenBase : MonoBehaviour
     private void OnEnable()
     {
         if(GameManager.Instance == null) return;
-        EventManager.Instance.Subscribe(EventType.OnResumeGame, FreeEvent);
     }
     public virtual void SetCamera(int canvasLayer = 0)
     {
@@ -34,10 +33,5 @@ public abstract class ScreenBase : MonoBehaviour
     private void FreeEvent(object[] obj)
     {
         Free();
-    }
-
-    private void OnDestroy()
-    {
-        if (EventManager.Instance) EventManager.Instance.Unsubscribe(EventType.OnResumeGame, FreeEvent);
     }
 }
