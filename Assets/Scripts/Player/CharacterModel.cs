@@ -18,7 +18,8 @@ public enum ParticleType
     Tube,
     InTube,
     Attack,
-    Error
+    Error,
+    ExtraScore
 }
 public class CharacterModel : MonoBehaviour
 {
@@ -42,6 +43,7 @@ public class CharacterModel : MonoBehaviour
     [SerializeField] private ParticleSystem _inTubeParticle;
     [SerializeField] private ParticleSystem[] _attackParticle;
     [SerializeField] private ParticleSystem[] _errorParticle;
+    [SerializeField] private ParticleSystem _extraScoreParticle;
     [Header("Imgs")]
     public GameObject stunIcon;
 
@@ -122,6 +124,10 @@ public class CharacterModel : MonoBehaviour
                     foreach (var item in _errorParticle)
                     { item.Play(); }
                 }
+                break;
+            case ParticleType.ExtraScore:
+                if (_extraScoreParticle != null)
+                    _extraScoreParticle.Play();
                 break;
         }
     }

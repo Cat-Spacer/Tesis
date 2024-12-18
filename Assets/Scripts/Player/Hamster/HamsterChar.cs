@@ -23,7 +23,16 @@ public class HamsterChar : PlayerCharacter
         _jumpDefault = _data.jumpForce;
         _defaultGroundCheckArea = _data.groundCheckArea;
     }
+    protected override void OnUpdatePoints(object[] obj)
+    {
+        base.OnUpdatePoints(obj);
+        var type = (CharacterType)obj[0];
 
+        if (type == CharacterType.Hamster)
+        {
+            _model.PlayParticle(ParticleType.ExtraScore);
+        }
+    }
     protected override void FixedUpdate()
     {
         base.FixedUpdate();

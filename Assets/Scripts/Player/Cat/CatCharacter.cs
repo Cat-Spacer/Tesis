@@ -7,6 +7,16 @@ public class CatCharacter : PlayerCharacter
     {
         if (GameManager.Instance) GameManager.Instance.SetCatCharacter = this;
     }
+
+    protected override void OnUpdatePoints(object[] obj)
+    {
+        base.OnUpdatePoints(obj);
+       var type = (CharacterType)obj[0];
+
+        if (type == CharacterType.Cat)
+            _model.PlayParticle(ParticleType.ExtraScore);
+    }
+
     public override void Special()
     {
         if (!_data.onGround && !_data.isPunching && !_data.isStun) return;
@@ -32,4 +42,5 @@ public class CatCharacter : PlayerCharacter
         //Gizmos.DrawWireCube(_data.bounceDetectionLeft.position, _data.bounceSize);
         
     }
+ 
 }
