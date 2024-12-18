@@ -75,7 +75,7 @@ public class SoundManager : MonoBehaviour
     private LookUpTable<string, Sound> _usedSoundsByName = null;
 
     [SerializeField] private int _limit = 15;
-    [SerializeField] private float _fadeTimer = 0.25f;
+    [SerializeField] private float _fadeTimer = 0.25f, _minDistance = 9.0f;
 
     private bool _flag = true;
     [SerializeField] private AudioMixer _mixer = null;
@@ -281,6 +281,9 @@ public class SoundManager : MonoBehaviour
             s.source.pitch = s.pitch;
             s.source.loop = loop;
             s.source.playOnAwake = s.source.gameObject.CompareTag("Untagged");
+            if (s.nameType == SoundsTypes.Music && s.nameType != SoundsTypes.Click) return s;
+            s.source.spatialBlend = 1f;
+            s.source.minDistance = _minDistance;
             return s;
         }
 
