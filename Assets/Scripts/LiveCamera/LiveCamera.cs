@@ -31,6 +31,7 @@ public class LiveCamera : MonoBehaviour
     [SerializeField] private GameObject offLiveMenu;
     [SerializeField] private GameObject menu;
     [SerializeField] private Image[] _padlocksImages;
+    [SerializeField] private Animator _hacker;
 
     [SerializeField] private bool onTutorial = false;
     
@@ -55,6 +56,11 @@ public class LiveCamera : MonoBehaviour
             //EventManager.Instance.Trigger(EventType.OnLive);
             _levelTimer.OnLive();
         }
+    }
+
+    public void HackingWarning()
+    {
+        _hacker.Play("Appear");
     }
 
     private void OnFinishGame(object[] obj)

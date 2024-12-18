@@ -128,6 +128,7 @@ public class LevelTimer : MonoBehaviour
                 if (currentTime < hackTimes[currentHackTime] + 3 && !startedHackWarning)
                 {
                     startedHackWarning = true;
+                    LiveCamera.instance.HackingWarning();
                     EventManager.Instance.Trigger(EventType.OffLive);
                 }
                 if (currentTime < hackTimes[currentHackTime])
