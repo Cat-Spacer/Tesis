@@ -20,6 +20,7 @@ public class Crowd : MonoBehaviour
         Debug.Log("OnChangePeace");
         if (isShowing == false)
         {
+            if(SoundManager.instance != null) SoundManager.instance.Play(SoundsTypes.CrowdSurprised, gameObject);
             isShowing = true;
             animator.Play("ShowCrowd");
         }
