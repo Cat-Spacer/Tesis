@@ -12,7 +12,6 @@ public class MenuButtons : MonoBehaviour
     protected virtual void Start()
     {
         _menu.SetActive(false);
-        EventManager.Instance.Subscribe(EventType.OnFinishGame, OnFinishGame);
         EventManager.Instance.Subscribe(EventType.OnStartGame, OnStartGame);
         EventManager.Instance.Subscribe(EventType.OnLoseGame, OnLoseGame);
     }
@@ -22,12 +21,7 @@ public class MenuButtons : MonoBehaviour
         _onStartGame = true;
         if (GameManager.Instance) GameManager.Instance.EnableByBehaviour();
     }
-
-    protected virtual void OnFinishGame(object[] obj)
-    {
-        _onFinishGame = true;
-        if (GameManager.Instance) StartCoroutine(GameManager.Instance.DisableByBehaviour());
-    }
+    
     protected virtual void OnLoseGame(object[] obj)
     {
         _onFinishGame = true;
@@ -71,25 +65,21 @@ public class MenuButtons : MonoBehaviour
 
     public virtual void ReturnToMenu()
     {
-        //Time.timeScale = 1;
         SceneManager.LoadScene(1, LoadSceneMode.Single);
     }
 
     public virtual void RestartLevel()
     {
-        //Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public virtual void LevelSelector()
     {
-        //Time.timeScale = 1;
         SceneManager.LoadScene("LevelSelector", LoadSceneMode.Single);
     }
 
     private void OnDisable()
     {
-        EventManager.Instance.Unsubscribe(EventType.OnFinishGame, OnFinishGame);
         EventManager.Instance.Unsubscribe(EventType.OnStartGame, OnStartGame);
         EventManager.Instance.Unsubscribe(EventType.OnLoseGame, OnLoseGame);
     }

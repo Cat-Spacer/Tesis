@@ -42,4 +42,9 @@ public class HackWarning : MonoBehaviour
         EventManager.Instance.Unsubscribe(EventType.OnLive, OnLive);
         EventManager.Instance.Unsubscribe(EventType.OffLive, OffLive);
     }
+    private void OnDestroy()
+    {
+        EventManager.Instance.Unsubscribe(EventType.OnLive, OnLive);
+        EventManager.Instance.Unsubscribe(EventType.OffLive, OffLive);
+    }
 }
