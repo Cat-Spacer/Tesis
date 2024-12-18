@@ -12,6 +12,12 @@ public class FlagChekpoint : MonoBehaviour
     [SerializeField] private Animation _hamsterFlagAnimation;
     [SerializeField] Animator _catFlagAnimator;
     [SerializeField] Animator _hamsterFlagAnimator;
+    //[SerializeField] ParticleSystem _catFace;
+  //  [SerializeField] ParticleSystem _hamsterFace;
+    [SerializeField] ParticleSystem _catCircle;
+    [SerializeField] ParticleSystem _hamsterCircle;
+    [SerializeField] ParticleSystem _catCirclePulse;
+    [SerializeField] ParticleSystem _hamsterCirclePulse;
     bool _isCat = false;
     bool _isHamster= false;
 
@@ -27,8 +33,16 @@ public class FlagChekpoint : MonoBehaviour
 
     private void UpdateCharacterState(PlayerCharacter character, bool state)
     {
-        if (character.GetCharType() == CharacterType.Cat) _isCat = state;
-        if (character.GetCharType() == CharacterType.Hamster) _isHamster = state;
+        if (character.GetCharType() == CharacterType.Cat)
+        {
+            _isCat = state;
+            _catCirclePulse.Play();
+        }
+        if (character.GetCharType() == CharacterType.Hamster) 
+        {
+            _isHamster = state;
+            _hamsterCirclePulse.Play();
+        }
     }
   /*  private void OnTriggerExit2D(Collider2D trigger)
     {
@@ -44,9 +58,12 @@ public class FlagChekpoint : MonoBehaviour
             if (_checkpointIsOn) return; // Avoid triggering if the checkpoint is already active
 
             _checkpointIsOn = true;
-
-            // Set respawn points for both characters
-            GameManager.Instance.SetCatRespawnPoint(transform.position);
+        _hamsterCirclePulse.Stop();
+        _catCirclePulse.Stop();
+        _hamsterCircle.Play();
+        _catCircle.Play();
+        // Set respawn points for both characters
+        GameManager.Instance.SetCatRespawnPoint(transform.position);
             GameManager.Instance.SetHamsterRespawnPoint(transform.position);
 
             // Play checkpoint particles
