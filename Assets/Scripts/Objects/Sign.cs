@@ -58,12 +58,12 @@ public class Sign : MonoBehaviour,IInteract
     private void OnLive(object[] obj)
     {
         _isLocked = false;
-        _padlockAnimator.Play("Unlock");
+        if (_padlockAnimator!=null) _padlockAnimator.Play("Unlock");
     }
     private void OffLive(object[] obj)
     {
         _isLocked = true;
-        _padlockAnimator.Play("Locked");
+        if (_padlockAnimator != null) _padlockAnimator.Play("Locked");
     }
     private void OnDisable()
     {
