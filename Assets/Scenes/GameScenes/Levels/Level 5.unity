@@ -3207,6 +3207,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4050982134091984832}
     m_Modifications:
+    - target: {fileID: 522743082088108485, guid: 0cdca6e5ecf24db44a37e6584407150b,
+        type: 3}
+      propertyPath: levelTimer
+      value: 380
+      objectReference: {fileID: 0}
+    - target: {fileID: 522743082088108485, guid: 0cdca6e5ecf24db44a37e6584407150b,
+        type: 3}
+      propertyPath: timeWarnings.Array.data[0]
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 4814530309052407449, guid: 0cdca6e5ecf24db44a37e6584407150b,
         type: 3}
       propertyPath: m_Pivot.x
@@ -3317,6 +3327,26 @@ PrefabInstance:
       propertyPath: _tvHackedShader
       value: 
       objectReference: {fileID: 1353154215}
+    - target: {fileID: 6480604189758412504, guid: 0cdca6e5ecf24db44a37e6584407150b,
+        type: 3}
+      propertyPath: _hackTimes.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6480604189758412504, guid: 0cdca6e5ecf24db44a37e6584407150b,
+        type: 3}
+      propertyPath: _hackTimes.Array.data[4]
+      value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 6480604189758412504, guid: 0cdca6e5ecf24db44a37e6584407150b,
+        type: 3}
+      propertyPath: _hackTimes.Array.data[5]
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 6480604189758412504, guid: 0cdca6e5ecf24db44a37e6584407150b,
+        type: 3}
+      propertyPath: _hackTimes.Array.data[6]
+      value: 350
+      objectReference: {fileID: 0}
     - target: {fileID: 7476444394149460800, guid: 0cdca6e5ecf24db44a37e6584407150b,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -8171,12 +8201,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1205835786 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5294490999515820896, guid: 3efccbd517c50034aa13e1dcc7ff04ed,
-    type: 3}
-  m_PrefabInstance: {fileID: 1852452620}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1209560739
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9877,7 +9901,7 @@ PrefabInstance:
         type: 3}
       propertyPath: gameplayCam
       value: 
-      objectReference: {fileID: 1205835786}
+      objectReference: {fileID: 614398119}
     - target: {fileID: 2825936012345624477, guid: 8ea81884f47a76043ba8325b26ca5e79,
         type: 3}
       propertyPath: m_AnchorMax.y

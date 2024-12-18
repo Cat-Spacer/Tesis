@@ -6266,6 +6266,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4050982134091984832}
     m_Modifications:
+    - target: {fileID: 522743082088108485, guid: 0cdca6e5ecf24db44a37e6584407150b,
+        type: 3}
+      propertyPath: levelTimer
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 522743082088108485, guid: 0cdca6e5ecf24db44a37e6584407150b,
+        type: 3}
+      propertyPath: timeWarnings.Array.data[0]
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1112300691474571451, guid: 0cdca6e5ecf24db44a37e6584407150b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 1.6999817
+      objectReference: {fileID: 0}
     - target: {fileID: 4814530309052407449, guid: 0cdca6e5ecf24db44a37e6584407150b,
         type: 3}
       propertyPath: m_Pivot.x
@@ -6398,6 +6413,11 @@ PrefabInstance:
       objectReference: {fileID: 450452358}
     - target: {fileID: 6480604189758412504, guid: 0cdca6e5ecf24db44a37e6584407150b,
         type: 3}
+      propertyPath: _hackTimes.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6480604189758412504, guid: 0cdca6e5ecf24db44a37e6584407150b,
+        type: 3}
       propertyPath: _tvShader.Array.data[0]
       value: 
       objectReference: {fileID: 450452359}
@@ -6413,6 +6433,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6480604189758412504, guid: 0cdca6e5ecf24db44a37e6584407150b,
         type: 3}
+      propertyPath: _hackTimes.Array.data[4]
+      value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 6480604189758412504, guid: 0cdca6e5ecf24db44a37e6584407150b,
+        type: 3}
+      propertyPath: _hackTimes.Array.data[5]
+      value: 280
+      objectReference: {fileID: 0}
+    - target: {fileID: 6480604189758412504, guid: 0cdca6e5ecf24db44a37e6584407150b,
+        type: 3}
       propertyPath: _tvHackedShader.Array.data[0]
       value: 
       objectReference: {fileID: 450452359}
@@ -6425,6 +6455,16 @@ PrefabInstance:
         type: 3}
       propertyPath: _tvHackedShader.Array.data[2]
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7323117774093319733, guid: 0cdca6e5ecf24db44a37e6584407150b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7685825551544269504, guid: 0cdca6e5ecf24db44a37e6584407150b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 1.6999817
       objectReference: {fileID: 0}
     - target: {fileID: 7815114376782265759, guid: 0cdca6e5ecf24db44a37e6584407150b,
         type: 3}
@@ -24917,7 +24957,7 @@ PrefabInstance:
         type: 3}
       propertyPath: pauseButton
       value: 
-      objectReference: {fileID: 1717103570}
+      objectReference: {fileID: 0}
     - target: {fileID: 2825936012345624477, guid: 8ea81884f47a76043ba8325b26ca5e79,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -25160,18 +25200,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1717103568}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1717103570 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4050661602116014198, guid: 8ea81884f47a76043ba8325b26ca5e79,
-    type: 3}
-  m_PrefabInstance: {fileID: 1717103568}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1727061418
 PrefabInstance:
   m_ObjectHideFlags: 0

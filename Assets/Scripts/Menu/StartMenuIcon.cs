@@ -37,12 +37,10 @@ public class StartMenuIcon : MonoBehaviour
         if (Input.GetKey(KeyCode.Tab) || usingMouse)
         {
             currentAnimationSpeed = Mathf.Lerp(currentAnimationSpeed, maxAnimationSpeed, Time.deltaTime * accelerationSpeed);
-            skipBtnAnimator.Play("SkipButtonPress");
         }
         else
         {
             currentAnimationSpeed = Mathf.Lerp(currentAnimationSpeed, 1f, Time.deltaTime * decelerationSpeed);
-            skipBtnAnimator.Play("SkipButtonIdle");
         }
 
         animator.speed = currentAnimationSpeed;
