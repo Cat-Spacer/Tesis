@@ -30,6 +30,7 @@ public class LiveCamera : MonoBehaviour
     [SerializeField] private GameObject onLiveMenu;
     [SerializeField] private GameObject offLiveMenu;
     [SerializeField] private GameObject menu;
+    [SerializeField] private Image[] _padlocksImages;
 
     [SerializeField] private bool onTutorial = false;
     
@@ -75,6 +76,7 @@ public class LiveCamera : MonoBehaviour
     {
         if (onTutorial) return;
         GoOnAir();
+        Debug.Log("q");
     }
     void GoOnAir()
     { 
@@ -99,7 +101,8 @@ public class LiveCamera : MonoBehaviour
 
     void ActivateCamera()
     {
-        onLiveMenu.SetActive(true);
+        SetPadLocks(false);
+        // onLiveMenu.SetActive(true);
         offLiveMenu.SetActive(false);
         _groupCamera.SetActive(true);
         //_tvShader.SetActive(true);
@@ -108,12 +111,21 @@ public class LiveCamera : MonoBehaviour
 
     private void DesactivateAllCameras()
     {
-        onLiveMenu.SetActive(false);
+        SetPadLocks(true);
+        // onLiveMenu.SetActive(false);
         offLiveMenu.SetActive(true);
         _groupCamera.SetActive(false);
         //_tvShader.SetActive(false);
         //_tvHackedShader.SetActive(true);
     }
+    void SetPadLocks(bool isActiva)
+    {
+        foreach (var item in _padlocksImages)
+        {
+            item.enabled = isActiva;
+        }
+    }
+
     public bool IsOnAir()
     {
         return _onAir;
