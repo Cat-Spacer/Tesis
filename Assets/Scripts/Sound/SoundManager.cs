@@ -357,11 +357,15 @@ public class SoundManager : MonoBehaviour
         if (!sound.source) yield break;
         while (sound.source.volume > 0)
         {
+            if (!sound.source) yield break;
             sound.source.volume -= sound.volume * Time.deltaTime / fadeTime;
 
+            if (!sound.source) yield break;
             yield return null;
+            if (!sound.source) yield break;
         }
 
+        if (!sound.source) yield break;
         sound.source.volume = sound.volume;
         sound.source.Stop();
     }
