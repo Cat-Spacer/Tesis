@@ -88,5 +88,13 @@ public class WinMenu : MenuButtons
         //animator.Play("WinMenu");
     }
 
-    
+    void PlayHackSound()
+    {
+        if(SoundManager.instance != null) SoundManager.instance.Play(SoundsTypes.Hacking, gameObject);
+    }
+
+    void StopHackSound()
+    {
+        if(SoundManager.instance != null) SoundManager.instance.Pause(SoundsTypes.Hacking, gameObject);
+    }
 }
