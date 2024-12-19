@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 public class FallingFloor : MonoBehaviour
 {
@@ -18,9 +15,6 @@ public class FallingFloor : MonoBehaviour
     private float currentTime;
     private void Start()
     {
-        //_sp = GetComponentInChildren<SpriteRenderer>();
-        //_killZone = GetComponentInChildren<BoxCollider2D>();
-        //_coll = GetComponent<BoxCollider2D>();
         _isActive = true;
     }
 
@@ -60,30 +54,24 @@ public class FallingFloor : MonoBehaviour
     void CountdownDeactivateFloor()
     {
         currentTime += Time.deltaTime;
-        if (currentTime >= _desactivateDelay)
-        {
-            Activate(false);
-            currentTime = 0;
-            activateAction = CountdownActivateFloor;
-        }
+        if (!(currentTime >= _desactivateDelay)) return;
+        Activate(false);
+        currentTime = 0;
+        activateAction = CountdownActivateFloor;
     }
 
     void CountdownActivateFloor()
     {
         currentTime += Time.deltaTime;
-        if (currentTime >= _desactivateDelay)
-        {
-            Activate(true);
-            currentTime = 0;
-            activateAction = delegate { };
-        }
+        if (!(currentTime >= _desactivateDelay)) return;
+        Activate(true);
+        currentTime = 0;
+        activateAction = delegate { };
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if ((mask.value & (1 << collision.transform.gameObject.layer)) > 0  && _isActive)
-        {
-            _isActive = false;
-            activateAction = CountdownDeactivateFloor;
-        }
+        if ((mask.value & (1 << collision.transform.gameObject.layer)) <= 0 || !_isActive) return;
+        _isActive = false;
+        activateAction = CountdownDeactivateFloor;
     }
 }
