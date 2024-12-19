@@ -184,6 +184,7 @@ public class LiveCamera : MonoBehaviour
         DesactivateAllCameras();
         //EventManager.Instance.Trigger(EventType.OffLive);
         _levelTimer.OffLive();
+        if(SoundManager.instance) SoundManager.instance.Play(SoundsTypes.Hacking,null, true);
         // _currentHackTime = 10;
         // StartCoroutine(TimeUntilGoOnAir(_currentHackTime));
     }
@@ -192,6 +193,7 @@ public class LiveCamera : MonoBehaviour
     {
         _onAir = true;
         ActivateCamera();
+        if(SoundManager.instance) SoundManager.instance.Pause(SoundsTypes.Hacking);
         //EventManager.Instance.Trigger(EventType.OnLive);
         _levelTimer.OnLive();
     }

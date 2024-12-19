@@ -212,20 +212,20 @@ public class SoundManager : MonoBehaviour
         else s.source.Pause();
     }
 
-    public void Pause(string soundName)
+    public void Stop(SoundsTypes nameType, GameObject request = null)
     {
-        Sound s = _usedSoundsByName.ReturnValue(soundName);
+        Sound s = _usedSounds.ReturnValue(nameType);
 
         if (s == null)
         {
-            Debug.LogWarning($"<color=yellow>Sound: {soundName} not found!</color>");
+            Debug.LogWarning($"<color=yellow>Sound: {nameType} not found on Stop!</color>");
             return;
         }
 
         s = SoundSet(s);
         if (!s.source) return;
         if (s.source.gameObject.activeSelf && s.source.isPlaying)
-            s.source.Pause();
+            s.source.Stop();
     }
 
     public void PauseAll()
