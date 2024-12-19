@@ -32,6 +32,8 @@ public class PauseMenu : MenuButtons
         EventManager.Instance.Trigger(EventType.ReturnGameplay);
         enableButtonAction = CountdownResume;
         _onPause = false;
+        ScreenManager.Instance.Pop();
+        ScreenManager.Instance.Pop();
         _menu.SetActive(false);
     }
 
