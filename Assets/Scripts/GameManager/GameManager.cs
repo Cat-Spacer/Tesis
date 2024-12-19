@@ -198,7 +198,7 @@ public class GameManager : MonoBehaviour
     public IEnumerator DisableByBehaviour(float seconds = 0f)
     {
         yield return new WaitForSeconds(seconds);
-        _behaviours ??= mainGame.GetComponentsInChildren<Behaviour>();
+        _behaviours = mainGame.GetComponentsInChildren<Behaviour>();
         foreach (Behaviour b in _behaviours)
         {
             if (!b ) continue;
