@@ -24,23 +24,19 @@ public class MenuButtons : MonoBehaviour
     private void OnFinishGame(object[] obj)
     {
         _onFinishGame = true;
-        if (GameManager.Instance) StartCoroutine(GameManager.Instance.DisableByBehaviour());
     }
 
     private void OnStartGame(object[] obj)
     {
         _onStartGame = true;
-        if (GameManager.Instance) GameManager.Instance.EnableByBehaviour();
     }
     
     protected virtual void OnLoseGame(object[] obj)
     {
         _onFinishGame = true;
-        if (GameManager.Instance) StartCoroutine(GameManager.Instance.DisableByBehaviour());
     }
     public virtual void OpenMenu()
     {
-        if (GameManager.Instance) StartCoroutine(GameManager.Instance.DisableByBehaviour());
         _menu.SetActive(true);
     }
 
@@ -63,7 +59,6 @@ public class MenuButtons : MonoBehaviour
         EventManager.Instance.Trigger(EventType.ShowTv);
         SoundManager.instance.Play(SoundsTypes.Click);
         _onPause = true;
-        if (GameManager.Instance) StartCoroutine(GameManager.Instance.DisableByBehaviour());
         StartCoroutine(Delay());
     }
 

@@ -67,6 +67,7 @@ public class GameManager : MonoBehaviour
         Cursor.visible = true;
         _onStopCursor = true;
         pause = true;
+        if (mainGame) StartCoroutine(DisableByBehaviour());
     }
 
     private void OnResumeGame(object[] obj)
@@ -76,6 +77,7 @@ public class GameManager : MonoBehaviour
         _lastMousePosition = Input.mousePosition;
         _mouseCoroutine = StartCoroutine(CheckMouseMovement());
         pause = false;
+        EnableByBehaviour();
     }
 
     private void OnFinishGame(object[] obj)
@@ -84,6 +86,7 @@ public class GameManager : MonoBehaviour
         _mouseCoroutine = null;
         Cursor.visible = true;
         _onStopCursor = true;
+        if (mainGame) StartCoroutine(DisableByBehaviour());
     }
 
     private void OnLoseGame(object[] obj)
@@ -92,6 +95,7 @@ public class GameManager : MonoBehaviour
         _mouseCoroutine = null;
         Cursor.visible = true;
         _onStopCursor = true;
+        if (mainGame) StartCoroutine(DisableByBehaviour());
     }
 
     private void Update()
@@ -197,9 +201,10 @@ public class GameManager : MonoBehaviour
         _behaviours ??= mainGame.GetComponentsInChildren<Behaviour>();
         foreach (Behaviour b in _behaviours)
         {
-            if (!b || b.GetComponent<Animator>()) continue;
+            if (!b ) continue;
             _before[b] = b.enabled;
             if (b.enabled) b.enabled = false;
+            if(b.GetComponent<Animator>()) b.GetComponent<Animator>().enabled = true;
             if (b.GetComponent<Rigidbody2D>()) b.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
             if(!(b.gameObject.CompareTag("Player") || b.gameObject.CompareTag("Hamster"))) b.gameObject.SetActive(false);
         }
