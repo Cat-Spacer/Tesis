@@ -55,7 +55,10 @@ public class StartMenuIcon : MonoBehaviour
         }
         if(Input.GetKeyDown(KeyCode.LeftArrow) && canFlip)
         {
-            if(FlipPage != null) FlipPage.Invoke();
+            if(FlipPage != null)
+            {
+                if(book.currentPage > 0) FlipPage.Invoke();
+            }
             bookAutoFlip.FlipLeftPage();
         }
     }
@@ -99,7 +102,7 @@ public class StartMenuIcon : MonoBehaviour
     public void CheckCurrentPage()
     {
         var currentPage = book.currentPage;
-        if (currentPage > book.bookPages.Length - 1)
+        if (currentPage > book.bookPages.Length - 3)
         {
             flipRightButtons.SetActive(false);
             flipLeftButtons.SetActive(false);
