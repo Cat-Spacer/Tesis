@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HackWarning : MonoBehaviour
@@ -26,12 +23,11 @@ public class HackWarning : MonoBehaviour
             firstTime = false;
             return;
         }
-        Debug.Log("StartHack");
+        
         animator.Play("StopHackWarning");
     }
     private void OffLive(object[] obj)
     {
-        Debug.Log("StopHack");
         animator.Play("StartHackWarning");
     }
 
