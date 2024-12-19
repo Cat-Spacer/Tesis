@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -12,34 +13,37 @@ public class WinMenu : MenuButtons
     [SerializeField] private GameObject hamsterWinMenu;
     [SerializeField] private ParticleSystem sumScoreHamster;
     [SerializeField] private ParticleSystem sumScoreCat;
-    bool _catWon = false;
-    bool _hamsterWon = false;
 
     public void OpenMenu(int catPoints, int hamsterPoints)
     {
         if (catPoints > hamsterPoints)
         {
-            animator.Play("WinMenuAnim");
-            _catWon = true;
-            _hamsterWon = false;
+            animator.Play("CatWinMenuAnim");
+            StartCoroutine(ShowPoints(_catText, catPoints, sumScoreCat));
+            StartCoroutine(ShowPoints(_hamsterText, hamsterPoints, sumScoreHamster));
         }
         else if (hamsterPoints > catPoints)
         {
             animator.Play("HamsterWinAnim");
-            _catWon = false;
-            _hamsterWon = true;
+            StartCoroutine(ShowPoints(_catText, catPoints, sumScoreCat));
+            StartCoroutine(ShowPoints(_hamsterText, hamsterPoints, sumScoreHamster));
+        }
+        else if (hamsterPoints == catPoints && hamsterPoints>0)
+        {
+            _catText.text = catPoints.ToString();
+            _hamsterText.text = hamsterPoints.ToString();
+            _menu.SetActive(true);
+            animator.Play("WinMenuHacked");
         }
         else
         {
-            _catWon = true;
-            _hamsterWon = true;
-            Debug.Log("Empate");
+            _catText.text = catPoints.ToString();
+            _hamsterText.text = hamsterPoints.ToString();
             _menu.SetActive(true);
             animator.Play("WinMenu");
         }
 
-        StartCoroutine(ShowPoints(_catText, catPoints, sumScoreCat));
-        StartCoroutine(ShowPoints(_hamsterText, hamsterPoints, sumScoreHamster));
+      
 
 
         /* for (int i = 0; i <= catPoints; i++)
@@ -83,4 +87,6 @@ public class WinMenu : MenuButtons
         hamsterWinMenu.SetActive(false);
         //animator.Play("WinMenu");
     }
+
+    
 }
