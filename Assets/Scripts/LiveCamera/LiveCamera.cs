@@ -65,10 +65,12 @@ public class LiveCamera : MonoBehaviour
 
     public void PlayHackingWarning()
     {
+        if(SoundManager.instance) SoundManager.instance.Play(SoundsTypes.Hacking,null, true);
         _hacker.Play("Appear");
     }
     public void EndHackingWarning()
     {
+        if(SoundManager.instance) SoundManager.instance.Pause(SoundsTypes.Hacking);
         _hacker.Play("Disappear");
     }
     private void OnFinishGame(object[] obj)
@@ -96,7 +98,6 @@ public class LiveCamera : MonoBehaviour
     { 
         EventManager.Instance.Trigger(EventType.OnLive);
         if(SoundManager.instance) SoundManager.instance.Play(SoundsTypes.LockOpen);
-        if(SoundManager.instance) SoundManager.instance.Pause(SoundsTypes.Hacking);
         _onAir = true;
         ActivateCamera();
         _levelTimer.OnLive();
@@ -105,8 +106,7 @@ public class LiveCamera : MonoBehaviour
     {
         _onAir = false;
         DesactivateAllCameras();
-        _levelTimer.OffLive();        
-        if(SoundManager.instance) SoundManager.instance.Play(SoundsTypes.Hacking,null, true);
+        _levelTimer.OffLive();
         if(SoundManager.instance) SoundManager.instance.Play(SoundsTypes.LockClose);
 
         StartCoroutine(TimeUntilGoOnAir(_hackTime));
@@ -188,7 +188,6 @@ public class LiveCamera : MonoBehaviour
         DesactivateAllCameras();
         //EventManager.Instance.Trigger(EventType.OffLive);
         _levelTimer.OffLive();
-        if(SoundManager.instance) SoundManager.instance.Play(SoundsTypes.Hacking,null, true);
         // _currentHackTime = 10;
         // StartCoroutine(TimeUntilGoOnAir(_currentHackTime));
     }
@@ -197,7 +196,6 @@ public class LiveCamera : MonoBehaviour
     {
         _onAir = true;
         ActivateCamera();
-        if(SoundManager.instance) SoundManager.instance.Pause(SoundsTypes.Hacking);
         //EventManager.Instance.Trigger(EventType.OnLive);
         _levelTimer.OnLive();
     }
