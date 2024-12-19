@@ -4,8 +4,9 @@ public class RunState : State
     {
         model.ChangeAnimationState("Run");
         model.PlayParticle(ParticleType.Run);
-        if(character.GetCharType() == CharacterType.Cat) SoundManager.instance.Play(SoundsTypes.Steps, gameObject, true);
-        else SoundManager.instance.Play(SoundsTypes.HamsterOnTubes, gameObject, true);
+        SoundManager.instance.Play(
+            character.GetCharType() == CharacterType.Cat ? SoundsTypes.Steps : SoundsTypes.HamsterSteps, gameObject,
+            true);
     }
 
     public override void Do()
@@ -18,8 +19,8 @@ public class RunState : State
 
     public override void Exit()
     {
-        if(character.GetCharType() == CharacterType.Cat) SoundManager.instance.Pause(SoundsTypes.Steps, gameObject);
-        else SoundManager.instance.Pause(SoundsTypes.HamsterOnTubes, gameObject);
+        SoundManager.instance.Pause(
+            character.GetCharType() == CharacterType.Cat ? SoundsTypes.Steps : SoundsTypes.HamsterSteps, gameObject);
         model.StopParticle(ParticleType.Run);
         isComplete = false;
     }
