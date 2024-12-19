@@ -44,13 +44,18 @@ public class LevelObjective : MonoBehaviour
     void Finish()
     {
         EventManager.Instance.Trigger(EventType.OnFinishGame);
-        StartCoroutine(FinishDelay());
+        StartCoroutine(Screenshot());
     }
 
-    IEnumerator FinishDelay()
+    IEnumerator Screenshot()
     {
         yield return new WaitForSecondsRealtime(3f);
         EventManager.Instance.Trigger(EventType.ShowTv);
+        StartCoroutine(FinishDelay());
+    }
+    IEnumerator FinishDelay()
+    {
+        yield return new WaitForEndOfFrame();
         GameManager.Instance.WinLevel();
     }
 }
