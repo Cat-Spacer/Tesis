@@ -34,7 +34,7 @@ public class CoordinationTimer : MonoBehaviour
 
     private void CheckForInput()
     {
-        if (!_initialized && (Input.GetKeyDown(_catKey) || Input.GetKeyDown(_hamsterKey)))
+        if (!_initialized && !GameManager.Instance.pause && (Input.GetKeyDown(_catKey) || Input.GetKeyDown(_hamsterKey)))
             StartCoroutine(TimerAction());
     }
 
@@ -47,8 +47,16 @@ public class CoordinationTimer : MonoBehaviour
         
         while (_timer > 0)
         {
-            _timer -= Time.deltaTime;
-            _timerText.text = Mathf.CeilToInt(_timer).ToString();
+            if(!GameManager.Instance.pause)
+            {
+                _timer -= Time.deltaTime;
+                _timerText.text = Mathf.CeilToInt(_timer).ToString();
+                if(!_timerText.enabled) _timerText.enabled = _timerImage.enabled = _timerSubImage.enabled = true;
+            }
+            else
+            {
+                _timerText.enabled = _timerImage.enabled = _timerSubImage.enabled = false;
+            }
             yield return null;
         }
         
