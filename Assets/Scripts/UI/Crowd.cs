@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,6 +25,12 @@ public class Crowd : MonoBehaviour
             isShowing = true;
             animator.Play("ShowCrowd");
         }
+    }
+
+    private void OnDisable()
+    {
+        if(!GameManager.Instance) return;
+        EventManager.Instance.Unsubscribe(EventType.OnChangePeace, OnChangePeace);
     }
 
     private void StopShowing()
