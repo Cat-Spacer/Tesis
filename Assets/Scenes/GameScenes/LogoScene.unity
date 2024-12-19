@@ -206,21 +206,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 325772256}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 1634322625}
+        m_TargetAssemblyTypeName: StartMenuIcon, Assembly-CSharp
         m_MethodName: FlipRightPage
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 377035778}
-        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-        m_MethodName: Play
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -385,6 +373,7 @@ MonoBehaviour:
   AutoStartFlip: 0
   ControledBook: {fileID: 325772257}
   AnimationFramesCount: 40
+  isFlipping: 0
 --- !u!114 &325772257 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 11415212, guid: fe9bfb5044c0cc646baba1ad7d354100,
@@ -996,21 +985,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 325772256}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 1634322625}
+        m_TargetAssemblyTypeName: StartMenuIcon, Assembly-CSharp
         m_MethodName: FlipLeftPage
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 377035778}
-        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-        m_MethodName: Play
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1701,7 +1678,7 @@ PrefabInstance:
     - target: {fileID: 11403584, guid: fe9bfb5044c0cc646baba1ad7d354100, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: b33442c955d595b47ad7b4fb438ce6e9,
+      objectReference: {fileID: 2060690932, guid: 1842c71c698e9ff4a9c6adfa6ce8187c,
         type: 3}
     - target: {fileID: 11403584, guid: fe9bfb5044c0cc646baba1ad7d354100, type: 3}
       propertyPath: m_Color.b
@@ -1722,7 +1699,7 @@ PrefabInstance:
     - target: {fileID: 11415212, guid: fe9bfb5044c0cc646baba1ad7d354100, type: 3}
       propertyPath: background
       value: 
-      objectReference: {fileID: 21300000, guid: 9a433edae8446db49b7e9d7e36d37a0a,
+      objectReference: {fileID: -217299586, guid: 1842c71c698e9ff4a9c6adfa6ce8187c,
         type: 3}
     - target: {fileID: 11415212, guid: fe9bfb5044c0cc646baba1ad7d354100, type: 3}
       propertyPath: interactable
@@ -1735,7 +1712,7 @@ PrefabInstance:
     - target: {fileID: 11415212, guid: fe9bfb5044c0cc646baba1ad7d354100, type: 3}
       propertyPath: bookPages.Array.data[0]
       value: 
-      objectReference: {fileID: 21300000, guid: b33442c955d595b47ad7b4fb438ce6e9,
+      objectReference: {fileID: 2060690932, guid: 1842c71c698e9ff4a9c6adfa6ce8187c,
         type: 3}
     - target: {fileID: 11415212, guid: fe9bfb5044c0cc646baba1ad7d354100, type: 3}
       propertyPath: bookPages.Array.data[1]
@@ -1780,12 +1757,12 @@ PrefabInstance:
     - target: {fileID: 11415212, guid: fe9bfb5044c0cc646baba1ad7d354100, type: 3}
       propertyPath: bookPages.Array.data[9]
       value: 
-      objectReference: {fileID: 21300000, guid: 9a433edae8446db49b7e9d7e36d37a0a,
+      objectReference: {fileID: -217299586, guid: 1842c71c698e9ff4a9c6adfa6ce8187c,
         type: 3}
     - target: {fileID: 11415212, guid: fe9bfb5044c0cc646baba1ad7d354100, type: 3}
       propertyPath: bookPages.Array.data[10]
       value: 
-      objectReference: {fileID: 21300000, guid: b33442c955d595b47ad7b4fb438ce6e9,
+      objectReference: {fileID: 2060690932, guid: 1842c71c698e9ff4a9c6adfa6ce8187c,
         type: 3}
     - target: {fileID: 11415212, guid: fe9bfb5044c0cc646baba1ad7d354100, type: 3}
       propertyPath: OnFlip.m_PersistentCalls.m_Calls.Array.size
@@ -1918,7 +1895,7 @@ PrefabInstance:
     - target: {fileID: 11430880, guid: fe9bfb5044c0cc646baba1ad7d354100, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 9a433edae8446db49b7e9d7e36d37a0a,
+      objectReference: {fileID: -217299586, guid: 1842c71c698e9ff4a9c6adfa6ce8187c,
         type: 3}
     - target: {fileID: 11430880, guid: fe9bfb5044c0cc646baba1ad7d354100, type: 3}
       propertyPath: m_Color.a

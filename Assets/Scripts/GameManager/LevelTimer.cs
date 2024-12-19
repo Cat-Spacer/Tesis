@@ -50,6 +50,7 @@ public class LevelTimer : MonoBehaviour
 
     private void OnFinishGame(object[] obj)
     {
+        text.text = "0";
         _stopTimer = true;
         menu.SetActive(false);
         _audioSource?.Stop();
@@ -111,13 +112,16 @@ public class LevelTimer : MonoBehaviour
         {
             _onLose = true;
             currentTime = 0;
+            text.text = "0";
+            _stopTimer = true;
             SoundManager.instance.Pause(SoundsTypes.TimeBeep);
             EventManager.Instance.Trigger(EventType.OnLoseGame, true);
         }
         else
         {
             currentTime -= Time.deltaTime;
-            text.text = Mathf.FloorToInt(currentTime).ToString();
+            if (currentTime <= 0) text.text = "0";
+            else text.text = Mathf.FloorToInt(currentTime).ToString();
             if (currentTimeWarning <= timeWarnings.Length - 1 && currentTime <= timeWarnings[currentTimeWarning])
             {
                 animator.Play("Appear");
