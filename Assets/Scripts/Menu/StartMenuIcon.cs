@@ -25,7 +25,7 @@ public class StartMenuIcon : MonoBehaviour
     public UnityEvent OnFinishedBook;
     [SerializeField] private GameObject flipRightButtons;
     [SerializeField] private GameObject flipLeftButtons;
-    private bool canFlip = true;
+    private bool canFlip = false;
     public  UnityEvent FlipPage;
     private void Start()
     {
@@ -50,17 +50,45 @@ public class StartMenuIcon : MonoBehaviour
         }
         if(Input.GetKeyDown(KeyCode.RightArrow) && canFlip)
         {
-            if(FlipPage != null) FlipPage.Invoke();
-            bookAutoFlip.FlipRightPage();
+            if(FlipPage != null && !bookAutoFlip.isFlipping)
+            {
+                bookAutoFlip.FlipRightPage();
+                FlipPage.Invoke();
+            }
         }
         if(Input.GetKeyDown(KeyCode.LeftArrow) && canFlip)
         {
             if(FlipPage != null)
             {
-                if(book.currentPage > 0) FlipPage.Invoke();
+                if(book.currentPage > 0 && !bookAutoFlip.isFlipping)
+                {
+                    bookAutoFlip.FlipLeftPage();
+                    FlipPage.Invoke();
+                }
             }
-            bookAutoFlip.FlipLeftPage();
         }
+    }
+
+    public void FlipRightPage()
+    {
+        if(FlipPage != null && !bookAutoFlip.isFlipping)
+        {
+            bookAutoFlip.FlipRightPage();
+            FlipPage.Invoke();
+        }
+        
+    }
+    public void FlipLeftPage()
+    {
+        if(FlipPage != null)
+        {
+            if(book.currentPage > 0 && !bookAutoFlip.isFlipping)
+            {
+                bookAutoFlip.FlipLeftPage();
+                FlipPage.Invoke();
+            }
+        }
+
     }
     public void Skip()
     {
@@ -98,6 +126,11 @@ public class StartMenuIcon : MonoBehaviour
     public void ChangeScene()
     {
         canChangeScene = true;
+    }
+
+    public void CanFlipBook()
+    {
+        canFlip = true;
     }
     public void CheckCurrentPage()
     {
