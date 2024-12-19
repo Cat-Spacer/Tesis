@@ -96,6 +96,7 @@ public class LiveCamera : MonoBehaviour
     { 
         EventManager.Instance.Trigger(EventType.OnLive);
         if(SoundManager.instance) SoundManager.instance.Play(SoundsTypes.LockOpen);
+        if(SoundManager.instance) SoundManager.instance.Pause(SoundsTypes.Hacking);
         _onAir = true;
         ActivateCamera();
         _levelTimer.OnLive();
@@ -104,7 +105,10 @@ public class LiveCamera : MonoBehaviour
     {
         _onAir = false;
         DesactivateAllCameras();
-        _levelTimer.OffLive();
+        _levelTimer.OffLive();        
+        if(SoundManager.instance) SoundManager.instance.Play(SoundsTypes.Hacking,null, true);
+        if(SoundManager.instance) SoundManager.instance.Play(SoundsTypes.LockClose);
+
         StartCoroutine(TimeUntilGoOnAir(_hackTime));
     }
 
