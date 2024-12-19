@@ -60,4 +60,10 @@ public class CameraZoomOut : MonoBehaviour
             StopZoomOutCamera();
         }
     }
+
+    private void OnDisable()
+    {
+        EventManager.Instance.Unsubscribe(EventType.OnPauseGame, OnPauseGame);
+        EventManager.Instance.Unsubscribe(EventType.ReturnGameplay, OnReturnGameplay);
+    }
 }

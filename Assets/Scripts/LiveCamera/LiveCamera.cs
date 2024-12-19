@@ -108,7 +108,8 @@ public class LiveCamera : MonoBehaviour
         DesactivateAllCameras();
         _levelTimer.OffLive();
         if(SoundManager.instance) SoundManager.instance.Play(SoundsTypes.LockClose);
-
+        if(SoundManager.instance) SoundManager.instance.Play(SoundsTypes.GlitchHacking);
+        
         StartCoroutine(TimeUntilGoOnAir(_hackTime));
     }
 

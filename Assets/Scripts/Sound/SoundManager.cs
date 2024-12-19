@@ -70,7 +70,8 @@ public enum SoundsTypes
     GateClose,
     LockOpen,
     LockClose,
-    CrowdSurprised
+    CrowdSurprised,
+    GlitchHacking
 }
 
 public class SoundManager : MonoBehaviour
