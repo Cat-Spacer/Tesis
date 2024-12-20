@@ -134,10 +134,11 @@ public class LevelTimer : MonoBehaviour
                 {
                     startedHackWarning = true;
                     LiveCamera.instance.PlayHackingWarning();
-                    EventManager.Instance.Trigger(EventType.OffLive);
                 }
                 if (currentTime < hackTimes[currentHackTime])
                 {
+
+                    EventManager.Instance.Trigger(EventType.OffLive);
                     LiveCamera.instance.EndHackingWarning();
                     LiveCamera.instance.GoOffAir();
                     if(SoundManager.instance != null) SoundManager.instance.Play(SoundsTypes.LockClose);
