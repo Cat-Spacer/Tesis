@@ -48,7 +48,7 @@ public class SoundSettingSlider : MonoBehaviour
     public void LoadVolumeValues()
     {
         slider.value = _soundManager.MixerValue[mixerName];
-        _audioMixerGroup.audioMixer.SetFloat(mixerName, slider.value);
+        // _audioMixerGroup.audioMixer.SetFloat(mixerName, slider.value);
     }
 
     private bool CheckSoundManger()
@@ -62,10 +62,6 @@ public class SoundSettingSlider : MonoBehaviour
     }
 
     private void OnDisable()
-    {
-        SaveVolumeValues();
-    }
-    private void OnDestroy()
     {
         SaveVolumeValues();
     }
