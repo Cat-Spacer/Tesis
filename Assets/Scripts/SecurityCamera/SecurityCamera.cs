@@ -20,7 +20,7 @@ public class SecurityCamera : MonoBehaviour
 
     void Start()
     {
-        EventManager.Instance.Subscribe(EventType.OnPunchPlayer, OnCatchPlayer);
+       //EventManager.Instance.Subscribe(EventType.OnPunchPlayer, OnCatchPlayer);
         _fieldOfView = Instantiate(_fovObj, null).GetComponent<FieldOfView>();
 
         _fieldOfView.SetFoV(_fov);
