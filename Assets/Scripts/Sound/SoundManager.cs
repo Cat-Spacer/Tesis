@@ -71,7 +71,9 @@ public enum SoundsTypes
     LockOpen,
     LockClose,
     CrowdSurprised,
-    GlitchHacking
+    GlitchHacking,
+    CrowdHappy,
+    CrowdMeh
 }
 
 public class SoundManager : MonoBehaviour
