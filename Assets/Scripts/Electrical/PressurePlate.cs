@@ -16,15 +16,16 @@ public class PressurePlate : MonoBehaviour
     [SerializeField] private bool inverse;
     
     private Transform _target;
-    
-    
-    void Start()
+
+   
+    IEnumerator Start()
     {
+        yield return new WaitForEndOfFrame();
         _anim = GetComponent<Animator>();
         foreach (var connection in _connectionObj)
         {
             var obj = connection.GetComponent<IActivate>();
-            if(obj != null) _connection.Add(obj);
+            if (obj != null) _connection.Add(obj);
         }
         if (type == CharacterType.Cat) _target = GameManager.Instance.GetCat();
         else _target = GameManager.Instance.GetHamster();
