@@ -11,7 +11,7 @@ public class SaveManager : MonoBehaviour
     {
         if (!instance) instance = this;
         else Destroy(this);
-        if (JsonSaves == null) JsonSaves = new();
+        JsonSaves ??= new();
         JsonSaves.OnAwake();
     }
 }
