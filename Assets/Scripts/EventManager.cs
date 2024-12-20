@@ -21,7 +21,7 @@ public enum EventType
     OnFinishGame,
     OnSplitCamera,
     OnGroupCamera,
-    OnGetShield,
+    OnGetHappy,
     OnPutFlower,
     OnOpenDoors, 
     ShowTv,

@@ -15,15 +15,26 @@ public class Crowd : MonoBehaviour
     {
         if(!GameManager.Instance) return;
         EventManager.Instance.Subscribe(EventType.OnChangePeace, OnChangePeace);
+        EventManager.Instance.Subscribe(EventType.OnGetHappy, OnGetHappy);
     }
-    private void OnChangePeace(object[] obj)
+
+    private void OnGetHappy(object[] obj)
     {
-        Debug.Log("OnChangePeace");
         if (isShowing == false)
         {
             if(SoundManager.instance) SoundManager.instance.Play(SoundsTypes.CrowdSurprised);
             isShowing = true;
-            animator.Play("ShowCrowd");
+            animator.Play("ShowHappyCrowd");
+        }
+    }
+
+    private void OnChangePeace(object[] obj)
+    {
+        if (isShowing == false)
+        {
+            if(SoundManager.instance) SoundManager.instance.Play(SoundsTypes.CrowdSurprised);
+            isShowing = true;
+            animator.Play("ShowSadCrowd");
         }
     }
 
@@ -31,6 +42,7 @@ public class Crowd : MonoBehaviour
     {
         if(!GameManager.Instance) return;
         EventManager.Instance.Unsubscribe(EventType.OnChangePeace, OnChangePeace);
+        EventManager.Instance.Unsubscribe(EventType.OnGetHappy, OnGetHappy);
     }
 
     private void StopShowing()
