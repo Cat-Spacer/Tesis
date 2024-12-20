@@ -22,7 +22,7 @@ public class Crowd : MonoBehaviour
     {
         if (isShowing == false)
         {
-            if(SoundManager.instance) SoundManager.instance.Play(SoundsTypes.CrowdSurprised);
+            if(SoundManager.instance) SoundManager.instance.Play(SoundsTypes.CrowdHappy);
             isShowing = true;
             animator.Play("ShowHappyCrowd");
         }

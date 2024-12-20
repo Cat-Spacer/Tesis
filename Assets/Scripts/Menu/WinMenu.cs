@@ -118,4 +118,17 @@ public class WinMenu : MenuButtons
             animator.Play("PublicFeedback_Happy");
         }
     }
+
+    void PlayHappySound()
+    {
+        if(SoundManager.instance != null) SoundManager.instance.Play(SoundsTypes.CrowdHappy);
+    }
+    void PlaySadSound()
+    {
+        if(SoundManager.instance != null) SoundManager.instance.Play(SoundsTypes.CrowdSurprised);
+    }
+    void PlayNeutralSound()
+    {
+        if(SoundManager.instance != null) SoundManager.instance.Play(SoundsTypes.CrowdMeh);
+    }
 }
