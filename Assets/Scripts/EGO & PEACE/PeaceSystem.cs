@@ -10,6 +10,7 @@ public class PeaceSystem : MonoBehaviour
     [SerializeField] private Image _nullFace;
     [SerializeField] private Image[] _angryFace;
     [SerializeField] private Image[] _happyFace;
+    [SerializeField] private Image currentFace;
     [SerializeField] int _currentFaceLevel = 0;
     int _maxAngryFaceLevel = -3;
     int _maxHappyFaceLevel = 3;
@@ -24,12 +25,13 @@ public class PeaceSystem : MonoBehaviour
             _nullFace.gameObject.SetActive(true);
         foreach (var strikes in _angryFace) strikes.gameObject.SetActive(false);
         foreach (var shield in _happyFace) shield.gameObject.SetActive(false);
+        currentFace = _nullFace;
     }
     private void OnEnable()
     {
         if(EventManager.Instance == null) return;
         EventManager.Instance.Subscribe(EventType.OnChangePeace, LosePeace);
-        EventManager.Instance.Subscribe(EventType.OnGetShield, SumPeace);
+        EventManager.Instance.Subscribe(EventType.OnGetHappy, SumPeace);
     }
     private void Update()
     {
@@ -41,7 +43,7 @@ public class PeaceSystem : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.N))
             {
-                EventManager.Instance.Trigger(EventType.OnGetShield);
+                EventManager.Instance.Trigger(EventType.OnGetHappy);
             }
         }
     }
@@ -98,7 +100,10 @@ public class PeaceSystem : MonoBehaviour
             for (int i = 0; i < _angryFace.Length; i++)
             {
                 if (i == value-1)
+                {
                     _angryFace[i].gameObject.SetActive(true);
+                    currentFace = _angryFace[i];
+                }
                 else
                     _angryFace[i].gameObject.SetActive(false);
             }
@@ -108,7 +113,10 @@ public class PeaceSystem : MonoBehaviour
             for (int i = 0; i < _happyFace.Length; i++)
             {
                 if (i == _currentFaceLevel-1)
+                {
                     _happyFace[i].gameObject.SetActive(true);
+                    currentFace = _happyFace[i];
+                }
                 else
                     _happyFace[i].gameObject.SetActive(false);
             }
@@ -116,9 +124,18 @@ public class PeaceSystem : MonoBehaviour
 
     }
 
+    public Image GetCurrentFace()
+    {
+        return currentFace;
+    }
+    public int GetCurrentFaceLevel()
+    {
+        return _currentFaceLevel;
+    }
+    
     private void OnDisable()
     {
         EventManager.Instance.Unsubscribe(EventType.OnChangePeace, LosePeace);
-        EventManager.Instance.Unsubscribe(EventType.OnGetShield, SumPeace);
+        EventManager.Instance.Unsubscribe(EventType.OnGetHappy, SumPeace);
     }
 }

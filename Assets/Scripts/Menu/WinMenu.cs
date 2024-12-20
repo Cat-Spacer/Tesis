@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WinMenu : MenuButtons
 {
@@ -13,6 +14,7 @@ public class WinMenu : MenuButtons
     [SerializeField] private GameObject hamsterWinMenu;
     [SerializeField] private ParticleSystem sumScoreHamster;
     [SerializeField] private ParticleSystem sumScoreCat;
+    [SerializeField] private Image face;
 
     public void OpenMenu(int catPoints, int hamsterPoints)
     {
@@ -97,5 +99,23 @@ public class WinMenu : MenuButtons
     void StopHackSound()
     {
         if(SoundManager.instance != null) SoundManager.instance.Pause(SoundsTypes.Hacking, gameObject);
+    }
+
+    void PlayPublicFeedbackAnimation()
+    {
+        face.sprite = PeaceSystem.instance.GetCurrentFace().sprite;
+        int faceLevel = PeaceSystem.instance.GetCurrentFaceLevel();
+        if (faceLevel < 0)
+        {
+            animator.Play("PublicFeedback_Sad");
+        }
+        else if (faceLevel == 0)
+        {
+            animator.Play("PublicFeedback_Neutral");
+        }
+        else
+        {
+            animator.Play("PublicFeedback_Happy");
+        }
     }
 }
