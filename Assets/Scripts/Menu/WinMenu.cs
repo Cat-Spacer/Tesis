@@ -67,6 +67,7 @@ public class WinMenu : MenuButtons
         tv.optionsBtn.gameObject.SetActive(true);
         tv.menuBtn.gameObject.SetActive(true);
     }
+
     private IEnumerator ShowPoints(TextMeshProUGUI textElement, int maxPoints, ParticleSystem particleSystem)
     {
         textElement.text = "0";
@@ -76,7 +77,7 @@ public class WinMenu : MenuButtons
             particleSystem.Play();
             textElement.text = i.ToString();
             SoundManager.instance.Play(SoundsTypes.Error);
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.3f);
         }
     }
 
