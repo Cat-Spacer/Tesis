@@ -128,18 +128,19 @@ public class SoundManager : MonoBehaviour
             for (int i = 0; i < names.Length && names.Length == volumes.Length; i++)
             {
                 _mixerValue.Add(names[i], volumes[i]);
-                _mixer.SetFloat(names[i], volumes[i]);
+                _mixer.SetFloat(names[i], Mathf.Log10(volumes[i]) * 20.0f);
             }
         }
         else
         {
             JsonSaves saves = new();
+            saves.OnAwake();
             if (saves.LoadData().mixerNames == null) return;
             string[] names = saves.LoadData().mixerNames.ToArray();
             float[] volumes = saves.LoadData().volumes.ToArray();
             for (int i = 0;
                  i < names.Length && names.Length == volumes.Length;
-                 _mixerValue.Add(names[i], volumes[i]), i++) ;
+                 _mixerValue.Add(names[i], volumes[i]), _mixer.SetFloat(names[i], volumes[i]), i++) ;
         }
     }
 
@@ -253,7 +254,7 @@ public class SoundManager : MonoBehaviour
             s.source = !request.GetComponent<AudioSource>()
                 ? request.AddComponent<AudioSource>()
                 : Array.Find(request.GetComponents<AudioSource>(), source => source.loop == loop);
-            if(!s.source) s.source = request.AddComponent<AudioSource>();
+            if (!s.source) s.source = request.AddComponent<AudioSource>();
         }
         else
         {
@@ -386,7 +387,7 @@ public class SoundManager : MonoBehaviour
             return;
         }
 
-        _mixerValue[mixerName] = volume;
+        _mixerValue[mixerName ?? throw new ArgumentNullException(nameof(mixerName))] = volume;
         if (SaveManager.instance)
         {
             List<string> mixersNames = SaveManager.instance.JsonSaves.LoadData().mixerNames;
@@ -405,6 +406,7 @@ public class SoundManager : MonoBehaviour
         else
         {
             JsonSaves save = new();
+            save.OnAwake();
             save.LoadData().mixerNames.Add(mixerName);
             save.LoadData().volumes.Add(volume);
             save.SaveJson();

@@ -5,13 +5,10 @@ using UnityEngine.Audio;
 [RequireComponent(typeof(Slider))]
 public class SoundSettingSlider : MonoBehaviour
 {
-    Slider slider
-    {
-        get { return GetComponent<Slider>(); }
-    }
+    private Slider Slider => GetComponent<Slider>();
 
-    public string mixerName = default;
-    [SerializeField] private AudioMixerGroup _audioMixerGroup = default;
+    public string mixerName = null;
+    [SerializeField] private AudioMixerGroup _audioMixerGroup = null;
     private SoundManager _soundManager = null;
 
     private void Awake()
@@ -41,14 +38,12 @@ public class SoundSettingSlider : MonoBehaviour
     public void SaveVolumeValues()
     {
         if (!CheckSoundManger()) return;
-        _soundManager.SetMixerVolume(mixerName, slider.value);
-        
+        _soundManager.SetMixerVolume(mixerName, Slider.value);
     }
 
-    public void LoadVolumeValues()
+    private void LoadVolumeValues()
     {
-        slider.value = _soundManager.MixerValue[mixerName];
-        // _audioMixerGroup.audioMixer.SetFloat(mixerName, slider.value);
+        Slider.value = _soundManager.MixerValue[mixerName];
     }
 
     private bool CheckSoundManger()
