@@ -424,7 +424,7 @@ public class PlayerCharacter : MonoBehaviour, IDamageable, IStun
 
     void CollidersSwitch(bool switcher)
     {
-        _coll2D.enabled = switcher;
+        //_coll2D.enabled = switcher;
     }
     public void GetDamage()
     {
