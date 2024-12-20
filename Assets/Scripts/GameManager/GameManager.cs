@@ -195,13 +195,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public IEnumerator DisableByBehaviour(float seconds = 0f)
+    private IEnumerator DisableByBehaviour(float seconds = 0f)
     {
         yield return new WaitForSeconds(seconds);
         _behaviours = mainGame.GetComponentsInChildren<Behaviour>();
         foreach (Behaviour b in _behaviours)
         {
-            if (!b ) continue;
+            if (!b) continue;
             _before[b] = b.enabled;
             if (b.enabled) b.enabled = false;
             if(b.GetComponent<Animator>()) b.GetComponent<Animator>().enabled = true;

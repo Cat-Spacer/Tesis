@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Respawn : MonoBehaviour
@@ -11,6 +9,7 @@ public class Respawn : MonoBehaviour
     {
         _catRespawnPoint = pos;
     }
+    
     public void SetHamsterRespawnPoint(Vector3 pos)
     {
         _hamsterRespawnPoint = pos;
